@@ -1,47 +1,59 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notification_details_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getNotificationList = '$baseUrl/getNotificationList/';
+  static final String _getNotificationList = '$baseUrl/getNotificationList?';
 
   static final String _getNotificationById = '$baseUrl/getNotificationById';
-
-  static final String _createGeneralInformation = '$baseUrl/createCDGI?';
-
-  static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
-  static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';
-
-  static final String _createContactRecord = '$baseUrl/createContactInfo?';
-
-  static final String _deleteContacts = '$baseUrl/deleteContactInfo';
+  static final String _readRecord = '$baseUrl/markNotificationAsRead';
+  static final String _deleteById = '$baseUrl/deleteNotification';
+  static final String _deleteAll = '$baseUrl/deleteAllNotifications';
 }
 
 class NotificationServices {
-  Future<List<PieChartData>> getNotificationList() async {
-    String url = Apis._getNotificationList;
-    Map<String, dynamic> response = await BaseApiService().getRequest(
+  Future<NotificationsResponseModel> getNotificationList({
+    required String startPosition,
+    required String maximumRecords,
+  }) async {
+    String url =
+        '${Apis._getNotificationList}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-
-    // Convert response to List<PieChartData>
-    List<PieChartData> pieChartDataList = [];
-    response.forEach((key, value) {
-      double count = (value is int) ? value.toDouble() : 0.0;
-      pieChartDataList.add(
-        PieChartData(key, count, Utils().getRandomColor()),
-      );
-    });
-
-    return pieChartDataList;
+    return NotificationsResponseModel.fromJson(response);
   }
-  Future<NotificationDetailsModel> getById(int id) async {
+
+  Future<NotificationModel> getById(int id) async {
     final String url = '${Apis._getNotificationById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return NotificationDetailsModel.fromJson(response);
+    return NotificationModel.fromJson(response);
+  }
+
+  Future<GenericResponse> readRecord(int id) async {
+    final String url = '${Apis._readRecord}/$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteById(int id) async {
+    final String url = '${Apis._deleteById}/$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteAll() async {
+    final String url = Apis._deleteAll;
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
   }
 }

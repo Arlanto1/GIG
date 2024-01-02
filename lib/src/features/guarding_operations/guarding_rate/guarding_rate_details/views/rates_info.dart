@@ -52,6 +52,7 @@ class _RatesInfoState extends State<RatesInfo> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: false,
+            showSubmitButton: false,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBody(context, state, height),

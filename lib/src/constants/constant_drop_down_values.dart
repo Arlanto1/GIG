@@ -1,4 +1,4 @@
-import '../../index.dart';
+import 'package:db_atom/index.dart';
 
 const List<Label> languagesDropDownValues = [
   Label(key: 'English', value: 'en'),

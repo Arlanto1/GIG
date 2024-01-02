@@ -52,6 +52,7 @@ class _KeyLossDestructionListViewState
           title: Constants.keyReconciliationList,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

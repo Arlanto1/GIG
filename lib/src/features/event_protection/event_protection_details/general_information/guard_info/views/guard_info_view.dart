@@ -100,10 +100,16 @@ class _GuardInfoViewState extends State<GuardInfoView> {
             title: Constants.guardInformation,
             showPopUp: false,
             showSaveButton: state.guardInfoModel.status != 4 ? true : false,
+            showSubmitButton: state.guardInfoModel.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<GuardInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

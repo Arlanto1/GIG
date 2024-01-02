@@ -99,6 +99,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           title: Constants.violationPenalty,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),

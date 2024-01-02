@@ -90,6 +90,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         title: Constants.eventProtectionTitle,
         showPopUp: true,
         showSaveButton: false,
+        showSubmitButton: false,
         excelAPIName: 'exportEPExcel',
         pdfAPIName: 'exportEPPDF',
       ),

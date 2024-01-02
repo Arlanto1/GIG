@@ -1,48 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:typed_data';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
-import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
-import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
-import '../../../../enums/form_status.dart';
-import '../../../../models/base_user.dart';
-import '../../../../models/organisation.dart';
-import '../../../../utils/customalert.dart';
-import '../../../../utils/util.dart';
+import 'package:db_atom/index.dart';
 
 class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -158,10 +117,23 @@ class _MaterialMovementDetailsViewState
                     !isReadOnly
                 ? true
                 : false,
+            showSubmitButton: state.model.status != 6 &&
+                state.model.status != 1 &&
+                !isReadOnly
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
+                receiverSignatureController: receiverSignatureController,
+                securitySignatureController: securitySignatureController,
+              );
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isSaveOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -1999,10 +1971,8 @@ class _MaterialMovementDetailsViewState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CommonWidgets.textDisplay(
-              label,
-              Styles.textStyleBlack14,
-            ),
+            CommonWidgets.textDisplay(label, Styles.textStyleBlack14,
+                isMandatory: true),
             Row(
               children: [
                 IconButton(

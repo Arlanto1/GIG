@@ -38,6 +38,7 @@ class _SignatureHomePageState extends State<SignatureHomePage> {
         title: Constants.signatureTitle,
         showPopUp: false,
         showSaveButton: false,
+        showSubmitButton: false,
       ),
       body: Column(
         children: [

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notification_details_model.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
@@ -18,7 +17,7 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
     required this.id,
   }) : super(
           NotificationDetailsState.initial(
-            model: NotificationDetailsModel(),
+            model: NotificationModel(),
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
@@ -26,7 +25,6 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
             errorMessage: '',
           ),
         );
-
 
   Future<void> initializeValues() async {
     log('--initializeValues-Notification-');
@@ -36,7 +34,7 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
       ),
     );
     try {
-      NotificationDetailsModel model = NotificationDetailsModel();
+      NotificationModel model = NotificationModel();
       log('--1111--$model');
 
       if (!id.isEmptyOrNull) {
@@ -45,12 +43,13 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
 
       emit(
         state.copyWith(
-            status: FormStatus.initial,
-            model: model,
+          status: FormStatus.initial,
+          model: model,
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: (NotificationDetailsCubit).toString());
+      log('initialization issue',
+          error: e, name: (NotificationDetailsCubit).toString());
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -61,4 +60,36 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
     }
   }
 
+  Future<void> deleteNotification(int id) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    try {
+      GenericResponse response = await NotificationServices().deleteById(id);
+      emit(
+        state.copyWith(
+          message: response.message,
+          status: FormStatus.success,
+        ),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
 }

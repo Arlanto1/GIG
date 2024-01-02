@@ -1,14 +1,14 @@
 part of 'notifications_bloc.dart';
 
 class NotificationsState extends Equatable {
-  final List<ContactDetailModel> items;
+  final List<NotificationModel> items;
   final bool hasReachedMax;
   final FormStatus status;
   final CdUiLabels? labels;
   final String? message;
 
   const NotificationsState({
-    this.items = const <ContactDetailModel>[],
+    this.items = const <NotificationModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.labels,
@@ -16,7 +16,7 @@ class NotificationsState extends Equatable {
   });
 
   NotificationsState copyWith({
-    List<ContactDetailModel>? items,
+    List<NotificationModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     CdUiLabels? labels,

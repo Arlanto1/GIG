@@ -53,6 +53,7 @@ class _KeyLossDestructionListViewState
           title: Constants.keyLossDestructionList,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

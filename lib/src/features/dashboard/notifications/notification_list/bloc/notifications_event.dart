@@ -13,6 +13,23 @@ class FetchData extends NotificationsEvent {
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+
 class InitializeValues extends NotificationsEvent {
   const InitializeValues();
+}
+
+class ReadRecord extends NotificationsEvent {
+  final int id;
+
+  const ReadRecord(this.id);
+}
+
+class DeleteRecord extends NotificationsEvent {
+  final int id;
+
+  const DeleteRecord(this.id);
+}
+
+class DeleteAllRecords extends NotificationsEvent {
+  const DeleteAllRecords();
 }

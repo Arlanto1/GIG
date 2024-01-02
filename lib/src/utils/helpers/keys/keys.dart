@@ -105,6 +105,8 @@ class Keys {
   static const String vendor3ContactKey = 'vendor3ContactKey_gr';
 
   ///Guarding Master Data
+  static const String idKey = 'idKey_gd';
+  static const String slNoKey = 'slNoKey_gd';
   static const String esicKey = 'esicNoKey_gd';
   static const String rankKey = 'rankKey_gd';
   static const String permanentAddressKey = 'permanentAddressKey_gd';

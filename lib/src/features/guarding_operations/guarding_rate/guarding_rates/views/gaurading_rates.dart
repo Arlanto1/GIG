@@ -82,6 +82,7 @@ class _GuardingRatesState extends State<GuardingRates> {
           title: Constants.guardingRates,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
         ),
         body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {
