@@ -125,7 +125,7 @@ class Constants {
   static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
   static const String securitySystems = "Security System";
-  static const String securitySystemsTickets = "Security System Tickets";
+  static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
