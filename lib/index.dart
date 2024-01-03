@@ -172,3 +172,6 @@ export 'package:flutter/services.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
+export 'package:db_atom/src/constants/constant_menu_item.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/menu_item.dart';
+export 'package:db_atom/src/features/dashboard/navigation_drawer/views/drawer_header_widget.dart';

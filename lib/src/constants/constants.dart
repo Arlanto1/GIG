@@ -122,10 +122,10 @@ class Constants {
   //Dashboard
   static const String home = 'Home';
   static const String dashboard = 'Dashboard';
-  static const String securityfunctions = 'Security functions';
+  static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
   static const String securitySystems = "Security System";
-  static const String securitySystemsTickets = "Security System Tickets";
+  static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
@@ -318,6 +318,7 @@ class Constants {
 
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
+  static const String timeFormat = 'HH:mm:ss a';
   static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
 // static const String dateFormat = 'yyyy-MM-dd';
