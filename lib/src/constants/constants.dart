@@ -139,8 +139,8 @@ class Constants {
   static const String incidentManagement = 'Incident Management';
   static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
-  static const String passmanagement = 'Non-Magnetic Pass Management';
-  static const String guarding = 'Guarding Operations';
+  static const String passManagement = 'Non-Magnetic Pass Management';
+  static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';

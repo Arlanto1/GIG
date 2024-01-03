@@ -51,11 +51,11 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     if (displayMenu.pM ?? false) {
       expansionTileDrawerItems.add(
-          const MenuItem(Constants.passmanagement, AppIcon.passmanagement, 1));
+          const MenuItem(Constants.passManagement, AppIcon.passmanagement, 1));
     }
     if (displayMenu.gM ?? false) {
-      expansionTileDrawerItems.add(
-          const MenuItem(Constants.guarding, AppIcon.guardingOperationIcon, 1));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
     }
     return expansionTileDrawerItems;
   }
@@ -150,7 +150,7 @@ class NavigationDrawer1 extends StatelessWidget {
     List items,
     String title,
   ) {
-    log('----_genericExpandableDrawer----title-111---$title--');
+    log('----_genericItemSelection----title-111---$title--');
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
@@ -189,12 +189,12 @@ class NavigationDrawer1 extends StatelessWidget {
                 case Constants.materialMovement:
                   _onMaterialMovementItemSelected(i, context);
                   break;
-                case Constants.passmanagement:
+                case Constants.passManagement:
                   _onPassMgmtSelectItem(i, context);
                   break;
 
                 /// 3nd Level Menu
-                case Constants.guarding:
+                case Constants.guardingOperations:
                   _onGuardingOperationItemSelected(i, context);
                   break;
 
@@ -224,6 +224,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 //   break;
                 // Add more cases for other titles as needed
                 default:
+                  log('---default-------');
                   _onSecuritySystemIncidentItemSelected(i, context);
                 // Default case if title doesn't match any specific condition
               }
@@ -383,6 +384,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
+    log('--_onGuardingOperationItemSelected---');
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -400,14 +402,22 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 3) {
       // TODO: Show Dropdown
 
-      log('--keyManagementDataItems--_genericBuildDrawerChildren--');
-      return _genericItemSelection(
-        context,
-        keyManagementDataItems,
-        Constants.keyManagementMaster,
-      );
+      // log('--keyManagementDataItems--_genericBuildDrawerChildren--');
+      // return _genericItemSelection(
+      //   context,
+      //   keyManagementDataItems,
+      //   Constants.keyManagementMaster,
+      // );
       // Navigator.pushNamed(context, keyManagementMasterListRoute,
       //     arguments: {"Key Management Master": false});
+    } else if (index == 4) {
+      Navigator.pushNamed(context, occurrenceRoute);
+    } else if (index == 5) {
+      Navigator.pushNamed(context, slaViolationPenaltyListRoute,
+          arguments: {"SLA Violation Penalty": false});
+    } else if (index == 6) {
+      Navigator.pushNamed(context, contactDetailsListRoute,
+          arguments: {"Contact Details": true});
     } else if (index == 7) {
       Navigator.pushNamed(context, keyReconciliationListRoute,
           arguments: {"Key Reconciliation List": false});
@@ -429,14 +439,6 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 13) {
       Navigator.pushNamed(context, shiftScheduleListRoute,
           arguments: {"Shift Schedule": false});
-    } else if (index == 4) {
-      Navigator.pushNamed(context, occurrenceRoute);
-    } else if (index == 5) {
-      Navigator.pushNamed(context, slaViolationPenaltyListRoute,
-          arguments: {"SLA Violation Penalty": false});
-    } else if (index == 6) {
-      Navigator.pushNamed(context, contactDetailsListRoute,
-          arguments: {"Contact Details": true});
     }
   }
 
@@ -674,7 +676,14 @@ class NavigationDrawer1 extends StatelessWidget {
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   // selected: i == _lastSelectedItem,
-                  onTap: () => _onExpansionSelectItem(i, context),
+                  onTap: () {
+                    log('-onTap-----title---$title---');
+                    if (title == Constants.guardingOperations) {
+                      _onGuardingOperationItemSelected(i, context);
+                      return;
+                    }
+                    _onExpansionSelectItem(i, context);
+                  },
                 ),
               )
             : Theme(
@@ -878,7 +887,7 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
     String title,
   ) {
-    log('--title--$title--');
+    log('-buildDrawerChildren-title--$title--');
     if (title == Constants.materialMovement) {
       return _genericItemSelection(context, materialMovementDrawerItems, title);
     } else if (title == Constants.securitySystemTickets) {
@@ -886,11 +895,11 @@ class NavigationDrawer1 extends StatelessWidget {
         context,
         securitySystemExpansionTileDrawerItems,
       );
-    } else if (title == Constants.guarding) {
+    } else if (title == Constants.guardingOperations) {
       return _genericItemExpandable(
         context,
         guardingOperationDrawerItems,
-        Constants.keyManagementMaster,
+        Constants.guardingOperations,
       );
     } else if (title == Constants.incident) {
       return _genericItemSelection(
@@ -904,8 +913,17 @@ class NavigationDrawer1 extends StatelessWidget {
         keyManagementDataItems,
         title,
       );
+    } else if (title == Constants.passManagement) {
+      return _genericItemSelection(
+        context,
+        passTileDrawerItems,
+        title,
+      );
     } else {
-      return _genericItemSelection(context, passTileDrawerItems, title);
+      log('-buildDrawerChildren-----else-----title--$title--');
+
+      return _genericItemSelection(
+          context, guardingOperationDrawerItems, title);
     }
   }
 
