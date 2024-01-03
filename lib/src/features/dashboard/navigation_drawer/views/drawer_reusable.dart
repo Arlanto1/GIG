@@ -197,6 +197,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 case Constants.guarding:
                   _onGuardingOperationItemSelected(i, context);
                   break;
+
                 case Constants.securitySystemTickets:
                   _onSecuritySystemIncidentItemSelected(i, context);
                   break;
@@ -207,6 +208,10 @@ class NavigationDrawer1 extends StatelessWidget {
 
                 case Constants.securitySystems:
                   buildDrawerChildren(context, drawerItem.title);
+                  break;
+
+                case Constants.keyManagementMaster:
+                  _onKeyManagementItemSelected(i, context);
                   break;
 
                 // case 'Guarding Operations':
@@ -355,6 +360,28 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
+  _onKeyManagementItemSelected(int index, BuildContext context) async {
+    _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+    //state = const DrawerInitial();
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, keyManagementMasterListRoute,
+          arguments: {"Key Management Master": false});
+    } else if (index == 1) {
+      Navigator.pushNamed(context, keyReconciliationListRoute,
+          arguments: {"Key Reconciliation List": false});
+    } else if (index == 2) {
+      Navigator.pushNamed(context, keyLossDestructionListRoute,
+          arguments: {"Key Loss Destruction List": false});
+    } else if (index == 3) {
+      Navigator.pushNamed(context, keyManagementIssuanceListRoute,
+          arguments: {"Key Management Issuance List": false});
+    }
+  }
+
+  // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
@@ -860,15 +887,21 @@ class NavigationDrawer1 extends StatelessWidget {
         securitySystemExpansionTileDrawerItems,
       );
     } else if (title == Constants.guarding) {
-      return _genericItemSelection(
+      return _genericItemExpandable(
         context,
         guardingOperationDrawerItems,
-        title,
+        Constants.keyManagementMaster,
       );
     } else if (title == Constants.incident) {
       return _genericItemSelection(
         context,
         securitySystemTicketsIncidentItems,
+        title,
+      );
+    } else if (title == Constants.keyManagementMaster) {
+      return _genericItemSelection(
+        context,
+        keyManagementDataItems,
         title,
       );
     } else {

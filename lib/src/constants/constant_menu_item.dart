@@ -46,12 +46,12 @@ const securitySystemTicketsIncidentItems = [
   MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
   MenuItem(
       Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
-  MenuItem(
-      Constants.keyReconciliationList, AppIcon.keyManagementListIcon, 0),
-  MenuItem(
-      Constants.keyLossDestructionList, AppIcon.keyManagementListIcon, 0),
-  MenuItem(
-      Constants.keyManagementIssuance, AppIcon.keyManagementListIcon, 0),
+  // MenuItem(
+  //     Constants.keyReconciliationList, AppIcon.keyManagementListIcon, 0),
+  // MenuItem(
+  //     Constants.keyLossDestructionList, AppIcon.keyManagementListIcon, 0),
+  // MenuItem(
+  //     Constants.keyManagementIssuance, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.dutyPostMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(
       Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
