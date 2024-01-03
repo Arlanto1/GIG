@@ -65,8 +65,6 @@
 //       participationDates: dates,
 //     );
 //
-//     state.model.csrParticipationDates = Utils().joinListWithComma(dates);
-//     emit(state.copyWith(model: model, status: FormStatus.initial));
 //   }
 //
 //   String _getCurrentDate() {
@@ -109,17 +107,17 @@
 //       Vendors vendors = futures[8];
 //       dynamic responseLabels = futures[9];
 //       Organisation? defaultLocation = futures[10];
-//       if (state.model.location == null && defaultLocation != null) {
-//         SerialNumberModel slNo = await commonServices.getSlNo(
-//           locationId: defaultLocation.id.toString(),
-//           moduleCode: Constants.contactDetailsModule,
-//         );
-//         state.model.location = defaultLocation;
-//         state.model.slNo = slNo.serialNo;
-//       }
-//       state.model.entrySecurity = loggedInUserDetails;
+//       // if (state.model.location == null && defaultLocation != null) {
+//       //   SerialNumberModel slNo = await commonServices.getSlNo(
+//       //     locationId: defaultLocation.id.toString(),
+//       //     moduleCode: Constants.contactDetailsModule,
+//       //   );
+//       //   state.model.location = defaultLocation;
+//       //   state.model.slNo = slNo.serialNo;
+//       // }
+//       state.model.createdBy = loggedInUserDetails;
 //       // Get Date of Creation
-//       state.model.inputDate = _getCurrentDate();
+//       state.model.createdDate = _getCurrentDate();
 //
 //       dynamic participationDates = Utils()
 //           .splitStringAfterComma(state.model.csrParticipationDates ?? '');

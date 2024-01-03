@@ -1,8 +1,8 @@
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
+import 'package:intl/intl.dart';
 
 class KeyManagementMasterListView extends StatefulWidget {
   const KeyManagementMasterListView({
@@ -40,8 +40,8 @@ class _KeyManagementMasterListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<GuardingMasterDataBloc>()
-          .add(FetchDataList(startPos: pageNumber, maxPos: 20));
+          .read<KeyManagementMasterListBloc>()
+          .add(FetchKeyMasterList(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -91,15 +91,22 @@ class _KeyManagementMasterListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Floor',
+                      value: state.list[index].floor.toString()));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.location ??
+                          //state.labels?.defaultLocale.location ??
+                          'Created By',
+                      value: state.list[index].createdBy?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Date of Creation',
+                      value: DateFormat('dd-MM-yyyy').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              state.list[index].createdDate ?? 0 * 1000))));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
@@ -107,7 +114,8 @@ class _KeyManagementMasterListViewState
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isMasterGuard: true,
+                        isKeyManagementStatus: true,
+                        isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -116,9 +124,13 @@ class _KeyManagementMasterListViewState
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
+                                keyNo: state.list[selectedIndex].keyNo,
+                                keyTagging: state.list[selectedIndex].keyTagging,
+                                doorName: state.list[selectedIndex].doorName,
+                                isKeyManagementStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -136,8 +148,11 @@ class _KeyManagementMasterListViewState
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
-                                // isEventProtectionStatus: false,
+                                keyNo: state.list[selectedIndex].keyNo,
+                                keyTagging: state.list[selectedIndex].keyTagging,
+                                doorName: state.list[selectedIndex].doorName,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                               );
                             },
                           );

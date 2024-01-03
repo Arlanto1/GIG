@@ -34,6 +34,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isContactDetailsStatus;
   final bool isSecuritySystemSLA;
   final bool isKeyLossStatus;
+  final bool isKeyManagementStatus;
 
   const BaseListTileItem({
     super.key,
@@ -66,6 +67,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLA = false,
     this.isKeyLossStatus = false,
+    this.isKeyManagementStatus = false,
     this.onDeleteTap,
   });
 
@@ -182,7 +184,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
                               !widget.isIncident && !widget.isKeyLossStatus &&
-                              !widget.isSecuritySystemSLA &&
+                              !widget.isSecuritySystemSLA && !widget.isKeyManagementStatus &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildMaterialMovementStatusRow(
@@ -205,6 +207,14 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             Utils().buildEventProtectionStatusRow(
                                 widget.status ?? 0),
                           ],
+
+                          if (widget.status != null &&
+                              widget.isKeyManagementStatus) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                            Utils().keyManagementStatus(
+                                widget.status ?? 0),
+                          ],
+
                           if (widget.status != null &&
                               widget.isOccurrenceStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),

@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -66,10 +67,14 @@ class BasePopUpItems extends StatefulWidget {
   final bool isContactDetailsStatus;
   final bool isSecuritySystemSLAStatus;
   final bool isKeyLossStatus;
+  final bool isKeyManagementStatus;
   final User? srh;
   final User? securityManager;
   final int? keyType;
   final int? type;
+  final int? keyTagging;
+  final String? keyNo;
+  final String? doorName;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -130,12 +135,16 @@ class BasePopUpItems extends StatefulWidget {
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLAStatus = false,
     this.isKeyLossStatus = false,
+    this.isKeyManagementStatus = false,
     this.handOverSecurity,
     this.incidentType,
     this.srh,
     this.keyType,
     this.type,
     this.securityManager,
+    this.keyNo,
+    this.keyTagging,
+    this.doorName,
   });
 }
 
@@ -258,8 +267,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling(
-                'Srh : ', widget.srh?.name ?? ''),
+            Utils().textHandling('Srh : ', widget.srh?.name ?? ''),
           ],
         ),
       ],
@@ -270,6 +278,35 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils().textHandling(
                 'Security Manager : ', widget.securityManager?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.keyNo != null && !widget.keyNo.isEmptyOrNull) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Key No : ', widget.keyNo.toString()),
+          ],
+        ),
+      ],
+      if (widget.keyTagging != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Key Tagging Done : ', widget.keyTagging.toString()),
+          ],
+        ),
+      ],
+      if (widget.doorName != null && !widget.doorName.isEmptyOrNull) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils()
+                .textHandling('Key Description : ', widget.doorName.toString()),
           ],
         ),
       ],
@@ -310,6 +347,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
           !widget.isSLAViolationStatus &&
+          !widget.isKeyManagementStatus &&
           !widget.isSecuritySystemSLAStatus &&
           !widget.isIncident &&
           !widget.isContactDetailsStatus) ...[
@@ -365,6 +403,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
+      ],
+      if (widget.status != null && widget.isKeyManagementStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().keyManagementStatus(widget.status ?? 0),
+          ],
+        ),
       ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
