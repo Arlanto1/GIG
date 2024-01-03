@@ -122,10 +122,10 @@ class Constants {
   //Dashboard
   static const String home = 'Home';
   static const String dashboard = 'Dashboard';
-  static const String securityfunctions = 'Security functions';
+  static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
   static const String securitySystems = "Security System";
-  static const String securitySystemsTickets = "Security System Tickets";
+  static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
@@ -139,8 +139,8 @@ class Constants {
   static const String incidentManagement = 'Incident Management';
   static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
-  static const String passmanagement = 'Non-Magnetic Pass Management';
-  static const String guarding = 'Guarding Operations';
+  static const String passManagement = 'Non-Magnetic Pass Management';
+  static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
@@ -318,6 +318,7 @@ class Constants {
 
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
+  static const String timeFormat = 'HH:mm:ss a';
   static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
 // static const String dateFormat = 'yyyy-MM-dd';

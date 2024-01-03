@@ -70,6 +70,8 @@ class FCMHandler {
 
   static Future<void> firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
+    log('---message.notification?.title----${message.notification?.title}---');
+
     try {
       await Firebase.initializeApp();
 

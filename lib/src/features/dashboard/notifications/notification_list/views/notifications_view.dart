@@ -213,12 +213,22 @@ class NotificationTile extends StatelessWidget {
                       Text(
                         Utils.timestamptoDateConversion(
                             int.tryParse(item.createdDate ?? ''),
-                            Constants.fulldateFormat),
+                            Constants.dateFormat),
                       ),
                     ],
                   ),
-                  Text(
-                    '${item.email}',
+                  Row(
+                    children: [
+                      Text(
+                        '${item.email}',
+                      ),
+                      const Spacer(),
+                      Text(
+                        Utils.timestamptoDateConversion(
+                            int.tryParse(item.createdDate ?? ''),
+                            Constants.timeFormat),
+                      ),
+                    ],
                   ),
                 ],
               ),

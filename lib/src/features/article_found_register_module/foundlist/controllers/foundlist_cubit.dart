@@ -1,13 +1,10 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FoundListCubit extends Cubit<FoundListState> {
   final FoundListServices foundListServices;
@@ -41,6 +38,13 @@ class FoundListCubit extends Cubit<FoundListState> {
         //    dismissLoadingDialog(context);
         // }
       });
+
+      if (foundListModelResponse.list.isEmptyOrNull) {
+        if (int.tryParse(startPosition)! > 0) {
+          return;
+        }
+      }
+
       emit(
         state.copyWith(
           foundListModel: foundListModelResponse,
