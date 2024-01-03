@@ -29,15 +29,15 @@ KeyManagementIssuanceModel _$KeyManagementIssuanceModelFromJson(
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
-          employeeId: json['employeeId'] as String?,
+      employeeId: json['employeeId'] as String?,
       typeOfService: (json['typeOfService'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      employeeType: json['employeeType'] as int?,
-      keyHandingOverDuration: json['keyHandingOverDuration'] as int?,
       approver: json['approver'] == null
           ? null
           : User.fromJson(json['approver'] as Map<String, dynamic>),
+      employeeType: json['employeeType'] as int?,
+      keyHandingOverDuration: json['keyHandingOverDuration'] as int?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$KeyManagementIssuanceModelToJson(
@@ -47,15 +47,15 @@ Map<String, dynamic> _$KeyManagementIssuanceModelToJson(
       'id': instance.id,
       'slNo': instance.slNo,
       'location': instance.location,
-      // 'locationRegion': instance.locationRegion,
+      'locationRegion': instance.locationRegion,
       'inputDate': instance.inputDate,
       'entrySecurity': instance.entrySecurity,
       'status': instance.status,
+      'employeeType': instance.employeeType,
+      'keyHandingOverDuration': instance.keyHandingOverDuration,
       'vendor': instance.vendor,
       'typeOfService': instance.typeOfService,
       'entity': instance.entity,
       'approver': instance.approver,
       'employeeId': instance.employeeId,
-      'employeeType': instance.employeeType,
-      'keyHandingOverDuration': instance.keyHandingOverDuration
     };

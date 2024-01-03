@@ -7,7 +7,7 @@ part of 'duty_post_name_master_model.dart';
 // **************************************************************************
 
 DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
-    Map<String, dynamic> json) =>
+        Map<String, dynamic> json) =>
     DutyPostNameMasterModel(
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
@@ -17,7 +17,7 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
-          json['locationRegion'] as Map<String, dynamic>),
+              json['locationRegion'] as Map<String, dynamic>),
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
@@ -27,11 +27,11 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       localAddressProof: json['localAddressProof'] == null
           ? null
           : ImageContent.fromJson(
-          json['localAddressProof'] as Map<String, dynamic>),
+              json['localAddressProof'] as Map<String, dynamic>),
       permanentAddressProof: json['permanentAddressProof'] == null
           ? null
           : ImageContent.fromJson(
-          json['permanentAddressProof'] as Map<String, dynamic>),
+              json['permanentAddressProof'] as Map<String, dynamic>),
       bopData: json['bopData'] == null
           ? null
           : ImageContent.fromJson(json['bopData'] as Map<String, dynamic>),
@@ -45,13 +45,13 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       msgbExemptionDate: json['msgbExemptionDate'] as String?,
       csrParticipationDates: json['csrParticipationDates'] as String?,
       medicalCertificateValidUntil:
-      json['medicalCertificateValidUntil'] as String?,
+          json['medicalCertificateValidUntil'] as String?,
       covidFirstDoseDate: json['covidFirstDoseDate'] as String?,
       covidSecondDoseDate: json['covidSecondDoseDate'] as String?,
       covidPrecautionaryDoseDate: json['covidPrecautionaryDoseDate'] as String?,
       ertCertificationDate: json['ertCertificationDate'] as String?,
       firstAidTrainingCompletionDate:
-      json['firstAidTrainingCompletionDate'] as String?,
+          json['firstAidTrainingCompletionDate'] as String?,
       pvcExpiryDate: json['pvcExpiryDate'] as String?,
       pvcIssuedDate: json['pvcIssuedDate'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
@@ -73,7 +73,7 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       maritalStatus: json['maritalStatus'] as int?,
       typeOfDeployment: json['typeOfDeployment'] as int?,
       deploymentOrderSubmitted:
-      json['deploymentOrderSubmitted'] as bool? ?? false,
+          json['deploymentOrderSubmitted'] as bool? ?? false,
       deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -98,7 +98,7 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       trainingCertificateProvided:
-      json['trainingCertificateProvided'] as bool? ?? false,
+          json['trainingCertificateProvided'] as bool? ?? false,
       trainingCertificates: (json['trainingCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -117,11 +117,11 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       specialAchievementText: json['specialAchievementText'] as String?,
       additionalInitiatives: json['additionalInitiatives'] as String?,
       history: json['history'] as List<dynamic>?,
-          dutyPostLocationName: json['dutyPostLocationName'] as String?,
+      dutyPostLocationName: json['dutyPostLocationName'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$DutyPostNameMasterModelToJson(
-    DutyPostNameMasterModel instance) =>
+        DutyPostNameMasterModel instance) =>
     <String, dynamic>{
       'lock': instance.lock,
       'id': instance.id,

@@ -7,7 +7,7 @@ part of 'key_issuance_process_model.dart';
 // **************************************************************************
 
 KeyIssuanceProcessRecord _$KeyIssuanceProcessRecordFromJson(
-    Map<String, dynamic> json) =>
+        Map<String, dynamic> json) =>
     KeyIssuanceProcessRecord(
       id: json['id'] as num?,
       svpId: json['svpId'] as num?,
@@ -21,7 +21,7 @@ KeyIssuanceProcessRecord _$KeyIssuanceProcessRecordFromJson(
     );
 
 Map<String, dynamic> _$KeyIssuanceProcessRecordToJson(
-    KeyIssuanceProcessRecord instance) =>
+        KeyIssuanceProcessRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
       'svpId': instance.svpId,
