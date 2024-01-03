@@ -867,7 +867,7 @@ class NavigationDrawer1 extends StatelessWidget {
         title: Constants.logout,
         message: Constants.logoutvalidation,
         onPositivePressed: () {
-          Validator.logoutAction(context);
+          InactivityFunctions().logoutUser(navigatorKey);
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);
