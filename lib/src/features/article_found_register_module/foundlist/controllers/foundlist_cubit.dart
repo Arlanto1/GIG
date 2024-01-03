@@ -39,11 +39,11 @@ class FoundListCubit extends Cubit<FoundListState> {
         // }
       });
 
-      // if (foundListModelResponse.list.isEmptyOrNull) {
-      //   if (int.tryParse(startPosition)! > 0) {
-      //     return;
-      //   }
-      // }
+      if (foundListModelResponse.list.isEmptyOrNull) {
+        if (int.tryParse(startPosition)! > 0) {
+          return;
+        }
+      }
 
       emit(
         state.copyWith(
