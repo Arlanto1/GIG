@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getList = '$baseUrl/getKemMgmtList?';
+  static final String _getList = '$baseUrl/getKeyMgmtList?';
 
   static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
 
@@ -25,11 +25,11 @@ class KeyManagementMasterServices {
   Future<KeyManagementMasterResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
+    // required String userId,
+    // required String locationId,
   }) async {
     String url =
-        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );

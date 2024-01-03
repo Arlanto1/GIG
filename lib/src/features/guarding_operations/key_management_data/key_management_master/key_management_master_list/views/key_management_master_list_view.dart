@@ -108,7 +108,6 @@ class _KeyManagementMasterListViewState
                         labels: labels,
                         status: state.list[index].status,
                         isMasterGuard: true,
-                        guardRank: state.list[index].guardRank,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -116,11 +115,6 @@ class _KeyManagementMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
                                 labels: labels,
                                 isMaterGuard: true,
                                 //isEventProtectionStatus: false,
@@ -140,11 +134,6 @@ class _KeyManagementMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isMaterGuard: true,
