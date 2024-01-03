@@ -884,28 +884,28 @@ class RouteGenerator {
                   child: const KeyManagementMasterListView(),
                 ));
 
-      // case keyManagementMasterDetailsRoute:
-      //   KeyManagementMasterServices services = KeyManagementMasterServices();
-      //   CommonServices commonServices = CommonServices();
-      //   String title;
-      //   Map<String, dynamic> arguments =
-      //       settings.arguments as Map<String, dynamic>;
-      //   title = arguments[ConstantsArgument.title];
-      //   KeyManagementMasterModel? keyManagementMasterModel =
-      //       arguments["keyManagementMasterModel"];
-      //   return MaterialPageRoute(
-      //     builder: (context) => BlocProvider<KeyManagementMasterDetailsCubit>(
-      //       create: (_) => KeyManagementMasterDetailsCubit(
-      //         services: services,
-      //         model: keyManagementMasterModel,
-      //         commonServices: commonServices,
-      //       ),
-      //       child: KeyManagementMasterDetailsView(
-      //         model: keyManagementMasterModel,
-      //         title: title,
-      //       ),
-      //     ),
-      //   );
+      case keyManagementMasterDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementMasterModel? keyMgmtGi =
+            arguments["keyMgmtGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyManagementMasterDetailsCubit>(
+            create: (_) => KeyManagementMasterDetailsCubit(
+              services: services,
+              model: keyMgmtGi,
+              commonServices: commonServices,
+            ),
+            child: KeyManagementMasterDetailsView(
+              model: keyMgmtGi,
+              title: title,
+            ),
+          ),
+        );
 
       case keyReconciliationListRoute:
         return MaterialPageRoute(

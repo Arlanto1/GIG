@@ -198,3 +198,15 @@ const List<Label> shiftDutyTypeDropDownValues = [
   Label(key: 'Transport', value: '1'),
   Label(key: 'Building', value: '2'),
 ];
+
+const List<Label> keyTaggingDropDownValues = [
+  Label(key: 'Yes', value: '1'),
+  Label(key: 'No', value: '2'),
+  Label(key: 'NA', value: '3'),
+];
+const List<Label> keyManagementStatus = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Open', value: '1'),
+  Label(key: 'Closed', value: '2'),
+];

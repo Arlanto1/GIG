@@ -664,8 +664,13 @@ class Constants {
   static const String doorHasAccessControl = 'Door Has Access Control';
   static const String doorHasLockAndKeyMechanism = 'Door Has Lock and Key Mechanism';
   static const String howAndWhereTheKeysAreStored = 'How and Where The Keys are Stored';
+  static const String lockChangeHistory = 'Lock Change History';
+  static const String keyLostHistory = 'Key Lost History';
+  static const String keyDamageHistory = 'Key Damage History';
+  static const String keyDestroyHistory = 'Key Destroy History';
 
-///KeyManagementIssuance
+
+  ///KeyManagementIssuance
   static const String createKeyManagementIssuance = 'Create Key Management Issuance';
   static const String editKeyManagementIssuance = 'Edit Key Management Issuance';
   static const String handedOverTo = 'Handed Over To';

@@ -10,7 +10,7 @@ class Apis {
 
   static final String _getList = '$baseUrl/getKeyMgmtList?';
 
-  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+  static final String _getGIById = '$baseUrl/getKeyMgmtGiById';
 
   static final String _createGuardingMasterData = '$baseUrl/createGMData?';
 }
@@ -39,7 +39,7 @@ class KeyManagementMasterServices {
   }
 
   Future<KeyManagementMasterModel> getById(int id) async {
-    final String url = '${Apis._getGuardingMasterData}/$id';
+    final String url = '${Apis._getGIById}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
