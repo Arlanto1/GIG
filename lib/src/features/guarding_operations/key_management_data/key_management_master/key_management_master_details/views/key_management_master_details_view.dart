@@ -298,19 +298,19 @@ class _KeyManagementMasterDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.doorType ?? [],
-                              all: state.departments,
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedDoorType) {
-                                BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        doorType: selectedDoorType);
-                                Navigator.of(context).pop(); // Close the dialog
-                              }),
+                          // BaseEntitiesSelection().entityDropDownSelection(
+                          //     context: context,
+                          //     selectedValues: state.model.doorType ?? [],
+                          //     all: state.departments,
+                          //     enabled: !isReadOnly,
+                          //     onTap: (List<Organisation> selectedDoorType) {
+                          //       BlocProvider.of<
+                          //                   KeyManagementMasterDetailsCubit>(
+                          //               context)
+                          //           .updateDropdownValues(
+                          //               doorType: selectedDoorType);
+                          //       Navigator.of(context).pop(); // Close the dialog
+                          //     }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Key Description
@@ -484,7 +484,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: state.model.noKeys,
+                            initialValue: '${state.model.noKeys}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -495,7 +495,7 @@ class _KeyManagementMasterDetailsViewState
                                     : true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.noKeys = value;
+                              state.model.noKeys = int.tryParse(value);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -514,7 +514,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: state.model.noMasterKey,
+                            initialValue: '${state.model.noMasterKey}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -525,7 +525,7 @@ class _KeyManagementMasterDetailsViewState
                                     : true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.noMasterKey = value;
+                              state.model.noMasterKey = int.tryParse(value);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);

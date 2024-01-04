@@ -174,9 +174,9 @@ class KeyManagementMasterDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (doorType != null) {
-      state.model.doorType = doorType;
-    }
+    // if (doorType != null) {
+    //   state.model.doorType = doorType;
+    // }
 
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;
     state.model.status = status ?? state.model.status;
