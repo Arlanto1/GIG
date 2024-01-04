@@ -203,30 +203,40 @@ class NotificationTile extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        '${item.content?.subject}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        flex: 9,
+                        child: Text(
+                          '${item.content?.subject}',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const Spacer(),
                       Text(
                         Utils.timestamptoDateConversion(
-                            int.tryParse(item.createdDate ?? ''),
-                            Constants.dateFormat),
+                          int.tryParse(item.createdDate ?? ''),
+                          Constants.dateFormat,
+                        ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Text(
-                        '${item.email}',
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '${item.email}',
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const Spacer(),
                       Text(
                         Utils.timestamptoDateConversion(
-                            int.tryParse(item.createdDate ?? ''),
-                            Constants.timeFormat),
+                          int.tryParse(item.createdDate ?? ''),
+                          Constants.timeFormat,
+                        ),
                       ),
                     ],
                   ),
