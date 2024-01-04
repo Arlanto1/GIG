@@ -4,6 +4,7 @@ class ChartsState extends Equatable {
   final List<PieChartData>? lawEnforcementVisitByEntity;
   final List<PieChartData>? lawEnforcementVisitByRegion;
   final List<PieChartData>? eventProtectionByRegion;
+  final int? notificationCount;
   final FormStatus? status;
   final String? message;
 
@@ -12,12 +13,14 @@ class ChartsState extends Equatable {
     required List<PieChartData> lawEnforcementVisitByRegion,
     required List<PieChartData> eventProtectionByRegion,
     required String errorMessage,
+    required int notificationCount,
   }) {
     return ChartsState(
       lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
       lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
       eventProtectionByRegion: eventProtectionByRegion,
       message: errorMessage,
+      notificationCount: notificationCount,
     );
   }
 
@@ -30,6 +33,7 @@ class ChartsState extends Equatable {
     this.lawEnforcementVisitByRegion,
     this.eventProtectionByRegion,
     this.message,
+    this.notificationCount,
   });
 
   ChartsState copyWith({
@@ -37,6 +41,7 @@ class ChartsState extends Equatable {
     List<PieChartData>? lawEnforcementVisitByRegion,
     List<PieChartData>? eventProtectionByRegion,
     String? message,
+    int? notificationCount,
     FormStatus? status,
   }) {
     return ChartsState(
@@ -45,6 +50,7 @@ class ChartsState extends Equatable {
       eventProtectionByRegion: eventProtectionByRegion ?? this.eventProtectionByRegion,
       message: message ?? this.message,
       status: status ?? this.status,
+      notificationCount: notificationCount ?? this.notificationCount,
     );
   }
 }

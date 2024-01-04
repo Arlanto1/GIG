@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
 part 'charts_state.dart';
@@ -13,12 +13,14 @@ class ChartsCubit extends Cubit<ChartsState> {
     required this.commonServices,
   }) : super(
           ChartsState.initial(
-            lawEnforcementVisitByEntity: const [],
-            lawEnforcementVisitByRegion: const [],
-            eventProtectionByRegion: const [],
-            errorMessage: '',
-          ),
+              lawEnforcementVisitByEntity: const [],
+              lawEnforcementVisitByRegion: const [],
+              eventProtectionByRegion: const [],
+              errorMessage: '',
+              notificationCount: 0),
         );
+
+  NotificationServices notificationServices = NotificationServices();
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -40,13 +42,16 @@ class ChartsCubit extends Cubit<ChartsState> {
       List<PieChartData> lawEnforcementVisitByEntity = results[0];
       List<PieChartData> lawEnforcementVisitByRegion = results[1];
       List<PieChartData> eventProtectionByRegion = results[2];
+      int count = await notificationServices.getNotificationCount();
+      log('-count---$count--');
 
       emit(
         state.copyWith(
           lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
           lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
           eventProtectionByRegion: eventProtectionByRegion,
-          status: FormStatus.initial
+          status: FormStatus.initial,
+          notificationCount: count,
         ),
       );
     } on GenericResponse catch (e) {

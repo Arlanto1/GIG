@@ -886,7 +886,6 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
     String title,
   ) {
-    log('-buildDrawerChildren-title--$title--');
     if (title == Constants.materialMovement) {
       return _genericItemSelection(context, materialMovementDrawerItems, title);
     } else if (title == Constants.securitySystemTickets) {

@@ -72,18 +72,7 @@ class DashboardViewState extends State<DashboardView> {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, notificationsViewRoute);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              NotificationBell(notificationCount: state.notificationCount ?? 0),
               GestureDetector(
                 onTap: () {
                   _logout(context);
@@ -112,6 +101,13 @@ class DashboardViewState extends State<DashboardView> {
               },
             ),
           ),
+          // body: RefreshIndicator(
+          //     color: AppColors.navigationSkybluecolor,
+          //     onRefresh: () async {
+          //       BlocProvider.of<ChartsCubit>(context).initializeValues();
+          //     },
+          //     child: getBody(state)),
+
           body: getBody(state),
         );
       },
@@ -123,37 +119,36 @@ class DashboardViewState extends State<DashboardView> {
       return const BaseLoader();
     }
     return Container(
-          color: AppColors.navigationSkybluecolor,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: SingleChildScrollView(
-              // scrollDirection: Axis.horizontal,
-              child: Container(
-                padding: const EdgeInsets.all(10.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    buildChartHorizontalWidget(
-                        title: Constants.lawEnforcementVisitsByEntity,
-                        chartValues: state.lawEnforcementVisitByEntity ?? []),
-                    buildChartHorizontalWidget(
-                        title: Constants.lawEnforcementVisitsByRegion,
-                        chartValues: state.lawEnforcementVisitByRegion ?? []),
-                    buildChartHorizontalWidget(
-                        title: Constants.eventProtectionByRegion,
-                        chartValues: state.eventProtectionByRegion ?? []),
-                  ],
-                ),
+      color: AppColors.navigationSkybluecolor,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: SingleChildScrollView(
+          // scrollDirection: Axis.horizontal,
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: const ShapeDecoration(
+              color: AppColors.backgroundWhitecolor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),
             ),
+            child: Column(
+              children: [
+                buildChartHorizontalWidget(
+                    title: Constants.lawEnforcementVisitsByEntity,
+                    chartValues: state.lawEnforcementVisitByEntity ?? []),
+                buildChartHorizontalWidget(
+                    title: Constants.lawEnforcementVisitsByRegion,
+                    chartValues: state.lawEnforcementVisitByRegion ?? []),
+                buildChartHorizontalWidget(
+                    title: Constants.eventProtectionByRegion,
+                    chartValues: state.eventProtectionByRegion ?? []),
+              ],
+            ),
           ),
-        );
+        ),
+      ),
+    );
   }
 
   _logout(BuildContext context) {

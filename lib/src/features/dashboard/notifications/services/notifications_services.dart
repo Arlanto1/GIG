@@ -9,6 +9,7 @@ class Apis {
   static final String _readRecord = '$baseUrl/markNotificationAsRead';
   static final String _deleteById = '$baseUrl/deleteNotification';
   static final String _deleteAll = '$baseUrl/deleteAllNotifications';
+  static final String _getNotificationCount = '$baseUrl/getNotificationCount';
 }
 
 class NotificationServices {
@@ -31,6 +32,13 @@ class NotificationServices {
       url: url,
     );
     return NotificationModel.fromJson(response);
+  }
+  Future<int> getNotificationCount() async {
+    final String url = Apis._getNotificationCount;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['count'];
   }
 
   Future<GenericResponse> readRecord(int id) async {
@@ -56,4 +64,18 @@ class NotificationServices {
     );
     return GenericResponse.fromJson(response);
   }
+}
+class NotificationCount {
+  final int? count;
+
+  NotificationCount({
+    this.count,
+  });
+
+  NotificationCount.fromJson(Map<String, dynamic> json)
+      : count = json['count'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'count' : count
+  };
 }
