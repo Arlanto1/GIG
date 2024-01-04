@@ -128,7 +128,7 @@ class KeyManagementMasterModel {
             ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
             : null,
         floor = json['floor'] as String?,
-        doorType = json['doorType'],
+         doorType = json['doorType'],
         doorName = json['doorName'] as String?,
         doorAccessControl = json['doorAccessControl'] as bool,
         doorLockKey = json['doorLockKey'] as bool,

@@ -20,6 +20,7 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
   static const String slaViolationPenaltyDetailsModule = 'SVP';
+  static const String keyManagementMasterModule = 'KeyMM';
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';

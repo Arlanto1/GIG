@@ -298,25 +298,19 @@ class _KeyManagementMasterDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
-                            title: state.model.doorType?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
-                                context: context,
-                                departments: state.departments,
-                                onTap: (Organisation department) {
-                                  BlocProvider.of<
-                                              KeyManagementMasterDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          doorType: department);
-                                },
-                              );
-                            },
-                          ),
-
+                          BaseEntitiesSelection().entityDropDownSelection(
+                              context: context,
+                              selectedValues: state.model.doorType ?? [],
+                              all: state.departments,
+                              enabled: !isReadOnly,
+                              onTap: (List<Organisation> selectedDoorType) {
+                                BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        doorType: selectedDoorType);
+                                Navigator.of(context).pop(); // Close the dialog
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Key Description
@@ -549,7 +543,10 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: '',
+                            initialValue:'',
+                            // (state.model.noKeys.toString()) +
+                            //     (state.model.noKeys) +
+                            //     (state.model.noMasterKey ?? 0),
                             textFormKey: Keys.budgetKey,
                             hintText: '',
                             isEnable: !isDisabled,
@@ -596,225 +593,221 @@ class _KeyManagementMasterDetailsViewState
 
                           ///Lock Change History
                           //if (state.model.status == 1) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.lockChangeHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.lockChangeHistory,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
+                              if (!isSaveSuccess) {
+                                return;
+                              }
 
-                                nav.pushNamed(
-                                  slaViolationPenaltyRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.violationPenalty,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              nav.pushNamed(
+                                slaViolationPenaltyRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.violationPenalty,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.violationDescription:
+                                      Constants.slaViolation,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Lock Change History(S)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Lock Change History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
+                          ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Lost History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyLostHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          ///Key Lost History
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.keyLostHistory,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
+                              if (!isSaveSuccess) {
+                                return;
+                              }
 
-                                nav.pushNamed(
-                                  slaViolationPenaltyRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.violationPenalty,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              nav.pushNamed(
+                                slaViolationPenaltyRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.violationPenalty,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.violationDescription:
+                                      Constants.slaViolation,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Key Lost History(S)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Lost History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Damage History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyDamageHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          ///Key Damage History
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.keyDamageHistory,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
+                              if (!isSaveSuccess) {
+                                return;
+                              }
 
-                                nav.pushNamed(
-                                  slaViolationPenaltyRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.violationPenalty,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              nav.pushNamed(
+                                slaViolationPenaltyRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.violationPenalty,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.violationDescription:
+                                      Constants.slaViolation,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Key Damage History(S)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Damage History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Destroy History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyDestroyHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          ///Key Destroy History
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.keyDestroyHistory,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
+                              if (!isSaveSuccess) {
+                                return;
+                              }
 
-                                nav.pushNamed(
-                                  slaViolationPenaltyRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.violationPenalty,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              nav.pushNamed(
+                                slaViolationPenaltyRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.violationPenalty,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.violationDescription:
+                                      Constants.slaViolation,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Key Destroy History(S)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Destroy History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
                           //],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),

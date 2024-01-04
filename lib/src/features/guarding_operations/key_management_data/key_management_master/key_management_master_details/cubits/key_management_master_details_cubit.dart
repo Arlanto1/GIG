@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/keyType_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
@@ -84,11 +85,11 @@ class KeyManagementMasterDetailsCubit
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getDepartments(name: 'ATOM_VENDORS'),
+        commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.guardingMasterModuleCode),
+            moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
       ]);
 
@@ -98,18 +99,17 @@ class KeyManagementMasterDetailsCubit
       AddEntities entities = futures[3];
       List<User> createdBy = futures[4];
       GetDepositor emailUsers = futures[6];
-      EmployeeDepartments departments = futures[7];
-      Vendors vendors = futures[8];
+      KeyType departments = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      // if (state.model.location == null && defaultLocation != null) {
-      //   SerialNumberModel slNo = await commonServices.getSlNo(
-      //     locationId: defaultLocation.id.toString(),
-      //     moduleCode: Constants.contactDetailsModule,
-      //   );
-      //   state.model.location = defaultLocation;
-      //   state.model.slNo = slNo.serialNo;
-      // }
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.keyManagementMasterModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
       state.model.createdBy = loggedInUserDetails;
 
       // Get Date of Creation
@@ -128,12 +128,13 @@ class KeyManagementMasterDetailsCubit
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          departments: departments.items,
           labels: labels,
         ),
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Guarding Master Data Details Cubit');
+          error: e, name: 'Key Management Master Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -146,7 +147,7 @@ class KeyManagementMasterDetailsCubit
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
-    Organisation? doorType,
+    List<Organisation>? doorType,
     BaseUser? guard,
     List<Organisation>? entities,
     int? status,
@@ -167,11 +168,14 @@ class KeyManagementMasterDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.keyManagementMasterModule,
       );
 
-      //state.model.location = location;
+      state.model.location = location;
       state.model.slNo = slNo.serialNo;
+    }
+    if (doorType != null) {
+      state.model.doorType = doorType;
     }
 
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;

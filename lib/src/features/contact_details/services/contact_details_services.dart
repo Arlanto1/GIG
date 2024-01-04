@@ -22,7 +22,7 @@ class Apis {
 
   static final String _createContactRecord = '$baseUrl/createContactInfo?';
 
-  static final String _deleteContacts = '$baseUrl/deleteContactInfo';
+  //static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
 
 class ContactDetailsServices {
@@ -115,11 +115,11 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<ContactRecord> deleteContacts(int id) async {
-    final String url = '${Apis._deleteContacts}/$id';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return ContactRecord.fromJson(response);
-  }
+  // Future<ContactRecord> deleteContacts(int id) async {
+  //   final String url = '${Apis._deleteContacts}/$id';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return ContactRecord.fromJson(response);
+  // }
 }

@@ -178,7 +178,7 @@ class _KeyManagementMasterListViewState
     dismissLoadingDialog(context);
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
-        "keyManagementMasterModel": keyManagementMasterModel,
+        "keyMgmtGi": keyManagementMasterModel,
         "title": Constants.editkeyManagementMaster
       });
     }
