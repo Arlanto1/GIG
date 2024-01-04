@@ -6,7 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getKeyLossDestruction = '$baseUrl/getKemMgmDestructiontList?';
+  static final String _getKeyLossDestruction = '$baseUrl/getKemMgmtDestructiontList?';
 }
 
 class KeyLossDestructionListServices {
@@ -19,11 +19,9 @@ class KeyLossDestructionListServices {
   Future<KeyLossDestructionListResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
   }) async {
     String url =
-        '${Apis._getKeyLossDestruction}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getKeyLossDestruction}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );
