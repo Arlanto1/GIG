@@ -150,13 +150,10 @@ class NavigationDrawer1 extends StatelessWidget {
     List items,
     String title,
   ) {
-    log('----_genericItemSelection----title-111---$title--');
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
-      log('----drawerItem---${drawerItem.title}--');
-      log('----drawerItem---${drawerItem.numberOfChildren}--');
       children.add(
         Container(
           decoration: const BoxDecoration(
@@ -183,7 +180,6 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
-              log('----_genericExpandableDrawer----title----$title--');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -384,7 +380,6 @@ class NavigationDrawer1 extends StatelessWidget {
 
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
-    log('--_onGuardingOperationItemSelected---');
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -543,7 +538,6 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < securityItems.length; i++) {
       MenuItem drawerItem = securityItems[i];
-      log('--_buildOperationsFromSecurity---drawerItem.title- ${drawerItem.title}--');
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
