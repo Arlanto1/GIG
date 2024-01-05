@@ -367,14 +367,16 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, keyManagementMasterListRoute,
           arguments: {"Key Management Master": false});
     } else if (index == 1) {
-      Navigator.pushNamed(context, keyReconciliationListRoute,
-          arguments: {"Key Reconciliation List": false});
-    } else if (index == 2) {
-      Navigator.pushNamed(context, keyLossDestructionListRoute,
-          arguments: {"Key Loss Destruction List": false});
-    } else if (index == 3) {
       Navigator.pushNamed(context, keyManagementIssuanceListRoute,
           arguments: {"Key Management Issuance List": false});
+    }
+    else if (index == 2) {
+      Navigator.pushNamed(context, keyReconciliationListRoute,
+          arguments: {"Key Reconciliation List": false});
+    }
+    else if (index == 3) {
+      Navigator.pushNamed(context, keyLossDestructionListRoute,
+          arguments: {"Key Loss Destruction List": false});
     }
   }
 

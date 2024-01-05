@@ -90,15 +90,17 @@ class _KeyManagementIssuanceListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Created By',
+                      value: state.list[index].createdBy?.name ?? ''));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.location ??
+                          //     state.labels?.defaultLocale.location ??
+                          'Location ',
+                      value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
@@ -106,7 +108,8 @@ class _KeyManagementIssuanceListViewState
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isMasterGuard: true,
+                        isEventProtectionStatus: false,
+                        isKeyManagementIssuanceStatus: true,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -115,9 +118,20 @@ class _KeyManagementIssuanceListViewState
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
+                                isMasterGuard: false,
+                                isEventProtectionStatus: false,
+                                isKeyManagementIssuanceStatus: true,
                                 status: state.list[selectedIndex].status,
+                                employeeType:
+                                    state.list[selectedIndex].employeeType,
+                                dbSponsorCWRT2:
+                                    state.list[selectedIndex].dbSponsorCwrT2,
+                                department:
+                                    state.list[selectedIndex].department,
+                                handedOver:
+                                    state.list[selectedIndex].handedOverTo,
+                                returnedByName:
+                                    state.list[selectedIndex].returnedByName,
                               );
                             },
                           );
@@ -135,8 +149,19 @@ class _KeyManagementIssuanceListViewState
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
-                                // isEventProtectionStatus: false,
+                                employeeType:
+                                    state.list[selectedIndex].employeeType,
+                                dbSponsorCWRT2:
+                                    state.list[selectedIndex].dbSponsorCwrT2,
+                                department:
+                                    state.list[selectedIndex].department,
+                                handedOver:
+                                    state.list[selectedIndex].handedOverTo,
+                                returnedByName:
+                                    state.list[selectedIndex].returnedByName,
+                                isKeyManagementIssuanceStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -158,13 +183,17 @@ class _KeyManagementIssuanceListViewState
     editDataLoading(keyManagementIssuanceModel);
   }
 
-  void editDataLoading(KeyManagementIssuanceModel? keyManagementIssuanceModel) {
+  void editDataLoading(KeyManagementIssuanceModel? model) {
     dismissLoadingDialog(context);
-    if (KeyManagementIssuanceModel != null) {
-      Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
-        "keyManagementIssuanceModel": keyManagementIssuanceModel,
-        "title": Constants.editKeyManagementIssuance
-      });
+    if (model != null) {
+      Navigator.pushNamed(
+        context,
+        keyManagementIssuanceDetailsRoute,
+        arguments: {
+          "model": model,
+          "title": Constants.keyManagementIssuance,
+        },
+      );
     }
   }
 }

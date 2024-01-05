@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
@@ -24,6 +26,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
+  TextEditingController keyHandedOverDateController = TextEditingController();
   TextEditingController keyReturnDueDateController = TextEditingController();
   TextEditingController employeeTypeController = TextEditingController();
   TextEditingController keyHandlingOverDurationController =
@@ -82,9 +85,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
-        }
+        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -99,11 +102,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
-              showSubmitButton: state.model.status != 6 &&
-                  state.model.status != 1 &&
-                  !isReadOnly
-                  ? true
-                  : false,
+            showSubmitButton: state.model.status != 6 &&
+                    state.model.status != 1 &&
+                    !isReadOnly
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
@@ -121,9 +124,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   }
 
   void initializeDates() {
-    //keyReturnDueDateController.text = DateFormat(Constants.dateFormat).format(
-    // DateFormat("dd/MM/yyyy").parse(keyReturnDueDateController.text).add(const Duration(days: 1, hours: 0, minutes: 0)),
-    // );
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+
+    keyReturnDueDateController.text = Utils.timestamptoDateConversion(
+        dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
   }
 
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
@@ -164,9 +169,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
+                            // if (!state.model.lock.isEmptyOrNull) ...[
+                            //   RecordLockedWidget(text: '${state.model.lock}'),
+                            // ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -215,7 +220,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
+                                state.model.createdDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -241,31 +246,32 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // /// Vendor
-                            // CommonWidgets.textDisplay(
-                            //     state.labels?.locale.vendor ??
-                            //         state.labels?.defaultLocale.vendor ??
-                            //         Constants.vendor,
-                            //     Styles.textStyleBlack14,
-                            //     isMandatory: true),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            //
-                            // BaseEntitiesSelection().entityDropDownSelection(
-                            //     context: context,
-                            //     selectedValues: state.model.vendor ?? [],
-                            //     all: state.vendors,
-                            //     enabled: !isReadOnly,
-                            //     onTap: (List<Organisation> selectedVendors) {
-                            //       log('--selectedEntities----${selectedVendors.length}');
-                            //       BlocProvider.of<
-                            //                   KeyManagementIssuanceDetailsCubit>(
-                            //               context)
-                            //           .updateDropdownValues(
-                            //               vendors: selectedVendors);
-                            //       Navigator.of(context)
-                            //           .pop(); // Close the dialog
-                            //     }),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Handed Over Date
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.pvcExpiryDate ??
+                              //   state.labels?.defaultLocale.pvcExpiryDate ??
+                              Constants.handedOverDate,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: keyHandedOverDateController,
+                              isDisabled: true,
+                              onChange: (String value) {
+                                state.model.keyHandOverDate =
+                                    Utils().formatTime(value);
+
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                                //},
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -278,7 +284,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.entity ?? [],
+                                selectedValues: state.model.entities ?? [],
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
@@ -304,13 +310,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             widget.model?.status == 6
                                 ? FlutterInputField(
-                                    initialValue: "${state.model.vendor}",
+                                    initialValue: "${state.model.department}",
                                     textFormKey: Keys.receiverDepartmentKey,
                                     hintText: '',
                                     isEnable: state.model.status != 6,
                                     isDisableColor: state.model.status == 6,
                                     onChange: (Organisation value) {
-                                      state.model.vendor = value;
+                                      state.model.department = value;
                                       context
                                           .read<
                                               KeyManagementIssuanceDetailsCubit>()
@@ -319,7 +325,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     validateTextField: (String? user) {},
                                   )
                                 : TextfieldAddButton(
-                                    title: state.model.vendor?.name,
+                                    title: state.model.department?.name,
                                     height: 70,
                                     isDisableColor:
                                         state.model.status != 6 ? false : true,
@@ -329,14 +335,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         context: context,
                                         departments: state.departments,
                                         onTap: (Organisation department) {
-                                          state.model.vendor?.name =
+                                          state.model.department?.name =
                                               department.name;
 
                                           BlocProvider.of<
                                                       KeyManagementIssuanceDetailsCubit>(
                                                   context)
                                               .updateDropdownValues(
-                                                  vendors: department);
+                                                  department: department);
                                         },
                                       );
                                       // leodepartmentsDialog(state);
@@ -345,7 +351,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Employee Type
+                            /// Key Handing Over Duration
                             CommonWidgets.textDisplay(
                                 //state.labels?.locale.maritalStatus ??
                                 //   state.labels?.defaultLocale.maritalStatus ??
@@ -401,15 +407,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: keyReturnDueDateController,
                               isDisabled: true,
+                              onlyDate: false,
                               onChange: (String value) {
-                                // log('--fr-value-${pvcExpiryDateController
-                                //     .text}------');
-                                // state.model.pvcExpiryDate =
+                                // state.model.keyHandOverDue =
                                 //     Utils().formatTime(value);
                                 //
-                                //   BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                //       context
-                                //   ).onModelValueChange(state.model);
+                                // BlocProvider.of<
+                                //             KeyManagementIssuanceDetailsCubit>(
+                                //         context)
+                                //     .onModelValueChange(state.model);
                                 // //},
                               },
                               context: context,
@@ -458,7 +464,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Contact Num
+                            /// Employee Id
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.contactNo ??
                                 //  state.labels?.defaultLocale.contactNo ??
@@ -468,18 +474,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.text,
-                              initialValue: state.model.employeeId,
+                              initialValue: state.model.employeeID,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               isEnable: widget.model == null
                                   ? true
                                   : (widget.model != null &&
-                                          (widget.model?.employeeId == null))
+                                          (widget.model?.employeeID == null))
                                       ? false
                                       : true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.model.employeeId = value;
+                                state.model.employeeID = value;
                                 context
                                     .read<KeyManagementIssuanceDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -496,7 +502,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
-                              title: state.model.approver?.name,
+                              title: state.model.handedOverTo?.name,
                               height: 60,
                               isDisableColor: isReadOnly,
                               onTap: () {
@@ -517,8 +523,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (employeeTypeController.value == 'CWR T2') ...[
-                              /// DB Sponsor of CWR T2
+                            if (employeeTypeController.text == 'CWR T2') ...[
                               CommonWidgets.textDisplay(
                                   //state.labels?.locale.approver ??
                                   //  state.labels?.defaultLocale.approver ??
@@ -526,7 +531,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
-                                title: state.model.approver?.name,
+                                title: state.model.dbSponsorCwrT2?.name,
                                 height: 60,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
@@ -559,17 +564,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              // onTap: () async {
-                              //   NavigatorState nav = Navigator.of(context);
-                              //   nav.pushNamed(
-                              //     slaViolationPenaltyListingRoute,
-                              //     arguments: {
-                              //       ConstantsArgument.title:
-                              //       Constants.generalContact,
-                              //       ConstantsArgument.id: state.model.id,
-                              //     },
-                              //   );
-                              // },
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess = await BlocProvider.of<
@@ -592,7 +586,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         Constants.keyIssuanceProcess,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
+                                        Constants.keyDescription,
                                   },
                                 );
                               },
@@ -663,10 +657,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   String getStatusString(int status) {
     switch (status) {
+      case -1:
+        return 'Cancelled';
       case 0:
-        return 'Draft';
+        return 'Created';
       case 1:
-        return 'Active';
+        return 'Handed Over';
+      case 2:
+        return 'Not Returned';
+      case 3:
+        return 'Loss Damage Reported';
+      case 4:
+        return 'Closed';
       default:
         return '';
     }
@@ -738,73 +740,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     );
   }
 
-  // List<Widget> getPOC(SLAViolationPenaltyDetailsState state, height) {
-  //   List<Widget> widgets = [];
-  //   log('-state.poc.length---${state.pocs?.length}---');
-  //   for (String poc in state.pocs ?? []) {
-  //     TextEditingController pocController = TextEditingController();
-  //     pocController.text = poc;
-  //     widgets.add(
-  //       FlutterInputField(
-  //         //showBorder: true,
-  //         lineHeight: 1,
-  //         textFieldController: pocController,
-  //         textFormKey: Keys.equipmentNoKey,
-  //         hintText: '',
-  //         isEnable: true,
-  //         isDisableColor: false,
-  //         onChange: (String value) {
-  //           widget.model?.poc = value;
-  //           BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-  //               .onModelValueChange(state.model);
-  //         },
-  //       ),
-  //     );
-  //     widgets.add(const SizedBox(height: 0));
-  //     widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
-  //   }
-  //   return widgets;
-  // }
-
-  List<Widget> getPOC(KeyManagementIssuanceDetailsState state, double height) {
-    List<Widget> widgets = [];
-    log('-state.poc.length---${state.pocs?.length}---');
-    for (String poc in state.pocs ?? []) {
-      TextEditingController pocController = TextEditingController();
-      pocController.text = poc;
-      widgets.add(Row(
-        children: [
-          Text(
-            poc,
-            textAlign: TextAlign.start,
-          ),
-        ],
-      ));
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
-    }
-    if (widgets.isNotEmpty) {
-      return [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.lightgreyBackground,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widgets,
-            ),
-          ),
-        ),
-      ];
-    } else {
-      return []; // Or provide a default list based on your requirements
-    }
-  }
-
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
@@ -816,25 +751,4 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getById(int id) async {
-//   showLoadingDialog(context);
-//
-//   SLAViolationPenaltyModel contactsModel =
-//   await SLAViolationPenaltyServices().getGvpById(id);
-//
-//   editDataLoading(contactsModel);
-// }
-// void editDataLoading(SLAViolationPenaltyModel? model) {
-//   dismissLoadingDialog(context);
-//   if (model != null) {
-//     Navigator.pushNamed(
-//       context,
-//       slaViolationPenaltyDetailsRoute,
-//       arguments: {
-//         "model": model,
-//         "title": Constants.slaViolationPenalty,
-//       },
-//     );
-//   }
-// }
 }

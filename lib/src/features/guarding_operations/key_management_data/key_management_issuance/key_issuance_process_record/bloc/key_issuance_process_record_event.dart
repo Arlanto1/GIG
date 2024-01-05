@@ -25,17 +25,17 @@ class InitializeValues extends KeyIssuanceProcessRecordEvent {
 
 class SaveRecord extends KeyIssuanceProcessRecordEvent {
   final KeyIssuanceProcessRecord keyIssuanceProcessRecord;
-  final int mainContactId;
+  final int mainIssuanceId;
 
   const SaveRecord(
     this.keyIssuanceProcessRecord,
-    this.mainContactId,
+    this.mainIssuanceId,
   );
 }
 
 class DeleteRecord extends KeyIssuanceProcessRecordEvent {
   final int id;
-  final int mainContactId;
+  final int mainIssuanceId;
 
-  const DeleteRecord(this.id, this.mainContactId);
+  const DeleteRecord(this.id, this.mainIssuanceId);
 }

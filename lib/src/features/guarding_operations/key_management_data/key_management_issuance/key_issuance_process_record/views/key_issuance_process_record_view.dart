@@ -11,13 +11,14 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'add_key_issuance_process_pop_up.dart';
 
 class KeyIssuanceProcessRecordsView extends StatefulWidget {
   const KeyIssuanceProcessRecordsView({
@@ -86,11 +87,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             showAddKeyIssuanceProcessPopUp(
               context: context,
               keyIssuanceProcessRecord: KeyIssuanceProcessRecord(
-                svpId: widget.id,
+                id: widget.id,
               ),
               users: state.violationDescriptions ?? [],
-              staffCategoriesValues:
-                  state.staffCategoriesValues ?? <String, int>{},
+              getKeyDescriptionValues:
+                  state.getKeyDescriptionValues ?? <String, int>{},
             );
           },
         ),
@@ -100,7 +101,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           showPopUp: true,
           showSaveButton: false,
           excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF', showSubmitButton: false,
+          pdfAPIName: 'exportMMPDF',
+          showSubmitButton: false,
         ),
         body: getBody(state),
       );
@@ -136,12 +138,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             //     value: state.items![index].staffCategory ?? '',
             //   ),
             // );
-            labels.add(
-              Label(
-                key: 'Violation',
-                value: state.items![index].violation?.name ?? '',
-              ),
-            );
+            // labels.add(
+            //   Label(
+            //     key: 'Violation',
+            //     value: state.items![index].violation?.name ?? '',
+            //   ),
+            // );
             // labels.add(
             //   Label(
             //     key: 'Contact No',
@@ -167,7 +169,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     onEditTap: (selectedIndex) async {
                       KeyIssuanceProcessRecord KeyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()
-                              .getVPById(state.items?[index].id ?? 0);
+                              .getIssuanceProcessById(
+                                  state.items?[index].id ?? 0);
 
                       log('--state.users--llen--${state.violationDescriptions?.length}---');
 
@@ -175,8 +178,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         context: context,
                         keyIssuanceProcessRecord: KeyIssuanceProcessModel,
                         users: state.violationDescriptions ?? [],
-                        staffCategoriesValues:
-                            state.staffCategoriesValues ?? <String, int>{},
+                        getKeyDescriptionValues:
+                            state.getKeyDescriptionValues ?? <String, int>{},
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -210,7 +213,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required BuildContext context,
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,
     required final List<Organisation> users,
-    required final Map<String, dynamic> staffCategoriesValues,
+    required final Map<String, dynamic> getKeyDescriptionValues,
   }) {
     log('--.users-1111-llen--${users.length}---');
     showDialog(
@@ -221,7 +224,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           model: keyIssuanceProcessRecord,
           mainContext: context,
           users: users,
-          staffCategoriesValues: staffCategoriesValues,
+          getKeyDescriptionValues: getKeyDescriptionValues,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

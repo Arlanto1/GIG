@@ -35,6 +35,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isSecuritySystemSLA;
   final bool isKeyLossStatus;
   final bool isKeyManagementStatus;
+  final bool isKeyManagementIssuanceStatus;
 
   const BaseListTileItem({
     super.key,
@@ -68,6 +69,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isSecuritySystemSLA = false,
     this.isKeyLossStatus = false,
     this.isKeyManagementStatus = false,
+    this.isKeyManagementIssuanceStatus = false,
     this.onDeleteTap,
   });
 
@@ -184,7 +186,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
                               !widget.isIncident && !widget.isKeyLossStatus &&
-                              !widget.isSecuritySystemSLA && !widget.isKeyManagementStatus &&
+                              !widget.isSecuritySystemSLA && !widget.isKeyManagementIssuanceStatus &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildMaterialMovementStatusRow(
@@ -209,9 +211,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
 
                           if (widget.status != null &&
-                              widget.isKeyManagementStatus) ...[
+                              widget.isKeyManagementIssuanceStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils().keyManagementStatus(
+                            Utils().keyManagementIssuanceStatus(
                                 widget.status ?? 0),
                           ],
 
@@ -230,8 +232,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           if (widget.status != null &&
                               widget.isKeyLossStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                                Utils()
-                                    .keyLossDestructionStatus(widget.status ?? 0),
+                            Utils()
+                                .keyLossDestructionStatus(widget.status ?? 0),
                           ],
                           if (widget.status != null &&
                               widget.isSLAViolationStatus == true) ...[

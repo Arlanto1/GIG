@@ -9,9 +9,9 @@ part of 'key_issuance_process_list_model.dart';
 KeyManagementProcessListModel _$KeyManagementProcessListModelFromJson(
         Map<String, dynamic> json) =>
     KeyManagementProcessListModel(
-      violationPenalties: (json['violationPenalties'] as List<dynamic>?)
+      keyIssuanceProcessRecord: (json['keyIssuanceProcessRecord'] as List<dynamic>?)
           ?.map(
-              (e) => ViolationPenaltyRecord.fromJson(e as Map<String, dynamic>))
+              (e) => KeyIssuanceProcessRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     )..lock = json['lock'] as String?;
 
@@ -19,5 +19,5 @@ Map<String, dynamic> _$KeyManagementProcessListModelToJson(
         KeyManagementProcessListModel instance) =>
     <String, dynamic>{
       'lock': instance.lock,
-      'violationPenalties': instance.violationPenalties,
+      'keyIssuanceProcessRecord': instance.keyIssuanceProcessRecord,
     };

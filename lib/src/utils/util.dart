@@ -715,6 +715,41 @@ class Utils {
       ),
     );
   }
+
+  Widget keyManagementIssuanceStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Handed Over';
+        break;
+      case 2:
+        statusText = 'Not Returned';
+        break;
+      case 3:
+        statusText = 'Loss Damage Reported';
+        break;
+      case 4:
+        statusText = 'Closed';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
   Widget buildIncidentStatus(int status) {
     String statusText;
 
@@ -1001,6 +1036,31 @@ class Utils {
       child: Row(
         children: [
           textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget employeeTypeValues(int employeeType) {
+    String employeeTypeText;
+
+    switch (employeeType) {
+      case 0:
+        employeeTypeText = 'FTE';
+        break;
+      case 1:
+        employeeTypeText = 'CWR T1';
+        break;
+      case 2:
+        employeeTypeText = 'CWR T2';
+        break;
+      default:
+        employeeTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Employee Type: ', employeeTypeText),
         ],
       ),
     );

@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 
+import '../../../../../../models/keyDescription.dart';
+
 class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   const AddKeyIssuanceProcessPopUp({
     super.key,
@@ -11,7 +13,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.model,
     required this.mainContext,
     required this.users,
-    required this.staffCategoriesValues,
+    required this.getKeyDescriptionValues,
   });
 
   final String title;
@@ -19,7 +21,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final KeyIssuanceProcessRecord model;
   final List<Organisation> users;
   final BuildContext mainContext;
-  final Map<String, dynamic> staffCategoriesValues;
+  final Map<String, dynamic> getKeyDescriptionValues;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -27,40 +29,44 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
 
 class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController violationController = TextEditingController();
+  TextEditingController keyDescriptionController = TextEditingController();
   TextEditingController keysController = TextEditingController();
-  TextEditingController penaltyAmountController = TextEditingController();
-  TextEditingController totalPenaltyAmountController = TextEditingController();
+  TextEditingController noOfKeysIssuedController = TextEditingController();
+  TextEditingController keysAvailableController = TextEditingController();
   TextEditingController numberOfKeysController = TextEditingController();
+  TextEditingController keysReturnedController = TextEditingController();
+  TextEditingController keysNotReturnedController = TextEditingController();
+  TextEditingController keysLostController = TextEditingController();
+  TextEditingController keysDamagedController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    penaltyAmountController.text = widget.model.penaltyAmount == null
-        ? ''
-        : widget.model.penaltyAmount.toString();
-
-    num? sum = (widget.model.totalPenaltyAmount ??
-        (widget.model.penaltyAmount ?? 0) *
-            (widget.model.totalViolations ?? 0));
-    totalPenaltyAmountController.text = sum.toString();
-    numberOfKeysController.text = widget.model.totalViolations == null
-        ? ''
-        : widget.model.totalViolations.toString();
-    updateStaffCategoryText();
+    // penaltyAmountController.text = widget.model.penaltyAmount == null
+    //     ? ''
+    //     : widget.model.penaltyAmount.toString();
+    //
+    // num? sum = (widget.model.totalPenaltyAmount ??
+    //     (widget.model.penaltyAmount ?? 0) *
+    //         (widget.model.totalViolations ?? 0));
+    // totalPenaltyAmountController.text = sum.toString();
+    // numberOfKeysController.text = widget.model.totalViolations == null
+    //     ? ''
+    //     : widget.model.totalViolations.toString();
+    // updateStaffCategoryText();
   }
 
-  void updateStaffCategoryText() {
-    String staffCategoryValue = widget.model.staffCategory.toString();
-    log('--staffCategoryValue---$staffCategoryValue--');
-    Label? matchingLabel = staffCategoryDropDownValues
-        .firstOrNullWhere((element) => element.value == staffCategoryValue);
-
-    log('--matchingLabel?.value---${matchingLabel?.value}--');
-
-    keysController.text = matchingLabel?.key ?? '';
-    log('--staffCategoryController.text---${keysController.text}--');
-  }
+  // void updateStaffCategoryText() {
+  //  // String staffCategoryValue = widget.model.staffCategory.toString();
+  //   log('--staffCategoryValue---$staffCategoryValue--');
+  //   Label? matchingLabel = staffCategoryDropDownValues
+  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
+  //
+  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
+  //
+  //   keysController.text = matchingLabel?.key ?? '';
+  //   log('--staffCategoryController.text---${keysController.text}--');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +107,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.model.violation?.name ?? '',
+                            title: widget.model.keyDescription?.name ?? '',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
@@ -109,31 +115,32 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                 context: context,
                                 departments: widget.users,
                                 onTap: (Organisation org) {
-                                  violationController.text = org.name ?? '';
+                                  keyDescriptionController.text =
+                                      org.name ?? '';
 
                                   log('-org.keyName----${org.keyName}-');
 
-                                  penaltyAmountController.text =
+                                  keyDescriptionController.text =
                                       org.keyName ?? ''; // Penalty Amount
-                                  widget.model.violation ??= Organisation();
-                                  widget.model.violation = org;
-                                  widget.model.penaltyAmount =
-                                      double.tryParse(org.keyName ?? '0');
-                                  log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
+                                  // widget.model.violation ??= Organisation();
+                                  // widget.model.violation = org;
+                                  // widget.model.penaltyAmount =
+                                  // double.tryParse(org.keyName ?? '0');
+                                  // log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
 
                                   if (!numberOfKeysController
                                       .text.isEmptyOrNull) {
-                                    penaltyAmountController
-                                        .text = ((penaltyAmountController.text
-                                                    .toDoubleOrNull() ??
-                                                0) *
-                                            (widget.model.totalViolations ?? 0))
-                                        .toString();
+                                    // penaltyAmountController
+                                    //     .text = ((penaltyAmountController.text
+                                    //                 .toDoubleOrNull() ??
+                                    //             0) *
+                                    //         (widget.model.totalViolations ?? 0))
+                                    //     .toString();
                                   }
 
                                   setState(() {
                                     log('-setstate-');
-                                    penaltyAmountController.text =
+                                    keyDescriptionController.text =
                                         org.keyName ?? '';
                                   });
                                 },
@@ -168,24 +175,24 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                 orElse: () => const Label(key: '', value: ''),
                               );
                               keysController.text = selectedLabel.key;
-                              widget.model.staffCategory =
-                                  int.tryParse(selectedLabel.value);
+                              // widget.model.staffCategory =
+                              //     int.tryParse(selectedLabel.value);
 
-                              int? staffCategoriesValue = widget
-                                  .staffCategoriesValues[selectedLabel.key];
-                              log('--staffCategoriesValue----$staffCategoriesValue---');
-                              if (staffCategoriesValue != null) {
-                                numberOfKeysController.text =
-                                    staffCategoriesValue.toString();
-                              }
+                              // int? getKeyDescriptionValues = widget
+                              //     .getKeyDescriptionValues[selectedLabel.key];
+                              // log('--staffCategoriesValue----$getKeyDescriptionValues---');
+                              // if (getKeyDescriptionValues != null) {
+                              //   numberOfKeysController.text =
+                              //       getKeyDescriptionValues.toString();
+                              // }
                               if (selectedLabel.value == '1') {
-                                numberOfKeysController.text = '1';
-                                widget.model.totalViolations = 1;
-                                totalPenaltyAmountController.text =
-                                    '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
-                                widget.model.totalPenaltyAmount =
-                                    (widget.model.penaltyAmount ?? 0) *
-                                        (widget.model.totalViolations ?? 0);
+                                // numberOfKeysController.text = '1';
+                                // widget.model.totalViolations = 1;
+                                // totalPenaltyAmountController.text =
+                                //     '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
+                                // widget.model.totalPenaltyAmount =
+                                //     (widget.model.penaltyAmount ?? 0) *
+                                //         (widget.model.totalViolations ?? 0);
                               }
                               setState(() {});
 
@@ -211,7 +218,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: numberOfKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -230,7 +237,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: noOfKeysIssuedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -249,7 +256,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: keysAvailableController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -274,20 +281,20 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          widget.model.totalViolations = num.parse(value);
-
-                          num sum = (widget.model.penaltyAmount ?? 0) *
-                              num.parse(value);
-                          log('--sum-----$sum---');
-                          totalPenaltyAmountController.text = sum.toString();
-
-                          widget.model.totalPenaltyAmount = sum;
-                          numberOfKeysController.text = value;
-                          log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
-
-                          setState(() {
-                            // totalPenaltyAmountController.text = sum.toString();
-                          });
+                          // widget.model.totalViolations = num.parse(value);
+                          //
+                          // num sum = (widget.model.penaltyAmount ?? 0) *
+                          //     num.parse(value);
+                          // log('--sum-----$sum---');
+                          // totalPenaltyAmountController.text = sum.toString();
+                          //
+                          // widget.model.totalPenaltyAmount = sum;
+                          // numberOfKeysController.text = value;
+                          // log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
+                          //
+                          // setState(() {
+                          //   // totalPenaltyAmountController.text = sum.toString();
+                          // });
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -303,7 +310,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: keysReturnedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -322,7 +329,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: keysNotReturnedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -341,7 +348,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: keysLostController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -360,7 +367,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        textFieldController: keysDamagedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -429,7 +436,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           return;
         }
 
-        log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
+        // log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
         onSubmit(widget.model);
         Navigator.pop(context);
       },
@@ -437,18 +444,18 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.model.violation == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Violation.');
-    }
-    if (widget.model.staffCategory == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Staff Category.');
-    }
-    if (widget.model.totalViolations == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Total No of Violations');
-    }
+    // if (widget.model.violation == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Violation.');
+    // }
+    // if (widget.model.staffCategory == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Staff Category.');
+    // }
+    // if (widget.model.totalViolations == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Total No of Violations');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
