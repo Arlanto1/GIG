@@ -13,8 +13,9 @@ part 'key_issuance_process_record_state.dart';
 class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
   final String violationDescription;
+  final int kmiId;
 
-  KeyIssuanceProcessRecordBloc({required this.violationDescription})
+  KeyIssuanceProcessRecordBloc({required this.violationDescription,required this.kmiId})
       : super(const KeyIssuanceProcessRecordState(violationDescriptions: [])) {
     on<FetchData>(
       _fetchContacts,
@@ -138,7 +139,7 @@ class KeyIssuanceProcessRecordBloc
 
       request.vp = event.keyIssuanceProcessRecord;
       await KeyManagementIssuanceServices()
-          .createViolationPenaltyRecord(body: request, isSubmit: false);
+          .createIssuanceProcessRecord(body: request, isSubmit: false, kmiId: 0);
 
       /// Refresh list
       List<KeyIssuanceProcessRecord> response =

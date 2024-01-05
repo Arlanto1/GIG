@@ -1020,6 +1020,7 @@ class RouteGenerator {
         String title = '';
         int id = 0;
         String violationDescription = '';
+        int kmiId;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1027,11 +1028,14 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           violationDescription =
               arguments[ConstantsArgument.violationDescription] ?? '';
+          kmiId =
+              arguments[ConstantsArgument.id] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
               violationDescription: violationDescription,
+              kmiId: id,
             )..add(kip.FetchData(
                 id: id,
                 startPos: 0,

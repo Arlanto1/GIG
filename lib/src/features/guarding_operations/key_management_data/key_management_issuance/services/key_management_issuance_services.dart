@@ -1,12 +1,8 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_list_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -26,7 +22,7 @@ class Apis {
   static final String _deleteIssuanceProcessRecordsById =
       '$baseUrl/deleteSlaVp';
 
-  static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
+  static final String _createIssuanceProcessRecord = '$baseUrl/createKmiProcess?';
 }
 
 class KeyManagementIssuanceServices {
@@ -118,13 +114,14 @@ class KeyManagementIssuanceServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<GenericResponse> createViolationPenaltyRecord({
+  Future<GenericResponse> createIssuanceProcessRecord({
     required KeyIssuanceProcessRecordRequest body,
     required bool isSubmit,
+    required int kmiId
   }) async {
     // var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createViolationPenaltyRecord}isSubmit=$isSubmit";
+        "${Apis._createIssuanceProcessRecord}kmiId=$kmiId&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
