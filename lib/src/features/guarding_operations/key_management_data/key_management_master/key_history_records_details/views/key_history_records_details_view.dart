@@ -9,11 +9,13 @@ import '../cubits/key_history_records_details_cubit.dart';
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
   final String title;
+  final int? type;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.type,
   });
 
   @override
@@ -145,45 +147,116 @@ class _KeyHistoryRecordsDetailsViewState
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(
-                        children: [
-                          //if (!state.model.lock.isEmptyOrNull) ...[
-                          //   RecordLockedWidget(text: '${state.model.lock}'),
-                          // ],
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.generalinformation,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
+                      child: Column(children: [
+                        //if (!state.model.lock.isEmptyOrNull) ...[
+                        //   RecordLockedWidget(text: '${state.model.lock}'),
+                        // ],
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            Constants.generalinformation,
+                            style: Styles.styleHeaderGreyText16,
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Status
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
+                        /// Status
+                        CommonWidgets.textDisplay(
+                            state.labels?.locale.status ??
+                                state.labels?.defaultLocale.status ??
+                                Constants.status,
+                            Styles.textStyleBlack14,
+                            isMandatory: true),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        BaseDropDown().getDropDown(
+                          isDisabled: state.model.status != 6,
+                          textController: statusController,
+                          items: keyManagementStatus,
+                          initialValue: '${state.model.status ?? 0}',
+                          onTap: () {
+                            if (widget.model != null) {
+                              BaseDropDown().assetTypeDialog(
+                                context: context,
+                                dropDownValues: statusDropDownValues
+                                    .map((label) => label.key)
+                                    .toList(),
+                                onTap: (String value) {
+                                  Label? selectedLabel;
+                                  selectedLabel =
+                                      statusDropDownValues.firstWhere(
+                                    (label) => label.key == value,
+                                    orElse: () =>
+                                        const Label(key: '', value: ''),
+                                  );
+                                  BlocProvider.of<
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          status: int.tryParse(
+                                              selectedLabel.value));
+                                },
+                              );
+                            }
+                          },
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Created By
+                        CommonWidgets.horizentaltextHandling(
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                Constants.createdby,
+                            isMandatory: true,
+                            '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Date of creation
+                        CommonWidgets.textDisplay(
+                            // state.labels?.locale.inputDate ??
+                            //     state.labels?.defaultLocale.inputDate ??
+                            Constants.dateofcreation,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        BaseDate()
+                            .creationDateDisplay(state.model.createdDate ?? ''),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Sl No.
+                        CommonWidgets.horizentaltextHandling(
+                          state.labels?.locale.slNo ??
+                              state.labels?.defaultLocale.slNo ??
+                              Constants.slno,
+                          state.model.slNo ?? '',
+                          isMandatory: true,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Key Type
+                        CommonWidgets.textDisplay(
+                          //state.labels?.locale.vendor ??
+                          //  state.labels?.defaultLocale.vendor ??
+                          Constants.keyType,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        BaseDropDown().getDropDown(
                             isDisabled: state.model.status != 6,
-                            textController: statusController,
-                            items: keyManagementStatus,
-                            initialValue: '${state.model.status ?? 0}',
+                            textController: keyTypeController,
+                            items: keysDropDownValues,
+                            initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (widget.model != null) {
-                                BaseDropDown().assetTypeDialog(
+                              //  if (isDisabled) {
+                              BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: statusDropDownValues
+                                  dropDownValues: keysDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        keysDropDownValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
@@ -192,441 +265,279 @@ class _KeyHistoryRecordsDetailsViewState
                                                 KeyHistoryRecordsDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
-                                            status: int.tryParse(
+                                            keyType: int.tryParse(
                                                 selectedLabel.value));
-                                  },
+                                  });
+                              //}
+                            }),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        ///Type
+                        CommonWidgets.textDisplay(
+                          //state.labels?.locale.vendor ??
+                          //  state.labels?.defaultLocale.vendor ??
+                          Constants.type,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        BaseDropDown().getDropDown(
+                            isDisabled: state.model.status != 6,
+                            textController: typeController,
+                            items: typesDropDownValues,
+                            initialValue: state.model.keyType.toString(),
+                            onTap: () {
+                              //  if (isDisabled) {
+                              BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: typesDropDownValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        typesDropDownValues.firstWhere(
+                                      (label) => label.key == value,
+                                      orElse: () =>
+                                          const Label(key: '', value: ''),
+                                    );
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            keyType: int.tryParse(
+                                                selectedLabel.value));
+                                  });
+                              //}
+                            }),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// SRH
+                        CommonWidgets.textDisplay(
+                            //state.labels?.locale.approver ??
+                            //  state.labels?.defaultLocale.approver ??
+                            Constants.srh,
+                            Styles.textStyleBlack14,
+                            isMandatory: true),
+                        TextfieldAddButton(
+                          title: state.model.srh?.name,
+                          height: 60,
+                          isDisableColor: isReadOnly,
+                          onTap: () {
+                            BaseDepartmentDialog().userDialog(
+                              context: context,
+                              enabled: !isReadOnly,
+                              users: state.users!,
+                              onTap: (BaseUser user) {
+                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                  user: user,
                                 );
-                              }
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              },
+                            );
+                          },
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Created By
-                          CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                              isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Date of creation
-                          CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
-                              Constants.dateofcreation,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate().creationDateDisplay(
-                              state.model.createdDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Sl No.
-                          CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.slNo ??
-                                state.labels?.defaultLocale.slNo ??
-                                Constants.slno,
-                            state.model.slNo ?? '',
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Floor
-                          CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.floor,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: state.model.floor,
-                            textFormKey: Keys.guardingPOCKey,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.floor = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Key Type
-                          CommonWidgets.textDisplay(
-                            //state.labels?.locale.vendor ??
-                            //  state.labels?.defaultLocale.vendor ??
-                            Constants.keyType,
-                            isMandatory: true,
+                        /// Security Manager
+                        CommonWidgets.textDisplay(
+                            //state.labels?.locale.approver ??
+                            //  state.labels?.defaultLocale.approver ??
+                            Constants.securityManager,
                             Styles.textStyleBlack14,
-                          ),
-                          BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
-                              textController: keyTypeController,
-                              items: keysDropDownValues,
-                              initialValue: state.model.keyType.toString(),
-                              onTap: () {
-                                //  if (isDisabled) {
-                                BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: keysDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          keysDropDownValues.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
-                                            const Label(key: '', value: ''),
-                                          );
-                                      BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          keyType: int.tryParse(
-                                              selectedLabel.value));
-                                    });
-                                //}
-                              }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            isMandatory: true),
+                        TextfieldAddButton(
+                          title: state.model.securityManager?.name,
+                          height: 60,
+                          isDisableColor: isReadOnly,
+                          onTap: () {
+                            BaseDepartmentDialog().userDialog(
+                              context: context,
+                              enabled: !isReadOnly,
+                              users: state.users!,
+                              onTap: (BaseUser user) {
+                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                  user: user,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Key Type
-                          CommonWidgets.textDisplay(
-                            //state.labels?.locale.vendor ??
-                            //  state.labels?.defaultLocale.vendor ??
-                            Constants.type,
+                        /// Reason for Key Destruction
+                        CommonWidgets.textDisplay(
+                          // state.labels?.locale.vendor ??
+                          //     state.labels?.defaultLocale.vendor ??
+                          Constants.destructionReason,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        TextfieldAddButton(
+                          title: state.model.destructionReason?.name,
+                          height: 60,
+                          isDisableColor: false,
+                          onTap: () {
+                            BaseDepartmentDialog().departmentDialog(
+                              context: context,
+                              departments: state.departments,
+                              onTap: (Organisation department) {
+                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        destructionReason: department);
+                              },
+                            );
+                          },
+                        ),
+
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Details of Lost Keys
+                        CommonWidgets.textDisplay(
+                            // state.labels?.locale.additionalinformation ??
+                            //     state.labels?.defaultLocale
+                            //         .additionalinformation ??
+                            Constants.detailsOfLostKey,
                             isMandatory: true,
-                            Styles.textStyleBlack14,
-                          ),
-                          BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
-                              textController: typeController,
-                              items: keysDropDownValues,
-                              initialValue: state.model.keyType.toString(),
-                              onTap: () {
-                                //  if (isDisabled) {
-                                BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: keysDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          keysDropDownValues.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
-                                            const Label(key: '', value: ''),
-                                          );
-                                      BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          keyType: int.tryParse(
-                                              selectedLabel.value));
-                                    });
-                                //}
-                              }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          /// Key Description
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyDescription,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.number,
-                            initialValue: state.model.doorName,
-                            textFormKey: Keys.guardingAgencyKey,
-                            hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.doorName == null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.doorName = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        FlutterInputField(
+                          lineHeight: 6,
+                          initialValue: state.model.lostKeyDetails,
+                          textFormKey: Keys.additionInitiativesKey,
+                          hintText: Constants.informationhere,
+                          showBorder: true,
+                          isEnable: state.model.status != 6,
+                          isDisableColor: state.model.status == 6,
+                          onChange: (String value) {
+                            state.model.lostKeyDetails = value;
+                            context
+                                .read<KeyHistoryRecordsDetailsCubit>()
+                                .onModelValueChange(state.model);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Door Has Access Control
-                          CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasAccessControl,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue:
-                                  state.model.doorAccessControl ? 1 : 0,
-                              onChangedYes: widget.model?.status == 6
-                                  ? null
-                                  : (val) {
-                                      state.model.doorAccessControl = true;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: widget.model?.status == 6
-                                  ? null
-                                  : (val) {
-                                      state.model.doorAccessControl = false;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    }),
+                        /// No Of Keys
+                        CommonWidgets.textDisplay(
+                            //  state.labels?.locale.guardingPOC ??
+                            // state.labels?.defaultLocale.guardingPOC ??
+                            Constants.noOfKeys,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        FlutterInputField(
+                          keyboardType: TextInputType.number,
+                          initialValue: '${state.model.noOfKeys ?? ''}',
+                          textFormKey: Keys.guardingPOCKey,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (int value) {
+                            state.model.noOfKeys = value;
+                            context
+                                .read<KeyHistoryRecordsDetailsCubit>()
+                                .onModelValueChange(state.model);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Door Has Lock And Key Mechanism
-                          CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasLockAndKeyMechanism,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.doorLockKey ? 1 : 0,
-                              onChangedYes: widget.model?.status == 6
-                                  ? null
-                                  : (val) {
-                                      state.model.doorLockKey = true;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: widget.model?.status == 6
-                                  ? null
-                                  : (val) {
-                                      state.model.doorLockKey = false;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    }),
+                        /// Additional Information
+                        CommonWidgets.textDisplay(
+                            // state.labels?.locale.additionalinformation ??
+                            //     state.labels?.defaultLocale
+                            //         .additionalinformation ??
+                            Constants.additionalinformation,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        FlutterInputField(
+                          lineHeight: 6,
+                          initialValue: state.model.additionalInformation,
+                          textFormKey: Keys.additionInitiativesKey,
+                          hintText: Constants.informationhere,
+                          showBorder: true,
+                          isEnable: state.model.status != 6,
+                          isDisableColor: state.model.status == 6,
+                          onChange: (String value) {
+                            state.model.additionalInformation = value;
+                            context
+                                .read<KeyHistoryRecordsDetailsCubit>()
+                                .onModelValueChange(state.model);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Key No
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyNo,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: state.model.keyNo,
-                            textFormKey: Keys.guardingAgencyKey,
-                            hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keyNo == null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.keyNo = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        /// Investigation Required
+                        CommonWidgets.textDisplay(
+                            // state.labels?.locale.deploymentOrderSubmitted ??
+                            //   state.labels?.defaultLocale
+                            //     .deploymentOrderSubmitted ??
+                            Constants.investigationRequired,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        RadioButtonsYesNo(
+                            status: state.model.status ?? 0,
+                            selectedValue:
+                                state.model.investigationRequired ? 1 : 0,
+                            onChangedYes: widget.model?.status == 6
+                                ? null
+                                : (val) {
+                                    state.model.investigationRequired = true;
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .onCheckBoxChange(state.model);
+                                  },
+                            onChangedNo: widget.model?.status == 6
+                                ? null
+                                : (val) {
+                                    state.model.investigationRequired = false;
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .onCheckBoxChange(state.model);
+                                  }),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          // /// Key Tagging Done?
-                          // CommonWidgets.textDisplay(
-                          //     //state.labels?.locale.gender ??
-                          //     //  state.labels?.defaultLocale.gender ??
-                          //     Constants.keyTaggingDone,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDropDown().getDropDown(
-                          //     isDisabled: state.model.status != 6,
-                          //     textController: keyTaggingController,
-                          //     items: keysDropDownValues,
-                          //     initialValue: state.model.keyTagging.toString(),
-                          //     onTap: () {
-                          //       //  if (isDisabled) {
-                          //       BaseDropDown().assetTypeDialog(
-                          //           context: context,
-                          //           dropDownValues: keysDropDownValues
-                          //               .map((label) => label.key)
-                          //               .toList(),
-                          //           onTap: (String value) {
-                          //             Label? selectedLabel;
-                          //             selectedLabel =
-                          //                 keysDropDownValues.firstWhere(
-                          //               (label) => label.key == value,
-                          //               orElse: () =>
-                          //                   const Label(key: '', value: ''),
-                          //             );
-                          //             BlocProvider.of<
-                          //                         KeyHistoryRecordsDetailsCubit>(
-                          //                     context)
-                          //                 .updateDropdownValues(
-                          //                     keyType: int.tryParse(
-                          //                         selectedLabel.value));
-                          //           });
-                          //       //}
-                          //     }),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        /// Modified By
+                        CommonWidgets.horizentaltextHandling(
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
+                            isMandatory: true,
+                            '${state.loggedInUserDetails?.email ?? ''} '),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// No. of  Keys
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfKeys,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: '${state.model.noKeys}',
-                            textFormKey: Keys.guardingAgencyKey,
-                            hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noKeys == null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.noKeys = int.tryParse(value);
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// No. of  Master Keys
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfMasterKeys,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: '${state.model.noMasterKey}',
-                            textFormKey: Keys.guardingAgencyKey,
-                            hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noMasterKey == null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.noMasterKey = int.tryParse(value);
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///total
-                          CommonWidgets.textDisplay(
-                              // state.labels?.locale.budget ??
-                              //     state.labels?.defaultLocale.budget ??
-                              Constants.totalKeys,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.number,
-                            initialValue: '',
-                            // (state.model.noKeys.toString()) +
-                            //     (state.model.noKeys) +
-                            //     (state.model.noMasterKey ?? 0),
-                            textFormKey: Keys.budgetKey,
-                            hintText: '',
-                            isEnable: !isDisabled,
-                            isDisableColor: isDisabled,
-                            onChange: (String value) {
-                              state.model.total = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// How And Where The Keys Are Stored
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.howAndWhereTheKeysAreStored,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: state.model.keysStored,
-                            textFormKey: Keys.guardingAgencyKey,
-                            hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keysStored == null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              state.model.keysStored = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                          /// SubmitButton
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(),
-                              submitButtonDisplay()
-                            ],
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.04),
-                        ],
-                      ),
+                        /// Modified On
+                        CommonWidgets.textDisplay(
+                            // state.labels?.locale.inputDate ??
+                            //     state.labels?.defaultLocale.inputDate ??
+                            Constants.modifiedOn,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        BaseDate().creationDateDisplay(
+                            state.model.modifiedDate ?? ''),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ]),
                     ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [cancelButtonDisplay(), submitButtonDisplay()],
+                    ),
+
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),

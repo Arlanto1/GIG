@@ -379,7 +379,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                 keyTagging:
                                     state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
-                                isKeyManagementStatus: true,
+                                isKeyManagementIssuanceStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                               );

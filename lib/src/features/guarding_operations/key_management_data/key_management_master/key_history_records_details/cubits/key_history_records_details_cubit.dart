@@ -10,6 +10,7 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
+import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'key_history_records_details_state.dart';
@@ -25,18 +26,18 @@ class KeyHistoryRecordsDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-    KeyHistoryRecordsDetailsState.initial(
-        model: model ?? KeyManagementMasterModel(),
-        locations: Locations(),
-        loggedInUserDetails: User(),
-        users: const [],
-        emailUsers: const [],
-        errorMessage: '',
-        listOfEntities: const [],
-        getEntitiesResponse: null,
-        departments: const [],
-       ),
-  );
+          KeyHistoryRecordsDetailsState.initial(
+            model: model ?? KeyManagementMasterModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            listOfEntities: const [],
+            getEntitiesResponse: null,
+            departments: const [],
+          ),
+        );
 
   void onModelValueChange(KeyManagementMasterModel model) {
     log('-onModelValueChange---');
@@ -81,7 +82,8 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
+        commonServices.getDepartments(
+            name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -95,7 +97,7 @@ class KeyHistoryRecordsDetailsCubit
       AddEntities entities = futures[3];
       List<User> createdBy = futures[4];
       GetDepositor emailUsers = futures[6];
-      KeyType departments = futures[7];
+      EmployeeDepartments departments = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
@@ -124,7 +126,7 @@ class KeyHistoryRecordsDetailsCubit
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-          departments: departments.items,
+          departments: departments.employeeDepartments,
           labels: labels,
         ),
       );
@@ -151,9 +153,12 @@ class KeyHistoryRecordsDetailsCubit
     int? guardRank,
     int? dutyType,
     int? keyType,
+    int? type,
     int? maritalStatus,
     int? typeOfDeployment,
     int? msgbFormBSubmitted,
+    Organisation? destructionReason,
+    User? srh,
   }) async {
     emit(
       state.copyWith(
@@ -166,15 +171,32 @@ class KeyHistoryRecordsDetailsCubit
         locationId: location.id.toString(),
         moduleCode: Constants.keyManagementMasterModule,
       );
-
+      if (user != null) {
+        User userDetails = User(
+          name: user.name,
+          userId: user.id,
+          userName: user.name,
+        );
+        state.model.srh = userDetails;
+      }
+      if (user != null) {
+        User userDetails = User(
+          name: user.name,
+          userId: user.id,
+          userName: user.name,
+        );
+        state.model.securityManager = userDetails;
+      }
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    // if (doorType != null) {
-    //   state.model.doorType = doorType;
-    // }
-
+    if (destructionReason != null) {
+      state.model.destructionReason = destructionReason;
+    }
+    state.model.destructionReason =
+        destructionReason ?? state.model.destructionReason;
     state.model.keyType = keyType ?? state.model.keyType;
+    state.model.type = type ?? state.model.type;
     state.model.status = status ?? state.model.status;
   }
 
@@ -197,7 +219,7 @@ class KeyHistoryRecordsDetailsCubit
 
     // Create/Update API Call
     KeyManagementMasterRequest request =
-    KeyManagementMasterRequest(keyMgmtGi: state.model);
+        KeyManagementMasterRequest(keyMgmtGi: state.model);
 
     GenericResponse response = GenericResponse();
     try {

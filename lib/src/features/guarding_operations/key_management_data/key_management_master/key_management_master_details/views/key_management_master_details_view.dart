@@ -212,7 +212,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.inputDate ??
                               //     state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                              Constants.dateofcreation,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -484,7 +484,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: '${state.model.noKeys}',
+                            initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -514,7 +514,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: '${state.model.noMasterKey}',
+                            initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -543,7 +543,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue:'',
+                            initialValue: '',
                             // (state.model.noKeys.toString()) +
                             //     (state.model.noKeys) +
                             //     (state.model.noMasterKey ?? 0),
@@ -605,8 +605,7 @@ class _KeyManagementMasterDetailsViewState
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  true;
+                              bool isSaveSuccess = true;
 
                               // await BlocProvider.of<
                               //         KeyManagementMasterDetailsCubit>(context)
@@ -620,13 +619,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
+                                keyHistoryRecordsDetailsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.keyManagementMaster,
+                                      Constants.lockChangeHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.localChangeHistoryType,
                                 },
                               );
                             },
@@ -675,13 +674,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsDetailsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyLostHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.keyLostHistoryType,
                                 },
                               );
                             },
@@ -729,13 +728,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsDetailsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyDamageHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.keyDamageHistoryType,
                                 },
                               );
                             },
@@ -783,13 +782,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsDetailsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.keyDestroyHistoryType,
                                 },
                               );
                             },

@@ -672,6 +672,20 @@ class Constants {
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
   static const String type = 'Type';
+  static const String srh = 'SRH';
+  static const String securityManager = 'Security Manager';
+  static const String investigationRequired = 'Investigation Required?';
+  static const String destructionReason = 'Reason for Key Destruction';
+  static const String detailsOfLostKey = 'Details of Lost Key';
+  static const String modifiedBy = 'Modified By';
+  static const String modifiedOn = 'Modified On';
+  static const String keyManageme = 'Modified On';
+  static const String localChangeHistoryType = 'LOCK_CHANGE_HISTORY';
+  static const String keyLostHistoryType =
+      'KEY_LOST_HISTORY';
+  static const String keyDamageHistoryType =
+      'KEY_DAMAGE_HISTORY';
+  static const String keyDestroyHistoryType = 'KEY_DESTROY_HISTORY';
 
 
   ///KeyManagementIssuance
