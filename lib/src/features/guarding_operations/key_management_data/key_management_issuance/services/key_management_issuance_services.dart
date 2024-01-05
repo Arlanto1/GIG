@@ -1,3 +1,4 @@
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_list_model.dart';
@@ -41,14 +42,14 @@ class KeyManagementIssuanceServices {
         response.map((x) => KeyIssuanceProcessRecord.fromJson(x)));
   }
 
-  Future<Map<String, dynamic>> getKeyDescriptionValues({required String locId
+  Future<List<Organisation>> getKeyDescriptionValues({required String locId
   } ) async {
     String url = '${Apis._getKeyDescriptionValues}?locId=$locId';
     var  response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    return response;
+    return List<Organisation>.from(response.map((x) => Organisation.fromJson(x)));
   }
 
   Future<KeyManagementIssuanceResponseModel> getList({

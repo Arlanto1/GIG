@@ -9,6 +9,12 @@ class Organisation {
   @JsonKey(name: 'keyname')
   String? keyName;
   String? description;
+
+  /// Key Description fields
+  String? keyDescription;
+  int? noKeys;
+
+  /// For Dropdown
   bool? isSelected;
 
   Organisation({
@@ -16,6 +22,8 @@ class Organisation {
     this.name,
     this.keyName,
     this.description,
+    this.keyDescription,
+    this.noKeys,
     this.isSelected = false,
   });
 
@@ -27,12 +35,16 @@ class Organisation {
       : id = json['id'] as int?,
         name = json['name'] as String?,
         description = json['description'] as String?,
+        keyDescription = json['keyDescription'] as String?,
+        noKeys = json['noKeys'] as int?,
         keyName = json['keyname'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'description': description,
+        'keyDescription': keyDescription,
+        'noKeys': noKeys,
         'keyname': keyName,
       };
 }

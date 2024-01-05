@@ -1,9 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
-
-import '../../../../../../models/keyDescription.dart';
 
 class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   const AddKeyIssuanceProcessPopUp({
@@ -21,7 +18,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final KeyIssuanceProcessRecord model;
   final List<Organisation> users;
   final BuildContext mainContext;
-  final Map<String, dynamic> getKeyDescriptionValues;
+  final List<Organisation>? getKeyDescriptionValues;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();

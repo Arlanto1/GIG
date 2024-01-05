@@ -36,7 +36,7 @@ class KeyIssuanceProcessRecordBloc
     try {
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
-      Map<String, dynamic> getKeyDescriptionValues =
+      List<Organisation> getKeyDescriptionValues =
       await KeyManagementIssuanceServices()
           .getKeyDescriptionValues(locId: '41');
       dynamic responseLabels = await commonServices.getUiLabels(
@@ -48,7 +48,7 @@ class KeyIssuanceProcessRecordBloc
         state.copyWith(
           hasReachedMax: false,
           labels: labels,
-          getKeyDescriptionValues: getKeyDescriptionValues,
+          keyDescriptions: getKeyDescriptionValues,
         ),
       );
     } on Exception {

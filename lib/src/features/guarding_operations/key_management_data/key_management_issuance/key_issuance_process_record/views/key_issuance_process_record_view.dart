@@ -90,8 +90,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 id: widget.id,
               ),
               users: state.violationDescriptions ?? [],
-              getKeyDescriptionValues:
-                  state.getKeyDescriptionValues ?? <String, int>{},
+              keyDescriptions: state.keyDescriptions,
             );
           },
         ),
@@ -178,8 +177,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         context: context,
                         keyIssuanceProcessRecord: KeyIssuanceProcessModel,
                         users: state.violationDescriptions ?? [],
-                        getKeyDescriptionValues:
-                            state.getKeyDescriptionValues ?? <String, int>{},
+                        keyDescriptions: state.keyDescriptions,
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -213,7 +211,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required BuildContext context,
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,
     required final List<Organisation> users,
-    required final Map<String, dynamic> getKeyDescriptionValues,
+    required final List<Organisation>? keyDescriptions,
   }) {
     log('--.users-1111-llen--${users.length}---');
     showDialog(
@@ -224,7 +222,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           model: keyIssuanceProcessRecord,
           mainContext: context,
           users: users,
-          getKeyDescriptionValues: getKeyDescriptionValues,
+          getKeyDescriptionValues: keyDescriptions,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
