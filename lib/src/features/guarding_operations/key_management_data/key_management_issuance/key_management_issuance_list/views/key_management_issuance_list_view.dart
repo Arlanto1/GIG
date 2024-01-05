@@ -90,15 +90,17 @@ class _KeyManagementIssuanceListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
+                  // labels.add(Label(
                   // key: state.labels?.locale.locationRegion ??
                   //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
+                  // 'Region',
                   // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.location ??
+                          //     state.labels?.defaultLocale.location ??
+                          'Location ',
+                      value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
@@ -106,8 +108,10 @@ class _KeyManagementIssuanceListViewState
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isMasterGuard: true,
-                        onTap: (selectedIndex) {
+                        isMasterGuard: false,
+                  isEventProtectionStatus: false,
+
+                  onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -115,8 +119,7 @@ class _KeyManagementIssuanceListViewState
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
+                                isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
                               );
                             },
