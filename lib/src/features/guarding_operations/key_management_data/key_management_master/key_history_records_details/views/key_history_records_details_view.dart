@@ -345,11 +345,12 @@ class _KeyHistoryRecordsDetailsViewState
                         if (widget.type != Constants.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.approver ??
-                              //  state.labels?.defaultLocale.approver ??
-                              Constants.securityManager,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
+                            //state.labels?.locale.approver ??
+                            //  state.labels?.defaultLocale.approver ??
+                            Constants.securityManager,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
                           TextfieldAddButton(
                             title: state.model.securityManager?.name,
                             height: 60,

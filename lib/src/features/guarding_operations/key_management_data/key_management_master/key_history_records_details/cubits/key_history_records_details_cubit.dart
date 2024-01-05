@@ -164,27 +164,20 @@ class KeyHistoryRecordsDetailsCubit
         locationId: location.id.toString(),
         moduleCode: Constants.keyManagementMasterModule,
       );
-      if (securityManager != null) {
-        User userDetails = User(
-          name: securityManager.name,
-          userId: securityManager.id,
-          userName: securityManager.name,
-        );
-        state.model.securityManager = userDetails;
-      }
-      if (securityManager != null) {
-        User userDetails = User(
-          name: securityManager.name,
-          userId: securityManager.id,
-          userName: securityManager.name,
-        );
-        state.model.securityManager = userDetails;
-      }
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     if (destructionReason != null) {
       state.model.destructionReason = destructionReason;
+    }
+    if (securityManager != null) {
+      User userDetails = User(
+        name: securityManager.name,
+        userId: securityManager.id,
+        userName: securityManager.name,
+      );
+      state.model.securityManager = userDetails;
     }
     state.model.destructionReason =
         destructionReason ?? state.model.destructionReason;
