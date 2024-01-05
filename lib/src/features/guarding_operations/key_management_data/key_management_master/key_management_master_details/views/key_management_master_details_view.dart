@@ -605,22 +605,25 @@ class _KeyManagementMasterDetailsViewState
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
+                              bool isSaveSuccess =
+                                  true;
+
+                              // await BlocProvider.of<
+                              //         KeyManagementMasterDetailsCubit>(context)
+                              //     .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
 
                               if (!isSaveSuccess) {
                                 return;
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyManagementMaster,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.violationDescription:
                                       Constants.slaViolation,
@@ -661,7 +664,7 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -715,7 +718,7 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -769,7 +772,7 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,

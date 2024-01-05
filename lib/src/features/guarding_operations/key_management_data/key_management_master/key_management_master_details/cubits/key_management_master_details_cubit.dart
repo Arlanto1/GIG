@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/keyType_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
@@ -13,7 +12,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'key_management_master_details_state.dart';
@@ -182,7 +180,10 @@ class KeyManagementMasterDetailsCubit
     state.model.status = status ?? state.model.status;
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -210,7 +211,7 @@ class KeyManagementMasterDetailsCubit
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: false));
@@ -223,11 +224,20 @@ class KeyManagementMasterDetailsCubit
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
+      return true;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -235,15 +245,7 @@ class KeyManagementMasterDetailsCubit
           status: FormStatus.error,
         ),
       );
+      return false;
     }
-
-    print('---response--msg--${response.message}---');
-
-    emit(
-      state.copyWith(
-        message: response.message,
-        status: FormStatus.success,
-      ),
-    );
   }
 }

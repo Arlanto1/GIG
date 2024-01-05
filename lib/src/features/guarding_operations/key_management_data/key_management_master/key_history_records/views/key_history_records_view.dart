@@ -1,13 +1,11 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart';
 
-import '../../../../../../../index.dart';
-import '../../../../../contact_details/contact_records/bloc/contact_record_bloc.dart';
-
-
-class ContactRecordView extends StatefulWidget {
-  const ContactRecordView({
+class KeyHistoryRecordsView extends StatefulWidget {
+  const KeyHistoryRecordsView({
     super.key,
     required this.id,
     required this.title,
@@ -21,10 +19,10 @@ class ContactRecordView extends StatefulWidget {
   final String rankType;
 
   @override
-  State<ContactRecordView> createState() => _ContactRecordViewState();
+  State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
 }
 
-class _ContactRecordViewState extends State<ContactRecordView> {
+class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -51,17 +49,17 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ContactRecordBloc>().add(FetchData(
+      context.read<KeyHistoryRecordBloc>().add(FetchData(
           id: widget.id, type: widget.type, startPos: pageNumber, maxPos: 20));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ContactRecordBloc, ContactRecordState>(
+    return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
         listener: (context, state) {
-          // TODO: implement listener
-        }, builder: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -83,7 +81,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.contactDetails,
+          title: widget.title,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
@@ -95,7 +93,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     });
   }
 
-  getBody(ContactRecordState state) {
+  getBody(KeyHistoryRecordState state) {
     if (state.status == FormStatus.initial ||
         state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -114,7 +112,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-        state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
@@ -139,52 +137,52 @@ class _ContactRecordViewState extends State<ContactRecordView> {
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
-              id: state.items?[index].id,
-              labels: labels,
-              onTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              onEditTap: (selectedIndex) async {
-                ContactRecord contactsModel =
-                await ContactDetailsServices()
-                    .getCdById(state.items?[index].id ?? 0);
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onEditTap: (selectedIndex) async {
+                      ContactRecord contactsModel =
+                          await ContactDetailsServices()
+                              .getCdById(state.items?[index].id ?? 0);
 
-                log('--state.users--llen--${state.ranks.length}---');
+                      log('--state.users--llen--${state.ranks.length}---');
 
-                // showAddContactPopUp(
-                //     context: context,
-                //     contact: contactsModel,
-                //     users: state.ranks,
-                //     rankType: widget.rankType);
-                // getDetails(state.items?[index].id ?? 0);
-              },
-              onViewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              onDeleteTap: (selectedIndex) async {
-                // Call Delete API
-                BlocProvider.of<ContactRecordBloc>(context).add(
-                    DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                        widget.type, widget.id));
-              },
-              index: index,
-            );
+                      // showAddContactPopUp(
+                      //     context: context,
+                      //     contact: contactsModel,
+                      //     users: state.ranks,
+                      //     rankType: widget.rankType);
+                      // getDetails(state.items?[index].id ?? 0);
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onDeleteTap: (selectedIndex) async {
+                      // Call Delete API
+                      // BlocProvider.of<ContactRecordBloc>(context).add(
+                      //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                      //         widget.type, widget.id));
+                    },
+                    index: index,
+                  );
           }
           return null;
         },
@@ -193,34 +191,34 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   }
 
   //showAddContactPopUp({
-   // required BuildContext context,
-   // required ContactRecord contact,
-   // required final List<Organisation> users,
+  // required BuildContext context,
+  // required ContactRecord contact,
+  // required final List<Organisation> users,
   //  required String rankType,
- // }) {
+  // }) {
   //  log('--.users--llen--${users.length}---');
-    //showDialog(
-    //  context: context,
-      // builder: (BuildContext dialogContext) {
-      //   return AddContactPopUp(
-      //     title: widget.title,
-      //     model: contact,
-      //     mainContext: context,
-      //     users: users,
-      //     rankType: rankType,
-      //     onSubmit: (ContactRecord model) {
-      //       //loginFormKey.currentState!.validate();
-      //       FocusScope.of(context).unfocus();
-      //
-      //       log('-widget.title---${widget.title}----');
-      //
-      //       BlocProvider.of<ContactRecordBloc>(context)
-      //           .add(SaveRecord(model, widget.id, widget.type));
-      //     },
-      //   );
-      // },
-   // );
- // }
+  //showDialog(
+  //  context: context,
+  // builder: (BuildContext dialogContext) {
+  //   return AddContactPopUp(
+  //     title: widget.title,
+  //     model: contact,
+  //     mainContext: context,
+  //     users: users,
+  //     rankType: rankType,
+  //     onSubmit: (ContactRecord model) {
+  //       //loginFormKey.currentState!.validate();
+  //       FocusScope.of(context).unfocus();
+  //
+  //       log('-widget.title---${widget.title}----');
+  //
+  //       BlocProvider.of<ContactRecordBloc>(context)
+  //           .add(SaveRecord(model, widget.id, widget.type));
+  //     },
+  //   );
+  // },
+  // );
+  // }
 
   getDetails(int id) async {
     showLoadingDialog(context);

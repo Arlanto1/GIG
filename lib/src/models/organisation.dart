@@ -25,8 +25,8 @@ class Organisation {
 
   Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        name = json['name'] as String,
-        description = json['description'] as String,
+        name = json['name'] as String?,
+        description = json['description'] as String?,
         keyName = json['keyname'] as String?;
 
   Map<String, dynamic> toJson() => {

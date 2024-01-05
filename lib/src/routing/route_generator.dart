@@ -28,6 +28,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
@@ -908,6 +909,38 @@ class RouteGenerator {
             child: KeyManagementMasterDetailsView(
               model: keyMgmtGi,
               title: title,
+            ),
+          ),
+        );
+
+      case keyHistoryRecordsViewRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        String rankType = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
+          rankType = arguments[ConstantsArgument.rankType] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<cr.ContactRecordBloc>(
+            create: (_) => cr.ContactRecordBloc(
+              rankType: rankType,
+            )..add(cr.FetchData(
+              id: id,
+              type: type,
+              startPos: 0,
+              maxPos: 100,
+            )),
+            child: KeyHistoryRecordsView(
+              id: id,
+              type: type,
+              title: title,
+              rankType: rankType,
             ),
           ),
         );
