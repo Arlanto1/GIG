@@ -333,7 +333,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    user: user,
+                                    securityManager: user,
                                   );
                                 },
                               );
@@ -342,7 +342,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
+                        if (widget.type != Constants.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.approver ??
@@ -364,7 +364,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    user: user,
+                                    securityManager: user,
                                   );
                                 },
                               );
@@ -387,7 +387,7 @@ class _KeyHistoryRecordsDetailsViewState
                             onTap: () {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                departments: state.destructionReasons,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<
                                               KeyHistoryRecordsDetailsCubit>(
