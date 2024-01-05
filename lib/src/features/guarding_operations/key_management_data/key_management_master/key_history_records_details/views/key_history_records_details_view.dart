@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 
 import '../cubits/key_history_records_details_cubit.dart';
 
@@ -396,31 +395,33 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Details of Lost Keys
-                        CommonWidgets.textDisplay(
-                            // state.labels?.locale.additionalinformation ??
-                            //     state.labels?.defaultLocale
-                            //         .additionalinformation ??
-                            Constants.detailsOfLostKey,
-                            isMandatory: true,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        FlutterInputField(
-                          lineHeight: 6,
-                          initialValue: state.model.lostKeyDetails,
-                          textFormKey: Keys.additionInitiativesKey,
-                          hintText: Constants.informationhere,
-                          showBorder: true,
-                          isEnable: state.model.status != 6,
-                          isDisableColor: state.model.status == 6,
-                          onChange: (String value) {
-                            state.model.lostKeyDetails = value;
-                            context
-                                .read<KeyHistoryRecordsDetailsCubit>()
-                                .onModelValueChange(state.model);
-                          },
-                          validateTextField: (String? user) {},
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (widget.type == 3) ...[
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.additionalinformation ??
+                              //     state.labels?.defaultLocale
+                              //         .additionalinformation ??
+                              Constants.detailsOfLostKey,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            lineHeight: 6,
+                            initialValue: state.model.lostKeyDetails,
+                            textFormKey: Keys.additionInitiativesKey,
+                            hintText: Constants.informationhere,
+                            showBorder: true,
+                            isEnable: state.model.status != 6,
+                            isDisableColor: state.model.status == 6,
+                            onChange: (String value) {
+                              state.model.lostKeyDetails = value;
+                              context
+                                  .read<KeyHistoryRecordsDetailsCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
 
                         /// No Of Keys
                         CommonWidgets.textDisplay(
