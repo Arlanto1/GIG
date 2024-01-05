@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 
+import '../models/requestModels/key_history_record_request.dart';
+
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
@@ -119,17 +121,18 @@ class KeyManagementMasterServices {
         response.map((x) => KeyManagementMasterModel.fromJson(x)));
   }
 
-// Future<GenericResponse> createKeyHistoryRecord({
-//   required ContactRecordRequest body,
-//   required bool isSubmit,
-//required int kmId,
-// }) async {
-//   // var userId = await SharedPrefs.getUserId();
-//   final String url = "${Apis._createKeyHistoryRecord}kmId=$kmId & isSubmit=$isSubmit";
-//   final response = await BaseApiService().postRequest(
-//     url: url,
-//     requestedData: body.toJson(),
-//   );
-//   return GenericResponse.fromJson(response);
-// }
+  Future<GenericResponse> createKeyHistoryRecord({
+    required KeyHistoryRecordRequest body,
+    required bool isSubmit,
+    required String kmId,
+  }) async {
+    // var userId = await SharedPrefs.getUserId();
+    final String url =
+        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
 }

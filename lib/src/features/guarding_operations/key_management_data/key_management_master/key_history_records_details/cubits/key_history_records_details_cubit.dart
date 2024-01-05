@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import '../../models/requestModels/key_history_record_request.dart';
 
 part 'key_history_records_details_state.dart';
 
@@ -109,7 +110,7 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy = loggedInUserDetails;
 
       // Get Date of Creation
-      // state.model.createdDate =  DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = Utils().getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -130,7 +131,7 @@ class KeyHistoryRecordsDetailsCubit
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Key Management Master Details Cubit');
+          error: e, name: 'Key Management History Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -205,12 +206,12 @@ class KeyHistoryRecordsDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
-    KeyManagementMasterRequest request =
-        KeyManagementMasterRequest(keyMgmtGi: state.model);
+    KeyHistoryRecordRequest request =
+        KeyHistoryRecordRequest(keyLossGi: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -224,8 +225,10 @@ class KeyHistoryRecordsDetailsCubit
           );
           return false;
         }
-        response = (await services.createKeyManagementMaster(
-            body: request, isSubmit: false));
+        response = (await services.createKeyHistoryRecord(
+            body: request,
+            isSubmit: false,
+            kmId: state.model.keyManagementId.toString()));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -237,8 +240,10 @@ class KeyHistoryRecordsDetailsCubit
           );
           return false;
         }
-        response = (await services.createKeyManagementMaster(
-            body: request, isSubmit: true));
+        response = (await services.createKeyHistoryRecord(
+            body: request,
+            isSubmit: true,
+            kmId: state.model.keyManagementId.toString()));
       }
       return true;
     } on GenericResponse catch (e) {

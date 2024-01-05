@@ -300,10 +300,7 @@ class _KeyManagementMasterDetailsViewState
                           TextfieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor: (state.model.status == 6 ||
-                                    state.model.status == 1)
-                                ? true
-                                : false,
+                            isDisableColor: state.model.status== 2 ? true : false,
                             onTap: () {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
@@ -560,10 +557,10 @@ class _KeyManagementMasterDetailsViewState
                             isEnable: !isDisabled,
                             isDisableColor: isDisabled,
                             onChange: (String value) {
-                              state.model.total = value;
-                              context
-                                  .read<KeyManagementMasterDetailsCubit>()
-                                  .onModelValueChange(state.model);
+                              // state.model.total = value;
+                              // context
+                              //     .read<KeyManagementMasterDetailsCubit>()
+                              //     .onModelValueChange(state.model);
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -619,11 +616,9 @@ class _KeyManagementMasterDetailsViewState
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
-
                               if (!isSaveSuccess) {
                                 return;
                               }
-
                               nav.pushNamed(
                                 keyHistoryRecordsViewRoute,
                                 arguments: {
