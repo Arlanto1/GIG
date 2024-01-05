@@ -8,15 +8,15 @@ import '../cubits/key_history_records_details_cubit.dart';
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
   final String title;
-  final int? type;
-  final int? parentId;
+  final int type;
+  final int parentId;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
     this.model,
     required this.title,
-    this.type,
-    this.parentId,
+    required this.type,
+    required this.parentId,
   });
 
   @override
@@ -49,7 +49,7 @@ class _KeyHistoryRecordsDetailsViewState
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
-        log('--state.model.id--${state.model.id}--');
+        log('--widget.type--${widget.type}--');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Master',
@@ -63,8 +63,7 @@ class _KeyHistoryRecordsDetailsViewState
                   arguments: {
                     ConstantsArgument.id: widget.parentId,
                     ConstantsArgument.type: widget.type,
-                    ConstantsArgument.title:
-                    widget.title,
+                    ConstantsArgument.title: widget.title,
                   });
             },
           );
@@ -347,7 +346,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type != Constants.keyDestroyHistoryInt) ...[
+                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
                             //state.labels?.locale.approver ??
@@ -527,26 +526,28 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        /// Modified By
-                        CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.entrySecurity ??
-                                state.labels?.defaultLocale.entrySecurity ??
-                                Constants.modifiedBy,
-                            isMandatory: true,
-                            '${state.loggedInUserDetails?.email ?? ''} '),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (state.model.id != null) ...[
+                          /// Modified By
+                          CommonWidgets.horizentaltextHandling(
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.modifiedBy,
+                              isMandatory: true,
+                              '${state.loggedInUserDetails?.email ?? ''} '),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        /// Modified On
-                        CommonWidgets.textDisplay(
-                            // state.labels?.locale.inputDate ??
-                            //     state.labels?.defaultLocale.inputDate ??
-                            Constants.modifiedOn,
-                            isMandatory: true,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        BaseDate().creationDateDisplay(
-                            state.model.modifiedDate ?? ''),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          /// Modified On
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                              Constants.modifiedOn,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDate().creationDateDisplay(
+                              state.model.modifiedDate ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
                       ]),
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),

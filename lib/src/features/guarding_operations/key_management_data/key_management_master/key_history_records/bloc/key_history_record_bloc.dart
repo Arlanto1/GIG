@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_history_record_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
 part 'key_history_record_event.dart';
+
 part 'key_history_record_state.dart';
 
 class KeyHistoryRecordBloc
     extends Bloc<KeyHistoryRecordEvent, KeyHistoryRecordState> {
-  final String rankType;
 
-  KeyHistoryRecordBloc({required this.rankType})
+  KeyHistoryRecordBloc()
       : super(const KeyHistoryRecordState()) {
     on<FetchData>(
       _fetchContacts,
@@ -30,8 +29,7 @@ class KeyHistoryRecordBloc
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<KeyHistoryRecordState> emit) async {
     try {
-      List<Organisation> items =
-          await commonServices.getOrganisations(name: rankType);
+      // TODO: Labels API call
 
       return emit(
         state.copyWith(
@@ -49,7 +47,8 @@ class KeyHistoryRecordBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        List<KeyManagementMasterModel> response = await services.getKeyHistoryListByType(
+        List<KeyManagementMasterModel> response =
+            await services.getKeyHistoryListByType(
           id: event.id,
           type: event.type,
         );
@@ -62,7 +61,8 @@ class KeyHistoryRecordBloc
         );
       }
 
-      List<KeyManagementMasterModel> response = await services.getKeyHistoryListByType(
+      List<KeyManagementMasterModel> response =
+          await services.getKeyHistoryListByType(
         id: event.id,
         type: event.type,
       );
@@ -121,7 +121,7 @@ class KeyHistoryRecordBloc
     try {
       KeyHistoryRecordRequest request = KeyHistoryRecordRequest();
 
-      request.keyLossGi = event.contactInfo;
+      // request.keyLossGi = event.contactInfo;
       // await KeyManagementMasterServices()
       //     .createKeyHistoryRecord(body: request, isSubmit: false);
       //

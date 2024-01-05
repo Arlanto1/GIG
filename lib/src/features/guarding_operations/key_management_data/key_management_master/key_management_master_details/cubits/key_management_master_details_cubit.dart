@@ -234,7 +234,6 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
-
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -253,6 +252,7 @@ class KeyManagementMasterDetailsCubit
       return false;
     }
 
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,

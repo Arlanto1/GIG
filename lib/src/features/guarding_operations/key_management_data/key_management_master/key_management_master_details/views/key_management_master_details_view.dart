@@ -670,6 +670,7 @@ class _KeyManagementMasterDetailsViewState
                                 navigateToNextScreen: true,
                               );
 
+                              log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
                               if (!isSaveSuccess) {
                                 return;
                               }
@@ -723,10 +724,13 @@ class _KeyManagementMasterDetailsViewState
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
+                              log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
 
                               if (!isSaveSuccess) {
                                 return;
                               }
+
+                              log('--state.model.id---${state.model.id}---');
 
                               nav.pushNamed(
                                 keyHistoryRecordsViewRoute,

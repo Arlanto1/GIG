@@ -213,6 +213,7 @@ class KeyHistoryRecordsDetailsCubit
     // Create/Update API Call
     KeyHistoryRecordRequest request =
         KeyHistoryRecordRequest(keyLossGi: state.model);
+    state.model.keyManagementId = parentId.toString();
 
     GenericResponse response = GenericResponse();
     try {

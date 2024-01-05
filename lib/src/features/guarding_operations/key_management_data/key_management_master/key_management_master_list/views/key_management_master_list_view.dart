@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
@@ -102,13 +100,6 @@ class _KeyManagementMasterListViewState
                           //state.labels?.defaultLocale.location ??
                           'Created By',
                       value: state.list[index].createdBy?.name ?? ''));
-                  // labels.add(Label(
-                  //     key: 'Date of Creation',
-                  //     value: DateFormat('dd-MM-yyyy').format(
-                  //         DateTime.fromMillisecondsSinceEpoch(
-                  //             state.list[index].createdDate ?? 0 * 1000))));
-
-                  log('-$index--state.list.length---${state.list.length}---');
 
                 return index >= state.list.length
                     ? const BaseLoader()
