@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -19,9 +18,11 @@ class KeyHistoryRecordsDetailsCubit
   final KeyManagementMasterServices services;
   final KeyManagementMasterModel? model;
   final CommonServices commonServices;
+  final int parentId;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
+    required this.parentId,
     required this.commonServices,
     required this.model,
   }) : super(
@@ -226,9 +227,10 @@ class KeyHistoryRecordsDetailsCubit
           return false;
         }
         response = (await services.createKeyHistoryRecord(
-            body: request,
-            isSubmit: false,
-            kmId: state.model.id.toString()));
+          body: request,
+          isSubmit: false,
+          kmId: parentId.toString(),
+        ));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -241,11 +243,11 @@ class KeyHistoryRecordsDetailsCubit
           return false;
         }
         response = (await services.createKeyHistoryRecord(
-            body: request,
-            isSubmit: true,
-            kmId: state.model.id.toString()));
+          body: request,
+          isSubmit: true,
+          kmId: parentId.toString(),
+        ));
       }
-      return true;
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -263,5 +265,14 @@ class KeyHistoryRecordsDetailsCubit
       );
       return false;
     }
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
+      ),
+    );
+    return true;
   }
 }

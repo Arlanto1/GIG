@@ -926,7 +926,7 @@ class RouteGenerator {
           settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type] ?? 0;
+          type = arguments[ConstantsArgument.type];
           rankType = arguments[ConstantsArgument.rankType] ?? '';
         }
         return MaterialPageRoute(
@@ -950,21 +950,26 @@ class RouteGenerator {
       case keyHistoryRecordsDetailsRoute:
         KeyManagementMasterServices services = KeyManagementMasterServices();
         CommonServices commonServices = CommonServices();
+        int parentId = 0;
         String title;
         Map<String, dynamic> arguments =
         settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
+        parentId = arguments[ConstantsArgument.id];
         KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
               services: services,
               model: keyMgmtGi,
+              parentId: parentId,
               commonServices: commonServices,
             ),
             child: KeyHistoryRecordsDetailsView(
               model: keyMgmtGi,
               title: title,
+              parentId: parentId,
+
             ),
           ),
         );

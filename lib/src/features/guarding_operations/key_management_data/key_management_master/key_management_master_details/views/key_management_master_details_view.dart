@@ -625,8 +625,8 @@ class _KeyManagementMasterDetailsViewState
                                   ConstantsArgument.title:
                                       Constants.lockChangeHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.type:
-                                  //     Constants.keyLostHistoryType,
+                                  ConstantsArgument.type:
+                                      Constants.lockChangeHistoryInt,
                                 },
                               );
                             },
@@ -680,8 +680,8 @@ class _KeyManagementMasterDetailsViewState
                                   ConstantsArgument.title:
                                       Constants.keyLostHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.type:
-                                  //     Constants.keyLostHistoryType,
+                                  ConstantsArgument.type:
+                                      Constants.keyLostHistoryInt,
                                 },
                               );
                             },
@@ -734,8 +734,8 @@ class _KeyManagementMasterDetailsViewState
                                   ConstantsArgument.title:
                                       Constants.keyDamageHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.type:
-                                  //     Constants.keyDamageHistoryType,
+                                  ConstantsArgument.type:
+                                      Constants.keyDamageHistoryInt,
                                 },
                               );
                             },
@@ -788,8 +788,8 @@ class _KeyManagementMasterDetailsViewState
                                   ConstantsArgument.title:
                                       Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.type:
-                                  //     state.model.type,
+                                  ConstantsArgument.type:
+                                  Constants.keyDestroyHistoryInt,
                                 },
                               );
                             },

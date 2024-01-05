@@ -9,12 +9,14 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
   final String title;
   final int? type;
+  final int? parentId;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
     this.model,
     required this.title,
     this.type,
+    this.parentId,
   });
 
   @override
@@ -47,6 +49,7 @@ class _KeyHistoryRecordsDetailsViewState
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
+        log('--state.model.id--${state.model.id}--');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Master',
@@ -55,12 +58,14 @@ class _KeyHistoryRecordsDetailsViewState
             onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                keyHistoryRecordsViewRoute,
-                arguments: {},
-              );
+              // Navigator.pop(context);
+              Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
+                  arguments: {
+                    ConstantsArgument.id: widget.parentId,
+                    ConstantsArgument.type: widget.type,
+                    ConstantsArgument.title:
+                    widget.title,
+                  });
             },
           );
           showDialog(
@@ -311,7 +316,7 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamagehistoryInt) ...[
+                            widget.type == Constants.keyDamageHistoryInt) ...[
                           /// SRH
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.approver ??
@@ -405,7 +410,7 @@ class _KeyHistoryRecordsDetailsViewState
 
                         /// Details of Lost Keys
                         if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamagehistoryInt) ...[
+                            widget.type == Constants.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.additionalinformation ??
                               //     state.labels?.defaultLocale
@@ -489,7 +494,7 @@ class _KeyHistoryRecordsDetailsViewState
 
                         /// Investigation Required
                         if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamagehistoryInt) ...[
+                            widget.type == Constants.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.deploymentOrderSubmitted ??
                               //   state.labels?.defaultLocale

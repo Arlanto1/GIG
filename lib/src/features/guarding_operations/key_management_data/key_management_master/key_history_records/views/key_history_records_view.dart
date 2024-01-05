@@ -244,6 +244,9 @@
 //     }
 //   }
 // }
+
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 
@@ -294,6 +297,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
   @override
   Widget build(BuildContext context) {
+    log('--widget.id---${widget.id}---');
+
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -301,7 +306,10 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
             Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute,
-                arguments: {"title": Constants.createkeyManagementMaster}),
+                arguments: {
+                  "title": Constants.createkeyManagementMaster,
+                  ConstantsArgument.id: widget.id,
+                }),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -433,7 +441,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
         "keyMgmtGi": keyManagementMasterModel,
-        "title": Constants.editkeyManagementMaster
+        "title": Constants.editkeyManagementMaster,
+        "mainId": widget.id,
       });
     }
   }

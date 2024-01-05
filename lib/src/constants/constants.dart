@@ -740,7 +740,7 @@ class Constants {
   /// INT values
   static const int lockChangeHistoryInt = 0;
   static const int keyLostHistoryInt = 1;
-  static const int keyDamagehistoryInt = 2;
+  static const int keyDamageHistoryInt = 2;
   static const int keyDestroyHistoryInt = 3;
 }
 
