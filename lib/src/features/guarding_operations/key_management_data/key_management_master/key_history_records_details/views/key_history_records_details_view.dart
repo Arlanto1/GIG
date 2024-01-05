@@ -310,92 +310,101 @@ class _KeyHistoryRecordsDetailsViewState
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        /// SRH
-                        CommonWidgets.textDisplay(
-                            //state.labels?.locale.approver ??
-                            //  state.labels?.defaultLocale.approver ??
-                            Constants.srh,
+                        if (widget.type == Constants.keyLostHistoryInt ||
+                            widget.type == Constants.keyDamagehistoryInt) ...[
+                          /// SRH
+                          CommonWidgets.textDisplay(
+                              //state.labels?.locale.approver ??
+                              //  state.labels?.defaultLocale.approver ??
+                              Constants.srh,
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
+                          TextfieldAddButton(
+                            title: state.model.srh?.name,
+                            height: 60,
+                            isDisableColor: isReadOnly,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                enabled: !isReadOnly,
+                                users: state.users!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                    user: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
+
+                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
+                          /// Security Manager
+                          CommonWidgets.textDisplay(
+                              //state.labels?.locale.approver ??
+                              //  state.labels?.defaultLocale.approver ??
+                              Constants.securityManager,
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
+                          TextfieldAddButton(
+                            title: state.model.securityManager?.name,
+                            height: 60,
+                            isDisableColor: isReadOnly,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                enabled: !isReadOnly,
+                                users: state.users!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                    user: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Reason for Key Destruction
+                          CommonWidgets.textDisplay(
+                            // state.labels?.locale.vendor ??
+                            //     state.labels?.defaultLocale.vendor ??
+                            Constants.destructionReason,
+                            isMandatory: true,
                             Styles.textStyleBlack14,
-                            isMandatory: true),
-                        TextfieldAddButton(
-                          title: state.model.srh?.name,
-                          height: 60,
-                          isDisableColor: isReadOnly,
-                          onTap: () {
-                            BaseDepartmentDialog().userDialog(
-                              context: context,
-                              enabled: !isReadOnly,
-                              users: state.users!,
-                              onTap: (BaseUser user) {
-                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                  user: user,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.destructionReason?.name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Organisation department) {
+                                  BlocProvider.of<
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          destructionReason: department);
+                                },
+                              );
+                            },
+                          ),
 
-                        /// Security Manager
-                        CommonWidgets.textDisplay(
-                            //state.labels?.locale.approver ??
-                            //  state.labels?.defaultLocale.approver ??
-                            Constants.securityManager,
-                            Styles.textStyleBlack14,
-                            isMandatory: true),
-                        TextfieldAddButton(
-                          title: state.model.securityManager?.name,
-                          height: 60,
-                          isDisableColor: isReadOnly,
-                          onTap: () {
-                            BaseDepartmentDialog().userDialog(
-                              context: context,
-                              enabled: !isReadOnly,
-                              users: state.users!,
-                              onTap: (BaseUser user) {
-                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                  user: user,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Reason for Key Destruction
-                        CommonWidgets.textDisplay(
-                          // state.labels?.locale.vendor ??
-                          //     state.labels?.defaultLocale.vendor ??
-                          Constants.destructionReason,
-                          isMandatory: true,
-                          Styles.textStyleBlack14,
-                        ),
-                        TextfieldAddButton(
-                          title: state.model.destructionReason?.name,
-                          height: 60,
-                          isDisableColor: false,
-                          onTap: () {
-                            BaseDepartmentDialog().departmentDialog(
-                              context: context,
-                              departments: state.departments,
-                              onTap: (Organisation department) {
-                                BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        destructionReason: department);
-                              },
-                            );
-                          },
-                        ),
-
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
 
                         /// Details of Lost Keys
-                        if (widget.type == 3) ...[
+                        if (widget.type == Constants.keyLostHistoryInt ||
+                            widget.type == Constants.keyDamagehistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.additionalinformation ??
                               //     state.labels?.defaultLocale
@@ -423,30 +432,32 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        /// No Of Keys
-                        CommonWidgets.textDisplay(
-                            //  state.labels?.locale.guardingPOC ??
-                            // state.labels?.defaultLocale.guardingPOC ??
-                            Constants.noOfKeys,
-                            isMandatory: true,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        FlutterInputField(
-                          keyboardType: TextInputType.number,
-                          initialValue: '${state.model.noOfKeys ?? ''}',
-                          textFormKey: Keys.guardingPOCKey,
-                          hintText: '',
-                          isEnable: true,
-                          isDisableColor: false,
-                          onChange: (int value) {
-                            state.model.noOfKeys = value;
-                            context
-                                .read<KeyHistoryRecordsDetailsCubit>()
-                                .onModelValueChange(state.model);
-                          },
-                          validateTextField: (String? user) {},
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (widget.type == Constants.lockChangeHistoryInt) ...[
+                          /// No Of Keys
+                          CommonWidgets.textDisplay(
+                              //  state.labels?.locale.guardingPOC ??
+                              // state.labels?.defaultLocale.guardingPOC ??
+                              Constants.noOfKeys,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: '${state.model.noOfKeys ?? ''}',
+                            textFormKey: Keys.guardingPOCKey,
+                            hintText: '',
+                            isEnable: true,
+                            isDisableColor: false,
+                            onChange: (int value) {
+                              state.model.noOfKeys = value;
+                              context
+                                  .read<KeyHistoryRecordsDetailsCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
 
                         /// Additional Information
                         CommonWidgets.textDisplay(
@@ -476,36 +487,39 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Investigation Required
-                        CommonWidgets.textDisplay(
-                            // state.labels?.locale.deploymentOrderSubmitted ??
-                            //   state.labels?.defaultLocale
-                            //     .deploymentOrderSubmitted ??
-                            Constants.investigationRequired,
-                            isMandatory: true,
-                            Styles.textStyleBlack14),
-                        RadioButtonsYesNo(
-                            status: state.model.status ?? 0,
-                            selectedValue:
-                                state.model.investigationRequired ? 1 : 0,
-                            onChangedYes: widget.model?.status == 6
-                                ? null
-                                : (val) {
-                                    state.model.investigationRequired = true;
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .onCheckBoxChange(state.model);
-                                  },
-                            onChangedNo: widget.model?.status == 6
-                                ? null
-                                : (val) {
-                                    state.model.investigationRequired = false;
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .onCheckBoxChange(state.model);
-                                  }),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (widget.type == Constants.keyLostHistoryInt ||
+                            widget.type == Constants.keyDamagehistoryInt) ...[
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.deploymentOrderSubmitted ??
+                              //   state.labels?.defaultLocale
+                              //     .deploymentOrderSubmitted ??
+                              Constants.investigationRequired,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          RadioButtonsYesNo(
+                              status: state.model.status ?? 0,
+                              selectedValue:
+                                  state.model.investigationRequired ? 1 : 0,
+                              onChangedYes: widget.model?.status == 6
+                                  ? null
+                                  : (val) {
+                                      state.model.investigationRequired = true;
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .onCheckBoxChange(state.model);
+                                    },
+                              onChangedNo: widget.model?.status == 6
+                                  ? null
+                                  : (val) {
+                                      state.model.investigationRequired = false;
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .onCheckBoxChange(state.model);
+                                    }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
 
                         /// Modified By
                         CommonWidgets.horizentaltextHandling(
