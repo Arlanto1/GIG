@@ -228,7 +228,7 @@ class KeyHistoryRecordsDetailsCubit
         response = (await services.createKeyHistoryRecord(
             body: request,
             isSubmit: false,
-            kmId: state.model.keyManagementId.toString()));
+            kmId: state.model.id.toString()));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -243,7 +243,7 @@ class KeyHistoryRecordsDetailsCubit
         response = (await services.createKeyHistoryRecord(
             body: request,
             isSubmit: true,
-            kmId: state.model.keyManagementId.toString()));
+            kmId: state.model.id.toString()));
       }
       return true;
     } on GenericResponse catch (e) {
