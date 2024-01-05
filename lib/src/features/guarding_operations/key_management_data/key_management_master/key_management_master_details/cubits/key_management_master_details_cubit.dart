@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/keyType_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
@@ -176,6 +175,9 @@ class KeyManagementMasterDetailsCubit
       state.model.doorType = doorType;
     }
 
+    if (entities != null) {
+      state.model.entities = entities;
+    }
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;
     state.model.status = status ?? state.model.status;
     emit(state.copyWith(

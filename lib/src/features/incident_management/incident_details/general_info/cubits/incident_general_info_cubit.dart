@@ -160,7 +160,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     Organisation? typeOfArticle,
     // BaseUser? user,
     Organisation? vendor,
-    Organisation? entity,
     int? status,
     int? incidentType,
     int? typeOfAsset,

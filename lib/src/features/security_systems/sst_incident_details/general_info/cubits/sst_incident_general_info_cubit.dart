@@ -162,7 +162,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? asl,
     BaseUser? systemManager,
     BaseUser? lsm,
-    List<Organisation>? entities,
     BaseUser? lt,
     Organisation? vendor,
     Organisation? location,
