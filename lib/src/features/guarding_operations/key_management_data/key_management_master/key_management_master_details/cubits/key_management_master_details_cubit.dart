@@ -111,7 +111,7 @@ class KeyManagementMasterDetailsCubit
       state.model.createdBy = loggedInUserDetails;
 
       // Get Date of Creation
-      // state.model.createdDate =  DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = Utils().getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -145,7 +145,7 @@ class KeyManagementMasterDetailsCubit
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
-    List<Organisation>? doorType,
+    Organisation? doorType,
     BaseUser? guard,
     List<Organisation>? entities,
     int? status,
@@ -172,9 +172,9 @@ class KeyManagementMasterDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    // if (doorType != null) {
-    //   state.model.doorType = doorType;
-    // }
+    if (doorType != null) {
+      state.model.doorType = doorType;
+    }
 
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;
     state.model.status = status ?? state.model.status;
@@ -194,9 +194,8 @@ class KeyManagementMasterDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-
+    state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementMasterRequest request =
         KeyManagementMasterRequest(keyMgmtGi: state.model);

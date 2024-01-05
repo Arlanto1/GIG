@@ -298,19 +298,29 @@ class _KeyManagementMasterDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          // BaseEntitiesSelection().entityDropDownSelection(
-                          //     context: context,
-                          //     selectedValues: state.model.doorType ?? [],
-                          //     all: state.departments,
-                          //     enabled: !isReadOnly,
-                          //     onTap: (List<Organisation> selectedDoorType) {
-                          //       BlocProvider.of<
-                          //                   KeyManagementMasterDetailsCubit>(
-                          //               context)
-                          //           .updateDropdownValues(
-                          //               doorType: selectedDoorType);
-                          //       Navigator.of(context).pop(); // Close the dialog
-                          //     }),
+                          TextfieldAddButton(
+                            title: state.model.doorType?.name,
+                            height: 70,
+                            isDisableColor: (state.model.status == 6 ||
+                                    state.model.status == 1)
+                                ? true
+                                : false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Organisation department) {
+                                  state.model.doorType?.name = department.name;
+
+                                  BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          doorType: department);
+                                },
+                              );
+                              // leodepartmentsDialog(state);
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Key Description
@@ -543,10 +553,9 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: '',
-                            // (state.model.noKeys.toString()) +
-                            //     (state.model.noKeys) +
-                            //     (state.model.noMasterKey ?? 0),
+                            initialValue: (((state.model.noKeys ?? 0) +
+                                    (state.model.noMasterKey ?? 0))
+                                .toString()),
                             textFormKey: Keys.budgetKey,
                             hintText: '',
                             isEnable: !isDisabled,
@@ -605,14 +614,12 @@ class _KeyManagementMasterDetailsViewState
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = true;
-
-                              // await BlocProvider.of<
-                              //         KeyManagementMasterDetailsCubit>(context)
-                              //     .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      KeyManagementMasterDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
                               if (!isSaveSuccess) {
                                 return;
@@ -625,7 +632,7 @@ class _KeyManagementMasterDetailsViewState
                                       Constants.lockChangeHistory,
                                   ConstantsArgument.id: state.model.id,
                                   // ConstantsArgument.type:
-                                  //     Constants.localChangeHistoryType,
+                                  //     Constants.keyLostHistoryType,
                                 },
                               );
                             },
