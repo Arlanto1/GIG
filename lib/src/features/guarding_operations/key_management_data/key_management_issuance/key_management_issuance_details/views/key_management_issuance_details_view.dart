@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
@@ -25,6 +26,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
+  TextEditingController keyHandedOverDateController = TextEditingController();
   TextEditingController keyReturnDueDateController = TextEditingController();
   TextEditingController employeeTypeController = TextEditingController();
   TextEditingController keyHandlingOverDurationController =
@@ -122,9 +124,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   }
 
   void initializeDates() {
-    //keyReturnDueDateController.text = DateFormat(Constants.dateFormat).format(
-    // DateFormat("dd/MM/yyyy").parse(keyReturnDueDateController.text).add(const Duration(days: 1, hours: 0, minutes: 0)),
-    // );
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+
+    keyReturnDueDateController.text = Utils.timestamptoDateConversion(
+        dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
   }
 
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
@@ -253,7 +257,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
-                              textController: keyReturnDueDateController,
+                              textController: keyHandedOverDateController,
                               isDisabled: true,
                               onChange: (String value) {
                                 state.model.keyHandOverDate =
@@ -347,7 +351,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Employee Type
+                            /// Key Handing Over Duration
                             CommonWidgets.textDisplay(
                                 //state.labels?.locale.maritalStatus ??
                                 //   state.labels?.defaultLocale.maritalStatus ??
@@ -403,15 +407,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: keyReturnDueDateController,
                               isDisabled: true,
+                              onlyDate: false,
                               onChange: (String value) {
-                                state.model.keyReturnDateTime =
-                                    Utils().formatTime(value);
-
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                                //},
+                                // state.model.keyHandOverDue =
+                                //     Utils().formatTime(value);
+                                //
+                                // BlocProvider.of<
+                                //             KeyManagementIssuanceDetailsCubit>(
+                                //         context)
+                                //     .onModelValueChange(state.model);
+                                // //},
                               },
                               context: context,
                             ),
@@ -518,7 +523,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (employeeTypeController.value == 'CWR T2') ...[
+                            if (employeeTypeController.text == 'CWR T2') ...[
                               //  if(state.model.employeeType == 2 )...[                             /// DB Sponsor of CWR T2
                               CommonWidgets.textDisplay(
                                   //state.labels?.locale.approver ??
@@ -653,10 +658,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   String getStatusString(int status) {
     switch (status) {
+      case -1:
+        return 'Cancelled';
       case 0:
-        return 'Draft';
+        return 'Created';
       case 1:
-        return 'Active';
+        return 'Handed Over';
+      case 2:
+        return 'Not Returned';
+      case 3:
+        return 'Loss Damage Reported';
+      case 4:
+        return 'Closed';
       default:
         return '';
     }
@@ -739,25 +752,4 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getById(int id) async {
-//   showLoadingDialog(context);
-//
-//   SLAViolationPenaltyModel contactsModel =
-//   await SLAViolationPenaltyServices().getGvpById(id);
-//
-//   editDataLoading(contactsModel);
-// }
-// void editDataLoading(SLAViolationPenaltyModel? model) {
-//   dismissLoadingDialog(context);
-//   if (model != null) {
-//     Navigator.pushNamed(
-//       context,
-//       slaViolationPenaltyDetailsRoute,
-//       arguments: {
-//         "model": model,
-//         "title": Constants.slaViolationPenalty,
-//       },
-//     );
-//   }
-// }
 }

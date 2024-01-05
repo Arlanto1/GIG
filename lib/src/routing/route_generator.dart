@@ -71,7 +71,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
-import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart' as kip;
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart'
+    as kip;
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart';
@@ -933,11 +934,12 @@ class RouteGenerator {
                 ));
 
       case keyManagementIssuanceDetailsRoute:
-        KeyManagementIssuanceServices services = KeyManagementIssuanceServices();
+        KeyManagementIssuanceServices services =
+            KeyManagementIssuanceServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         KeyManagementIssuanceModel? model = arguments["model"];
         return MaterialPageRoute(
@@ -960,7 +962,7 @@ class RouteGenerator {
         String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           violationDescription =
@@ -971,10 +973,10 @@ class RouteGenerator {
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
               violationDescription: violationDescription,
             )..add(kip.FetchData(
-              id: id,
-              startPos: 0,
-              maxPos: 100,
-            )),
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
             child: KeyIssuanceProcessRecordsView(
               id: id,
               title: title,
@@ -982,24 +984,24 @@ class RouteGenerator {
           ),
         );
 
-
       case dutyPostMasterListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostMasterListBloc>(
-              create: (_) => DutyPostMasterListBloc()
-                ..add(const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
-              child: const DutyPostMasterListView(),
-            ));
+                  create: (_) => DutyPostMasterListBloc()
+                    ..add(
+                        const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
+                  child: const DutyPostMasterListView(),
+                ));
 
       case dutyPostMasterDetailsRoute:
         DutyPostMasterServices services = DutyPostMasterServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         DutyPostMasterModel? dutyPostMasterModel =
-        arguments["dutyPostMasterModel"];
+            arguments["dutyPostMasterModel"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<DutyPostMasterDetailsCubit>(
             create: (_) => DutyPostMasterDetailsCubit(
@@ -1017,20 +1019,21 @@ class RouteGenerator {
       case dutyPostNameMasterListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostNameMasterListBloc>(
-              create: (_) => DutyPostNameMasterListBloc()
-                ..add(const FetchDutyPostNameMasterList(startPos: 0, maxPos: 20)),
-              child: const DutyPostNameMasterListView(),
-            ));
+                  create: (_) => DutyPostNameMasterListBloc()
+                    ..add(const FetchDutyPostNameMasterList(
+                        startPos: 0, maxPos: 20)),
+                  child: const DutyPostNameMasterListView(),
+                ));
 
       case dutyPostNameMasterDetailsRoute:
         DutyPostNameMasterServices services = DutyPostNameMasterServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         DutyPostNameMasterModel? dutyPostNameMasterModel =
-        arguments["dutyPostNameMasterModel"];
+            arguments["dutyPostNameMasterModel"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<DutyPostNameMasterDetailsCubit>(
             create: (_) => DutyPostNameMasterDetailsCubit(
@@ -1048,28 +1051,29 @@ class RouteGenerator {
       case attendanceListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<AttendanceBloc>(
-              create: (_) => AttendanceBloc()
-                ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
-              child: const AttendanceView(),
-            ));
+                  create: (_) => AttendanceBloc()
+                    ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
+                  child: const AttendanceView(),
+                ));
 
       case shiftScheduleListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ShiftScheduleListBloc>(
-              create: (_) => ShiftScheduleListBloc()
-                ..add(const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
-              child: const ShiftScheduleListView(),
-            ));
+                  create: (_) => ShiftScheduleListBloc()
+                    ..add(
+                        const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
+                  child: const ShiftScheduleListView(),
+                ));
 
       case shiftScheduleDetailsRoute:
         ShiftScheduleServices services = ShiftScheduleServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         ShiftScheduleModel? shiftScheduleModel =
-        arguments["shiftScheduleModel"];
+            arguments["shiftScheduleModel"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(

@@ -85,7 +85,7 @@ class KeyManagementIssuanceDetailsCubit
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+          moduleCode: Constants.keyManagementIssuanceModule,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
