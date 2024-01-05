@@ -788,7 +788,7 @@ class _KeyManagementMasterDetailsViewState
                                       Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
                                   // ConstantsArgument.type:
-                                  //     Constants.keyDestroyHistoryType,
+                                  //     state.model.type,
                                 },
                               );
                             },
