@@ -796,17 +796,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.dbSponsorCWRT2 != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling(
-                'Db Sponsor CWR T2 : ', widget.dbSponsorCWRT2?.name ?? ''),
-          ],
-        ),
-      ],
-      if (widget.dbSponsorCWRT2 != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -816,6 +805,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.handedOver != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

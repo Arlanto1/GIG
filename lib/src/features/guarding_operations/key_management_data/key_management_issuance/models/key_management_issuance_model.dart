@@ -134,7 +134,7 @@ class KeyManagementIssuanceModel {
   int? employeeType;
   dynamic handedOverTo;
   dynamic handedOverToCwrT2;
-  dynamic dbSponsorCwrT2;
+  User? dbSponsorCwrT2;
   String? employeeID;
   dynamic department;
   dynamic receiverSign;
@@ -201,7 +201,10 @@ class KeyManagementIssuanceModel {
             ? User.fromJson(json['handedOverTo'] as Map<String, dynamic>)
             : null,
         handedOverToCwrT2 = json['handedOverToCwrT2'] as String?,
-        dbSponsorCwrT2 = json['dbSponsorCwrT2'],
+        dbSponsorCwrT2 =
+            (json['dbSponsorCwrT2'] as Map<String, dynamic>?) != null
+                ? User.fromJson(json['dbSponsorCwrT2'] as Map<String, dynamic>)
+                : null,
         employeeID = json['employeeID'] as String?,
         department = (json['department'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['department'] as Map<String, dynamic>)
