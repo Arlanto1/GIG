@@ -210,14 +210,14 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDate()
-                          //     .creationDateDisplay(state.model.createdDate ?? '0'),
+                          BaseDate().creationDateDisplay(
+                              state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location

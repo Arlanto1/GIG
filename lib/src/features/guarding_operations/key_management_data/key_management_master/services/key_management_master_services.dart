@@ -93,12 +93,12 @@ class KeyManagementMasterServices {
   //   return ContactListResponseModel.fromJson(response);
   // }
 
-  Future<ContactRecord> getCdById(int id) async {
+  Future<KeyManagementMasterModel> getKHById(int id) async {
     final String url = '${Apis._getKeyHistoryDetailsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactRecord.fromJson(response);
+    return KeyManagementMasterModel.fromJson(response);
   }
 
   Future<GenericResponse> deleteKHdById(int id) async {

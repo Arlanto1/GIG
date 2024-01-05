@@ -670,6 +670,7 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String type = 'Type';
 
 
   ///KeyManagementIssuance

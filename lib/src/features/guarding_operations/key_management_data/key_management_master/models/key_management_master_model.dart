@@ -48,6 +48,7 @@ class KeyManagementMasterModel {
   bool doorLockKey;
   String? keyNo;
   int? keyTagging;
+  int? keyType;
   int? noKeys;
   int? noKeysIssued;
   dynamic available;
@@ -64,7 +65,7 @@ class KeyManagementMasterModel {
   dynamic damagedMaster;
   dynamic total;
   String? keysStored;
-  // int? createdDate;
+  String? createdDate;
   dynamic modifiedDate;
   dynamic modifiedBy;
   List<dynamic>? lockChanged;
@@ -104,7 +105,7 @@ class KeyManagementMasterModel {
     this.damagedMaster,
     this.total,
     this.keysStored,
-    // this.createdDate,
+    this.createdDate,
     this.modifiedDate,
     this.modifiedBy,
     this.lockChanged,
@@ -112,6 +113,7 @@ class KeyManagementMasterModel {
     this.damage,
     this.destroy,
     this.status,
+    this.keyType,
   });
 
   factory KeyManagementMasterModel.fromJson(Map<String, dynamic> json) =>

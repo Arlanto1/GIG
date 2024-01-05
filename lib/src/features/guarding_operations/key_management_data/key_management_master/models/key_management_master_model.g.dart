@@ -12,6 +12,8 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       keyManagementId: json['keyManagementId'] as String?,
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
+      createdDate: json['createdDate'] as String?,
+      keyType: json['keyType'] as int?,
       createdBy: json['createdBy'] == null
           ? null
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),
@@ -64,7 +66,9 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'keyManagementId': instance.keyManagementId,
       'id': instance.id,
       'slNo': instance.slNo,
+      'keyType': instance.keyType,
       'createdBy': instance.createdBy,
+      'createdDate': instance.createdDate,
       'entities': instance.entities,
       'location': instance.location,
       'region': instance.region,
