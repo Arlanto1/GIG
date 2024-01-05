@@ -22,7 +22,6 @@ class BaseListTileItem extends StatefulWidget {
   final int? incidentType;
   final bool isIncident;
 
-
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
@@ -70,7 +69,6 @@ class BaseListTileItem extends StatefulWidget {
     this.isKeyLossStatus = false,
     this.isKeyManagementStatus = false,
     this.isKeyManagementIssuanceStatus = false,
-    this.isKeyManagementStatus = false,
     this.onDeleteTap,
   });
 
@@ -186,9 +184,12 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
-                              !widget.isIncident && !widget.isKeyLossStatus &&
-                              !widget.isSecuritySystemSLA && !widget.isKeyManagementIssuanceStatus &&
-                              !widget.isSecuritySystemSLA && !widget.isKeyManagementStatus &&
+                              !widget.isIncident &&
+                              !widget.isKeyLossStatus &&
+                              !widget.isSecuritySystemSLA &&
+                              !widget.isKeyManagementIssuanceStatus &&
+                              !widget.isSecuritySystemSLA &&
+                              !widget.isKeyManagementStatus &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildMaterialMovementStatusRow(
@@ -211,22 +212,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             Utils().buildEventProtectionStatusRow(
                                 widget.status ?? 0),
                           ],
-
                           if (widget.status != null &&
                               widget.isKeyManagementIssuanceStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().keyManagementIssuanceStatus(
                                 widget.status ?? 0),
                           ],
-
-
                           if (widget.status != null &&
                               widget.isKeyManagementStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils().keyManagementStatus(
-                                widget.status ?? 0),
+                            Utils().keyManagementStatus(widget.status ?? 0),
                           ],
-
                           if (widget.status != null &&
                               widget.isOccurrenceStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
@@ -238,7 +234,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               ],
                             ),
                           ],
-
                           if (widget.status != null &&
                               widget.isKeyLossStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
