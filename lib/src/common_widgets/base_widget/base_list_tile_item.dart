@@ -68,6 +68,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLA = false,
     this.isKeyLossStatus = false,
+    this.isKeyManagementStatus = false,
     this.isKeyManagementIssuanceStatus = false,
     this.isKeyManagementStatus = false,
     this.onDeleteTap,

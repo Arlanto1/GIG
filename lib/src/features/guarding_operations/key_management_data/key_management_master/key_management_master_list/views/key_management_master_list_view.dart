@@ -128,7 +128,7 @@ class _KeyManagementMasterListViewState
                                 keyNo: state.list[selectedIndex].keyNo,
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
-                                isKeyManagementStatus: true,
+                                isKeyManagementIssuanceStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                               );

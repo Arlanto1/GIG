@@ -79,6 +79,8 @@ import '../features/guarding_operations/key_management_data/key_management_issua
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
@@ -940,12 +942,32 @@ class RouteGenerator {
             child: KeyHistoryRecordsView(
               id: id,
               type: type,
-              title: title,
-              rankType: rankType,
             ),
           ),
         );
 
+
+      case keyHistoryRecordsDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
+            create: (_) => KeyHistoryRecordsDetailsCubit(
+              services: services,
+              model: keyMgmtGi,
+              commonServices: commonServices,
+            ),
+            child: KeyHistoryRecordsDetailsView(
+              model: keyMgmtGi,
+              title: title,
+            ),
+          ),
+        );
       case keyReconciliationListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyReconciliationListBloc>(

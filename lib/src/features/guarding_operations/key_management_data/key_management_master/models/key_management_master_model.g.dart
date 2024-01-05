@@ -12,6 +12,11 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       keyManagementId: json['keyManagementId'] as String?,
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
+      createdDate: json['createdDate'] as String?,
+      additionalInformation: json['additionalInformation'] as String?,
+      keyType: json['keyType'] as int?,
+      type: json['type'] as int?,
+      noOfKeys: json['noOfKeys'] as int?,
       createdBy: json['createdBy'] == null
           ? null
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),
@@ -28,9 +33,17 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       doorType: json['doorType'] == null
           ? null
           : Organisation.fromJson(json['doorType'] as Map<String, dynamic>),
+      securityManager: json['securityManager'] == null
+          ? null
+          : User.fromJson(json['securityManager'] as Map<String, dynamic>),
+      destructionReason: json['destructionReason'] == null
+          ? null
+          : Organisation.fromJson(
+              json['destructionReason'] as Map<String, dynamic>),
       doorName: json['doorName'] as String?,
       doorAccessControl: json['doorAccessControl'] as bool? ?? false,
       doorLockKey: json['doorLockKey'] as bool? ?? false,
+      investigationRequired: json['investigationRequired'] as bool? ?? false,
       keyNo: json['keyNo'] as String?,
       keyTagging: json['keyTagging'] as int?,
       noKeys: json['noKeys'] as int?,
@@ -56,6 +69,10 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       damage: json['damage'] as List<dynamic>?,
       destroy: json['destroy'] as List<dynamic>?,
       status: json['status'] as int?,
+      lostKeyDetails: json['lostKeyDetails'] as String?,
+      srh: json['srh'] == null
+          ? null
+          : User.fromJson(json['srh'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KeyManagementMasterModelToJson(
@@ -64,7 +81,12 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'keyManagementId': instance.keyManagementId,
       'id': instance.id,
       'slNo': instance.slNo,
+      'keyType': instance.keyType,
+      'additionalInformation': instance.additionalInformation,
+      'type': instance.type,
+      'noOfKeys': instance.noOfKeys,
       'createdBy': instance.createdBy,
+      'createdDate': instance.createdDate,
       'entities': instance.entities,
       'location': instance.location,
       'region': instance.region,
@@ -98,4 +120,9 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'damage': instance.damage,
       'destroy': instance.destroy,
       'status': instance.status,
+      'srh': instance.srh,
+      'investigationRequired': instance.investigationRequired,
+      'lostKeyDetails': instance.lostKeyDetails,
+      'securityManager': instance.securityManager,
+      'destructionReason': instance.destructionReason,
     };

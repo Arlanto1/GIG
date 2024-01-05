@@ -433,6 +433,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().keyManagementStatus(widget.status ?? 0),
+            Utils().keyManagementIssuanceStatus(widget.status ?? 0),
           ],
         ),
       ],

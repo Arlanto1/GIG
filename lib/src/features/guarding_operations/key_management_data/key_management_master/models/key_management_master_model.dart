@@ -41,14 +41,19 @@ class KeyManagementMasterModel {
   List<Organisation>? entities;
   Organisation? location;
   Organisation? region;
+  Organisation? destructionReason;
   String? floor;
   Organisation? doorType;
   String? doorName;
   bool doorAccessControl;
   bool doorLockKey;
+  bool investigationRequired;
   String? keyNo;
   int? keyTagging;
+  int? keyType;
+  int? type;
   int? noKeys;
+  int? noOfKeys;
   int? noKeysIssued;
   dynamic available;
   dynamic returned;
@@ -64,7 +69,7 @@ class KeyManagementMasterModel {
   dynamic damagedMaster;
   dynamic total;
   String? keysStored;
-  // int? createdDate;
+  String? createdDate;
   dynamic modifiedDate;
   dynamic modifiedBy;
   List<dynamic>? lockChanged;
@@ -72,6 +77,10 @@ class KeyManagementMasterModel {
   List<dynamic>? damage;
   List<dynamic>? destroy;
   int? status;
+  User? srh;
+  User? securityManager;
+  String? additionalInformation;
+  String? lostKeyDetails;
 
   KeyManagementMasterModel({
     this.keyManagementId,
@@ -86,6 +95,7 @@ class KeyManagementMasterModel {
     this.doorName,
     this.doorAccessControl = false,
     this.doorLockKey = false,
+    this.investigationRequired = false,
     this.keyNo,
     this.keyTagging,
     this.noKeys,
@@ -104,7 +114,7 @@ class KeyManagementMasterModel {
     this.damagedMaster,
     this.total,
     this.keysStored,
-    // this.createdDate,
+    this.createdDate,
     this.modifiedDate,
     this.modifiedBy,
     this.lockChanged,
@@ -112,6 +122,14 @@ class KeyManagementMasterModel {
     this.damage,
     this.destroy,
     this.status,
+    this.keyType,
+    this.type,
+    this.srh,
+    this.noOfKeys,
+    this.additionalInformation,
+    this.lostKeyDetails,
+    this.securityManager,
+    this.destructionReason,
   });
 
   factory KeyManagementMasterModel.fromJson(Map<String, dynamic> json) =>

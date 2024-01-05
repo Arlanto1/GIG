@@ -194,6 +194,14 @@ const List<Label> keysDropDownValues = [
   Label(key: 'Master Keys', value: '2'),
 ];
 
+const List<Label> typesDropDownValues = [
+  Label(key: 'Has Lock Changed', value: '0'),
+  Label(key: 'Has Key Lost', value: '1'),
+  Label(key: 'Has Key/Lock Damaged', value: '2'),
+  Label(key: 'Key Destruction Process', value: '3'),
+
+];
+
 const List<Label> shiftDutyTypeDropDownValues = [
   Label(key: 'Transport', value: '1'),
   Label(key: 'Building', value: '2'),

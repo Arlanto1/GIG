@@ -14,7 +14,7 @@ class KeyHistoryRecordBloc
   final String rankType;
 
   KeyHistoryRecordBloc({required this.rankType})
-      : super(const KeyHistoryRecordState(ranks: [])) {
+      : super(const KeyHistoryRecordState()) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -35,7 +35,6 @@ class KeyHistoryRecordBloc
 
       return emit(
         state.copyWith(
-          ranks: items,
           hasReachedMax: false,
         ),
       );
@@ -73,7 +72,7 @@ class KeyHistoryRecordBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items ?? [])..addAll(response),
+          items: List.of(state.list ?? [])..addAll(response),
           hasReachedMax: false,
         ),
       );
