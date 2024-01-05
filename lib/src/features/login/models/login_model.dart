@@ -67,7 +67,7 @@ class LoginUserResponseModel {
   String? firstName;
   String? lastName;
 
-  // String? phone;
+  String? phone;
   Organisation? defaultLocation;
   DisplayMenu? displayMenu;
   String? timezone;
@@ -78,7 +78,7 @@ class LoginUserResponseModel {
     this.email,
     this.firstName,
     this.lastName,
-    // this.phone,
+    this.phone,
     this.defaultLocation,
     this.displayMenu,
     this.timezone,
@@ -90,7 +90,7 @@ class LoginUserResponseModel {
         email = json['email'] as String?,
         firstName = json['firstName'] as String?,
         lastName = json['lastName'] as String?,
-        // phone = json['phone'] as String?,
+        phone = json['phone'] as String?,
         defaultLocation =
             (json['defaultLocation'] as Map<String, dynamic>?) != null
                 ? Organisation.fromJson(
@@ -107,7 +107,7 @@ class LoginUserResponseModel {
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
-        // 'phone': phone,
+        'phone': phone,
         'defaultLocation': defaultLocation?.toJson(),
         'displayMenu': displayMenu?.toJson(),
         'timezone': timezone
