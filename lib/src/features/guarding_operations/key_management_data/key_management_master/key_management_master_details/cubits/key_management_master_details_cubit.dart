@@ -234,7 +234,7 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
-      return true;
+
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -252,5 +252,15 @@ class KeyManagementMasterDetailsCubit
       );
       return false;
     }
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
+      ),
+    );
+    return true;
   }
 }
