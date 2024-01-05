@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/models/contacts_list_response_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_history_record_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
 part 'key_history_record_event.dart';
-
 part 'key_history_record_state.dart';
 
 class KeyHistoryRecordBloc
@@ -49,35 +48,35 @@ class KeyHistoryRecordBloc
       FetchData event, Emitter<KeyHistoryRecordState> emit) async {
     try {
       if (state.hasReachedMax) return;
-      //
-      // if (state.status == FormStatus.initial) {
-      //   ContactsListModel response = await services.getContactListByType(
-      //     id: '${event.id}',
-      //     type: '${event.type}',
-      //   );
-      //   return emit(
-      //     state.copyWith(
-      //       items: response.contacts,
-      //       hasReachedMax: false,
-      //       status: FormStatus.success,
-      //     ),
-      //   );
-      // }
 
-      // ContactsListModel response = await services.getKeyHistoryListByType(
-      //   id: '${event.id}',
-      //   type: '${event.type}',
-      // );
+      if (state.status == FormStatus.initial) {
+        List<KeyManagementMasterModel> response = await services.getKeyHistoryListByType(
+          id: event.id,
+          type: event.type,
+        );
+        return emit(
+          state.copyWith(
+            items: response,
+            hasReachedMax: false,
+            status: FormStatus.success,
+          ),
+        );
+      }
 
-      // if (response.contacts?.isEmpty == true) {
-      //   return emit(state.copyWith(hasReachedMax: true));
-      // }
-      // return emit(
-      //   state.copyWith(
-      //     items: List.of(state.items ?? [])..addAll(response.contacts ?? []),
-      //     hasReachedMax: false,
-      //   ),
-      // );
+      List<KeyManagementMasterModel> response = await services.getKeyHistoryListByType(
+        id: event.id,
+        type: event.type,
+      );
+
+      if (response.isEmpty == true) {
+        return emit(state.copyWith(hasReachedMax: true));
+      }
+      return emit(
+        state.copyWith(
+          items: List.of(state.items ?? [])..addAll(response),
+          hasReachedMax: false,
+        ),
+      );
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

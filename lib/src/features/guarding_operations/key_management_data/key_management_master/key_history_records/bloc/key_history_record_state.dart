@@ -1,7 +1,7 @@
 part of 'key_history_record_bloc.dart';
 
 class KeyHistoryRecordState extends Equatable {
-  final List<ContactRecord>? items;
+  final List<KeyManagementMasterModel>? items;
   final bool hasReachedMax;
   final FormStatus status;
   final List<Organisation> ranks;
@@ -9,14 +9,14 @@ class KeyHistoryRecordState extends Equatable {
 
   const KeyHistoryRecordState({
     this.message,
-    this.items = const <ContactRecord>[],
+    this.items = const <KeyManagementMasterModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     required this.ranks,
   });
 
   KeyHistoryRecordState copyWith({
-    List<ContactRecord>? items,
+    List<KeyManagementMasterModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     List<Organisation>? ranks,

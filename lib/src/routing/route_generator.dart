@@ -28,6 +28,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart' as kh;
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
@@ -927,10 +928,10 @@ class RouteGenerator {
           rankType = arguments[ConstantsArgument.rankType] ?? '';
         }
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<cr.ContactRecordBloc>(
-            create: (_) => cr.ContactRecordBloc(
+          builder: (context) => BlocProvider<kh.KeyHistoryRecordBloc>(
+            create: (_) => kh.KeyHistoryRecordBloc(
               rankType: rankType,
-            )..add(cr.FetchData(
+            )..add(kh.FetchData(
               id: id,
               type: type,
               startPos: 0,

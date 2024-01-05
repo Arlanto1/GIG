@@ -7,7 +7,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getKeyHistoryListByType = '$baseUrl/getKmKeyLossDesListById/';
+  static final String _getKeyHistoryListByType =
+      '$baseUrl/getKmKeyLossDesListById/';
 
   static final String _getList = '$baseUrl/getKeyMgmtList?';
 
@@ -17,7 +18,8 @@ class Apis {
 
   static final String _getKeyHistoryDetailsById = '$baseUrl/getKldById';
 
-  static final String _deleteKeyHistoryDetailsById = '$baseUrl/deleteContactInfo';
+  static final String _deleteKeyHistoryDetailsById =
+      '$baseUrl/deleteContactInfo';
 
   static final String _createKeyHistoryRecord = '$baseUrl/createKeyLossDes?';
 }
@@ -107,17 +109,27 @@ class KeyManagementMasterServices {
     return GenericResponse.fromJson(response);
   }
 
-  // Future<GenericResponse> createKeyHistoryRecord({
-  //   required ContactRecordRequest body,
-  //   required bool isSubmit,
-  //required int kmId,
-  // }) async {
-  //   // var userId = await SharedPrefs.getUserId();
-  //   final String url = "${Apis._createKeyHistoryRecord}kmId=$kmId & isSubmit=$isSubmit";
-  //   final response = await BaseApiService().postRequest(
-  //     url: url,
-  //     requestedData: body.toJson(),
-  //   );
-  //   return GenericResponse.fromJson(response);
-  // }
+  Future<List<KeyManagementMasterModel>> getKeyHistoryListByType(
+      {required int id, required int type}) async {
+    final String url = '${Apis._getKeyHistoryListByType}$id?type=$type';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<KeyManagementMasterModel>.from(
+        response.map((x) => KeyManagementMasterModel.fromJson(x)));
+  }
+
+// Future<GenericResponse> createKeyHistoryRecord({
+//   required ContactRecordRequest body,
+//   required bool isSubmit,
+//required int kmId,
+// }) async {
+//   // var userId = await SharedPrefs.getUserId();
+//   final String url = "${Apis._createKeyHistoryRecord}kmId=$kmId & isSubmit=$isSubmit";
+//   final response = await BaseApiService().postRequest(
+//     url: url,
+//     requestedData: body.toJson(),
+//   );
+//   return GenericResponse.fromJson(response);
+// }
 }

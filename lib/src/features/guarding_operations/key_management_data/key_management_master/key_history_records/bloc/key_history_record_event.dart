@@ -26,7 +26,7 @@ class InitializeValues extends KeyHistoryRecordEvent {
 }
 
 class SaveRecord extends KeyHistoryRecordEvent {
-  final ContactRecord contactInfo;
+  final KeyManagementMasterModel contactInfo;
   final int mainContactId;
   final int type;
 
