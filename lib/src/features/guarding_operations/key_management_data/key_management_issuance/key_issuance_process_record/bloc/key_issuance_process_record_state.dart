@@ -5,7 +5,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final List<Organisation>? violationDescriptions;
-  final Map<String, dynamic>? getKeyDescriptionValues;
+  final List<Organisation>? keyDescriptions;
   final String? message;
   final SlaUiLabels? labels;
 
@@ -15,7 +15,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.violationDescriptions,
-    this.getKeyDescriptionValues,
+    this.keyDescriptions,
     this.labels,
   });
 
@@ -24,7 +24,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     List<Organisation>? violationDescriptions,
-    Map<String, dynamic>? getKeyDescriptionValues,
+    List<Organisation>? keyDescriptions,
     String? message,
     SlaUiLabels? labels,
   }) {
@@ -34,8 +34,8 @@ class KeyIssuanceProcessRecordState extends Equatable {
       status: status ?? this.status,
       violationDescriptions:
           violationDescriptions ?? this.violationDescriptions,
-      getKeyDescriptionValues:
-      getKeyDescriptionValues ?? this.getKeyDescriptionValues,
+      keyDescriptions:
+      keyDescriptions ?? this.keyDescriptions,
       message: message ?? this.message,
       labels: labels ?? this.labels,
     );
