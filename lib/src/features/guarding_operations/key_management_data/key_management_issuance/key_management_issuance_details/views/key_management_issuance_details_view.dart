@@ -524,7 +524,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (employeeTypeController.text == 'CWR T2') ...[
-                              //  if(state.model.employeeType == 2 )...[                             /// DB Sponsor of CWR T2
                               CommonWidgets.textDisplay(
                                   //state.labels?.locale.approver ??
                                   //  state.labels?.defaultLocale.approver ??

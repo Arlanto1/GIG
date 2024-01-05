@@ -128,6 +128,7 @@ class KeyManagementIssuanceDetailsCubit
     BaseUser? user,
     BaseUser? approver,
     User? handedOverTo,
+    User?dbSponsorCwrT2,
     int? employeeType,
     int? keyHandingOverDuration,
   }) async {
@@ -180,6 +181,14 @@ class KeyManagementIssuanceDetailsCubit
         userName: user.name,
       );
       state.model.handedOverTo = userDetails;
+    }
+    if (user != null) {
+      User userDetails = User(
+        name: user.name,
+        userId: user.id,
+        userName: user.name,
+      );
+      state.model.dbSponsorCwrT2 = userDetails;
     }
     emit(state.copyWith(
       model: state.model,
