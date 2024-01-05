@@ -178,6 +178,10 @@ class KeyManagementMasterDetailsCubit
 
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;
     state.model.status = status ?? state.model.status;
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   Future<bool> submitForm({

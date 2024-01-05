@@ -333,7 +333,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    user: user,
+                                    securityManager: user,
                                   );
                                 },
                               );
@@ -342,14 +342,15 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
+                        if (widget.type != Constants.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.approver ??
-                              //  state.labels?.defaultLocale.approver ??
-                              Constants.securityManager,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
+                            //state.labels?.locale.approver ??
+                            //  state.labels?.defaultLocale.approver ??
+                            Constants.securityManager,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
                           TextfieldAddButton(
                             title: state.model.securityManager?.name,
                             height: 60,
@@ -364,7 +365,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    user: user,
+                                    securityManager: user,
                                   );
                                 },
                               );
@@ -387,7 +388,7 @@ class _KeyHistoryRecordsDetailsViewState
                             onTap: () {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                departments: state.destructionReasons,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<
                                               KeyHistoryRecordsDetailsCubit>(

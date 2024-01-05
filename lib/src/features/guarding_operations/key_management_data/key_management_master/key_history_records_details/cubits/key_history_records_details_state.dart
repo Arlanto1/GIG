@@ -9,7 +9,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<Organisation>? listOfQualifications;
-  final List<Organisation> departments;
+  final List<Organisation> destructionReasons;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final String? message;
@@ -35,7 +35,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       listOfEntities: listOfEntities,
-      departments: departments,
+      destructionReasons: departments,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
@@ -83,7 +83,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.emailUsers,
     this.listOfEntities,
     this.listOfQualifications,
-    required this.departments,
+    required this.destructionReasons,
     this.getEntitiesResponse,
     this.participationDates,
     this.message,
@@ -99,7 +99,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
-    List<Organisation>? departments,
+    List<Organisation>? destructionReasons,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     String? message,
@@ -118,7 +118,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       message: message ?? this.message,
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,
-      departments: departments ?? this.departments,
+      destructionReasons: destructionReasons ?? this.destructionReasons,
     );
   }
 }

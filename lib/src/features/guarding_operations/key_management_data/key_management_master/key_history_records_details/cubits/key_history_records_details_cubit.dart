@@ -9,7 +9,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'key_history_records_details_state.dart';
@@ -81,7 +80,7 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getDepartments(
+        commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
@@ -96,7 +95,7 @@ class KeyHistoryRecordsDetailsCubit
       AddEntities entities = futures[3];
       List<User> createdBy = futures[4];
       GetDepositor emailUsers = futures[6];
-      EmployeeDepartments departments = futures[7];
+      List<Organisation> destructionReasons = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
@@ -125,7 +124,7 @@ class KeyHistoryRecordsDetailsCubit
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-          departments: departments.employeeDepartments,
+          destructionReasons: destructionReasons,
           labels: labels,
         ),
       );
@@ -143,19 +142,14 @@ class KeyHistoryRecordsDetailsCubit
 
   Future<void> updateDropdownValues({
     Organisation? location,
-    BaseUser? user,
+    BaseUser? securityManager,
     List<Organisation>? doorType,
-    BaseUser? guard,
     List<Organisation>? entities,
     int? status,
     int? systemAccess,
-    int? guardRank,
     int? dutyType,
     int? keyType,
     int? type,
-    int? maritalStatus,
-    int? typeOfDeployment,
-    int? msgbFormBSubmitted,
     Organisation? destructionReason,
     User? srh,
   }) async {
@@ -170,33 +164,31 @@ class KeyHistoryRecordsDetailsCubit
         locationId: location.id.toString(),
         moduleCode: Constants.keyManagementMasterModule,
       );
-      if (user != null) {
-        User userDetails = User(
-          name: user.name,
-          userId: user.id,
-          userName: user.name,
-        );
-        state.model.srh = userDetails;
-      }
-      if (user != null) {
-        User userDetails = User(
-          name: user.name,
-          userId: user.id,
-          userName: user.name,
-        );
-        state.model.securityManager = userDetails;
-      }
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     if (destructionReason != null) {
       state.model.destructionReason = destructionReason;
     }
+    if (securityManager != null) {
+      User userDetails = User(
+        name: securityManager.name,
+        userId: securityManager.id,
+        userName: securityManager.name,
+      );
+      state.model.securityManager = userDetails;
+    }
     state.model.destructionReason =
         destructionReason ?? state.model.destructionReason;
     state.model.keyType = keyType ?? state.model.keyType;
     state.model.type = type ?? state.model.type;
     state.model.status = status ?? state.model.status;
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   Future<bool> submitForm({
