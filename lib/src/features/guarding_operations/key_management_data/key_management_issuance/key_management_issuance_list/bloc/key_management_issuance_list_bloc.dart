@@ -9,9 +9,10 @@ part 'key_management_issuance_list_event.dart';
 
 part 'key_management_issuance_list_state.dart';
 
-class KeyManagementIssuanceListBloc
-    extends Bloc<KeyManagementIssuanceListEvent, KeyManagementIssuanceListState> {
-  KeyManagementIssuanceListBloc() : super(const KeyManagementIssuanceListState()) {
+class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
+    KeyManagementIssuanceListState> {
+  KeyManagementIssuanceListBloc()
+      : super(const KeyManagementIssuanceListState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchKeyIssuanceList>(
       _fetchList,
@@ -20,11 +21,11 @@ class KeyManagementIssuanceListBloc
   }
 
   final KeyManagementIssuanceServices _services =
-  KeyManagementIssuanceServices();
+      KeyManagementIssuanceServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<KeyManagementIssuanceListState> emit) async {
+  FutureOr<void> _initializeValues(InitializeValues event,
+      Emitter<KeyManagementIssuanceListState> emit) async {
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -48,11 +49,9 @@ class KeyManagementIssuanceListBloc
 
       if (state.status == FormStatus.initial) {
         KeyManagementIssuanceResponseModel getKeyReconciliationLists =
-        await _services.getList(
+            await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-          locationId: '56',
         );
         return emit(
           state.copyWith(
@@ -64,11 +63,9 @@ class KeyManagementIssuanceListBloc
       }
 
       KeyManagementIssuanceResponseModel getKeyReconciliationList =
-      await _services.getList(
+          await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
-        locationId: '56',
       );
 
       if (getKeyReconciliationList.items?.isEmpty == true) {

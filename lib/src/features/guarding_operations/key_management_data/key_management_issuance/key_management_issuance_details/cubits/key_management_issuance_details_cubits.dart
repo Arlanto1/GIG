@@ -1,16 +1,16 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
+import '../../../../../createfound/models/emplyee_departments_model.dart';
+import '../../../../../createfound/models/get_depositor_model.dart';
 
 part 'key_management_issuance_details_state.dart';
 
@@ -25,18 +25,18 @@ class KeyManagementIssuanceDetailsCubit
     required this.commonServices,
     this.model,
   }) : super(
-    KeyManagementIssuanceDetailsState.initial(
-      model: model ?? KeyManagementIssuanceModel(),
-      locations: Locations(),
-      loggedInUserDetails: User(),
-      users: const [],
-      emailUsers: const [],
-      listOfEntities: const [],
-      departments: const [],
-      typeOfServices: const [],
-      errorMessage: '',
-    ),
-  );
+          KeyManagementIssuanceDetailsState.initial(
+            model: model ?? KeyManagementIssuanceModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            listOfEntities: const [],
+            departments: const [],
+            typeOfServices: const [],
+            errorMessage: '',
+          ),
+        );
 
   void onModelValueChange(KeyManagementIssuanceModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -46,30 +46,6 @@ class KeyManagementIssuanceDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void onAddPOC(String poc) {
-    log('-poc---$poc-');
-
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.loading,
-    ));
-    log('-state.poc---before---${state.pocs}----');
-
-    List<String>? pocs = state.pocs ?? [];
-    log('-pocs--$pocs----');
-    pocs.add(poc);
-    log('-pocs-22-$pocs----');
-    state.copyWith(
-      pocs: pocs,
-    );
-    log('-state.poc---after---${state.pocs}----');
-    state.model.employeeId = Utils().joinListWithComma(pocs);
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.initial,
-    ));
   }
 
   Future<void> initializeValues() async {
@@ -82,45 +58,42 @@ class KeyManagementIssuanceDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Locations getLocationsData =
-      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      // Use Future.wait to call API functions concurrently
+      final futures = await Future.wait([
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getUsers(),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getUiLabels(
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.keyManagementIssuanceModule),
+        SharedPrefs.getDefaultLocation(),
+      ]);
 
-      AddEntities entities =
-      await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
-      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-
-      TypeOfServices typeOfService = await commonServices.getTypeOfService(
-          name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
-
-      User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
-      // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
-      // state.model.inputDate =
-      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        if (defaultLocation != null) {
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.slaViolationPenaltyDetailsModule,
-          );
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
+      Locations getLocationsData = futures[0];
+      User loggedInUserDetails = futures[1];
+      Analyst users = futures[2];
+      AddEntities entities = futures[3];
+      List<User> entrySecurities = futures[4];
+      GetDepositor emailUsers = futures[5];
+      EmployeeDepartments departments = futures[6];
+      dynamic responseLabels = futures[7];
+      Organisation? defaultLocation = futures[8];
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
       }
-
-      log('-typeOfService.items---${typeOfService.items}---');
-
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.createdBy = loggedInUserDetails;
+      // Get Date of Creation
+      state.model.createdDate = Utils().getCurrentDate();
+      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
@@ -129,19 +102,18 @@ class KeyManagementIssuanceDetailsCubit
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
+          departments: departments.employeeDepartments,
           listOfEntities: entities.atomEntities,
-          departments: vendors.items,
-          typeOfServices: typeOfService.items,
-          labels: labels,
+          emailUsers: emailUsers.atomStaticUser,
+          //labels: labels,
         ),
       );
     } catch (e) {
-      log('initialization issue',
-          error: e, name: 'SLA Violation Penalty Details Cubit');
+      log('Initialization issue',
+          error: e, name: 'Key Management Issuance Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );
@@ -150,12 +122,12 @@ class KeyManagementIssuanceDetailsCubit
 
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
-    Organisation? vendors,
+    Organisation? department,
     List<Organisation>? typeOfServices,
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
-    BaseUser? receiverEmailUser,
+    User? handedOverTo,
     int? employeeType,
     int? keyHandingOverDuration,
   }) async {
@@ -168,38 +140,28 @@ class KeyManagementIssuanceDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.slaViolationPenaltyDetailsModule,
+        moduleCode: Constants.keyManagementIssuanceModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration = keyHandingOverDuration ?? state.model.keyHandingOverDuration;
+    state.model.keyHandingOverDuration =
+        keyHandingOverDuration ?? state.model.keyHandingOverDuration;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModule);
+          moduleCode: Constants.keyManagementIssuanceModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     if (entities != null) {
-      state.model.entity = entities;
+      state.model.entities = entities;
     }
-    if (vendors != null) {
-      state.model.vendor = vendors;
-    }
-    if (typeOfServices != null) {
-      state.model.typeOfService = typeOfServices;
-    }
-    if (user != null) {
-      User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
-      );
-      state.model.entrySecurity = userDetails;
+    if (department != null) {
+      state.model.department = department;
     }
 
     if (user != null) {
@@ -208,7 +170,16 @@ class KeyManagementIssuanceDetailsCubit
         userId: user.id,
         userName: user.name,
       );
-      state.model.approver = userDetails;
+      state.model.createdBy = userDetails;
+    }
+
+    if (user != null) {
+      User userDetails = User(
+        name: user.name,
+        userId: user.id,
+        userName: user.name,
+      );
+      state.model.handedOverTo = userDetails;
     }
     emit(state.copyWith(
       model: state.model,
@@ -227,12 +198,12 @@ class KeyManagementIssuanceDetailsCubit
     );
 
     // Setting time in milliseconds
-    state.model.inputDate =
+    state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
-    KeyManagementIssuanceRequest(svpGi: state.model);
+        KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
@@ -241,7 +212,7 @@ class KeyManagementIssuanceDetailsCubit
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
+          state.model.createdDate =
               DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
@@ -251,12 +222,12 @@ class KeyManagementIssuanceDetailsCubit
           );
           return false;
         }
-        response = await services.createSLAViolationPenaltyGi(
+        response = await services.createKeyManagementIssuanceGi(
             body: request, isSubmit: false);
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
+          state.model.createdDate =
               DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
@@ -266,7 +237,7 @@ class KeyManagementIssuanceDetailsCubit
           );
           return false;
         }
-        response = await services.createSLAViolationPenaltyGi(
+        response = await services.createKeyManagementIssuanceGi(
             body: request, isSubmit: true);
       }
 
@@ -287,11 +258,11 @@ class KeyManagementIssuanceDetailsCubit
               : FormStatus.success,
         ),
       );
-      state.model.inputDate =
+      state.model.createdDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return true;
     } on Exception catch (e) {
-      state.model.inputDate =
+      state.model.createdDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
       emit(
         state.copyWith(

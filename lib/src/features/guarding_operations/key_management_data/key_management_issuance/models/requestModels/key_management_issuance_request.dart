@@ -3,16 +3,16 @@
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 
 class KeyManagementIssuanceRequest {
-  final KeyManagementIssuanceModel? svpGi;
+  final KeyManagementIssuanceModel? keyIssuanceGi;
 
   KeyManagementIssuanceRequest({
-    this.svpGi,
+    this.keyIssuanceGi,
   });
 
   KeyManagementIssuanceRequest.fromJson(Map<String, dynamic> json)
-      : svpGi = (json['svpGi'] as Map<String, dynamic>?) != null
-      ? KeyManagementIssuanceModel.fromJson(json['sla'] as Map<String, dynamic>)
+      : keyIssuanceGi = (json['keyIssuanceGi'] as Map<String, dynamic>?) != null
+      ? KeyManagementIssuanceModel.fromJson(json['keyIssuanceGi'] as Map<String, dynamic>)
       : null;
 
-  Map<String, dynamic> toJson() => {'svpGi': svpGi?.toJson()};
+  Map<String, dynamic> toJson() => {'keyIssuanceGi': keyIssuanceGi?.toJson()};
 }

@@ -20,6 +20,7 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
   static const String slaViolationPenaltyDetailsModule = 'SVP';
+  static const String keyManagementIssuanceModule = 'KMISS ';
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
@@ -683,8 +684,9 @@ class Constants {
   static const String keysLost = 'Keys Lost';
   static const String keysDamaged = 'Keys Damaged';
   static const String noKeysIssued = 'No. Keys Issued';
+  static const String handedOverDate = 'Handed Over Date';
 
-/// Duty Post Master
+  /// Duty Post Master
    static const String dutyPostMaster ='Duty Post Master';
   static const String editDutyPostMaster = 'Edit Duty Post Master';
   static const String createDutyPostMaster = 'Create Duty Post Master';

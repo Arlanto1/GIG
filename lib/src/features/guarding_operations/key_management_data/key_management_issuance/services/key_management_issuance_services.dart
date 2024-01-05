@@ -7,32 +7,32 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 
-
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getViolationPenaltiesListByType =
-      '$baseUrl/getVpListById/';
+  static final String _getIssuanceProcessListByType =
+      '$baseUrl/getKmiListById/';
 
-  static final String _getVP = '$baseUrl/getSvpList?';
+  static final String _getKMI = '$baseUrl/getKmiList?';
 
-  static final String _getStaffCategoriesValues = '$baseUrl/getStaffCategAndViolations';
+  static final String _getKeyDescriptionValues = '$baseUrl/getKeyDescList';
 
-  static final String _getById = '$baseUrl/getSvpGiById';
+  static final String _getById = '$baseUrl/getKmiGiById';
 
-  static final String _createGeneralInformation = '$baseUrl/createSvpGI?';
+  static final String _createGeneralInformation = '$baseUrl/createKmiGI?';
 
-  static final String _getViolationPenaltyById = '$baseUrl/getVpById';
-  static final String _deleteViolationRecordsById = '$baseUrl/deleteSlaVp';
+  static final String _getIssuanceProcessById = '$baseUrl/getKmiById';
+  static final String _deleteIssuanceProcessRecordsById =
+      '$baseUrl/deleteSlaVp';
 
   static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
 }
 
 class KeyManagementIssuanceServices {
-  Future<List<KeyIssuanceProcessRecord>> getViolationPenaltyList({
+  Future<List<KeyIssuanceProcessRecord>> getIssuanceProcessList({
     required String id,
   }) async {
-    String url = '${Apis._getViolationPenaltiesListByType}$id';
+    String url = '${Apis._getIssuanceProcessListByType}$id';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -41,24 +41,24 @@ class KeyManagementIssuanceServices {
         response.map((x) => KeyIssuanceProcessRecord.fromJson(x)));
   }
 
-  Future<Map<String, dynamic>> getStaffCategoriesValues() async {
-    String url = Apis._getStaffCategoriesValues;
-    Map<String, dynamic> response = await BaseApiService().getRequest(
+  Future<Map<String, dynamic>> getKeyDescriptionValues({required String locId
+  } ) async {
+    String url = '${Apis._getKeyDescriptionValues}?locId=$locId';
+    var  response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-
     return response;
   }
 
   Future<KeyManagementIssuanceResponseModel> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
+    // required String userId,
+    // required String locationId,
   }) async {
     String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getKMI}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -75,7 +75,7 @@ class KeyManagementIssuanceServices {
   }
 
   /// Create Services
-  Future<GenericResponse> createSLAViolationPenaltyGi({
+  Future<GenericResponse> createKeyManagementIssuanceGi({
     required KeyManagementIssuanceRequest body,
     required bool isSubmit,
   }) async {
@@ -88,12 +88,12 @@ class KeyManagementIssuanceServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<KeyManagementProcessListResponseModel> getVp({
+  Future<KeyManagementProcessListResponseModel> getKeyIssuanceProcess({
     required String startPosition,
     required String maximumRecords,
   }) async {
     String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getKMI}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -101,8 +101,8 @@ class KeyManagementIssuanceServices {
     return KeyManagementProcessListResponseModel.fromJson(response);
   }
 
-  Future<KeyIssuanceProcessRecord> getVPById(num id) async {
-    final String url = '${Apis._getViolationPenaltyById}/$id';
+  Future<KeyIssuanceProcessRecord> getIssuanceProcessById(num id) async {
+    final String url = '${Apis._getIssuanceProcessById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -110,7 +110,7 @@ class KeyManagementIssuanceServices {
   }
 
   Future<GenericResponse> deleteVpById(int id) async {
-    final String url = '${Apis._deleteViolationRecordsById}/$id';
+    final String url = '${Apis._deleteIssuanceProcessRecordsById}/$id';
     final response = await BaseApiService().deleteRequest(
       url: url,
     );
