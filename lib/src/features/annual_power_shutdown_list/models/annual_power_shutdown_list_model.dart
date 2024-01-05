@@ -134,9 +134,9 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   });
 
   factory AnnualPowerShutdownListModel.fromJson(Map<String, dynamic> json) =>
-      _$AnnualPowerShutdownListFromJson(json);
+      _$AnnualPowerShutdownListModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$AnnualPowerShutdownListToJson(this);
+  Map<String, dynamic> toJson() => _$AnnualPowerShutdownListModelToJson(this);
 
 }

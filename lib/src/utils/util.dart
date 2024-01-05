@@ -649,14 +649,33 @@ class Utils {
   }
 
   Widget buildOccurrenceStatus(int status) {
+      String statusText;
+
+      switch (status) {
+        case 1:
+          statusText = 'Created';
+          break;
+        case 2:
+          statusText = 'Submitted';
+          break;
+        default:
+          statusText = ''; // Handle the default case if needed
+      }
+      return IntrinsicWidth(
+        child: Row(
+          children: [
+            textHandling('Status: ', statusText),
+          ],
+        ),
+      );
+  }
+
+  Widget keyLossDestructionStatus(int status) {
     String statusText;
 
     switch (status) {
-      case 1:
+      case 0:
         statusText = 'Created';
-        break;
-      case 2:
-        statusText = 'Submitted';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -669,13 +688,21 @@ class Utils {
       ),
     );
   }
-
-  Widget keyLossDestructionStatus(int status) {
+  Widget keyManagementStatus(int status) {
     String statusText;
 
     switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
       case 0:
         statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Open';
+        break;
+      case 2:
+        statusText = 'Closed';
         break;
       default:
         statusText = ''; // Handle the default case if needed

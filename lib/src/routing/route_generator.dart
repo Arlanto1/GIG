@@ -16,6 +16,7 @@ import 'package:db_atom/src/features/dashboard/notifications/notification_detail
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -27,7 +28,12 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart' as kh;
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
@@ -64,11 +70,6 @@ import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst
     as sv;
 import 'package:db_atom/src/services/CommonServices.dart';
 
-import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
-
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart'
@@ -94,7 +95,13 @@ class RouteGenerator {
       // case appRoute:
       //   return MaterialPageRoute(builder: (context) => const App());
       case dashboardViewRoute:
-        return MaterialPageRoute(builder: (context) => const DashboardView());
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ChartsCubit>(
+            create: (_) => ChartsCubit(commonServices: commonServices),
+            child: const DashboardView(),
+          ),
+        );
 
       case notificationsViewRoute:
         return MaterialPageRoute(
@@ -892,18 +899,49 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        KeyManagementMasterModel? keyManagementMasterModel =
-            arguments["keyManagementMasterModel"];
+        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyManagementMasterDetailsCubit>(
             create: (_) => KeyManagementMasterDetailsCubit(
               services: services,
-              model: keyManagementMasterModel,
+              model: keyMgmtGi,
               commonServices: commonServices,
             ),
             child: KeyManagementMasterDetailsView(
-              model: keyManagementMasterModel,
+              model: keyMgmtGi,
               title: title,
+            ),
+          ),
+        );
+
+      case keyHistoryRecordsViewRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        String rankType = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
+          rankType = arguments[ConstantsArgument.rankType] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<kh.KeyHistoryRecordBloc>(
+            create: (_) => kh.KeyHistoryRecordBloc(
+              rankType: rankType,
+            )..add(kh.FetchData(
+              id: id,
+              type: type,
+              startPos: 0,
+              maxPos: 100,
+            )),
+            child: KeyHistoryRecordsView(
+              id: id,
+              type: type,
+              title: title,
+              rankType: rankType,
             ),
           ),
         );
@@ -1089,7 +1127,12 @@ class RouteGenerator {
         );
 
       default:
-        return MaterialPageRoute(builder: (context) => const DashboardView());
-    }
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ChartsCubit>(
+            create: (_) => ChartsCubit(commonServices: commonServices),
+            child: const DashboardView(),
+          ),
+        );    }
   }
 }

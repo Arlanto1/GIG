@@ -8,12 +8,14 @@ class Organisation {
   String? name;
   @JsonKey(name: 'keyname')
   String? keyName;
+  String? description;
   bool? isSelected;
 
   Organisation({
     this.id,
     this.name,
     this.keyName,
+    this.description,
     this.isSelected = false,
   });
 
@@ -23,12 +25,14 @@ class Organisation {
 
   Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        name = json['name'] as String,
+        name = json['name'] as String?,
+        description = json['description'] as String?,
         keyName = json['keyname'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
+        'description': description,
         'keyname': keyName,
       };
 }

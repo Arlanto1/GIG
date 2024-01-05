@@ -495,7 +495,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+        BlocProvider.of<DutyPostMasterDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
     );
@@ -521,7 +521,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                 location.name = list?.name;
                 state.model.location = location;
 
-                BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                     .updateDropdownValues(location: location);
               },
             );

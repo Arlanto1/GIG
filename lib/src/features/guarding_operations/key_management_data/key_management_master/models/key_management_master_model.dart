@@ -1,12 +1,12 @@
 import 'package:db_atom/index.dart';
-part  'key_management_master_model.g.dart';
 
+part 'key_management_master_model.g.dart';
 
 class KeyManagementMasterResponse {
-  List<KeyManagementMasterModel>? items;
-  int? totalCount;
-  int? currentPageNo;
-  int? totalPageCount;
+  final List<KeyManagementMasterModel>? items;
+  final int? totalCount;
+  final int? currentPageNo;
+  final int? totalPageCount;
 
   KeyManagementMasterResponse({
     this.items,
@@ -17,169 +17,101 @@ class KeyManagementMasterResponse {
 
   KeyManagementMasterResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      KeyManagementMasterModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) =>
+                KeyManagementMasterModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
-class KeyManagementMasterModel extends BaseObject {
+class KeyManagementMasterModel {
+  String? keyManagementId;
   int? id;
   String? slNo;
+  User? createdBy;
+  List<Organisation>? entities;
   Organisation? location;
-  Organisation? locationRegion;
-  Organisation? vendor;
-  User? entrySecurity;
-  User? guard;
-  ImageContent? localAddressProof;
-  ImageContent? permanentAddressProof;
-  ImageContent? bopData;
-  ImageContent? photoGraph;
-  Organisation? entity;
-  String? inputDate;
-  String? msgbExemptionDate;
-  String? csrParticipationDates;
-  String? medicalCertificateValidUntil;
-  String? covidFirstDoseDate;
-  String? covidSecondDoseDate;
-  String? covidPrecautionaryDoseDate;
-  String? ertCertificationDate;
-  String? firstAidTrainingCompletionDate;
-  String? pvcIssuedDate;
-  String? pvcExpiryDate;
-  String? dateOfBirth;
-  String? dateOfJoining;
+  Organisation? region;
+  String? floor;
+  Organisation? doorType;
+  String? doorName;
+  bool doorAccessControl;
+  bool doorLockKey;
+  String? keyNo;
+  int? keyTagging;
+  int? noKeys;
+  int? noKeysIssued;
+  dynamic available;
+  dynamic returned;
+  dynamic notReturned;
+  dynamic lost;
+  dynamic damaged;
+  int? noMasterKey;
+  dynamic noKeysIssuedMaster;
+  dynamic availableMaster;
+  dynamic returnedMaster;
+  dynamic notReturnedMaster;
+  dynamic lostMaster;
+  dynamic damagedMaster;
+  dynamic total;
+  String? keysStored;
+  // int? createdDate;
+  dynamic modifiedDate;
+  dynamic modifiedBy;
+  List<dynamic>? lockChanged;
+  List<dynamic>? loss;
+  List<dynamic>? damage;
+  List<dynamic>? destroy;
   int? status;
-  num? height;
-  num? weight;
-  num? chest;
-  int? guardRank;
-  String? employeeCode;
-  String? dbEmployeeId;
-  int? dutyType;
-  int? gender;
-  String? contactNo;
-  int? dependentsNo;
-  int? maritalStatus;
-  int? typeOfDeployment;
-  bool deploymentOrderSubmitted;
-  List<ImageContent>? deploymentOrders;
-  bool physicallyFit;
-  String? localLanguage;
-  bool? localLangProficiencyR;
-  bool? hindiLangProficiencyR;
-  bool? englishLangProficiencyR;
-  bool? localLangProficiencyW;
-  bool? hindiLangProficiencyW;
-  bool? englishLangProficiencyW;
-  bool? localLangProficiencyS;
-  bool? hindiLangProficiencyS;
-  bool? englishLangProficiencyS;
-  String? securityExperience;
-  String? permanentAddress;
-  String? localAddress;
-  List<Organisation>? qualifications;
-  List<ImageContent>? pvc;
-  bool trainingCertificateProvided;
-  List<ImageContent>? trainingCertificates;
-  List<ImageContent>? medicalCertificates;
-  int? systemAccess;
-  bool onboarded;
-  String? esicNo;
-  String? uanNo;
-  bool msgbExempted;
-  int? msgbFormBSubmitted;
-  int? staffMsgbCompliant;
-  bool csrParticipation;
-  bool specialAchievement;
-  String? specialAchievementText;
-  String? additionalInitiatives;
-  List<dynamic>? history;
-  String? guardingPOC;
 
   KeyManagementMasterModel({
+    this.keyManagementId,
     this.id,
     this.slNo,
+    this.createdBy,
+    this.entities,
     this.location,
-    this.locationRegion,
-    this.entrySecurity,
-    this.guard,
-    this.localAddressProof,
-    this.permanentAddressProof,
-    this.bopData,
-    this.photoGraph,
-    this.entity,
-    this.inputDate,
-    this.msgbExemptionDate,
-    this.csrParticipationDates,
-    this.medicalCertificateValidUntil,
-    this.covidFirstDoseDate,
-    this.covidSecondDoseDate,
-    this.covidPrecautionaryDoseDate,
-    this.ertCertificationDate,
-    this.firstAidTrainingCompletionDate,
-    this.pvcExpiryDate,
-    this.pvcIssuedDate,
-    this.dateOfBirth,
-    this.dateOfJoining,
+    this.region,
+    this.floor,
+    this.doorType,
+    this.doorName,
+    this.doorAccessControl = false,
+    this.doorLockKey = false,
+    this.keyNo,
+    this.keyTagging,
+    this.noKeys,
+    this.noKeysIssued,
+    this.available,
+    this.returned,
+    this.notReturned,
+    this.lost,
+    this.damaged,
+    this.noMasterKey,
+    this.noKeysIssuedMaster,
+    this.availableMaster,
+    this.returnedMaster,
+    this.notReturnedMaster,
+    this.lostMaster,
+    this.damagedMaster,
+    this.total,
+    this.keysStored,
+    // this.createdDate,
+    this.modifiedDate,
+    this.modifiedBy,
+    this.lockChanged,
+    this.loss,
+    this.damage,
+    this.destroy,
     this.status,
-    this.height,
-    this.weight,
-    this.chest,
-    this.guardRank,
-    this.employeeCode,
-    this.dbEmployeeId,
-    this.vendor,
-    this.dutyType,
-    this.gender,
-    this.contactNo,
-    this.dependentsNo,
-    this.maritalStatus,
-    this.typeOfDeployment,
-    this.deploymentOrderSubmitted = false,
-    this.deploymentOrders,
-    this.physicallyFit = false,
-    this.localLanguage,
-    this.localLangProficiencyR,
-    this.hindiLangProficiencyR,
-    this.englishLangProficiencyR,
-    this.localLangProficiencyW,
-    this.hindiLangProficiencyW,
-    this.englishLangProficiencyW,
-    this.localLangProficiencyS,
-    this.hindiLangProficiencyS,
-    this.englishLangProficiencyS,
-    this.securityExperience,
-    this.permanentAddress,
-    this.localAddress,
-    this.qualifications,
-    this.pvc,
-    this.trainingCertificateProvided = false,
-    this.trainingCertificates,
-    this.medicalCertificates,
-    this.systemAccess,
-    this.onboarded = false,
-    this.esicNo,
-    this.uanNo,
-    this.msgbExempted = false,
-    this.msgbFormBSubmitted,
-    this.staffMsgbCompliant,
-    this.csrParticipation = false,
-    this.specialAchievement = false,
-    this.specialAchievementText,
-    this.additionalInitiatives,
-    this.history,
-    this.guardingPOC,
   });
 
   factory KeyManagementMasterModel.fromJson(Map<String, dynamic> json) =>
@@ -187,4 +119,94 @@ class KeyManagementMasterModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => _$KeyManagementMasterModelToJson(this);
+
+  
+// KeyManagementMasterModel.fromJson(Map<String, dynamic> json)
+  //     : keyManagementId = json['keyManagementId'] as String?,
+  //       id = json['id'] as int?,
+  //       slNo = json['slNo'] as String?,
+  //       createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
+  //           ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
+  //           : null,
+  //       entities = (json['entities'] as List<dynamic>?)
+  //           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
+  //           .toList(),
+  //       location = (json['location'] as Map<String, dynamic>?) != null
+  //           ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+  //           : null,
+  //       region = (json['region'] as Map<String, dynamic>?) != null
+  //           ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
+  //           : null,
+  //       floor = json['floor'] as String?,
+  //        doorType = json['doorType'],
+  //       doorName = json['doorName'] as String?,
+  //       doorAccessControl = json['doorAccessControl'] as bool,
+  //       doorLockKey = json['doorLockKey'] as bool,
+  //       keyNo = json['keyNo'] as String?,
+  //       keyTagging = json['keyTagging'] as int?,
+  //       noKeys = json['noKeys'],
+  //       noKeysIssued = json['noKeysIssued'],
+  //       available = json['available'],
+  //       returned = json['returned'],
+  //       notReturned = json['notReturned'],
+  //       lost = json['lost'],
+  //       damaged = json['damaged'],
+  //       noMasterKey = json['noMasterKey'],
+  //       noKeysIssuedMaster = json['noKeysIssuedMaster'],
+  //       availableMaster = json['availableMaster'],
+  //       returnedMaster = json['returnedMaster'],
+  //       notReturnedMaster = json['notReturnedMaster'],
+  //       lostMaster = json['lostMaster'],
+  //       damagedMaster = json['damagedMaster'],
+  //       total = json['total'],
+  //       keysStored = json['keysStored'] as String?,
+  //       // createdDate = json['createdDate'] as int?,
+  //       modifiedDate = json['modifiedDate'],
+  //       modifiedBy = json['modifiedBy'],
+  //       lockChanged = json['lockChanged'] as List?,
+  //       loss = json['loss'] as List?,
+  //       damage = json['damage'] as List?,
+  //       destroy = json['destroy'] as List?,
+  //       status = json['status'] as int?;
+  //
+  // Map<String, dynamic> toJson() => {
+  //       'keyManagementId': keyManagementId,
+  //       'id': id,
+  //       'slNo': slNo,
+  //       'createdBy': createdBy?.toJson(),
+  //       'floor': floor,
+  //       'entities': entities?.map((e) => e.toJson()).toList(),
+  //       'location': location?.toJson(),
+  //       'region': region?.toJson(),
+  //       'doorType': doorType,
+  //       'doorName': doorName,
+  //       'doorAccessControl': doorAccessControl,
+  //       'doorLockKey': doorLockKey,
+  //       'keyNo': keyNo,
+  //       'keyTagging': keyTagging,
+  //       'noKeys': noKeys,
+  //       'noKeysIssued': noKeysIssued,
+  //       'available': available,
+  //       'returned': returned,
+  //       'notReturned': notReturned,
+  //       'lost': lost,
+  //       'damaged': damaged,
+  //       'noMasterKey': noMasterKey,
+  //       'noKeysIssuedMaster': noKeysIssuedMaster,
+  //       'availableMaster': availableMaster,
+  //       'returnedMaster': returnedMaster,
+  //       'notReturnedMaster': notReturnedMaster,
+  //       'lostMaster': lostMaster,
+  //       'damagedMaster': damagedMaster,
+  //       'total': total,
+  //       'keysStored': keysStored,
+  //       // 'createdDate': createdDate,
+  //       'modifiedDate': modifiedDate,
+  //       'modifiedBy': modifiedBy,
+  //       'lockChanged': lockChanged,
+  //       'loss': loss,
+  //       'damage': damage,
+  //       'destroy': destroy,
+  //       'status': status
+  //     };
 }

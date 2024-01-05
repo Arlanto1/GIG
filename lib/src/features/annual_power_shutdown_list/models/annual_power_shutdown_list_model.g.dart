@@ -6,7 +6,8 @@ part of 'annual_power_shutdown_list_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AnnualPowerShutdownListModel _$AnnualPowerShutdownListFromJson(Map<String, dynamic> json) =>
+AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
+        Map<String, dynamic> json) =>
     AnnualPowerShutdownListModel(
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
@@ -17,7 +18,7 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListFromJson(Map<String, dynam
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
-          json['locationRegion'] as Map<String, dynamic>),
+              json['locationRegion'] as Map<String, dynamic>),
       entities: (json['entities'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -51,7 +52,7 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListFromJson(Map<String, dynam
       requesterDepartment: json['requesterDepartment'] == null
           ? null
           : Organisation.fromJson(
-          json['requesterDepartment'] as Map<String, dynamic>),
+              json['requesterDepartment'] as Map<String, dynamic>),
       epOfficers: (json['epOfficers'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -91,7 +92,8 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListFromJson(Map<String, dynam
       poNumber: json['poNumber'] as String?,
     )..lock = json['lock'] as String?;
 
-Map<String, dynamic> _$AnnualPowerShutdownListToJson(AnnualPowerShutdownListModel instance) =>
+Map<String, dynamic> _$AnnualPowerShutdownListModelToJson(
+        AnnualPowerShutdownListModel instance) =>
     <String, dynamic>{
       'lock': instance.lock,
       'id': instance.id,

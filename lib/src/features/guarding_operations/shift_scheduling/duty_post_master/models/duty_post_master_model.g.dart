@@ -6,8 +6,7 @@ part of 'duty_post_master_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DutyPostMasterModel _$DutyPostMasterModelFromJson(
-    Map<String, dynamic> json) =>
+DutyPostMasterModel _$DutyPostMasterModelFromJson(Map<String, dynamic> json) =>
     DutyPostMasterModel(
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
@@ -17,7 +16,7 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
-          json['locationRegion'] as Map<String, dynamic>),
+              json['locationRegion'] as Map<String, dynamic>),
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
@@ -27,11 +26,11 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
       localAddressProof: json['localAddressProof'] == null
           ? null
           : ImageContent.fromJson(
-          json['localAddressProof'] as Map<String, dynamic>),
+              json['localAddressProof'] as Map<String, dynamic>),
       permanentAddressProof: json['permanentAddressProof'] == null
           ? null
           : ImageContent.fromJson(
-          json['permanentAddressProof'] as Map<String, dynamic>),
+              json['permanentAddressProof'] as Map<String, dynamic>),
       bopData: json['bopData'] == null
           ? null
           : ImageContent.fromJson(json['bopData'] as Map<String, dynamic>),
@@ -45,13 +44,13 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
       msgbExemptionDate: json['msgbExemptionDate'] as String?,
       csrParticipationDates: json['csrParticipationDates'] as String?,
       medicalCertificateValidUntil:
-      json['medicalCertificateValidUntil'] as String?,
+          json['medicalCertificateValidUntil'] as String?,
       covidFirstDoseDate: json['covidFirstDoseDate'] as String?,
       covidSecondDoseDate: json['covidSecondDoseDate'] as String?,
       covidPrecautionaryDoseDate: json['covidPrecautionaryDoseDate'] as String?,
       ertCertificationDate: json['ertCertificationDate'] as String?,
       firstAidTrainingCompletionDate:
-      json['firstAidTrainingCompletionDate'] as String?,
+          json['firstAidTrainingCompletionDate'] as String?,
       pvcExpiryDate: json['pvcExpiryDate'] as String?,
       pvcIssuedDate: json['pvcIssuedDate'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
@@ -73,7 +72,7 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
       maritalStatus: json['maritalStatus'] as int?,
       typeOfDeployment: json['typeOfDeployment'] as int?,
       deploymentOrderSubmitted:
-      json['deploymentOrderSubmitted'] as bool? ?? false,
+          json['deploymentOrderSubmitted'] as bool? ?? false,
       deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -98,7 +97,7 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       trainingCertificateProvided:
-      json['trainingCertificateProvided'] as bool? ?? false,
+          json['trainingCertificateProvided'] as bool? ?? false,
       trainingCertificates: (json['trainingCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -121,7 +120,7 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$DutyPostMasterModelToJson(
-    DutyPostMasterModel instance) =>
+        DutyPostMasterModel instance) =>
     <String, dynamic>{
       'lock': instance.lock,
       'id': instance.id,

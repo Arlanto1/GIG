@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
@@ -49,9 +50,8 @@ class KeyManagementMasterListBloc
             await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-          locationId: '56',
         );
+        log('--getKeyManagementMasters----${getKeyManagementMasters.items?.length}-');
         return emit(
           state.copyWith(
             items: getKeyManagementMasters.items,
@@ -65,8 +65,6 @@ class KeyManagementMasterListBloc
           await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
-        locationId: '56',
       );
 
       if (getKeyManagementMaster.items?.isEmpty == true) {

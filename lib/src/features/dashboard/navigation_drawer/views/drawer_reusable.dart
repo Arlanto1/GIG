@@ -150,13 +150,10 @@ class NavigationDrawer1 extends StatelessWidget {
     List items,
     String title,
   ) {
-    log('----_genericItemSelection----title-111---$title--');
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
-      log('----drawerItem---${drawerItem.title}--');
-      log('----drawerItem---${drawerItem.numberOfChildren}--');
       children.add(
         Container(
           decoration: const BoxDecoration(
@@ -183,7 +180,6 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
-              log('----_genericExpandableDrawer----title----$title--');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -386,7 +382,6 @@ class NavigationDrawer1 extends StatelessWidget {
 
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
-    log('--_onGuardingOperationItemSelected---');
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -449,8 +444,6 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < mainDrawerItems.length; i++) {
       MenuItem drawerItem = mainDrawerItems[i];
-      log('-_buildDrawerChildren-----drawerItem.title- ${drawerItem.title}--');
-
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -545,7 +538,6 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < securityItems.length; i++) {
       MenuItem drawerItem = securityItems[i];
-      log('--_buildOperationsFromSecurity---drawerItem.title- ${drawerItem.title}--');
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -624,10 +616,17 @@ class NavigationDrawer1 extends StatelessWidget {
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
                     children: drawerItem.title == Constants.operations
-                        ? _genericItemExpandable(
+                        ?
+                        // _genericItemExpandable(
+                        //         context,
+                        //         expansionTileDrawerItems,
+                        //         Constants.operations,
+                        //       )
+
+                        _genericItemSelection(
                             context,
-                            expansionTileDrawerItems,
-                            Constants.operations,
+                            keyManagementDataItems,
+                            Constants.keyManagementMaster,
                           )
                         : _genericItemExpandable(
                             context,
@@ -759,9 +758,9 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
       log('Index 3 -$index--- ');
-      Navigator.pushNamed(context, annualPowerShutdownListRoute);
-    } else if (index == 4) {
       Navigator.pushNamed(context, incidentManagementsRoute);
+    } else if (index == 4) {
+      Navigator.pushNamed(context, annualPowerShutdownListRoute);
     } else if (index == 5) {
       //
     } else if (index == 6) {}
@@ -889,7 +888,6 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
     String title,
   ) {
-    log('-buildDrawerChildren-title--$title--');
     if (title == Constants.materialMovement) {
       return _genericItemSelection(context, materialMovementDrawerItems, title);
     } else if (title == Constants.securitySystemTickets) {

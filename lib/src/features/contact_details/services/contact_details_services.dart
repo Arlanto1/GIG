@@ -1,11 +1,6 @@
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
+import 'package:db_atom/index.dart';
 import '../models/contacts_list_response_model.dart';
 import '../models/requestModels/contacts_request.dart';
-import '../../../models/responseModels/generic_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -22,7 +17,7 @@ class Apis {
 
   static final String _createContactRecord = '$baseUrl/createContactInfo?';
 
-  static final String _deleteContacts = '$baseUrl/deleteContactInfo';
+  //static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
 
 class ContactDetailsServices {
@@ -115,11 +110,11 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<ContactRecord> deleteContacts(int id) async {
-    final String url = '${Apis._deleteContacts}/$id';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return ContactRecord.fromJson(response);
-  }
+  // Future<ContactRecord> deleteContacts(int id) async {
+  //   final String url = '${Apis._deleteContacts}/$id';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return ContactRecord.fromJson(response);
+  // }
 }
