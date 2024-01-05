@@ -1,8 +1,8 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementMasterListView extends StatefulWidget {
   const KeyManagementMasterListView({
@@ -107,7 +107,9 @@ class _KeyManagementMasterListViewState
                   //     value: DateFormat('dd-MM-yyyy').format(
                   //         DateTime.fromMillisecondsSinceEpoch(
                   //             state.list[index].createdDate ?? 0 * 1000))));
-                }
+
+                  log('-$index--state.list.length---${state.list.length}---');
+
                 return index >= state.list.length
                     ? const BaseLoader()
                     : BaseListTileItem(
@@ -159,8 +161,17 @@ class _KeyManagementMasterListViewState
                         },
                         index: index,
                       );
-              },
+
+              }
+                // Handle the case where index is out of bounds
+                return const Center(
+                  child: SizedBox(),
+                );
+              }
+
+
             ),
+
           );
         }));
   }
