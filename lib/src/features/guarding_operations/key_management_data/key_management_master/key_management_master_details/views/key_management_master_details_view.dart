@@ -619,13 +619,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                keyHistoryRecordsDetailsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.lockChangeHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.localChangeHistoryType,
+                                  // ConstantsArgument.type:
+                                  //     Constants.localChangeHistoryType,
                                 },
                               );
                             },
@@ -674,13 +674,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                keyHistoryRecordsDetailsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.keyLostHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyLostHistoryType,
+                                  // ConstantsArgument.type:
+                                  //     Constants.keyLostHistoryType,
                                 },
                               );
                             },
@@ -728,13 +728,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                keyHistoryRecordsDetailsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.keyDamageHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyDamageHistoryType,
+                                  // ConstantsArgument.type:
+                                  //     Constants.keyDamageHistoryType,
                                 },
                               );
                             },
@@ -782,13 +782,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                keyHistoryRecordsDetailsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyDestroyHistoryType,
+                                  // ConstantsArgument.type:
+                                  //     Constants.keyDestroyHistoryType,
                                 },
                               );
                             },
