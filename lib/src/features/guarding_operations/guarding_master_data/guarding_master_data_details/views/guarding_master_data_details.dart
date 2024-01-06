@@ -349,7 +349,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 height: 70,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     entities: state.listOfEntities,
                                     // TODO: Need to change EntrySecurity to BaseUser
@@ -390,7 +390,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   height: 70,
                                   isDisableColor: false,
                                   onTap: () {
-                                    BaseDepartmentDialog().userDialog(
+                                    BaseOrganisationDialog().userDialog(
                                       context: context,
                                       users: state.emailUsers!,
                                       // TODO: Need to change EntrySecurity to BaseUser
@@ -463,9 +463,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  departments: state.departments,
+                                  organisations: state.departments,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 GuardingMasterDataDetailsCubit>(

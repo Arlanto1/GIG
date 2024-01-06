@@ -3,6 +3,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
+import 'package:db_atom/src/models/keyDescription.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -38,14 +39,24 @@ class KeyManagementIssuanceServices {
         response.map((x) => KeyIssuanceProcessRecord.fromJson(x)));
   }
 
-  Future<List<Organisation>> getKeyDescriptionValues({required String locId
+  Future<List<Organisation>> getKeyDescriptionValues({required int locationId
   } ) async {
-    String url = '${Apis._getKeyDescriptionValues}?locId=$locId';
+    String url = '${Apis._getKeyDescriptionValues}?locId=$locationId';
     var  response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
     return List<Organisation>.from(response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<List<KeyDescription>> getKeyDescriptionValues22({required int locationId
+  } ) async {
+    String url = '${Apis._getKeyDescriptionValues}?locId=$locationId';
+    var  response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return List<KeyDescription>.from(response.map((x) => KeyDescription.fromJson(x)));
   }
 
   Future<KeyManagementIssuanceResponseModel> getList({
@@ -63,7 +74,7 @@ class KeyManagementIssuanceServices {
     return KeyManagementIssuanceResponseModel.fromJson(response);
   }
 
-  Future<KeyManagementIssuanceModel> getKMIById(int id) async {
+  Future<KeyManagementIssuanceModel> getById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,

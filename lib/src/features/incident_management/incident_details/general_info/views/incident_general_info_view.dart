@@ -351,9 +351,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    departments: state.getArticleTypeResponse,
+                                    organisations: state.getArticleTypeResponse,
                                     onTap: (Organisation articleType) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -425,7 +425,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,
@@ -501,9 +501,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    departments: state.departments,
+                                    organisations: state.departments,
                                     onTap: (Organisation department) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -526,7 +526,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -607,7 +607,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -634,7 +634,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,

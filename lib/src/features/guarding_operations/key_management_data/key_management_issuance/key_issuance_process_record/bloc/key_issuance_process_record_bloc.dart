@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -12,11 +12,13 @@ part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
-  final String violationDescription;
-  final int kmiId;
+  final int locationId;
+  final int parentId;
 
-  KeyIssuanceProcessRecordBloc({required this.violationDescription,required this.kmiId})
-      : super(const KeyIssuanceProcessRecordState(violationDescriptions: [])) {
+  KeyIssuanceProcessRecordBloc({
+    required this.locationId,
+    required this.parentId,
+  }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -30,16 +32,18 @@ class KeyIssuanceProcessRecordBloc
       KeyManagementIssuanceServices();
   final CommonServices commonServices = CommonServices();
 
-  String get locId => '0';
-
   FutureOr<void> _initializeValues(InitializeValues event,
       Emitter<KeyIssuanceProcessRecordState> emit) async {
     try {
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
-      List<Organisation> getKeyDescriptionValues =
-      await KeyManagementIssuanceServices()
-          .getKeyDescriptionValues(locId: '41');
+      List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
+          .getKeyDescriptionValues(locationId: locationId);
+
+      log('---keyDescriptions-bloc--${keyDescriptions.length}-');
+      for(Organisation org in keyDescriptions) {
+        log('-keyDescriptions--${org.keyDescription}-');
+      }
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
@@ -49,7 +53,7 @@ class KeyIssuanceProcessRecordBloc
         state.copyWith(
           hasReachedMax: false,
           labels: labels,
-          keyDescriptions: getKeyDescriptionValues,
+          keyDescriptions: keyDescriptions,
         ),
       );
     } on Exception {
@@ -138,8 +142,8 @@ class KeyIssuanceProcessRecordBloc
           KeyIssuanceProcessRecordRequest();
 
       request.vp = event.keyIssuanceProcessRecord;
-      await KeyManagementIssuanceServices()
-          .createIssuanceProcessRecord(body: request, isSubmit: false, kmiId: 0);
+      await KeyManagementIssuanceServices().createIssuanceProcessRecord(
+          body: request, isSubmit: false, kmiId: 0);
 
       /// Refresh list
       List<KeyIssuanceProcessRecord> response =

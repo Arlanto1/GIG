@@ -9,16 +9,14 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    required this.users,
-    required this.getKeyDescriptionValues,
+    required this.keyDescriptions,
   });
 
   final String title;
   final Function onSubmit;
   final KeyIssuanceProcessRecord model;
-  final List<Organisation> users;
   final BuildContext mainContext;
-  final List<Organisation>? getKeyDescriptionValues;
+  final List<Organisation> keyDescriptions;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -53,20 +51,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     // updateStaffCategoryText();
   }
 
-  // void updateStaffCategoryText() {
-  //  // String staffCategoryValue = widget.model.staffCategory.toString();
-  //   log('--staffCategoryValue---$staffCategoryValue--');
-  //   Label? matchingLabel = staffCategoryDropDownValues
-  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
-  //
-  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
-  //
-  //   keysController.text = matchingLabel?.key ?? '';
-  //   log('--staffCategoryController.text---${keysController.text}--');
-  // }
-
   @override
   Widget build(BuildContext context) {
+    log('--keyDescriptions----${widget.keyDescriptions.length}--');
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -104,18 +91,21 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.model.keyDescription?.name ?? '',
+                            title: keyDescriptionController.text,
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: widget.users,
+                                organisations: widget.keyDescriptions,
                                 onTap: (Organisation org) {
                                   keyDescriptionController.text =
-                                      org.name ?? '';
+                                      org.keyDescription ?? '';
 
-                                  log('-org.keyName----${org.keyName}-');
+                                  log('-org.keyName----${org.id}-');
+                                  log('-org.keyName----${org.keyDescription}-');
+                                  log('-org.keyName----${org.noKeys}-');
+                                  log('-org.keyName----${org.noKeysIssued}-');
 
                                   keyDescriptionController.text =
                                       org.keyName ?? ''; // Penalty Amount

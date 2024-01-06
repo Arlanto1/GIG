@@ -182,9 +182,9 @@ class _RatesInfoState extends State<RatesInfo> {
                                 height: 60,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    departments: state.departments,
+                                    organisations: state.departments,
                                     onTap: (Organisation department) {
                                       BlocProvider.of<PayRateCubit>(context)
                                           .updateDropdownValues(

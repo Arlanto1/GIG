@@ -24,11 +24,13 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   const KeyIssuanceProcessRecordsView({
     super.key,
     required this.id,
+    required this.locationId,
     required this.title,
     this.model,
   });
 
   final int id;
+  final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
 
@@ -44,10 +46,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
     context.read<KeyIssuanceProcessRecordBloc>().add(
           const InitializeValues(),
         );
+    _scrollController = ScrollController()..addListener(_onScroll);
   }
 
   @override
@@ -76,21 +78,26 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         KeyIssuanceProcessRecordState>(listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
+      log('-k desc--${state.keyDescriptions?.length}---');
+
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-            log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
+          onPressed: () async {
+            log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
+
+            List<Organisation> keyDescriptions =
+                await KeyManagementIssuanceServices()
+                    .getKeyDescriptionValues(locationId: widget.locationId);
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
               keyIssuanceProcessRecord: KeyIssuanceProcessRecord(
                 id: widget.id,
               ),
-              users: state.violationDescriptions ?? [],
-              keyDescriptions: state.keyDescriptions,
+              keyDescriptions: keyDescriptions,
             );
           },
         ),
@@ -109,6 +116,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   }
 
   getBody(KeyIssuanceProcessRecordState state) {
+    log('-k desc-22-${state.keyDescriptions?.length}---');
+
     if (state.status == FormStatus.initial ||
         state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -171,13 +180,17 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                               .getIssuanceProcessById(
                                   state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.violationDescriptions?.length}---');
+                      List<Organisation> keyDescriptions =
+                          await KeyManagementIssuanceServices()
+                              .getKeyDescriptionValues(
+                                  locationId: widget.locationId);
+
+                      log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 
                       showAddKeyIssuanceProcessPopUp(
                         context: context,
                         keyIssuanceProcessRecord: KeyIssuanceProcessModel,
-                        users: state.violationDescriptions ?? [],
-                        keyDescriptions: state.keyDescriptions,
+                        keyDescriptions: keyDescriptions,
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -210,10 +223,15 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   showAddKeyIssuanceProcessPopUp({
     required BuildContext context,
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,
-    required final List<Organisation> users,
-    required final List<Organisation>? keyDescriptions,
+    required final List<Organisation> keyDescriptions,
   }) {
-    log('--.users-1111-llen--${users.length}---');
+    log('---showAddKeyIssuanceProcessPopUp-----k desc-333-${keyDescriptions.length}---');
+
+    // List<Organisation> orgs=[];
+    //  for(KeyDescription keyDescription in keyDescriptions) {
+    //    orgs.add(Organisation(name: keyDescription.keyDescription));
+    // }
+
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -221,8 +239,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           title: widget.title,
           model: keyIssuanceProcessRecord,
           mainContext: context,
-          users: users,
-          getKeyDescriptionValues: keyDescriptions,
+          keyDescriptions: keyDescriptions,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

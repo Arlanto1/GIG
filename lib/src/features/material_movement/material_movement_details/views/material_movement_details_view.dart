@@ -596,7 +596,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 1
                                               ? false
                                               : true) {
-                                            BaseDepartmentDialog().userDialog(
+                                            BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.emailUsers!,
                                               onTap: (BaseUser user) {
@@ -700,9 +700,9 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 1
                                           ? false
                                           : true) {
-                                        BaseDepartmentDialog().departmentDialog(
+                                        BaseOrganisationDialog().departmentDialog(
                                           context: context,
-                                          departments: state.departments,
+                                          organisations: state.departments,
                                           onTap: (Organisation department) {
                                             state.model.requestorDepartment
                                                 ?.name = department.name;
@@ -861,9 +861,9 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 1)
                                           ? false
                                           : true) {
-                                        BaseDepartmentDialog().departmentDialog(
+                                        BaseOrganisationDialog().departmentDialog(
                                           context: context,
-                                          departments: state.departments,
+                                          organisations: state.departments,
                                           onTap: (Organisation department) {
                                             state.model.preparedByDepartment
                                                 ?.name = department.name;
@@ -907,7 +907,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 1)
                                               ? false
                                               : true) {
-                                            BaseDepartmentDialog().userDialog(
+                                            BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.approver1Users!,
                                               onTap: (BaseUser user) {
@@ -974,9 +974,9 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 1)
                                           ? false
                                           : true) {
-                                        BaseDepartmentDialog().departmentDialog(
+                                        BaseOrganisationDialog().departmentDialog(
                                           context: context,
-                                          departments: state.departments,
+                                          organisations: state.departments,
                                           onTap: (Organisation department) {
                                             state.model.approver1Department
                                                 ?.name = department.name;
@@ -1020,7 +1020,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 1)
                                               ? false
                                               : true) {
-                                            BaseDepartmentDialog().userDialog(
+                                            BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.approver2Users!,
                                               onTap: (BaseUser user) {
@@ -1088,9 +1088,9 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 1)
                                           ? false
                                           : true) {
-                                        BaseDepartmentDialog().departmentDialog(
+                                        BaseOrganisationDialog().departmentDialog(
                                           context: context,
-                                          departments: state.departments,
+                                          organisations: state.departments,
                                           onTap: (Organisation department) {
                                             state.model.approver2Department
                                                 ?.name = department.name;
@@ -1440,7 +1440,7 @@ class _MaterialMovementDetailsViewState
                                             : true,
                                         onTap: () {
                                           if (state.model.status != 6) {
-                                            BaseDepartmentDialog().userDialog(
+                                            BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.emailUsers!,
                                               onTap: (BaseUser user) {
@@ -1536,9 +1536,9 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 6 ? false : true,
                                     onTap: () {
                                       // if (widget.materialMovement != null) {
-                                      BaseDepartmentDialog().departmentDialog(
+                                      BaseOrganisationDialog().departmentDialog(
                                         context: context,
-                                        departments: state.departments,
+                                        organisations: state.departments,
                                         onTap: (Organisation department) {
                                           state.model.receiverDepartmenttName =
                                               department.name;
@@ -1784,7 +1784,7 @@ class _MaterialMovementDetailsViewState
                                                   : true,
                                           onTap: () {
                                             if (state.model.status != 6) {
-                                              BaseDepartmentDialog().userDialog(
+                                              BaseOrganisationDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {

@@ -4,7 +4,6 @@ class KeyIssuanceProcessRecordState extends Equatable {
   final List<KeyIssuanceProcessRecord>? items;
   final bool hasReachedMax;
   final FormStatus status;
-  final List<Organisation>? violationDescriptions;
   final List<Organisation>? keyDescriptions;
   final String? message;
   final SlaUiLabels? labels;
@@ -14,7 +13,6 @@ class KeyIssuanceProcessRecordState extends Equatable {
     this.items = const <KeyIssuanceProcessRecord>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    this.violationDescriptions,
     this.keyDescriptions,
     this.labels,
   });
@@ -23,7 +21,6 @@ class KeyIssuanceProcessRecordState extends Equatable {
     List<KeyIssuanceProcessRecord>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    List<Organisation>? violationDescriptions,
     List<Organisation>? keyDescriptions,
     String? message,
     SlaUiLabels? labels,
@@ -32,8 +29,6 @@ class KeyIssuanceProcessRecordState extends Equatable {
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      violationDescriptions:
-          violationDescriptions ?? this.violationDescriptions,
       keyDescriptions:
       keyDescriptions ?? this.keyDescriptions,
       message: message ?? this.message,
@@ -43,5 +38,5 @@ class KeyIssuanceProcessRecordState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [items, hasReachedMax, status, violationDescriptions];
+      [items, hasReachedMax, status];
 }

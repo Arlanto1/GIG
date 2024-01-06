@@ -89,7 +89,6 @@
 //   Map<String, dynamic> toJson() => _$KeyManagementIssuanceModelToJson(this);
 // }
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 
 class KeyManagementIssuanceResponseModel {
   final List<KeyManagementIssuanceModel>? items;
@@ -247,6 +246,7 @@ class KeyManagementIssuanceModel {
         'returnedByName': returnedByName,
         'securitySign': securitySign,
         'createdDate': createdDate,
+        'entities': entities,
         'modifiedDate': modifiedDate,
         'modifiedBy': modifiedBy,
         'status': status,

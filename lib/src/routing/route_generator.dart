@@ -1023,30 +1023,28 @@ class RouteGenerator {
 
       case keyManagementIssuanceProcessRecordsRoute:
         String title = '';
-        int id = 0;
-        String violationDescription = '';
-        int kmiId;
+        int parentId = 0;
+        int locationId = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          violationDescription =
-              arguments[ConstantsArgument.violationDescription] ?? '';
-          kmiId = arguments[ConstantsArgument.id] ?? '';
+          parentId = arguments[ConstantsArgument.parentId];
+          locationId = arguments[ConstantsArgument.locationId];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
-              violationDescription: violationDescription,
-              kmiId: id,
+              locationId: locationId,
+              parentId: parentId,
             )..add(kip.FetchData(
-                id: id,
+                id: parentId,
                 startPos: 0,
                 maxPos: 100,
               )),
             child: KeyIssuanceProcessRecordsView(
-              id: id,
+              id: parentId,
+              locationId: locationId,
               title: title,
             ),
           ),

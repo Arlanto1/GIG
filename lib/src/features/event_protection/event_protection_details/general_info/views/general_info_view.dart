@@ -25,7 +25,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
@@ -394,7 +394,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
                                     onTap: (BaseUser user) {
@@ -420,7 +420,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
                                     onTap: (BaseUser user) {
@@ -447,7 +447,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,
@@ -474,7 +474,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
                                     onTap: (BaseUser user) {
@@ -501,7 +501,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -552,7 +552,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -604,7 +604,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -656,7 +656,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -708,9 +708,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    departments: state.departments,
+                                    organisations: state.departments,
                                     onTap: (Organisation department) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
@@ -732,9 +732,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    departments: state.departments,
+                                    organisations: state.departments,
                                     onTap: (Organisation department) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
@@ -995,9 +995,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  departments: state.departments,
+                                  organisations: state.departments,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -1019,7 +1019,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,

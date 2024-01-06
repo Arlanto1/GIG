@@ -178,7 +178,7 @@ class _KeyManagementIssuanceListViewState
     showLoadingDialog(context);
 
     KeyManagementIssuanceModel keyManagementIssuanceModel =
-        await KeyManagementIssuanceServices().getKMIById(id);
+        await KeyManagementIssuanceServices().getById(id);
 
     editDataLoading(keyManagementIssuanceModel);
   }
