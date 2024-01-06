@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotificationDetailsView extends StatefulWidget {
   const NotificationDetailsView({
@@ -125,8 +126,14 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         SingleChildScrollView(
-                          child: Html(
-                            data: state.model.content?.text ?? '',
+                          child: HtmlWidget(
+                            state.model.content?.text ?? '',
+                            onTapUrl: (url) {
+
+                              print('tapped-- $url'); // getting url value = #
+                              launchURL(Uri.encodeFull(url ?? ''));
+                              return true;
+                            },
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -156,6 +163,20 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
         ),
       ),
     );
+  }
+
+  String urlss =
+      'https://www.google.com/search?q=backend+fcm+notification&sca_esv=590025935&sxsrf=AM9HkKkKOk3k5RhFBbIjS1FejyRL4UhpHA%3A1702353527652&ei=d9p3ZcepJ5KNnesP1ZC8uAI&ved=0ahUKEwiHwbCKgYmDAxWSRmcHHVUIDycQ4dUDCBA&uact=5&oq=backend+fcm+notification&gs_lp=Egxnd3Mtd2l6LXNlcnAiGGJhY2tlbmQgZmNtIG5vdGlmaWNhdGlvbjIIECEYoAEYwwRIrzJQiARYyCZwBXgBkAEAmAHMAaABvQuqAQUwLjkuMbgBA8gBAPgBAcICChAAGEcY1gQYsAPCAg0QABiABBiKBRhDGLADwgIIEAAYCBgHGB7CAgsQABiABBiKBRiGA8ICChAhGKABGMMEGAriAwQYACBBiAYBkAYK&sclient=gws-wiz-serp';
+
+  void launchURL(String url) async {
+    log('----launchURL--');
+    if (await canLaunchUrl(Uri.parse(url))) {
+      log('----canLaunchUrl--');
+      await launchUrl(Uri.parse(url));
+    } else {
+      log('-else---canLaunchUrl--');
+      throw 'Could not launch $url';
+    }
   }
 
   Widget submitButtonDisplay(NotificationDetailsState state) {
