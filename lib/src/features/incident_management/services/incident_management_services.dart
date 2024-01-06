@@ -61,7 +61,6 @@ class IncidentManagementServices {
       url: url,
       requestedData: body.toJson(),
     );
-    log('------response----${response.toString()}');
     return GenericResponse.fromJson(response);
   }
 }

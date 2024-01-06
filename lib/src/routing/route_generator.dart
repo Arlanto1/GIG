@@ -28,11 +28,13 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart'
+    as kh;
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
@@ -77,6 +79,8 @@ import '../features/guarding_operations/key_management_data/key_management_issua
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
@@ -912,6 +916,63 @@ class RouteGenerator {
           ),
         );
 
+      case keyHistoryRecordsViewRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type];
+        }
+        log('route----type--$type--');
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<kh.KeyHistoryRecordBloc>(
+            create: (_) => kh.KeyHistoryRecordBloc()
+              ..add(kh.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: KeyHistoryRecordsView(
+              id: id,
+              type: type,
+            ),
+          ),
+        );
+
+      case keyHistoryRecordsDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        int parentId = 0;
+        String title;
+        int type = 0;
+
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        parentId = arguments[ConstantsArgument.id];
+        type = arguments[ConstantsArgument.type];
+        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
+            create: (_) => KeyHistoryRecordsDetailsCubit(
+              services: services,
+              model: keyMgmtGi,
+              parentId: parentId,
+              commonServices: commonServices,
+            ),
+            child: KeyHistoryRecordsDetailsView(
+              model: keyMgmtGi,
+              title: title,
+              parentId: parentId,
+              type: type,
+            ),
+          ),
+        );
       case keyReconciliationListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyReconciliationListBloc>(
@@ -964,6 +1025,7 @@ class RouteGenerator {
         String title = '';
         int id = 0;
         String violationDescription = '';
+        int kmiId;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -971,11 +1033,13 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           violationDescription =
               arguments[ConstantsArgument.violationDescription] ?? '';
+          kmiId = arguments[ConstantsArgument.id] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
               violationDescription: violationDescription,
+              kmiId: id,
             )..add(kip.FetchData(
                 id: id,
                 startPos: 0,
@@ -1099,6 +1163,7 @@ class RouteGenerator {
             create: (_) => ChartsCubit(commonServices: commonServices),
             child: const DashboardView(),
           ),
-        );    }
+        );
+    }
   }
 }

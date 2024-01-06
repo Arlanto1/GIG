@@ -1,4 +1,6 @@
 
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
+
 import '../../../../../../index.dart';
 
 part 'key_issuance_process_list_model.g.dart';
@@ -36,10 +38,10 @@ class KeyManagementProcessListResponseModel extends BaseObject {
 
 @JsonSerializable()
 class KeyManagementProcessListModel extends BaseObject {
-  final List<ViolationPenaltyRecord>? violationPenalties;
+  final List<KeyIssuanceProcessRecord>? keyIssuanceProcessRecord;
 
   KeyManagementProcessListModel({
-    this.violationPenalties,
+    this.keyIssuanceProcessRecord,
   });
 
   factory KeyManagementProcessListModel.fromJson(Map<String, dynamic> json) =>

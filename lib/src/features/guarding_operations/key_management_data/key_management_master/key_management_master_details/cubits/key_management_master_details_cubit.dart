@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/keyType_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
@@ -13,7 +11,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'key_management_master_details_state.dart';
@@ -113,7 +110,7 @@ class KeyManagementMasterDetailsCubit
       state.model.createdBy = loggedInUserDetails;
 
       // Get Date of Creation
-      // state.model.createdDate =  DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = Utils().getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -147,7 +144,7 @@ class KeyManagementMasterDetailsCubit
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
-    List<Organisation>? doorType,
+    Organisation? doorType,
     BaseUser? guard,
     List<Organisation>? entities,
     int? status,
@@ -178,11 +175,21 @@ class KeyManagementMasterDetailsCubit
       state.model.doorType = doorType;
     }
 
+    if (entities != null) {
+      state.model.entities = entities;
+    }
     state.model.keyTagging = keyTagging ?? state.model.keyTagging;
     state.model.status = status ?? state.model.status;
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -193,9 +200,8 @@ class KeyManagementMasterDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-
+    state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementMasterRequest request =
         KeyManagementMasterRequest(keyMgmtGi: state.model);
@@ -210,7 +216,7 @@ class KeyManagementMasterDetailsCubit
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: false));
@@ -223,11 +229,19 @@ class KeyManagementMasterDetailsCubit
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -235,15 +249,18 @@ class KeyManagementMasterDetailsCubit
           status: FormStatus.error,
         ),
       );
+      return false;
     }
 
-    print('---response--msg--${response.message}---');
-
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
+    return true;
   }
 }

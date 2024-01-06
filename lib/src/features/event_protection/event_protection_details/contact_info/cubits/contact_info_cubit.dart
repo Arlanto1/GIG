@@ -128,7 +128,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Organisation>? entities,
     Organisation? location,
     User? user,
     Organisation? requesterDepartment,

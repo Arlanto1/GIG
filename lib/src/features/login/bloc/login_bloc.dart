@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
@@ -30,20 +29,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       userName = data.request?.userName ?? '';
       password = data.request?.password ?? '';
 
+      log('-1-----');
+
       /// Verify OTP
       if (!event.isFromLogin) {
+        log('-2-----');
         log('email address is ${loginData.user?.email}');
         await SharedPrefs.setUsername(userName);
         await SharedPrefs.setUserId('${loginData.user?.userId}');
-        await SharedPrefs.setEmail('${loginData.user?.email}');
+        log('-2-22----');
+        await SharedPrefs.setEmail(loginData.user?.email ?? '');
         await SharedPrefs.setIdentifymenuindex(0);
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
+        log('-2-33----');
 
-        if (loginData.user!.displayMenu == null) {
+        if (loginData.user?.displayMenu == null) {
+          log('-2-33-44---');
           emit(LoginSuccessState(message: 'Menu Roles are not defined'));
           return null;
         }
+        log('-3-----');
 
         /// Setting Menu Items according to User Role
         await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
@@ -51,6 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         /// Setting Default Location
         await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
+        log('-4-----');
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
@@ -59,6 +66,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginVerifyOtpActionState());
         }
       } else {
+        log('-5-----');
         emit(LoginSuccessState(message: loginData.message ?? ''));
       }
     } catch (e) {
@@ -68,7 +76,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             message: e.message ?? 'An unexpected error occurred.'));
       } else {
         // Handle other unexpected errors
-        log('An unexpected error occurred: $e');
+        log('An unexpected error occurred---1: $e');
         emit(LoginFailureState(message: 'An unexpected error occurred.'));
       }
       // Problem: not able to read the response here because loginData.msg is null

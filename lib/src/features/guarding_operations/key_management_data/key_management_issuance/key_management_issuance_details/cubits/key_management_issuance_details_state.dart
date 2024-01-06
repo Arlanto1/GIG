@@ -10,7 +10,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final List<Organisation> departments;
   final List<Organisation> typeOfServices;
   final String? message;
-  final List<String>? pocs;
+  final List<BaseUser>? emailUsers;
   final SlaUiLabels? labels;
 
 
@@ -37,7 +37,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       departments: departments,
       typeOfServices: typeOfServices,
       message: errorMessage,
-      pocs: pocs,
+      emailUsers: emailUsers,
     );
   }
 
@@ -45,18 +45,18 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.entrySecurity == null) {
+    if (model.createdBy == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entry Security');
     }
-    if (model.inputDate == null) {
+    if (model.createdDate == null) {
       return const ErrorResponse(
           status: false, message: 'Created Date is required');
     }
-    if (model.location == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
+    // if (model.location == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Location');
+    // }
 
     if (model.slNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
@@ -66,27 +66,27 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.location == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
-    if (model.vendor == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    }
-    if (model.entity == null) {
+    // if (model.location == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Location');
+    // }
+    // if (model.vendor == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    // }
+    if (model.entities == null) {
       return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
-    if (model.typeOfService == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Type of Services');
-    }
-    if (model.approver == null) {
-      return const ErrorResponse(status: false, message: 'Please enter ASL');
-    }
-    if (model.employeeId == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Agency POC');
-    }
+    // if (model.typeOfService == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Type of Services');
+    // }
+    // if (model.approver == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter ASL');
+    // }
+    // if (model.employeeId == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Guarding Agency POC');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -103,9 +103,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     required this.typeOfServices,
     this.users,
     this.message,
-    this.pocs,
     this.labels,
-
+    this.emailUsers,
   });
 
   KeyManagementIssuanceDetailsState copyWith({
@@ -117,9 +116,9 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? typeOfServices,
-    List<String>? pocs,
     String? message,
-    SlaUiLabels? labels,
+    List<BaseUser>? emailUsers,
+    // SlaUiLabels? labels,
 
   }) {
     return KeyManagementIssuanceDetailsState(
@@ -132,8 +131,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       departments: departments ?? this.departments,
       typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
-      pocs: pocs ?? this.pocs,
-      labels: labels ?? this.labels,
+      emailUsers: emailUsers ?? this.emailUsers,
+      //labels: labels ?? this.labels,
     );
   }
 }

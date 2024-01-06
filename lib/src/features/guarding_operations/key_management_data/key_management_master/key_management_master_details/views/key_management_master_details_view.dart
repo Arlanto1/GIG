@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 
 class KeyManagementMasterDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
@@ -210,14 +209,14 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                              Constants.dateofcreation,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDate()
-                          //     .creationDateDisplay(state.model.createdDate ?? '0'),
+                          BaseDate().creationDateDisplay(
+                              state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
@@ -298,19 +297,26 @@ class _KeyManagementMasterDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.doorType ?? [],
-                              all: state.departments,
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedDoorType) {
-                                BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        doorType: selectedDoorType);
-                                Navigator.of(context).pop(); // Close the dialog
-                              }),
+                          TextfieldAddButton(
+                            title: state.model.doorType?.name,
+                            height: 70,
+                            isDisableColor: state.model.status== 2 ? true : false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Organisation department) {
+                                  state.model.doorType?.name = department.name;
+
+                                  BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          doorType: department);
+                                },
+                              );
+                              // leodepartmentsDialog(state);
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Key Description
@@ -484,7 +490,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: state.model.noKeys,
+                            initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -495,7 +501,7 @@ class _KeyManagementMasterDetailsViewState
                                     : true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.noKeys = value;
+                              state.model.noKeys = int.tryParse(value);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -514,7 +520,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.text,
-                            initialValue: state.model.noMasterKey,
+                            initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             isEnable: widget.model == null
@@ -525,7 +531,7 @@ class _KeyManagementMasterDetailsViewState
                                     : true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.noMasterKey = value;
+                              state.model.noMasterKey = int.tryParse(value);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -543,19 +549,18 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue:'',
-                            // (state.model.noKeys.toString()) +
-                            //     (state.model.noKeys) +
-                            //     (state.model.noMasterKey ?? 0),
+                            initialValue: (((state.model.noKeys ?? 0) +
+                                    (state.model.noMasterKey ?? 0))
+                                .toString()),
                             textFormKey: Keys.budgetKey,
                             hintText: '',
                             isEnable: !isDisabled,
                             isDisableColor: isDisabled,
                             onChange: (String value) {
-                              state.model.total = value;
-                              context
-                                  .read<KeyManagementMasterDetailsCubit>()
-                                  .onModelValueChange(state.model);
+                              // state.model.total = value;
+                              // context
+                              //     .read<KeyManagementMasterDetailsCubit>()
+                              //     .onModelValueChange(state.model);
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -606,24 +611,22 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
-
                               if (!isSaveSuccess) {
                                 return;
                               }
-
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.lockChangeHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.lockChangeHistoryInt,
                                 },
                               );
                             },
@@ -661,24 +664,25 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
 
+                              log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
                               if (!isSaveSuccess) {
                                 return;
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyLostHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.keyLostHistoryInt,
                                 },
                               );
                             },
@@ -715,24 +719,27 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
+                              log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
 
                               if (!isSaveSuccess) {
                                 return;
                               }
 
+                              log('--state.model.id---${state.model.id}---');
+
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyDamageHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                      Constants.keyDamageHistoryInt,
                                 },
                               );
                             },
@@ -769,7 +776,7 @@ class _KeyManagementMasterDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
+                                      KeyManagementMasterDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -780,13 +787,13 @@ class _KeyManagementMasterDetailsViewState
                               }
 
                               nav.pushNamed(
-                                slaViolationPenaltyRecordsRoute,
+                                keyHistoryRecordsViewRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                      Constants.violationPenalty,
+                                      Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.violationDescription:
-                                      Constants.slaViolation,
+                                  ConstantsArgument.type:
+                                  Constants.keyDestroyHistoryInt,
                                 },
                               );
                             },

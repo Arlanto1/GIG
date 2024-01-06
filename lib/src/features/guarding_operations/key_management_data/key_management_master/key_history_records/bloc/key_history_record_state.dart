@@ -1,7 +1,7 @@
 // part of 'key_history_record_bloc.dart';
 //
 // class KeyHistoryRecordState extends Equatable {
-//   final List<ContactRecord>? items;
+//   final List<KeyManagementMasterModel>? items;
 //   final bool hasReachedMax;
 //   final FormStatus status;
 //   final List<Organisation> ranks;
@@ -9,14 +9,14 @@
 //
 //   const KeyHistoryRecordState({
 //     this.message,
-//     this.items = const <ContactRecord>[],
+//     this.items = const <KeyManagementMasterModel>[],
 //     this.hasReachedMax = false,
 //     this.status = FormStatus.initial,
 //     required this.ranks,
 //   });
 //
 //   KeyHistoryRecordState copyWith({
-//     List<ContactRecord>? items,
+//     List<KeyManagementMasterModel>? items,
 //     bool? hasReachedMax,
 //     FormStatus? status,
 //     List<Organisation>? ranks,
@@ -34,3 +34,39 @@
 //   @override
 //   List<Object?> get props => [items, hasReachedMax, status];
 // }
+part of 'key_history_record_bloc.dart';
+
+class KeyHistoryRecordState extends Equatable {
+  final List<KeyManagementMasterModel> list;
+  final bool hasReachedMax;
+  final FormStatus status;
+    final String? message;
+  //final GmUiLabels? labels;
+
+  const KeyHistoryRecordState(
+      {this.list = const <KeyManagementMasterModel>[],
+        this.hasReachedMax = false,
+            this.message,
+        this.status = FormStatus.initial,
+        //this.labels
+      });
+
+  KeyHistoryRecordState copyWith({
+    List<KeyManagementMasterModel>? items,
+    bool? hasReachedMax,
+    FormStatus? status,
+        String? message,
+    // GmUiLabels? labels,
+  }) {
+    return KeyHistoryRecordState(
+      list: items ?? list,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      status: status ?? this.status,
+      message: message ?? this.message,
+      // labels: labels ?? this.labels
+    );
+  }
+
+  @override
+  List<Object?> get props => [list, hasReachedMax, status];
+}

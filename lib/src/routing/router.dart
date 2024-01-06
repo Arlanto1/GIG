@@ -75,6 +75,8 @@ const String keyManagementMasterDetailsRoute = '/keyManagementMasterDetailsRoute
 const String keyManagementIssuanceListRoute = '/keyManagementIssuanceListRoute';
 const String keyManagementIssuanceDetailsRoute = '/keyManagementIssuanceDetailsRoute';
 const String keyManagementIssuanceProcessRecordsRoute = '/keyManagementIssuanceProcessRecordsRoute';
+const String keyHistoryRecordsViewRoute = '/keyHistoryRecordsViewRoute';
+const String keyHistoryRecordsDetailsRoute = '/keyHistoryRecordsDetailsRoute';
 
 const String keyReconciliationListRoute = '/keyReconciliationListRoute';
 const String keyLossDestructionListRoute = '/keyLossDestructionListRoute';

@@ -1,8 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementMasterListView extends StatefulWidget {
   const KeyManagementMasterListView({
@@ -102,12 +100,7 @@ class _KeyManagementMasterListViewState
                           //state.labels?.defaultLocale.location ??
                           'Created By',
                       value: state.list[index].createdBy?.name ?? ''));
-                  // labels.add(Label(
-                  //     key: 'Date of Creation',
-                  //     value: DateFormat('dd-MM-yyyy').format(
-                  //         DateTime.fromMillisecondsSinceEpoch(
-                  //             state.list[index].createdDate ?? 0 * 1000))));
-                }
+
                 return index >= state.list.length
                     ? const BaseLoader()
                     : BaseListTileItem(
@@ -128,7 +121,7 @@ class _KeyManagementMasterListViewState
                                 keyNo: state.list[selectedIndex].keyNo,
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
-                                isKeyManagementStatus: true,
+                                isKeyManagementIssuanceStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                               );
@@ -159,8 +152,17 @@ class _KeyManagementMasterListViewState
                         },
                         index: index,
                       );
-              },
+
+              }
+                // Handle the case where index is out of bounds
+                return const Center(
+                  child: SizedBox(),
+                );
+              }
+
+
             ),
+
           );
         }));
   }

@@ -20,6 +20,7 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
   static const String slaViolationPenaltyDetailsModule = 'SVP';
+  static const String keyManagementIssuanceModule = 'KMISS ';
   static const String keyManagementMasterModule = 'KeyMM';
 
   /// UI Labels Module Code
@@ -654,7 +655,8 @@ class Constants {
 
   /// KeyManagementMaster
   static const String editkeyManagementMaster = 'Edit Key Management Master';
-  static const String createkeyManagementMaster = 'Create Key Management Master';
+  static const String createkeyManagementMaster =
+      'Create Key Management Master';
   static const String floor = 'Floor';
   static const String keyType = 'Key Type';
   static const String keyNo = 'Key No';
@@ -662,19 +664,36 @@ class Constants {
   static const String noOfKeys = 'No.of Keys';
   static const String noOfMasterKeys = 'Number of Master Keys';
   static const String keyDescription = 'Key Description';
-  static const String keyTaggingDone = 'Key Tagging Done? (Numbered Matching with lock)';
+  static const String keyTaggingDone =
+      'Key Tagging Done? (Numbered Matching with lock)';
   static const String doorHasAccessControl = 'Door Has Access Control';
-  static const String doorHasLockAndKeyMechanism = 'Door Has Lock and Key Mechanism';
-  static const String howAndWhereTheKeysAreStored = 'How and Where The Keys are Stored';
+  static const String doorHasLockAndKeyMechanism =
+      'Door Has Lock and Key Mechanism';
+  static const String howAndWhereTheKeysAreStored =
+      'How and Where The Keys are Stored';
   static const String lockChangeHistory = 'Lock Change History';
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
-
+  static const String type = 'Type';
+  static const String srh = 'SRH';
+  static const String securityManager = 'Security Manager';
+  static const String investigationRequired = 'Investigation Required?';
+  static const String destructionReason = 'Reason for Key Destruction';
+  static const String detailsOfLostKey = 'Details of Lost Key';
+  static const String modifiedBy = 'Modified By';
+  static const String modifiedOn = 'Modified On';
+  static const String keyManageme = 'Modified On';
+  static const String localChangeHistoryType = 'LOCK_CHANGE_HISTORY';
+  static const String keyLostHistoryType = 'KEY_LOST_HISTORY';
+  static const String keyDamageHistoryType = 'KEY_DAMAGE_HISTORY';
+  static const String keyDestroyHistoryType = 'KEY_DESTROY_HISTORY';
 
   ///KeyManagementIssuance
-  static const String createKeyManagementIssuance = 'Create Key Management Issuance';
-  static const String editKeyManagementIssuance = 'Edit Key Management Issuance';
+  static const String createKeyManagementIssuance =
+      'Create Key Management Issuance';
+  static const String editKeyManagementIssuance =
+      'Edit Key Management Issuance';
   static const String handedOverTo = 'Handed Over To';
   static const String keyReturnDueDate = 'Key Return Due Date';
   static const String employeeType = 'Employee Type';
@@ -689,9 +708,10 @@ class Constants {
   static const String keysLost = 'Keys Lost';
   static const String keysDamaged = 'Keys Damaged';
   static const String noKeysIssued = 'No. Keys Issued';
+  static const String handedOverDate = 'Handed Over Date';
 
-/// Duty Post Master
-   static const String dutyPostMaster ='Duty Post Master';
+  /// Duty Post Master
+  static const String dutyPostMaster = 'Duty Post Master';
   static const String editDutyPostMaster = 'Edit Duty Post Master';
   static const String createDutyPostMaster = 'Create Duty Post Master';
   static const String dutyPostName = 'Duty Post Name';
@@ -702,7 +722,7 @@ class Constants {
   static const String total = 'Total';
 
   /// Duty Post Name Master
-  static const String dutyPostNameMaster ='Duty Post Name Master';
+  static const String dutyPostNameMaster = 'Duty Post Name Master';
   static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
   static const String dutyPostLocationName = 'Duty Post Location Name';
@@ -711,12 +731,17 @@ class Constants {
   ///Attendance
   static const String attendance = 'Attendance';
 
-
   ///Shift Schedule
   static const String shiftSchedule = 'Shift Schedule';
   static const String editShiftSchedule = 'Edit Shift Schedule';
   static const String createShiftSchedule = 'Create Shift Schedule';
   static const String dutyType = 'Duty Type';
+
+  /// INT values
+  static const int lockChangeHistoryInt = 0;
+  static const int keyLostHistoryInt = 1;
+  static const int keyDamageHistoryInt = 2;
+  static const int keyDestroyHistoryInt = 3;
 }
 
 //static const String height = 'Height(cm)';

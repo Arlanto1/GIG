@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process.request.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
@@ -13,8 +13,9 @@ part 'key_issuance_process_record_state.dart';
 class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
   final String violationDescription;
+  final int kmiId;
 
-  KeyIssuanceProcessRecordBloc({required this.violationDescription})
+  KeyIssuanceProcessRecordBloc({required this.violationDescription,required this.kmiId})
       : super(const KeyIssuanceProcessRecordState(violationDescriptions: [])) {
     on<FetchData>(
       _fetchContacts,
@@ -29,24 +30,26 @@ class KeyIssuanceProcessRecordBloc
       KeyManagementIssuanceServices();
   final CommonServices commonServices = CommonServices();
 
+  String get locId => '0';
+
   FutureOr<void> _initializeValues(InitializeValues event,
       Emitter<KeyIssuanceProcessRecordState> emit) async {
     try {
-      List<Organisation> items =
-          await commonServices.getOrganisations(name: violationDescription);
-
+      // List<Organisation> items =
+      //     await commonServices.getOrganisations(name: violationDescription);
+      List<Organisation> getKeyDescriptionValues =
+      await KeyManagementIssuanceServices()
+          .getKeyDescriptionValues(locId: '41');
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-      Map<String, dynamic> staffCategoriesValues =
-          await KeyManagementIssuanceServices().getStaffCategoriesValues();
+
       return emit(
         state.copyWith(
-          violationDescriptions: items,
           hasReachedMax: false,
           labels: labels,
-          staffCategoriesValues: staffCategoriesValues,
+          keyDescriptions: getKeyDescriptionValues,
         ),
       );
     } on Exception {
@@ -61,7 +64,7 @@ class KeyIssuanceProcessRecordBloc
 
       if (state.status == FormStatus.initial) {
         List<KeyIssuanceProcessRecord> response =
-            await services.getViolationPenaltyList(
+            await services.getIssuanceProcessList(
           id: '${event.id}',
           // type: '${event.type}',
         );
@@ -75,7 +78,7 @@ class KeyIssuanceProcessRecordBloc
       }
 
       List<KeyIssuanceProcessRecord> response =
-          await services.getViolationPenaltyList(
+          await services.getIssuanceProcessList(
         id: '${event.id}',
         // type: '${event.type}',
       );
@@ -104,8 +107,8 @@ class KeyIssuanceProcessRecordBloc
     try {
       await KeyManagementIssuanceServices().deleteVpById(event.id);
       List<KeyIssuanceProcessRecord> response =
-          await services.getViolationPenaltyList(
-        id: '${event.mainContactId}',
+          await services.getIssuanceProcessList(
+        id: '${event.mainIssuanceId}',
       );
       return emit(
         state.copyWith(items: response, status: FormStatus.success),
@@ -136,12 +139,12 @@ class KeyIssuanceProcessRecordBloc
 
       request.vp = event.keyIssuanceProcessRecord;
       await KeyManagementIssuanceServices()
-          .createViolationPenaltyRecord(body: request, isSubmit: false);
+          .createIssuanceProcessRecord(body: request, isSubmit: false, kmiId: 0);
 
       /// Refresh list
       List<KeyIssuanceProcessRecord> response =
-          await services.getViolationPenaltyList(
-        id: '${event.mainContactId}',
+          await services.getIssuanceProcessList(
+        id: '${event.mainIssuanceId}',
         // type: '${event.type}',
       );
       return emit(state.copyWith(

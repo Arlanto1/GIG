@@ -1,11 +1,11 @@
 import 'package:db_atom/src/models/organisation.dart';
 
 class LoginResponseModel {
-  final String? message;
-  final String? token;
-  final LoginUserResponseModel? user;
-  final String? refreshToken;
-  final bool? requirePasswordChange;
+  String? message;
+  String? token;
+  LoginUserResponseModel? user;
+  String? refreshToken;
+  bool? requirePasswordChange;
 
   LoginResponseModel({
     this.message,
@@ -15,15 +15,41 @@ class LoginResponseModel {
     this.requirePasswordChange,
   });
 
-  LoginResponseModel.fromJson(Map<String, dynamic> json)
-      : message = json['message'] as String?,
-        token = json['token'] as String?,
-        user = (json['user'] as Map<String, dynamic>?) != null
-            ? LoginUserResponseModel.fromJson(
-                json['user'] as Map<String, dynamic>)
-            : null,
-        refreshToken = json['refreshToken'] as String?,
-        requirePasswordChange = json['requirePasswordChange'] as bool?;
+  LoginResponseModel.fromJson(Map<String, dynamic> json) {
+    try {
+      message = json['message'] as String?;
+      token = json['token'] as String?;
+      user = (json['user'] as Map<String, dynamic>?) != null
+          ? LoginUserResponseModel.fromJson(
+              json['user'] as Map<String, dynamic>)
+          : null;
+      refreshToken = json['refreshToken'] as String?;
+      requirePasswordChange = json['requirePasswordChange'] as bool?;
+    } catch (e) {
+      // Log the exception
+      print('Error parsing JSON: $e');
+
+      // Log the specific variable causing the issue
+      if (json['message'] == null) {
+        print('Error: "message" is null');
+      }
+      if (json['token'] == null) {
+        print('Error: "token" is null');
+      }
+      if (json['user'] == null) {
+        print('Error: "user" is null');
+      }
+      if (json['refreshToken'] == null) {
+        print('Error: "refreshToken" is null');
+      }
+      if (json['requirePasswordChange'] == null) {
+        print('Error: "requirePasswordChange" is null');
+      }
+
+      // Handle the exception or throw it again if needed
+      // ...
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'message': message,
@@ -35,15 +61,16 @@ class LoginResponseModel {
 }
 
 class LoginUserResponseModel {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final Organisation? defaultLocation;
-  final DisplayMenu? displayMenu;
-  final String? timezone;
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+
+  String? phone;
+  Organisation? defaultLocation;
+  DisplayMenu? displayMenu;
+  String? timezone;
 
   LoginUserResponseModel({
     this.userId,
@@ -88,19 +115,19 @@ class LoginUserResponseModel {
 }
 
 class DisplayMenu {
-  final bool? mM;
-  final bool? sSSLA;
-  final bool? cD;
-  final bool? iM;
-  final bool? aF;
-  final bool? gM;
-  final bool? lEO;
-  final bool? gR;
-  final bool? eP;
-  final bool? aps;
-  final bool? dP;
-  final bool? pM;
-  final bool? oCC;
+  bool? mM;
+  bool? sSSLA;
+  bool? cD;
+  bool? iM;
+  bool? aF;
+  bool? gM;
+  bool? lEO;
+  bool? gR;
+  bool? eP;
+  bool? aps;
+  bool? dP;
+  bool? pM;
+  bool? oCC;
 
   DisplayMenu({
     this.mM,
