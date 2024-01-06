@@ -26,7 +26,6 @@ class _MaterialMovementDetailsViewState
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
   List<ImageContent> getFiles = [];
-  List<ImageContent> getAttachments = [];
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();

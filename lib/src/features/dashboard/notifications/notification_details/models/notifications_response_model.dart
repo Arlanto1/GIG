@@ -1,3 +1,5 @@
+import 'package:db_atom/index.dart';
+
 class NotificationsResponseModel {
   final List<NotificationModel>? items;
   final int? totalCount;
@@ -34,6 +36,9 @@ class NotificationModel {
   final Content? content;
   final int? status;
   final String? createdDate;
+  final List<ImageContent>? attachments;
+  final int? moduleId;
+  final String? moduleCode;
 
   NotificationModel({
     this.id,
@@ -41,6 +46,9 @@ class NotificationModel {
     this.content,
     this.status,
     this.createdDate,
+    this.attachments,
+    this.moduleId,
+    this.moduleCode,
   });
 
   NotificationModel.fromJson(Map<String, dynamic> json)
@@ -50,40 +58,49 @@ class NotificationModel {
             ? Content.fromJson(json['content'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
-        createdDate = json['createdDate'] as String?;
+        createdDate = json['createdDate'] as String?,
+        attachments = (json['attachments'] as List?)
+            ?.map(
+                (dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        moduleId = json['moduleId'] as int?,
+        moduleCode = json['moduleCode'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'email': email,
         'content': content?.toJson(),
         'status': status,
-        'createdDate': createdDate
+        'createdDate': createdDate,
+        'attachments': attachments?.map((e) => e.toJson()).toList(),
+        'moduleId': moduleId,
+        'moduleCode': moduleCode
       };
 }
 
 class Content {
   final int? id;
   final String? subject;
-  final int? transferDate;
   final String? text;
+  final int? transferDate;
 
   Content({
     this.id,
-    this.text,
     this.subject,
+    this.text,
     this.transferDate,
   });
 
   Content.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        text = json['text'] as String?,
         subject = json['subject'] as String?,
+        text = json['text'] as String?,
         transferDate = json['transferDate'] as int?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'text': text,
         'subject': subject,
+        'text': text,
         'transferDate': transferDate
       };
 }

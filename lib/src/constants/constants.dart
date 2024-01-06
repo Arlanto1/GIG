@@ -622,6 +622,8 @@ class Constants {
   static const String ipbArea = 'IPB Area';
   static const String colourMake = 'Colour/Make/Model';
 
+  static const String showDetails = 'Show Details';
+
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 
@@ -730,6 +732,7 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attachments = 'Attachments';
 
   ///Shift Schedule
   static const String shiftSchedule = 'Shift Schedule';

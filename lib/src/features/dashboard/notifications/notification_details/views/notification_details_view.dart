@@ -129,7 +129,23 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             data: state.model.content?.text ?? '',
                           ),
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (!state.model.attachments.isEmptyOrNull) ...[
+                          /// Attachments
+                          CommonWidgets.textDisplay(
+                            Constants.attachments,
+                            Styles.textStyleBlack14,
+                          ),
+                          BaseImageUpload().getAttachment(
+                            height: height,
+                            attachments: state.model.attachments,
+                            files: state.model.attachments,
+                            showDownloadIcon: true,
+                          ),
+                        ],
+                        if (!state.model.moduleCode.isEmptyOrNull) ...[
+                          submitButtonDisplay(state)
+                        ],
                       ],
                     ),
                   ),
@@ -139,6 +155,67 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget submitButtonDisplay(NotificationDetailsState state) {
+    return AppButton(
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.showDetails,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        int moduleId = state.model.moduleId ?? 0;
+
+        var nav = Navigator.of(context);
+
+        switch (state.model.moduleCode) {
+          case 'MM':
+            {
+              MaterialMovementModel materialMovementModel =
+                  await MaterialMovementServices().getById(moduleId);
+              nav.pushNamed(materialMovementInwardDetailsRoute, arguments: {
+                "MaterialMovementModel": materialMovementModel,
+                "isInward": false,
+                "isCreate": true,
+                "title": Constants.materialMovementOutwardCreate,
+              });
+              break;
+            }
+          case 'LEO':
+            {
+              LawEnforcementDetails? model =
+                  await lawEnforcementListCubit.getById(moduleId, context);
+
+              nav.pushNamed(lawenforcementScreenRoute, arguments: {
+                "UserElement": model,
+              });
+              break;
+            }
+          case 'IM':
+            {
+              nav.pushNamed(
+                incidentManagementDetailsRoute,
+                arguments: {
+                  'id': moduleId.toString(),
+                },
+              );
+              break;
+            }
+          case 'SSSLA':
+            {
+              nav.pushNamed(
+                sstIncidentDetailsRoute,
+                arguments: {
+                  'id': moduleId,
+                  'isInternal': false,
+                  "title": Constants.ticketLifeCycle,
+                },
+              );
+              break;
+            }
+        }
+      },
     );
   }
 
