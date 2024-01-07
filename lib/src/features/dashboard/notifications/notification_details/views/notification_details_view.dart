@@ -128,8 +128,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         SingleChildScrollView(
                           child: HtmlWidget(
                             state.model.content?.text ?? '',
+                            // '<h1>Hello, <i>World</i>!</h1><p>Click <a href="http://www.google.com/">here</a> to visit Example website.</p>',
                             onTapUrl: (url) {
-
                               print('tapped-- $url'); // getting url value = #
                               launchURL(Uri.encodeFull(url ?? ''));
                               return true;
@@ -165,17 +165,16 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     );
   }
 
-  String urlss =
-      'https://www.google.com/search?q=backend+fcm+notification&sca_esv=590025935&sxsrf=AM9HkKkKOk3k5RhFBbIjS1FejyRL4UhpHA%3A1702353527652&ei=d9p3ZcepJ5KNnesP1ZC8uAI&ved=0ahUKEwiHwbCKgYmDAxWSRmcHHVUIDycQ4dUDCBA&uact=5&oq=backend+fcm+notification&gs_lp=Egxnd3Mtd2l6LXNlcnAiGGJhY2tlbmQgZmNtIG5vdGlmaWNhdGlvbjIIECEYoAEYwwRIrzJQiARYyCZwBXgBkAEAmAHMAaABvQuqAQUwLjkuMbgBA8gBAPgBAcICChAAGEcY1gQYsAPCAg0QABiABBiKBRhDGLADwgIIEAAYCBgHGB7CAgsQABiABBiKBRiGA8ICChAhGKABGMMEGAriAwQYACBBiAYBkAYK&sclient=gws-wiz-serp';
-
   void launchURL(String url) async {
-    log('----launchURL--');
-    if (await canLaunchUrl(Uri.parse(url))) {
+    Uri parsedUrl = Uri.parse(url);
+    log('Parsed URL: $parsedUrl');
+
+    if (await canLaunchUrl(parsedUrl)) {
       log('----canLaunchUrl--');
-      await launchUrl(Uri.parse(url));
+      await launchUrl(parsedUrl, mode: LaunchMode.externalApplication);
     } else {
       log('-else---canLaunchUrl--');
-      throw 'Could not launch $url';
+      throw 'Could not launch URL: $url';
     }
   }
 
