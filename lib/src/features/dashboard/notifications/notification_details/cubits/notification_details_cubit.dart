@@ -38,9 +38,8 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
       log('--1111--$model');
 
       if (!id.isEmptyOrNull) {
-
-        model = await services.getById(81);
-        // model = await services.getById(int.parse(id));
+        // model = await services.getById(81);
+        model = await services.getById(int.parse(id));
       }
 
       emit(
