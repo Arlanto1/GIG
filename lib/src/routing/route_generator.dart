@@ -964,6 +964,7 @@ class RouteGenerator {
               model: keyMgmtGi,
               parentId: parentId,
               commonServices: commonServices,
+              type: type,
             ),
             child: KeyHistoryRecordsDetailsView(
               model: keyMgmtGi,

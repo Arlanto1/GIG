@@ -19,10 +19,12 @@ class KeyHistoryRecordsDetailsCubit
   final KeyManagementMasterModel? model;
   final CommonServices commonServices;
   final int parentId;
+  final int type;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
     required this.parentId,
+    required this.type,
     required this.commonServices,
     required this.model,
   }) : super(
@@ -209,6 +211,7 @@ class KeyHistoryRecordsDetailsCubit
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.type = type;
 
     // Create/Update API Call
     KeyHistoryRecordRequest request =
