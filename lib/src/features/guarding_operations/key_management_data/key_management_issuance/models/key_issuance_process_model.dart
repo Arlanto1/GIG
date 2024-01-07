@@ -1,48 +1,17 @@
-// import 'package:db_atom/src/models/organisation.dart';
-// import 'package:json_annotation/json_annotation.dart';
-//
-// part 'key_issuance_process_model.g.dart';
-//
-// @JsonSerializable()
-// class KeyIssuanceProcessRecord {
-//   num? id;
-//   num? svpId;
-//   Organisation? violation;
-//   double? penaltyAmount;
-//   num? totalViolations;
-//   num? staffCategory;
-//   num? totalPenaltyAmount;
-//
-//   KeyIssuanceProcessRecord({
-//     this.id,
-//     this.svpId,
-//     this.violation,
-//     this.penaltyAmount,
-//     this.totalViolations,
-//     this.staffCategory,
-//     this.totalPenaltyAmount,
-//   });
-//
-//   factory KeyIssuanceProcessRecord.fromJson(Map<String, dynamic> json) =>
-//       _$KeyIssuanceProcessRecordFromJson(json);
-//
-//   Map<String, dynamic> toJson() => _$KeyIssuanceProcessRecordToJson(this);
-//
-// }
-import '../../../../../../index.dart';
+import 'package:db_atom/index.dart';
 
 class KeyIssuanceProcessRecord {
-  final int? id;
+  int? id;
   Organisation? keyDescription;
-  final int? noKeysIssued;
-  final int? available;
-  final int? returned;
-  final int? notReturned;
-  final int? lost;
-  final int? damaged;
-  final int? keyType;
-  final bool? lossReported;
-  final bool? damageReported;
+  int? noKeysIssued;
+  int? available;
+  int? returned;
+  int? notReturned;
+  int? lost;
+  int? damaged;
+  int? keyType;
+  bool? lossReported;
+  bool? damageReported;
 
   KeyIssuanceProcessRecord({
     this.id,

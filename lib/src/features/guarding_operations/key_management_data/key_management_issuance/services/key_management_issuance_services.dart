@@ -1,9 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_list_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
-import 'package:db_atom/src/models/keyDescription.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -13,9 +8,10 @@ class Apis {
 
   static final String _getKMI = '$baseUrl/getKmiList?';
 
-  static final String _getKeyDescriptionValues = '$baseUrl/getKeyDescList';
+  static final String _getKeyDescriptions = '$baseUrl/getKeyDescList';
 
   static final String _getById = '$baseUrl/getKmiGiById';
+  static final String _getKeyDescById = '$baseUrl/getKeyDescById';
 
   static final String _createGeneralInformation = '$baseUrl/createKmiGI?';
 
@@ -23,7 +19,8 @@ class Apis {
   static final String _deleteIssuanceProcessRecordsById =
       '$baseUrl/deleteSlaVp';
 
-  static final String _createIssuanceProcessRecord = '$baseUrl/createKmiProcess?';
+  static final String _createIssuanceProcessRecord =
+      '$baseUrl/createKmiProcess?';
 }
 
 class KeyManagementIssuanceServices {
@@ -39,24 +36,24 @@ class KeyManagementIssuanceServices {
         response.map((x) => KeyIssuanceProcessRecord.fromJson(x)));
   }
 
-  Future<List<Organisation>> getKeyDescriptionValues({required int locationId
-  } ) async {
-    String url = '${Apis._getKeyDescriptionValues}?locId=$locationId';
-    var  response = await BaseApiService().getRequest(
+  Future<List<Organisation>> getKeyDescriptions(
+      {required int locationId}) async {
+    String url = '${Apis._getKeyDescriptions}?locId=$locationId';
+    var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    return List<Organisation>.from(response.map((x) => Organisation.fromJson(x)));
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 
-  Future<List<KeyDescription>> getKeyDescriptionValues22({required int locationId
-  } ) async {
-    String url = '${Apis._getKeyDescriptionValues}?locId=$locationId';
-    var  response = await BaseApiService().getRequest(
-      isAuthenticated: true,
+  Future<Organisation> getKeyDescById(
+      {required int id, required bool isMasterKey}) async {
+    final String url = '${Apis._getKeyDescById}/$id?isMasterKey=$isMasterKey';
+    final response = await BaseApiService().getRequest(
       url: url,
     );
-    return List<KeyDescription>.from(response.map((x) => KeyDescription.fromJson(x)));
+    return Organisation.fromJson(response);
   }
 
   Future<KeyManagementIssuanceResponseModel> getList({
@@ -128,11 +125,10 @@ class KeyManagementIssuanceServices {
   Future<GenericResponse> createIssuanceProcessRecord({
     required KeyIssuanceProcessRecordRequest body,
     required bool isSubmit,
-    required int kmiId
   }) async {
     // var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createIssuanceProcessRecord}kmiId=$kmiId&isSubmit=$isSubmit";
+        "${Apis._createIssuanceProcessRecord}&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

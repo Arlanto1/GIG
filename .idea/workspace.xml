@@ -4,9 +4,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="entities display issue fixed">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="DONE: key history type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/keyDescription.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/keyDescription.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/organisation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/organisation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -477,7 +488,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -514,13 +525,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="key management api added" />
-    <MESSAGE value="minor" />
-    <MESSAGE value="improvements" />
-    <MESSAGE value="code improved for drawer" />
-    <MESSAGE value="WIP: drawer code improvements" />
-    <MESSAGE value="Key master list issue fixed" />
-    <MESSAGE value="notification list issue fixed" />
     <MESSAGE value="WIP: Drawer Code Fixed" />
     <MESSAGE value="DONE:Logout issue" />
     <MESSAGE value="DONE: Navigation Drawer Code Improved" />
@@ -539,7 +543,14 @@
     <MESSAGE value="dropdown loader issue fixed" />
     <MESSAGE value="security dropdown fixed" />
     <MESSAGE value="entities display issue fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="entities display issue fixed" />
+    <MESSAGE value="submit loading issue fixed" />
+    <MESSAGE value="save issue" />
+    <MESSAGE value="DONE: Key Management Master" />
+    <MESSAGE value="WIP: Key Management Issuance" />
+    <MESSAGE value="WIP: Notification Attachments" />
+    <MESSAGE value="DONE: Notification Link" />
+    <MESSAGE value="DONE: key history type" />
+    <option name="LAST_COMMIT_MESSAGE" value="DONE: key history type" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

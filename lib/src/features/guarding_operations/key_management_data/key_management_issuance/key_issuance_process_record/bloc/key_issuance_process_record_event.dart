@@ -35,7 +35,14 @@ class SaveRecord extends KeyIssuanceProcessRecordEvent {
 
 class DeleteRecord extends KeyIssuanceProcessRecordEvent {
   final int id;
-  final int mainIssuanceId;
+  final int parentId;
 
-  const DeleteRecord(this.id, this.mainIssuanceId);
+  const DeleteRecord(this.id, this.parentId);
+}
+
+class GetKeyDescription extends KeyIssuanceProcessRecordEvent {
+  final int keyDescriptionId;
+  final bool isMasterKey;
+
+  const GetKeyDescription(this.keyDescriptionId, this.isMasterKey);
 }

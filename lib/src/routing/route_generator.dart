@@ -1044,7 +1044,7 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: KeyIssuanceProcessRecordsView(
-              id: parentId,
+              parentId: parentId,
               locationId: locationId,
               title: title,
             ),

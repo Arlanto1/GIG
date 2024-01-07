@@ -180,3 +180,9 @@ export 'package:db_atom/src/features/guarding_operations/key_management_data/key
 
 export 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 export 'package:db_atom/src/models/keyDescription.dart';
+
+export 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_list_model.dart';
+export 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
+export 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
+export 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_management_issuance_request.dart';
+

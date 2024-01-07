@@ -23,13 +23,13 @@ import 'add_key_issuance_process_pop_up.dart';
 class KeyIssuanceProcessRecordsView extends StatefulWidget {
   const KeyIssuanceProcessRecordsView({
     super.key,
-    required this.id,
+    required this.parentId,
     required this.locationId,
     required this.title,
     this.model,
   });
 
-  final int id;
+  final int parentId;
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
@@ -68,7 +68,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       pageNumber = pageNumber + 20;
       context
           .read<KeyIssuanceProcessRecordBloc>()
-          .add(FetchData(id: widget.id, startPos: pageNumber, maxPos: 20));
+          .add(FetchData(id: widget.parentId, startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -90,12 +90,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
             List<Organisation> keyDescriptions =
                 await KeyManagementIssuanceServices()
-                    .getKeyDescriptionValues(locationId: widget.locationId);
+                    .getKeyDescriptions(locationId: widget.locationId);
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
               keyIssuanceProcessRecord: KeyIssuanceProcessRecord(
-                id: widget.id,
+                id: widget.parentId,
               ),
               keyDescriptions: keyDescriptions,
             );
@@ -182,7 +182,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
-                              .getKeyDescriptionValues(
+                              .getKeyDescriptions(
                                   locationId: widget.locationId);
 
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
@@ -209,7 +209,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       BlocProvider.of<KeyIssuanceProcessRecordBloc>(context)
                           .add(DeleteRecord(
                               state.items![selectedIndex].id!.toInt(),
-                              widget.id));
+                              widget.parentId));
                     },
                     index: index,
                   );
@@ -249,7 +249,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             BlocProvider.of<KeyIssuanceProcessRecordBloc>(context).add(
               SaveRecord(
                 model,
-                widget.id,
+                widget.parentId,
               ),
             );
           },

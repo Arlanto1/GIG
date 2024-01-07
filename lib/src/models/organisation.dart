@@ -14,6 +14,7 @@ class Organisation {
   String? keyDescription;
   int? noKeys;
   int? noKeysIssued;
+  int? notReturned;
 
   /// For Dropdown
   bool? isSelected;
@@ -26,6 +27,7 @@ class Organisation {
     this.keyDescription,
     this.noKeys,
     this.noKeysIssued,
+    this.notReturned,
     this.isSelected = false,
   });
 
@@ -40,6 +42,7 @@ class Organisation {
         keyDescription = json['keyDescription'] as String?,
         noKeys = json['noKeys'] as int?,
         noKeysIssued = json['noKeysIssued'] as int?,
+        notReturned = json['notReturned'] as int?,
         keyName = json['keyname'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class Organisation {
         'keyDescription': keyDescription,
         'noKeys': noKeys,
         'noKeysIssued': noKeysIssued,
+        'notReturned': notReturned,
         'keyname': keyName,
       };
 }
