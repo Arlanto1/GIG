@@ -82,11 +82,16 @@ class KeyManagementIssuanceDetailsCubit
       EmployeeDepartments departments = futures[6];
       dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
+      log('--slNo.serialNo--sasd}----');
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.keyManagementIssuanceModule,
         );
+        log('--slNo.serialNo--${defaultLocation.id}----');
+        log('--slNo.serialNo--${Constants.keyManagementIssuanceModule}----');
+        log('--slNo.serialNo--$slNo----');
+        log('--slNo.serialNo--${slNo.serialNo}----');
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
@@ -158,7 +163,8 @@ class KeyManagementIssuanceDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (entities != null) {
+    log('--entities--${entities?.length}-');
+    if (!entities.isEmptyOrNull) {
       state.model.entities = entities;
     }
     if (department != null) {
@@ -206,8 +212,11 @@ class KeyManagementIssuanceDetailsCubit
       ),
     );
 
+    log('--state.model.entities?.length---${state.model.entities?.length}----');
     // Setting time in milliseconds
     state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.keyReturnDateTime =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
@@ -216,8 +225,8 @@ class KeyManagementIssuanceDetailsCubit
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
+    GenericResponse response = GenericResponse();
     try {
-      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
@@ -269,10 +278,15 @@ class KeyManagementIssuanceDetailsCubit
       );
       state.model.createdDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      return true;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       emit(
         state.copyWith(
           message: e.toString(),
@@ -281,5 +295,17 @@ class KeyManagementIssuanceDetailsCubit
       );
       return false;
     }
+    log('--response.id----${response.id}--');
+
+    state.model.id = int.tryParse(response.id ?? '');
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
+      ),
+    );
+    return true;
   }
 }

@@ -302,10 +302,10 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   //enabled: !disableForm,
-                                  departments: state.vendors,
+                                  organisations: state.vendors,
                                   onTap: (Organisation user) {
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
@@ -353,7 +353,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -381,7 +381,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -409,7 +409,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -437,7 +437,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,

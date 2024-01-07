@@ -337,7 +337,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -365,7 +365,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -393,7 +393,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -446,7 +446,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -500,7 +500,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -553,7 +553,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (BaseUser user) {
@@ -606,9 +606,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  departments: state.departments,
+                                  organisations: state.departments,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 AnnualPowerShutdownListDetailsCubit>(
@@ -632,9 +632,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  departments: state.departments,
+                                  organisations: state.departments,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 AnnualPowerShutdownListDetailsCubit>(
@@ -887,9 +887,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  departments: state.departments,
+                                  organisations: state.departments,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 AnnualPowerShutdownListDetailsCubit>(

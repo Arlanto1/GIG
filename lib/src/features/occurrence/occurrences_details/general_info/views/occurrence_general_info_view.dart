@@ -228,7 +228,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       state.model.status != 6 ? false : true,
                                   onTap: () {
                                     if (state.model.status != 6) {
-                                      BaseDepartmentDialog().userDialog(
+                                      BaseOrganisationDialog().userDialog(
                                         context: context,
                                         users: state.emailUsers!,
                                         onTap: (BaseUser user) {

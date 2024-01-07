@@ -302,9 +302,9 @@ class _KeyManagementMasterDetailsViewState
                             height: 70,
                             isDisableColor: state.model.status== 2 ? true : false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (Organisation department) {
                                   state.model.doorType?.name = department.name;
 

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
+import '../../services/key_management_issuance_services.dart';
+
 class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   const AddKeyIssuanceProcessPopUp({
     super.key,
@@ -9,16 +11,14 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    required this.users,
-    required this.getKeyDescriptionValues,
+    required this.keyDescriptions,
   });
 
   final String title;
   final Function onSubmit;
   final KeyIssuanceProcessRecord model;
-  final List<Organisation> users;
   final BuildContext mainContext;
-  final List<Organisation>? getKeyDescriptionValues;
+  final List<Organisation> keyDescriptions;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -28,13 +28,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController keyDescriptionController = TextEditingController();
   TextEditingController keysController = TextEditingController();
+
   TextEditingController noOfKeysIssuedController = TextEditingController();
+  TextEditingController alreadyIssuedKeysController = TextEditingController();
   TextEditingController keysAvailableController = TextEditingController();
+
   TextEditingController numberOfKeysController = TextEditingController();
   TextEditingController keysReturnedController = TextEditingController();
   TextEditingController keysNotReturnedController = TextEditingController();
   TextEditingController keysLostController = TextEditingController();
   TextEditingController keysDamagedController = TextEditingController();
+  Organisation? selectedKeyDescription;
 
   @override
   void initState() {
@@ -53,20 +57,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     // updateStaffCategoryText();
   }
 
-  // void updateStaffCategoryText() {
-  //  // String staffCategoryValue = widget.model.staffCategory.toString();
-  //   log('--staffCategoryValue---$staffCategoryValue--');
-  //   Label? matchingLabel = staffCategoryDropDownValues
-  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
-  //
-  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
-  //
-  //   keysController.text = matchingLabel?.key ?? '';
-  //   log('--staffCategoryController.text---${keysController.text}--');
-  // }
-
   @override
   Widget build(BuildContext context) {
+    log('--keyDescriptions----${widget.keyDescriptions.length}--');
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -104,41 +97,33 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.model.keyDescription?.name ?? '',
+                            title: keyDescriptionController.text,
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: widget.users,
+                                organisations: widget.keyDescriptions,
                                 onTap: (Organisation org) {
+                                  selectedKeyDescription = org;
                                   keyDescriptionController.text =
-                                      org.name ?? '';
+                                      org.keyDescription ?? '';
 
-                                  log('-org.keyName----${org.keyName}-');
+                                  //TODO: need to set key description in model
+                                  // widget.model.
+                                  log('-org.keyName----${org.id}-');
+                                  log('-org.keyName----${org.keyDescription}-');
+                                  log('-org.keyName----${org.noKeys}-');
+                                  log('-org.keyName----${org.noKeysIssued}-');
 
                                   keyDescriptionController.text =
-                                      org.keyName ?? ''; // Penalty Amount
-                                  // widget.model.violation ??= Organisation();
-                                  // widget.model.violation = org;
-                                  // widget.model.penaltyAmount =
-                                  // double.tryParse(org.keyName ?? '0');
-                                  // log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
-
-                                  if (!numberOfKeysController
-                                      .text.isEmptyOrNull) {
-                                    // penaltyAmountController
-                                    //     .text = ((penaltyAmountController.text
-                                    //                 .toDoubleOrNull() ??
-                                    //             0) *
-                                    //         (widget.model.totalViolations ?? 0))
-                                    //     .toString();
-                                  }
+                                      org.keyDescription ?? '';
 
                                   setState(() {
                                     log('-setstate-');
                                     keyDescriptionController.text =
-                                        org.keyName ?? '';
+                                        org.keyDescription ?? '';
+                                    selectedKeyDescription = org;
                                   });
                                 },
                               );
@@ -165,40 +150,50 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             dropDownValues: keysDropDownValues
                                 .map((label) => label.key)
                                 .toList(),
-                            onTap: (String value) {
+                            onTap: (String value) async {
                               Label? selectedLabel;
                               selectedLabel = keysDropDownValues.firstWhere(
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
                               keysController.text = selectedLabel.key;
-                              // widget.model.staffCategory =
-                              //     int.tryParse(selectedLabel.value);
+                              widget.model.keyType =
+                                  int.tryParse(selectedLabel.value);
+                              // Call the API
+                              bool isMasterKey =
+                                  selectedLabel.value == '1' ? false : true;
+                              // Call the API
 
-                              // int? getKeyDescriptionValues = widget
-                              //     .getKeyDescriptionValues[selectedLabel.key];
-                              // log('--staffCategoriesValue----$getKeyDescriptionValues---');
-                              // if (getKeyDescriptionValues != null) {
-                              //   numberOfKeysController.text =
-                              //       getKeyDescriptionValues.toString();
-                              // }
-                              if (selectedLabel.value == '1') {
-                                // numberOfKeysController.text = '1';
-                                // widget.model.totalViolations = 1;
-                                // totalPenaltyAmountController.text =
-                                //     '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
-                                // widget.model.totalPenaltyAmount =
-                                //     (widget.model.penaltyAmount ?? 0) *
-                                //         (widget.model.totalViolations ?? 0);
+                              log('---selectedKeyDescription---$selectedKeyDescription---');
+
+                              if (selectedKeyDescription != null) {
+                                Organisation keyDescription =
+                                    await KeyManagementIssuanceServices()
+                                        .getKeyDescById(
+                                            id: selectedKeyDescription!.id ?? 0,
+                                            isMasterKey: isMasterKey);
+
+                                setState(() {
+
+                                  widget.model.available = keyDescription.noKeys! -
+                                      keyDescription.noKeysIssued!;
+
+                                  widget.model.notReturned = keyDescription.notReturned;
+
+                                  noOfKeysIssuedController.text =
+                                      keyDescription.noKeys.toString();
+
+                                  alreadyIssuedKeysController.text =
+                                      keyDescription.noKeysIssued.toString();
+
+                                  keysAvailableController.text =
+                                      (keyDescription.noKeys! -
+                                              keyDescription.noKeysIssued!)
+                                          .toString();
+                                  keysNotReturnedController.text =
+                                      keyDescription.notReturned.toString();
+                                });
                               }
-                              setState(() {});
-
-                              // BlocProvider.of<
-                              // ViolationPenaltyRecordBloc>(
-                              // context)
-                              // .updateDropdownValues(
-                              // staffCategoryDropDownValues: int.tryParse(
-                              //  selectedLabel.value));
                             },
                           );
                         },
@@ -215,7 +210,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: numberOfKeysController,
+                        textFieldController: noOfKeysIssuedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -234,7 +229,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: noOfKeysIssuedController,
+                        textFieldController: alreadyIssuedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -252,7 +247,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         keyboardType: TextInputType.number,
-                        textFormKey: Keys.phoneNumberKey,
+                        textFormKey: Keys.aprrover1DepartmentKey,
                         textFieldController: keysAvailableController,
                         hintText: '',
                         isEnable: false,
@@ -306,12 +301,14 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         keyboardType: TextInputType.number,
-                        textFormKey: Keys.phoneNumberKey,
+                        textFormKey: Keys.bu2ContactNOKey,
                         textFieldController: keysReturnedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                          widget.model.returned = int.tryParse(value);
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -325,12 +322,14 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         keyboardType: TextInputType.number,
-                        textFormKey: Keys.phoneNumberKey,
+                        textFormKey: Keys.addressKey,
                         textFieldController: keysNotReturnedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                          widget.model.notReturned = int.tryParse(value);
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -349,7 +348,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                          widget.model.lost = int.tryParse(value);
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),

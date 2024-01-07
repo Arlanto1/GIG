@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final serialNumberModel = serialNumberModelFromJson(jsonString);
-
 import 'dart:convert';
 
 SerialNumberModel serialNumberModelFromJson(String str) =>

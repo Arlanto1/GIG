@@ -1,11 +1,8 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -102,16 +99,23 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
-            showSubmitButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
                 isSaveOnly: true,
+                navigateToNextScreen: false,
+              );
+            },
+            showSubmitButton: state.model.status != 6 &&
+                    state.model.status != 1 &&
+                    !isReadOnly
+                ? true
+                : false,
+            onTapSubmit: () {
+              BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
+                  .submitForm(
+                isSaveOnly: false,
                 navigateToNextScreen: false,
               );
             },
@@ -331,9 +335,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.status != 6 ? false : true,
                                     onTap: () {
                                       // if (widget.materialMovement != null) {
-                                      BaseDepartmentDialog().departmentDialog(
+                                      BaseOrganisationDialog().departmentDialog(
                                         context: context,
-                                        departments: state.departments,
+                                        organisations: state.departments,
                                         onTap: (Organisation department) {
                                           state.model.department?.name =
                                               department.name;
@@ -506,7 +510,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               height: 60,
                               isDisableColor: isReadOnly,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !isReadOnly,
                                   users: state.users!,
@@ -535,7 +539,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 height: 60,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                                  BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !isReadOnly,
                                     users: state.users!,
@@ -566,27 +570,31 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
+
                                 bool isSaveSuccess = await BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .submitForm(
+                                    KeyManagementIssuanceDetailsCubit>(
+                                  context,
+                                ).submitForm(
                                   isSaveOnly: true,
                                   navigateToNextScreen: true,
                                 );
+                                log('--isSaveSuccess---$isSaveSuccess--');
 
                                 if (!isSaveSuccess) {
                                   return;
                                 }
+
                                 log('--state.model.id---${state.model.id}--');
 
+                                // Now, this code will execute only after the completion of submitForm
                                 nav.pushNamed(
                                   keyManagementIssuanceProcessRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.keyIssuanceProcess,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.keyDescription,
+                                    ConstantsArgument.parentId: state.model.id,
+                                    ConstantsArgument.locationId:
+                                        state.model.location?.id,
                                   },
                                 );
                               },

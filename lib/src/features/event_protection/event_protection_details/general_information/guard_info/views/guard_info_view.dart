@@ -18,7 +18,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../../models/organisation.dart';
@@ -555,9 +555,9 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (List<Organisation> proposedVendors) {
                                   BlocProvider.of<GuardInfoCubit>(context)
                                       .updateDropdownValues(

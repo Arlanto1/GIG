@@ -328,7 +328,7 @@ class _KeyHistoryRecordsDetailsViewState
                             height: 60,
                             isDisableColor: isReadOnly,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 enabled: !isReadOnly,
                                 users: state.users!,
@@ -360,7 +360,7 @@ class _KeyHistoryRecordsDetailsViewState
                             height: 60,
                             isDisableColor: isReadOnly,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 enabled: !isReadOnly,
                                 users: state.users!,
@@ -390,9 +390,9 @@ class _KeyHistoryRecordsDetailsViewState
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.destructionReasons,
+                                organisations: state.destructionReasons,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<
                                               KeyHistoryRecordsDetailsCubit>(

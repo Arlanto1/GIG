@@ -1,8 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/requestModels/key_issuance_process_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
@@ -12,11 +11,13 @@ part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
-  final String violationDescription;
-  final int kmiId;
+  final int locationId;
+  final int parentId;
 
-  KeyIssuanceProcessRecordBloc({required this.violationDescription,required this.kmiId})
-      : super(const KeyIssuanceProcessRecordState(violationDescriptions: [])) {
+  KeyIssuanceProcessRecordBloc({
+    required this.locationId,
+    required this.parentId,
+  }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -24,22 +25,21 @@ class KeyIssuanceProcessRecordBloc
     on<InitializeValues>(_initializeValues);
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
+    on<GetKeyDescription>(_getKeyDescription);
   }
 
   final KeyManagementIssuanceServices services =
       KeyManagementIssuanceServices();
   final CommonServices commonServices = CommonServices();
 
-  String get locId => '0';
-
   FutureOr<void> _initializeValues(InitializeValues event,
       Emitter<KeyIssuanceProcessRecordState> emit) async {
     try {
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
-      List<Organisation> getKeyDescriptionValues =
-      await KeyManagementIssuanceServices()
-          .getKeyDescriptionValues(locId: '41');
+      List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
+          .getKeyDescriptions(locationId: locationId);
+
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
@@ -49,7 +49,7 @@ class KeyIssuanceProcessRecordBloc
         state.copyWith(
           hasReachedMax: false,
           labels: labels,
-          keyDescriptions: getKeyDescriptionValues,
+          keyDescriptions: keyDescriptions,
         ),
       );
     } on Exception {
@@ -108,7 +108,7 @@ class KeyIssuanceProcessRecordBloc
       await KeyManagementIssuanceServices().deleteVpById(event.id);
       List<KeyIssuanceProcessRecord> response =
           await services.getIssuanceProcessList(
-        id: '${event.mainIssuanceId}',
+        id: '${event.parentId}',
       );
       return emit(
         state.copyWith(items: response, status: FormStatus.success),
@@ -137,9 +137,14 @@ class KeyIssuanceProcessRecordBloc
       KeyIssuanceProcessRecordRequest request =
           KeyIssuanceProcessRecordRequest();
 
-      request.vp = event.keyIssuanceProcessRecord;
-      await KeyManagementIssuanceServices()
-          .createIssuanceProcessRecord(body: request, isSubmit: false, kmiId: 0);
+
+      request.model?.keyDescription ??= Organisation();
+      request.model?.keyDescription?.id = event.mainIssuanceId;
+      request.model = event.keyIssuanceProcessRecord;
+      await KeyManagementIssuanceServices().createIssuanceProcessRecord(
+        body: request,
+        isSubmit: false,
+      );
 
       /// Refresh list
       List<KeyIssuanceProcessRecord> response =
@@ -152,6 +157,37 @@ class KeyIssuanceProcessRecordBloc
         hasReachedMax: false,
         status: FormStatus.success,
       ));
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _getKeyDescription(GetKeyDescription event,
+      Emitter<KeyIssuanceProcessRecordState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      Organisation keyDescription = await KeyManagementIssuanceServices()
+          .getKeyDescById(
+              id: event.keyDescriptionId, isMasterKey: event.isMasterKey);
+
+      return emit(
+        state.copyWith(
+          keyDescription: keyDescription,
+          status: FormStatus.success,
+        ),
+      );
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

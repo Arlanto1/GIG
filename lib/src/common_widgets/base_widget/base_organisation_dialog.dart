@@ -10,17 +10,17 @@ import '../../models/base_user.dart';
 import '../../models/organisation.dart';
 import '../custom_pop_list_texts.dart';
 
-class BaseDepartmentDialog {
+class BaseOrganisationDialog {
   departmentDialog({
     required BuildContext context,
-    required List<Organisation> departments,
+    required List<Organisation> organisations,
     required Function onTap,
   }) {
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
-          duplicateatomCompanyTypes: departments,
+          duplicateatomCompanyTypes: organisations,
           leftImageName: AppIcon.addicon,
           onLeftButtonTap: () {
             Navigator.pop(context);

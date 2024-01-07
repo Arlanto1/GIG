@@ -105,9 +105,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: widget.users,
+                                organisations: widget.users,
                                 onTap: (Organisation org) {
                                   violationController.text = org.name ?? '';
 

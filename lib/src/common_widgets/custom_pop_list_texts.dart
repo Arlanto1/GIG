@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -79,6 +81,9 @@ class CustomListTextsState extends State<CustomListTexts> {
 
   @override
   Widget build(BuildContext context) {
+
+    log('--duplicateatomCompanyTypes--${widget.duplicateatomCompanyTypes?.length}--');
+
     return AlertDialog(
       icon: widget.leftImageName != null
           ? Row(
@@ -267,6 +272,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         }
       }
     } else if (widget.duplicateatomCompanyTypes != null) {
+      log('-text---$text--');
       companyTypes.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -274,7 +280,13 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       for (var userDetail in widget.duplicateatomCompanyTypes!) {
+
+        log('-text---$text--');
+
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          companyTypes.add(userDetail);
+        }
+        if (userDetail.keyDescription!.toLowerCase().contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
       }
@@ -386,6 +398,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         ),
       );
     } else {
+      log('---widget.duplicateatomCompanyTypes------${widget.duplicateatomCompanyTypes?.length}---');
       return SizedBox(
         //padding: const EdgeInsets.all(0),
         // height: height, // Change as per your requirement

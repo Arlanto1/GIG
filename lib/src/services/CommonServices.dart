@@ -188,6 +188,8 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
+    log('--response--${response.toString()}----');
+
     return SerialNumberModel.fromJson(response);
   }
 

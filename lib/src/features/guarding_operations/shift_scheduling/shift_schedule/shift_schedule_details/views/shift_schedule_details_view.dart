@@ -254,9 +254,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<ShiftScheduleDetailsCubit>(
                                           context)

@@ -18,7 +18,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../models/base_user.dart';
@@ -179,7 +179,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (Srh1 user) {
@@ -203,7 +203,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (Srh2 user) {
@@ -229,7 +229,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (EpManager1 user) {
@@ -253,7 +253,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
                                   onTap: (EpManager2 user) {
@@ -278,7 +278,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
                                 onTap: (Lsm1 user) {
@@ -331,7 +331,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
                                 onTap: (Lsm2 user) {
@@ -384,7 +384,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
                                 onTap: (Bu1 user) {
@@ -439,7 +439,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
                                 onTap: (Bu2 user) {
@@ -493,9 +493,9 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
@@ -517,9 +517,9 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
@@ -826,9 +826,9 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
@@ -850,7 +850,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseOrganisationDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
                                 onTap: (BaseUser user) {
