@@ -34,7 +34,6 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
 
 class CustomMultipleSelectionListTextsState
     extends State<CustomMultipleSelectionListTexts> {
-  final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   var selectedListindexes = [];

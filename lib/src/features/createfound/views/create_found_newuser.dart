@@ -64,9 +64,6 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
     return AlertDialog(
       icon: Align(
           alignment: Alignment.topRight,

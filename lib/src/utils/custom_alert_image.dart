@@ -34,7 +34,6 @@ class CustomAlertImageDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final height = size.height;
     final width = size.width;
     return AlertDialog(
       title: title != null
@@ -56,14 +55,10 @@ class CustomAlertImageDialog extends StatelessWidget {
       ),
       content: message != null
           ? Builder(builder: (context) {
-              return Container(
-                //height: 50,
-                //width:  width - 50,
-                child: Text(message ?? "",
-                    textAlign: TextAlign.center,
-                    style: Styles.textFontSet(16, Colors.grey,
-                        FontWeight.normal, Constants.customFontMediumFamily)),
-              );
+              return Text(message ?? "",
+                  textAlign: TextAlign.center,
+                  style: Styles.textFontSet(16, Colors.grey, FontWeight.normal,
+                      Constants.customFontMediumFamily));
             })
           : null,
       backgroundColor: bgColor,

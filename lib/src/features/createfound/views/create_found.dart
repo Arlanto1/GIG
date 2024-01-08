@@ -662,15 +662,12 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   datePickerDialog(TextEditingController textfield) async {
-    // datePickerselection(context, founddateTextController);
-    DateTime? pickedDate = await showDateTimePicker(
+    await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-    String formattedDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == handedoverdatedateTextController) {

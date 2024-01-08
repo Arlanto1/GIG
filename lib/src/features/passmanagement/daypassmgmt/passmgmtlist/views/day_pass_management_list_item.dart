@@ -1,5 +1,4 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
@@ -52,8 +51,6 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Column(
       children: [
         Card(
@@ -122,14 +119,18 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onEditTap != null ? widget.onEditTap!(widget.index) : null;
+                                widget.onEditTap != null
+                                    ? widget.onEditTap!(widget.index)
+                                    : null;
                               },
                               icon: const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onViewTap != null ? widget.onViewTap!(widget.index) : null;
+                                widget.onViewTap != null
+                                    ? widget.onViewTap!(widget.index)
+                                    : null;
                               },
                               icon: const Icon(Icons.remove_red_eye),
                             ),

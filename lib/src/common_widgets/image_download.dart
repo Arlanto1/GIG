@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 import '../../index.dart';
-import '../configurations/base_api_service.dart';
 
 class DownloadImage {
   Future<void> saveImage(

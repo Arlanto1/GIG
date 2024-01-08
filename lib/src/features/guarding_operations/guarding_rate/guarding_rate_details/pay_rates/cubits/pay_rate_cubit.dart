@@ -5,7 +5,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/ra
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/gm_rate_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/pay_rate_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
@@ -95,7 +95,7 @@ class PayRateCubit extends Cubit<PayRateState> {
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
-          rate: rate,
+          model: rate,
           departments: departments.employeeDepartments,
           items: payRates,
           vendors: vendors.items,
@@ -125,7 +125,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       GMRate rateResponse = await services.getRate(state.model.id!);
       emit(
         state.copyWith(
-          rate: rateResponse,
+          model: rateResponse,
           status: FormStatus.initial,
         ),
       );
@@ -165,7 +165,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     }
 
     emit(state.copyWith(
-      rate: state.model,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -268,7 +268,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       if (!state.isValid.status) {
         emit(
           state.copyWith(
-            rate: state.model,
+            model: state.model,
             status: FormStatus.error,
             message: state.isValid.message,
           ),
@@ -343,7 +343,7 @@ class PayRateCubit extends Cubit<PayRateState> {
 
     emit(
       state.copyWith(
-        rate: rateResponse,
+        model: rateResponse,
         items: newRates,
         message: response.message,
         status: isSubmit ? FormStatus.success : FormStatus.next,

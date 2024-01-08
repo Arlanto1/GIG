@@ -35,7 +35,6 @@ class CreateFoundServices {
       bool isSubmit,
       String username,
       BuildContext context) async {
-    print(requestBody);
 
     var userId = await SharedPrefs.getUserId();
     final String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";

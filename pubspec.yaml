@@ -31,7 +31,7 @@ flavorizr:
 
       ios:
         bundleId: "com.arlanto.atomedge.dev"
-        
+
     QA:
       app:
         name: "QA"
@@ -51,7 +51,7 @@ flavorizr:
         applicationId: "com.arlanto.atomedge.uat"
       ios:
         bundleId: "com.arlanto.atomedge.uat"
-     
+
     PROD:
       app:
         name: "AtomEdge"
@@ -59,7 +59,7 @@ flavorizr:
       android:
         applicationId: "com.arlanto.atomedge"
       ios:
-        bundleId: "com.arlanto.atomedge"       
+        bundleId: "com.arlanto.atomedge"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -120,6 +120,7 @@ dev_dependencies:
 
   flutter_test:
     sdk: flutter
+  build_runner: ^2.4.6
   get: ^4.6.1
   image_gallery_saver:
   json_serializable: ^6.7.1
@@ -129,7 +130,6 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  build_runner: ^2.4.6
   flutter_lints: ^3.0.1
 #flutter_native_splash:
 #   color: "#ffffff" #white color
@@ -173,7 +173,7 @@ flutter:
 
     - family: Poppins-BoldItalic
       fonts:
-        - asset: assets/fonts/Poppins-BoldItalic.ttf    
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
 
     - family: Poppins-ExtraBold
       fonts:
@@ -193,36 +193,36 @@ flutter:
 
     - family: Poppins-Italic
       fonts:
-        - asset: assets/fonts/Poppins-Italic.ttf 
+        - asset: assets/fonts/Poppins-Italic.ttf
 
     - family: Poppins-Light
       fonts:
-        - asset: assets/fonts/Poppins-Light.ttf 
+        - asset: assets/fonts/Poppins-Light.ttf
 
     - family: Poppins-LightItalic
       fonts:
-        - asset: assets/fonts/Poppins-LightItalic.ttf 
+        - asset: assets/fonts/Poppins-LightItalic.ttf
 
     - family: Poppins-Medium
       fonts:
-        - asset: assets/fonts/Poppins-Medium.ttf 
+        - asset: assets/fonts/Poppins-Medium.ttf
 
 
     - family: Poppins-MediumItalic
       fonts:
-        - asset: assets/fonts/Poppins-MediumItalic.ttf 
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
 
     - family: Poppins-Regular
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf  
+        - asset: assets/fonts/Poppins-Regular.ttf
 
     - family: Poppins-SemiBold
       fonts:
-        - asset: assets/fonts/Poppins-SemiBold.ttf  
+        - asset: assets/fonts/Poppins-SemiBold.ttf
 
     - family: Poppins-SemiBoldItalic
       fonts:
-        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf  
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
 
     - family: Poppins-Thin
       fonts:
@@ -230,7 +230,7 @@ flutter:
 
     - family: Poppins-ThinItalic
       fonts:
-        - asset: assets/fonts/Poppins-ThinItalic.ttf                                                                       
+        - asset: assets/fonts/Poppins-ThinItalic.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

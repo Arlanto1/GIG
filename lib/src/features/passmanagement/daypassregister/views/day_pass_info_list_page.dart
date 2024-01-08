@@ -105,13 +105,12 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
               if (value == 0) {
                 DownloadImage().passexportExcel(
                     context,
                     int.parse(userid),
                     'export.xslx',
-                    int.parse(widget.passId ?? '0'),
+                    int.parse(widget.passId),
                     0,
                     '/exportPassInfoExcel');
               } else if (value == 1) {
@@ -121,7 +120,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                     context,
                     int.parse(userid),
                     'export.pdf',
-                    int.parse(widget.passId ?? '0'),
+                    int.parse(widget.passId),
                     0,
                     '/exportPassInfoPDF');
               }

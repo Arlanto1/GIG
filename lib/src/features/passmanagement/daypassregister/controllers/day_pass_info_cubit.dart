@@ -53,7 +53,7 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
         ),
       );
     } catch (e) {
-      print(e);
+      log('Error: $e');
       // if (startPosition != '0') {
       //   dismissLoadingDialog(context);
       // }

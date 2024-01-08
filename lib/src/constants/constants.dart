@@ -113,12 +113,12 @@ class Constants {
   static const String username = "Username";
   static const String otp = "OTP";
   static const String password = "Password";
-  static const String old_password = "Old Password";
-  static const String new_password = "New Password";
+  static const String oldPassword = "Old Password";
+  static const String newPassword = "New Password";
   static const String confirmNewPassword = "Confirm New Password";
-  static const String forgotpassowrd = 'Forgot Password?';
-  static const String supporttext = "Support: +49 6150 961 6244";
-  static const String copyrighttext = "Copyright Â© 2023 RimaOne.";
+  static const String forgotPassowrd = 'Forgot Password?';
+  static const String supportText = "Support: +49 6150 961 6244";
+  static const String copyrightText = "Copyright Â© 2023 RimaOne.";
   static const String submit = "Submit";
 
   //Dashboard

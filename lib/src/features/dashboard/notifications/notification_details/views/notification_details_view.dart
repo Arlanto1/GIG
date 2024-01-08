@@ -130,8 +130,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             state.model.content?.text ?? '',
                             // '<h1>Hello, <i>World</i>!</h1><p>Click <a href="http://www.google.com/">here</a> to visit Example website.</p>',
                             onTapUrl: (url) {
-                              print('tapped-- $url'); // getting url value = #
-                              launchURL(Uri.encodeFull(url ?? ''));
+                              log('tapped-- $url'); // getting url value = #
+                              launchURL(Uri.encodeFull(url));
                               return true;
                             },
                           ),

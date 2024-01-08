@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -7,11 +8,11 @@ Future<bool> networkChecking(BuildContext context) async {
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      print('connected');
+      log('connected');
       return true;
     }
   } on SocketException catch (_) {
-    print('not connected');
+    log('not connected');
     showDialog(
         builder: (context) => AlertDialog(
               title: const Text("Evoke"),

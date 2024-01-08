@@ -1,19 +1,14 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'duty_post_name_master_details_state.dart';
@@ -107,12 +102,12 @@ class DutyPostNameMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
 
-      List<String> dutyPostLocationNames = Utils().splitStringAfterComma(state.model.dutyPostLocationName ?? '');
+      List<String> dutyPostLocationNames =
+          Utils().splitStringAfterComma(state.model.dutyPostLocationName ?? '');
 
       state.model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
-
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -158,13 +153,15 @@ class DutyPostNameMasterDetailsCubit
       dutyPostLocationNames: dutyPostLocationNames,
     );
     log('-state.dutyPostLocationNames---after---${state.dutyPostLocationNames}----');
-    state.model.dutyPostLocationName = Utils().joinListWithComma(dutyPostLocationNames);
+    state.model.dutyPostLocationName =
+        Utils().joinListWithComma(dutyPostLocationNames);
 
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
     ));
   }
+
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
@@ -194,6 +191,7 @@ class DutyPostNameMasterDetailsCubit
     state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.status = status ?? state.model.status;
   }
+
   void submitForm({bool isSaveOnly = false}) async {
     emit(
       state.copyWith(
@@ -249,7 +247,7 @@ class DutyPostNameMasterDetailsCubit
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

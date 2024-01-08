@@ -56,7 +56,6 @@ class CustomListTexts extends StatefulWidget {
 }
 
 class CustomListTextsState extends State<CustomListTexts> {
-  final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   List<Organisation> employeeDepartments = [];

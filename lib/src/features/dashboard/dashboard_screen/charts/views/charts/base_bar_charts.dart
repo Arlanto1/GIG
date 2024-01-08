@@ -79,7 +79,7 @@ class BaseBarChartState extends State<BaseBarChart> {
                           widget.chartData.indexOf(data),
                       yValueMapper: (PieChartData data, _) => data.y,
                       pointColorMapper: (PieChartData data, _) => data.color,
-                      emptyPointSettings: EmptyPointSettings(
+                      emptyPointSettings: const EmptyPointSettings(
                         mode: EmptyPointMode.average,
                       ),
                       dataLabelSettings: const DataLabelSettings(

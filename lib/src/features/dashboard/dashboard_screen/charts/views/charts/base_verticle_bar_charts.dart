@@ -66,8 +66,8 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
                 ),
                 Expanded(
                   child: SfCartesianChart(
-                    primaryXAxis: NumericAxis(),
-                    primaryYAxis: NumericAxis(),
+                    primaryXAxis: const NumericAxis(),
+                    primaryYAxis: const NumericAxis(),
                     series: <CartesianSeries>[
                       StackedColumnSeries<PieChartData, num>(
                         enableTooltip: true,
@@ -81,7 +81,7 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
                             widget.chartData.indexOf(data),
                         yValueMapper: (PieChartData data, _) => data.y,
                         pointColorMapper: (PieChartData data, _) => data.color,
-                        emptyPointSettings: EmptyPointSettings(
+                        emptyPointSettings: const EmptyPointSettings(
                           mode: EmptyPointMode.average,
                         ),
                       ),

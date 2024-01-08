@@ -63,21 +63,4 @@ class FoundListCubit extends Cubit<FoundListState> {
       }
     }
   }
-
-  // Found Article detials by Id API call
-  Future<FoundListArticleDetails?> getArticleById(
-      int articleId, BuildContext context) async {
-    try {
-      FoundListArticleDetails foundArticleDetailsResponse =
-          await foundListServices.getArticleById(articleId, context);
-      emit(
-        state.copyWith(
-          foundArticleDetails: foundArticleDetailsResponse,
-          stateType: FoundListStateType.success,
-        ),
-      );
-      return foundArticleDetailsResponse;
-    } catch (e) {}
-    return null;
-  }
 }

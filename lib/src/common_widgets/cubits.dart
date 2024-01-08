@@ -11,7 +11,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/con
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/services/day_passlist_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/services/day_pass_info_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 import '../features/law_enforcement_list/controllers/law_enforcement_list_cubit.dart';
 

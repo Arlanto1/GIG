@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -66,14 +65,13 @@ class CustomAlertDialog extends StatelessWidget {
             : Container(),
         positiveBtnText != null
             ? TextButton(
+                onPressed:  onPositivePressed,
                 child: Text(positiveBtnText ?? '',
                     style: Styles.textFontSet(
                         16,
                         AppColors.navigationSkybluecolor,
                         FontWeight.normal,
                         Constants.customFontMediumFamily)),
-                //  textColor: Theme.of(context).colorScheme.secondary,
-          onPressed:  onPositivePressed,
               )
             : Container(),
       ],

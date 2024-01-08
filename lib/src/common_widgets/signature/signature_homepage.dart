@@ -116,9 +116,10 @@ class _SignatureHomePageState extends State<SignatureHomePage> {
             IconButton(
                 onPressed: () async {
                   if (controller!.isNotEmpty) {
+                    var nav = Navigator.of(context);
                     final signature = await exportSignature();
 
-                    await Navigator.of(context).push(
+                    await nav.push(
                       MaterialPageRoute(
                         builder: ((context) =>
                             ReviewSignaturePage(signature: signature!)),

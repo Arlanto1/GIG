@@ -798,9 +798,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   initiallyLocationandSerialnumberdataset(LawEnforcementState state) async {
-    print(state.locationSelectedlist);
-    print(state.getLocationsResponse);
-    print(widget.model);
     if (state.locationSelectedlist?.id == null &&
         state.getLocationsResponse != null &&
         widget.model == null &&
@@ -1143,7 +1140,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   });
             },
             onTap: (BaseUser list) {
-              print(list.name);
               // if (name.toLowerCase() == 'depositor') {
               //  // selecteddepositorList = list;
               // } else {
@@ -1174,7 +1170,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             widget.model == null || textfiled.text.isEmpty ? false : true,
         onChange: (String username) {
           //this.username = username;
-          print('dfwf');
+          log('dfwf');
 
           setState(() {});
         },
@@ -1207,10 +1203,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+    log('pickedDate---$pickedDate'); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
-    print(
+    log(
         formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == actualDateTextController) {
@@ -1224,7 +1220,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   void _getCurrentDate() {
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    print(formattedDate);
+    log(formattedDate);
     dateofcreationTextController.text = formattedDate;
     if (widget.model == null) {
       statusTextController.text = 'Draft';
@@ -1369,7 +1365,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   });
             },
             onTap: (Organisation list) {
-              //print(list.name);
+              //log(list.name);
               lawEnforcementCubit.getleopurposeResponseData(list);
             },
           );
@@ -1397,7 +1393,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   });
             },
             onTap: (Organisation list) {
-              //print(list.name);
+              //log(list.name);
               lawEnforcementCubit.getemployeeDepartmentsResponseData(list);
             },
           );
@@ -1422,13 +1418,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   });
             },
             onTap: (Organisation list) {
-              //print(list.name);
+              //log(list.name);
 
               if (state.getVisits!.isNotEmpty) {
-                print(state.getVisits![index].department?.name);
-                print(state.getVisits![index].department?.id);
-                print(state.getVisits![index].name);
-                print(state.getVisits![index].designation);
                 VisitingOfficialsModel model = state.getVisits![index];
                 model.department = list;
               }
@@ -1544,17 +1536,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         showDialog(
           context: context,
           builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
+            // log(state.getLocationsResponse);
             return CustomExpansionListTexts(
               locationList: state.getLocationsResponse,
               //GetLocations(),
-              onTap: (Organisation? list) async {
-                print(list?.name);
+              onTap: (Organisation? org) async {
                 await lawEnforcementCubit.getSerialnumberDetails(
-                    list?.id.toString() ?? '', 'LEO', context);
+                    org?.id.toString() ?? '', 'LEO', context);
                 // locationselectedText = list?.name ?? '';
                 // locationSelectedlist = list;
-                lawEnforcementCubit.getlocationsResponseData(list);
+                lawEnforcementCubit.getlocationsResponseData(org);
               },
             );
           },

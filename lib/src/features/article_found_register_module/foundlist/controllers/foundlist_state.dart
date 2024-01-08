@@ -1,4 +1,3 @@
-// Created by Ramesh
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:equatable/equatable.dart';

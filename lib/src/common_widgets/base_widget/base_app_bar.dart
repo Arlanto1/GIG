@@ -1,14 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../index.dart';
-import '../../constants/app_icon.dart';
-import '../app_bar.dart';
-import '../custom_pop_menu.dart';
-import '../image_download.dart';
 
 class BaseAppBar {
   AppHeader buildAppHeader({

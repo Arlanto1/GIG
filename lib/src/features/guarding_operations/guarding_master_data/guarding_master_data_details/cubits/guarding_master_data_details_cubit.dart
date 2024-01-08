@@ -10,7 +10,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/mo
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
@@ -472,8 +472,6 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     }
-
-    print('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

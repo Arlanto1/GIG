@@ -23,7 +23,7 @@ class MaterialMovementsModel {
       } catch (e) {
         // Handle the exception, you can log it or take any appropriate action.
         // For example, you can log the error and return a default value.
-        print('Error parsing MaterialMovementModel: $e');
+        log('Error parsing MaterialMovementModel: $e');
         return MaterialMovementModel(); // Return a default instance of MaterialMovementModel.
       }
     }).toList();

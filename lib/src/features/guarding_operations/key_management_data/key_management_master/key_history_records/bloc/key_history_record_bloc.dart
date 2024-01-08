@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_history_record_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_history_record_event.dart';
 
@@ -72,7 +72,7 @@ class KeyHistoryRecordBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.list ?? [])..addAll(response),
+          items: List.of(state.list)..addAll(response),
           hasReachedMax: false,
         ),
       );

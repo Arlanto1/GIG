@@ -62,7 +62,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       }
       isPaginationLoading = true;
       //showLoadingDialog(context);
-      print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
       // }
@@ -100,7 +99,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         titleIdentify = 'Edit SEZ Pass Management';
       }
 
-      DayPassListElement? listuser = foundArticleDetailsResponse;
+      // DayPassListElement? listuser = foundArticleDetailsResponse;
       Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
         "passMngCreateDetails": CreatePassMngArguments(widget.passId ?? '',
             titleIdentify, true, foundArticleDetailsResponse)
@@ -118,7 +117,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
 
     //_loadMore();
     return Scaffold(
@@ -144,7 +142,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 widget.passId ?? '', titleIdentify, true, null)
           }).then((value) async {
             if (value != null && value == true) {
-              print(value);
               localfoundlist?.clear();
               pageNumber = 0;
               _getpassFoundArticleList();
@@ -173,7 +170,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
+              log(value);
               if (value == 0) {
                 // DownloadImage().exportExcel(context, int.parse(userid),
                 //     'export.xslx', 0, pageNumber, '/exportPassMgmtExcel');
