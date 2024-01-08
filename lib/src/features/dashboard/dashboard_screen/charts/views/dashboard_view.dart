@@ -25,13 +25,6 @@ class DashboardViewState extends State<DashboardView>
     WidgetsBinding.instance.addObserver(this);
   }
 
-  @override
-  void activate() {
-    super.activate();
-    log('--activate-----');
-    chartsCubit.initializeValues();
-  }
-
   Future<void> getUserDetails() async {
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
