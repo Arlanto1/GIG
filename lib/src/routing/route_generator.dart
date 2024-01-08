@@ -162,6 +162,7 @@ class RouteGenerator {
             builder: (context) => OtpVerifyScreen(
               userName: userDetails?.name ?? '',
               password: userDetails?.pwd ?? '',
+              deviceToken: userDetails?.deviceToken ?? '',
             ),
           );
         }
