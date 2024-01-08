@@ -6,7 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/mo
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
@@ -212,7 +212,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

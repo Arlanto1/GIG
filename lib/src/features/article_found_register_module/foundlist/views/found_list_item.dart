@@ -16,6 +16,7 @@ class FoundListItem extends StatefulWidget {
   final Function? onViewTap;
   final FoundModel userItem;
   final int? index;
+
   const FoundListItem({
     super.key,
     this.onTap,
@@ -30,7 +31,6 @@ class FoundListItem extends StatefulWidget {
 }
 
 class _FoundListItemState extends State<FoundListItem> {
- 
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -52,11 +52,6 @@ class _FoundListItemState extends State<FoundListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-     print(widget.userItem.foundDate ?? '');
-     print(widget.userItem.inputDate ?? '');
-      print(widget.userItem.modifiedDate ?? '');
-      print(widget.userItem.handoverDate ?? '');
     return Column(
       children: [
         Card(
@@ -69,7 +64,7 @@ class _FoundListItemState extends State<FoundListItem> {
             child: InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                 widget.onTap != null ? widget.onTap!(widget.index) : null;
+                  widget.onTap != null ? widget.onTap!(widget.index) : null;
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
@@ -87,28 +82,34 @@ class _FoundListItemState extends State<FoundListItem> {
                               widget.userItem.locationRegion?.name ?? ''),
                         ],
                       ),
-                    if( widget.userItem.foundLocation != null )...[
-                       CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          textHandling('Location : ',
-                              widget.userItem.location?.name ?? ''),
-                        ],
-                      ),],
-                       if( widget.userItem.foundDate != null )...[
-                       CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          textHandling(
-                              'Found Date : ',
-                             widget.userItem.foundDate != null ? Utils.timestamptoDateConversion(
-                                  int.parse(widget.userItem.foundDate ?? '0'), Constants.dateFormat): ''),
-                        ],
-                      ),],
-                    Row(
-                        children: [
-                          Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
-                        ]),
+                      if (widget.userItem.foundLocation != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          children: [
+                            textHandling('Location : ',
+                                widget.userItem.location?.name ?? ''),
+                          ],
+                        ),
+                      ],
+                      if (widget.userItem.foundDate != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          children: [
+                            textHandling(
+                                'Found Date : ',
+                                widget.userItem.foundDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            widget.userItem.foundDate ?? '0'),
+                                        Constants.dateFormat)
+                                    : ''),
+                          ],
+                        ),
+                      ],
+                      Row(children: [
+                        Utils()
+                            .buildFoundStatusRow(widget.userItem.status ?? 0),
+                      ]),
                       Container(
                         alignment: Alignment.topCenter,
                         child: Row(
@@ -116,14 +117,18 @@ class _FoundListItemState extends State<FoundListItem> {
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onEditTap != null ? widget.onEditTap!(widget.index) : null;
+                                widget.onEditTap != null
+                                    ? widget.onEditTap!(widget.index)
+                                    : null;
                               },
                               icon: const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onViewTap != null ? widget.onViewTap!(widget.index) : null;
+                                widget.onViewTap != null
+                                    ? widget.onViewTap!(widget.index)
+                                    : null;
                               },
                               icon: const Icon(Icons.remove_red_eye),
                             ),
@@ -131,7 +136,7 @@ class _FoundListItemState extends State<FoundListItem> {
                         ),
                       ),
                     ])))),
-         CommonWidgets.verticalSpacerWidget(5),
+        CommonWidgets.verticalSpacerWidget(5),
       ],
     );
   }

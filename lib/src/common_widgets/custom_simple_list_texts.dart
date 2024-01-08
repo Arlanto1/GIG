@@ -41,8 +41,6 @@ class CustomSimpleListTextsState extends State<CustomSimpleListTexts> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
         return SizedBox(
             //height: height/3,
             width: double.maxFinite,

@@ -54,8 +54,6 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Column(
       children: [
         Card(

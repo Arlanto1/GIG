@@ -51,11 +51,11 @@ class DrawerHeaderWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    username ?? '',
+                    username,
                     style: Styles.textStyleBlack16,
                   ),
                   Text(
-                    email ?? '',
+                    email,
                     style: Styles.textStyleRegularNormalGrey14,
                   ),
                 ],

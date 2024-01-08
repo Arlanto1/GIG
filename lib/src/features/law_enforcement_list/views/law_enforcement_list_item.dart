@@ -52,7 +52,6 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         Card(

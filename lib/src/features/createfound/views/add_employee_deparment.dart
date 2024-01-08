@@ -73,9 +73,6 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,

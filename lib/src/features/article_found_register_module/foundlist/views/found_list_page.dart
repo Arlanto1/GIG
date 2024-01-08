@@ -59,7 +59,6 @@ class _FoundListState extends State<FoundList> {
       }
       isPaginationLoading = true;
       //showLoadingDialog(context);
-      print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getFoundArticleList();
       // }
@@ -104,7 +103,6 @@ class _FoundListState extends State<FoundList> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
 
     //_loadMore();
     return Scaffold(
@@ -116,7 +114,6 @@ class _FoundListState extends State<FoundList> {
           Navigator.pushNamed(context, createfoundScreenRoute)
               .then((value) async {
             if (value != null && value == true) {
-              print(value);
               localfoundlist?.clear();
               pageNumber = 0;
               _getFoundArticleList();
@@ -145,7 +142,6 @@ class _FoundListState extends State<FoundList> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, pageNumber, '/exportFoundExcel');

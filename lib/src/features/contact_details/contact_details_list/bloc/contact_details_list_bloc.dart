@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 import '../../services/contact_details_services.dart';
 

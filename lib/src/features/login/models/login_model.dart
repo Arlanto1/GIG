@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/models/organisation.dart';
 
 class LoginResponseModel {
@@ -27,23 +29,23 @@ class LoginResponseModel {
       requirePasswordChange = json['requirePasswordChange'] as bool?;
     } catch (e) {
       // Log the exception
-      print('Error parsing JSON: $e');
+      log('Error parsing JSON: $e');
 
       // Log the specific variable causing the issue
       if (json['message'] == null) {
-        print('Error: "message" is null');
+        log('Error: "message" is null');
       }
       if (json['token'] == null) {
-        print('Error: "token" is null');
+        log('Error: "token" is null');
       }
       if (json['user'] == null) {
-        print('Error: "user" is null');
+        log('Error: "user" is null');
       }
       if (json['refreshToken'] == null) {
-        print('Error: "refreshToken" is null');
+        log('Error: "refreshToken" is null');
       }
       if (json['requirePasswordChange'] == null) {
-        print('Error: "requirePasswordChange" is null');
+        log('Error: "requirePasswordChange" is null');
       }
 
       // Handle the exception or throw it again if needed

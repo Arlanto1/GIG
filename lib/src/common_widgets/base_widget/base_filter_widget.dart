@@ -309,7 +309,6 @@ class BaseFilterWidget {
         );
       }).toList(),
     );
-    String selectedValue = 'Option 1';
 
     // if (result != null && result != selectedValue) {
     //   setState(() {

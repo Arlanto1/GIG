@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -52,7 +54,6 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final bloc = BlocProvider.of<LoginBloc>(context);
     return Scaffold(
       appBar: AppHeader(
         isTitleCenter: false,
@@ -161,7 +162,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       Container(
                                         alignment: Alignment.topLeft,
                                         child: const Text(
-                                          Constants.old_password,
+                                          Constants.oldPassword,
                                           style: Styles.textStyleBlack16,
                                         ),
                                       ),
@@ -199,7 +200,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       Container(
                                         alignment: Alignment.topLeft,
                                         child: const Text(
-                                          Constants.new_password,
+                                          Constants.newPassword,
                                           style: Styles.textStyleBlack16,
                                         ),
                                       ),
@@ -223,8 +224,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                           try {
                                             if (loginFormKey.currentState!
                                                 .validate()) {
-                                              print(
-                                                  'username $username password $oldPassword');
+                                              log('username $username password $oldPassword');
                                               // bloc.add(LoginVerifyEvent(
                                               //     requestModel:
                                               //     prepareLoginRequestBody(
@@ -256,8 +256,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       try {
                                         if (loginFormKey.currentState!
                                             .validate()) {
-                                          print(
-                                              'username $username password $oldPassword');
+                                          log('username $username password $oldPassword');
                                           // bloc.add(LoginVerifyEvent(
                                           //     requestModel:
                                           //     prepareLoginRequestBody(

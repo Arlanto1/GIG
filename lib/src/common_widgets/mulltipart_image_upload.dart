@@ -1,12 +1,12 @@
-
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:http/http.dart' as http;
+
 class ImagesMultiPart {
-  multipartProdecudre(String url,String imagepath) async {
-   
-   final endpoint = Environment().config.apiHost;
+  multipartProdecudre(String url, String imagepath) async {
+    final endpoint = Environment().config.apiHost;
     //for multipartrequest
     var request = http.MultipartRequest('POST', Uri.parse(endpoint + url));
 
@@ -18,28 +18,25 @@ class ImagesMultiPart {
     request.files.add(await http.MultipartFile.fromPath("images", imagepath));
 
     //for completeing the request
-    var response =await request.send();
+    var response = await request.send();
 
     //for getting and decoding the response into json format
     var responsed = await http.Response.fromStream(response);
     final responseData = json.decode(responsed.body);
 
-
-     if (response.statusCode==200) {
-        print("SUCCESS");
-        print(responseData);
-      }
-     else {
-      print("ERROR");
+    if (response.statusCode == 200) {
+      log("SUCCESS");
+      log(responseData);
+    } else {
+      log("ERROR");
     }
   }
 
-Future<String> uploadImage(url,filepath) async {
-   final endpoint = Environment().config.apiHost;
-  var request = http.MultipartRequest('POST', Uri.parse(endpoint + url));
-  request.files.add(await http.MultipartFile.fromPath('images', filepath));
-  var res = await request.send();
-  return res.statusCode.toString();
-}
-  
+  Future<String> uploadImage(url, filepath) async {
+    final endpoint = Environment().config.apiHost;
+    var request = http.MultipartRequest('POST', Uri.parse(endpoint + url));
+    request.files.add(await http.MultipartFile.fromPath('images', filepath));
+    var res = await request.send();
+    return res.statusCode.toString();
   }
+}

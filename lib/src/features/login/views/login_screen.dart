@@ -250,7 +250,7 @@ class _LoginState extends State<Login> {
                                 children: [
                                   const Center(
                                     child: Text(
-                                      Constants.supporttext,
+                                      Constants.supportText,
                                       style: Styles.textStyleBlack16,
                                     ),
                                   ),
@@ -259,7 +259,7 @@ class _LoginState extends State<Login> {
                                   ),
                                   const Center(
                                     child: Text(
-                                      Constants.copyrighttext,
+                                      Constants.copyrightText,
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   )
@@ -305,7 +305,7 @@ class _LoginState extends State<Login> {
     FocusScope.of(context).unfocus();
     try {
       if (loginFormKey.currentState!.validate()) {
-        print('username $username password $password');
+        log('username $username password $password');
         bloc.add(LoginVerifyEvent(
             requestModel: prepareLoginRequestBody(username, password, ''),
             isFromLogin: true));

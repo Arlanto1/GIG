@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
@@ -220,8 +221,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                                 //give the values according to your requirement
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    print(
-                                                        "Icon Button clicked");
+                                                    log("Icon Button clicked");
                                                     _image = null;
                                                     file = null;
                                                     setState(() {});
@@ -388,7 +388,6 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      print(imageFile);
       setState(() {
         _image = imageFile;
       });
@@ -406,7 +405,6 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      print(imageFile);
       setState(() {
         _image = imageFile;
       });
@@ -423,13 +421,12 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
       file = result.files.first;
 
       //showLoadingDialog(context);
-      print(result.paths);
       setState(() {});
       // String fileName = result.path.split('/').last;
       ///String fileName = identifierId + '_' + connectorId.toString() + ".png";
     } else {
       // User canceled the picker2
-      // print(result);
+      // log(result);
       // File files = File(result.files.single.path);
     }
   }
@@ -447,11 +444,10 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     // print(file.size);
     // print(file.extension);
     //showLoadingDialog(context);
-    print(result.path);
     // String fileName = result.path.split('/').last;
     ///String fileName = identifierId + '_' + connectorId.toString() + ".png";
     //uploadaws(result.path, fileName);
-    }
+  }
 
   Future<void> _askPermission(Documnets documnets) async {
     if (documnets == Documnets.Camera) {
@@ -482,7 +478,6 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
   }
 
   _updateStatus(PermissionStatus value) {
-    print(value);
     if (value != _status) {
       setState(() {
         _status = value;

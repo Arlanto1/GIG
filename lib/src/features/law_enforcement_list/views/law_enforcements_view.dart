@@ -86,7 +86,7 @@ class _LnPageState extends State<LnPage> {
           Navigator.pushNamed(context, lawenforcementScreenRoute)
               .then((value) async {
             if (value != null && value == true) {
-              print(value);
+              log('value--$value');
               //localfoundlist?.clear();
               pageNumber = 0;
               bloc.add(
@@ -116,7 +116,7 @@ class _LnPageState extends State<LnPage> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
+              log(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, 20, '/exportLEOExcel');

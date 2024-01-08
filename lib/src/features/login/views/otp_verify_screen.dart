@@ -239,7 +239,9 @@ class _OtpVerifyState extends State<OtpVerify> {
                                             ),
                                           );
                                         }
-                                      } catch (e) {}
+                                      } catch (e) {
+                                        log('Error: $e');
+                                      }
                                     },
                                   ),
 
