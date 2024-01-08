@@ -285,7 +285,7 @@ class BaseFilterWidget {
 
   void _showDropdownPopup(BuildContext context) async {
     final RenderBox overlay =
-        Overlay.of(context)!.context.findRenderObject() as RenderBox;
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     final List<String> options = [
       'Option 1',
       'Option 2',
@@ -361,7 +361,7 @@ class BaseFilterWidget {
           },
         );
       },
-      child: SelectedTileValueWidget(name: 'TEST Location' ?? ''),
+      child: const SelectedTileValueWidget(name: 'TEST Location' ?? ''),
     );
   }
 }

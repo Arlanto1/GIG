@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/contact_details/services/contact_details_se
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../models/responseModels/generic_response.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'contact_details_state.dart';
