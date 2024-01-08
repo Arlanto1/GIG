@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
@@ -61,7 +63,15 @@ class _NotificationsViewState extends State<NotificationsView> {
         showSaveButton: false,
         showSubmitButton: false,
         showCustomIcon: true,
-        customIcon: Icons.delete_sweep,
+        popAndReplace: () {
+          log('--popAndReplace-----');
+          // Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.popAndPushNamed(
+            context,
+            dashboardViewRoute,
+          );
+        },        customIcon: Icons.delete_sweep,
         onTapCustomIcon: deleteAllNotification,
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
