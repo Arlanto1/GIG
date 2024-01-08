@@ -11,7 +11,8 @@ class DashboardView extends StatefulWidget {
   State<DashboardView> createState() => DashboardViewState();
 }
 
-class DashboardViewState extends State<DashboardView> {
+class DashboardViewState extends State<DashboardView>
+    with WidgetsBindingObserver {
   String userName = '';
   String email = '';
 
@@ -21,6 +22,7 @@ class DashboardViewState extends State<DashboardView> {
     super.initState();
     chartsCubit.initializeValues();
     getUserDetails();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   Future<void> getUserDetails() async {
