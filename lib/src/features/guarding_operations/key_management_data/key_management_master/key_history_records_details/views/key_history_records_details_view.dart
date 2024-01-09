@@ -337,7 +337,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    securityManager: user,
+                                    srh: user,
                                   );
                                 },
                               );
