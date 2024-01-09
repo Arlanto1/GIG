@@ -44,6 +44,7 @@ class BaseApiService {
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
+      log('headers---${headers.toString()}');
       var response = await http.get(
         Uri.parse(url),
         headers: headers,

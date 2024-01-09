@@ -125,10 +125,11 @@ class KeyManagementIssuanceServices {
   Future<GenericResponse> createIssuanceProcessRecord({
     required KeyIssuanceProcessRecordRequest body,
     required bool isSubmit,
+    required int kmiId,
   }) async {
     // var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createIssuanceProcessRecord}&isSubmit=$isSubmit";
+        "${Apis._createIssuanceProcessRecord}kmiId=$kmiId&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

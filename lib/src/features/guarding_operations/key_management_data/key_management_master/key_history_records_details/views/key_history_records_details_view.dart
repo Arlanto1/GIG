@@ -247,19 +247,19 @@ class _KeyHistoryRecordsDetailsViewState
                         BaseDropDown().getDropDown(
                             isDisabled: state.model.status != 6,
                             textController: keyTypeController,
-                            items: keysDropDownValues,
+                            items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
                               //  if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: keysDropDownValues
+                                  dropDownValues: keyTypeDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        keysDropDownValues.firstWhere(
+                                        keyTypeDropDownValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),

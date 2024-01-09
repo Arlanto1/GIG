@@ -617,17 +617,17 @@ class NavigationDrawer1 extends StatelessWidget {
                     //children padding
                     children: drawerItem.title == Constants.operations
                         ?
-                        _genericItemExpandable(
-                                context,
-                                expansionTileDrawerItems,
-                                Constants.operations,
-                              )
+                        // _genericItemExpandable(
+                        //         context,
+                        //         expansionTileDrawerItems,
+                        //         Constants.operations,
+                        //       )
 
-                        // _genericItemSelection(
-                        //     context,
-                        //     keyManagementDataItems,
-                        //     Constants.keyManagementMaster,
-                        //   )
+                        _genericItemSelection(
+                            context,
+                            keyManagementDataItems,
+                            Constants.keyManagementMaster,
+                          )
                         : _genericItemExpandable(
                             context,
                             securitySystemExpansionTileDrawerItems,

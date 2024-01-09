@@ -66,9 +66,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<KeyIssuanceProcessRecordBloc>()
-          .add(FetchData(id: widget.parentId, startPos: pageNumber, maxPos: 20));
+      context.read<KeyIssuanceProcessRecordBloc>().add(
+          FetchData(id: widget.parentId, startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -94,10 +93,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
-              keyIssuanceProcessRecord: KeyIssuanceProcessRecord(
-                id: widget.parentId,
-              ),
+              keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
               keyDescriptions: keyDescriptions,
+              selectedKeyDescription: null,
             );
           },
         ),
@@ -116,8 +114,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   }
 
   getBody(KeyIssuanceProcessRecordState state) {
-    log('-k desc-22-${state.keyDescriptions?.length}---');
-
     if (state.status == FormStatus.initial ||
         state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -175,10 +171,18 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       );
                     },
                     onEditTap: (selectedIndex) async {
-                      KeyIssuanceProcessRecord KeyIssuanceProcessModel =
+                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()
                               .getIssuanceProcessById(
                                   state.items?[index].id ?? 0);
+
+                      /// Get Key Description
+                      bool isMasterKey =
+                          keyIssuanceProcessModel.kmId == 1 ? false : true;
+                      Organisation selectedKeyDescription =
+                          await KeyManagementIssuanceServices().getKeyDescById(
+                              id: keyIssuanceProcessModel.kmId!,
+                              isMasterKey: isMasterKey);
 
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
@@ -189,8 +193,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
                       showAddKeyIssuanceProcessPopUp(
                         context: context,
-                        keyIssuanceProcessRecord: KeyIssuanceProcessModel,
+                        keyIssuanceProcessRecord: keyIssuanceProcessModel,
                         keyDescriptions: keyDescriptions,
+                        selectedKeyDescription: selectedKeyDescription,
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -224,6 +229,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required BuildContext context,
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,
     required final List<Organisation> keyDescriptions,
+    required Organisation? selectedKeyDescription,
   }) {
     log('---showAddKeyIssuanceProcessPopUp-----k desc-333-${keyDescriptions.length}---');
 
@@ -240,6 +246,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           model: keyIssuanceProcessRecord,
           mainContext: context,
           keyDescriptions: keyDescriptions,
+          selectedKeyDescription: selectedKeyDescription,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

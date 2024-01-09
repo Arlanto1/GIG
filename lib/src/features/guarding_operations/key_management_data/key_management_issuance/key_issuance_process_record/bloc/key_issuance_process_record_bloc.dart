@@ -137,18 +137,19 @@ class KeyIssuanceProcessRecordBloc
           KeyIssuanceProcessRecordRequest();
 
 
-      request.model?.keyDescription ??= Organisation();
-      request.model?.keyDescription?.id = event.mainIssuanceId;
+      // request.model?.keyDescription ??= Organisation();
+      // request.model?.keyDescription?.id = event.mainIssuanceId;
       request.model = event.keyIssuanceProcessRecord;
       await KeyManagementIssuanceServices().createIssuanceProcessRecord(
         body: request,
+        kmiId: event.parentId,
         isSubmit: false,
       );
 
       /// Refresh list
       List<KeyIssuanceProcessRecord> response =
           await services.getIssuanceProcessList(
-        id: '${event.mainIssuanceId}',
+        id: '${event.parentId}',
         // type: '${event.type}',
       );
       return emit(state.copyWith(
