@@ -1,4 +1,4 @@
-class VIVPVisitorRecords {
+class VIVPVisitorRecordModel {
   int? id;
   String? name;
   String? email;
@@ -8,7 +8,7 @@ class VIVPVisitorRecords {
   String? startDateVisit;
   String? endDateVisit;
 
-  VIVPVisitorRecords({
+  VIVPVisitorRecordModel({
     this.id,
     this.name,
     this.email,
@@ -16,10 +16,11 @@ class VIVPVisitorRecords {
     this.baseLocation,
     this.purpose,
     this.startDateVisit,
-    this.endDateVisit, required users,
+    this.endDateVisit,
+    // required users,
   });
 
-  VIVPVisitorRecords.fromJson(Map<String, dynamic> json)
+  VIVPVisitorRecordModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         name = json['name'] as String?,
         email = json['email'] as String?,
@@ -30,13 +31,13 @@ class VIVPVisitorRecords {
         endDateVisit = json['endDateVisit'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'email': email,
-    'designation': designation,
-    'baseLocation': baseLocation,
-    'purpose': purpose,
-    'startDateVisit': startDateVisit,
-    'endDateVisit': endDateVisit
-  };
+        'id': id,
+        'name': name,
+        'email': email,
+        'designation': designation,
+        'baseLocation': baseLocation,
+        'purpose': purpose,
+        'startDateVisit': startDateVisit,
+        'endDateVisit': endDateVisit
+      };
 }

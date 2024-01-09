@@ -1,7 +1,7 @@
 part of 'vvip_visitors_record_bloc.dart';
 
 class VVIPVisitorsRecordState extends Equatable {
-  final List<VIVPVisitorRecords>? items;
+  final List<VIVPVisitorRecordModel>? items;
   final bool hasReachedMax;
   final FormStatus status;
   final String? message;
@@ -9,14 +9,14 @@ class VVIPVisitorsRecordState extends Equatable {
 
   const VVIPVisitorsRecordState({
     this.message,
-    this.items = const <VIVPVisitorRecords>[],
+    this.items = const <VIVPVisitorRecordModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.labels,
   });
 
   VVIPVisitorsRecordState copyWith({
-    List<VIVPVisitorRecords>? items,
+    List<VIVPVisitorRecordModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     String? message,

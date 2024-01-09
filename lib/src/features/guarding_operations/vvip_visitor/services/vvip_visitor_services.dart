@@ -6,7 +6,7 @@ import 'package:db_atom/src/configurations/environment_config.dart';
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/vvip_visitor_request.dart';
 import '../models/requestModels/vvip_visitors_record_request.dart';
-import '../models/vvip_visitor_records_model.dart';
+import '../models/vvip_visitor_record_model.dart';
 import '../models/vvip_visitor_records_response.dart';
 import '../models/vvip_visitor_response_model.dart';
 
@@ -32,7 +32,7 @@ class Apis {
 }
 
 class VVIPVisitorServices {
-  Future<List<VIVPVisitorRecords>> getVVIPVisitorRecordsList({
+  Future<List<VIVPVisitorRecordModel>> getVVIPVisitorRecordsList({
     required String id,
   }) async {
     String url = '${Apis._getVipVisitorRecordsListByType}$id';
@@ -40,8 +40,8 @@ class VVIPVisitorServices {
       isAuthenticated: true,
       url: url,
     );
-    return List<VIVPVisitorRecords>.from(
-        response.map((x) => VIVPVisitorRecords.fromJson(x)));
+    return List<VIVPVisitorRecordModel>.from(
+        response.map((x) => VIVPVisitorRecordModel.fromJson(x)));
   }
 
   Future<VVIPVisitorResponseModel> getGVVIP({
@@ -92,12 +92,12 @@ class VVIPVisitorServices {
     return VVIPVisitorRecordsResponseModel.fromJson(response);
   }
 
-  Future<VIVPVisitorRecords> getVIPById(num id) async {
+  Future<VIVPVisitorRecordModel> getVIPById(num id) async {
     final String url = '${Apis._getVVIPVisitorsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return VIVPVisitorRecords.fromJson(response);
+    return VIVPVisitorRecordModel.fromJson(response);
   }
 
   Future<GenericResponse> deleteVipById(int id) async {

@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../enums/form_status.dart';
-import '../../models/vvip_visitor_records_model.dart';
+import '../../models/vvip_visitor_record_model.dart';
 import '../../services/vvip_visitor_services.dart';
 import '../bloc/vvip_visitors_record_bloc.dart';
 import 'add_vvip_visitors_record_popup.dart';
@@ -30,7 +30,7 @@ class VVIPVisitorsRecordView extends StatefulWidget {
 
   final int id;
   final String title;
-  final VIVPVisitorRecords? model;
+  final VIVPVisitorRecordModel? model;
 
   @override
   State<VVIPVisitorsRecordView> createState() => _VVIPVisitorsRecordView();
@@ -83,10 +83,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           onPressed: () {
             showAddVVIPVisitorsPopUp(
               context: context,
-              contact: VIVPVisitorRecords(
-                id: null,
-                users: [],
-              ),
+              contact: VIVPVisitorRecordModel(),
               users: [],
             );
           },
@@ -163,7 +160,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                       );
                     },
                     onEditTap: (selectedIndex) async {
-                      VIVPVisitorRecords visitorsModel =
+                      VIVPVisitorRecordModel visitorsModel =
                           await VVIPVisitorServices()
                               .getVIPById(state.items?[index].id ?? 0);
 
@@ -201,7 +198,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
 
   showAddVVIPVisitorsPopUp({
     required BuildContext context,
-    required VIVPVisitorRecords contact,
+    required VIVPVisitorRecordModel contact,
     required final List<Organisation> users,
   }) {
     log('--.users-1111-llen--${users.length}---');
@@ -213,11 +210,11 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           model: contact,
           mainContext: context,
           users: users,
-          onSubmit: (VIVPVisitorRecords model) {
+          onSubmit: (VIVPVisitorRecordModel model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
-            log('-widget.title---${widget.title}----');
+            log('-widget.model---${widget.model}----');
 
             BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
               SaveRecord(

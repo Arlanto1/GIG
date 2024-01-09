@@ -1,6 +1,6 @@
 import 'package:db_atom/index.dart';
 
-import '../../models/vvip_visitor_records_model.dart';
+import '../../models/vvip_visitor_record_model.dart';
 
 class AddVVIPVisitorsPopUp extends StatefulWidget {
   const AddVVIPVisitorsPopUp({
@@ -14,7 +14,7 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
 
   final String title;
   final Function onSubmit;
-  final VIVPVisitorRecords model;
+  final VIVPVisitorRecordModel model;
   final List<Organisation> users;
   final BuildContext mainContext;
 
