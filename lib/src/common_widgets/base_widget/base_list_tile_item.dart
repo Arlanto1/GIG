@@ -35,6 +35,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyLossStatus;
   final bool isKeyManagementStatus;
   final bool isKeyManagementIssuanceStatus;
+  final bool isVipStatus;
 
   const BaseListTileItem({
     super.key,
@@ -69,6 +70,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isKeyLossStatus = false,
     this.isKeyManagementStatus = false,
     this.isKeyManagementIssuanceStatus = false,
+    this.isVipStatus = false,
     this.onDeleteTap,
   });
 
@@ -129,8 +131,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.locationRegion != null) ...[
                         Row(
                           children: [
-                            Utils().textHandling('Region : ',
-                                widget.locationRegion?.name ?? ''),
+                            Utils().textHandling(
+                                'Region : ', widget.locationRegion?.name ?? ''),
                           ],
                         ),
                       ],
@@ -139,8 +141,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils().textHandling('Location : ',
-                                widget.locationStr.toString()),
+                            Utils().textHandling(
+                                'Location : ', widget.locationStr.toString()),
                           ],
                         ),
                       ],
@@ -149,8 +151,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils().textHandling('Guard Count : ',
-                                widget.guardCount.toString()),
+                            Utils().textHandling(
+                                'Guard Count : ', widget.guardCount.toString()),
                           ],
                         ),
                       ],
@@ -185,33 +187,31 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           !widget.isKeyManagementIssuanceStatus &&
                           !widget.isSecuritySystemSLA &&
                           !widget.isKeyManagementStatus &&
+                          !widget.isVipStatus &&
                           !widget.isContactDetailsStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildMaterialMovementStatusRow(
-                            widget.status ?? 0),
+                        Utils()
+                            .buildMaterialMovementStatusRow(widget.status ?? 0),
                       ],
-                      if (widget.guardRank != 0 &&
-                          widget.isMasterGuard) ...[
+                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildGuardrank(widget.guardRank ?? 0),
                       ],
                       if (widget.status != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildMasterDataStatusRow(widget.status ?? 0),
+                        Utils().buildMasterDataStatusRow(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isEventProtectionStatus &&
                           !widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildEventProtectionStatusRow(
-                            widget.status ?? 0),
+                        Utils()
+                            .buildEventProtectionStatusRow(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isKeyManagementIssuanceStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementIssuanceStatus(
-                            widget.status ?? 0),
+                        Utils().keyManagementIssuanceStatus(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isKeyManagementStatus) ...[
@@ -224,16 +224,14 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils()
-                                .buildOccurrenceStatus(widget.status ?? 0),
+                            Utils().buildOccurrenceStatus(widget.status ?? 0),
                           ],
                         ),
                       ],
                       if (widget.status != null &&
                           widget.isKeyLossStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .keyLossDestructionStatus(widget.status ?? 0),
+                        Utils().keyLossDestructionStatus(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isSLAViolationStatus == true) ...[
@@ -269,8 +267,12 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isEventProtectionStatus == false &&
                           widget.isSecuritySystemSLA == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildSecuritySystemStatusRow(
-                            widget.status ?? 0),
+                        Utils()
+                            .buildSecuritySystemStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.isVipStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().vIPVisitorStatusRow(widget.status ?? 0),
                       ],
                     ],
                   ),

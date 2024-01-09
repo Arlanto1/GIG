@@ -91,3 +91,10 @@ const String attendanceListRoute = '/attendanceListRoute';
 
 const String shiftScheduleListRoute = '/shiftScheduleListRoute';
 const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';
+
+
+const String vipVisitorsListRoute = '/vipVisitorsListRoute';
+const String vipVisitorsDetailsRoute =
+    '/vipVisitorsDetailsRoute';
+const String vipVisitorsRecordsRoute =
+    '/vipVisitorsRecordsRoute';
