@@ -211,7 +211,6 @@ class KeyHistoryRecordsDetailsCubit
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.type = type;
 
     // Create/Update API Call
     KeyHistoryRecordRequest request =
