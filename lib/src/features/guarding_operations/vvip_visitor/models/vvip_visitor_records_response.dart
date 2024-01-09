@@ -2,8 +2,6 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/models/vvi
 
 import '../../../../../index.dart';
 
-part 'vvip_visitor_records_response.g.dart';
-
 class VVIPVisitorRecordsResponseModel extends BaseObject {
   final List<VVIPVisitorsRecordListModel>? items;
   final int? totalCount;
@@ -34,17 +32,20 @@ class VVIPVisitorRecordsResponseModel extends BaseObject {
       };
 }
 
-@JsonSerializable()
-class VVIPVisitorsRecordListModel extends BaseObject {
+class VVIPVisitorsRecordListModel {
   final List<VIVPVisitorRecords>? vvipVisitorsRecord;
 
   VVIPVisitorsRecordListModel({
     this.vvipVisitorsRecord,
   });
 
-  factory VVIPVisitorsRecordListModel.fromJson(Map<String, dynamic> json) =>
-      _$VVIPVisitorsRecordListModelFromJson(json);
+  VVIPVisitorsRecordListModel.fromJson(Map<String, dynamic> json)
+      : vvipVisitorsRecord = (json['vvipVisitorsRecord'] as List<dynamic>?)
+            ?.map((e) => VIVPVisitorRecords.fromJson(e as Map<String, dynamic>))
+            .toList();
 
-  @override
-  Map<String, dynamic> toJson() => _$VVIPVisitorsRecordListModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'vvipVisitorsRecord':
+            vvipVisitorsRecord?.map((e) => e.toJson()).toList(),
+      };
 }
