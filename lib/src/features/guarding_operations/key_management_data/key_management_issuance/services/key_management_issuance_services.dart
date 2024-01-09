@@ -17,7 +17,7 @@ class Apis {
 
   static final String _getIssuanceProcessById = '$baseUrl/getKmiById';
   static final String _deleteIssuanceProcessRecordsById =
-      '$baseUrl/deleteSlaVp';
+      '$baseUrl/deleteKmiProcess';
 
   static final String _createIssuanceProcessRecord =
       '$baseUrl/createKmiProcess?';
