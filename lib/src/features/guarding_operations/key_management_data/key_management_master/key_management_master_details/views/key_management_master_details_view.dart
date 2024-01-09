@@ -328,7 +328,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
