@@ -201,4 +201,12 @@ class Keys {
   //Contact Details
   static const String phoneNumberKey = 'phoneNumberKey_cd';
   static const String nameKey = 'nameKey_cd';
+
+  //VVIP Visitors
+  static const String visitorsNameKey = 'visitorsNameKey_vvip';
+  static const String visitorsEmailIdKey = 'visitorsEmailIdKey_vvip';
+  static const String visitorsDesignationKey = 'visitorsDesignationKey_vvip';
+  static const String purposeOfVisitKey = 'purposeOfVisitKey_vvip';
+  static const String baseLocationOfVisitorKey = 'baseLocationOfVisitorKey_vvip';
+
 }

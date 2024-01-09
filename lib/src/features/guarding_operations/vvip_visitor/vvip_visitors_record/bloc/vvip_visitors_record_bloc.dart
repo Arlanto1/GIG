@@ -1,0 +1,138 @@
+import 'dart:async';
+
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
+
+import '../../models/requestModels/vvip_visitors_record_request.dart';
+import '../../models/vvip_visitor_records_response.dart';
+import '../../services/vvip_visitor_services.dart';
+
+part 'vvip_visitors_record_event.dart';
+
+part 'vvip_visitors_record_state.dart';
+
+class VVIPVisitorsRecordBloc
+    extends Bloc<VVIPVisitorsRecordEvent, VVIPVisitorsRecordState> {
+  VVIPVisitorsRecordBloc() : super(const VVIPVisitorsRecordState()) {
+    on<FetchData>(
+      _fetchContacts,
+      transformer: droppable(),
+    );
+    on<InitializeValues>(_initializeValues);
+    on<SaveRecord>(_saveRecord);
+    on<DeleteRecord>(_deleteRecord);
+  }
+
+  final VVIPVisitorServices services = VVIPVisitorServices();
+  final CommonServices commonServices = CommonServices();
+
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<VVIPVisitorsRecordState> emit) async {}
+
+  FutureOr<void> _fetchContacts(
+      FetchData event, Emitter<VVIPVisitorsRecordState> emit) async {
+    try {
+      if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial) {
+        List<VIVPVisitorRecordModel> response =
+            await services.getVVIPVisitorRecordsList(
+          id: '${event.id}',
+          // type: '${event.type}',
+        );
+        return emit(
+          state.copyWith(
+            items: response,
+            hasReachedMax: false,
+            status: FormStatus.success,
+          ),
+        );
+      }
+
+      List<VIVPVisitorRecordModel> response =
+          await services.getVVIPVisitorRecordsList(
+        id: '${event.id}',
+        // type: '${event.type}',
+      );
+
+      if (response.isEmpty == true) {
+        return emit(state.copyWith(hasReachedMax: true));
+      }
+      return emit(
+        state.copyWith(
+          items: List.of(state.items ?? [])..addAll(response),
+          hasReachedMax: false,
+        ),
+      );
+    } catch (e) {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _deleteRecord(
+      DeleteRecord event, Emitter<VVIPVisitorsRecordState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      await VVIPVisitorServices().deleteVpById(event.id);
+      List<VIVPVisitorRecordModel> response =
+          await services.getVVIPVisitorRecordsList(
+        id: '${event.mainContactId}',
+      );
+      return emit(
+        state.copyWith(items: response, status: FormStatus.success),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _saveRecord(
+      SaveRecord event, Emitter<VVIPVisitorsRecordState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      VVIPVisitorRecordRequest request = VVIPVisitorRecordRequest();
+
+      // request.vp = event.vipVisitors;
+      await VVIPVisitorServices().createVVIPVisitorsRecord(
+          body: request, isSubmit: false, id: '${event.mainContactId}');
+
+      /// Refresh list
+      List<VIVPVisitorRecordModel> response =
+          await services.getVVIPVisitorRecordsList(
+        id: '${event.mainContactId}',
+        // type: '${event.type}',
+      );
+      return emit(state.copyWith(
+        items: response,
+        hasReachedMax: false,
+        status: FormStatus.success,
+      ));
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+}

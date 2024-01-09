@@ -57,6 +57,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
     }
+    // if (displayMenu. ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        Constants.vvipVisitors, AppIcon.guardingOperationIcon, 0));
+    //}
     return expansionTileDrawerItems;
   }
 
@@ -369,12 +373,10 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       Navigator.pushNamed(context, keyManagementIssuanceListRoute,
           arguments: {"Key Management Issuance List": false});
-    }
-    else if (index == 2) {
+    } else if (index == 2) {
       Navigator.pushNamed(context, keyReconciliationListRoute,
           arguments: {"Key Reconciliation List": false});
-    }
-    else if (index == 3) {
+    } else if (index == 3) {
       Navigator.pushNamed(context, keyLossDestructionListRoute,
           arguments: {"Key Loss Destruction List": false});
     }
@@ -616,12 +618,11 @@ class NavigationDrawer1 extends StatelessWidget {
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
                     children: drawerItem.title == Constants.operations
-                        ?
-                        _genericItemExpandable(
-                                context,
-                                expansionTileDrawerItems,
-                                Constants.operations,
-                              )
+                        ? _genericItemExpandable(
+                            context,
+                            expansionTileDrawerItems,
+                            Constants.operations,
+                          )
 
                         // _genericItemSelection(
                         //     context,
@@ -762,8 +763,10 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 4) {
       Navigator.pushNamed(context, annualPowerShutdownListRoute);
     } else if (index == 5) {
-      //
-    } else if (index == 6) {}
+    } else if (index == 6) {
+    } else if (index == 7) {
+      Navigator.pushNamed(context, vipVisitorsListRoute);
+    }
   }
 
   _onPassMgmtSelectItem(int index, BuildContext context) async {
