@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/vvip_visitor_request.dart';
 import '../models/requestModels/vvip_visitors_record_request.dart';
+import '../models/vvip_visitor_records_model.dart';
 import '../models/vvip_visitor_records_response.dart';
 import '../models/vvip_visitor_response_model.dart';
 
@@ -23,13 +26,13 @@ class Apis {
   static final String _createGeneralInformation = '$baseUrl/createVipGi?';
 
   static final String _getVVIPVisitorsById = '$baseUrl/getVipVisitorById';
-  static final String _deleteViolationRecordsById = '$baseUrl/deleteSlaVp';
+  static final String _deleteVVIPVisitorsRecordById = '$baseUrl/deleteVipVisitor';
 
   static final String _createVVIPVisitorsRecord = '$baseUrl/createVipVisitors?';
 }
 
 class VVIPVisitorServices {
-  Future<List<VIVPVisitorRecordModel>> getVVIPVisitorRecordsList({
+  Future<List<VIVPVisitorRecords>> getVVIPVisitorRecordsList({
     required String id,
   }) async {
     String url = '${Apis._getVipVisitorRecordsListByType}$id';
@@ -37,8 +40,8 @@ class VVIPVisitorServices {
       isAuthenticated: true,
       url: url,
     );
-    return List<VIVPVisitorRecordModel>.from(
-        response.map((x) => VIVPVisitorRecordModel.fromJson(x)));
+    return List<VIVPVisitorRecords>.from(
+        response.map((x) => VIVPVisitorRecords.fromJson(x)));
   }
 
   Future<VVIPVisitorResponseModel> getGVVIP({
@@ -89,16 +92,16 @@ class VVIPVisitorServices {
     return VVIPVisitorRecordsResponseModel.fromJson(response);
   }
 
-  Future<VIVPVisitorRecordModel> getVIPById(num id) async {
+  Future<VIVPVisitorRecords> getVIPById(num id) async {
     final String url = '${Apis._getVVIPVisitorsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return VIVPVisitorRecordModel.fromJson(response);
+    return VIVPVisitorRecords.fromJson(response);
   }
 
-  Future<GenericResponse> deleteVpById(int id) async {
-    final String url = '${Apis._deleteViolationRecordsById}/$id';
+  Future<GenericResponse> deleteVipById(int id) async {
+    final String url = '${Apis._deleteVVIPVisitorsRecordById}/$id';
     final response = await BaseApiService().deleteRequest(
       url: url,
     );

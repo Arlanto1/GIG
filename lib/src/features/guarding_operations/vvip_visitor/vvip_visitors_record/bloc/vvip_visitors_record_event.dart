@@ -24,7 +24,7 @@ class InitializeValues extends VVIPVisitorsRecordEvent {
 }
 
 class SaveRecord extends VVIPVisitorsRecordEvent {
-  final VIVPVisitorRecordModel vViPVisitorRecordModel;
+  final VIVPVisitorRecords vViPVisitorRecordModel;
   final int mainContactId;
 
   const SaveRecord(
