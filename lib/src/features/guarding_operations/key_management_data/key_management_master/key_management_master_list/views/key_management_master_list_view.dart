@@ -121,9 +121,10 @@ class _KeyManagementMasterListViewState
                                 keyNo: state.list[selectedIndex].keyNo,
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
-                                isKeyManagementIssuanceStatus: true,
+                                isKeyManagementStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
+                                isKeyManagementIssuanceStatus: false,
                               );
                             },
                           );
@@ -145,6 +146,8 @@ class _KeyManagementMasterListViewState
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
                                 isEventProtectionStatus: false,
+                                isKeyManagementStatus: true,
+                                isKeyManagementIssuanceStatus: false,
                                 isMasterGuard: false,
                               );
                             },
