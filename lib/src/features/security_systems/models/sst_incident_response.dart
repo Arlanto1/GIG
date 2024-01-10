@@ -58,6 +58,9 @@ class SstIncident {
   String? escalation2;
   bool? costInvolved;
   String? invoiceNo;
+  String? escalation1Poc;
+  String? escalation2Poc;
+  String? escalation3Poc;
   String? emailList;
   String? poNo;
   // List<dynamic>? entities;
@@ -103,9 +106,9 @@ class SstIncident {
     this.invoiceNo,
     this.emailList,
     this.poNo,
-    // this.entities,
-    // this.attachments,
-    // this.dataLossDocs,
+    this.escalation1Poc,
+    this.escalation2Poc,
+    this.escalation3Poc,
     // this.quotes,
     // this.additionalDocs,
     // this.modifiedDate,
@@ -148,10 +151,10 @@ class SstIncident {
         invoiceNo = json['invoiceNo'] as String?,
         emailList = json['emailList'] as String?,
         poNo = json['poNo'] as String?,
-        // entities = json['entities'] as List?,
-        // attachments = json['attachments'] as List?,
-        // dataLossDocs = json['dataLossDocs'] as List?,
-        // quotes = json['quotes'] as List?,
+        escalation1Poc = json['escalation1Poc'] as String?,
+        escalation2Poc = json['escalation2Poc'] as String?,
+        escalation3Poc = json['escalation3Poc'] as String?,
+  // quotes = json['quotes'] as List?,
         // additionalDocs = json['additionalDocs'] as List?,
         // modifiedDate = json['modifiedDate'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
@@ -191,9 +194,9 @@ class SstIncident {
     'invoiceNo' : invoiceNo,
     'emailList' : emailList,
     'poNo' : poNo,
-    // 'entities' : entities,
-    // 'attachments' : attachments,
-    // 'dataLossDocs' : dataLossDocs,
+    'escalation1Poc' : escalation1Poc,
+    'escalation2Poc' : escalation2Poc,
+    'escalation3Poc' : escalation3Poc,
     // 'quotes' : quotes,
     // 'additionalDocs' : additionalDocs,
     // 'modifiedDate' : modifiedDate,
