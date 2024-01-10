@@ -28,7 +28,7 @@ class Apis {
   static final String _getVVIPVisitorsById = '$baseUrl/getVipVisitorById';
   static final String _deleteVVIPVisitorsRecordById = '$baseUrl/deleteVipVisitor';
 
-  static final String _createVVIPVisitorsRecord = '$baseUrl/createVipVisitors?';
+  static final String _createVVIPVisitorsRecord = '$baseUrl/createVipVisitors';
 }
 
 class VVIPVisitorServices {
