@@ -124,6 +124,7 @@ class _KeyManagementMasterListViewState
                                 isKeyManagementStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
+                                isKeyManagementIssuanceStatus: false,
                               );
                             },
                           );
@@ -146,6 +147,7 @@ class _KeyManagementMasterListViewState
                                 doorName: state.list[selectedIndex].doorName,
                                 isEventProtectionStatus: false,
                                 isKeyManagementStatus: true,
+                                isKeyManagementIssuanceStatus: false,
                                 isMasterGuard: false,
                               );
                             },

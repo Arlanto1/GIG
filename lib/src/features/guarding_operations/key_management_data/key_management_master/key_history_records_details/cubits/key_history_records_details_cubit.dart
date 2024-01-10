@@ -155,7 +155,7 @@ class KeyHistoryRecordsDetailsCubit
     int? keyType,
     int? type,
     Organisation? destructionReason,
-    User? srh,
+    BaseUser? srh,
   }) async {
     emit(
       state.copyWith(
@@ -174,6 +174,14 @@ class KeyHistoryRecordsDetailsCubit
     }
     if (destructionReason != null) {
       state.model.destructionReason = destructionReason;
+    }
+    if (srh != null) {
+      User userDetails = User(
+        name: srh.name,
+        userId: srh.id,
+        userName: srh.name,
+      );
+      state.model.srh = userDetails;
     }
     if (securityManager != null) {
       User userDetails = User(
@@ -211,7 +219,6 @@ class KeyHistoryRecordsDetailsCubit
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.type = type;
 
     // Create/Update API Call
     KeyHistoryRecordRequest request =

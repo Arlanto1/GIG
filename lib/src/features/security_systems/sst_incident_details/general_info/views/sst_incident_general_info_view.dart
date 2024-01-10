@@ -54,7 +54,7 @@ class _SstIncidentGeneralInfoViewState
               Navigator.pop(context);
               Navigator.pop(context);
               if (widget.viaOccurrence) {
-                 Navigator.pushNamed(
+                Navigator.pushNamed(
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
@@ -62,7 +62,7 @@ class _SstIncidentGeneralInfoViewState
                     "title": Constants.editOccurrence,
                   },
                 );
-                 return;
+                return;
               }
               Navigator.popAndPushNamed(
                 context,
@@ -370,37 +370,9 @@ class _SstIncidentGeneralInfoViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// LSM
+                            /// Security Lead
                             CommonWidgets.textDisplay(
-                              Constants.lsm,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.lsm?.name,
-                              height: 70,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      lsm: user,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// ASL
-                            CommonWidgets.textDisplay(
-                              Constants.asl,
+                              Constants.securityLead,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -423,6 +395,75 @@ class _SstIncidentGeneralInfoViewState
                                   },
                                 );
                               },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Escalation 1 Poc
+                            CommonWidgets.textDisplay(
+                                Constants.escalation1Poc,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 1,
+                              initialValue: state.model.escalation1Poc,
+                              textFormKey: Keys.claimantTextController,
+                              hintText: Constants.informationhere,
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.escalation1Poc = value;
+                                context
+                                    .read<SstIncidentGeneralInfoCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Escalation 2 Poc
+                            CommonWidgets.textDisplay(
+                                Constants.escalation2Poc,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 1,
+                              initialValue: state.model.escalation2Poc,
+                              textFormKey: Keys.claimantTextController,
+                              hintText: Constants.informationhere,
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.escalation2Poc = value;
+                                context
+                                    .read<SstIncidentGeneralInfoCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Escalation 3 Poc
+                            CommonWidgets.textDisplay(
+                                Constants.escalation3Poc,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 1,
+                              initialValue: state.model.escalation3Poc,
+                              textFormKey: Keys.claimantTextController,
+                              hintText: Constants.informationhere,
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.escalation3Poc = value;
+                                context
+                                    .read<SstIncidentGeneralInfoCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

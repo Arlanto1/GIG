@@ -287,7 +287,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isDisabled: state.model.status != 6,
                             textController: typeController,
                             items: typesDropDownValues,
-                            initialValue: state.model.keyType.toString(),
+                            initialValue: state.model.type.toString(),
                             onTap: () {
                               //  if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
@@ -307,7 +307,7 @@ class _KeyHistoryRecordsDetailsViewState
                                                 KeyHistoryRecordsDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
-                                            keyType: int.tryParse(
+                                            type: int.tryParse(
                                                 selectedLabel.value));
                                   });
                               //}
@@ -337,7 +337,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    securityManager: user,
+                                    srh: user,
                                   );
                                 },
                               );

@@ -115,7 +115,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if (widget.model?.status == null ||
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
-              widget.model?.status != 2 ||
               widget.model?.status == 3) ...[
             GestureDetector(
               onTap: () {
@@ -1940,6 +1939,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             {
               datePickerDialog(textfiled);
             }
+            DateTime? pickedDate = await showDateTimePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2101));
+            String formattedDate = DateFormat(Constants.fulldateFormat)
+                .format(pickedDate ?? DateTime.now());
           },
           child: Padding(
             padding: const EdgeInsets.all(20.0),

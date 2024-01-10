@@ -560,6 +560,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: incidentDateTimeController,
                               onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.incidentDate =
@@ -684,6 +685,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
                               onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.closureTargetDate =
