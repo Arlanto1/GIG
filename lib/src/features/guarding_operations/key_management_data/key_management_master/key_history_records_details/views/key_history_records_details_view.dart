@@ -247,19 +247,19 @@ class _KeyHistoryRecordsDetailsViewState
                         BaseDropDown().getDropDown(
                             isDisabled: state.model.status != 6,
                             textController: keyTypeController,
-                            items: keysDropDownValues,
+                            items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
                               //  if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: keysDropDownValues
+                                  dropDownValues: keyTypeDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        keysDropDownValues.firstWhere(
+                                        keyTypeDropDownValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
@@ -287,7 +287,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isDisabled: state.model.status != 6,
                             textController: typeController,
                             items: typesDropDownValues,
-                            initialValue: state.model.keyType.toString(),
+                            initialValue: state.model.type.toString(),
                             onTap: () {
                               //  if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
@@ -307,7 +307,7 @@ class _KeyHistoryRecordsDetailsViewState
                                                 KeyHistoryRecordsDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
-                                            keyType: int.tryParse(
+                                            type: int.tryParse(
                                                 selectedLabel.value));
                                   });
                               //}
@@ -337,7 +337,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               KeyHistoryRecordsDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                    securityManager: user,
+                                    srh: user,
                                   );
                                 },
                               );

@@ -12,6 +12,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginService loginService;
   String userName = '';
   String password = '';
+  String deviceToken = '';
 
   LoginBloc({required this.loginService}) : super(LoginLoadingState()) {
     on<LoginVerifyEvent>(_loginVerifyEvent);
@@ -29,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       userName = data.request?.userName ?? '';
       password = data.request?.password ?? '';
 
+      deviceToken = await SharedPrefs.getDeviceToken();
       log('-1-----');
 
       /// Verify OTP

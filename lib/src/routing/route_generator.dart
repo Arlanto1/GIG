@@ -55,6 +55,8 @@ import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/s
     as sla;
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart'
     as vp;
+import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
+import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart';
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
@@ -87,6 +89,12 @@ import '../features/guarding_operations/shift_scheduling/duty_post_name_master/d
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart';
+import '../features/guarding_operations/vvip_visitor/models/vvip_visitor_response_model.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart' as vip;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart' as vipr;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -162,6 +170,7 @@ class RouteGenerator {
             builder: (context) => OtpVerifyScreen(
               userName: userDetails?.name ?? '',
               password: userDetails?.pwd ?? '',
+              deviceToken: userDetails?.deviceToken ?? '',
             ),
           );
         }
@@ -1153,6 +1162,67 @@ class RouteGenerator {
             ),
           ),
         );
+
+
+      case vipVisitorsListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vip.VVIPVisitorsBloc>(
+            create: (_) => vip.VVIPVisitorsBloc()
+              ..add(const vip.FetchData(startPos: 0, maxPos: 20)),
+            child: const VVIPVisitorsView(),
+          ),
+        );
+
+      case vipVisitorsDetailsRoute:
+        VVIPVisitorServices services = VVIPVisitorServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        VIVPVisitorModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<VVIPVisitorDetailsCubit>(
+            create: (_) => VVIPVisitorDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: VVIPVisitorDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case vipVisitorsRecordsRoute:
+        String title = '';
+        int id = 0;
+        // String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          // violationDescription =
+          //     arguments[ConstantsArgument.violationDescription] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vipr.VVIPVisitorsRecordBloc>(
+            create: (_) => vipr.VVIPVisitorsRecordBloc(
+              //violationDescription: violationDescription,
+            )..add(vipr.FetchData(
+              id: id,
+              startPos: 0,
+              maxPos: 100,
+            )),
+            child: VVIPVisitorsRecordView(
+              id: id,
+              title: title,
+            ),
+          ),
+        );
+
 
       default:
         CommonServices commonServices = CommonServices();

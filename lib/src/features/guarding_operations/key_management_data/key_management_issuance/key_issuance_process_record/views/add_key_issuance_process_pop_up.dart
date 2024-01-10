@@ -1,8 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-
-import '../../services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
 class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   const AddKeyIssuanceProcessPopUp({
@@ -12,6 +11,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.model,
     required this.mainContext,
     required this.keyDescriptions,
+    required this.selectedKeyDescription,
   });
 
   final String title;
@@ -19,6 +19,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final KeyIssuanceProcessRecord model;
   final BuildContext mainContext;
   final List<Organisation> keyDescriptions;
+  final Organisation? selectedKeyDescription;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -27,34 +28,74 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
 class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController keyDescriptionController = TextEditingController();
-  TextEditingController keysController = TextEditingController();
+  TextEditingController keyTypeController = TextEditingController();
 
   TextEditingController noOfKeysIssuedController = TextEditingController();
   TextEditingController alreadyIssuedKeysController = TextEditingController();
-  TextEditingController keysAvailableController = TextEditingController();
+  TextEditingController availableKeysController = TextEditingController();
 
   TextEditingController numberOfKeysController = TextEditingController();
-  TextEditingController keysReturnedController = TextEditingController();
-  TextEditingController keysNotReturnedController = TextEditingController();
-  TextEditingController keysLostController = TextEditingController();
-  TextEditingController keysDamagedController = TextEditingController();
+  TextEditingController returnedKeysController = TextEditingController();
+  TextEditingController notReturnedKeysController = TextEditingController();
+  TextEditingController lostKeysController = TextEditingController();
+  TextEditingController damagedKeysController = TextEditingController();
   Organisation? selectedKeyDescription;
 
   @override
   void initState() {
     super.initState();
-    // penaltyAmountController.text = widget.model.penaltyAmount == null
-    //     ? ''
-    //     : widget.model.penaltyAmount.toString();
-    //
-    // num? sum = (widget.model.totalPenaltyAmount ??
-    //     (widget.model.penaltyAmount ?? 0) *
-    //         (widget.model.totalViolations ?? 0));
-    // totalPenaltyAmountController.text = sum.toString();
-    // numberOfKeysController.text = widget.model.totalViolations == null
-    //     ? ''
-    //     : widget.model.totalViolations.toString();
-    // updateStaffCategoryText();
+
+    selectedKeyDescription = widget.selectedKeyDescription;
+
+    if (selectedKeyDescription != null) {
+      keyDescriptionController.text =
+          selectedKeyDescription!.keyDescription!;
+
+      noOfKeysIssuedController.text =
+          (selectedKeyDescription?.noKeys == null
+              ? ''
+              : selectedKeyDescription?.noKeys.toString())!;
+
+      alreadyIssuedKeysController.text =
+          (selectedKeyDescription?.noKeysIssued == null
+              ? ''
+              : selectedKeyDescription?.noKeysIssued.toString())!;
+
+      availableKeysController.text = (selectedKeyDescription!.noKeys! -
+              selectedKeyDescription!.noKeysIssued!)
+          .toString();
+    }
+
+    /// Key Type Dropdown
+    if (widget.model.keyType != null) {
+      Label matchingLabel = keyTypeDropDownValues.firstWhere(
+          (label) => label.value == widget.model.keyType.toString());
+
+      keyTypeController.text = matchingLabel.key;
+    }
+    widget.model.noKeysIssued = int.tryParse(numberOfKeysController.text);
+
+    numberOfKeysController.text = widget.model.noKeysIssued == null
+        ? '0'
+        : widget.model.noKeysIssued.toString();
+    widget.model.noKeysIssued = int.tryParse(numberOfKeysController.text);
+
+    returnedKeysController.text =
+        widget.model.returned == null ? '0' : widget.model.returned.toString();
+    widget.model.returned = int.tryParse(returnedKeysController.text);
+
+    notReturnedKeysController.text = widget.model.returned == null
+        ? '0'
+        : widget.model.notReturned.toString();
+    widget.model.notReturned = int.tryParse(notReturnedKeysController.text);
+
+    lostKeysController.text =
+        widget.model.lost == null ? '0' : widget.model.lost.toString();
+    widget.model.lost = int.tryParse(lostKeysController.text);
+
+    damagedKeysController.text =
+        widget.model.damaged == null ? '0' : widget.model.damaged.toString();
+    widget.model.damaged = int.tryParse(damagedKeysController.text);
   }
 
   @override
@@ -108,6 +149,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                   selectedKeyDescription = org;
                                   keyDescriptionController.text =
                                       org.keyDescription ?? '';
+                                  widget.model.kmId = org.id;
 
                                   //TODO: need to set key description in model
                                   // widget.model.
@@ -142,21 +184,21 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       BaseDropDown().getDropDown(
                         isDisabled: false,
-                        textController: keysController,
-                        items: keysDropDownValues,
+                        textController: keyTypeController,
+                        items: keyTypeDropDownValues,
                         onTap: () {
                           BaseDropDown().assetTypeDialog(
                             context: context,
-                            dropDownValues: keysDropDownValues
+                            dropDownValues: keyTypeDropDownValues
                                 .map((label) => label.key)
                                 .toList(),
                             onTap: (String value) async {
                               Label? selectedLabel;
-                              selectedLabel = keysDropDownValues.firstWhere(
+                              selectedLabel = keyTypeDropDownValues.firstWhere(
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
-                              keysController.text = selectedLabel.key;
+                              keyTypeController.text = selectedLabel.key;
                               widget.model.keyType =
                                   int.tryParse(selectedLabel.value);
                               // Call the API
@@ -175,22 +217,28 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                                 setState(() {
 
-                                  widget.model.available = keyDescription.noKeys! -
-                                      keyDescription.noKeysIssued!;
-
-                                  widget.model.notReturned = keyDescription.notReturned;
+                                  widget.model.notReturned =
+                                      keyDescription.notReturned;
 
                                   noOfKeysIssuedController.text =
                                       keyDescription.noKeys.toString();
 
+                                  widget.model.noKeysIssued =
+                                      keyDescription.noKeysIssued;
                                   alreadyIssuedKeysController.text =
                                       keyDescription.noKeysIssued.toString();
 
-                                  keysAvailableController.text =
+                                  widget.model.available =
+                                      keyDescription.noKeys! -
+                                          keyDescription.noKeysIssued!;
+                                  availableKeysController.text =
                                       (keyDescription.noKeys! -
                                               keyDescription.noKeysIssued!)
                                           .toString();
-                                  keysNotReturnedController.text =
+
+                                  widget.model.notReturned =
+                                      keyDescription.notReturned;
+                                  notReturnedKeysController.text =
                                       keyDescription.notReturned.toString();
                                 });
                               }
@@ -248,7 +296,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.aprrover1DepartmentKey,
-                        textFieldController: keysAvailableController,
+                        textFieldController: availableKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -302,7 +350,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
-                        textFieldController: keysReturnedController,
+                        textFieldController: returnedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -323,7 +371,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.addressKey,
-                        textFieldController: keysNotReturnedController,
+                        textFieldController: notReturnedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -344,7 +392,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: keysLostController,
+                        textFieldController: lostKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -365,7 +413,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: keysDamagedController,
+                        textFieldController: damagedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -442,18 +490,24 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    // if (widget.model.violation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Violation.');
-    // }
-    // if (widget.model.staffCategory == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Staff Category.');
-    // }
-    // if (widget.model.totalViolations == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Total No of Violations');
-    // }
+    if (widget.model.kmId == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No. of Keys Description.');
+    }
+    if (widget.model.keyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Type');
+    }
+    if (widget.model.noKeysIssued == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No. of Keys Issued.');
+    }
+
+    if (widget.model.noKeysIssued!> selectedKeyDescription!.noKeys!) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter valid Number of Issued Keys');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

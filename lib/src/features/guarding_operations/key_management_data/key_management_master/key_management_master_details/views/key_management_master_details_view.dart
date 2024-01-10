@@ -34,6 +34,9 @@ class _KeyManagementMasterDetailsViewState
     super.initState();
     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
         .initializeValues();
+    widget.model?.total ==(((widget.model?.noKeys ?? 0) +
+        (widget.model?.noMasterKey ?? 0))
+        .toString());
   }
 
   @override
@@ -328,7 +331,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -540,7 +543,7 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///total
+                          ///total Keys
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.budget ??
                               //     state.labels?.defaultLocale.budget ??

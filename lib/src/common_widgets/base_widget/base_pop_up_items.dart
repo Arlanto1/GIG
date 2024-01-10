@@ -69,6 +69,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isKeyLossStatus;
   final bool isKeyManagementIssuanceStatus;
   final bool isKeyManagementStatus;
+  final bool isVipStatus;
   final User? srh;
   final User? securityManager;
   final int? keyType;
@@ -143,6 +144,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isKeyLossStatus = false,
     this.isKeyManagementIssuanceStatus = false,
     this.isKeyManagementStatus = false,
+    this.isVipStatus = false,
     this.handOverSecurity,
     this.incidentType,
     this.srh,
@@ -361,6 +363,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isSLAViolationStatus &&
           !widget.isKeyManagementIssuanceStatus &&
           !widget.isKeyManagementStatus &&
+          !widget.isVipStatus &&
           !widget.isSecuritySystemSLAStatus &&
           !widget.isIncident &&
           !widget.isContactDetailsStatus) ...[
@@ -433,7 +436,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().keyManagementStatus(widget.status ?? 0),
-            Utils().keyManagementIssuanceStatus(widget.status ?? 0),
           ],
         ),
       ],
@@ -836,12 +838,24 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.returnedByName != null && !widget.returnedByName.isEmptyOrNull) ...[
+      if (widget.returnedByName != null &&
+          !widget.returnedByName.isEmptyOrNull) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('Returned By: ', widget.returnedByName.toString()),
+            Utils().textHandling(
+                'Returned By: ', widget.returnedByName.toString()),
+          ],
+        ),
+      ],
+      if (
+          widget.status != null &&
+          widget.isVipStatus == true) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().vIPVisitorStatusRow(widget.status ?? 0),
           ],
         ),
       ],

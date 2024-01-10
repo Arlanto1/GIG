@@ -7,11 +7,13 @@ import 'package:db_atom/src/features/login/services/login_services.dart';
 class OtpVerifyScreen extends StatelessWidget {
   final String userName;
   final String password;
+  final String deviceToken;
 
   const OtpVerifyScreen({
     super.key,
     this.userName = '',
     this.password = '',
+    this.deviceToken = '',
   });
 
   @override
@@ -21,6 +23,7 @@ class OtpVerifyScreen extends StatelessWidget {
       child: OtpVerify(
         userName: userName,
         pwd: password,
+        deviceToken: deviceToken,
       ),
     );
   }
@@ -29,8 +32,13 @@ class OtpVerifyScreen extends StatelessWidget {
 class OtpVerify extends StatefulWidget {
   final String userName;
   final String pwd;
+  final String deviceToken;
 
-  const OtpVerify({super.key, required this.userName, required this.pwd});
+  const OtpVerify(
+      {super.key,
+      required this.userName,
+      required this.pwd,
+      required this.deviceToken});
 
   @override
   State<OtpVerify> createState() => _OtpVerifyState();
@@ -182,7 +190,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   ),
-
+                                  // TODO: need to remove it
+                                  // Text(
+                                  //   'Device Token: ${widget.deviceToken}',
+                                  //   style: Styles.textStyleRegularGrey14,
+                                  // ),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -227,8 +239,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                                 userName: widget.userName,
                                                 pwd: widget.pwd,
                                                 otp: otp,
-                                                deviceToken: await SharedPrefs
-                                                    .getDeviceToken(),
+                                                deviceToken: widget.deviceToken,
                                                 deviceType: Platform.isIOS
                                                     ? '1'
                                                     : (Platform.isAndroid

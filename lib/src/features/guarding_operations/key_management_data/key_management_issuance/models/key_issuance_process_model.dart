@@ -2,7 +2,7 @@ import 'package:db_atom/index.dart';
 
 class KeyIssuanceProcessRecord {
   int? id;
-  Organisation? keyDescription;
+  int? kmId;
   int? noKeysIssued;
   int? available;
   int? returned;
@@ -15,7 +15,7 @@ class KeyIssuanceProcessRecord {
 
   KeyIssuanceProcessRecord({
     this.id,
-    this.keyDescription,
+    this.kmId,
     this.noKeysIssued,
     this.available,
     this.returned,
@@ -29,10 +29,7 @@ class KeyIssuanceProcessRecord {
 
   KeyIssuanceProcessRecord.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        keyDescription = json['keyDescription'] == null
-            ? null
-            : Organisation.fromJson(
-                json['keyDescription'] as Map<String, dynamic>),
+        kmId = json['kmId'] as int?,
         noKeysIssued = json['noKeysIssued'] as int?,
         available = json['available'] as int?,
         returned = json['returned'] as int?,
@@ -45,7 +42,7 @@ class KeyIssuanceProcessRecord {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'keyDescription': keyDescription?.toJson(),
+        'kmId': kmId,
         'noKeysIssued': noKeysIssued,
         'available': available,
         'returned': returned,

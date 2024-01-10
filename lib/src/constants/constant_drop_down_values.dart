@@ -189,7 +189,7 @@ const List<Label> keyHandingOverDuration = [
   Label(key: 'More than One Day', value: '2'),
 ];
 
-const List<Label> keysDropDownValues = [
+const List<Label> keyTypeDropDownValues = [
   Label(key: 'Keys', value: '1'),
   Label(key: 'Master Keys', value: '2'),
 ];

@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {
-              "userDetails": VerifyOTPArguments(bloc.userName, bloc.password)
+              "userDetails": VerifyOTPArguments(bloc.userName, bloc.password, bloc.deviceToken)
             });
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
@@ -343,6 +343,7 @@ class _LoginState extends State<Login> {
 class VerifyOTPArguments {
   final String name;
   final String pwd;
+  final String deviceToken;
 
-  VerifyOTPArguments(this.name, this.pwd);
+  VerifyOTPArguments(this.name, this.pwd,  this.deviceToken);
 }

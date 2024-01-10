@@ -4,10 +4,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="DONE: key history type">
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notifications_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notifications_view.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="g files">
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/models/annual_power_shutdown_list_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_list_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_reconciliation_list/models/key_reconciliation_list_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/models/vvip_visitor_records_response.g.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="key_management_issuance" />
+        <entry key="$PROJECT_DIR$" value="notifications" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -80,7 +89,7 @@
     "com.android.tools.idea.streaming.emulator.frame.visible": "false",
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "notifications",
+    "git-widget-placeholder": "KeyManagement__Master",
     "io.flutter.reload.alreadyRun": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -478,7 +487,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="144" />
+    <option name="localTasksCounter" value="149" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -515,10 +524,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: Drawer Code Fixed" />
-    <MESSAGE value="DONE:Logout issue" />
-    <MESSAGE value="DONE: Navigation Drawer Code Improved" />
-    <MESSAGE value="Article Found: No Record Found after Scroll" />
     <MESSAGE value="all files" />
     <MESSAGE value="notification count API implemented" />
     <MESSAGE value="WIP: model updated" />
@@ -540,7 +545,11 @@
     <MESSAGE value="WIP: Notification Attachments" />
     <MESSAGE value="DONE: Notification Link" />
     <MESSAGE value="DONE: key history type" />
-    <option name="LAST_COMMIT_MESSAGE" value="DONE: key history type" />
+    <MESSAGE value="refresh notification count" />
+    <MESSAGE value="git ignore updated" />
+    <MESSAGE value="device token pass" />
+    <MESSAGE value="g files" />
+    <option name="LAST_COMMIT_MESSAGE" value="g files" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
