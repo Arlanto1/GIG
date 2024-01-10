@@ -9,6 +9,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.title,
     required this.onSubmit,
     required this.model,
+    required this.parentStatus,
     required this.mainContext,
     required this.keyDescriptions,
     required this.selectedKeyDescription,
@@ -20,6 +21,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final BuildContext mainContext;
   final List<Organisation> keyDescriptions;
   final Organisation? selectedKeyDescription;
+  final int parentStatus;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -47,23 +49,25 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
     selectedKeyDescription = widget.selectedKeyDescription;
 
+    log('--selectedKeyDescription---${selectedKeyDescription?.noKeys}---');
     if (selectedKeyDescription != null) {
-      keyDescriptionController.text =
-          selectedKeyDescription!.keyDescription!;
+      keyDescriptionController.text = selectedKeyDescription!.keyDescription!;
 
-      noOfKeysIssuedController.text =
-          (selectedKeyDescription?.noKeys == null
-              ? ''
-              : selectedKeyDescription?.noKeys.toString())!;
+      noOfKeysIssuedController.text = (selectedKeyDescription?.noKeys == null
+          ? ''
+          : selectedKeyDescription?.noKeys.toString())!;
 
       alreadyIssuedKeysController.text =
           (selectedKeyDescription?.noKeysIssued == null
               ? ''
               : selectedKeyDescription?.noKeysIssued.toString())!;
 
-      availableKeysController.text = (selectedKeyDescription!.noKeys! -
-              selectedKeyDescription!.noKeysIssued!)
-          .toString();
+      // availableKeysController.text = (selectedKeyDescription!.noKeys! -
+      //         selectedKeyDescription!.noKeysIssued!)
+      //     .toString();
+      availableKeysController.text = widget.model.available.toString();
+      noOfKeysIssuedController.text =
+          widget.selectedKeyDescription!.noKeys.toString();
     }
 
     /// Key Type Dropdown
@@ -216,7 +220,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                             isMasterKey: isMasterKey);
 
                                 setState(() {
-
                                   widget.model.notReturned =
                                       keyDescription.notReturned;
 
@@ -318,7 +321,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFieldController: numberOfKeysController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.parentStatus == 0,
+
                         isDisableColor: false,
                         onChange: (String value) {
                           // widget.model.totalViolations = num.parse(value);
@@ -352,7 +356,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         textFieldController: returnedKeysController,
                         hintText: '',
-                        isEnable: false,
+                        isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
@@ -373,10 +377,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.addressKey,
                         textFieldController: notReturnedKeysController,
                         hintText: '',
-                        isEnable: false,
+                        isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
+                          notReturnedKeysController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -394,10 +399,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: lostKeysController,
                         hintText: '',
-                        isEnable: false,
+                        isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
+                          lostKeysController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -415,9 +421,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: damagedKeysController,
                         hintText: '',
-                        isEnable: false,
+                        isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                          widget.model.damaged = int.tryParse(value);
+                          damagedKeysController.text = value;
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -503,7 +512,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           status: false, message: 'Please enter No. of Keys Issued.');
     }
 
-    if (widget.model.noKeysIssued!> selectedKeyDescription!.noKeys!) {
+    if (widget.model.noKeysIssued! > selectedKeyDescription!.noKeys!) {
       return const ErrorResponse(
           status: false, message: 'Please enter valid Number of Issued Keys');
     }
