@@ -9,13 +9,11 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    required this.users,
   });
 
   final String title;
   final Function onSubmit;
   final VIVPVisitorRecordModel model;
-  final List<Organisation> users;
   final BuildContext mainContext;
 
   @override
@@ -24,11 +22,9 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
 
 class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController violationController = TextEditingController();
-  TextEditingController staffCategoryController = TextEditingController();
-  TextEditingController visitorsNameController = TextEditingController();
-  TextEditingController visitorEmailIdController = TextEditingController();
-  TextEditingController visitorDesignationController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailIdController = TextEditingController();
+  TextEditingController designationController = TextEditingController();
   TextEditingController purposeOfVisitController = TextEditingController();
   TextEditingController baseLocationOfVisitorsController =
       TextEditingController();
@@ -38,31 +34,19 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   @override
   void initState() {
     super.initState();
-    // penaltyAmountController.text = widget.model.penaltyAmount == null
-    //     ? ''
-    //     : widget.model.penaltyAmount.toString();
-    //
-    // num? sum = (widget.model.totalPenaltyAmount ??
-    //     (widget.model.penaltyAmount ?? 0) *
-    //         (widget.model.totalViolations ?? 0));
-    // totalPenaltyAmountController.text = sum.toString();
-    // numberOfViolationsAmountController.text = widget.model.totalViolations == null
-    //     ? ''
-    //     : widget.model.totalViolations.toString();
-    // updateStaffCategoryText();
-  }
 
-  // void updateStaffCategoryText() {
-  //   String staffCategoryValue = widget.model.staffCategory.toString();
-  //   log('--staffCategoryValue---$staffCategoryValue--');
-  //   Label? matchingLabel = staffCategoryDropDownValues
-  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
-  //
-  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
-  //
-  //   staffCategoryController.text = matchingLabel?.key ?? '';
-  //   log('--staffCategoryController.text---${staffCategoryController.text}--');
-  // }
+    if (widget.model.id != null) {
+      nameController.text = widget.model.name!;
+      emailIdController.text = widget.model.email!;
+      designationController.text = widget.model.designation!;
+      purposeOfVisitController.text = widget.model.purpose!;
+      baseLocationOfVisitorsController.text = widget.model.baseLocation!;
+      startDateVisitController.text =
+          Utils().formatUnixTimestamp(widget.model.startDateVisit!);
+      endDateVisitController.text =
+          Utils().formatUnixTimestamp(widget.model.endDateVisit!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +86,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       ),
                       FlutterInputField(
                         initialValue: widget.model.name,
-                        textFieldController: visitorsNameController,
+                        textFieldController: nameController,
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
+                          widget.model.name = value;
+                          nameController.text = value;
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
                         },
@@ -124,15 +110,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       ),
                       FlutterInputField(
                         initialValue: widget.model.email,
-                        textFieldController: visitorEmailIdController,
+                        textFieldController: emailIdController,
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
+                          widget.model.email = value;
+                          emailIdController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -146,15 +132,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       ),
                       FlutterInputField(
                         initialValue: widget.model.designation,
-                        textFieldController: visitorDesignationController,
+                        textFieldController: designationController,
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
+                          widget.model.designation = value;
+                          designationController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -175,8 +161,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
+                          widget.model.purpose = value;
+                          purposeOfVisitController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -197,8 +183,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
+                          widget.model.baseLocation = value;
+                          baseLocationOfVisitorsController.text = value;
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -217,7 +203,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         isDisabled: false,
                         showPastDate: false,
                         onChange: (String value) {
-                          widget.model.startDateVisit = value;
+                          // widget.model.startDateVisit = value;
+                          widget.model.startDateVisit =
+                              Utils().formatTime(value);
                         },
                         context: widget.mainContext,
                       ),
@@ -236,7 +224,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         isDisabled: false,
                         showPastDate: false,
                         onChange: (String value) {
-                          widget.model.endDateVisit = value;
+                          widget.model.endDateVisit = Utils().formatTime(value);
                         },
                         context: widget.mainContext,
                       ),

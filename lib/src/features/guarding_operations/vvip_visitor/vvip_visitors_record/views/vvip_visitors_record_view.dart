@@ -84,7 +84,6 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             showAddVVIPVisitorsPopUp(
               context: context,
               contact: VIVPVisitorRecordModel(),
-              users: [],
             );
           },
         ),
@@ -167,7 +166,6 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                       showAddVVIPVisitorsPopUp(
                         context: context,
                         contact: visitorsModel,
-                        users: [],
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -199,9 +197,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
   showAddVVIPVisitorsPopUp({
     required BuildContext context,
     required VIVPVisitorRecordModel contact,
-    required final List<Organisation> users,
   }) {
-    log('--.users-1111-llen--${users.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -209,7 +205,6 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           title: widget.title,
           model: contact,
           mainContext: context,
-          users: users,
           onSubmit: (VIVPVisitorRecordModel model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
