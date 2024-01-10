@@ -111,20 +111,23 @@ class _MaterialMovementDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (state.model.status != 2 ||
-                state.model.status != 3 ||
-                state.model.status != 5 ||
-                state.model.status != 10 ||
-                state.model.status != -1)
-                ? false
-                : true,
-            showSubmitButton: (state.model.status != 2 ||
-                state.model.status != 3 ||
-                state.model.status != 5 ||
-                state.model.status != 10 ||
-                state.model.status != -1)
-                ? false
-                : true,
+            showSaveButton: (state.model.status == 0 ||state.model.status == 8 ||
+          state.model.status == 1 ||
+          state.model.status == 4 ||
+          state.model.status == 6 ||
+          state.model.status == 7||
+              state.model.status == 9 || state.model.status == null)
+
+                ? true
+                : false,
+            showSubmitButton: (state.model.status == 0 ||state.model.status == 8 ||
+                state.model.status == 1 ||
+                state.model.status == 4 ||
+                state.model.status == 6 ||
+                state.model.status == 7||
+                state.model.status == 9 || state.model.status == null)
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -1914,13 +1917,14 @@ class _MaterialMovementDetailsViewState
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status != 2 ||
-                          state.model.status != 3 ||
-                          state.model.status != 5 ||
-                          state.model.status != 10 ||
-                          state.model.status != -1)
-                          ? false
-                          : true) ...[
+                      if ((state.model.status == 0 ||state.model.status == 8 ||
+                          state.model.status == 1 ||
+                          state.model.status == 4 ||
+                          state.model.status == 6 ||
+                          state.model.status == 7||
+                          state.model.status == 9 || state.model.status == null)
+                          ? true
+                          : false) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
