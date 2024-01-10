@@ -678,6 +678,10 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String editLockChangeHistory = ' Edit Lock Change History';
+  static const String editKeyLostHistory = 'Edit Key Lost History';
+  static const String editKeyDamageHistory = 'Edit Key Damage History';
+  static const String editKeyDestroyHistory = 'Edit Key Destroy History';
   static const String type = 'Type';
   static const String srh = 'SRH';
   static const String securityManager = 'Security Manager';

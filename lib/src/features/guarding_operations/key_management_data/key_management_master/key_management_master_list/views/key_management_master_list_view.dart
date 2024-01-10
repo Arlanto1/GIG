@@ -107,8 +107,8 @@ class _KeyManagementMasterListViewState
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isKeyManagementStatus: true,
-                        isEventProtectionStatus: false,
+                  isKeyManagementStatus: true,
+                  isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -121,7 +121,7 @@ class _KeyManagementMasterListViewState
                                 keyNo: state.list[selectedIndex].keyNo,
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
-                                isKeyManagementIssuanceStatus: true,
+                                isKeyManagementStatus: true,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                               );
@@ -145,6 +145,7 @@ class _KeyManagementMasterListViewState
                                 keyTagging: state.list[selectedIndex].keyTagging,
                                 doorName: state.list[selectedIndex].doorName,
                                 isEventProtectionStatus: false,
+                                isKeyManagementStatus: true,
                                 isMasterGuard: false,
                               );
                             },
