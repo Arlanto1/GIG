@@ -1,10 +1,7 @@
-// To parse this JSON data, do
-//
-//     final foundListArticleDetails = foundListArticleDetailsFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 
 import '../../../models/organisation.dart';
 
@@ -49,11 +46,12 @@ class Found {
   Organisation? location;
   User? depositor;
   Organisation? depositorDepartment;
-  List<CreateImage>? images;
+  List<ImageContent>? images;
   String? depositorName;
   int? status;
   String? employeeId;
   User? claimant;
+  String? claimantName;
   Organisation? claimantDepartment;
   User? handoverSecurity;
   bool? claimantDbEmp;
@@ -61,35 +59,40 @@ class Found {
   bool? claimantConfirmByEmail;
   int? claimantEmployeeId;
 
-  Found(
-      {this.slNo,
-      this.eventProtection,
-      this.id,
-      this.typeOfAsset,
-      this.typeOfArticle,
-      this.foundLocation,
-      this.additionalInformation,
-      this.quantity,
-      this.claimantEmployeeId,
-      this.color,
-      this.depositorDbEmp,
-      this.inputDate,
-      this.foundDate,
-      this.entrySecurity,
-      this.location,
-      this.depositor,
-      this.images,
-      this.status,
-      this.depositorDepartment,
-      this.depositorName,
-      this.employeeId,
-      this.claimant,
-      this.claimantDepartment,
-      this.handoverSecurity,
-      this.claimantDbEmp,
-      this.claimantNoSign,
-      this.handoverDate,
-      this.claimantConfirmByEmail});
+  ImageContent? claimantSign;
+
+  Found({
+    this.slNo,
+    this.eventProtection,
+    this.id,
+    this.typeOfAsset,
+    this.typeOfArticle,
+    this.foundLocation,
+    this.additionalInformation,
+    this.quantity,
+    this.claimantEmployeeId,
+    this.color,
+    this.depositorDbEmp,
+    this.inputDate,
+    this.foundDate,
+    this.entrySecurity,
+    this.claimantSign,
+    this.location,
+    this.depositor,
+    this.images,
+    this.status,
+    this.depositorDepartment,
+    this.depositorName,
+    this.claimantName,
+    this.employeeId,
+    this.claimant,
+    this.claimantDepartment,
+    this.handoverSecurity,
+    this.claimantDbEmp,
+    this.claimantNoSign,
+    this.handoverDate,
+    this.claimantConfirmByEmail,
+  });
 
   factory Found.fromJson(Map<String, dynamic> json) => Found(
         slNo: json["slNo"],
@@ -121,19 +124,23 @@ class Found {
             json["depositor"] == null ? null : User.fromJson(json["depositor"]),
         images: json["images"] == null
             ? []
-            : List<CreateImage>.from(
-                json["images"]!.map((x) => CreateImage.fromJson(x))),
+            : List<ImageContent>.from(
+                json["images"]!.map((x) => ImageContent.fromJson(x))),
         depositorDepartment: json["depositorDepartment"] == null
             ? null
             : Organisation.fromJson(json["depositorDepartment"]),
         status: json["status"],
         depositorName: json["depositorName"],
+        claimantName: json["claimantName"],
         employeeId: json["employeeId"],
         claimant:
             json["claimant"] == null ? null : User.fromJson(json["claimant"]),
         claimantDepartment: json["claimantDepartment"] == null
             ? null
             : Organisation.fromJson(json["claimantDepartment"]),
+        // claimantSign: json["claimantSign"] == null
+        //     ? null
+        //     : ImageContent.fromJson(json["claimantSign"]),
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : User.fromJson(json["handoverSecurity"]),
@@ -165,42 +172,12 @@ class Found {
         "depositorDepartment": depositorDepartment?.toJson(),
         "status": status,
         "depositorName": depositorName,
+        "claimantName": claimantName,
         "employeeId": employeeId,
         "claimant": claimant?.toJson(),
+        "claimantSign": claimantSign?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
         "claimantConfirmByEmail": claimantConfirmByEmail
-      };
-}
-
-class CreateImage {
-  String? ownerName;
-  String? contentType;
-  String? title;
-  int? fileSize;
-  String? imageContent;
-
-  CreateImage({
-    this.ownerName,
-    this.contentType,
-    this.title,
-    this.fileSize,
-    this.imageContent,
-  });
-
-  factory CreateImage.fromJson(Map<String, dynamic> json) => CreateImage(
-        ownerName: json["ownerName"],
-        contentType: json["contentType"],
-        title: json["title"],
-        fileSize: json["fileSize"],
-        imageContent: json["imageContent"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "ownerName": ownerName,
-        "contentType": contentType,
-        "title": title,
-        "fileSize": fileSize,
-        "imageContent": imageContent,
       };
 }

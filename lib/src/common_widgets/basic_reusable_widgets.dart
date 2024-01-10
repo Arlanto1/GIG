@@ -15,7 +15,10 @@ class CommonWidgets {
       double height = 24.0}) {
     return SvgPicture.asset(
       assetName,
-      color: color,
+      colorFilter: ColorFilter.mode(
+        color,
+        BlendMode.srcIn,
+      ),
       width: width,
       height: height,
     );
@@ -92,31 +95,82 @@ class CommonWidgets {
     );
   }
 
+  // static Widget textDisplay(
+  //   String name,
+  //   TextStyle? style, {
+  //   bool? isMandatory = false,
+  // }) {
+  //   return Container(
+  //     alignment: Alignment.topLeft,
+  //     child: Row(
+  //       children: [
+  //         Text(
+  //           name,
+  //           style: style,
+  //         ),
+  //         if (isMandatory ?? false) ...[
+  //           const Text(
+  //             ' *',
+  //             style: TextStyle(color: Colors.red),
+  //           ),
+  //         ],
+  //       ],
+  //     ),
+  //   );
+  // }
+
   static Widget textDisplay(
     String name,
     TextStyle? style, {
     bool? isMandatory = false,
   }) {
+    bool isShortName = name.length <= 45; // You can adjust the length threshold
+
     return Container(
       alignment: Alignment.topLeft,
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            name,
-            style: style,
-          ),
-          if (isMandatory ?? false) ...[
-            const Text(
-              ' *',
-              style: TextStyle(color: Colors.red),
+          if (isShortName)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: style,
+                ),
+                if (isMandatory ?? false) ...[
+                  const Text(
+                    ' *',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
+              ],
+            )
+          else
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: style,
+                ),
+                if (isMandatory ?? false) ...[
+                  const Text(
+                    ' *',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
+              ],
             ),
-          ],
         ],
       ),
     );
   }
 
-  static Widget horizentaltextHandling(String title, String desc,{
+  static Widget horizentaltextHandling(
+    String title,
+    String desc, {
     bool? isMandatory = false,
   }) {
     return Row(

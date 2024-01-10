@@ -1,20 +1,7 @@
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
 
-import '../../../../../common_widgets/floating_button.dart';
-import '../../../../../common_widgets/spinnerdialog.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../routing/router.dart';
-import '../../models/guarding_master_data_model.dart';
-import '../../services/guarding_master_data_services.dart';
-import '../bloc/guarding_master_data_bloc.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 class GuardingMasterDataView extends StatefulWidget {
   const GuardingMasterDataView({
@@ -67,21 +54,25 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 arguments: {"title": Constants.createGuardingMasterData}),
           },
         ),
+
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.guardingMasterDataTitle,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),
         body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
           }
+          if (state.list.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
+          }
+          log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -99,16 +90,16 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 List<Label> labels = [];
                 if (index < state.list.length) {
                   labels.add(Label(
-                      key: 'Region',
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??'Region',
                       value: state.list[index].locationRegion?.name ?? ''));
                   labels.add(Label(
-                      key: 'Building Location ',
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??'Building Location ',
                       value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
+                    ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
                         labels: labels,
@@ -136,7 +127,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.list[index].id ?? 0);
+                          getById(state.list[index].id ?? 0);
                         },
                         showEditButton: true,
                         onViewTap: (selectedIndex) {
@@ -167,7 +158,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         }));
   }
 
-  getLawEnforcementId(int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     GuardingMastersDataModel guardingMastersDataModel =

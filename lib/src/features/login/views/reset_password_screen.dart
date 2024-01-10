@@ -1,26 +1,8 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
-import 'package:db_atom/src/features/login/models/login_request_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
-import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/update_password_request.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
@@ -49,10 +31,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   String oldPassword = '';
   String newPassword = '';
   String confirmNewPassword = '';
-  final FocusNode _usernameFocus = FocusNode();
-  final FocusNode _oldpasswordFocus = FocusNode();
-  final FocusNode _newpasswordFocus = FocusNode();
-  final FocusNode _confirmNewpasswordFocus = FocusNode();
+  final FocusNode oldPasswordFocus = FocusNode();
+  final FocusNode newPasswordFocus = FocusNode();
+  final FocusNode confirmNewPasswordFocus = FocusNode();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -69,8 +50,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 ? Navigator.of(context).pop()
                 : Navigator.pushReplacementNamed(context, loginScreenRoute);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
       ),
       backgroundColor: AppColors.cardBgColor,
@@ -83,7 +64,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             dismissLoadingDialog(context);
             Navigator.pushNamedAndRemoveUntil(
               context,
-              homePageRoute,
+              dashboardViewRoute,
               (route) => false,
             );
             ScaffoldMessenger.of(context).showSnackBar(
@@ -178,14 +159,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                         Container(
                                           alignment: Alignment.topLeft,
                                           child: const Text(
-                                            Constants.old_password,
+                                            Constants.oldPassword,
                                             style: Styles.textStyleBlack16,
                                           ),
                                         ),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.001),
                                         LoginPassword(
-                                          passFocusNode: _oldpasswordFocus,
+                                          passFocusNode: oldPasswordFocus,
                                           textInputAction: TextInputAction.next,
                                           validatePassword:
                                               ((String? password) {
@@ -199,9 +180,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                             }
                                           }),
                                           onFieldSubmitted: (term) {
-                                            _oldpasswordFocus.unfocus();
+                                            oldPasswordFocus.unfocus();
                                             FocusScope.of(context).requestFocus(
-                                                _newpasswordFocus);
+                                                newPasswordFocus);
                                           },
                                           onChange: (String password) {
                                             oldPassword = password;
@@ -218,14 +199,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                       Container(
                                         alignment: Alignment.topLeft,
                                         child: const Text(
-                                          Constants.new_password,
+                                          Constants.newPassword,
                                           style: Styles.textStyleBlack16,
                                         ),
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                        passFocusNode: _newpasswordFocus,
+                                        passFocusNode: newPasswordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -238,11 +219,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           }
                                         }),
                                         onFieldSubmitted: (term) {
-                                          _newpasswordFocus.unfocus();
+                                          newPasswordFocus.unfocus();
                                           try {
                                             if (loginFormKey.currentState!
                                                 .validate()) {
-                                              print(
+                                              log(
                                                   'username $username password $oldPassword');
                                               // bloc.add(LoginVerifyEvent(
                                               //     requestModel:
@@ -276,7 +257,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                        passFocusNode: _confirmNewpasswordFocus,
+                                        passFocusNode: confirmNewPasswordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -289,7 +270,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           }
                                         }),
                                         onFieldSubmitted: (term) {
-                                          _confirmNewpasswordFocus.unfocus();
+                                          confirmNewPasswordFocus.unfocus();
                                           try {
                                             if (loginFormKey.currentState!
                                                 .validate()) {
@@ -379,7 +360,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: title,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           //Navigator.of(context).pop();
         },

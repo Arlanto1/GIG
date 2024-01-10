@@ -14,7 +14,7 @@ class AppButton extends StatelessWidget {
   final bool? disableColor;
 
   const AppButton({
-    Key? key,
+    super.key,
     this.buttonText,
     this.onTap,
     this.buttonKey,
@@ -23,7 +23,7 @@ class AppButton extends StatelessWidget {
     this.height,
     this.backgroundColor,
     this.disableColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

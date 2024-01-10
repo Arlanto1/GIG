@@ -34,13 +34,13 @@ class BaseDropDown {
         onChange: (String value) {},
         validateTextField: (String? user) {},
         suffixWidget: IconButton(
-            icon: SvgPicture.asset(
-                width: 10,
-                height: 10,
-                AppIcon.dropdownicon,
-                key: const Key('closed_eye')),
-            onPressed: () {}),
-
+          icon: SvgPicture.asset(
+              width: 10,
+              height: 10,
+              AppIcon.dropdownicon,
+              key: const Key('closed_eye')),
+          onPressed: () {},
+        ),
       ),
     );
   }
@@ -51,7 +51,6 @@ class BaseDropDown {
     List<Label>? labelDropDownValue,
     required Function onTap,
     final bool? pop,
-
   }) {
     showDialog(
       context: context,

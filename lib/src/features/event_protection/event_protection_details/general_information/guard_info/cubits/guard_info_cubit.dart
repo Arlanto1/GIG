@@ -4,17 +4,17 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/guard_info_model.dart';
@@ -33,7 +33,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   }) : super(
           GuardInfoState.initial(
               guardInfoModel: GuardInfoModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -67,8 +67,8 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     try {
       GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id);
 
-      GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      // Locations getLocationsData =
+      //     await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
      // EntrySecurity loggedInUserDetails =
      //     await commonServices.getUserDetails(userId: userId);
@@ -85,7 +85,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
      // EmployeeDepartments departments =
      //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      emit(
+    emit(
         state.copyWith(
           guardInfoModel: guardInfoModel,
          // loggedInUserDetails: loggedInUserDetails,
@@ -139,8 +139,8 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
 
   }) async {
     emit(
@@ -194,7 +194,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     // GuardingMasterDataRequest request =
     //     GuardingMasterDataRequest(guardingMasterData: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         // response = (await services.createGuardingMasterData(

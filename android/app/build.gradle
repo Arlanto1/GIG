@@ -22,18 +22,17 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+// START: FlutterFire Configuration
+apply plugin: 'com.google.gms.google-services'
+// END: FlutterFire Configuration
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     signingConfigs {
         debug {
-//            storeFile file('/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
-//            C:\Users\Ashok\AndroidStudioProjects\db_atom\android\Atomedgekeystore
-                        storeFile file('/Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
-
-            //storeFile file('C:\\Users\\Ashok\\AndroidStudioProjects\\db_atom\\android\\Atomedgekeystore\\atomedge')
-//            storeFile file('Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge')storeFile file('/Users/narendra/Documents/Narendra/Projects/Freelancer/ATOM_Main/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+//            storeFile file('C:\\apps\\Arlanto-App-Codebase-main\\android\\Atomedgekeystore/atomedge')
+            storeFile file('/Users/anurag/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'
@@ -115,7 +114,7 @@ defaultConfig {
     minSdkVersion 26
     targetSdkVersion 33
     compileSdkVersion 33
-    versionCode flutterVersionCode.toInteger()
+    versionCode 3
     versionName flutterVersionName
     multiDexEnabled true
     resValue "string", "app_name", "AtomEdge"
@@ -150,5 +149,7 @@ flutter {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

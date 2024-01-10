@@ -1,15 +1,15 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:get/get.dart';
-
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ReviewSignaturePage extends StatelessWidget {
   final Uint8List signature;
-  const ReviewSignaturePage({Key? key, required this.signature})
-      : super(key: key);
+
+  const ReviewSignaturePage({super.key, required this.signature});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class ReviewSignaturePage extends StatelessWidget {
   }
 
   Future? saveSignature(BuildContext context) async {
+    var nav = Navigator.of(context);
     final status = await Permission.storage.status;
 
     if (!status.isGranted) {
@@ -47,13 +48,13 @@ class ReviewSignaturePage extends StatelessWidget {
     //making signature name unique
     final time = DateTime.now().toIso8601String().replaceAll('.', ':');
     final name = 'signature_$time';
-    print(name);
+    log(name);
 
     final result = await ImageGallerySaver.saveImage(signature, name: name);
     final isSuccessful = result['isSuccess'];
 
     if (isSuccessful) {
-      Navigator.pop(context);
+      nav.pop();
       Get.snackbar('Success', 'Signature saved to device',
           backgroundColor: Colors.white, colorText: Colors.green);
     } else {

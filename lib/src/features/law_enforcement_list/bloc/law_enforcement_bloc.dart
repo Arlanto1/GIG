@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../enums/form_status.dart';
 import '../models/law_enforcement_list_response.dart';
@@ -29,29 +29,30 @@ class LawEnforcementBloc
     );
   }
 
-  final LawEnforcementListServices _todoService = LawEnforcementListServices();
+  final LawEnforcementServices services = LawEnforcementServices();
 
   FutureOr<void> _onTodoFetch(
       LawEnforcementFetch event, Emitter<LawEnforcementState> emit) async {
-         String userid = await SharedPrefs.getUserId();
+    String userid = await SharedPrefs.getUserId();
     try {
-      if(event.startPos == 0){
-            // state.lawEnforceItems.clear();
-            emit(
+      if (event.startPos == 0) {
+        // state.lawEnforceItems.clear();
+        emit(
           state.copyWith(
             todos: [],
             hasReachedMax: false,
             status: FormStatus.initial,
           ),
         );
-
-          }
+      }
       if (state.hasReachedMax) return;
       if (state.status == FormStatus.initial) {
-        
         LawEnforcementListResponse lawEnforcementList =
-            await _todoService.getLawEnforcementList(
-                '${event.startPos}', '${event.maxPos}', userid,event.cont);
+            await services.getList(
+                startPosition: '${event.startPos}',
+                maximumRecords: '${event.maxPos}',
+                userId: userid,
+                context: event.cont);
         return emit(
           state.copyWith(
             todos: lawEnforcementList.list,
@@ -61,28 +62,30 @@ class LawEnforcementBloc
         );
       }
 
-      LawEnforcementListResponse lawEnforcementList = await _todoService
-          .getLawEnforcementList('${event.startPos}', '${event.maxPos}', userid,event.cont);
+      LawEnforcementListResponse lawEnforcementList =
+          await services.getList(
+        startPosition: '${event.startPos}',
+        maximumRecords: '${event.maxPos}',
+        userId: userid,
+        context: event.cont,
+      );
       if (lawEnforcementList.list?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       } else {
         return emit(
           state.copyWith(
-            todos: List.of(state.lawEnforceItems)..addAll(lawEnforcementList.list ?? []),
+            todos: List.of(state.items)
+              ..addAll(lawEnforcementList.list ?? []),
             hasReachedMax: false,
           ),
         );
       }
     } catch (e) {
-      //debugPrint("[HATA] [TodoBloc] [_onTodoFetch] --> $e");
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 
-  FutureOr<void> _onTodoRefresh(LawEnforcementRefresh event,
-  Emitter<LawEnforcementState> emit) async {
-    // emit(const TodoState());
-    // await Future.delayed(const Duration(seconds: 1));
-    // add(const TodoFetch());
+  FutureOr<void> _onTodoRefresh(
+      LawEnforcementRefresh event, Emitter<LawEnforcementState> emit) async {
   }
 }

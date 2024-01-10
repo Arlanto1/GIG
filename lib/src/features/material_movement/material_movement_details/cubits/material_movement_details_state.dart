@@ -4,42 +4,48 @@ class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? requestorEmailUsers;
+  final List<BaseUser>? approver1Users;
+  final List<BaseUser>? approver2Users;
   final List<Organisation> departments;
-  final List<CreateImage>? loadAttachments;
+  final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
-  final bool? isInward;
-  final Language? language;
+  final bool isInward;
+  final bool isReceiverSignEditable;
+  final bool isEntrySecuritySignatureSignEditable;
+  final MmUiLabels? labels;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Organisation> departments,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     required List<Organisation> quantityUnits,
     required int? eventId,
   }) {
     return MaterialMovementDetailsState(
-        status: FormStatus.initial,
-        model: model,
-        locations: locations,
-        loggedInUserDetails: loggedInUserDetails,
-        users: users,
-        emailUsers: emailUsers,
-        message: errorMessage,
-        departments: departments,
-        loadAttachments: loadAttachments,
-        quantityUnits: quantityUnits,
-        eventId: eventId);
+      status: FormStatus.initial,
+      model: model,
+      locations: locations,
+      loggedInUserDetails: loggedInUserDetails,
+      users: users,
+      emailUsers: emailUsers,
+      message: errorMessage,
+      departments: departments,
+      loadAttachments: loadAttachments,
+      quantityUnits: quantityUnits,
+      eventId: eventId,
+    );
   }
 
   ErrorResponse get isValidDraft {
@@ -71,31 +77,72 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan No');
-    }
+    // if (model.challanNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Challan No');
+    // }
     if (model.quantity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+
+    log('--model.inwardMovement--${model.inwardMovement}--');
+
+    /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
-      if (model.materialComingFrom == null) {
+      if (model.materialComingFrom.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
-    }
 
+      // if (model.otherReceiverEmployeeId.isEmptyOrNull) {
+      //   log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+      //   return const ErrorResponse(
+      //       status: false, message: 'Please enter Received by Employee Id');
+      // }
+
+      if (model.materialFromAddress.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Material coming from (Brief address)');
+      }
+
+      if (model.receiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received for Employee Id');
+      }
+
+      if (model.receiverDepartmenttName.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department Name');
+      }
+
+      if (model.receiverDepartment == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department');
+      }
+
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
+
+    }
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
+    if (model.status == 2 && model.materialPhysicallyChecked == false) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please Select Material Physically Checked as true');
+    }
+
     if (model.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
 
-    if (!model.materialPhysicallyChecked == true &&
-        isInward == true &&
+    if (!model.materialPhysicallyChecked &&
+        isInward &&
         model.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Comment is Mandatory');
@@ -110,6 +157,8 @@ class MaterialMovementDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
+    this.isReceiverSignEditable = false,
+    this.isEntrySecuritySignatureSignEditable = false,
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
@@ -118,23 +167,31 @@ class MaterialMovementDetailsState extends Equatable {
     required this.quantityUnits,
     this.eventId,
     this.message,
-    this.isInward,
-    this.language,
+    this.isInward = false,
+    this.labels,
+    this.requestorEmailUsers,
+    this.approver1Users,
+    this.approver2Users,
   });
 
   MaterialMovementDetailsState copyWith({
     FormStatus? status,
     MaterialMovementModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? requestorEmailUsers,
+    List<BaseUser>? approver1Users,
+    List<BaseUser>? approver2Users,
     List<Organisation>? departments,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
-    Language? language,
+    MmUiLabels? labels,
+    bool? isReceiverSignEditable,
+    bool? isEntrySecuritySignatureSignEditable,
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
@@ -143,12 +200,20 @@ class MaterialMovementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
+      approver1Users: approver1Users ?? this.approver1Users,
+      approver2Users: approver2Users ?? this.approver2Users,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       quantityUnits: quantityUnits ?? this.quantityUnits,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-      language: language??this.language,
+      labels: labels ?? this.labels,
+      isReceiverSignEditable:
+          isReceiverSignEditable ?? this.isReceiverSignEditable,
+
+      isEntrySecuritySignatureSignEditable:
+      isEntrySecuritySignatureSignEditable ?? this.isEntrySecuritySignatureSignEditable,
     );
   }
 }

@@ -1,32 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
-import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../models/base_user.dart';
-import '../cubits/sst_incident_general_info_cubit.dart';
+import 'package:db_atom/index.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
@@ -69,17 +43,18 @@ class _SstIncidentGeneralInfoViewState
         SstIncidentGeneralInfoState>(
       listener: (context, state) {
         log('--state.status---${state.status}---');
+        log('--state.message---${state.message}---');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPostivePressed: () {
+            onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
               if (widget.viaOccurrence) {
-                return Navigator.pushNamed(
+                 Navigator.pushNamed(
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
@@ -87,6 +62,7 @@ class _SstIncidentGeneralInfoViewState
                     "title": Constants.editOccurrence,
                   },
                 );
+                 return;
               }
               Navigator.popAndPushNamed(
                 context,
@@ -105,6 +81,7 @@ class _SstIncidentGeneralInfoViewState
         }
         if (state.status == FormStatus.error) {
           log('-if error-state.status---${state.status}---');
+          log('-if error-state.message---${state.message}---');
           Validator().showToast(
             context,
             state.message ?? 'Invalid Information',
@@ -113,33 +90,40 @@ class _SstIncidentGeneralInfoViewState
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.status! > 0) {
+        if (state.model.id != null && state.model.status! > 0) {
+          log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.isInternal
-                ? Constants.internalStaff
+                ? Constants.ticketLifeCycle
                 : Constants.externalVendor,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
+            showSubmitButton: disableForm ? false : true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
         );
       },
-    ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+    );
   }
 
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     return Container(
@@ -318,10 +302,10 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
+                                BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   //enabled: !disableForm,
-                                  departments: state.vendors,
+                                  organisations: state.vendors,
                                   onTap: (Organisation user) {
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
@@ -369,7 +353,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -397,7 +381,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -425,7 +409,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -453,7 +437,7 @@ class _SstIncidentGeneralInfoViewState
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
-                                BaseDepartmentDialog().userDialog(
+                                BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
@@ -616,7 +600,7 @@ class _SstIncidentGeneralInfoViewState
 
   Widget locationWidgetdislay({
     required bool enabled,
-    GetLocations? locations,
+    Locations? locations,
     required String selectedLocation,
     Function? onTap,
   }) {
@@ -633,13 +617,13 @@ class _SstIncidentGeneralInfoViewState
     );
   }
 
-  void selectLocation({GetLocations? locations, Function? onTap}) {
+  void selectLocation({Locations? locations, Function? onTap}) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         // print(state.getLocationsResponse);
         return CustomExpansionListTexts(
-          getLocationsresponse: locations,
+          locationList: locations,
           onTap: onTap,
         );
       },

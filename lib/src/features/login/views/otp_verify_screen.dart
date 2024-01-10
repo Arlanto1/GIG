@@ -1,32 +1,19 @@
 import 'dart:developer';
+import 'dart:io';
 
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
-import 'package:db_atom/src/features/login/models/login_request_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpVerifyScreen extends StatelessWidget {
   final String userName;
   final String password;
+  final String deviceToken;
 
   const OtpVerifyScreen({
     super.key,
     this.userName = '',
     this.password = '',
+    this.deviceToken = '',
   });
 
   @override
@@ -36,6 +23,7 @@ class OtpVerifyScreen extends StatelessWidget {
       child: OtpVerify(
         userName: userName,
         pwd: password,
+        deviceToken: deviceToken,
       ),
     );
   }
@@ -44,8 +32,13 @@ class OtpVerifyScreen extends StatelessWidget {
 class OtpVerify extends StatefulWidget {
   final String userName;
   final String pwd;
+  final String deviceToken;
 
-  const OtpVerify({super.key, required this.userName, required this.pwd});
+  const OtpVerify(
+      {super.key,
+      required this.userName,
+      required this.pwd,
+      required this.deviceToken});
 
   @override
   State<OtpVerify> createState() => _OtpVerifyState();
@@ -71,8 +64,8 @@ class _OtpVerifyState extends State<OtpVerify> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
       ),
       backgroundColor: AppColors.cardBgColor,
@@ -88,7 +81,7 @@ class _OtpVerifyState extends State<OtpVerify> {
             dismissLoadingDialog(context);
             Navigator.pushNamedAndRemoveUntil(
               context,
-              homePageRoute,
+              dashboardViewRoute,
               (route) => false,
             );
           } else if (state is UpdatePasswordState) {
@@ -165,17 +158,43 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       }
                                     },
                                   ),
-
+                                  // OTPTextField(
+                                  //   length: 6,
+                                  //   width: MediaQuery.of(context).size.width,
+                                  //   fieldWidth: 40,
+                                  //   style: const TextStyle(fontSize: 17),
+                                  //   textFieldAlignment:
+                                  //       MainAxisAlignment.spaceAround,
+                                  //   fieldStyle: FieldStyle.box,
+                                  //   onCompleted: (pin) {
+                                  //     print("Completed: " + pin);
+                                  //     bloc.add(
+                                  //       LoginVerifyEvent(
+                                  //         requestModel:
+                                  //         prepareLoginRequestBody(
+                                  //           widget.userName,
+                                  //           widget.pwd,
+                                  //           pin,
+                                  //         ),
+                                  //         isFromLogin: false,
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.03),
                                   Container(
                                     alignment: Alignment.center,
                                     child: const Text(
-                                      'Dont you receive any code?',
+                                      'Don\'t you receive any code?',
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   ),
-
+                                  // TODO: need to remove it
+                                  // Text(
+                                  //   'Device Token: ${widget.deviceToken}',
+                                  //   style: Styles.textStyleRegularGrey14,
+                                  // ),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -184,7 +203,9 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     onTap: () {
                                       bloc.add(LoginVerifyEvent(
                                           requestModel: prepareLoginRequestBody(
-                                              widget.userName, widget.pwd, ''),
+                                              userName: widget.userName,
+                                              pwd: widget.pwd,
+                                              otp: ''),
                                           isFromLogin: true));
                                     },
                                     child: Container(
@@ -215,15 +236,23 @@ class _OtpVerifyState extends State<OtpVerify> {
                                             LoginVerifyEvent(
                                               requestModel:
                                                   prepareLoginRequestBody(
-                                                widget.userName,
-                                                widget.pwd,
-                                                otp,
+                                                userName: widget.userName,
+                                                pwd: widget.pwd,
+                                                otp: otp,
+                                                deviceToken: widget.deviceToken,
+                                                deviceType: Platform.isIOS
+                                                    ? '1'
+                                                    : (Platform.isAndroid
+                                                        ? '0'
+                                                        : '-1'),
                                               ),
                                               isFromLogin: false,
                                             ),
                                           );
                                         }
-                                      } catch (e) {}
+                                      } catch (e) {
+                                        log('Error: $e');
+                                      }
                                     },
                                   ),
 
@@ -251,17 +280,28 @@ class _OtpVerifyState extends State<OtpVerify> {
     );
   }
 
-  LoginRequestModel prepareLoginRequestBody(
-      String userName, String pwd, String otp) {
+  LoginRequestModel prepareLoginRequestBody({
+    required String userName,
+    required String pwd,
+    String? otp,
+    String? deviceToken,
+    String? deviceType,
+  }) {
     return LoginRequestModel(
-        request: Request(userName: userName, password: pwd, otp: otp));
+        request: Request(
+      userName: userName,
+      password: pwd,
+      otp: otp,
+      deviceToken: deviceToken,
+      deviceType: deviceType,
+    ));
   }
 
   _showCustomPop(BuildContext context, String msg) {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: msg,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           Navigator.of(context).pop();
         },

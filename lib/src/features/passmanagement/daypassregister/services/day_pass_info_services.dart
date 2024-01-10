@@ -1,7 +1,6 @@
-import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../configurations/base_api_service.dart';
 import '../../daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
@@ -10,6 +9,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getPassMgmtInfo = '$baseUrl/getPassMgmtInfo?';
+  static final String _getById = '$baseUrl/getPassMgmtInfoById?';
 }
 
 class DayPassInfoServices {
@@ -28,11 +28,12 @@ class DayPassInfoServices {
     return DayPassInfoResponseModel.fromJson(response);
   }
 
-  Future<DayPassListItemResponse> getpassArticleById(
-      int articleId, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalGetServiceCall('/getPassMgmtInfoById/$articleId', context);
+  Future<DayPassListItemResponse> getById(int id, BuildContext context) async {
+    final String url = '${Apis._getById}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
 
-    return DayPassListItemResponse.fromJson(value);
+    return DayPassListItemResponse.fromJson(response);
   }
 }

@@ -1,11 +1,10 @@
-import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../incident_details/general_info/models/requestModel/general_info_request.dart';
 import '../models/incidents_response.dart';
 
@@ -42,15 +41,15 @@ class IncidentManagementServices {
     return IncidentsResponse.fromJson(response);
   }
 
-  Future<Incident> getIncidentDetails(String id) async {
+  Future<IncidentModel> getIncidentDetails(String id) async {
     final String url = '${Apis._getDetails}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return Incident.fromJson(response);
+    return IncidentModel.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createIncidentManagement({
+  Future<GenericResponse> createIncidentManagement({
     required IncidentGeneralInfoRequest body,
     required bool isSubmit,
     // required int eventDuration,
@@ -61,7 +60,6 @@ class IncidentManagementServices {
       url: url,
       requestedData: body.toJson(),
     );
-    log('------response----${response.toString()}');
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

@@ -1,56 +1,32 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../models/organisation.dart';
 
-GetLocations getLocationsFromJson(String str) =>
-    GetLocations.fromJson(json.decode(str));
+part 'get_locations_model.g.dart';
 
-String getLocationsToJson(GetLocations data) => json.encode(data.toJson());
-
-class GetLocations {
+@JsonSerializable()
+class Locations {
+  @JsonKey(name: 'West')
   List<Organisation>? west;
+  @JsonKey(name: 'South')
   List<Organisation>? south;
+  @JsonKey(name: 'North & East')
   List<Organisation>? northEast;
+  @JsonKey(name: 'Mumbai')
   List<Organisation>? mumbai;
+  @JsonKey(name: 'Central')
+  List<Organisation>? central;
 
-  GetLocations({
+  Locations({
     this.west,
     this.south,
     this.northEast,
     this.mumbai,
+    this.central
   });
 
-  factory GetLocations.fromJson(Map<String, dynamic> json) => GetLocations(
-        west: json["West"] == null
-            ? []
-            : List<Organisation>.from(
-                json["West"]!.map((x) => Organisation.fromJson(x))),
-        south: json["South"] == null
-            ? []
-            : List<Organisation>.from(
-                json["South"]!.map((x) => Organisation.fromJson(x))),
-        northEast: json["North & East"] == null
-            ? []
-            : List<Organisation>.from(
-                json["North & East"]!.map((x) => Organisation.fromJson(x))),
-        mumbai: json["Mumbai"] == null
-            ? []
-            : List<Organisation>.from(
-                json["Mumbai"]!.map((x) => Organisation.fromJson(x))),
-      );
+  factory Locations.fromJson(Map<String, dynamic> json) =>
+      _$LocationsFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "West": west == null
-            ? []
-            : List<dynamic>.from(west!.map((x) => x.toJson())),
-        "South": south == null
-            ? []
-            : List<dynamic>.from(south!.map((x) => x.toJson())),
-        "North & East": northEast == null
-            ? []
-            : List<dynamic>.from(northEast!.map((x) => x.toJson())),
-        "Mumbai": mumbai == null
-            ? []
-            : List<dynamic>.from(mumbai!.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => _$LocationsToJson(this);
 }

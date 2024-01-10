@@ -14,11 +14,16 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
-
-
 class AddNewFields extends StatefulWidget {
   AddNewFields(
-      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate, this.payRateState,this.entityFun});
+      {super.key,
+      required this.title,
+      this.lawstate,
+      this.createoundstate,
+      this.createpassmgmtstate,
+      this.payRateState,
+      this.entityFun});
+
   final String title;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
@@ -47,77 +52,57 @@ class AddNewFieldsState extends State<AddNewFields> {
   void _addCompany(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawstate != null) {
-      if(widget.title == Constants.addcompanytype)
-      {
-      await lawenforcementCubit.createOrganisation(
-          name, 'ATOM_COMPANY_TYPES', context,widget.title);
-      }
-      else if(widget.title == Constants.addreasonfordaypass ||widget.title == Constants.addreasonforvendorpass )
-      {
-         await lawenforcementCubit.createOrganisation(
-          name, 'DAY_PASS_REASON', context,widget.title);
-      }
-      else if(widget.title == Constants.addentitytype )
-      {
-         await lawenforcementCubit.createOrganisation(
-          name, 'ATOM_ENTITIES', context,widget.title);
-      }
-      else if(widget.title == Constants.addpurposeofvisittype )
-      {
-         await lawenforcementCubit.createOrganisation(
-          name, 'ATOM_LEO_PURPOSE_VISIT', context,widget.title);
-      }
-      else if(widget.title == Constants.addleoofficialtype )
-      {
-         await lawenforcementCubit.createOrganisation(
-          name, 'ATOM_LEO_DEPARTMENTS', context,widget.title);
+      if (widget.title == Constants.addcompanytype) {
+        await lawEnforcementCubit.createOrganisation(
+            name, 'ATOM_COMPANY_TYPES', context, widget.title);
+      } else if (widget.title == Constants.addreasonfordaypass ||
+          widget.title == Constants.addreasonforvendorpass) {
+        await lawEnforcementCubit.createOrganisation(
+            name, 'DAY_PASS_REASON', context, widget.title);
+      } else if (widget.title == Constants.addentitytype) {
+        await lawEnforcementCubit.createOrganisation(
+            name, 'ATOM_ENTITIES', context, widget.title);
+      } else if (widget.title == Constants.addpurposeofvisittype) {
+        await lawEnforcementCubit.createOrganisation(
+            name, 'ATOM_LEO_PURPOSE_VISIT', context, widget.title);
+      } else if (widget.title == Constants.addleoofficialtype) {
+        await lawEnforcementCubit.createOrganisation(
+            name, 'ATOM_LEO_DEPARTMENTS', context, widget.title);
       }
     } else if (widget.createpassmgmtstate != null) {
-      if(widget.title == Constants.addcompanytype)
-      {
-      await createpassmgmtCubit.createOrganisation(
-          name, 'ATOM_COMPANY_TYPES', context,widget.title);
+      if (widget.title == Constants.addcompanytype) {
+        await createPassMgmtCubit.createOrganisation(
+            name, 'ATOM_COMPANY_TYPES', context, widget.title);
+      } else if (widget.title == Constants.addreasonfordaypass ||
+          widget.title == Constants.addreasonforvendorpass) {
+        await createPassMgmtCubit.createOrganisation(
+            name, 'DAY_PASS_REASON', context, widget.title);
+      } else if (widget.title == Constants.addentitytype) {
+        await createPassMgmtCubit.createOrganisation(
+            name, 'ATOM_ENTITIES', context, widget.title);
       }
-      else if(widget.title == Constants.addreasonfordaypass ||widget.title == Constants.addreasonforvendorpass )
-      {
-         await createpassmgmtCubit.createOrganisation(
-          name, 'DAY_PASS_REASON', context,widget.title);
-      }
-      else if(widget.title == Constants.addentitytype )
-      {
-         await createpassmgmtCubit.createOrganisation(
-          name, 'ATOM_ENTITIES', context,widget.title);
-      }
-      
-     
     } else if (widget.payRateState != null) {
-
-
-      await createpassmgmtCubit.createOrganisation(
-          name, 'ATOM_ENTITIES', context,widget.title);
+      await createPassMgmtCubit.createOrganisation(
+          name, 'ATOM_ENTITIES', context, widget.title);
     }
   }
 
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawstate != null) {
-      await lawenforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createoundstate != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    }
-    else if (widget.createpassmgmtstate != null) {
-      await createpassmgmtCubit.createEmployeeDepartments(
+    } else if (widget.createpassmgmtstate != null) {
+      await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -273,7 +258,7 @@ class AddNewFieldsState extends State<AddNewFields> {
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textgreyThemecolor,
       textStyle: Styles.styleHeaderGreyText16,
-      boardercolor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textgreyThemecolor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -296,7 +281,7 @@ class AddNewFieldsState extends State<AddNewFields> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boardercolor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkybluecolor,
       backgroundColor: AppColors.navigationSkybluecolor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
@@ -308,35 +293,34 @@ class AddNewFieldsState extends State<AddNewFields> {
             context,
             "Please enter the name",
           );
-        }
-         else if (keyTextController.text.isEmpty) {
+        } else if (keyTextController.text.isEmpty) {
           Validator().showToast(
             context,
             "Please enter the key",
           );
-        }
-         else if (descriptionTextController.text.isEmpty) {
+        } else if (descriptionTextController.text.isEmpty) {
           Validator().showToast(
             context,
             "Please enter the description",
           );
-        }
-         else if (optionsTextController.text.isEmpty) {
+        } else if (optionsTextController.text.isEmpty) {
           Validator().showToast(
             context,
             "Please enter the options",
           );
-        }
-         else if (weightTextController.text.isEmpty) {
+        } else if (weightTextController.text.isEmpty) {
           Validator().showToast(
             context,
             "Please enter the weight",
           );
-        }
-         else {
+        } else {
           try {
-            if (Constants.addcompanytype == widget.title || Constants.addreasonfordaypass == widget.title || Constants.addreasonforvendorpass == widget.title || Constants.addentitytype == widget.title ||
-            Constants.addpurposeofvisittype == widget.title || Constants.addleoofficialtype == widget.title  ) {
+            if (Constants.addcompanytype == widget.title ||
+                Constants.addreasonfordaypass == widget.title ||
+                Constants.addreasonforvendorpass == widget.title ||
+                Constants.addentitytype == widget.title ||
+                Constants.addpurposeofvisittype == widget.title ||
+                Constants.addleoofficialtype == widget.title) {
               _addCompany(nameTextController.text, keyTextController.text);
             } else if (Constants.addemployeedepartment == widget.title) {
               _createEmployeeDepartment(

@@ -1,15 +1,4 @@
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../enums/form_status.dart';
-import '../bloc/guarding_master_report_bloc.dart';
+import 'package:db_atom/index.dart';
 
 class GuardingMasterReport extends StatefulWidget {
   const GuardingMasterReport({
@@ -59,15 +48,17 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           title: Constants.guardingMasterReportTitle,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'gmReportExcel',
           pdfAPIName: 'gmReportPDF',
         ),
         body: BlocBuilder<GuardingMasterReportBloc, GuardingMasterReportState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
+          }
+          if (state.list.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
           }
           return Container(
             margin: allMargin16,
@@ -84,9 +75,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                   : state.list.length + 1,
               itemBuilder: (context, index) {
                 return index >= state.list.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
+                    ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
                         vendor: state.list[index].vendor,

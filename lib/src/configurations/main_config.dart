@@ -1,19 +1,9 @@
 import 'dart:developer';
 
-import 'package:db_atom/flavors.dart';
-import 'package:db_atom/initialize_providers.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/localization/locale_supported.dart';
-import 'package:db_atom/src/routing/route_generator.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
-
+import 'package:db_atom/index.dart';
 export 'package:flutter/material.dart';
 
-class MainConfig {
+class MainConfig with WidgetsBindingObserver {
   static environmentsChanging() {
     log('-environmentsChanging---main_config--');
     String environment = String.fromEnvironment(
@@ -30,7 +20,7 @@ class MainConfig {
     Environment().initConfig(environment);
   }
 
-  static initialSetup() async {
+  static initialSetup(GlobalKey<NavigatorState> navigatorKey) async {
     log('-initialSetup---main_config--');
     Locale? locale;
 
@@ -40,11 +30,19 @@ class MainConfig {
     // Initialize SharedPrefs instance.
     await SharedPrefs.init();
 
-    // bool isLoggedIn = await SharedPrefs.getLoggedIn() ?? false;
-    // GlobalKey<ScaffoldState> _menuscaffoldKey = new GlobalKey<ScaffoldState>();
-    //  final _menuscaffoldKey = GlobalKey<ScaffoldState>();
-    //Environment setup
+    // Environment setup
     environmentsChanging();
+
+    // Listen for app lifecycle changes
+    WidgetsBinding.instance.addObserver(MainConfig());
+    try {
+      await FCMHandler.initializeFCM();
+      FCMHandler.setupForegroundMessageHandler();
+      FCMHandler.setupBackgroundMessageHandler();
+    } catch (e) {
+      // Handle Firebase initialization error
+      log('Firebase initialization failed: $e');
+    }
 
     runApp(
       InitializeProviders(
@@ -53,11 +51,8 @@ class MainConfig {
             disabledColor: AppColors.textgreyThemecolor,
             fontFamily: Constants.customFontFamily,
             primarySwatch: AppColors.colorCustom,
-            // inputDecorationTheme: const InputDecorationTheme(
-            // filled: true, //<-- SEE HERE
-            // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
-            // ),
           ),
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           initialRoute: splashScreenRoute,
           onGenerateRoute: RouteGenerator.generateRoute,
@@ -67,8 +62,48 @@ class MainConfig {
               LocaleSupportedMethod.getLocalizationsDelegates(),
           localeResolutionCallback: (locale, supportedLocales) =>
               LocaleSupportedMethod.getLocale(locale, supportedLocales),
+          // Add a builder to wrap your MaterialApp with a GestureDetector
+          builder: (context, child) {
+            return GestureDetector(
+              // Trigger updateUserInteraction whenever the user interacts with the app
+              onTap: () => InactivityFunctions().updateUserInteraction(),
+              child: child!,
+            );
+          },
         ),
       ),
     );
+    InactivityFunctions().startInactivityTimer(navigatorKey);
+
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    log('--state------${state.toString()}--');
+
+    switch (state) {
+      case AppLifecycleState.paused:
+        InactivityFunctions().updateUserInteraction();
+        break;
+      case AppLifecycleState.detached:
+        log('--calling logout------${state.toString()}--');
+        logout(navigatorKey);
+        break;
+      case AppLifecycleState.resumed:
+        DateTime lastUserInteractionTime =
+            await InactivityFunctions().getLastUserInteractionTime();
+        if (InactivityFunctions().isTimeExceeded(
+            lastUserInteractionTime, Environment().config.inactivityDuration)) {
+          logout(navigatorKey);
+        }
+        break;
+      default:
+    }
+  }
+
+  static void logout(GlobalKey<NavigatorState> navigatorKey) {
+    InactivityFunctions().logoutUser(navigatorKey);
   }
 }

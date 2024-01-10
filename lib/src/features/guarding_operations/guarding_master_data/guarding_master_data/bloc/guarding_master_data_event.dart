@@ -13,3 +13,6 @@ class FetchDataList extends GuardingMasterDataEvent {
 
   const FetchDataList({required this.startPos, required this.maxPos});
 }
+class InitializeValues extends GuardingMasterDataEvent {
+  const InitializeValues();
+}

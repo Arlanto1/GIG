@@ -1,6 +1,6 @@
-import '../../../../models/organisation.dart';
-import '../../../createfound/models/create_found_request.dart';
-import '../../../createfound/models/user.dart';
+import 'package:db_atom/index.dart';
+
+part 'guarding_master_data_model.g.dart';
 
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
@@ -32,7 +32,8 @@ class GuardingMasterDataResponse {
       };
 }
 
-class GuardingMastersDataModel {
+@JsonSerializable()
+class GuardingMastersDataModel extends BaseObject {
   int? id;
   String? slNo;
   Organisation? location;
@@ -40,12 +41,13 @@ class GuardingMastersDataModel {
   Organisation? vendor;
   User? entrySecurity;
   User? guard;
-  CreateImage? localAddressProof;
-  CreateImage? permanentAddressProof;
-  CreateImage? bopData;
-  CreateImage? photoGraph;
+  ImageContent? localAddressProof;
+  ImageContent? permanentAddressProof;
+  ImageContent? bopData;
+  ImageContent? photoGraph;
   Organisation? entity;
   String? inputDate;
+  String? msgbExemptionDate;
   String? csrParticipationDates;
   String? medicalCertificateValidUntil;
   String? covidFirstDoseDate;
@@ -71,7 +73,7 @@ class GuardingMastersDataModel {
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
-  List<CreateImage>? deploymentOrders;
+  List<ImageContent>? deploymentOrders;
   bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
@@ -87,10 +89,10 @@ class GuardingMastersDataModel {
   String? permanentAddress;
   String? localAddress;
   List<Organisation>? qualifications;
-  List<CreateImage>? pvc;
+  List<ImageContent>? pvc;
   bool trainingCertificateProvided;
-  List<CreateImage>? trainingCertificates;
-  List<CreateImage>? medicalCertificates;
+  List<ImageContent>? trainingCertificates;
+  List<ImageContent>? medicalCertificates;
   int? systemAccess;
   bool onboarded;
   String? esicNo;
@@ -118,6 +120,7 @@ class GuardingMastersDataModel {
     this.photoGraph,
     this.entity,
     this.inputDate,
+    this.msgbExemptionDate,
     this.csrParticipationDates,
     this.medicalCertificateValidUntil,
     this.covidFirstDoseDate,
@@ -179,194 +182,9 @@ class GuardingMastersDataModel {
     this.guardingPOC,
   });
 
-  GuardingMastersDataModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        slNo = json['slNo'] as String?,
-        location = (json['location'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
-            : null,
-        locationRegion =
-            (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? Organisation.fromJson(
-                    json['locationRegion'] as Map<String, dynamic>)
-                : null,
-        entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['entrySecurity'] as Map<String, dynamic>)
-            : null,
-        guard = (json['guard'] as Map<String, dynamic>?) != null
-            ? User.fromJson(json['guard'] as Map<String, dynamic>)
-            : null,
-        localAddressProof =
-            (json['localAddressProof'] as Map<String, dynamic>?) != null
-                ? CreateImage.fromJson(
-                    json['localAddressProof'] as Map<String, dynamic>)
-                : null,
-        permanentAddressProof =
-            (json['permanentAddressProof'] as Map<String, dynamic>?) != null
-                ? CreateImage.fromJson(
-                    json['permanentAddressProof'] as Map<String, dynamic>)
-                : null,
-        bopData = (json['bopData'] as Map<String, dynamic>?) != null
-            ? CreateImage.fromJson(json['bopData'] as Map<String, dynamic>)
-            : null,
-        photoGraph = (json['photoGraph'] as Map<String, dynamic>?) != null
-            ? CreateImage.fromJson(json['photoGraph'] as Map<String, dynamic>)
-            : null,
-        entity = (json['entity'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['entity'] as Map<String, dynamic>)
-            : null,
-        inputDate = json['inputDate'] as String?,
-        csrParticipationDates = json['csrParticipationDates'] as String?,
-        medicalCertificateValidUntil =
-            json['medicalCertificateValidUntil'] as String?,
-        covidFirstDoseDate = json['covidFirstDoseDate'] as String?,
-        covidSecondDoseDate = json['covidSecondDoseDate'] as String?,
-        covidPrecautionaryDoseDate =
-            json['covidPrecautionaryDoseDate'] as String?,
-        ertCertificationDate = json['ertCertificationDate'] as String?,
-        firstAidTrainingCompletionDate =
-            json['firstAidTrainingCompletionDate'] as String?,
-        pvcIssuedDate = json['pvcIssuedDate'] as String?,
-        pvcExpiryDate = json['pvcExpiryDate'] as String?,
-        dateOfBirth = json['dateOfBirth'] as String?,
-        dateOfJoining = json['dateOfJoining'] as String?,
-        vendor = (json['vendor'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
-            : null,
-        status = json['status'] as int?,
-        guardRank = json['guardRank'] as int?,
-        employeeCode = json['employeeCode'] as String?,
-        dbEmployeeId = json['dbEmployeeId'] as String?,
-        height = json['height'] as num?,
-        weight = json['weight'] as num?,
-        chest = json['chest'] as num?,
-        dutyType = json['dutyType'] as int?,
-        gender = json['gender'] as int?,
-        contactNo = json['contactNo'] as String?,
-        dependentsNo = json['dependentsNo'] as int?,
-        maritalStatus = json['maritalStatus'] as int?,
-        typeOfDeployment = json['typeOfDeployment'] as int?,
-        deploymentOrderSubmitted = json['deploymentOrderSubmitted'],
-        deploymentOrders = (json['deploymentOrders'] as List?)
-            ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        physicallyFit = json['physicallyFit'],
-        localLanguage = json['localLanguage'] as String?,
-        localLangProficiencyR = json['localLangProficiencyR'] as bool?,
-        hindiLangProficiencyR = json['hindiLangProficiencyR'] as bool?,
-        englishLangProficiencyR = json['englishLangProficiencyR'] as bool?,
-        localLangProficiencyW = json['localLangProficiencyW'] as bool?,
-        hindiLangProficiencyW = json['hindiLangProficiencyW'] as bool?,
-        englishLangProficiencyW = json['englishLangProficiencyW'] as bool?,
-        localLangProficiencyS = json['localLangProficiencyS'] as bool?,
-        hindiLangProficiencyS = json['hindiLangProficiencyS'] as bool?,
-        englishLangProficiencyS = json['englishLangProficiencyS'] as bool?,
-        securityExperience = json['securityExperience'] as String?,
-        permanentAddress = json['permanentAddress'] as String?,
-        localAddress = json['localAddress'] as String?,
-        qualifications = (json['qualifications'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        pvc = (json['pvc'] as List?)
-            ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        trainingCertificateProvided = json['trainingCertificateProvided'],
-        trainingCertificates = (json['trainingCertificates'] as List?)
-            ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        medicalCertificates = (json['medicalCertificates'] as List?)
-            ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        systemAccess = json['systemAccess'] as int?,
-        onboarded = json['onboarded'],
-        esicNo = json['esicNo'] as String?,
-        uanNo = json['uanNo'] as String?,
-        msgbExempted = json['msgbExempted'] as bool,
-        msgbFormBSubmitted = json['msgbFormBSubmitted'] as int?,
-        staffMsgbCompliant = json['staffMsgbCompliant'] as int?,
-        csrParticipation = json['csrParticipation'],
-        specialAchievement = json['specialAchievement'],
-        specialAchievementText = json['specialAchievementText'] as String?,
-        additionalInitiatives = json['additionalInitiatives'] as String?,
-        history = json['history'] as List?,
-        guardingPOC = json['guardingPOC'] as String?;
+  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) =>
+      _$GuardingMastersDataModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'slNo': slNo,
-        'location': location?.toJson(),
-        'locationRegion': locationRegion?.toJson(),
-        'entrySecurity': entrySecurity?.toJson(),
-        'guard': guard?.toJson(),
-        'inputDate': inputDate,
-        'vendor': vendor?.toJson(),
-        'qualifications': qualifications,
-        'bopData': bopData?.toJson(),
-        'localAddressProof': localAddressProof?.toJson(),
-        'permanentAddressProof': permanentAddressProof?.toJson(),
-        'photoGraph': photoGraph?.toJson(),
-        'entity': entity?.toJson(),
-        'csrParticipationDates': csrParticipationDates,
-        'medicalCertificateValidUntil': medicalCertificateValidUntil,
-        'covidFirstDoseDate': covidFirstDoseDate,
-        'covidSecondDoseDate': covidSecondDoseDate,
-        'covidPrecautionaryDoseDate': covidPrecautionaryDoseDate,
-        'ertCertificationDate': ertCertificationDate,
-        'firstAidTrainingCompletionDate': firstAidTrainingCompletionDate,
-        'pvcExpiryDate': pvcExpiryDate,
-        'pvcIssuedDate': pvcIssuedDate,
-        'dateOfBirth': dateOfBirth,
-        'dateOfJoining': dateOfJoining,
-        'status': status,
-        'height': height,
-        'weight': weight,
-        'chest': chest,
-        'guardRank': guardRank,
-        'employeeCode': employeeCode,
-        'dbEmployeeId': dbEmployeeId,
-        'dutyType': dutyType,
-        'gender': gender,
-        'contactNo': contactNo,
-        'dependentsNo': dependentsNo,
-        'maritalStatus': maritalStatus,
-        'typeOfDeployment': typeOfDeployment,
-        'deploymentOrderSubmitted': deploymentOrderSubmitted,
-        'deploymentOrders': deploymentOrders,
-        'physicallyFit': physicallyFit,
-        'localLanguage': localLanguage,
-        'localLangProficiencyR': localLangProficiencyR,
-        'hindiLangProficiencyR': hindiLangProficiencyR,
-        'englishLangProficiencyR': englishLangProficiencyR,
-        'localLangProficiencyW': localLangProficiencyW,
-        'hindiLangProficiencyW': hindiLangProficiencyW,
-        'englishLangProficiencyW': englishLangProficiencyW,
-        'localLangProficiencyS': localLangProficiencyS,
-        'hindiLangProficiencyS': hindiLangProficiencyS,
-        'englishLangProficiencyS': englishLangProficiencyS,
-        'securityExperience': securityExperience,
-        'permanentAddress': permanentAddress,
-        'localAddress': localAddress,
-        'pvc': pvc,
-        'trainingCertificateProvided': trainingCertificateProvided,
-        'trainingCertificates': trainingCertificates,
-        'medicalCertificates': medicalCertificates,
-        'systemAccess': systemAccess,
-        'onboarded': onboarded,
-        'esicNo': esicNo,
-        'uanNo': uanNo,
-        'msgbExempted': msgbExempted,
-        'msgbFormBSubmitted': msgbFormBSubmitted,
-        'staffMsgbCompliant': staffMsgbCompliant,
-        'csrParticipation': csrParticipation,
-        'specialAchievement': specialAchievement,
-        'specialAchievementText': specialAchievementText,
-        'additionalInitiatives': additionalInitiatives,
-        'history': history,
-        'guardingPOC': guardingPOC
-      };
+  @override
+  Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
 }

@@ -1,4 +1,3 @@
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -6,6 +5,7 @@ import 'package:db_atom/src/features/createfound/models/get_articletype_model.da
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../models/organisation.dart';
@@ -15,7 +15,7 @@ enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;
   GetArticleType? getArticleTypeResponse;
   Organisation? createOrganisationResponse;
@@ -26,29 +26,28 @@ class CreateFoundState extends Equatable {
   SerialNumberModel? getSerialnumberResponse;
   final String? message;
   final CreateFoundStateType stateType;
-  List<CreateImage>? loadAttachments = [];
-   final int? eventId;
+  List<ImageContent>? loadAttachments = [];
+  final int? eventId;
 
-  CreateFoundState({
-    this.getDepositorResponse,
-    this.getLocationsResponse,
-    this.getEmployeeDepartmentsResponse,
-    this.getArticleTypeResponse,
-    this.createOrganisationResponse,
-    this.createEmployeeDepartments,
-    this.createUserResponse,
-    this.loggedInUser,
-    this.createFoundResponse,
-    this.getSerialnumberResponse,
-    required this.stateType,
-    this.message,
-    this.loadAttachments,
-    this.eventId
-  });
+  CreateFoundState(
+      {this.getDepositorResponse,
+      this.getLocationsResponse,
+      this.getEmployeeDepartmentsResponse,
+      this.getArticleTypeResponse,
+      this.createOrganisationResponse,
+      this.createEmployeeDepartments,
+      this.createUserResponse,
+      this.loggedInUser,
+      this.createFoundResponse,
+      this.getSerialnumberResponse,
+      required this.stateType,
+      this.message,
+      this.loadAttachments,
+      this.eventId});
 
   CreateFoundState copyWith({
     GetDepositor? getDepositorResponse,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
     Organisation? createOrganisationResponse,
@@ -59,7 +58,7 @@ class CreateFoundState extends Equatable {
     SerialNumberModel? getSerialnumberResponse,
     String? message,
     CreateFoundStateType? stateType,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     final int? eventId,
   }) {
     return CreateFoundState(
@@ -74,15 +73,14 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        loggedInUser:
-            loggedInUser ?? this.loggedInUser,
+        loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
             getSerialnumberResponse ?? this.getSerialnumberResponse,
         message: message ?? this.message,
         stateType: stateType ?? this.stateType,
         loadAttachments: loadAttachments ?? this.loadAttachments,
-        eventId :   eventId ?? this.eventId);
+        eventId: eventId ?? this.eventId);
   }
 
   @override

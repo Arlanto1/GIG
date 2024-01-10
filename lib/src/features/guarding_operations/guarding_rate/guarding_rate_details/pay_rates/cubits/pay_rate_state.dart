@@ -2,12 +2,12 @@ part of 'pay_rate_cubit.dart';
 
 class PayRateState extends Equatable {
   final FormStatus status;
-  final GMRate rate;
+  final GMRate model;
   final List<PayRate> items;
   final PayRate newPayRate;
   final String? message;
   final User? loggedInUserDetails;
-  final GetLocations? locations;
+  final Locations? locations;
   final List<Organisation> departments;
   final List<Organisation>? listOfEntities;
   final AddEntities? getEntitiesResponse;
@@ -25,7 +25,7 @@ class PayRateState extends Equatable {
       status: FormStatus.initial,
       items: payRates,
       message: message,
-      rate: rate,
+      model: rate,
       newPayRate: newPayRate,
       departments: departments,
       loggedInUserDetails: loggedInUserDetails,
@@ -33,34 +33,34 @@ class PayRateState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [rate, status];
+  List<Object?> get props => [model, status];
 
   ErrorResponse get isValid {
-    if (rate.entities == null) {
+    if (model.entities == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Guarding Rating Information.');
     }
-    if (rate.securityGuardRates == null || rate.securityGuardRates!.isEmpty) {
+    if (model.securityGuardRates == null || model.securityGuardRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Guard Rates');
     }
 
-    if (rate.securitySupervisorRates == null ||
-        rate.securitySupervisorRates!.isEmpty) {
+    if (model.securitySupervisorRates == null ||
+        model.securitySupervisorRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Supervisor Rates');
     }
-    if (rate.securityOfficerRates == null ||
-        rate.securityOfficerRates!.isEmpty) {
+    if (model.securityOfficerRates == null ||
+        model.securityOfficerRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Officer Rates');
     }
-    if (rate.securityFacilitatorRates == null ||
-        rate.securityFacilitatorRates!.isEmpty) {
+    if (model.securityFacilitatorRates == null ||
+        model.securityFacilitatorRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Facilitator Rates');
     }
-    if (rate.securityGunManRates == null || rate.securityGunManRates!.isEmpty) {
+    if (model.securityGunManRates == null || model.securityGunManRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Gun Man Rates');
     }
@@ -70,7 +70,7 @@ class PayRateState extends Equatable {
 
   const PayRateState({
     required this.status,
-    required this.rate,
+    required this.model,
     required this.items,
     required this.newPayRate,
     this.message,
@@ -84,13 +84,13 @@ class PayRateState extends Equatable {
 
   PayRateState copyWith({
     FormStatus? status,
-    GMRate? rate,
+    GMRate? model,
     List<Organisation>? vendors,
     List<PayRate>? items,
     PayRate? newPayRate,
     String? message,
     User? loggedInUserDetails,
-    GetLocations? locations,
+    Locations? locations,
     List<Organisation>? departments,
     List<Organisation>? listOfEntities,
     AddEntities? getEntitiesResponse,
@@ -98,7 +98,7 @@ class PayRateState extends Equatable {
   }) {
     return PayRateState(
       status: status ?? this.status,
-      rate: rate ?? this.rate,
+      model: model ?? this.model,
       departments: vendors ?? this.departments,
       items: items ?? this.items,
       newPayRate: newPayRate ?? this.newPayRate,

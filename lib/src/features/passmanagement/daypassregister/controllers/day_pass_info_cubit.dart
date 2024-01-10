@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/services/day_pass_info_services.dart';
 import 'package:db_atom/src/utils/util.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,7 +53,7 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
         ),
       );
     } catch (e) {
-      print(e);
+      log('Error: $e');
       // if (startPosition != '0') {
       //   dismissLoadingDialog(context);
       // }

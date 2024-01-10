@@ -1,28 +1,17 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
+import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/create_found_request.dart';
-import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../../../index.dart';
 import '../models/general_info_model.dart';
 import '../models/requestModel/general_info_request.dart';
 
@@ -40,7 +29,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }) : super(
           GeneralInfoState.initial(
             model: EventProtectionGi(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -68,59 +57,72 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
+    // Show Loader and emit loading state
+    emit(state.copyWith(status: FormStatus.loading));
+
     var userId = await SharedPrefs.getUserId();
+
+    // Initialize model outside of Future.wait
+    EventProtectionGi model =
+        id.isNotEmpty ? await services.getGI(id) : EventProtectionGi();
+
     try {
-      EventProtectionGi model = EventProtectionGi();
-      if (id.isNotEmpty) {
-        model = await services.getGI(id);
+      // Perform multiple asynchronous operations concurrently
+      final List<dynamic> results = await Future.wait([
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        SharedPrefs.getDefaultLocation(),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUiLabels(
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.eventProtectionModuleCode),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getVendors(name: 'ATOM_VENDORS'),
+        commonServices.getUsers(),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+      ]);
+
+      // Assign results to variables with explicit data types
+      Locations getLocationsData = results[0];
+      Organisation? defaultLocation = results[1];
+      User loggedInUserDetails = results[2];
+      dynamic responseLabels = results[3];
+      Analyst users = results[4];
+      GetDepositor emailUsers = results[5];
+      AddEntities entities = results[6];
+      Vendors vendors = results[7];
+      List<User> entrySecurities = results[8];
+      EmployeeDepartments departments = results[9];
+
+      model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
+      if (model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.eventProtectionModuleCode,
+        );
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
 
-      GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
-
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
-      // Get Date of Creation
-      model.inputDate = Utils().getCurrentDate();
-
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
-      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-
-      List<User> entrySecurities = await commonServices.getUsers();
-
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-
-      emit(
-        state.copyWith(
-          model: model,
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          users: users.t1Analyst,
-          emailUsers: emailUsers.atomStaticUser,
-          departments: departments.employeeDepartments,
-          vendors: vendors.items,
-          entrySecurities: entrySecurities,
-          listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
-        ),
-      );
+      // Update the model and emit the updated state
+      emit(state.copyWith(
+        model: model,
+        locations: getLocationsData,
+        loggedInUserDetails: loggedInUserDetails,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        epOfficers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+        vendors: vendors.items,
+        entrySecurities: entrySecurities,
+        listOfEntities: entities.atomEntities,
+        getEntitiesResponse: entities,
+        labels: EpUiLabels.fromJson(responseLabels),
+      ));
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
       emit(
@@ -177,6 +179,14 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
       state.model.epManager2 = userDetails;
     }
+    // if (epOfficers != null) {
+    //   User userDetails = User(
+    //     name: epOfficers.name,
+    //     userId: epOfficers.id,
+    //     userName: epOfficers.name,
+    //   );
+    //   state.epOfficers.add(userDetails.email??'');
+    // }
 
     if (vendors != null) {
       state.model.proposedVendors = vendors;
@@ -261,8 +271,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(
@@ -329,7 +339,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         GeneralInfoRequest(eventProtectionGi: state.model);
 
     log('--isSaveOnly----$isSaveOnly--');
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

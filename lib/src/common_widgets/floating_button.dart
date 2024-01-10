@@ -10,11 +10,10 @@ class Flutterfloatingbutton extends StatelessWidget {
   final Color? foregroundColor;
 
   const Flutterfloatingbutton(
-      {Key? key,
+      {super.key,
       this.onPressed,
       this.backgroundColor,
-      this.foregroundColor,})
-      : super(key: key);
+      this.foregroundColor,});
   @override
   Widget build(BuildContext context) {
     ScreenSizeConfig.init(context);

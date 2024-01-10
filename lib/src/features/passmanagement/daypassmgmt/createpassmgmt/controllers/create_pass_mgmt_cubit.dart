@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -16,8 +15,11 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -30,8 +32,8 @@ import '../../../../createfound/models/user.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
-  List<CreateImage>? loadAttachments;
-  List<CreateImage>? photoAttachments;
+  List<ImageContent>? loadAttachments;
+  List<ImageContent>? photoAttachments;
 
   CreatePassMgmtCubit({
     required this.createpassmgmtServices,
@@ -47,8 +49,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
-      Organisation createOrganisationData = await createpassmgmtServices
-          .createOrganisation(name, orgName, context);
+      Organisation createOrganisationData = await commonServices
+          .createOrganisation(name: name, orgName: orgName, context: context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -56,12 +58,16 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       if (Constants.addcompanytype == title) {
-        await createpassmgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+        await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
       } else if (Constants.addreasonfordaypass == title ||
           Constants.addreasonforvendorpass == title) {
-        await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+        await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+      } else if (Constants.addreasonforvendorpass == title ||
+          Constants.addreasonforvendorpass == title) {
+        await createPassMgmtCubit.getVendorPassreasons(
+            'VENDOR_PASS_REASON', context);
       } else if (Constants.addentitytype == title) {
-        await createpassmgmtCubit.getEntities('ATOM_ENTITIES', context);
+        await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
       }
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -105,7 +111,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostUsersResponseData(BaseUser? hostResponse) async {
+  gethostUsersResponseData(User? hostResponse) async {
     try {
       emit(
         state.copyWith(
@@ -123,7 +129,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getdbsponsorUsersResponseData(BaseUser? dbsponsorResponse) async {
+  getdbsponsorUsersResponseData(User? dbsponsorResponse) async {
     try {
       emit(
         state.copyWith(
@@ -171,7 +177,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.success,
         ),
       );
-      await createpassmgmtCubit.getAnalysts('T1_Analyst', context);
+      await createPassMgmtCubit.getAnalysts('T1_Analyst', context);
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
@@ -191,8 +197,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData = await createpassmgmtServices
-          .createOrganisation(name, orgName, context);
+      Organisation createEmployeeDeptData = await commonServices
+          .createOrganisation(name: name, orgName: orgName, context: context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -200,7 +206,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getEmployeeDepartments(
+      await lawEnforcementCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
@@ -224,7 +230,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await createpassmgmtServices.getLocations(name: locationsStr);
       emit(
         state.copyWith(
@@ -255,10 +261,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       moduleCode = Constants.passManagementModule;
     } else if (passId == "1") {
       moduleCode = Constants.visitorManagementModule;
-    }
-    else if (passId == "2") {
+    } else if (passId == "2") {
       moduleCode = Constants.vendorPassManagementModule;
-    }else if (passId == "3") {
+    } else if (passId == "3") {
       moduleCode = Constants.passManagementSEZModule;
     }
     try {
@@ -371,11 +376,29 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getAtomCompanyTypeResponseData(Organisation? companyTypeResponse) async {
+  selectedCompanyType(Organisation companyType) async {
+    if (companyType.name != null && companyType.name!.contains('CWR')) {
+      emit(
+        state.copyWith(
+          showIdentifiedFields: true,
+          selectedCompanyType: companyType,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          showIdentifiedFields: false,
+          selectedCompanyType: companyType,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    }
+
     try {
       emit(
         state.copyWith(
-          atomCompanyType: companyTypeResponse,
+          selectedCompanyType: companyType,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -432,6 +455,49 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+  Future<void> getVendorPassreasons(
+      String companyStr, BuildContext context) async {
+    try {
+      // DayPassReason dayPassreasons =
+      //     await createpassmgmtServices.getDayPassreason(companyStr, context);
+
+      VendorPassReason vendorPassreasons = await commonServices
+          .getVendorPassReason(name: companyStr, context: context);
+      emit(
+        state.copyWith(
+          vendorPassReason: vendorPassreasons,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getVendorPassReasonResponseData(
+      Organisation? vendorPassReasonResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          vendorPasselementReason: vendorPassReasonResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
   // Get analysts response
   Future<void> getAnalysts(String companyStr, BuildContext context) async {
     try {
@@ -474,7 +540,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostanalystsResponseData(BaseUser? host) async {
+  gethostanalystsResponseData(User? host) async {
     try {
       emit(
         state.copyWith(
@@ -493,7 +559,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   getdbsponsoranalystsResponseData(
-    BaseUser? companytypeResponse,
+    User? companytypeResponse,
   ) async {
     try {
       emit(
@@ -533,7 +599,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
 
     emit(state.copyWith(
@@ -542,7 +608,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         stateType: CreatePassMgmtStateType.addattachment));
   }
 
-  Future<void> photoAttchment(List<CreateImage>? data) async {
+  Future<void> photoAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
 
     emit(state.copyWith(
@@ -576,34 +642,70 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initialization() {
-    state.selectedemployeeDepartmentResponse = Organisation();
-    state.employeeDepartment = EmployeeDepartments();
+    state.showIdentifiedFields = false;
+    state.selectedDepartment = null;
+    state.employeeDepartment = null;
     state.companyTypes = CompanyTypes();
     state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
-    state.atomCompanyType = Organisation();
-    state.listOfEntities = [];
+    state.selectedCompanyType = null;
+    state.selectedEntities = [];
     state.location = Organisation();
     state.photoAttachments = [];
     state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();
-    state.t1hostanalyst = BaseUser();
+    state.t1hostanalyst = User();
     state.t1nameanalyst = BaseUser();
-    state.hostResponse = BaseUser();
+    state.hostResponse = User();
     state.nameResponse = BaseUser();
-    state.dbsponsorResponse = BaseUser();
+    state.dbsponsorResponse = User();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
   }
 
-  getEntityData(List<Organisation> listOfEntities) async {
+  initializeValues(DayPassListElement model) async {
+    emit(
+      state.copyWith(
+        selectedEntities: model.entities,
+        stateType: CreatePassMgmtStateType.success,
+      ),
+    );
+    try {
+      if (model.companyType?.name != null &&
+          model.companyType!.name!.contains('CWR')) {
+        emit(
+          state.copyWith(
+            selectedEntities: model.entities,
+            showIdentifiedFields: true,
+            stateType: CreatePassMgmtStateType.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            showIdentifiedFields: false,
+            stateType: CreatePassMgmtStateType.success,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getEntityData(List<Organisation> selectedEntities) async {
     try {
       int eventIds = Random.secure().nextInt(5);
       emit(
         state.copyWith(
           eventId: eventIds,
-          listOfEntities: listOfEntities,
+          selectedEntities: selectedEntities,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -617,11 +719,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getemployeeDepartmentsResponseData(Organisation employeedepartment) async {
+  selectedEmployeeDepartment(Organisation employeeDepartment) async {
     try {
       emit(
         state.copyWith(
-          selectedemployeeDepartmentResponse: employeedepartment,
+          selectedEmployeeDepartment: employeeDepartment,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -672,12 +774,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> createPass(
-      CreatePassMgmtBody bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
+  Future<void> createPass(CreatePassMgmtBody bodyRequest, bool isSubmit,
+      BuildContext context, String username, String title) async {
     try {
       CreatePassMgmtResponse? response =
           await createpassmgmtServices.createPass(
@@ -713,55 +811,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  // Create new Found Article successfully API call
-  Future<void> lawcreateFoundArticleHandle(
-      Map<String, dynamic> bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
-    try {
-      CreatePassMgmtResponse? createpassFoundresponse =
-          await createpassmgmtServices.createLawFoundArticleHandle(
-              bodyRequest,
-              isSubmit,
-              username,
-              context); //replace empty model with bodyRequest
-      emit(
-        state.copyWith(
-          createpassFoundresponse: createpassFoundresponse,
-          stateType: CreatePassMgmtStateType.success,
-        ),
-      );
-
-      if (createpassFoundresponse.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(
-              context, createpassFoundresponse.message ?? '', title, '');
-        });
-      }
-    } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: Constants.errorText,
-          stateType: CreatePassMgmtStateType.failure,
-        ),
-      );
-
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
-    }
-  }
-
   getRadioButtonSelected(String name, int value, String radio) async {
     try {
       emit(
         state.copyWith(
           escortedbyhost: value,
+          exceptionalApproval: value,
           radioButtonItem: radio,
           stateType: CreatePassMgmtStateType.success,
         ),

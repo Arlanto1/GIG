@@ -1,11 +1,11 @@
-import 'package:db_atom/src/common_widgets/signature/signature_painter.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'dart:async';
-import 'dart:math';
-
+import 'package:db_atom/src/common_widgets/signature/signature_painter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:image/image.dart' as img;
 
@@ -367,4 +367,16 @@ class SignatureController extends ValueNotifier<List<Point>> {
   svg.SvgPicture? toSVG({int? width, int? height}) => isEmpty
       ? null
       : svg.SvgPicture.string(toRawSVG(width: width, height: height)!);
+
+  Future<String> exportSignature(
+      SignatureController controller,
+      ) async {
+    Uint8List? signature = await controller.toPngBytes();
+    if (signature == null) {
+      return '';
+    }
+    String bs4str = base64Encode(signature);
+
+    return bs4str;
+  }
 }

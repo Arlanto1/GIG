@@ -1,10 +1,11 @@
-import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -85,27 +86,34 @@ class _SstIncidentViewState extends State<SstIncidentView> {
             Navigator.pushNamed(
               context,
               sstIncidentDetailsRoute,
+              arguments: {
+                "isInternal": widget.isInternal,
+                "title": widget.isInternal
+                    ? Constants.ticketLifeCycle
+                    : Constants.externalVendor
+              },
             )
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInternal
-              ? Constants.internalStaff
+              ? Constants.ticketLifeCycle
               : Constants.externalVendor,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
+          showSubmitButton: false,
+          excelAPIName: 'exportSSSLAExcel',
+          pdfAPIName: 'exportSSSLAPDF',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
           }
-          log('--build main body---');
+          if (state.items.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
+          }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -137,17 +145,15 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                   ));
 
                   return index >= state.items.length
-                      ? const Center(
-                          child: CustomCircularProgressIndicator(),
-                        )
+                      ? const BaseLoader()
                       : BaseListTileItem(
                           id: state.items[index].id,
                           labels: labels,
                           status: state.items[index].status,
-                          isMasterGuard: false,
-                          isEventProtectionStatus: false,
-                          isSLAViolationStatus: false,
-                        isOccurrenceStatus: true,
+                          // isMasterGuard: false,
+                           isEventProtectionStatus: false,
+                          // isSLAViolationStatus: false,
+                          isSecuritySystemSLA: true,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
@@ -159,7 +165,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   status: state.items[selectedIndex].status,
                                   isMasterGuard: false,
                                   isEventProtectionStatus: false,
-                                  isOccurrenceStatus: true,
+                                  isSecuritySystemSLAStatus: true,
                                 );
                               },
                             );
@@ -179,8 +185,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
                                   isEventProtectionStatus: false,
-                                  isOccurrenceStatus: true,
+                                  isSecuritySystemSLAStatus: true,
                                 );
                               },
                             );
@@ -205,6 +212,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
       arguments: {
         'id': id.toString(),
         'isInternal': widget.isInternal,
+        "title": widget.isInternal
+            ? Constants.externalVendor
+            : Constants.ticketLifeCycle
       },
     );
   }

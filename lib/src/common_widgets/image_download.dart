@@ -1,11 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/configurations/main_config.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
+import '../../index.dart';
 
 class DownloadImage {
   Future<void> saveImage(
@@ -14,45 +14,82 @@ class DownloadImage {
     String name,
   ) async {
     final endpoint = Environment().config.apiHost;
-    final url = Uri.parse('$endpoint/downloadImage/$id');
-    print(url);
-    downloadData(context, name, url);
+    // final url = Uri.parse('$endpoint/downloadImage/$id');
+    // print('url123123 $url');
+    // downloadData(context, name, url);
+    final url = "$endpoint/downloadImage/$id";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    downloadData(context, name, response);
   }
 
-  Future<void> exportPdf(BuildContext context, int id, String name, int start,
-      int max, String path) async {
+  Future<void> exportPdf(
+    BuildContext context,
+    int id,
+    String name,
+    int start,
+    int max,
+    String path, {
+    String? customParameter,
+  }) async {
     final endpoint = Environment().config.apiHost;
-    final url =
-        Uri.parse('$endpoint$path?startPos=$start&maxResults=$max&userId=$id');
-    print(url);
-    downloadData(context, name, url);
+    String url = '$endpoint$path?startPos=$start&maxResults=$max&userId=$id';
+    if (!customParameter.isEmptyOrNull) {
+      url = '$url&${customParameter!}';
+    }
+    log('url: $url');
+
+    final uri = Uri.parse(url);
+    downloadData(context, name, uri);
   }
 
-  Future<void> exportExcel(BuildContext context, int id, String name, int start,
-      int max, String path) async {
+  Future<void> exportExcel(
+    BuildContext context,
+    int id,
+    String name,
+    int start,
+    int max,
+    String path, {
+    String? customParameter,
+  }) async {
     final endpoint = Environment().config.apiHost;
-    final url =
-        Uri.parse('$endpoint$path?startPos=$start&maxResults=$max&userId=$id');
-    print(url);
-    downloadData(context, name, url);
+    String url = '$endpoint$path?startPos=$start&maxResults=$max&userId=$id';
+    if (!customParameter.isEmptyOrNull) {
+      url = '$url&${customParameter!}';
+    }
+    log('url: $url');
+
+    final uri = Uri.parse(url);
+    downloadData(context, name, uri);
   }
 
-  Future<void> passexportPdf(BuildContext context, int id, String name,int passtype, int isList,
-       String path) async {
+  Future<void> passexportPdf(BuildContext context, int id, String name,
+      int passtype, int isList, String path) async {
     final endpoint = Environment().config.apiHost;
-     final url =
-        Uri.parse('$endpoint$path?userId=$id&passType=$passtype&isList=$isList');
-    print(url);
-    downloadData(context, name, url);
+    //  final url =
+    //     Uri.parse('$endpoint$path?userId=$id&passType=$passtype&isList=$isList');
+    // print(url);
+    // downloadData(context, name, url);
+    final url = '$endpoint$path?userId=$id&passType=$passtype&isList=$isList';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return downloadData(context, name, response);
   }
 
-  Future<void> passexportExcel(BuildContext context, int id, String name,int passtype, int isList,
-       String path) async {
+  Future<void> passexportExcel(BuildContext context, int id, String name,
+      int passtype, int isList, String path) async {
     final endpoint = Environment().config.apiHost;
-    final url =
-        Uri.parse('$endpoint$path?userId=$id&passType=$passtype&isList=$isList');
-    print(url);
-    downloadData(context, name, url);
+    // final url =
+    //     Uri.parse('$endpoint$path?userId=$id&passType=$passtype&isList=$isList');
+    // print(url);
+    // downloadData(context, name, url);
+    final url = '$endpoint$path?userId=$id&passType=$passtype&isList=$isList';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return downloadData(context, name, response);
   }
 
   downloadData(BuildContext context, String name, Uri url) async {
@@ -60,8 +97,18 @@ class DownloadImage {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       // Download image
-      final http.Response response = await http.get(url);
-
+      var headers = await BaseApiService().getHeaders(
+        isAuthenticated: true,
+      );
+      var response = await http.get(
+        url,
+        headers: headers,
+      );
+      // final http.Response response = await http.get(
+      //   url,
+      //   headers: headers,
+      // );
+      log('response---${response.body.toString()}');
       // Get temporary directory
       final dir = await getTemporaryDirectory();
 
@@ -72,6 +119,7 @@ class DownloadImage {
       final file = File(filename);
       await file.writeAsBytes(response.bodyBytes);
 
+      log('pdf---$file');
       // Ask the user to save it
       final params = SaveFileDialogParams(sourceFilePath: file.path);
       final finalPath = await FlutterFileDialog.saveFile(params: params);

@@ -1,7 +1,6 @@
-// Created by Ramesh
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
@@ -27,7 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FoundList extends StatefulWidget {
-  const FoundList({Key? key}) : super(key: key);
+  const FoundList({super.key});
 
   @override
   State<FoundList> createState() => _FoundListState();
@@ -60,7 +59,6 @@ class _FoundListState extends State<FoundList> {
       }
       isPaginationLoading = true;
       //showLoadingDialog(context);
-      print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getFoundArticleList();
       // }
@@ -80,7 +78,7 @@ class _FoundListState extends State<FoundList> {
     //     await foundListArticleCubit.getArticleById(articleId, context);
     final FoundListServices foundListServices = FoundListServices();
     FoundListArticleDetails foundArticleDetailsResponse =
-        await foundListServices.getArticleById(articleId, context);
+    await foundListServices.getArticleById(articleId, context);
     editDataLoading(foundArticleDetailsResponse);
   }
 
@@ -88,8 +86,10 @@ class _FoundListState extends State<FoundList> {
     dismissLoadingDialog(context);
     // Navigator.pushNamed(context, createfoundScreenRoute);
     if (foundArticleDetailsResponse != null) {
-      Navigator.pushNamed(context, createfoundScreenRoute,
-          arguments: {"UserElement": foundArticleDetailsResponse,'eventId':foundArticleDetailsResponse.id });
+      Navigator.pushNamed(context, createfoundScreenRoute, arguments: {
+        "UserElement": foundArticleDetailsResponse,
+        'eventId': foundArticleDetailsResponse.id
+      });
     }
   }
 
@@ -103,7 +103,6 @@ class _FoundListState extends State<FoundList> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
 
     //_loadMore();
     return Scaffold(
@@ -115,7 +114,6 @@ class _FoundListState extends State<FoundList> {
           Navigator.pushNamed(context, createfoundScreenRoute)
               .then((value) async {
             if (value != null && value == true) {
-              print(value);
               localfoundlist?.clear();
               pageNumber = 0;
               _getFoundArticleList();
@@ -130,8 +128,8 @@ class _FoundListState extends State<FoundList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(
@@ -144,7 +142,6 @@ class _FoundListState extends State<FoundList> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, pageNumber, '/exportFoundExcel');
@@ -161,6 +158,11 @@ class _FoundListState extends State<FoundList> {
           bloc: foundListArticleCubit,
           builder: (context, state) {
             if (state.stateType == FoundListStateType.success) {
+              if (state.foundListModel?.list == null ||
+                  state.foundListModel!.list!.isEmpty) {
+                return const NoRecordFoundWidget();
+              }
+
               if (state.foundListModel?.list == null &&
                   state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
@@ -233,14 +235,14 @@ class _FoundListState extends State<FoundList> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Column(
                 children: [
                   // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
-                          foundList, context, scrollController, state)
+                      foundList, context, scrollController, state)
                       : const SizedBox()
                 ],
               ),
@@ -284,17 +286,23 @@ class _FoundListState extends State<FoundList> {
       ScrollController? scrollController, FoundListState state) {
     return Container(
       padding: allMargin16,
+      decoration: const ShapeDecoration(
+          color: AppColors.backgroundWhitecolor,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.vertical(top: Radius.circular(20.0)),
+          )),
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
           itemCount:
-              isPaginationLoading ? userList.length + 1 : userList.length,
+          isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             if (index >= userList.length) {
-              return const Center(child: CircularProgressIndicator());
+              return const BaseLoader();
             } else {
               FoundModel user = userList[index];
 

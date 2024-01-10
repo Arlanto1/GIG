@@ -6,11 +6,11 @@ class UpdatePasswordRequest {
   });
 
   UpdatePasswordRequest.fromJson(Map<String, dynamic> json)
-      : request = (json['request'] as Map<String,dynamic>?) != null ? UpdateRequest.fromJson(json['request'] as Map<String,dynamic>) : null;
+      : request = (json['request'] as Map<String, dynamic>?) != null
+            ? UpdateRequest.fromJson(json['request'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'request' : request?.toJson()
-  };
+  Map<String, dynamic> toJson() => {'request': request?.toJson()};
 }
 
 class UpdateRequest {
@@ -30,8 +30,8 @@ class UpdateRequest {
         confirmPassword = json['confirmPassword'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'password' : password,
-    'newPassword' : newPassword,
-    'confirmPassword' : confirmPassword
-  };
+        'password': password,
+        'newPassword': newPassword,
+        'confirmPassword': confirmPassword
+      };
 }

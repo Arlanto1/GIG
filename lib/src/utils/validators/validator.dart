@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -5,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class Validator {
   static bool emailValidation(String email) {
-    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
@@ -13,8 +16,8 @@ class Validator {
     return password!.length > 4;
   }
 
-
   static logoutAction(BuildContext context) {
+    log('-will logout now----');
     SharedPrefs.setUserId('');
     SharedPrefs.setEmail('');
     SharedPrefs.setToken('');
@@ -23,7 +26,8 @@ class Validator {
     SharedPrefs.setLoggedIn(false);
     SharedPrefs.setFoundId(100);
     SharedPrefs.clearSharedPreferences();
-    Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
 
   static bool isValidEmail(String? value) {
@@ -44,7 +48,6 @@ class Validator {
     return userName != null && userName.trim().isNotEmpty;
   }
 
- 
 //   String formatTimestamp(Timestamp timestamp) {
 //   DateTime dateTime = timestamp.toDate();
 //   String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
@@ -57,7 +60,11 @@ class Validator {
       SnackBar(
         backgroundColor: Colors.red,
         content: Text(message),
-        action: SnackBarAction(label: 'Ok', onPressed: scaffold.hideCurrentSnackBar, textColor: AppColors.navigationSkybluecolor,),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: scaffold.hideCurrentSnackBar,
+          textColor: AppColors.navigationSkybluecolor,
+        ),
       ),
     );
   }

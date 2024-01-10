@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class InitializeProviders extends StatelessWidget {
   final Widget child;
   const InitializeProviders({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +15,10 @@ class InitializeProviders extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => foundListArticleCubit),
         BlocProvider(create: (context) => createFoundArticleCubit),
-        BlocProvider(create: (context) => lawenforcementCubit),
+        BlocProvider(create: (context) => lawEnforcementCubit),
         BlocProvider(create: (context) => lawEnforcementListCubit),
-        BlocProvider(create: (context) => daypassListCubit),
-        BlocProvider(create: (context) => createpassmgmtCubit),
+        BlocProvider(create: (context) => dayPassListCubit),
+        BlocProvider(create: (context) => createPassMgmtCubit),
       ],
       child: child,
     );

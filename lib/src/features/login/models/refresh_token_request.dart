@@ -6,11 +6,14 @@ class RefreshTokenRequest {
   });
 
   RefreshTokenRequest.fromJson(Map<String, dynamic> json)
-      : jwtRefreshRequest = (json['jwtRefreshRequest'] as Map<String,dynamic>?) != null ? JwtRefreshRequest.fromJson(json['jwtRefreshRequest'] as Map<String,dynamic>) : null;
+      : jwtRefreshRequest =
+            (json['jwtRefreshRequest'] as Map<String, dynamic>?) != null
+                ? JwtRefreshRequest.fromJson(
+                    json['jwtRefreshRequest'] as Map<String, dynamic>)
+                : null;
 
-  Map<String, dynamic> toJson() => {
-    'jwtRefreshRequest' : jwtRefreshRequest?.toJson()
-  };
+  Map<String, dynamic> toJson() =>
+      {'jwtRefreshRequest': jwtRefreshRequest?.toJson()};
 }
 
 class JwtRefreshRequest {
@@ -26,8 +29,6 @@ class JwtRefreshRequest {
       : token = json['token'] as String?,
         refreshToken = json['refreshToken'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'token' : token,
-    'refreshToken' : refreshToken
-  };
+  Map<String, dynamic> toJson() =>
+      {'token': token, 'refreshToken': refreshToken};
 }

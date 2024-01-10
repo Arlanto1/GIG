@@ -1,26 +1,23 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+import 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/models/language.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -29,7 +26,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_create_response.dart';
+import '../../../../models/responseModels/generic_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -51,7 +48,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }) : super(
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
-            locations: GetLocations(),
+            locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
@@ -69,21 +66,36 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
+    // Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      // Use Future.wait to call API functions concurrently
+      final futures = await Future.wait([
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getUiLabels(
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.materialMovementModuleCode),
+        SharedPrefs.getDefaultLocation(),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getQuantityUnits(),
+      ]);
 
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      Locations locations = futures[0];
+      User loggedInUserDetails = futures[1];
+      Analyst users = futures[2];
+      EmployeeDepartments departments = futures[3];
+      dynamic responseLabels = futures[4];
+      Organisation? defaultLocation = futures[5];
+      GetDepositor emailUsers = futures[6];
+      QuantityUnits quantityUnits = futures[7];
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
@@ -99,36 +111,45 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.rejectedDate =
             Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
       }
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      Language uilabels =
-      await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
+      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+      if (state.model.location == null && defaultLocation != null) {
+        String moduleCode = isInward ?? false
+            ? Constants.materialMovementInwardReturnableModule
+            : Constants.materialMovementOutwardNonReturnableModule;
 
-      log('--uilabels-----${uilabels.en}--');
-      log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: moduleCode,
+        );
 
-      QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
 
       state.model.entrySecurity = loggedInUserDetails;
       state.model.unit = model?.unit;
 
+      log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
-          locations: getLocationsData,
+          locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
+          loadAttachments: state.model.images,
           emailUsers: emailUsers.atomStaticUser,
+          approver1Users: emailUsers.atomStaticUser,
+          approver2Users: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
-          language: uilabels
+          labels: labels,
         ),
       );
     } catch (e) {
+      log('Initialization issue',
+          error: e, name: 'Material Movement Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -144,8 +165,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
+    BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
     Organisation? preparedByDepartment,
     Organisation? approver1Department,
@@ -204,13 +224,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (requesterEmailUser != null) {
       state.model.requestorEmail = requesterEmailUser.email;
     }
-    if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.email;
-    }
-    if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.email;
-    }
 
+    if (returnReceiverMailId != null) {
+      state.model.returnReceiverMailId = returnReceiverMailId.email;
+    }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
     }
@@ -224,14 +241,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (approver2Department != null) {
       state.model.approver2Department = approver2Department;
     }
-    log('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
       state.model.receiverDepartment = receiverDepartment;
     }
     if (quantityUnit != null) {
       state.model.unit = quantityUnit;
     }
-    log('-quantityUnit---${state.model.unit?.name}');
 
     if (isReturnable != null) {
       state.model.returnable = isReturnable;
@@ -243,7 +258,85 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  void addAttchment(List<CreateImage>? data) async {
+  Future<void> updateApproverEmailsValue({
+    BaseUser? requesterEmailUser,
+    BaseUser? approver1EmailUser,
+    BaseUser? approver2EmailUser,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    if (requesterEmailUser != null) {
+      state.model.requestorEmail = requesterEmailUser.email;
+
+      emit(
+        state.copyWith(
+          requestorEmailUsers: state.emailUsers,
+        ),
+      );
+
+      state.approver1Users?.remove(requesterEmailUser);
+      state.approver2Users?.remove(requesterEmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          approver2Users: state.approver2Users,
+          approver1Users: state.approver1Users,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (approver1EmailUser != null) {
+      state.model.approver1Email = approver1EmailUser.email;
+
+      emit(
+        state.copyWith(
+          approver2Users: state.emailUsers,
+        ),
+      );
+
+      state.requestorEmailUsers?.remove(approver1EmailUser);
+      state.approver2Users?.remove(approver1EmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          requestorEmailUsers: state.requestorEmailUsers,
+          approver2Users: state.approver2Users,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (approver2EmailUser != null) {
+      state.model.approver2Email = approver2EmailUser.email;
+
+      emit(
+        state.copyWith(
+          approver1Users: state.emailUsers,
+        ),
+      );
+
+      state.requestorEmailUsers?.remove(approver2EmailUser);
+      state.approver1Users?.remove(approver2EmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+          requestorEmailUsers: state.requestorEmailUsers,
+          approver1Users: state.approver1Users,
+        ),
+      );
+    }
+  }
+
+  void addAttchment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
 
     emit(
@@ -256,12 +349,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('--data----${data?.length}----');
     log('--state.status-2---${state.status}----');
 
-    emit(state.copyWith(
-      eventId: eventIds,
-      model: state.model,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
+    state.model.images = data;
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        model: state.model,
+        loadAttachments: data,
+        status: FormStatus.initial,
+      ),
+    );
 
     log('--state.status--3--${state.status}----');
   }
@@ -288,47 +384,51 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  Future<void> pushSignature({
-    required SignatureController controller,
-    required isReceiverSignature,
-  }) async {
-    String imageBytes = await exportSignature(
-      controller,
+  void makeSignEditable(
+      {bool? receiverSign, bool? entrySecuritySignatureSignEditable}) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
     );
-    if (imageBytes.isEmptyOrNull) {
-      return;
-    }
-    ImageContent imageContent = ImageContent();
-    imageContent.imageContent = imageBytes;
-    if (isReceiverSignature) {
-      (state.model.receiverSign ??= []).add(imageContent);
-    } else {
-      (state.model.entrySecuritySign ??= []).add(imageContent);
-    }
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: receiverSign,
+        isEntrySecuritySignatureSignEditable:
+            entrySecuritySignatureSignEditable,
+        status: FormStatus.initial,
+      ),
+    );
   }
 
-  Future<String> exportSignature(
-    SignatureController controller,
-  ) async {
-    final exportController = SignatureController(
-      penStrokeWidth: 2,
-      exportBackgroundColor: Colors.white,
-      penColor: Colors.black,
-      points: controller.points,
-    );
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required bool isReceiverSignature,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
 
-    Uint8List? signature = await exportController.toPngBytes();
-    if (signature == null) {
-      return '';
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
     }
-    String bs4str = base64Encode(signature);
 
-    //clean up the memory
-    exportController.dispose();
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
 
-    return bs4str;
-    // saveSignature(context, signature!);
+    log('--imageBytes--$imageBytes--');
+    if (isReceiverSignature) {
+      imageContent.type = 2;
+      state.model.receiverSign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    } else {
+      imageContent.type = 3;
+      state.model.entrySecuritySign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    }
   }
 
   Future<void> submitForm({
@@ -347,11 +447,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body
-    pushSignature(
+    await pushSignature(
       controller: receiverSignatureController,
       isReceiverSignature: true,
     );
-    pushSignature(
+    await pushSignature(
       controller: securitySignatureController,
       isReceiverSignature: false,
     );
@@ -363,7 +463,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
-      GenericCreateResponse response = GenericCreateResponse();
+      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
@@ -404,6 +504,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

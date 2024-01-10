@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -63,6 +64,24 @@ class BasePopUpItems extends StatefulWidget {
   final User? handOverSecurity;
   final int? incidentType;
   final bool isIncident;
+  final bool isContactDetailsStatus;
+  final bool isSecuritySystemSLAStatus;
+  final bool isKeyLossStatus;
+  final bool isKeyManagementIssuanceStatus;
+  final bool isKeyManagementStatus;
+  final bool isVipStatus;
+  final User? srh;
+  final User? securityManager;
+  final int? keyType;
+  final int? type;
+  final int? keyTagging;
+  final String? keyNo;
+  final String? doorName;
+  final int? employeeType;
+  final User? dbSponsorCWRT2;
+  final User? handedOver;
+  final String? returnedByName;
+  final Organisation? department;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -120,8 +139,26 @@ class BasePopUpItems extends StatefulWidget {
     this.shiftBrfngAttnded = false,
     this.materialMovement = false,
     this.leoVisit = false,
+    this.isContactDetailsStatus = false,
+    this.isSecuritySystemSLAStatus = false,
+    this.isKeyLossStatus = false,
+    this.isKeyManagementIssuanceStatus = false,
+    this.isKeyManagementStatus = false,
+    this.isVipStatus = false,
     this.handOverSecurity,
     this.incidentType,
+    this.srh,
+    this.keyType,
+    this.type,
+    this.securityManager,
+    this.keyNo,
+    this.keyTagging,
+    this.doorName,
+    this.employeeType,
+    this.dbSponsorCWRT2,
+    this.handedOver,
+    this.department,
+    this.returnedByName,
   });
 }
 
@@ -221,6 +258,72 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.keyType != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildKeyType(widget.keyType ?? 0),
+          ],
+        ),
+      ],
+      if (widget.type != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildType(widget.type ?? 0),
+          ],
+        ),
+      ],
+      if (widget.srh != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Srh : ', widget.srh?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.securityManager != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Security Manager : ', widget.securityManager?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.keyNo != null && !widget.keyNo.isEmptyOrNull) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Key No : ', widget.keyNo.toString()),
+          ],
+        ),
+      ],
+      if (widget.keyTagging != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Key Tagging Done : ', widget.keyTagging.toString()),
+          ],
+        ),
+      ],
+      if (widget.doorName != null && !widget.doorName.isEmptyOrNull) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils()
+                .textHandling('Key Description : ', widget.doorName.toString()),
+          ],
+        ),
+      ],
       if (widget.quantity != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -258,11 +361,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
           !widget.isSLAViolationStatus &&
-          !widget.isIncident) ...[
+          !widget.isKeyManagementIssuanceStatus &&
+          !widget.isKeyManagementStatus &&
+          !widget.isVipStatus &&
+          !widget.isSecuritySystemSLAStatus &&
+          !widget.isIncident &&
+          !widget.isContactDetailsStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
-            Utils().buildStatusRow(widget.status ?? 0),
+            Utils().buildMaterialMovementStatusRow(widget.status ?? 0),
           ],
         ),
       ],
@@ -312,6 +420,25 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
+      if (widget.status != null &&
+          widget.isKeyManagementIssuanceStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.status != null && widget.isKeyManagementStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().keyManagementStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -355,6 +482,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         )
       ],
+      if (widget.employeeType != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().employeeTypeValues(widget.employeeType ?? 0),
+          ],
+        ),
+      ],
       if (widget.status != null &&
           widget.isEventProtectionStatus &&
           !widget.isMasterGuard) ...[
@@ -364,6 +499,24 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Utils().buildEventProtectionStatusRow(widget.status ?? 0),
           ],
         ),
+      ],
+      if (widget.status != null &&
+          !widget.isEventProtectionStatus &&
+          widget.isSecuritySystemSLAStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().buildSecuritySystemStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.status != null && widget.isKeyLossStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().keyLossDestructionStatus(widget.status ?? 0),
+          ],
+        )
       ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -623,16 +776,28 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Shift Taken By : ', widget.handOverSecurity.toString()),
+                'Shift Taken By : ', widget.handOverSecurity?.name ?? ''),
           ],
         ),
       ],
-      if (widget.status != null && widget.isIncident == true) ...[
+      if (widget.status != null && widget.isIncident) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().buildIncidentStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      CommonWidgets.verticalSpacerWidget(5),
+      if (widget.status != null &&
+          widget.isContactDetailsStatus == true &&
+          widget.isEventProtectionStatus == false) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().contactDetailsStatus(widget.status ?? 0),
           ],
         ),
       ],
@@ -642,6 +807,55 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().incidentType(widget.incidentType ?? 0),
+          ],
+        ),
+      ],
+      if (widget.dbSponsorCWRT2 != null) ...[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Db Sponsor CWR T2 : ', widget.dbSponsorCWRT2?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.handedOver != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Handed Over To : ', widget.handedOver?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.department != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Department: ', widget.department?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.returnedByName != null &&
+          !widget.returnedByName.isEmptyOrNull) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Returned By: ', widget.returnedByName.toString()),
+          ],
+        ),
+      ],
+      if (
+          widget.status != null &&
+          widget.isVipStatus == true) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().vIPVisitorStatusRow(widget.status ?? 0),
           ],
         ),
       ],

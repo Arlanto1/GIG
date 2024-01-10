@@ -3,11 +3,10 @@ import 'dart:developer';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../models/general_info_model.dart';
-
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -15,15 +14,14 @@ class Apis {
   static final String _get = '$baseUrl/getOCCLists?';
   static final String _getOccurrence = '$baseUrl/getOCCById';
   static final String _createOccurrence = '$baseUrl/createOccurrence?';
-
 }
 
 class OccurrenceDetailsServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
+
   Future<OccurrenceResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
@@ -36,25 +34,26 @@ class OccurrenceDetailsServices {
     );
     return OccurrenceResponse.fromJson(response);
   }
-  Future<Occurrence> getOccurrence(String id) async {
+
+  Future<OccurrenceModel> getOccurrence(String id) async {
     final String url = '${Apis._getOccurrence}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
-    return Occurrence.fromJson(response);
+    return OccurrenceModel.fromJson(response);
   }
 
-  Future<GenericCreateResponse> create({
+  Future<GenericResponse> create({
     required OccurrenceGeneralInfoRequest body,
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createOccurrence}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createOccurrence}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

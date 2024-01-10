@@ -3,14 +3,14 @@ part of 'guarding_master_data_details_cubit.dart';
 class GuardingMasterDataDetailsState extends Equatable {
   final FormStatus status;
   final GuardingMastersDataModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<CreateImage>? loadAttachments;
-  final List<CreateImage>? guardAttachments;
-  final List<CreateImage>? deploymentAttachments;
-  final List<CreateImage>? bioDataAttachments;
+  final List<ImageContent>? loadAttachments;
+  final List<ImageContent>? guardAttachments;
+  final List<ImageContent>? deploymentAttachments;
+  final List<ImageContent>? bioDataAttachments;
   final List<Organisation>? listOfEntities;
   final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
@@ -19,17 +19,18 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
-  final List<CreateImage>? permanentAddressAttachments;
-  final List<CreateImage>? localAddressAttachments;
-  final List<CreateImage>? pVCAttachments;
-  final List<CreateImage>? trainingAttachments;
-  final List<CreateImage>? medicalAttachments;
-  final List<CreateImage>? mSGBAttachments;
+  final List<ImageContent>? permanentAddressAttachments;
+  final List<ImageContent>? localAddressAttachments;
+  final List<ImageContent>? pVCAttachments;
+  final List<ImageContent>? trainingAttachments;
+  final List<ImageContent>? medicalAttachments;
+  final List<ImageContent>? mSGBAttachments;
   final List<User>? entrySecurities;
+  final GmUiLabels? labels;
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -39,16 +40,16 @@ class GuardingMasterDataDetailsState extends Equatable {
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? mSGBAttachments,
-    List<CreateImage>? medicalAttachments,
+    required List<ImageContent> loadAttachments,
+    List<ImageContent>? bioDataAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? mSGBAttachments,
+    List<ImageContent>? medicalAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -90,6 +91,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
@@ -99,24 +104,19 @@ class GuardingMasterDataDetailsState extends Equatable {
 
   ErrorResponse get isValid {
     if (model.status == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Status');
+      return const ErrorResponse(status: false, message: 'Please enter Status');
     }
     if (model.entity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entity');
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
     if (model.vendor == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Vendor');
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
     }
     if (model.guard == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Name');
+      return const ErrorResponse(status: false, message: 'Please enter Name');
     }
     if (model.guardRank == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Rank');
+      return const ErrorResponse(status: false, message: 'Please enter Rank');
     }
     if (model.guardingPOC == null) {
       return const ErrorResponse(
@@ -132,8 +132,12 @@ class GuardingMasterDataDetailsState extends Equatable {
           status: false, message: 'Please enter Type of Duty');
     }
     if (model.gender == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Gender');
+    }
+
+    if (model.qualifications == null || model.qualifications!.isEmpty) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Gender');
+          status: false, message: 'Please enter Qualifications');
     }
     if (model.maritalStatus == null) {
       return const ErrorResponse(
@@ -164,8 +168,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     //       status: false, message: 'Please Select Deployment Order Submitted? ');
     // }
     if (model.height == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Height');
+      return const ErrorResponse(status: false, message: 'Please enter Height');
     }
     // if (guardingMasterData.physicallyFit == null) {
     //   return const ErrorResponse(
@@ -201,7 +204,8 @@ class GuardingMasterDataDetailsState extends Equatable {
     // }
     if (model.medicalCertificateValidUntil == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Medical Certificate Valid Until');
+          status: false,
+          message: 'Please enter Medical Certificate Valid Until');
     }
     if (model.systemAccess == null) {
       return const ErrorResponse(
@@ -271,19 +275,20 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.medicalAttachments,
     this.entrySecurities,
     this.mSGBAttachments,
+    this.labels,
   });
 
   GuardingMasterDataDetailsState copyWith({
     FormStatus? status,
     GuardingMastersDataModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<CreateImage>? loadAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? bioDataAttachments,
+    List<ImageContent>? loadAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? bioDataAttachments,
     List<Organisation>? listOfEntities,
     List<Organisation>? listOfQualifications,
     List<Organisation>? vendors,
@@ -292,13 +297,14 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<String>? participationDates,
     int? eventId,
     String? message,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? medicalAttachments,
-    List<CreateImage>? mSGBAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? medicalAttachments,
+    List<ImageContent>? mSGBAttachments,
     List<User>? entrySecurities,
+    final GmUiLabels? labels,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,
@@ -329,6 +335,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       trainingAttachments: trainingAttachments ?? this.trainingAttachments,
       medicalAttachments: medicalAttachments ?? this.medicalAttachments,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      labels: labels ?? this.labels,
     );
   }
 }

@@ -2,15 +2,21 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
-
-import 'app_themes/styles/app_styles.dart';
 
 class Utils {
   static final math.Random _random = math.Random.secure();
+
+  Color getRandomColor() {
+    math.Random random = math.Random();
+    return Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1.0,
+    );
+  }
 
   static String createCryptoRandomString([int length = 32]) {
     var values = List<int>.generate(length, (i) => _random.nextInt(256));
@@ -69,7 +75,7 @@ class Utils {
       title: title,
       message: messgae,
       positiveBtnText: Constants.ok,
-      onPostivePressed: () {
+      onPositivePressed: () {
         if (error.isNotEmpty) {
           Navigator.pop(context);
         } else {
@@ -93,7 +99,7 @@ class Utils {
     var dialog = CustomAlertDialog(
       title: Constants.appname,
       message: message,
-      onPostivePressed: () {
+      onPositivePressed: () {
         //ValidatorlogoutAction(context);
         Navigator.of(context).pop();
       },
@@ -203,7 +209,7 @@ class Utils {
     );
   }
 
-  Widget buildStatusRow(int status) {
+  Widget buildMaterialMovementStatusRow(int status) {
     String statusText;
 
     switch (status) {
@@ -347,6 +353,56 @@ class Utils {
       child: Row(
         children: [
           textHandling('MaritalStatus: ', maritalStatusText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildKeyType(int keyType) {
+    String keyTypeText;
+
+    switch (keyType) {
+      case 1:
+        keyTypeText = 'Normal';
+        break;
+      case 2:
+        keyTypeText = 'Master';
+        break;
+      default:
+        keyTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Key Type : ', keyTypeText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildType(int type) {
+    String typeText;
+
+    switch (type) {
+      case 0:
+        typeText = 'Has Lock Change';
+        break;
+      case 1:
+        typeText = 'Has Key Lost';
+        break;
+      case 2:
+        typeText = 'Key Damage';
+        break;
+      case 3:
+        typeText = 'Key Destruction';
+        break;
+      default:
+        typeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Type : ', typeText),
         ],
       ),
     );
@@ -593,14 +649,94 @@ class Utils {
   }
 
   Widget buildOccurrenceStatus(int status) {
+      String statusText;
+
+      switch (status) {
+        case 1:
+          statusText = 'Created';
+          break;
+        case 2:
+          statusText = 'Submitted';
+          break;
+        default:
+          statusText = ''; // Handle the default case if needed
+      }
+      return IntrinsicWidth(
+        child: Row(
+          children: [
+            textHandling('Status: ', statusText),
+          ],
+        ),
+      );
+  }
+
+  Widget keyLossDestructionStatus(int status) {
     String statusText;
 
     switch (status) {
-      case 1:
+      case 0:
         statusText = 'Created';
         break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+  Widget keyManagementStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Open';
+        break;
       case 2:
-        statusText = 'Submitted';
+        statusText = 'Closed';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget keyManagementIssuanceStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Handed Over';
+        break;
+      case 2:
+        statusText = 'Not Returned';
+        break;
+      case 3:
+        statusText = 'Loss Damage Reported';
+        break;
+      case 4:
+        statusText = 'Closed';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -861,6 +997,7 @@ class Utils {
       ),
     );
   }
+
   Widget passCategory(int category) {
     String categoryTypeText;
     switch (category) {
@@ -881,6 +1018,140 @@ class Utils {
       ),
     );
   }
+
+  Widget contactDetailsStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget employeeTypeValues(int employeeType) {
+    String employeeTypeText;
+
+    switch (employeeType) {
+      case 0:
+        employeeTypeText = 'FTE';
+        break;
+      case 1:
+        employeeTypeText = 'CWR T1';
+        break;
+      case 2:
+        employeeTypeText = 'CWR T2';
+        break;
+      default:
+        employeeTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Employee Type: ', employeeTypeText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSecuritySystemStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Create';
+        break;
+      case 2:
+        statusText = 'Submit';
+        break;
+      case 3:
+        statusText = 'Acknowledge';
+        break;
+      case 4:
+        statusText = 'Hold';
+        break;
+      case 5:
+        statusText = 'Rework';
+        break;
+      case 6:
+        statusText = 'Review';
+        break;
+      case 7:
+        statusText = 'Solve Proposed';
+        break;
+      case 8:
+        statusText = 'Quotes Rejected';
+        break;
+      case 9:
+        statusText = 'Quotes Approved';
+        break;
+      case 10:
+        statusText = 'Po Raised';
+        break;
+      case 11:
+        statusText = 'Work Completed';
+        break;
+      case 12:
+        statusText = 'Invoice Requested';
+        break;
+      case 13:
+        statusText = 'Invoice Submit';
+        break;
+      case 14:
+        statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+  Widget vIPVisitorStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
 
   Widget textHandling(String title, String desc) {
     return RichText(

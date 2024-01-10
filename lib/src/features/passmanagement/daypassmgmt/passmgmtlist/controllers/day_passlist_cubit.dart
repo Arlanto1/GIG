@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
 import 'package:db_atom/src/utils/util.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,7 +35,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
     // }
     try {
       DayPassListResponse foundListModelResponse =
-          await passListServices.getPassMgmtList(
+          await passListServices.getList(
         startPosition: startPosition,
         maximumRecords: maximumRecords,
         userId: userId,
@@ -82,7 +82,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       int articleId, BuildContext context) async {
     try {
       DayPassListElement foundArticleDetailsResponse =
-          await passListServices.getpassArticleById(articleId, context);
+          await passListServices.getById(articleId, context);
       emit(
         state.copyWith(
           foundArticleDetails: foundArticleDetailsResponse,

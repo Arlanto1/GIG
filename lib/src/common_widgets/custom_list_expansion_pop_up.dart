@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -11,9 +13,9 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionListTexts extends StatefulWidget {
-  const CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
+  const CustomExpansionListTexts({super.key, this.locationList, this.onTap});
 
-  final GetLocations? getLocationsresponse;
+  final Locations? locationList;
   final Function? onTap;
 
   @override
@@ -22,17 +24,12 @@ class CustomExpansionListTexts extends StatefulWidget {
 }
 
 class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
-  //late Future<http.Response> _responseFuture;
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
 
   @override
   void initState() {
     super.initState();
-    //final url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-
-    //Uri.https(url);
-    // _responseFuture = http.get(url);
   }
 
   // Search Widget
@@ -63,32 +60,9 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
   }
 
   Widget expansionListWidget() {
-    print(widget.getLocationsresponse!.west);
-    if (widget.getLocationsresponse != null &&
-        widget.getLocationsresponse!.west != null) {
+    if (widget.locationList != null) {
       return Expanded(
-          child:
-              //FutureBuilder(
-              // future: _responseFuture,
-              // builder: (BuildContext context, AsyncSnapshot<http.Response> response) {
-              //   if (!response.hasData) {
-              //     return const Center(
-              //       child: const Text('Loading...'),
-              //     );
-              //   } else if (response.data?.statusCode != 200) {
-              //     return const Center(
-              //       child: const Text('Error loading data'),
-              //     );
-              //   } else {
-              // List<dynamic> json = JSON.decode(response.data?.body);
-              // List<dynamic> json = jsonDecode(response.data!.body);
-
-              MyExpansionTileList(widget.getLocationsresponse, widget.onTap)
-          //}
-          //},
-
-          // ),
-          );
+          child: MyExpansionTileList(widget.locationList, widget.onTap));
     } else {
       return const Expanded(
         child: Center(
@@ -106,19 +80,22 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
     final size = MediaQuery.of(context).size;
     final height = size.height;
     final width = size.width;
+
+    log('-----items----lenthg---${widget.locationList?.south?.length}');
+
     return Center(
-        child: SizedBox(
-      height: height / 1.5,
-      width: width - 50,
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: AppColors.searchBarBorder, width: 1),
-          borderRadius: circularBorderRadius10,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+      child: SizedBox(
+        height: height / 1.5,
+        width: width - 50,
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: AppColors.searchBarBorder, width: 1),
+            borderRadius: circularBorderRadius10,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
@@ -133,20 +110,20 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
                               AppIcon.closeicon) //Icon(Icons.cancel)
                           )),
                 ),
-                // (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null)
-                // ? searchWidget() : Container(),
                 expansionListWidget()
-              ]),
+              ],
+            ),
+          ),
         ),
       ),
-    ));
+    );
   }
 }
 
 class MyExpansionTileList extends StatefulWidget {
-  const MyExpansionTileList(this.response, this.onTap, {super.key});
+  const MyExpansionTileList(this.locations, this.onTap, {super.key});
 
-  final GetLocations? response;
+  final Locations? locations;
   final Function? onTap;
 
   @override
@@ -154,60 +131,61 @@ class MyExpansionTileList extends StatefulWidget {
 }
 
 class MyExpansionTileListState extends State<MyExpansionTileList> {
-  int selectedindex = -1;
-  String selectedtitle = '';
-
-  // List<Widget> _getChildren() {
-  //   List<Widget> children = [];
-  //   response?.west?.forEach((element) {
-  //     children.add(
-  //       MyExpansionTile(element.id ?? 0, element.name ?? '','West'),
-  //     );
-  //   });
-  //   return children;
-  // }
+  int selectedIndex = -1;
+  String selectedTitle = '';
 
   @override
   Widget build(BuildContext context) {
-    //   return ListView(
-    //     children: _getChildren(),
-    //   );
-    // }
     return ListView(
-      // key: Key(selectedtitle.toString()),
-      // initiallyExpanded: selectedtitle == title,
       children: <Widget>[
-        _buildPlayerModelList(widget.response!.west, 'West', context),
-        _buildPlayerModelList(widget.response!.south, 'South', context),
-        _buildPlayerModelList(
-            widget.response!.northEast, 'North East', context),
-        _buildPlayerModelList(widget.response!.mumbai, 'Mumbai', context),
+        if (widget.locations!.west != null) ...[
+          _buildPlayerModelList(widget.locations!.west, 'West', context),
+        ],
+        if (widget.locations!.south != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.south, 'South', context),
+        ],
+        if (widget.locations!.northEast != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.northEast, 'North East', context),
+        ],
+        if (widget.locations!.mumbai != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.mumbai, 'Mumbai', context),
+        ],
+        if (widget.locations!.central != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.central, 'Central', context),
+        ],
       ],
     );
   }
 
   Widget _buildPlayerModelList(
       List<Organisation>? items, String title, BuildContext context) {
+    log('-----items-------${items?.length}');
+
     return ExpansionTile(
-        trailing: const SizedBox.shrink(),
-        key: GlobalKey(),
-        initiallyExpanded: selectedtitle == title,
-        onExpansionChanged: (value) {
-          if (value == true) {
-            selectedtitle = title;
-            selectedindex = -1;
-            setState(() {});
-          } else {
-            selectedtitle = '';
-            selectedindex = -1;
-            setState(() {});
-          }
-        },
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-        ),
-        children: _buildOperationsFromSecurity(context, items, title));
+      trailing: const SizedBox.shrink(),
+      key: GlobalKey(),
+      initiallyExpanded: selectedTitle == title,
+      onExpansionChanged: (value) {
+        if (value == true) {
+          selectedTitle = title;
+          selectedIndex = -1;
+          setState(() {});
+        } else {
+          selectedTitle = '';
+          selectedIndex = -1;
+          setState(() {});
+        }
+      },
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+      ),
+      children: _buildOperationsFromSecurity(context, items, title),
+    );
   }
 
   List<Widget> _buildOperationsFromSecurity(
@@ -219,44 +197,37 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
       children.add(
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: Container(
-            // decoration: const BoxDecoration(
-            //   //                    <-- BoxDecoration
-            //   border: Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-            // ),
-            child: ExpansionTile(
-              key: Key(i.toString()),
-              initiallyExpanded: selectedindex == i,
-              onExpansionChanged: (value) {
-                if (value == true) {
-                  selectedindex = i;
-                  setState(() {});
-                } else {
-                  selectedindex = -1;
-                  setState(() {});
-                }
-              },
-              //col: Colors.transparent,
-              expandedAlignment: Alignment.centerLeft,
-              trailing: const SizedBox.shrink(),
-              title: ListTile(
-                title: Text(
-                  drawerItem.name ?? '',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: Constants.customFontSemiBoldFamily,
-                      fontWeight: FontWeight.w600,
-                      color: ((i == selectedindex) && (stitle == selectedtitle))
-                          ? AppColors.navigationSkybluecolor
-                          : AppColors.textgreyThemecolor),
-                  // style: Styles.textStyleBlack16,
-                ),
-                onTap: () => _onExpansionSelectItem(i, context, items),
+          child: ExpansionTile(
+            key: Key(i.toString()),
+            initiallyExpanded: selectedIndex == i,
+            onExpansionChanged: (value) {
+              if (value == true) {
+                selectedIndex = i;
+                setState(() {});
+              } else {
+                selectedIndex = -1;
+                setState(() {});
+              }
+            },
+            //col: Colors.transparent,
+            expandedAlignment: Alignment.centerLeft,
+            trailing: const SizedBox.shrink(),
+            title: ListTile(
+              title: Text(
+                drawerItem.name ?? '',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: ((i == selectedIndex) && (stitle == selectedTitle))
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.textgreyThemecolor),
+                // style: Styles.textStyleBlack16,
               ),
-
-              childrenPadding: const EdgeInsets.only(left: 20), //children padding
-              //children: _expansionbuildDrawerChildren(context)
+              onTap: () => _onExpansionSelectItem(i, context, items),
             ),
+
+            childrenPadding: const EdgeInsets.only(left: 20), //children padding
           ),
         ),
       );
@@ -267,9 +238,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 
   _onExpansionSelectItem(
       int index, BuildContext context, List<Organisation>? items) async {
-    selectedindex = index;
-    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-    //state = const DrawerInitial();
+    selectedIndex = index;
     Organisation? drawerItem = items?[index];
     if (index == 0) {
     } else if (index == 1) {
@@ -283,136 +252,3 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
     setState(() {});
   }
 }
-// class MyExpansionTile extends StatefulWidget {
-//   final int id;
-//   final String name;
-//   final String titleName;
-
-//   MyExpansionTile(this.id, this.name,this.titleName);
-//   @override
-//   State createState() =>  MyExpansionTileState();
-// }
-
-// class MyExpansionTileState extends State<MyExpansionTile> {
-//   late PageStorageKey _key;
-//   //late Future<http.Response> _responseFuture;
-//   late int _lastSelectedItem = 0;
-//   late int selectedTile = -1;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // final url =
-//     //     Uri.parse("https://jsonplaceholder.typicode.com/posts/${widget.id}");
-
-//     // _responseFuture = http.get(url);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     _key = PageStorageKey('${widget.id}');
-//     return
-//         Theme(
-//             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-//             child: Container(
-//               // decoration: BoxDecoration(
-//               //   //                    <-- BoxDecoration
-//               //   border: Border(
-//               //       bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//               // ),
-//               child: ExpansionTile(
-//                initiallyExpanded: widget.name == selectedTile ? true : false,
-//                 key: _key,
-//                 onExpansionChanged: ((newState) {
-//                   if (newState)
-//                   {
-//                  selectedTile = widget.id;
-//                     setState(() {
-
-//                     });
-//                   }
-//                   else
-//                   {
-//                     selectedTile = -1;
-//                     setState(() {
-
-//                     });
-//                   }
-
-//                 }),
-//                 trailing: const SizedBox.shrink(),
-//                 childrenPadding: const EdgeInsets.only(left: 20), //children padding
-//                 title: Padding(
-//                   padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
-//                   child: Text(
-//                     widget.titleName.toString(),
-//                     style: const TextStyle(
-//                         fontSize: 16,
-//                         fontFamily: Constants.customFontSemiBoldFamily,
-//                         fontWeight: FontWeight.w600,
-//                         color: AppColors.textgreyThemecolor),
-//                     // style: Styles.textStyleBlack16,
-//                   ),
-//                 ), //Text(widget.title),
-//                 children: <Widget>[
-//                   // FutureBuilder(
-//                   //   future: _responseFuture,
-//                   //   builder: (BuildContext context,
-//                   //       AsyncSnapshot<http.Response> response) {
-//                   //     if (!response.hasData) {
-//                   //       return const Center(
-//                   //         child: const Text('Loading...'),
-//                   //       );
-//                   //     } else if (response.data?.statusCode != 200) {
-//                   //       return const Center(
-//                   //         child: const Text('Error loading data'),
-//                   //       );
-//                   //     } else {
-//                         // List<dynamic> json = JSON.decode(response.data?.body);
-//                         // dynamic json = jsonDecode(response.data!.body);
-//                         // List<Widget> reasonList = [];
-//                         // json.forEach((element) {
-//                         //   reasonList.add(new ListTile(
-//                         //     dense: true,
-//                         //     title: new Text(element['title']),
-//                         //   ));
-//                         // });
-//                          Column(
-//                           children: [
-//                             Align(
-//                               alignment: Alignment.topLeft,
-//                               child: Padding(
-//                                 padding:
-//                                     const EdgeInsets.only(left: 30.0, right: 10),
-//                                 child: GestureDetector(
-//                                   onTap: () {
-//                                     _lastSelectedItem = widget.id;
-//                                     setState(() {});
-//                                   },
-//                                   child: Text(
-//                                     widget.name,
-//                                     style: TextStyle(
-//                                         fontSize: 16,
-//                                         fontFamily:
-//                                             Constants.customFontSemiBoldFamily,
-//                                         fontWeight: FontWeight.w600,
-//                                         color: _lastSelectedItem == widget.id
-//                                             ? AppColors.navigationSkybluecolor
-//                                             : AppColors.textgreyThemecolor),
-//                                     // style: Styles.textStyleBlack16,
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                        // );
-//                       //}
-//                     //},
-//                   )
-//                 ],
-//               ),
-//             ),
-
-//     );
-//   }
-// }

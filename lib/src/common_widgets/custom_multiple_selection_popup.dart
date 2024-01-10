@@ -8,7 +8,6 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
-
 class CustomMultipleSelectionListTexts extends StatefulWidget {
   CustomMultipleSelectionListTexts({
     super.key,
@@ -19,6 +18,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
     this.duplicateentityList,
     this.mainselectedentityList,
   });
+
   final String? imagename;
 
   List<Organisation>? duplicateentityList;
@@ -26,6 +26,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final Function? onLeftButtonTap;
   final String? leftimagename;
   List<Organisation>? mainselectedentityList;
+
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
       CustomMultipleSelectionListTextsState();
@@ -33,7 +34,6 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
 
 class CustomMultipleSelectionListTextsState
     extends State<CustomMultipleSelectionListTexts> {
-  final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   var selectedListindexes = [];
@@ -46,25 +46,23 @@ class CustomMultipleSelectionListTextsState
     // TODO: implement initState
     super.initState();
     // employeeDepartments = widget.duplicateemployeeDepartments ?? [];
-    if (widget.mainselectedentityList != null && (widget.mainselectedentityList ?? []).isNotEmpty)
-    {
-        selectentityList = widget.mainselectedentityList ?? [];
-        itemsIdentify();
+    if (widget.mainselectedentityList != null &&
+        (widget.mainselectedentityList ?? []).isNotEmpty) {
+      selectentityList = widget.mainselectedentityList ?? [];
+      itemsIdentify();
     }
   }
 
-  itemsIdentify()
-  async {
+  itemsIdentify() async {
     await getdata();
   }
-  getdata()
-  {
-     for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
-    {
-        Organisation articleItem = widget.duplicateentityList![i];
-       if (widget.mainselectedentityList!.contains(articleItem)) {
-          selectedListindexes.add(i);
-       }
+
+  getdata() {
+    for (int i = 0; i < (widget.duplicateentityList ?? []).length; i++) {
+      Organisation articleItem = widget.duplicateentityList![i];
+      if (widget.mainselectedentityList!.contains(articleItem)) {
+        selectedListindexes.add(i);
+      }
     }
   }
 
@@ -122,7 +120,10 @@ class CustomMultipleSelectionListTextsState
                       },
                       child: SvgPicture.asset(
                         widget.leftimagename ?? '',
-                        color: AppColors.navigationSkybluecolor,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.textgreyThemecolor,
+                          BlendMode.srcIn,
+                        ),
                       ) //Icon(Icons.cancel)
                       ),
                 ]),
@@ -243,7 +244,7 @@ class CustomMultipleSelectionListTextsState
     } else {
       return SizedBox(
         //padding: const EdgeInsets.all(20),
-       // height: height / 1.6, // Change as per your requirement
+        // height: height / 1.6, // Change as per your requirement
         // width: width- 50, // Change as per your requirement
         width: double.maxFinite,
         child: ListView.builder(
@@ -262,7 +263,7 @@ class CustomMultipleSelectionListTextsState
               } else {
                 articleItem = widget.duplicateentityList?[index];
               }
-                 
+
               return ListTile(
                   onTap: () {
                     //widget.onTap!(articleItem);
@@ -289,7 +290,8 @@ class CustomMultipleSelectionListTextsState
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,

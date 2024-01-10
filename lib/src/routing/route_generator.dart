@@ -1,99 +1,144 @@
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/app.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/create_found.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
-import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
-import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/guard_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
-import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart'
+    as asp;
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
+    as cd;
+import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
+    as cr;
+import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
+    as nb;
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
+import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
+import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
+    as ep;
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart'
+    as kh;
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
+    as sla;
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart'
+    as vp;
+import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
+import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart';
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
-import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
-import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
-import 'package:db_atom/src/features/login/views/login_screen.dart';
-import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
-import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart';
-import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-//import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
-import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
-import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
-import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
-    as ep;
-import '../features/event_protection/event_protections/views/event_protections_view.dart';
-import '../features/event_protection/services/event_protection_services.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
-import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
-import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
-import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
-import '../features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
-import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
-import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
-import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
-import '../features/login/bloc/login_bloc.dart';
-import '../features/login/services/login_services.dart';
-import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
-import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
-import '../features/material_movement/material_movements/views/material_movements.dart';
-import '../features/material_movement/models/material_movements_model.dart';
-import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
-import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
-import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
-import '../features/occurrenceList/views/occurrences_view.dart';
-import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
-import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
-import '../features/security_systems/services/sst_incident_services.dart';
-import '../features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart';
-import '../features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
+import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart'
+    as mm;
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
+import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
+    as ocb;
+import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
+import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
-import '../features/security_systems/sst_incident_list/views/sst_incident_view.dart';
-import '../services/CommonServices.dart';
+import 'package:db_atom/src/services/common_services.dart';
+
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart'
+    as kip;
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart';
+import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart';
+import '../features/guarding_operations/vvip_visitor/models/vvip_visitor_response_model.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart';
+import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart' as vip;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart' as vipr;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
     // ignore: non_constant_identifier_names
     switch (settings.name) {
-      case appRoute:
-        return MaterialPageRoute(builder: (context) => const App());
-      case homePageRoute:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+      // case appRoute:
+      //   return MaterialPageRoute(builder: (context) => const App());
+      case dashboardViewRoute:
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ChartsCubit>(
+            create: (_) => ChartsCubit(commonServices: commonServices),
+            child: const DashboardView(),
+          ),
+        );
+
+      case notificationsViewRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<nb.NotificationsBloc>(
+            create: (_) => NotificationsBloc()
+              ..add(const nb.FetchData(startPos: 0, maxPos: 20)),
+            child: const NotificationsView(),
+          ),
+        );
+      case notificationDetailsViewRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments['id'] ?? '';
+        }
+        NotificationServices services = NotificationServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<NotificationDetailsCubit>(
+            create: (_) => NotificationDetailsCubit(
+              id: id,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: const NotificationDetailsView(),
+          ),
+        );
       case splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
@@ -122,12 +167,12 @@ class RouteGenerator {
           final userRoutes = settings.arguments as Map<String, dynamic>;
           VerifyOTPArguments? userDetails = userRoutes["userDetails"];
           return MaterialPageRoute(
-              builder: (context) => OtpVerifyScreen(
-                    userName: userDetails?.name ?? '',
-                    password: userDetails?.pwd ?? '',
-                  ));
-                  return MaterialPageRoute(
-              builder: (context) => const OtpVerifyScreen());
+            builder: (context) => OtpVerifyScreen(
+              userName: userDetails?.name ?? '',
+              password: userDetails?.pwd ?? '',
+              deviceToken: userDetails?.deviceToken ?? '',
+            ),
+          );
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
 
@@ -137,11 +182,11 @@ class RouteGenerator {
           FoundListArticleDetails? listuser = listroutes["UserElement"];
           int eventId = listroutes['eventId'];
           return MaterialPageRoute(
-              builder: (context) => CreateFound(
-                    model: listuser,
-                    eventId: eventId,
-                  ));
-                  return MaterialPageRoute(builder: (context) => const CreateFound());
+            builder: (context) => CreateFound(
+              model: listuser,
+              eventId: eventId,
+            ),
+          );
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
@@ -151,31 +196,29 @@ class RouteGenerator {
           final listroutes = settings.arguments as Map<String, dynamic>;
           LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement(model: listuser));
-                  return MaterialPageRoute(
-              builder: (context) => const CreateLawEnforcement());
+              builder: (context) => LawEnforcementDetailsView(model: listuser));
         } else {
           return MaterialPageRoute(
-              builder: (context) => const CreateLawEnforcement());
+              builder: (context) => const LawEnforcementDetailsView());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
-            builder: (context) => const AddEmployeeDepartment(
-                  title: Constants.addemployeedepartment,
-                ));
+          builder: (context) => const AddEmployeeDepartment(
+            title: Constants.addemployeedepartment,
+          ),
+        );
 
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => const FoundList());
       case createFoundAttachmentRoute:
         return MaterialPageRoute(
             builder: (context) => const CreateFoundAttachment());
-      case piechartRoute:
-        return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
         return MaterialPageRoute(
             builder: (context) => const CustomExpansionListTexts());
       case lawEnforcementListRoute:
-        return MaterialPageRoute(builder: (context) => const LnListPageList());
+        return MaterialPageRoute(
+            builder: (context) => const LawEnforcementsView());
       case daypassmanagementListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
@@ -185,8 +228,6 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-                  return MaterialPageRoute(
-              builder: (context) => DayPassManagementList());
         }
         return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
@@ -199,40 +240,20 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-                  return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
-        // return MaterialPageRoute(builder: (context) => CreatePassManagement());
-        // if (settings.arguments != null) {
-        //     final listroutes = settings.arguments as Map<String, dynamic>;
-
-        //     if (listroutes != null) {
-        //      // DayPassListItemResponse? listuser = listroutes["UserElement"];
-        //       PassMngArguments? passMngArguments = listroutes["passMngRegisterDetails"];
-        //       return MaterialPageRoute(
-        //           builder: (context) => CreatePassManagement(listuser: listuser));
-        //     }
-
-        //     return MaterialPageRoute(
-        //         builder: (context) => CreatePassManagement());
-        //   } else {
-        //     return MaterialPageRoute(
-        //         builder: (context) => CreatePassManagement());
-        //   }
-
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           CreatePassMngArguments? passMngArguments =
               passRoutes["passMngCreateDetails"];
           return MaterialPageRoute(
-              builder: (context) => CreatePassManagement(
-                    passId: passMngArguments?.passType ?? '',
-                    title: passMngArguments?.title ?? '',
-                    model: passMngArguments?.model,
-                  ));
-                  return MaterialPageRoute(
-              builder: (context) => CreatePassManagement());
+            builder: (context) => CreatePassManagement(
+              passId: passMngArguments?.passType ?? '',
+              title: passMngArguments?.title ?? '',
+              model: passMngArguments?.model,
+            ),
+          );
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
@@ -243,14 +264,18 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          occId = arguments['occId'];
+          occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
         }
+        log('--occId-router-im list-$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc(occType, occId)
               ..add(const im.FetchData(startPos: 0, maxPos: 20)),
-            child: const IncidentManagementsView(),
+            child: IncidentManagementsView(
+              occId: occId,
+              occType: occType,
+            ),
           ),
         );
 
@@ -265,6 +290,7 @@ class RouteGenerator {
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
         }
+        log('--occId-router--$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
             create: (_) => IncidentGeneralInfoCubit(
@@ -282,16 +308,19 @@ class RouteGenerator {
 
       case sstIncidentListRoute:
         bool isInternal = false;
+        String occId = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
+          occId = arguments['occId'] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
             create: (_) => sv.SstIncidentBloc(
               ticketType: 1,
               staffType: isInternal ? 1 : 2,
+              occId: occId,
             )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
@@ -377,6 +406,152 @@ class RouteGenerator {
       //         //eventStatus: eventStatus,
       //       ));
       //
+
+      case slaViolationPenaltyListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<sla.SLAViolationPenaltyListBloc>(
+            create: (_) => sla.SLAViolationPenaltyListBloc()
+              ..add(const sla.FetchData(startPos: 0, maxPos: 20)),
+            child: const SLAViolationPenaltyListView(),
+          ),
+        );
+
+      case slaViolationPenaltyDetailsRoute:
+        SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        SLAViolationPenaltyModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
+            create: (_) => SLAViolationPenaltyDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: SLAViolationPenaltyDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      // case slaViolationPenaltyListingRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+      //       create: (_) => vp.ViolationPenaltyRecordBloc()
+      //         ..add(vp.FetchData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: ViolationPenaltyRecordView(
+      //         id: id,
+      //         title: title,
+      //       ),
+      //     ),
+      //   );
+
+      case slaViolationPenaltyRecordsRoute:
+        String title = '';
+        int id = 0;
+        String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          violationDescription =
+              arguments[ConstantsArgument.violationDescription] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+            create: (_) => vp.ViolationPenaltyRecordBloc(
+              violationDescription: violationDescription,
+            )..add(vp.FetchData(
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: ViolationPenaltyRecordsView(
+              id: id,
+              title: title,
+            ),
+          ),
+        );
+
+      case contactDetailsListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<cd.ContactDetailsListBloc>(
+            create: (_) => cd.ContactDetailsListBloc()
+              ..add(const cd.FetchData(startPos: 0, maxPos: 20)),
+            child: const ContactDetailsListView(),
+          ),
+        );
+
+      case contactDetailsRoute:
+        ContactDetailsServices services = ContactDetailsServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        ContactDetailModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ContactDetailsCubit>(
+            create: (_) => ContactDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: ContactDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case contactRecordsRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        String rankType = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
+          rankType = arguments[ConstantsArgument.rankType] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<cr.ContactRecordBloc>(
+            create: (_) => cr.ContactRecordBloc(
+              rankType: rankType,
+            )..add(cr.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: ContactRecordView(
+              id: id,
+              type: type,
+              title: title,
+              rankType: rankType,
+            ),
+          ),
+        );
       case eventProtectionListRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
@@ -459,14 +634,15 @@ class RouteGenerator {
           id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GuardInfoCubit>(
-                  create: (_) => GuardInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    id: id,
-                  ),
-                  child: const GuardInfoView(),
-                ));
+          builder: (context) => BlocProvider<GuardInfoCubit>(
+            create: (_) => GuardInfoCubit(
+              services: EventProtectionServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const GuardInfoView(),
+          ),
+        );
 
       case eventInfoRoute:
         String id = '';
@@ -476,7 +652,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          title = arguments['title'] ?? '';
+          title = arguments[ConstantsArgument.title] ?? '';
           id = arguments['id'];
           eventDuration = arguments['eventDuration'];
         }
@@ -503,10 +679,10 @@ class RouteGenerator {
           }
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<MaterialMovementBloc>(
-                  create: (_) => MaterialMovementBloc(isInward: isInward)
-                    ..add(const FetchData(startPos: 0, maxPos: 20)),
-                  child: MaterialMovements(
+            builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
+                  create: (_) => mm.MaterialMovementBloc(isInward: isInward)
+                    ..add(const mm.FetchData(startPos: 0, maxPos: 20)),
+                  child: MaterialMovementsView(
                     isInward: isInward,
                   ),
                 ));
@@ -518,7 +694,7 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         isInward = arguments['isInward'];
         MaterialMovementModel? materialMovement =
             arguments["MaterialMovementModel"];
@@ -532,7 +708,7 @@ class RouteGenerator {
                       model: materialMovement,
                       isInward: isInward,
                     ),
-                    child: MaterialMovementDetails(
+                    child: MaterialMovementDetailsView(
                       materialMovement: materialMovement,
                       isInward: isInward,
                       title: title,
@@ -547,23 +723,20 @@ class RouteGenerator {
                     model: MaterialMovementModel(),
                     isInward: isInward,
                   ),
-                  child: MaterialMovementDetails(
+                  child: MaterialMovementDetailsView(
                     isInward: isInward,
                     title: title,
                   ),
                 ));
 
       case guardingRatesRoute:
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-              settings.arguments as Map<String, dynamic>;
-        }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
-                  create: (_) => guarding.GuardingRatesBloc()
-                    ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
-                  child: const GuardingRates(),
-                ));
+          builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
+            create: (_) => guarding.GuardingRatesBloc()
+              ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
+            child: const GuardingRates(),
+          ),
+        );
 
       case guardingMasterReportRoute:
         return MaterialPageRoute(
@@ -587,28 +760,29 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GuardingMastersDataModel? guardingMastersData =
             arguments["GuardingMastersDataModel"];
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
-                  create: (_) => GuardingMasterDataDetailsCubit(
-                    services: services,
-                    model: guardingMastersData,
-                    commonServices: commonServices,
-                  ),
-                  child: GuardingMasterDataDetails(
-                    guardingMasterData: guardingMastersData,
-                    title: title,
-                  ),
-                ));
+          builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
+            create: (_) => GuardingMasterDataDetailsCubit(
+              services: services,
+              model: guardingMastersData,
+              commonServices: commonServices,
+            ),
+            child: GuardingMasterDataDetails(
+              guardingMasterData: guardingMastersData,
+              title: title,
+            ),
+          ),
+        );
 
       case guardingRateDetailsRoute:
         GuardingServices services = GuardingServices();
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GMRate rate = arguments['gmRate'];
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
@@ -617,7 +791,7 @@ class RouteGenerator {
                     rate: rate,
                     payRates: [],
                   ),
-                  child: GuardingRateDetails(
+                  child: GuardingRateDetailsView(
                     rate: rate,
                     title: title,
                   ),
@@ -625,11 +799,10 @@ class RouteGenerator {
 
       case guardingRatesGRIRoute:
         GuardingServices services = GuardingServices();
-        CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GMRate? model = arguments["gmRate"];
 
         if (model != null) {
@@ -668,7 +841,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           payRates = arguments['payRates'] ?? [];
           rate = arguments['gmRate'];
-          title = arguments['title'];
+          title = arguments[ConstantsArgument.title];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
@@ -685,18 +858,380 @@ class RouteGenerator {
                 ));
 
       case femaleDropPickUpRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
+            create: (_) => FemaleDropPickUpBloc()
+              ..add(const FetchList(startPos: 0, maxPos: 20)),
+            child: const FemaleDropPickUpView(),
+          ),
+        );
+
+      case annualPowerShutdownListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<asp.AnnualPowerShutdownListBloc>(
+            create: (_) => asp.AnnualPowerShutdownListBloc()
+              ..add(const asp.FetchData(startPos: 0, maxPos: 20)),
+            child: const AnnualPowerShutdownListView(),
+          ),
+        );
+
+      case annualPowerShutdownListDetailsRoute:
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
+          id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
-                  create: (_) => FemaleDropPickUpBloc()
-                    ..add(const FetchList(startPos: 0, maxPos: 20)),
-                  child: const FemaleDropPickUpView(),
+          builder: (context) =>
+              BlocProvider<AnnualPowerShutdownListDetailsCubit>(
+            create: (_) => AnnualPowerShutdownListDetailsCubit(
+              services: AnnualPowerShutdownListServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const AnnualPowerShutdownListDetailsView(),
+          ),
+        );
+
+      case keyManagementMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyManagementMasterListBloc>(
+                  create: (_) => KeyManagementMasterListBloc()
+                    ..add(const FetchKeyMasterList(startPos: 0, maxPos: 20)),
+                  child: const KeyManagementMasterListView(),
                 ));
+
+      case keyManagementMasterDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyManagementMasterDetailsCubit>(
+            create: (_) => KeyManagementMasterDetailsCubit(
+              services: services,
+              model: keyMgmtGi,
+              commonServices: commonServices,
+            ),
+            child: KeyManagementMasterDetailsView(
+              model: keyMgmtGi,
+              title: title,
+            ),
+          ),
+        );
+
+      case keyHistoryRecordsViewRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type];
+        }
+        log('route----type--$type--');
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<kh.KeyHistoryRecordBloc>(
+            create: (_) => kh.KeyHistoryRecordBloc()
+              ..add(kh.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: KeyHistoryRecordsView(
+              id: id,
+              type: type,
+            ),
+          ),
+        );
+
+      case keyHistoryRecordsDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        int parentId = 0;
+        String title;
+        int type = 0;
+
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        parentId = arguments[ConstantsArgument.id];
+        type = arguments[ConstantsArgument.type];
+        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
+            create: (_) => KeyHistoryRecordsDetailsCubit(
+              services: services,
+              model: keyMgmtGi,
+              parentId: parentId,
+              commonServices: commonServices,
+              type: type,
+            ),
+            child: KeyHistoryRecordsDetailsView(
+              model: keyMgmtGi,
+              title: title,
+              parentId: parentId,
+              type: type,
+            ),
+          ),
+        );
+      case keyReconciliationListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyReconciliationListBloc>(
+                  create: (_) => KeyReconciliationListBloc()
+                    ..add(const FetchKeyReconciliationList(
+                        startPos: 0, maxPos: 20)),
+                  child: const KeyReconciliationListView(),
+                ));
+
+      case keyLossDestructionListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyLossDestructionListBloc>(
+                  create: (_) => KeyLossDestructionListBloc()
+                    ..add(const FetchKeyLossList(startPos: 0, maxPos: 20)),
+                  child: const KeyLossDestructionListView(),
+                ));
+
+      case keyManagementIssuanceListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyManagementIssuanceListBloc>(
+                  create: (_) => KeyManagementIssuanceListBloc()
+                    ..add(const FetchKeyIssuanceList(startPos: 0, maxPos: 20)),
+                  child: const KeyManagementIssuanceListView(),
+                ));
+
+      case keyManagementIssuanceDetailsRoute:
+        KeyManagementIssuanceServices services =
+            KeyManagementIssuanceServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementIssuanceModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyManagementIssuanceDetailsCubit>(
+            create: (_) => KeyManagementIssuanceDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: KeyManagementIssuanceDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case keyManagementIssuanceProcessRecordsRoute:
+        String title = '';
+        int parentId = 0;
+        int locationId = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          title = arguments[ConstantsArgument.title];
+          parentId = arguments[ConstantsArgument.parentId];
+          locationId = arguments[ConstantsArgument.locationId];
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
+            create: (_) => kip.KeyIssuanceProcessRecordBloc(
+              locationId: locationId,
+              parentId: parentId,
+            )..add(kip.FetchData(
+                id: parentId,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: KeyIssuanceProcessRecordsView(
+              parentId: parentId,
+              locationId: locationId,
+              title: title,
+            ),
+          ),
+        );
+
+      case dutyPostMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DutyPostMasterListBloc>(
+                  create: (_) => DutyPostMasterListBloc()
+                    ..add(
+                        const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
+                  child: const DutyPostMasterListView(),
+                ));
+
+      case dutyPostMasterDetailsRoute:
+        DutyPostMasterServices services = DutyPostMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DutyPostMasterModel? dutyPostMasterModel =
+            arguments["dutyPostMasterModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DutyPostMasterDetailsCubit>(
+            create: (_) => DutyPostMasterDetailsCubit(
+              services: services,
+              model: dutyPostMasterModel,
+              commonServices: commonServices,
+            ),
+            child: DutyPostMasterDetailsView(
+              model: dutyPostMasterModel,
+              title: title,
+            ),
+          ),
+        );
+
+      case dutyPostNameMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DutyPostNameMasterListBloc>(
+                  create: (_) => DutyPostNameMasterListBloc()
+                    ..add(const FetchDutyPostNameMasterList(
+                        startPos: 0, maxPos: 20)),
+                  child: const DutyPostNameMasterListView(),
+                ));
+
+      case dutyPostNameMasterDetailsRoute:
+        DutyPostNameMasterServices services = DutyPostNameMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DutyPostNameMasterModel? dutyPostNameMasterModel =
+            arguments["dutyPostNameMasterModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DutyPostNameMasterDetailsCubit>(
+            create: (_) => DutyPostNameMasterDetailsCubit(
+              services: services,
+              model: dutyPostNameMasterModel,
+              commonServices: commonServices,
+            ),
+            child: DutyPostNameMasterDetailsView(
+              model: dutyPostNameMasterModel,
+              title: title,
+            ),
+          ),
+        );
+
+      case attendanceListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<AttendanceBloc>(
+                  create: (_) => AttendanceBloc()
+                    ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
+                  child: const AttendanceView(),
+                ));
+
+      case shiftScheduleListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ShiftScheduleListBloc>(
+                  create: (_) => ShiftScheduleListBloc()
+                    ..add(
+                        const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
+                  child: const ShiftScheduleListView(),
+                ));
+
+      case shiftScheduleDetailsRoute:
+        ShiftScheduleServices services = ShiftScheduleServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        ShiftScheduleModel? shiftScheduleModel =
+            arguments["shiftScheduleModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
+            create: (_) => ShiftScheduleDetailsCubit(
+              services: services,
+              model: shiftScheduleModel,
+              commonServices: commonServices,
+            ),
+            child: ShiftScheduleDetailsView(
+              model: shiftScheduleModel,
+              title: title,
+            ),
+          ),
+        );
+
+
+      case vipVisitorsListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vip.VVIPVisitorsBloc>(
+            create: (_) => vip.VVIPVisitorsBloc()
+              ..add(const vip.FetchData(startPos: 0, maxPos: 20)),
+            child: const VVIPVisitorsView(),
+          ),
+        );
+
+      case vipVisitorsDetailsRoute:
+        VVIPVisitorServices services = VVIPVisitorServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        VIVPVisitorModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<VVIPVisitorDetailsCubit>(
+            create: (_) => VVIPVisitorDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: VVIPVisitorDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case vipVisitorsRecordsRoute:
+        String title = '';
+        int id = 0;
+        // String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          // violationDescription =
+          //     arguments[ConstantsArgument.violationDescription] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vipr.VVIPVisitorsRecordBloc>(
+            create: (_) => vipr.VVIPVisitorsRecordBloc(
+              //violationDescription: violationDescription,
+            )..add(vipr.FetchData(
+              id: id,
+              startPos: 0,
+              maxPos: 100,
+            )),
+            child: VVIPVisitorsRecordView(
+              id: id,
+              title: title,
+            ),
+          ),
+        );
+
+
       default:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ChartsCubit>(
+            create: (_) => ChartsCubit(commonServices: commonServices),
+            child: const DashboardView(),
+          ),
+        );
     }
   }
 }

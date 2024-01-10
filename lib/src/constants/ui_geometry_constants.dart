@@ -1,5 +1,3 @@
-// Created by Ramesh
-
 import 'package:flutter/material.dart';
 
 final BorderRadius circularBorderRadius6 = BorderRadius.circular(6.0);

@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -15,8 +17,8 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../bloc/guarding_rates_bloc.dart';
+import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart';
 
 class GuardingRates extends StatefulWidget {
   const GuardingRates({
@@ -80,13 +82,15 @@ class _GuardingRatesState extends State<GuardingRates> {
           title: Constants.guardingRates,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
         ),
         body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
+          }
+          if (state.items.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
           }
           return Container(
             margin: allMargin16,
@@ -103,9 +107,7 @@ class _GuardingRatesState extends State<GuardingRates> {
                   : state.items.length + 1,
               itemBuilder: (context, index) {
                 return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
+                    ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.items[index].id,
                         inputDate: state.items[index].inputDate,

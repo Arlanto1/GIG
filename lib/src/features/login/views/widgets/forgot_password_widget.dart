@@ -10,7 +10,8 @@ class ForgotPassword extends StatelessWidget {
   final Function onForgottenPassword;
   final String title;
 
-  const ForgotPassword({Key? key, required this.onForgottenPassword,required this.title}) : super(key: key);
+  const ForgotPassword(
+      {super.key, required this.onForgottenPassword, required this.title});
 
   @override
   Widget build(BuildContext context) {

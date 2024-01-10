@@ -2,9 +2,8 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
 class LoadingOverlayAlt extends StatelessWidget {
-  LoadingOverlayAlt({Key? key, required this.child})
-      : _isLoadingNotifier = ValueNotifier(false),
-        super(key: key);
+  LoadingOverlayAlt({super.key, required this.child})
+      : _isLoadingNotifier = ValueNotifier(false);
 
   final ValueNotifier<bool> _isLoadingNotifier;
   final Widget? child;

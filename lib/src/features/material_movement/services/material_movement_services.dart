@@ -1,11 +1,11 @@
-
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -18,11 +18,12 @@ class Apis {
 }
 
 class MaterialMovementServices {
-  Future<MaterialMovementsModel> getMaterialMovements(
-      {required String startPosition,
-      required String maximumRecords,
-      required String userId,
-      required int mmType}) async {
+  Future<MaterialMovementsModel> getMaterialMovements({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+    required int mmType,
+  }) async {
     String url =
         '${Apis._getMaterialMovements}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&mmType=$mmType';
     var response = await BaseApiService().getRequest(
@@ -32,7 +33,7 @@ class MaterialMovementServices {
     return MaterialMovementsModel.fromJson(response);
   }
 
-  Future<MaterialMovementModel> getMaterialMovement(int id) async {
+  Future<MaterialMovementModel> getById(int id) async {
     final String url = '${Apis._getMaterialMovement}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -41,7 +42,7 @@ class MaterialMovementServices {
   }
 
   /// Create Services
-  Future<GenericCreateResponse> createMaterialMovement({
+  Future<GenericResponse> createMaterialMovement({
     required MaterialMovementRequest body,
     required bool isSubmit,
   }) async {
@@ -52,6 +53,6 @@ class MaterialMovementServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

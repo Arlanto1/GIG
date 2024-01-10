@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
             var dialog = CustomAlertDialog(
               title: Constants.appname,
               message: state.message,
-              onPostivePressed: () {
+              onPositivePressed: () {
                 //Validator.logoutAction(context);
                 Navigator.of(context).pop();
               },
@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {
-              "userDetails": VerifyOTPArguments(bloc.userName, bloc.password)
+              "userDetails": VerifyOTPArguments(bloc.userName, bloc.password, bloc.deviceToken)
             });
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
@@ -234,7 +234,8 @@ class _LoginState extends State<Login> {
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
                                   Navigator.pushNamed(
-                                      context, forgotPwdScreenRoute,
+                                    context,
+                                    forgotPwdScreenRoute,
                                   )
                                 },
                                 title: Constants.ResetPwdTitle,
@@ -249,7 +250,7 @@ class _LoginState extends State<Login> {
                                 children: [
                                   const Center(
                                     child: Text(
-                                      Constants.supporttext,
+                                      Constants.supportText,
                                       style: Styles.textStyleBlack16,
                                     ),
                                   ),
@@ -258,7 +259,7 @@ class _LoginState extends State<Login> {
                                   ),
                                   const Center(
                                     child: Text(
-                                      Constants.copyrighttext,
+                                      Constants.copyrightText,
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   )
@@ -291,7 +292,7 @@ class _LoginState extends State<Login> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: title,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           //Navigator.of(context).pop();
         },
@@ -304,7 +305,7 @@ class _LoginState extends State<Login> {
     FocusScope.of(context).unfocus();
     try {
       if (loginFormKey.currentState!.validate()) {
-        print('username $username password $password');
+        log('username $username password $password');
         bloc.add(LoginVerifyEvent(
             requestModel: prepareLoginRequestBody(username, password, ''),
             isFromLogin: true));
@@ -342,6 +343,7 @@ class _LoginState extends State<Login> {
 class VerifyOTPArguments {
   final String name;
   final String pwd;
+  final String deviceToken;
 
-  VerifyOTPArguments(this.name, this.pwd);
+  VerifyOTPArguments(this.name, this.pwd,  this.deviceToken);
 }

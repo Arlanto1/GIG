@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({
-    Key? key,
+    super.key,
     this.border = AppColors.navigationSkybluecolor,
     this.hintText,
     this.leadingIcon,
@@ -21,7 +21,7 @@ class SearchWidget extends StatelessWidget {
     this.suffixIcon,
     this.textInputFieldKey,
     this.isEnabled = false,
-  }) : super(key: key);
+  });
   final String? hintText;
   final String? leadingIcon;
   final Color border;

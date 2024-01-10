@@ -1,6 +1,6 @@
+import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
-import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,7 +8,7 @@ import '../../constants/constants.dart';
 import '../base_widget/base_app_bar.dart';
 
 class SignatureHomePage extends StatefulWidget {
-  const SignatureHomePage({Key? key}) : super(key: key);
+  const SignatureHomePage({super.key});
 
   @override
   State<SignatureHomePage> createState() => _SignatureHomePageState();
@@ -38,6 +38,7 @@ class _SignatureHomePageState extends State<SignatureHomePage> {
         title: Constants.signatureTitle,
         showPopUp: false,
         showSaveButton: false,
+        showSubmitButton: false,
       ),
       body: Column(
         children: [
@@ -115,9 +116,10 @@ class _SignatureHomePageState extends State<SignatureHomePage> {
             IconButton(
                 onPressed: () async {
                   if (controller!.isNotEmpty) {
+                    var nav = Navigator.of(context);
                     final signature = await exportSignature();
 
-                    await Navigator.of(context).push(
+                    await nav.push(
                       MaterialPageRoute(
                         builder: ((context) =>
                             ReviewSignaturePage(signature: signature!)),

@@ -42,7 +42,7 @@ class Styles {
     fontWeight: FontWeight.w400,
     color: AppColors.textgreyThemecolor,
   );
-  
+
   static const TextStyle textStyleRegularGrey16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontRegularFamily,
@@ -87,11 +87,17 @@ class Styles {
     fontWeight: FontWeight.w600,
     color: AppColors.textgreyThemecolor,
   );
-static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
+  static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w600,
     color: AppColors.textgreyThemecolor,
+  );
+  static const TextStyle textStyleSemiBold16Black = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: Colors.black54,
   );
   static const TextStyle textStyleSemiBold16White = TextStyle(
     fontSize: 16,
@@ -114,8 +120,12 @@ static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
     color: AppColors.navigationSkybluecolor,
   );
 
-  static textFontSet(double fontsize, Color color, FontWeight? fontWeight, String fontfamily) {
+  static textFontSet(
+      double fontsize, Color color, FontWeight? fontWeight, String fontfamily) {
     return TextStyle(
-        fontFamily: fontfamily, fontSize: fontsize, fontWeight: fontWeight, color: color);
+        fontFamily: fontfamily,
+        fontSize: fontsize,
+        fontWeight: fontWeight,
+        color: color);
   }
 }

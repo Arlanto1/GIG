@@ -1,8 +1,9 @@
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
@@ -71,15 +72,17 @@ class _OccurrencesViewState extends State<OccurrencesView> {
           title: Constants.occurrence,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
+          showSubmitButton: false,
+          excelAPIName: 'exportOCCExcel',
+          pdfAPIName: 'exportOCCPDF',
         ),
         body: BlocBuilder<OccurrencesBloc, OccurrencesState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
+          }
+          if (state.list.isEmpty) {
+            return const NoRecordFoundWidget();
           }
           return Container(
             margin: allMargin16,
@@ -117,9 +120,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                       value: state.list[index].entrySecurity?.name ?? ''));
                 }
                 return index >= state.list.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
+                    ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
                         labels: labels,
@@ -141,7 +142,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     state.list[selectedIndex].materialMovement,
                                 leoVisit: state.list[selectedIndex].leoVisit,
                                 handOverSecurity:
-                                    state.list[selectedIndex].handOverSecurity,
+                                    state.list[selectedIndex].handoverSecurity,
                                 isOccurrenceStatus: true,
                                 isMasterGuard: false,
                                 isEventProtectionStatus: false,
@@ -167,7 +168,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     state.list[selectedIndex].materialMovement,
                                 leoVisit: state.list[selectedIndex].leoVisit,
                                 handOverSecurity:
-                                    state.list[selectedIndex].handOverSecurity,
+                                    state.list[selectedIndex].handoverSecurity,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                                 isOccurrenceStatus: true,

@@ -46,13 +46,13 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   void _addArticle(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawState != null) {
-      await lawenforcementCubit.createOrganisation(
+      await lawEnforcementCubit.createOrganisation(
           name, 'ARTICLE_LIST', context, widget.title);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createOrganisation(
           name, 'ARTICLE_LIST', context);
     } else if (widget.createPassMgmtState != null) {
-      await createpassmgmtCubit.createOrganisation(
+      await createPassMgmtCubit.createOrganisation(
           name, 'ARTICLE_LIST', context, widget.title);
     }
   }
@@ -60,22 +60,19 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawState != null) {
-      await lawenforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createPassMgmtState != null) {
-      await createpassmgmtCubit.createEmployeeDepartments(
+      await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -92,7 +89,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 2.8,
+          height: height / 2.92,
           width: width,
           child: Scaffold(
             body: Stack(
@@ -110,7 +107,6 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                           style: Styles.textStyleBlack16,
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textFieldController: nameTextController,
                         textFormKey: Keys.nameTextController,
@@ -129,7 +125,6 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                           style: Styles.textStyleBlack16,
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textFieldController: keyTextController,
                         textFormKey: Keys.keyTextController,
@@ -172,7 +167,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textgreyThemecolor,
       textStyle: Styles.styleHeaderGreyText16,
-      boardercolor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textgreyThemecolor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -195,7 +190,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boardercolor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkybluecolor,
       backgroundColor: AppColors.navigationSkybluecolor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,

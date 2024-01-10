@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -15,8 +14,10 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/util.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,7 @@ import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
-  List<CreateImage>? loadAttachments;
+  List<ImageContent>? loadAttachments;
 
   CreateFoundArticleCubit({
     required this.createFoundServices,
@@ -133,7 +134,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
     // loadAttachments ??= [];
     // loadAttachments?.add(data);
@@ -179,7 +180,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       // GetLocations getLocationsData =
       //     await createFoundServices.getLocations(locationsStr, context);
-      GetLocations getLocationsData = await commonServices.getLocations(
+      Locations getLocationsData = await commonServices.getLocations(
           name: locationsStr, context: context);
 
       emit(
@@ -370,14 +371,15 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         stateType: CreateFoundStateType.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
       User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
+          await commonServices.getUserDetails(userId: userId);
 
       emit(
         state.copyWith(
-            loggedInUser: loggedInUserDetails,
+          loggedInUser: loggedInUserDetails,
         ),
       );
     } catch (e) {
@@ -390,6 +392,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
     }
   }
+
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {

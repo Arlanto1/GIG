@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -13,9 +12,10 @@ import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dar
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
@@ -37,7 +37,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   }) : super(
           ContactInfoState.initial(
               model: ContactInfoModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -76,7 +76,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       if(id.isNotEmpty) {
         // model = await services.getCI(id);
       }
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -128,7 +128,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Organisation>? entities,
     Organisation? location,
     User? user,
     Organisation? requesterDepartment,
@@ -199,17 +198,17 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
-    List<CreateImage>? deploymentFiles,
-    List<CreateImage>? bioDataFiles,
-    List<CreateImage>? permanentAddressFiles,
-    List<CreateImage>? localAddressFiles,
-    List<CreateImage>? pVCFiles,
-    List<CreateImage>? trainingFiles,
-    List<CreateImage>? mSGBExemptionFiles,
-    List<CreateImage>? medicalFiles,
-    List<CreateImage>? mSGBAttachments,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
+    List<ImageContent>? deploymentFiles,
+    List<ImageContent>? bioDataFiles,
+    List<ImageContent>? permanentAddressFiles,
+    List<ImageContent>? localAddressFiles,
+    List<ImageContent>? pVCFiles,
+    List<ImageContent>? trainingFiles,
+    List<ImageContent>? mSGBExemptionFiles,
+    List<ImageContent>? medicalFiles,
+    List<ImageContent>? mSGBAttachments,
   }) async {
     emit(
       state.copyWith(
@@ -342,7 +341,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     // GuardingMasterDataRequest request =
     //     GuardingMasterDataRequest(guardingMasterData: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         // response = (await services.createGuardingMasterData(

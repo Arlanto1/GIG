@@ -3,10 +3,11 @@ part of 'general_info_cubit.dart';
 class GeneralInfoState extends Equatable {
   final FormStatus status;
   final EventProtectionGi model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? epOfficers;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final List<Organisation> vendors;
@@ -15,19 +16,22 @@ class GeneralInfoState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final EpUiLabels? labels;
+
 
   factory GeneralInfoState.initial({
     required EventProtectionGi model,
-    required GetLocations locations,
+    required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? epOfficers,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
     required final List<Organisation> vendors,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -42,6 +46,7 @@ class GeneralInfoState extends Equatable {
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
+      epOfficers: epOfficers,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
@@ -128,6 +133,7 @@ class GeneralInfoState extends Equatable {
     this.locations,
     this.users,
     this.emailUsers,
+    this.epOfficers,
     this.listOfEntities,
     required this.departments,
     required this.vendors,
@@ -137,15 +143,18 @@ class GeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.labels,
+
   });
 
   GeneralInfoState copyWith({
     FormStatus? status,
     EventProtectionGi? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? epOfficers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
@@ -154,6 +163,8 @@ class GeneralInfoState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    final EpUiLabels? labels,
+
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
@@ -162,6 +173,7 @@ class GeneralInfoState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      epOfficers: epOfficers ?? this.epOfficers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       vendors: vendors ?? this.vendors,
@@ -170,6 +182,8 @@ class GeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      labels: labels ?? this.labels,
+
     );
   }
 }

@@ -11,11 +11,10 @@ class CustomPopmenu extends StatelessWidget {
   final String popupimagename;
 
   const CustomPopmenu(
-      {Key? key,
+      {super.key,
       required this.itemList,
       required this.itemTap,
-      required this.popupimagename})
-      : super(key: key);
+      required this.popupimagename});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,10 @@ class CustomPopmenu extends StatelessWidget {
       ),
       icon: SvgPicture.asset(
         popupimagename,
-        color: AppColors.backgroundWhitecolor,
-        width: 18,
+        colorFilter: const ColorFilter.mode(
+          AppColors.backgroundWhitecolor,
+          BlendMode.srcIn,
+        ),        width: 18,
         height: 18,
         //key: const Key(Keys.userIcon),
       ),
@@ -55,8 +56,11 @@ class CustomPopmenu extends StatelessWidget {
           children: [
             SvgPicture.asset(
         popItem.imageName,
-        color: AppColors.textgreyThemecolor,
-        width: 15,
+              colorFilter: const ColorFilter.mode(
+                AppColors.textgreyThemecolor,
+                BlendMode.srcIn,
+              ),
+              width: 15,
         height: 15,
         //key: const Key(Keys.userIcon),
      ),

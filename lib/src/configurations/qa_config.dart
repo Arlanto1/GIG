@@ -2,7 +2,7 @@ import 'package:db_atom/src/configurations/base_config.dart';
 
 class QaConfig implements BaseConfig {
   @override
-  String get apiHost => "localhost";
+  String get apiHost => "https://api.qa.dbatom.arlanto.com/api/atomrestservice";
 
   @override
   bool get reportErrors => false;
@@ -12,4 +12,7 @@ class QaConfig implements BaseConfig {
 
   @override
   bool get useHttps => false;
+
+  @override
+  Duration get inactivityDuration => const Duration(minutes: 50);
 }

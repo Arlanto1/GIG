@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
@@ -29,7 +29,7 @@ class DayPassManagementList extends StatefulWidget {
   String? passId = '0';
   String? title;
 
-  DayPassManagementList({Key? key, this.passId, this.title}) : super(key: key);
+  DayPassManagementList({super.key, this.passId, this.title});
 
   @override
   State<DayPassManagementList> createState() => _DayPassManagementListState();
@@ -62,7 +62,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       }
       isPaginationLoading = true;
       //showLoadingDialog(context);
-      print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
       // }
@@ -72,14 +71,14 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await daypassListCubit.getFoundList(
+    await dayPassListCubit.getFoundList(
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
   getpassFoundArticleListId(int articleid) async {
     showLoadingDialog(context);
     DayPassListElement? foundArticleDetailsResponse =
-        await daypassListCubit.getpassArticleById(articleid, context);
+        await dayPassListCubit.getpassArticleById(articleid, context);
 
     editDataLoading(foundArticleDetailsResponse);
   }
@@ -100,7 +99,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         titleIdentify = 'Edit SEZ Pass Management';
       }
 
-      DayPassListElement? listuser = foundArticleDetailsResponse;
+      // DayPassListElement? listuser = foundArticleDetailsResponse;
       Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
         "passMngCreateDetails": CreatePassMngArguments(widget.passId ?? '',
             titleIdentify, true, foundArticleDetailsResponse)
@@ -118,7 +117,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
 
     //_loadMore();
     return Scaffold(
@@ -144,7 +142,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 widget.passId ?? '', titleIdentify, true, null)
           }).then((value) async {
             if (value != null && value == true) {
-              print(value);
               localfoundlist?.clear();
               pageNumber = 0;
               _getpassFoundArticleList();
@@ -159,8 +156,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(
@@ -173,7 +170,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
+              log(value);
               if (value == 0) {
                 // DownloadImage().exportExcel(context, int.parse(userid),
                 //     'export.xslx', 0, pageNumber, '/exportPassMgmtExcel');
@@ -201,7 +198,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         ],
       ),
       body: BlocBuilder<DayPassListCubit, DayPassListState>(
-          bloc: daypassListCubit,
+          bloc: dayPassListCubit,
           builder: (context, state) {
             log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
             log('--state.stateType--${state.stateType}---');
@@ -341,7 +338,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             if (index >= userList.length) {
-              return const Center(child: CircularProgressIndicator());
+              return const BaseLoader();
             } else {
               DayPassListElement user = userList[index];
 

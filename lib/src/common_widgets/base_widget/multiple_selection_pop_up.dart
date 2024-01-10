@@ -13,13 +13,13 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final String? leftImageName;
 
   const CustomMultipleSelectionListTexts({
-    Key? key,
+    super.key,
     required this.allItems,
     required this.onTap,
     required this.selectedValues,
     this.onLeftButtonTap,
     this.leftImageName,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomMultipleSelectionListTexts> createState() =>

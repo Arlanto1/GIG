@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../../enums/form_status.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 part 'material_movement_event.dart';
+
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -18,14 +14,37 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
+    on<InitializeValuesMM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
   }
 
-  final MaterialMovementServices _materialMovementServices =
-      MaterialMovementServices();
+  final MaterialMovementServices services = MaterialMovementServices();
+
+  final CommonServices commonServices = CommonServices();
+
+  FutureOr<void> _initializeValues(
+      InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
+    try {
+      Locations locations =
+          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.contactDetailsModuleCode);
+      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          locations: locations,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
@@ -33,16 +52,12 @@ class MaterialMovementBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        log('mm---1----');
-        MaterialMovementsModel response =
-            await _materialMovementServices.getMaterialMovements(
+        MaterialMovementsModel response = await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-
           userId: '77',
           mmType: isInward ? 1 : 0,
         );
-        log('mm---1-response.totalCount---${response.totalCount}--');
 
         return emit(
           state.copyWith(
@@ -53,14 +68,12 @@ class MaterialMovementBloc
         );
       }
 
-      MaterialMovementsModel response =
-          await _materialMovementServices.getMaterialMovements(
+      MaterialMovementsModel response = await services.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
         mmType: isInward ? 1 : 0,
       );
-      log('mm---2-response.totalCount---${response.totalCount}--');
 
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
@@ -71,6 +84,14 @@ class MaterialMovementBloc
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

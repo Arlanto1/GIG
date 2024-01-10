@@ -1,9 +1,10 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -106,8 +107,9 @@ class _PayRateViewState extends State<PayRateView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: false,
-            showAddButton: true,
-            onTapAddButton: () {
+            showCustomIcon: true,
+            showSubmitButton: false,
+            onTapCustomIcon: () {
               addSecurityGuardPopUp(context: context, payRate: PayRate());
             }),
         body: BlocConsumer<PayRateCubit, PayRateState>(
@@ -132,7 +134,7 @@ class _PayRateViewState extends State<PayRateView> {
               );
             }
 
-            if (state.items.isEmpty) {
+            if (state.items.isEmptyOrNull) {
               return Center(
                 child: AppButton(
                   width: 150,
@@ -171,9 +173,7 @@ class _PayRateViewState extends State<PayRateView> {
                           value: '${state.items[index].perHour}'));
 
                       return index >= state.items.length
-                          ? const Center(
-                              child: CustomCircularProgressIndicator(),
-                            )
+                          ? const BaseLoader()
                           : BaseListTileItem(
                               id: state.items[index].id,
                               labels: labels,
@@ -226,7 +226,7 @@ class _PayRateViewState extends State<PayRateView> {
                         submitButtonDisplay(
                           title: widget.title,
                           onTap: () {
-                            log('-onTapSubmit--${state.rate.vendor?.name}----');
+                            log('-onTapSubmit--${state.model.vendor?.name}----');
                             FocusScope.of(context).unfocus();
 
                             String title = '';
@@ -235,7 +235,7 @@ class _PayRateViewState extends State<PayRateView> {
                               case Constants.createSecuritySupervisor:
                                 title = Constants.createSecurityOfficer;
                                 payRates =
-                                    state.rate.securityOfficerRates ?? [];
+                                    state.model.securityOfficerRates ?? [];
 
                                 state.newPayRate.rankId = 2;
                                 break;
@@ -243,7 +243,7 @@ class _PayRateViewState extends State<PayRateView> {
                               case Constants.createSecurityGuard:
                                 title = Constants.createSecuritySupervisor;
                                 payRates =
-                                    state.rate.securitySupervisorRates ?? [];
+                                    state.model.securitySupervisorRates ?? [];
                                 state.newPayRate.rankId = 3;
 
                                 break;
@@ -251,7 +251,7 @@ class _PayRateViewState extends State<PayRateView> {
                               case Constants.createSecurityOfficer:
                                 title = Constants.createSecurityFacilitator;
                                 payRates =
-                                    state.rate.securityFacilitatorRates ?? [];
+                                    state.model.securityFacilitatorRates ?? [];
                                 state.newPayRate.rankId = 4;
                                 break;
 
@@ -259,13 +259,13 @@ class _PayRateViewState extends State<PayRateView> {
                                 log('--case ---createSecurityFacilitator-');
 
                                 title = Constants.createGunMan;
-                                payRates = state.rate.securityGunManRates ?? [];
+                                payRates = state.model.securityGunManRates ?? [];
                                 state.newPayRate.rankId = 5;
                                 break;
 
                               default:
                                 title = Constants.createGunMan;
-                                payRates = state.rate.securityGunManRates ?? [];
+                                payRates = state.model.securityGunManRates ?? [];
                                 state.newPayRate.rankId = 5;
                                 break;
                             }
@@ -281,7 +281,7 @@ class _PayRateViewState extends State<PayRateView> {
                                 guardingRateDetailsRoute,
                                 arguments: {
                                   "title": Constants.createGuardingRatingCards,
-                                  "gmRate": state.rate,
+                                  "gmRate": state.model,
                                 },
                               );
                               return;
@@ -293,7 +293,7 @@ class _PayRateViewState extends State<PayRateView> {
                               payRateRoute,
                               arguments: {
                                 "payRates": payRates,
-                                "gmRate": state.rate,
+                                "gmRate": state.model,
                                 "title": title,
                               },
                             );

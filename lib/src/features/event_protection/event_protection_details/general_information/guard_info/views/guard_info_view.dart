@@ -2,12 +2,13 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -17,7 +18,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../../models/organisation.dart';
@@ -38,8 +39,8 @@ class GuardInfoView extends StatefulWidget {
 class _GuardInfoViewState extends State<GuardInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  List<CreateImage>? getFiles;
-  List<CreateImage>? guardFiles;
+  List<ImageContent>? getFiles;
+  List<ImageContent>? guardFiles;
   TextEditingController eventStartDateController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
 
@@ -66,7 +67,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
             title: 'Guard Info Detail',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPostivePressed: () {
+            onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
@@ -99,10 +100,16 @@ class _GuardInfoViewState extends State<GuardInfoView> {
             title: Constants.guardInformation,
             showPopUp: false,
             showSaveButton: state.guardInfoModel.status != 4 ? true : false,
+            showSubmitButton: state.guardInfoModel.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<GuardInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
@@ -114,7 +121,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
 
   getBodybuilder(GuardInfoState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     return Container(
@@ -548,9 +555,9 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().departmentDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                departments: state.departments,
+                                organisations: state.departments,
                                 onTap: (List<Organisation> proposedVendors) {
                                   BlocProvider.of<GuardInfoCubit>(context)
                                       .updateDropdownValues(

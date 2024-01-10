@@ -1,5 +1,7 @@
+import 'package:db_atom/src/models/role.dart';
+import 'package:db_atom/src/models/role_extension.dart';
+
 import '../../../../../models/organisation.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
 
 class ContactInfoModel {
   ContactInfoModel({
@@ -186,8 +188,8 @@ class Lsm1 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -200,9 +202,9 @@ class Lsm1 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -252,8 +254,8 @@ class Lsm2 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -266,9 +268,9 @@ class Lsm2 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -318,8 +320,8 @@ class Bu1 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -332,9 +334,9 @@ class Bu1 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -384,8 +386,8 @@ class Bu2 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -398,9 +400,9 @@ class Bu2 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -472,8 +474,8 @@ class Srh1 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -486,9 +488,9 @@ class Srh1 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -538,8 +540,8 @@ class Srh2 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -552,9 +554,9 @@ class Srh2 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
     roleExtensions = List.from(json['roleExtensions'])
-        .map((e) => RoleExtensions.fromJson(e))
+        .map((e) => RoleExtension.fromJson(e))
         .toList();
     notApprovedRoles =
         List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
@@ -603,8 +605,8 @@ class EpManager1 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -617,8 +619,8 @@ class EpManager1 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e)=>Roles.fromJson(e)).toList();
-    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtensions.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e)=>Role.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtension.fromJson(e)).toList();
     notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
     notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
     name = json['name'];
@@ -663,8 +665,8 @@ class EpManager2 {
   late final String firstName;
   late final String lastName;
   late final String phone;
-  late final List<Roles> roles;
-  late final List<RoleExtensions> roleExtensions;
+  late final List<Role> roles;
+  late final List<RoleExtension> roleExtensions;
   late final List<dynamic> notApprovedRoles;
   late final List<dynamic> notApprovedRoleExtensions;
   late final String name;
@@ -677,8 +679,8 @@ class EpManager2 {
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e)=>Roles.fromJson(e)).toList();
-    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtensions.fromJson(e)).toList();
+    roles = List.from(json['roles']).map((e)=>Role.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtension.fromJson(e)).toList();
     notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
     notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
     name = json['name'];

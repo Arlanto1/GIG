@@ -3,13 +3,14 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/article_dialog.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -45,7 +46,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   final QuillEditorController controller = QuillEditorController();
 
   User? userDetails;
-  List<CreateImage>? guardFiles;
+  List<ImageContent>? guardFiles;
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
   TextEditingController deleteEmailController = TextEditingController();
@@ -97,10 +98,16 @@ class _EventInfoViewState extends State<EventInfoView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 4 ? true : false,
+            showSubmitButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<EventInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<EventInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
@@ -112,7 +119,7 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   getBodybuilder(EventInfoState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||
@@ -373,11 +380,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                             loggedInUserDetails:
                                 state.loggedInUserDetails ?? User(),
                             getFiles: guardFiles,
-                            onImageSelected: (CreateImage data) {
+                            onImageSelected: (ImageContent data) {
                               log('-------function---onImageSelected---------');
-                              List<CreateImage>? files = [];
+                              List<ImageContent>? files = [];
                               files.add(data);
-                              for (CreateImage image in guardFiles ?? []) {
+                              for (ImageContent image in guardFiles ?? []) {
                                 files.add(image);
                               }
                               BlocProvider.of<EventInfoCubit>(context)

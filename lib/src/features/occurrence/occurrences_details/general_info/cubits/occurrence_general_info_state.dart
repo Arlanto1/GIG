@@ -2,8 +2,8 @@ part of 'occurrence_general_info_cubit.dart';
 
 class OccurrenceGeneralInfoState extends Equatable {
   final FormStatus status;
-  final Occurrence model;
-  final GetLocations? locations;
+  final OccurrenceModel model;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -16,8 +16,8 @@ class OccurrenceGeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory OccurrenceGeneralInfoState.initial({
-    required Occurrence model,
-    required GetLocations locations,
+    required OccurrenceModel model,
+    required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
@@ -25,7 +25,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -58,7 +58,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.handOverSecurity == null) {
+    if (model.handoverSecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
     }
@@ -80,7 +80,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.handOverSecurity == null) {
+    if (model.handoverSecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
     }
@@ -158,8 +158,8 @@ class OccurrenceGeneralInfoState extends Equatable {
 
   OccurrenceGeneralInfoState copyWith({
     FormStatus? status,
-    Occurrence? model,
-    GetLocations? locations,
+    OccurrenceModel? model,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

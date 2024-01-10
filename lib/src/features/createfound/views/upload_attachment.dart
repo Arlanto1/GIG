@@ -9,14 +9,13 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -42,7 +41,7 @@ class UploadAttachment extends StatefulWidget {
   });
 
   User? userdetails;
-  List<CreateImage>? getFiles;
+  List<ImageContent>? getFiles;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
@@ -57,8 +56,6 @@ class UploadAttachment extends StatefulWidget {
 
 class UploadAttachmentState extends State<UploadAttachment>
     with WidgetsBindingObserver {
-  final _formKey = GlobalKey<FormState>();
-
   PermissionStatus _status = PermissionStatus.denied;
 
   @override
@@ -87,10 +84,6 @@ class UploadAttachmentState extends State<UploadAttachment>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
-
     return Container();
   }
 
@@ -103,7 +96,6 @@ class UploadAttachmentState extends State<UploadAttachment>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      print(imageFile);
 
       getpath(imageFile);
     }
@@ -118,7 +110,6 @@ class UploadAttachmentState extends State<UploadAttachment>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      print(imageFile);
       getpath(imageFile);
     }
   }
@@ -130,11 +121,11 @@ class UploadAttachmentState extends State<UploadAttachment>
     if (result != null) {
       PlatformFile platformfile = result.files.first;
 
-      print(platformfile.name);
-      print(platformfile.bytes);
-      print(platformfile.size);
-      print(platformfile.extension);
-      print(platformfile.path);
+      // print(platformfile.name);
+      // print(platformfile.bytes);
+      // print(platformfile.size);
+      // print(platformfile.extension);
+      // print(platformfile.path);
 
       // Uint8List? imgbytes = platformfile.bytes;
       Uint8List imgbytes =
@@ -142,16 +133,14 @@ class UploadAttachmentState extends State<UploadAttachment>
       String fileName = platformfile.name;
       String bs4str = base64Encode(imgbytes);
       String? contentype = lookupMimeType(platformfile.path ?? '');
-      CreateImage image = CreateImage(
+      ImageContent image = ImageContent(
           ownerName: widget.userdetails?.name ?? '',
           contentType: contentype,
           imageContent: bs4str,
           title: fileName,
           fileSize: platformfile.size);
-      String username = await SharedPrefs.getUsername();
-      print(username);
-      int id = await SharedPrefs.getFoundId();
-      print(id);
+      // String username = await SharedPrefs.getUsername();
+      // int id = await SharedPrefs.getFoundId();
       // var res = await ImagesMultiPart().uploadImage(
       //     "/uploadFoundImage?id=$id&userEmail=$username", file?.path ?? '');
       // print(res);
@@ -169,12 +158,8 @@ class UploadAttachmentState extends State<UploadAttachment>
     //   allowedExtensions: ['png'],
     // );
 
-    if (result != null) {
-      imageupload(result);
-    } else {
-      // User canceled the picker
+    imageupload(result);
     }
-  }
 
   imageupload(File result) async {
     String fileName = result.path.split('/').last;
@@ -184,16 +169,14 @@ class UploadAttachmentState extends State<UploadAttachment>
     // 'image/jpeg'
     // AttachmentModel model =
     //     AttachmentModel(fullpath: result.path, name: fileName);
-    CreateImage image = CreateImage(
+    ImageContent image = ImageContent(
         ownerName: widget.userdetails?.name ?? '',
         contentType: contentype,
         imageContent: bs4str,
         title: fileName,
         fileSize: result.lengthSync());
-    String username = await SharedPrefs.getUsername();
-    print(username);
-    int id = await SharedPrefs.getFoundId();
-    print(id);
+    // String username = await SharedPrefs.getUsername();
+    // int id = await SharedPrefs.getFoundId();
     // var res = await ImagesMultiPart().uploadImage(
     //     "/uploadFoundImage?id=$id&userEmail=$username", result.path);
     // print(res);
@@ -202,19 +185,19 @@ class UploadAttachmentState extends State<UploadAttachment>
   }
 
   // get the text in the TextField and send it back to the FirstScreen
-  Future<void> _sendDataBack(CreateImage data) async {
+  Future<void> _sendDataBack(ImageContent data) async {
     if (widget.lawstate != null) {
       widget.getFiles?.add(data);
-      lawenforcementCubit.addAttchment(widget.getFiles ?? []);
+      lawEnforcementCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createoundstate != null) {
       widget.getFiles?.add(data);
       createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createpassmgmtstate != null) {
       widget.getFiles?.add(data);
       if (widget.isPhotoType ?? false) {
-        createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
       } else {
-        createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.addAttchment(widget.getFiles ?? []);
       }
     }
     if (widget.inwardState != null) {
@@ -261,7 +244,6 @@ class UploadAttachmentState extends State<UploadAttachment>
   }
 
   _updateStatus(PermissionStatus value) {
-    print(value);
     if (value != _status) {
       setState(() {
         _status = value;
@@ -269,7 +251,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
     if (value == PermissionStatus.denied ||
         value == PermissionStatus.permanentlyDenied) {
-      AppSettings.openNotificationSettings();
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
   }
 

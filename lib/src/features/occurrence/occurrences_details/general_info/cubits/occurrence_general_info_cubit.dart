@@ -12,9 +12,10 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
@@ -22,7 +23,6 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 
@@ -39,8 +39,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     required this.id,
   }) : super(
           OccurrenceGeneralInfoState.initial(
-            model: Occurrence(),
-            locations: GetLocations(),
+            model: OccurrenceModel(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -53,12 +53,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(Occurrence occurrence) {
+  void onModelValueChange(OccurrenceModel occurrence) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Occurrence occurrence) {
+  void onCheckBoxChange(OccurrenceModel occurrence) {
     emit(state.copyWith(model: occurrence, status: FormStatus.loading));
 
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
@@ -74,14 +74,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence model = Occurrence();
+      OccurrenceModel model = OccurrenceModel();
       if (!id.isEmptyOrNull) {
         model = await OccurrenceDetailsServices().getOccurrence(id);
       }
 
       log('-model----${model.shiftBrfngAttnded}---');
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -101,6 +101,17 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.occurrenceModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
+      }
       model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
@@ -154,7 +165,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
     }
 
-
     if (status != null) {
       state.model.status = status;
     }
@@ -165,7 +175,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         userName: shiftTakenOverBy.name,
         email: shiftTakenOverBy.email,
       );
-      state.model.handOverSecurity = userDetails;
+      state.model.handoverSecurity = userDetails;
     }
     emit(state.copyWith(
       model: state.model,
@@ -174,8 +184,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(
@@ -304,7 +314,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -318,7 +331,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         OccurrenceGeneralInfoRequest(occurrence: state.model);
 
     log('--isSaveOnly----$isSaveOnly--');
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
@@ -329,7 +342,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.create(
           body: request,
@@ -344,7 +357,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
 
         response = (await services.create(
@@ -352,6 +365,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -360,8 +381,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         ),
       );
     }
-
-    // log('---response--msg--${response.message}---');
 
     if (response.id != null) {
       int? id = int.tryParse(response.id!);
@@ -373,8 +392,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
+    return true;
   }
 }

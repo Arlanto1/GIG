@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart';
@@ -11,8 +10,9 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
-import 'package:db_atom/src/services/CommonServices.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 
@@ -39,7 +39,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }) : super(
           EventInfoState.initial(
               model: EventInfoResponse(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               eventDuration: eventDuration,
@@ -55,7 +55,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         );
 
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
+    log('-status-ddd1-${state.status}--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -99,8 +99,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(
@@ -134,7 +134,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     EventInfoRequest request =
         EventInfoRequest(eventProtectionInfo: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         response = (await services.createEventEi(

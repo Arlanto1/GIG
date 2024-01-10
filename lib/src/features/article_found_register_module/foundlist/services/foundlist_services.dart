@@ -32,7 +32,7 @@ class FoundListServices {
       int articleId, BuildContext context) async {
     final String url = '${Apis._getArticle}/$articleId';
     final response =
-        await BaseApiService().getRequest(url: url, isAuthenticated: false);
+        await BaseApiService().getRequest(url: url, isAuthenticated: true);
 
     return FoundListArticleDetails.fromJson(response);
   }

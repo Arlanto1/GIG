@@ -9,13 +9,13 @@ class PopButton extends StatelessWidget {
   final String? buttonTextKey;
   final Color? backgroundColor;
   final Color? foregroundColor;
-  final Color? boardercolor;
+  final Color? boarderColor;
   final TextStyle? textStyle;
   final double? width;
   final String? imageText;
 
   const PopButton({
-    Key? key,
+    super.key,
     this.buttonText,
     this.onTap,
     this.buttonKey,
@@ -23,10 +23,10 @@ class PopButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.textStyle,
-    this.boardercolor,
+    this.boarderColor,
     this.width,
     this.imageText
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class PopButton extends StatelessWidget {
         },
         style: TextButton.styleFrom(
           side: BorderSide(
-          color: boardercolor ?? Colors.white,
+          color: boarderColor ?? Colors.white,
         ),
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
