@@ -170,6 +170,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                             .items[selectedIndex]
                                             .entrySecurityName,
                                         isMasterGuard: false,
+                                        isMaterialMovementStatus: true,
                                         isEventProtectionStatus: false,
                                       );
                                     },
@@ -198,6 +199,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                             .items[selectedIndex]
                                             .entrySecurityName,
                                         isMasterGuard: false,
+                                        isMaterialMovementStatus: true,
+                                        isEventProtectionStatus: false,
                                       );
                                     },
                                   );
