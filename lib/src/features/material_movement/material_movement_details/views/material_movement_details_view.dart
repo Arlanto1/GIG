@@ -28,7 +28,7 @@ class _MaterialMovementDetailsViewState
   List<ImageContent> getFiles = [];
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
   bool isReadOnly = false;
   List<String> returnableDropDownValues = const [
@@ -111,16 +111,20 @@ class _MaterialMovementDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
-            showSubmitButton: state.model.status != 6 &&
-                state.model.status != 1 &&
-                !isReadOnly
-                ? true
-                : false,
+            showSaveButton: (state.model.status != 2 ||
+                state.model.status != 3 ||
+                state.model.status != 5 ||
+                state.model.status != 10 ||
+                state.model.status != -1)
+                ? false
+                : true,
+            showSubmitButton: (state.model.status != 2 ||
+                state.model.status != 3 ||
+                state.model.status != 5 ||
+                state.model.status != 10 ||
+                state.model.status != -1)
+                ? false
+                : true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -163,7 +167,7 @@ class _MaterialMovementDetailsViewState
     log('-state.materialMovement.status---${state.model.status}--');
 
     returnableTextController.text =
-        state.model.returnable! ? 'Returnable' : 'Non Returnable';
+    state.model.returnable! ? 'Returnable' : 'Non Returnable';
 
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -174,7 +178,7 @@ class _MaterialMovementDetailsViewState
       getFiles = state.loadAttachments ?? [];
     }
     bool isQuantityDisabled =
-        (state.model.status == 6 || state.model.status == 1);
+    (state.model.status == 6 || state.model.status == 1);
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -189,7 +193,7 @@ class _MaterialMovementDetailsViewState
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
                 absorbing: isReadOnly,
@@ -234,7 +238,7 @@ class _MaterialMovementDetailsViewState
                             textFormKey: Keys.statusTextController,
                             hintText: '',
                             initialValue:
-                                widget.isInward ? 'Inward' : 'Outward',
+                            widget.isInward ? 'Inward' : 'Outward',
                             onChange: (String value) {},
                             validateTextField: (String? user) {},
                           ),
@@ -253,13 +257,13 @@ class _MaterialMovementDetailsViewState
                                   dropDownValues: returnableDropDownValues,
                                   onTap: (String value) {
                                     bool isReturnable =
-                                        value == 'Returnable' ? true : false;
+                                    value == 'Returnable' ? true : false;
                                     state.model.returnable = isReturnable;
                                     BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                            context)
+                                        MaterialMovementDetailsCubit>(
+                                        context)
                                         .updateDropdownValues(
-                                            isReturnable: isReturnable);
+                                        isReturnable: isReturnable);
                                   },
                                 );
                               }
@@ -282,7 +286,7 @@ class _MaterialMovementDetailsViewState
                             textFormKey: Keys.statusTextController,
                             hintText: '',
                             initialValue:
-                                getStatusString(state.model.status ?? 0),
+                            getStatusString(state.model.status ?? 0),
                             onChange: (String value) {},
                             validateTextField: (String? user) {},
                           ),
@@ -346,7 +350,7 @@ class _MaterialMovementDetailsViewState
                             initialValue: state.model.challanNo,
                             hintText: '',
                             isEnable: state.model.status == 6 ||
-                                    state.model.status == 1
+                                state.model.status == 1
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 6 ||
@@ -378,16 +382,16 @@ class _MaterialMovementDetailsViewState
                               isEnable: widget.materialMovement != null
                                   ? true
                                   : (widget.materialMovement != null &&
-                                          (widget.materialMovement?.poNumber ==
-                                              null))
-                                      ? false
-                                      : true,
+                                  (widget.materialMovement?.poNumber ==
+                                      null))
+                                  ? false
+                                  : true,
                               isDisableColor:
-                                  (widget.materialMovement != null &&
-                                          (widget.materialMovement?.poNumber !=
-                                              null))
-                                      ? true
-                                      : false,
+                              (widget.materialMovement != null &&
+                                  (widget.materialMovement?.poNumber !=
+                                      null))
+                                  ? true
+                                  : false,
                               onChange: (String value) {
                                 state.model.poNumber = value;
                                 context
@@ -416,7 +420,7 @@ class _MaterialMovementDetailsViewState
                             hintText: Constants.informationhere,
                             showBorder: true,
                             isEnable: state.model.status == 6 ||
-                                    state.model.status == 1
+                                state.model.status == 1
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 6 ||
@@ -448,18 +452,18 @@ class _MaterialMovementDetailsViewState
                                 width: 220,
                                 child: FlutterInputField(
                                   keyboardType:
-                                      const TextInputType.numberWithOptions(
+                                  const TextInputType.numberWithOptions(
                                     decimal: true,
                                   ),
                                   initialValue: '${state.model.quantity ?? ''}',
                                   textFormKey: Keys.quantityKey,
                                   hintText: '',
                                   isEnable: state.model.status == 6 ||
-                                          state.model.status == 1
+                                      state.model.status == 1
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status != 6 ||
-                                          state.model.status != 1
+                                      state.model.status != 1
                                       ? true
                                       : false,
                                   onChange: (String? value) {
@@ -490,12 +494,12 @@ class _MaterialMovementDetailsViewState
                                   child: AddButtonWidget(
                                     height: 50,
                                     isDisableColor:
-                                        (widget.materialMovement?.status == 6 ||
-                                                widget.materialMovement
-                                                        ?.status ==
-                                                    1)
-                                            ? true
-                                            : false,
+                                    (widget.materialMovement?.status == 6 ||
+                                        widget.materialMovement
+                                            ?.status ==
+                                            1)
+                                        ? true
+                                        : false,
                                   ),
                                 ),
                               ],
@@ -523,7 +527,7 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 6 ||
@@ -554,7 +558,7 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.addressKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 6 ||
@@ -581,47 +585,47 @@ class _MaterialMovementDetailsViewState
                                   isMandatory: true,
                                 ),
                                 widget.materialMovement?.status != 6 ||
-                                        state.model.status != 1
+                                    state.model.status != 1
                                     ? TextfieldAddButton(
-                                        title: state.model.requestorEmail,
-                                        height: 70,
-                                        isDisableColor:
-                                            (state.model.status == 6 ||
-                                                    state.model.status == 1)
-                                                ? true
-                                                : false,
-                                        onTap: () {
-                                          if (state.model.status == 6 ||
-                                                  state.model.status == 1
-                                              ? false
-                                              : true) {
-                                            BaseOrganisationDialog().userDialog(
-                                              context: context,
-                                              users: state.emailUsers!,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateApproverEmailsValue(
-                                                        requesterEmailUser:
-                                                            user);
-                                              },
-                                            );
-                                          }
-                                        })
+                                    title: state.model.requestorEmail,
+                                    height: 70,
+                                    isDisableColor:
+                                    (state.model.status == 6 ||
+                                        state.model.status == 1)
+                                        ? true
+                                        : false,
+                                    onTap: () {
+                                      if (state.model.status == 6 ||
+                                          state.model.status == 1
+                                          ? false
+                                          : true) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .updateApproverEmailsValue(
+                                                requesterEmailUser:
+                                                user);
+                                          },
+                                        );
+                                      }
+                                    })
                                     : FlutterInputField(
-                                        initialValue:
-                                            state.model.requestorEmail,
-                                        textFormKey: Keys.requesterEmailKey,
-                                        hintText: '',
-                                        isEnable: (state.model.status != 6 ||
-                                            state.model.status != 1),
-                                        isDisableColor:
-                                            state.model.status == 6 ||
-                                                state.model.status == 1,
-                                        onChange: (String username) {},
-                                        validateTextField: (String? user) {},
-                                      ),
+                                  initialValue:
+                                  state.model.requestorEmail,
+                                  textFormKey: Keys.requesterEmailKey,
+                                  hintText: '',
+                                  isEnable: (state.model.status != 6 ||
+                                      state.model.status != 1),
+                                  isDisableColor:
+                                  state.model.status == 6 ||
+                                      state.model.status == 1,
+                                  onChange: (String username) {},
+                                  validateTextField: (String? user) {},
+                                ),
                               ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -643,11 +647,11 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: (state.model.status == 6 ||
-                                      state.model.status == 1)
+                                  state.model.status == 1)
                                   ? true
                                   : false,
                               onChange: (String value) {
@@ -671,53 +675,54 @@ class _MaterialMovementDetailsViewState
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
-                                    initialValue:
-                                        state.model.requestorDepartment?.name,
-                                    textFormKey: Keys.requesterDepartmentKey,
-                                    hintText: '',
-                                    isEnable: state.model.status == 6,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (String value) {
-                                      state.model.requestorDepartment?.name =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
+                              initialValue:
+                              state.model.requestorDepartment?.name,
+                              textFormKey: Keys.requesterDepartmentKey,
+                              hintText: '',
+                              isEnable: state.model.status == 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.requestorDepartment?.name =
+                                    value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            )
                                 : TextfieldAddButton(
-                                    title:
-                                        state.model.requestorDepartment?.name,
-                                    height: 70,
-                                    isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if (state.model.status == 6 ||
-                                              state.model.status == 1
-                                          ? false
-                                          : true) {
-                                        BaseOrganisationDialog().departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.requestorDepartment
-                                                ?.name = department.name;
+                              title:
+                              state.model.requestorDepartment?.name,
+                              height: 70,
+                              isDisableColor: (state.model.status == 6 ||
+                                  state.model.status == 1)
+                                  ? true
+                                  : false,
+                              onTap: () {
+                                if (state.model.status == 6 ||
+                                    state.model.status == 1
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog()
+                                      .departmentDialog(
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.requestorDepartment
+                                          ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    requesterDepartment:
-                                                        department);
-                                          },
-                                        );
-                                        // leodepartmentsDialog(state);
-                                      }
+                                      BlocProvider.of<
+                                          MaterialMovementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          requesterDepartment:
+                                          department);
                                     },
-                                  ),
+                                  );
+                                  // leodepartmentsDialog(state);
+                                }
+                              },
+                            ),
 
                             // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -738,7 +743,7 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.sentToKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 6,
@@ -768,11 +773,11 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.purposeKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: (state.model.status != 6 ||
-                                      state.model.status != 1)
+                                  state.model.status != 1)
                                   ? false
                                   : true,
                               onChange: (String value) {
@@ -801,17 +806,17 @@ class _MaterialMovementDetailsViewState
                               textFormKey: Keys.preparedByKey,
                               hintText: '',
                               isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                                  state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: (state.model.status != 6 ||
-                                      state.model.status != 1)
+                                  state.model.status != 1)
                                   ? false
                                   : true,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
                                 BlocProvider.of<MaterialMovementDetailsCubit>(
-                                        context)
+                                    context)
                                     .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
@@ -829,56 +834,57 @@ class _MaterialMovementDetailsViewState
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
-                                    initialValue:
-                                        state.model.preparedByDepartment?.name,
-                                    textFormKey: Keys.preparedByDepartmentKey,
-                                    hintText: '',
-                                    isEnable: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (String value) {
-                                      state.model.preparedByDepartment?.name =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
+                              initialValue:
+                              state.model.preparedByDepartment?.name,
+                              textFormKey: Keys.preparedByDepartmentKey,
+                              hintText: '',
+                              isEnable: (state.model.status == 6 ||
+                                  state.model.status == 1)
+                                  ? true
+                                  : false,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.preparedByDepartment?.name =
+                                    value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            )
                                 : TextfieldAddButton(
-                                    title:
-                                        state.model.preparedByDepartment?.name,
-                                    height: 70,
-                                    isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if ((state.model.status == 6 ||
-                                              state.model.status == 1)
-                                          ? false
-                                          : true) {
-                                        BaseOrganisationDialog().departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.preparedByDepartment
-                                                ?.name = department.name;
+                              title:
+                              state.model.preparedByDepartment?.name,
+                              height: 70,
+                              isDisableColor: (state.model.status == 6 ||
+                                  state.model.status == 1)
+                                  ? true
+                                  : false,
+                              onTap: () {
+                                if ((state.model.status == 6 ||
+                                    state.model.status == 1)
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog()
+                                      .departmentDialog(
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.preparedByDepartment
+                                          ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    preparedByDepartment:
-                                                        department);
-                                          },
-                                        );
-                                        // leodepartmentsDialog(state);
-                                      }
+                                      BlocProvider.of<
+                                          MaterialMovementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          preparedByDepartment:
+                                          department);
                                     },
-                                  ),
+                                  );
+                                  // leodepartmentsDialog(state);
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Approver1 Email
@@ -894,42 +900,42 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 widget.materialMovement?.status != 6
                                     ? TextfieldAddButton(
-                                        title: state.model.approver1Email,
-                                        height: 70,
-                                        isDisableColor:
-                                            (state.model.status == 6 ||
-                                                    state.model.status == 1)
-                                                ? true
-                                                : false,
-                                        onTap: () {
-                                          if ((state.model.status == 6 ||
-                                                  state.model.status == 1)
-                                              ? false
-                                              : true) {
-                                            BaseOrganisationDialog().userDialog(
-                                              context: context,
-                                              users: state.approver1Users!,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateApproverEmailsValue(
-                                                        approver1EmailUser:
-                                                            user);
-                                              },
-                                            );
-                                          }
-                                        })
+                                    title: state.model.approver1Email,
+                                    height: 70,
+                                    isDisableColor:
+                                    (state.model.status == 6 ||
+                                        state.model.status == 1)
+                                        ? true
+                                        : false,
+                                    onTap: () {
+                                      if ((state.model.status == 6 ||
+                                          state.model.status == 1)
+                                          ? false
+                                          : true) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.approver1Users!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .updateApproverEmailsValue(
+                                                approver1EmailUser:
+                                                user);
+                                          },
+                                        );
+                                      }
+                                    })
                                     : FlutterInputField(
-                                        initialValue:
-                                            state.model.approver1Email,
-                                        textFormKey: Keys.approver1EmailKey,
-                                        hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
-                                        onChange: (String username) {},
-                                        validateTextField: (String? user) {},
-                                      ),
+                                  initialValue:
+                                  state.model.approver1Email,
+                                  textFormKey: Keys.approver1EmailKey,
+                                  hintText: '',
+                                  isEnable: state.model.status != 6,
+                                  isDisableColor: state.model.status == 6,
+                                  onChange: (String username) {},
+                                  validateTextField: (String? user) {},
+                                ),
                               ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -945,53 +951,54 @@ class _MaterialMovementDetailsViewState
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
-                                    initialValue:
-                                        state.model.approver1Department?.name,
-                                    textFormKey: Keys.aprrover1DepartmentKey,
-                                    hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (String value) {
-                                      state.model.approver1Department?.name =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
+                              initialValue:
+                              state.model.approver1Department?.name,
+                              textFormKey: Keys.aprrover1DepartmentKey,
+                              hintText: '',
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.approver1Department?.name =
+                                    value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            )
                                 : TextfieldAddButton(
-                                    title:
-                                        state.model.approver1Department?.name,
-                                    height: 70,
-                                    isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if ((state.model.status == 6 ||
-                                              state.model.status == 1)
-                                          ? false
-                                          : true) {
-                                        BaseOrganisationDialog().departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.approver1Department
-                                                ?.name = department.name;
+                              title:
+                              state.model.approver1Department?.name,
+                              height: 70,
+                              isDisableColor: (state.model.status == 6 ||
+                                  state.model.status == 1)
+                                  ? true
+                                  : false,
+                              onTap: () {
+                                if ((state.model.status == 6 ||
+                                    state.model.status == 1)
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog()
+                                      .departmentDialog(
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.approver1Department
+                                          ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    approver1Department:
-                                                        department);
-                                          },
-                                        );
-                                        // leodepartmentsDialog(state);
-                                      }
+                                      BlocProvider.of<
+                                          MaterialMovementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          approver1Department:
+                                          department);
                                     },
-                                  ),
+                                  );
+                                  // leodepartmentsDialog(state);
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Approver2 Email
@@ -1007,42 +1014,42 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 widget.materialMovement?.status != 6
                                     ? TextfieldAddButton(
-                                        title: state.model.approver2Email,
-                                        height: 70,
-                                        isDisableColor:
-                                            (state.model.status == 6 ||
-                                                    state.model.status == 1)
-                                                ? true
-                                                : false,
-                                        onTap: () {
-                                          if ((state.model.status == 6 ||
-                                                  state.model.status == 1)
-                                              ? false
-                                              : true) {
-                                            BaseOrganisationDialog().userDialog(
-                                              context: context,
-                                              users: state.approver2Users!,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateApproverEmailsValue(
-                                                        approver2EmailUser:
-                                                            user);
-                                              },
-                                            );
-                                          }
-                                        })
+                                    title: state.model.approver2Email,
+                                    height: 70,
+                                    isDisableColor:
+                                    (state.model.status == 6 ||
+                                        state.model.status == 1)
+                                        ? true
+                                        : false,
+                                    onTap: () {
+                                      if ((state.model.status == 6 ||
+                                          state.model.status == 1)
+                                          ? false
+                                          : true) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.approver2Users!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .updateApproverEmailsValue(
+                                                approver2EmailUser:
+                                                user);
+                                          },
+                                        );
+                                      }
+                                    })
                                     : FlutterInputField(
-                                        initialValue:
-                                            state.model.approver2Email,
-                                        textFormKey: Keys.approver2EmailKey,
-                                        hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
-                                        onChange: (String username) {},
-                                        validateTextField: (String? user) {},
-                                      ),
+                                  initialValue:
+                                  state.model.approver2Email,
+                                  textFormKey: Keys.approver2EmailKey,
+                                  hintText: '',
+                                  isEnable: state.model.status != 6,
+                                  isDisableColor: state.model.status == 6,
+                                  onChange: (String username) {},
+                                  validateTextField: (String? user) {},
+                                ),
                               ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1059,53 +1066,54 @@ class _MaterialMovementDetailsViewState
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
-                                    initialValue:
-                                        state.model.approver2Department?.name,
-                                    textFormKey: Keys.approver2EmailKey,
-                                    hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (String value) {
-                                      state.model.approver2Department?.name =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
+                              initialValue:
+                              state.model.approver2Department?.name,
+                              textFormKey: Keys.approver2EmailKey,
+                              hintText: '',
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.approver2Department?.name =
+                                    value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            )
                                 : TextfieldAddButton(
-                                    title:
-                                        state.model.approver2Department?.name,
-                                    height: 70,
-                                    isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if ((state.model.status == 6 ||
-                                              state.model.status == 1)
-                                          ? false
-                                          : true) {
-                                        BaseOrganisationDialog().departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.approver2Department
-                                                ?.name = department.name;
+                              title:
+                              state.model.approver2Department?.name,
+                              height: 70,
+                              isDisableColor: (state.model.status == 6 ||
+                                  state.model.status == 1)
+                                  ? true
+                                  : false,
+                              onTap: () {
+                                if ((state.model.status == 6 ||
+                                    state.model.status == 1)
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog()
+                                      .departmentDialog(
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.approver2Department
+                                          ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    approver2Department:
-                                                        department);
-                                          },
-                                        );
-                                        // leodepartmentsDialog(state);
-                                      }
+                                      BlocProvider.of<
+                                          MaterialMovementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          approver2Department:
+                                          department);
                                     },
-                                  ),
+                                  );
+                                  // leodepartmentsDialog(state);
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (state.model.returnable == true) ...[
@@ -1124,8 +1132,8 @@ class _MaterialMovementDetailsViewState
                               BaseDate().datePickerWidgetLoading(
                                 showPastDate: false,
                                 isDisabled: (widget.materialMovement?.status ==
-                                            6 ||
-                                        widget.materialMovement?.status == 1)
+                                    6 ||
+                                    widget.materialMovement?.status == 1)
                                     ? true
                                     : false,
                                 textController: expectedDateOfReturnController,
@@ -1134,7 +1142,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.expectedDateOfReturn =
                                       Utils().formatTime(value);
                                   BlocProvider.of<MaterialMovementDetailsCubit>(
-                                          context)
+                                      context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
@@ -1282,8 +1290,8 @@ class _MaterialMovementDetailsViewState
                                     state.model.takenOutDate =
                                         Utils().formatTime(value);
                                     BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                            context)
+                                        MaterialMovementDetailsCubit>(
+                                        context)
                                         .onModelValueChange(state.model);
                                   },
                                   context: context,
@@ -1391,27 +1399,27 @@ class _MaterialMovementDetailsViewState
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue:
-                                  state.model.originalReceiver ? 1 : 0,
+                              state.model.originalReceiver ? 1 : 0,
                               onChangedYes: widget.materialMovement?.status == 6
                                   ? null
                                   : (val) {
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .showFields(
-                                        isOriginalReceiverReceiving: true,
-                                      );
-                                    },
+                                BlocProvider.of<
+                                    MaterialMovementDetailsCubit>(
+                                    context)
+                                    .showFields(
+                                  isOriginalReceiverReceiving: true,
+                                );
+                              },
                               onChangedNo: widget.materialMovement?.status == 6
                                   ? null
                                   : (val) {
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .showFields(
-                                        isOriginalReceiverReceiving: false,
-                                      );
-                                    },
+                                BlocProvider.of<
+                                    MaterialMovementDetailsCubit>(
+                                    context)
+                                    .showFields(
+                                  isOriginalReceiverReceiving: false,
+                                );
+                              },
                             ),
 
                             /// Received For
@@ -1420,50 +1428,50 @@ class _MaterialMovementDetailsViewState
                                 CommonWidgets.textDisplay(
                                   !state.model.originalReceiver
                                       ? state.labels?.locale.otherReceiverName ??
-                                          state.labels?.defaultLocale
-                                              .otherReceiverName ??
-                                          Constants.receivedFor
+                                      state.labels?.defaultLocale
+                                          .otherReceiverName ??
+                                      Constants.receivedFor
                                       : state.labels?.locale.receiverName ??
-                                          state.labels?.defaultLocale
-                                              .receiverName ??
-                                          Constants.receivedBy,
+                                      state.labels?.defaultLocale
+                                          .receiverName ??
+                                      Constants.receivedBy,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
                                 widget.materialMovement?.status != 6
                                     ? TextfieldAddButton(
-                                        title: state.model.receiverEmail,
-                                        height: 70,
-                                        isDisableColor: state.model.status != 6
-                                            ? false
-                                            : true,
-                                        onTap: () {
-                                          if (state.model.status != 6) {
-                                            BaseOrganisationDialog().userDialog(
-                                              context: context,
-                                              users: state.emailUsers!,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        receiverEmailUser:
-                                                            user);
-                                              },
-                                            );
-                                          }
-                                        })
+                                    title: state.model.receiverEmail,
+                                    height: 70,
+                                    isDisableColor: state.model.status != 6
+                                        ? false
+                                        : true,
+                                    onTap: () {
+                                      if (state.model.status != 6) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                                receiverEmailUser:
+                                                user);
+                                          },
+                                        );
+                                      }
+                                    })
                                     : FlutterInputField(
-                                        initialValue:
-                                            state.model.otherReceiverName,
-                                        textFormKey:
-                                            Keys.depositorTextController,
-                                        hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
-                                        onChange: (String username) {},
-                                        validateTextField: (String? user) {},
-                                      ),
+                                  initialValue:
+                                  state.model.otherReceiverName,
+                                  textFormKey:
+                                  Keys.depositorTextController,
+                                  hintText: '',
+                                  isEnable: state.model.status != 6,
+                                  isDisableColor: state.model.status == 6,
+                                  onChange: (String username) {},
+                                  validateTextField: (String? user) {},
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
@@ -1474,14 +1482,14 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.textDisplay(
                               !state.model.originalReceiver
                                   ? state.labels?.locale.receiverEmployeeId ??
-                                      state.labels?.defaultLocale
-                                          .receiverEmployeeId ??
-                                      Constants.receivedForEmployeeId
+                                  state.labels?.defaultLocale
+                                      .receiverEmployeeId ??
+                                  Constants.receivedForEmployeeId
                                   : state.labels?.locale
-                                          .otherReceiverEmployeeId ??
-                                      state.labels?.defaultLocale
-                                          .otherReceiverEmployeeId ??
-                                      Constants.receiverEmployeeId,
+                                  .otherReceiverEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .otherReceiverEmployeeId ??
+                                  Constants.receiverEmployeeId,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1513,47 +1521,47 @@ class _MaterialMovementDetailsViewState
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
-                                    initialValue:
-                                        state.model.receiverDepartmenttName,
-                                    textFormKey: Keys.receiverDepartmentKey,
-                                    hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (String value) {
-                                      state.model.receiverDepartmenttName =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
+                              initialValue:
+                              state.model.receiverDepartmenttName,
+                              textFormKey: Keys.receiverDepartmentKey,
+                              hintText: '',
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.receiverDepartmenttName =
+                                    value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            )
                                 : TextfieldAddButton(
-                                    title: state.model.receiverDepartmenttName,
-                                    height: 70,
-                                    isDisableColor:
-                                        state.model.status != 6 ? false : true,
-                                    onTap: () {
-                                      // if (widget.materialMovement != null) {
-                                      BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: state.departments,
-                                        onTap: (Organisation department) {
-                                          state.model.receiverDepartmenttName =
-                                              department.name;
+                              title: state.model.receiverDepartmenttName,
+                              height: 70,
+                              isDisableColor:
+                              state.model.status != 6 ? false : true,
+                              onTap: () {
+                                // if (widget.materialMovement != null) {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.departments,
+                                  onTap: (Organisation department) {
+                                    state.model.receiverDepartmenttName =
+                                        department.name;
 
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  receiverDepartment:
-                                                      department);
-                                        },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                      // }
-                                    },
-                                  ),
+                                    BlocProvider.of<
+                                        MaterialMovementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        receiverDepartment:
+                                        department);
+                                  },
+                                );
+                                // leodepartmentsDialog(state);
+                                // }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (!state.model.originalReceiver) ...[
@@ -1595,7 +1603,7 @@ class _MaterialMovementDetailsViewState
 
                               FlutterInputField(
                                 initialValue:
-                                    state.model.otherReceiverEmployeeId,
+                                state.model.otherReceiverEmployeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 isEnable: state.model.status != 6,
                                 isDisableColor: state.model.status == 6,
@@ -1653,9 +1661,9 @@ class _MaterialMovementDetailsViewState
                             //     height * 0.01),
                           ],
                           if ((state.model.status == 2 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 6) &&
-                                  (!widget.isInward) ||
+                              state.model.status == 5 ||
+                              state.model.status == 6) &&
+                              (!widget.isInward) ||
                               widget.isInward) ...[
                             /// Is Material Physically Checked
                             CommonWidgets.textDisplay(
@@ -1669,39 +1677,39 @@ class _MaterialMovementDetailsViewState
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
-                                    state.model.materialPhysicallyChecked
-                                        ? 1
-                                        : 0,
+                                state.model.materialPhysicallyChecked
+                                    ? 1
+                                    : 0,
                                 onChangedYes:
-                                    (widget.materialMovement?.status == 6 ||
-                                            widget.materialMovement?.status ==
-                                                1)
-                                        ? null
-                                        : (val) {
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                              isMaterialPhysicallyChecked: true,
-                                              // materialMovement: materialMovement,
-                                            );
-                                          },
-                                onChangedNo: widget.materialMovement?.status ==
-                                            6 ||
-                                        widget.materialMovement?.status == 1
+                                (widget.materialMovement?.status == 6 ||
+                                    widget.materialMovement?.status ==
+                                        1)
                                     ? null
                                     : (val) {
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                context)
-                                            .showFields(
-                                          isMaterialPhysicallyChecked: false,
-                                          // materialMovement: materialMovement,
-                                        );
-                                      }),
+                                  BlocProvider.of<
+                                      MaterialMovementDetailsCubit>(
+                                      context)
+                                      .showFields(
+                                    isMaterialPhysicallyChecked: true,
+                                    // materialMovement: materialMovement,
+                                  );
+                                },
+                                onChangedNo: widget.materialMovement?.status ==
+                                    6 ||
+                                    widget.materialMovement?.status == 1
+                                    ? null
+                                    : (val) {
+                                  BlocProvider.of<
+                                      MaterialMovementDetailsCubit>(
+                                      context)
+                                      .showFields(
+                                    isMaterialPhysicallyChecked: false,
+                                    // materialMovement: materialMovement,
+                                  );
+                                }),
 
                             if ((state.model.status == 5 ||
-                                    state.model.status == 6) &&
+                                state.model.status == 6) &&
                                 widget.isInward == false &&
                                 state.model.returnable == true) ...[
                               /// Actual Date Of Return
@@ -1722,7 +1730,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.actualDateOfReturn =
                                       Utils().formatTime(value);
                                   BlocProvider.of<MaterialMovementDetailsCubit>(
-                                          context)
+                                      context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
@@ -1744,7 +1752,7 @@ class _MaterialMovementDetailsViewState
                                 keyboardType: TextInputType.text,
                                 textFormKey: Keys.returnChallanKey,
                                 initialValue:
-                                    state.model.materialReturnedChallanNo,
+                                state.model.materialReturnedChallanNo,
                                 hintText: '',
                                 isEnable: state.model.status != 6,
                                 isDisableColor: state.model.status == 6,
@@ -1774,42 +1782,43 @@ class _MaterialMovementDetailsViewState
                                   ),
                                   widget.materialMovement?.status != 6
                                       ? TextfieldAddButton(
-                                          title:
-                                              state.model.returnReceiverMailId,
-                                          height: 70,
-                                          isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
-                                          onTap: () {
-                                            if (state.model.status != 6) {
-                                              BaseOrganisationDialog().userDialog(
-                                                context: context,
-                                                users: state.emailUsers!,
-                                                onTap: (BaseUser user) {
-                                                  BlocProvider.of<
-                                                              MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .updateDropdownValues(
-                                                          returnReceiverMailId:
-                                                              user);
-                                                },
-                                              );
-                                            }
+                                    title:
+                                    state.model.returnReceiverMailId,
+                                    height: 70,
+                                    isDisableColor:
+                                    state.model.status != 6
+                                        ? false
+                                        : true,
+                                    onTap: () {
+                                      if (state.model.status != 6) {
+                                        BaseOrganisationDialog()
+                                            .userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                                returnReceiverMailId:
+                                                user);
                                           },
-                                        )
+                                        );
+                                      }
+                                    },
+                                  )
                                       : FlutterInputField(
-                                          initialValue:
-                                              state.model.returnReceiverMailId,
-                                          textFormKey:
-                                              Keys.returnReceiverEmailKey,
-                                          hintText: '',
-                                          isEnable: state.model.status != 6,
-                                          isDisableColor:
-                                              state.model.status == 6,
-                                          onChange: (String username) {},
-                                          validateTextField: (String? user) {},
-                                        ),
+                                    initialValue:
+                                    state.model.returnReceiverMailId,
+                                    textFormKey:
+                                    Keys.returnReceiverEmailKey,
+                                    hintText: '',
+                                    isEnable: state.model.status != 6,
+                                    isDisableColor:
+                                    state.model.status == 6,
+                                    onChange: (String username) {},
+                                    validateTextField: (String? user) {},
+                                  ),
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1825,7 +1834,7 @@ class _MaterialMovementDetailsViewState
                               ),
                               FlutterInputField(
                                 initialValue:
-                                    '${state.model.returnQuantity ?? ''}',
+                                '${state.model.returnQuantity ?? ''}',
                                 textFormKey: Keys.returnQuantityTextController,
                                 isEnable: state.model.status != 6,
                                 isDisableColor: state.model.status == 6,
@@ -1856,11 +1865,11 @@ class _MaterialMovementDetailsViewState
                               ),
                               FlutterInputField(
                                 initialValue:
-                                    state.model.materialNotCheckedComment,
+                                state.model.materialNotCheckedComment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
                                 isEnable: state.model.status == 6 ||
-                                        state.model.status == 1
+                                    state.model.status == 1
                                     ? false
                                     : true,
                                 isDisableColor: state.model.status == 6 ||
@@ -1880,11 +1889,11 @@ class _MaterialMovementDetailsViewState
                           /// upload
                           widget.materialMovement == null
                               ? CommonWidgets.textDisplay(
-                                  Constants.upload, Styles.textStyleBlack14)
+                              Constants.upload, Styles.textStyleBlack14)
                               : Container(),
                           widget.materialMovement == null
                               ? CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001)
+                              height * 0.001)
                               : Container(),
                           widget.materialMovement == null
                               ? uploadWidget(state)
@@ -1896,16 +1905,20 @@ class _MaterialMovementDetailsViewState
                             attachments: state.loadAttachments,
                             files: getFiles,
                             showDownloadIcon:
-                                widget.materialMovement?.images != null
-                                    ? true
-                                    : false,
+                            widget.materialMovement?.images != null
+                                ? true
+                                : false,
                           ),
                         ]),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
+                      if ((state.model.status != 2 ||
+                          state.model.status != 3 ||
+                          state.model.status != 5 ||
+                          state.model.status != 10 ||
+                          state.model.status != -1)
                           ? false
                           : true) ...[
                         Row(
@@ -1916,20 +1929,24 @@ class _MaterialMovementDetailsViewState
                           ],
                         ),
                       ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
                   ),
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
+            if ((state.model.status == 2 ||
+                state.model.status == 3 ||
+                state.model.status == 5 ||
+                state.model.status == 10 ||
+                state.model.status == -1)) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                    BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
@@ -1983,7 +2000,7 @@ class _MaterialMovementDetailsViewState
                     } else {
                       BlocProvider.of<MaterialMovementDetailsCubit>(context)
                           .makeSignEditable(
-                              entrySecuritySignatureSignEditable: true);
+                          entrySecuritySignatureSignEditable: true);
                     }
                   },
                   iconSize: 20,
@@ -2008,19 +2025,19 @@ class _MaterialMovementDetailsViewState
             width: double.infinity,
             child: (!isEditable && isSigned)
                 ? Image.memory(
-                    Uint8List.fromList(
-                      base64Decode(
-                        isReceiver
-                            ? state.model.receiverSign!.imageContent ?? ''
-                            : state.model.entrySecuritySign!.imageContent ?? '',
-                      ),
-                    ),
-                    fit: BoxFit.none,
-                  )
+              Uint8List.fromList(
+                base64Decode(
+                  isReceiver
+                      ? state.model.receiverSign!.imageContent ?? ''
+                      : state.model.entrySecuritySign!.imageContent ?? '',
+                ),
+              ),
+              fit: BoxFit.none,
+            )
                 : Signature(
-                    controller: controller,
-                    backgroundColor: Colors.white,
-                  ),
+              controller: controller,
+              backgroundColor: Colors.white,
+            ),
           ),
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
@@ -2033,18 +2050,26 @@ class _MaterialMovementDetailsViewState
       case 0:
         return 'Draft';
       case 1:
-        return 'Submitted';
+        return 'Business User Review';
       case 2:
-        return 'Approved';
+        return 'Submitted';
       case 3:
-        return 'Rejected';
+        return 'LSM Review';
       case 4:
-        return 'Outward Waiting';
+        return 'LSM Approved';
       case 5:
-        return 'Inward Waiting';
+        return 'LSM Rejected';
       case 6:
-        return 'Closed';
+        return 'Approved';
       case 7:
+        return 'Rejected';
+      case 8:
+        return 'Outward Waiting';
+      case 9:
+        return 'Inward Waiting';
+      case 10:
+        return 'Closed';
+      case -1:
         return 'Cancelled';
       default:
         return 'Unknown Status';
@@ -2131,61 +2156,61 @@ class _MaterialMovementDetailsViewState
   Widget uploadWidget(MaterialMovementDetailsState state) {
     return widget.materialMovement == null
         ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(140, 50),
-                    backgroundColor: AppColors.navigationSkybluecolor,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                            userdetails: state.loggedInUserDetails ?? User(),
-                            getFiles: getFiles,
-                            inwardState: state,
-                            onImageSelected: (ImageContent data) {
-                              log('-------function---onImageSelected---------');
-                              List<ImageContent>? files = [];
-                              files.add(data);
-                              for (ImageContent image in getFiles.toList()) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<MaterialMovementDetailsCubit>(
-                                      context)
-                                  .addAttchment(files);
-                            },
-                          );
-                        });
-                  },
+      height: 60,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xFFCACACA),
+            width: 1.0,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5.0),
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(140, 50),
+              backgroundColor: AppColors.navigationSkybluecolor,
+            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      userdetails: state.loggedInUserDetails ?? User(),
+                      getFiles: getFiles,
+                      inwardState: state,
+                      onImageSelected: (ImageContent data) {
+                        log('-------function---onImageSelected---------');
+                        List<ImageContent>? files = [];
+                        files.add(data);
+                        for (ImageContent image in getFiles.toList()) {
+                          files.add(image);
+                        }
+                        BlocProvider.of<MaterialMovementDetailsCubit>(
+                            context)
+                            .addAttchment(files);
+                      },
+                    );
+                  });
+            },
 
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
+            icon: SvgPicture.asset(
+              //AppIcon.dropdownicon,
+              AppIcon.uploadicon,
+              //fit: BoxFit.,
+              color: AppColors.backgroundWhitecolor,
+              width: 13,
+              height: 13,
+              key: const Key(Keys.userIcon),
+            ),
+            label: const Text(
+              Constants.clicktoupload,
+              style: Styles.textStyleRegularNormalWhite12,
+            ), // <-- Text
+          ),
+        ),
+      ]),
+    )
         : Container();
   }
 
@@ -2193,7 +2218,7 @@ class _MaterialMovementDetailsViewState
     return GestureDetector(
       onTap: () {
         if ((widget.materialMovement?.status == 6 ||
-                widget.materialMovement?.status == 1)
+            widget.materialMovement?.status == 1)
             ? false
             : true) {
           showDialog(
@@ -2234,9 +2259,9 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
+      List<ImageContent>? attachmentListviews,
+      List<ImageContent>? attachmentListviews1,
+      ) {
     log('---attachmentListviews1?.length---${attachmentListviews1?.length}------');
     log('------attachmentListviews?.length--------${attachmentListviews?.length}------');
     return Container(
@@ -2253,7 +2278,7 @@ class _MaterialMovementDetailsViewState
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: (attachmentListviews1?.length ?? 0) >
-                (attachmentListviews?.length ?? 0)
+            (attachmentListviews?.length ?? 0)
             ? attachmentListviews1?.length
             : attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
@@ -2270,11 +2295,11 @@ class _MaterialMovementDetailsViewState
               ListTile(
                 trailing: widget.materialMovement != null
                     ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
+                    color: AppColors.boldgreyBackground)
                     : const SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
+                  height: 0,
+                  width: 0,
+                ),
                 onTap: () {
                   DownloadImage().saveImage(
                       context, imageData1?.id ?? 0, imageData1?.title ?? '');
