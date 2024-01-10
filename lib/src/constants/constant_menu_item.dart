@@ -41,7 +41,7 @@ const securitySystemTicketsIncidentItems = [
   MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
   //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
   MenuItem(
-      Constants.keyManagementMaster, AppIcon.keyManagementListIcon, 1),
+      Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
   MenuItem(Constants.occurrence, AppIcon.occurence, 0),
   MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
   MenuItem(
