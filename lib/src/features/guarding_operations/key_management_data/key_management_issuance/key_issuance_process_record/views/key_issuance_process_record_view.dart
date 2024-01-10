@@ -24,12 +24,14 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   const KeyIssuanceProcessRecordsView({
     super.key,
     required this.parentId,
+    required this.parentStatus,
     required this.locationId,
     required this.title,
     this.model,
   });
 
   final int parentId;
+  final int parentStatus;
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
@@ -96,6 +98,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
               keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
               keyDescriptions: keyDescriptions,
               selectedKeyDescription: null,
+              parentStatus: widget.parentStatus,
             );
           },
         ),
@@ -196,6 +199,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         keyIssuanceProcessRecord: keyIssuanceProcessModel,
                         keyDescriptions: keyDescriptions,
                         selectedKeyDescription: selectedKeyDescription,
+                        parentStatus: widget.parentStatus,
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -230,6 +234,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,
     required final List<Organisation> keyDescriptions,
     required Organisation? selectedKeyDescription,
+    required final int parentStatus,
   }) {
     log('---showAddKeyIssuanceProcessPopUp-----k desc-333-${keyDescriptions.length}---');
 
@@ -247,6 +252,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           mainContext: context,
           keyDescriptions: keyDescriptions,
           selectedKeyDescription: selectedKeyDescription,
+            parentStatus: parentStatus,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

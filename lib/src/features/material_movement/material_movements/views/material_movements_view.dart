@@ -170,6 +170,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                             .items[selectedIndex]
                                             .entrySecurityName,
                                         isMasterGuard: false,
+                                        isMaterialMovementStatus: true,
                                         isEventProtectionStatus: false,
                                       );
                                     },
@@ -198,6 +199,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                             .items[selectedIndex]
                                             .entrySecurityName,
                                         isMasterGuard: false,
+                                        isMaterialMovementStatus: true,
+                                        isEventProtectionStatus: false,
                                       );
                                     },
                                   );
@@ -242,7 +245,9 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
-  void applyFilters(String name, ) {
+  void applyFilters(
+    String name,
+  ) {
     log('Applying Filters'); // this log is not getting printed
     log('name-------$name'); // this log is not getting printed
   }

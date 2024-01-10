@@ -1033,12 +1033,14 @@ class RouteGenerator {
       case keyManagementIssuanceProcessRecordsRoute:
         String title = '';
         int parentId = 0;
+        int parentStatus = 0;
         int locationId = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           title = arguments[ConstantsArgument.title];
           parentId = arguments[ConstantsArgument.parentId];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
         }
         return MaterialPageRoute(
@@ -1053,6 +1055,7 @@ class RouteGenerator {
               )),
             child: KeyIssuanceProcessRecordsView(
               parentId: parentId,
+              parentStatus: parentStatus,
               locationId: locationId,
               title: title,
             ),

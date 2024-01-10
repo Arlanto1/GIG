@@ -1,4 +1,4 @@
-import 'package:db_atom/src/features/guarding_operations/vvip_visitor/models/vvip_visitor_records_model.dart';
+import 'package:db_atom/src/features/guarding_operations/vvip_visitor/models/vvip_visitor_record_model.dart';
 
 import '../../../../../index.dart';
 
@@ -24,6 +24,7 @@ class VVIPVisitorRecordsResponseModel extends BaseObject {
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
+  @override
   Map<String, dynamic> toJson() => {
         '': items?.map((e) => e.toJson()).toList(),
         'totalCount': totalCount,
@@ -33,7 +34,7 @@ class VVIPVisitorRecordsResponseModel extends BaseObject {
 }
 
 class VVIPVisitorsRecordListModel {
-  final List<VIVPVisitorRecords>? vvipVisitorsRecord;
+  final List<VIVPVisitorRecordModel>? vvipVisitorsRecord;
 
   VVIPVisitorsRecordListModel({
     this.vvipVisitorsRecord,
@@ -41,7 +42,7 @@ class VVIPVisitorsRecordListModel {
 
   VVIPVisitorsRecordListModel.fromJson(Map<String, dynamic> json)
       : vvipVisitorsRecord = (json['vvipVisitorsRecord'] as List<dynamic>?)
-            ?.map((e) => VIVPVisitorRecords.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => VIVPVisitorRecordModel.fromJson(e as Map<String, dynamic>))
             .toList();
 
   Map<String, dynamic> toJson() => {

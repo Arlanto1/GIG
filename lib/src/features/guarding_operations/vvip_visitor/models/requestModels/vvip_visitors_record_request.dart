@@ -1,7 +1,7 @@
-import '../vvip_visitor_records_model.dart';
+import '../vvip_visitor_record_model.dart';
 
 class VVIPVisitorRecordRequest {
-  VIVPVisitorRecords? vipVisitors;
+  VIVPVisitorRecordModel? vipVisitors;
 
   VVIPVisitorRecordRequest({
     this.vipVisitors,
@@ -9,7 +9,7 @@ class VVIPVisitorRecordRequest {
 
   VVIPVisitorRecordRequest.fromJson(Map<String, dynamic> json)
       : vipVisitors = (json['vipVisitors'] as Map<String, dynamic>?) != null
-            ? VIVPVisitorRecords.fromJson(
+            ? VIVPVisitorRecordModel.fromJson(
                 json['vipVisitors'] as Map<String, dynamic>)
             : null;
 

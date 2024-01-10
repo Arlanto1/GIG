@@ -4,7 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/requestModels/vvip_visitors_record_request.dart';
-import '../../models/vvip_visitor_records_model.dart';
+import '../../models/vvip_visitor_record_model.dart';
 import '../../services/vvip_visitor_services.dart';
 
 part 'vvip_visitors_record_event.dart';
@@ -35,7 +35,7 @@ class VVIPVisitorsRecordBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        List<VIVPVisitorRecords> response =
+        List<VIVPVisitorRecordModel> response =
             await services.getVVIPVisitorRecordsList(
           id: '${event.id}',
           // type: '${event.type}',
@@ -49,7 +49,7 @@ class VVIPVisitorsRecordBloc
         );
       }
 
-      List<VIVPVisitorRecords> response =
+      List<VIVPVisitorRecordModel> response =
           await services.getVVIPVisitorRecordsList(
         id: '${event.id}',
         // type: '${event.type}',
@@ -78,7 +78,7 @@ class VVIPVisitorsRecordBloc
     );
     try {
       await VVIPVisitorServices().deleteVipById(event.id);
-      List<VIVPVisitorRecords> response =
+      List<VIVPVisitorRecordModel> response =
           await services.getVVIPVisitorRecordsList(
         id: '${event.mainContactId}',
       );
@@ -108,12 +108,12 @@ class VVIPVisitorsRecordBloc
     try {
       VVIPVisitorRecordRequest request = VVIPVisitorRecordRequest();
 
-      // request.vp = event.vipVisitors;
+      request.vipVisitors = event.vViPVisitorRecordModel;
       await VVIPVisitorServices().createVVIPVisitorsRecord(
           body: request, isSubmit: false, id: '${event.mainContactId}');
 
       /// Refresh list
-      List<VIVPVisitorRecords> response =
+      List<VIVPVisitorRecordModel> response =
           await services.getVVIPVisitorRecordsList(
         id: '${event.mainContactId}',
         // type: '${event.type}',
