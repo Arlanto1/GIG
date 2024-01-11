@@ -178,8 +178,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null || widget.isMaterialMovementStatus == true) &&
-                          !widget.isMasterGuard
+                      if ((widget.status != null && widget.isMaterialMovementStatus == true) && !widget.isMasterGuard
                           ) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()

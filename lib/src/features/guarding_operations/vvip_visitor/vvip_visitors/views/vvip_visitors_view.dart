@@ -130,6 +130,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                 labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isVipStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -146,6 +148,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                 labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isVipStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                               );
                             },
                           );
