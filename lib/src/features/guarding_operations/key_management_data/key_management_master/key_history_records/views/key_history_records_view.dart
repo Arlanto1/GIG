@@ -130,7 +130,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             id: state.list[index].id,
                             labels: labels,
                             status: state.list[index].status,
-                            isKeyManagementStatus: true,
+                            isKeyManagementHistoryStatus: true,
                             isEventProtectionStatus: false,
                             onTap: (selectedIndex) {
                               showDialog(
@@ -147,7 +147,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     doorName:
                                         state.list[selectedIndex].doorName,
                                     isEventProtectionStatus: false,
-                                    isKeyManagementStatus: true,
+                                    isKeyManagementHistoryStatus: true,
                                     isMasterGuard: false,
                                   );
                                 },
@@ -172,7 +172,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     doorName:
                                         state.list[selectedIndex].doorName,
                                     isEventProtectionStatus: false,
-                                    isKeyManagementStatus: true,
+                                    isKeyManagementHistoryStatus: true,
                                     isMasterGuard: false,
                                   );
                                 },

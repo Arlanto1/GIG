@@ -80,31 +80,14 @@ class KeyManagementIssuanceDetailsCubit
       EmployeeDepartments departments = futures[6];
       dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
-      log('--slNo.serialNo--qqq--${defaultLocation?.id}--');
-      // if (state.model.location == null && defaultLocation != null) {
-      //   SerialNumberModel slNo = await commonServices.getSlNo(
-      //     locationId: defaultLocation.id.toString(),
-      //     moduleCode: Constants.keyManagementIssuanceModule,
-      //   );
-      //   log('--slNo.serialNo--${defaultLocation.id}----');
-      //   log('--slNo.serialNo--${Constants.keyManagementIssuanceModule}----');
-      //   log('--slNo.serialNo--$slNo----');
-      //   log('--slNo.serialNo--${slNo.serialNo}----');
-      //   state.model.location = defaultLocation;
-      //   state.model.slNo = slNo.serialNo;
-      // }
       if (state.model.location == null && defaultLocation != null) {
-        String moduleCode = Constants.keyManagementIssuanceModule;
-
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: moduleCode,
+          moduleCode: Constants.keyManagementIssuanceModule,
         );
-
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-
       state.model.createdBy = loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
@@ -158,6 +141,7 @@ class KeyManagementIssuanceDetailsCubit
         locationId: location.id.toString(),
         moduleCode: Constants.keyManagementIssuanceModule,
       );
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }

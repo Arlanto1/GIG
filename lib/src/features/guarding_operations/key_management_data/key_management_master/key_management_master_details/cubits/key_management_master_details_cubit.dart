@@ -49,16 +49,6 @@ class KeyManagementMasterDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onAddParticipationDate(String participationDate) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    List<String>? dates = state.participationDates ?? [];
-    dates.add(participationDate);
-
-    state.copyWith(
-      participationDates: dates,
-    );
-  }
-
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
