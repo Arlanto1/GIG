@@ -912,7 +912,7 @@ class NavigationDrawer1 extends StatelessWidget {
         securitySystemTicketsIncidentItems,
         title,
       );
-    } else if (title == Constants.keyManagementMaster) {
+    } else if (title == Constants.keyManagementData) {
       return _genericItemSelection(
         context,
         keyManagementDataItems,

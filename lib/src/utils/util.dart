@@ -620,6 +620,9 @@ class Utils {
       case 9:
         statusText = 'Returned Defaced';
         break;
+      case -1:
+        statusText = 'Record Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
