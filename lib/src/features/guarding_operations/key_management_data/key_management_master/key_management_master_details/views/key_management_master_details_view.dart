@@ -24,6 +24,7 @@ class _KeyManagementMasterDetailsViewState
   User? userDetails;
   TextEditingController keyTaggingController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController totalKeyController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
 
@@ -35,6 +36,9 @@ class _KeyManagementMasterDetailsViewState
     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
         .initializeValues();
     widget.model?.total ==
+        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+            .toString());
+    totalKeyController.text =
         (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
             .toString());
   }
@@ -337,12 +341,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.doorName == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.doorName = value;
@@ -428,12 +427,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keyNo == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.keyNo = value;
@@ -498,15 +492,17 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noKeys == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.noKeys = int.tryParse(value);
+
+                              int noKeys = state.model.noKeys ?? 0;
+                              int noMasterKey = state.model.noMasterKey ?? 0;
+                              totalKeyController.text =
+                                  (noKeys + noMasterKey).toString();
+                              widget.model?.total =
+                                  int.tryParse(totalKeyController.text);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -515,7 +511,7 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// No. of  Master Keys
+                          /// Number of  Master Keys
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.employeeCode ??
                               //state.labels?.defaultLocale.employeeCode ??
@@ -528,15 +524,18 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noMasterKey == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.noMasterKey = int.tryParse(value);
+
+                              int noKeys = state.model.noKeys ?? 0;
+                              int noMasterKey = state.model.noMasterKey ?? 0;
+                              totalKeyController.text =
+                                  (noKeys + noMasterKey).toString();
+
+                              widget.model?.total =
+                                  int.tryParse(totalKeyController.text);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -545,7 +544,7 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///total Keys
+                          /// Total Keys
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.budget ??
                               //     state.labels?.defaultLocale.budget ??
@@ -554,9 +553,10 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: (((state.model.noKeys ?? 0) +
-                                    (state.model.noMasterKey ?? 0))
-                                .toString()),
+                            textFieldController: totalKeyController,
+                            // initialValue: (((state.model.noKeys ?? 0) +
+                            //         (state.model.noMasterKey ?? 0))
+                            //     .toString()),
                             textFormKey: Keys.budgetKey,
                             hintText: '',
                             isEnable: !isDisabled,
@@ -584,12 +584,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keysStored,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keysStored == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.keysStored = value;
