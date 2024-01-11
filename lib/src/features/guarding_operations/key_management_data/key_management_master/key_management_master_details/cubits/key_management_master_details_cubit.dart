@@ -40,6 +40,7 @@ class KeyManagementMasterDetailsCubit
 
   void onModelValueChange(KeyManagementMasterModel model) {
     log('-onModelValueChange---');
+    emit(state.copyWith(model: model, status: FormStatus.loading));
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
