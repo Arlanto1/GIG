@@ -118,8 +118,8 @@ class Constants {
   static const String newPassword = "New Password";
   static const String confirmNewPassword = "Confirm New Password";
   static const String forgotPassowrd = 'Forgot Password?';
-  static const String supportText = "Support: +49 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2023 RimaOne.";
+  static const String supportText = "Support: +91 6150 961 6244";
+  static const String copyrightText = "Copyright Â© 2024 RimaOne.";
   static const String submit = "Submit";
 
   //Dashboard

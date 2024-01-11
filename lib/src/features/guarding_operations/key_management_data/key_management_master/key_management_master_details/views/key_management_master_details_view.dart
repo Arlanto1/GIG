@@ -34,9 +34,9 @@ class _KeyManagementMasterDetailsViewState
     super.initState();
     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
         .initializeValues();
-    widget.model?.total ==(((widget.model?.noKeys ?? 0) +
-        (widget.model?.noMasterKey ?? 0))
-        .toString());
+    widget.model?.total ==
+        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+            .toString());
   }
 
   @override
@@ -303,7 +303,8 @@ class _KeyManagementMasterDetailsViewState
                           TextfieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor: state.model.status== 2 ? true : false,
+                            isDisableColor:
+                                state.model.status == 2 ? true : false,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
@@ -311,7 +312,8 @@ class _KeyManagementMasterDetailsViewState
                                 onTap: (Organisation department) {
                                   state.model.doorType?.name = department.name;
 
-                                  BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                  BlocProvider.of<
+                                              KeyManagementMasterDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
                                           doorType: department);
@@ -422,7 +424,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -492,7 +494,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -522,7 +524,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -796,7 +798,7 @@ class _KeyManagementMasterDetailsViewState
                                       Constants.keyDestroyHistory,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.type:
-                                  Constants.keyDestroyHistoryInt,
+                                      Constants.keyDestroyHistoryInt,
                                 },
                               );
                             },
