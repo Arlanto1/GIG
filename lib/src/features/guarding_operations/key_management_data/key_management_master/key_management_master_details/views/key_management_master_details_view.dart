@@ -602,225 +602,229 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Lock Change History
-                          //if (state.model.status == 1) ...[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.lockChangeHistory,
-                              style: Styles.styleHeaderGreyText16,
+                          if (state.model.status == 1) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.lockChangeHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.lockChangeHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.lockChangeHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Lock Change History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.lockChangeHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.lockChangeHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///Key Lost History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyLostHistory,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyLostHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyLostHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Lost History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Lock Change History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Key Damage History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyDamageHistory,
-                              style: Styles.styleHeaderGreyText16,
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Lost History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyLostHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
 
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                                log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
 
-                              log('--state.model.id---${state.model.id}---');
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyDamageHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyDamageHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Damage History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyLostHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyLostHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///Key Destroy History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyDestroyHistory,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyDestroyHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyDestroyHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Destroy History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Lost History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Damage History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyDamageHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+                                log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+
+                                log('--state.model.id---${state.model.id}---');
+
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyDamageHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyDamageHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Damage History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Destroy History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyDestroyHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyDestroyHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyDestroyHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Destroy History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
