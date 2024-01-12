@@ -37,7 +37,11 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   @override
   void initState() {
     super.initState();
-    shiftAController.text =widget.model!.shiftA.toString();
+    totalController.text = (((widget.model?.shiftA ?? 0) +
+            (widget.model?.shiftB ?? 0) +
+            (widget.model?.shiftC ?? 0) +
+            (widget.model?.shiftG ?? 0))
+        .toString());
     BlocProvider.of<DutyPostMasterDetailsCubit>(context).initializeValues();
   }
 
@@ -284,6 +288,15 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.shiftA = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -308,7 +321,16 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.shiftA = int.tryParse(value);
+                              state.model.shiftB = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -334,6 +356,15 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.shiftC = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
                               // context
                               //     .read<DutyPostMasterDetailsCubit>()
                               //     .onModelValueChange(state.model);
@@ -359,9 +390,18 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.shiftG = int.tryParse(value);
-                              context
-                                  .read<DutyPostMasterDetailsCubit>()
-                                  .onModelValueChange(state.model);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
+                              // context
+                              //     .read<DutyPostMasterDetailsCubit>()
+                              //     .onModelValueChange(state.model);
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -378,9 +418,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                    //           initialValue: (((state.model.shiftA ?? 0) +
-                    //           (state.model.shiftB ?? 0))
-                    // .toString()),
+                            //           initialValue: (((state.model.shiftA ?? 0) +
+                            //           (state.model.shiftB ?? 0))
+                            // .toString()),
                             textFieldController: totalController,
                             hintText: '',
                             isEnable: false,
