@@ -22,10 +22,6 @@ class DutyPostMasterDetailsView extends StatefulWidget {
 class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  TextEditingController shiftAController = TextEditingController();
-  TextEditingController shiftBController = TextEditingController();
-  TextEditingController shiftCController = TextEditingController();
-  TextEditingController shiftGController = TextEditingController();
   TextEditingController totalController = TextEditingController();
   TextEditingController rankController = TextEditingController();
 
@@ -282,7 +278,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            textFieldController: shiftAController,
+                            initialValue: '${widget.model?.shiftA}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -316,7 +312,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            textFieldController: shiftBController,
+                            initialValue: '${widget.model?.shiftB}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -350,7 +346,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            textFieldController: shiftCController,
+                            initialValue: '${widget.model?.shiftC}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -384,7 +380,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            textFieldController: shiftGController,
+                            initialValue: '${widget.model?.shiftG}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
