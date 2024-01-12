@@ -310,7 +310,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         context.read<DrawerCubit>().getSecurityIndexChange(10);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       Constants.securityFunctions, // TODO: dynamic
                       style: TextStyle(
@@ -504,7 +504,8 @@ class NavigationDrawer1 extends StatelessWidget {
                               .getSecurityIndexChange(10);
                         }
                       },
-                      trailing: const SizedBox.shrink(),
+                      trailing: const Icon(Icons.arrow_drop_down_rounded),
+                      // trailing: const SizedBox.shrink(),
                       title: Text(
                         Constants.securityFunctions,
                         style: TextStyle(
@@ -595,7 +596,7 @@ class NavigationDrawer1 extends StatelessWidget {
                             _securityfunfunctionslastSelectedItem);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       drawerItem.title,
                       style: TextStyle(
@@ -714,7 +715,7 @@ class NavigationDrawer1 extends StatelessWidget {
                             .getOperationsIndexChange(10);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       drawerItem.title,
                       style: TextStyle(
