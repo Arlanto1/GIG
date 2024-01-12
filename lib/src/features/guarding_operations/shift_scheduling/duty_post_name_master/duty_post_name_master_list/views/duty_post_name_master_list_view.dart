@@ -54,7 +54,9 @@ class _DutyPostNameMasterListViewState
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
             Navigator.pushNamed(context, dutyPostNameMasterDetailsRoute,
-                arguments: {"title": Constants.createDutyPostNameMaster}),
+                arguments: {"title": Constants.createDutyPostNameMaster,
+                  "dutyPostNameMasterModel": DutyPostNameMasterModel(),
+                }),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(

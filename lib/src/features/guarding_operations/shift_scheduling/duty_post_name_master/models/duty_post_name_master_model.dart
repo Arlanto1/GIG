@@ -43,7 +43,7 @@ class DutyPostNameMasterModel extends BaseObject {
   String? modifiedDate;
   String? modifiedBy;
   int? status;
-  List<DpName>? dpName;
+  List<String>? locationNames;
 
   DutyPostNameMasterModel({
     this.id,
@@ -55,65 +55,17 @@ class DutyPostNameMasterModel extends BaseObject {
     this.modifiedDate,
     this.modifiedBy,
     this.status,
-    this.dpName,
+    this.locationNames,
   });
 
-  DutyPostNameMasterModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        slNo = json['slNo'] as String?,
-        location = (json['location'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
-            : null,
-        locationRegion =
-            (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? Organisation.fromJson(
-                    json['locationRegion'] as Map<String, dynamic>)
-                : null,
-        inputDate = json['inputDate'] as String?,
-        entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
-            : null,
-        modifiedDate = json['modifiedDate'] as String?,
-        modifiedBy = json['modifiedBy'] as String?,
-        status = json['status'] as int?,
-        dpName = (json['dpName'] as List?)
-            ?.map((dynamic e) => DpName.fromJson(e as Map<String, dynamic>))
-            .toList();
+  factory DutyPostNameMasterModel.fromJson(Map<String, dynamic> json) =>
+      _$DutyPostNameMasterModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'slNo': slNo,
-        'location': location?.toJson(),
-        'locationRegion': locationRegion?.toJson(),
-        'inputDate': inputDate,
-        'entrySecurity': entrySecurity?.toJson(),
-        'modifiedDate': modifiedDate,
-        'modifiedBy': modifiedBy,
-        'status': status,
-        'dpName': dpName?.map((e) => e.toJson()).toList(),
-        'lock': lock
-      };
+  Map<String, dynamic> toJson() => _$DutyPostNameMasterModelToJson(this);
 }
 
-class DpName {
-  int? id;
-  String? dutyPostName;
-  Organisation? location;
 
-  DpName({
-    this.id,
-    this.dutyPostName,
-    this.location,
-  });
 
-  DpName.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        dutyPostName = json['dutyPostName'] as String?,
-        location = (json['location'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
-            : null;
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'dutyPostName': dutyPostName, 'location': location?.toJson()};
-}
+
