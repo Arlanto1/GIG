@@ -70,6 +70,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isKeyManagementIssuanceStatus;
   final bool isKeyManagementStatus;
   final bool isVipStatus;
+  final bool isMaterialMovementStatus;
   final User? srh;
   final User? securityManager;
   final int? keyType;
@@ -138,6 +139,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isSLAViolationStatus = false,
     this.shiftBrfngAttnded = false,
     this.materialMovement = false,
+    this.isMaterialMovementStatus = false,
     this.leoVisit = false,
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLAStatus = false,
@@ -356,17 +358,19 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null &&
-          !widget.isMasterGuard &&
-          !widget.isOccurrenceStatus &&
-          !widget.isEventProtectionStatus &&
-          !widget.isSLAViolationStatus &&
-          !widget.isKeyManagementIssuanceStatus &&
-          !widget.isKeyManagementStatus &&
-          !widget.isVipStatus &&
-          !widget.isSecuritySystemSLAStatus &&
-          !widget.isIncident &&
-          !widget.isContactDetailsStatus) ...[
+      // if (widget.status != null &&
+      //     !widget.isMasterGuard &&
+      //     !widget.isOccurrenceStatus &&
+      //     !widget.isEventProtectionStatus &&
+      //     !widget.isSLAViolationStatus &&
+      //     !widget.isKeyManagementIssuanceStatus &&
+      //     !widget.isKeyManagementStatus &&
+      //     !widget.isVipStatus &&
+      //     !widget.isSecuritySystemSLAStatus &&
+      //     !widget.isIncident &&
+      //     !widget.isContactDetailsStatus) ...[
+      if (widget.status != null && widget.isMaterialMovementStatus == true
+          ) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [

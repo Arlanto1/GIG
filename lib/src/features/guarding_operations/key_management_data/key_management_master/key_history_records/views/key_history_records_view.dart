@@ -68,7 +68,15 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.keyManagementMaster,
+          title: widget.type == Constants.lockChangeHistoryInt
+              ? Constants.lockChangeHistory
+              : widget.type == Constants.keyLostHistoryInt
+                  ? Constants.keyLostHistory
+                  : widget.type == Constants.keyDamageHistoryInt
+                      ? Constants.keyDamageHistory
+                      : widget.type == Constants.keyDestroyHistoryInt
+                          ? Constants.keyDestroyHistory
+                          : 'Default Title',
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
@@ -138,8 +146,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                         state.list[selectedIndex].keyTagging,
                                     doorName:
                                         state.list[selectedIndex].doorName,
-                                    isKeyManagementIssuanceStatus: true,
                                     isEventProtectionStatus: false,
+                                    isKeyManagementStatus: true,
                                     isMasterGuard: false,
                                   );
                                 },
@@ -164,6 +172,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     doorName:
                                         state.list[selectedIndex].doorName,
                                     isEventProtectionStatus: false,
+                                    isKeyManagementStatus: true,
                                     isMasterGuard: false,
                                   );
                                 },
@@ -195,7 +204,15 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
         "keyMgmtGi": keyManagementMasterModel,
-        ConstantsArgument.title: Constants.editkeyManagementMaster,
+        ConstantsArgument.title: widget.type == Constants.lockChangeHistoryInt
+            ? Constants.editLockChangeHistory
+            : widget.type == Constants.keyLostHistoryInt
+                ? Constants.editKeyLostHistory
+                : widget.type == Constants.keyDamageHistoryInt
+                    ? Constants.editKeyDamageHistory
+                    : widget.type == Constants.keyDestroyHistoryInt
+                        ? Constants.editKeyDestroyHistory
+                        : 'Default Title',
         ConstantsArgument.id: widget.id,
         ConstantsArgument.type: widget.type,
       });

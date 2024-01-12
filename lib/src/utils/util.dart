@@ -217,22 +217,37 @@ class Utils {
         statusText = 'Draft';
         break;
       case 1:
-        statusText = 'Submitted';
+        statusText = 'Business User Review';
         break;
       case 2:
-        statusText = 'Approved';
+        statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'Rejected';
+        statusText = 'LSM Review';
         break;
       case 4:
-        statusText = 'Outward Pending';
+        statusText = 'LSM Approved';
         break;
       case 5:
-        statusText = 'Inward Pending';
+        statusText = 'LSM Rejected';
         break;
       case 6:
-        statusText = 'Closed/Finalized';
+        statusText = 'Approved';
+        break;
+      case 7:
+        statusText = 'Rejected';
+        break;
+      case 8:
+        statusText = 'Outward Waiting';
+        break;
+      case 9:
+        statusText = 'Inward Waiting';
+        break;
+      case 10:
+        statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -604,6 +619,9 @@ class Utils {
         break;
       case 9:
         statusText = 'Returned Defaced';
+        break;
+      case -1:
+        statusText = 'Record Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed

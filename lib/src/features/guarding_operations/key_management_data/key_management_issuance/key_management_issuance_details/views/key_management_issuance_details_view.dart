@@ -592,6 +592,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     ConstantsArgument.title:
                                         Constants.keyIssuanceProcess,
                                     ConstantsArgument.parentId: state.model.id,
+                                    ConstantsArgument.parentStatus: state.model.status,
                                     ConstantsArgument.locationId:
                                         state.model.location?.id,
                                   },

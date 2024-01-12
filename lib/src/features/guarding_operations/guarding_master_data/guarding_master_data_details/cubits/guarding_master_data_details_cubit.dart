@@ -125,7 +125,7 @@ class GuardingMasterDataDetailsCubit
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
+          moduleCode: Constants.guardingMasterDataModule,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;

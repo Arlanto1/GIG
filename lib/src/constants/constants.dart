@@ -613,9 +613,13 @@ class Constants {
   static const String powerFailureEndDate = 'Power Failure End Date & Time';
   static const String systemManager = 'System Manager';
   static const String lsm = 'LSM';
+  static const String securityLead = 'Security Lead';
   static const String asl = 'ASL';
   static const String system = 'System';
   static const String vendorPoc = 'Vendor Poc';
+  static const String escalation1Poc = 'Escalation 1 Poc';
+  static const String escalation2Poc = 'Escalation 2 Poc';
+  static const String escalation3Poc = 'Escalation 3 Poc';
   static const String locationTeam = 'Location Team';
   static const String shortIncidentDescription =
       'Short Description of Incident';
@@ -678,6 +682,10 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String editLockChangeHistory = ' Edit Lock Change History';
+  static const String editKeyLostHistory = 'Edit Key Lost History';
+  static const String editKeyDamageHistory = 'Edit Key Damage History';
+  static const String editKeyDestroyHistory = 'Edit Key Destroy History';
   static const String type = 'Type';
   static const String srh = 'SRH';
   static const String securityManager = 'Security Manager';

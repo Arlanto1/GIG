@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 
 part 'guarding_master_data_model.g.dart';
@@ -182,9 +184,22 @@ class GuardingMastersDataModel extends BaseObject {
     this.guardingPOC,
   });
 
-  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) =>
-      _$GuardingMastersDataModelFromJson(json);
+  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$GuardingMastersDataModelFromJson(json);
+    } catch (e) {
+      if (e is CheckedFromJsonException) {
+        // Access the information about the error
+        print('Error during deserialization: ${e.message}, path: ${e.key}');
+      } else {
+        // Handle other types of exceptions if needed
+        print('Unexpected error during deserialization: $e');
+      }
 
+      // Return a default instance or handle differently based on your needs.
+      return GuardingMastersDataModel();
+    }
+  }
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
 }

@@ -107,8 +107,8 @@ class _KeyManagementMasterListViewState
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isKeyManagementStatus: true,
-                        isEventProtectionStatus: false,
+                  isKeyManagementStatus: true,
+                  isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,

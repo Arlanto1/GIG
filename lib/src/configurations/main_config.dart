@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/utils/device_infomation.dart';
+
 export 'package:flutter/material.dart';
 
 class MainConfig with WidgetsBindingObserver {
@@ -74,7 +76,7 @@ class MainConfig with WidgetsBindingObserver {
       ),
     );
     InactivityFunctions().startInactivityTimer(navigatorKey);
-
+    DeviceInformation().initPlatformState();
   }
 
   @override

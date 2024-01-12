@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../enums/form_status.dart';
-import '../../models/vvip_visitor_records_model.dart';
+import '../../models/vvip_visitor_record_model.dart';
 import '../../services/vvip_visitor_services.dart';
 import '../bloc/vvip_visitors_record_bloc.dart';
 import 'add_vvip_visitors_record_popup.dart';
@@ -30,7 +30,7 @@ class VVIPVisitorsRecordView extends StatefulWidget {
 
   final int id;
   final String title;
-  final VIVPVisitorRecords? model;
+  final VIVPVisitorRecordModel? model;
 
   @override
   State<VVIPVisitorsRecordView> createState() => _VVIPVisitorsRecordView();
@@ -45,8 +45,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
     context.read<VVIPVisitorsRecordBloc>().add(
-      const InitializeValues(),
-    );
+          const InitializeValues(),
+        );
   }
 
   @override
@@ -71,8 +71,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<VVIPVisitorsRecordBloc,
-        VVIPVisitorsRecordState>(listener: (context, state) {
+    return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
+        listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
       return Scaffold(
@@ -81,12 +81,9 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
-
             showAddVVIPVisitorsPopUp(
               context: context,
-              contact: VIVPVisitorRecords(
-                id: widget.id, users: [],
-              ), users: [],
+              contact: VIVPVisitorRecordModel(),
             );
           },
         ),
@@ -123,7 +120,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-        state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
@@ -148,50 +145,48 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
-              id: state.items?[index].id,
-              labels: labels,
-              onTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              onEditTap: (selectedIndex) async {
-                VIVPVisitorRecords visitorsModel =
-                await VVIPVisitorServices()
-                    .getVIPById(state.items?[index].id ?? 0);
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onEditTap: (selectedIndex) async {
+                      VIVPVisitorRecordModel visitorsModel =
+                          await VVIPVisitorServices()
+                              .getVIPById(state.items?[index].id ?? 0);
 
-
-                showAddVVIPVisitorsPopUp(
-                  context: context,
-                  contact: visitorsModel,
-                  users: [],
-                );
-              },
-              onViewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              onDeleteTap: (selectedIndex) async {
-                // Call Delete API
-                BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
-                    DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                        widget.id));
-              },
-              index: index,
-            );
+                      showAddVVIPVisitorsPopUp(
+                        context: context,
+                        contact: visitorsModel,
+                      );
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onDeleteTap: (selectedIndex) async {
+                      // Call Delete API
+                      BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
+                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                              widget.id));
+                    },
+                    index: index,
+                  );
           }
           return null;
         },
@@ -201,10 +196,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
 
   showAddVVIPVisitorsPopUp({
     required BuildContext context,
-    required VIVPVisitorRecords contact,
-    required final List<Organisation> users,
+    required VIVPVisitorRecordModel contact,
   }) {
-    log('--.users-1111-llen--${users.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -212,12 +205,11 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           title: widget.title,
           model: contact,
           mainContext: context,
-          users: users,
-          onSubmit: (VIVPVisitorRecords model) {
+          onSubmit: (VIVPVisitorRecordModel model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
-            log('-widget.title---${widget.title}----');
+            log('-widget.model---${widget.model}----');
 
             BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
               SaveRecord(

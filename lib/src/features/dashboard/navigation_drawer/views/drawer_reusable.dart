@@ -310,7 +310,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         context.read<DrawerCubit>().getSecurityIndexChange(10);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       Constants.securityFunctions, // TODO: dynamic
                       style: TextStyle(
@@ -418,27 +418,28 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, contactDetailsListRoute,
           arguments: {"Contact Details": true});
     } else if (index == 7) {
-      Navigator.pushNamed(context, keyReconciliationListRoute,
-          arguments: {"Key Reconciliation List": false});
-    } else if (index == 8) {
-      Navigator.pushNamed(context, keyLossDestructionListRoute,
-          arguments: {"Key Loss Destruction List": false});
-    } else if (index == 9) {
-      Navigator.pushNamed(context, keyManagementIssuanceListRoute,
-          arguments: {"Key Management Issuance List": false});
-    } else if (index == 10) {
       Navigator.pushNamed(context, dutyPostMasterListRoute,
           arguments: {"Duty Post Master list": false});
-    } else if (index == 11) {
+    } else if (index == 8) {
       Navigator.pushNamed(context, dutyPostNameMasterListRoute,
           arguments: {"Duty Post Name Master list": false});
-    } else if (index == 12) {
+    } else if (index == 9) {
       Navigator.pushNamed(context, attendanceListRoute,
           arguments: {"Attendance list": false});
-    } else if (index == 13) {
+    } else if (index == 10) {
       Navigator.pushNamed(context, shiftScheduleListRoute,
           arguments: {"Shift Schedule": false});
     }
+    // else if (index == 11) {
+    //   Navigator.pushNamed(context, dutyPostNameMasterListRoute,
+    //       arguments: {"Duty Post Name Master list": false});
+    // } else if (index == 12) {
+    //   Navigator.pushNamed(context, attendanceListRoute,
+    //       arguments: {"Attendance list": false});
+    // } else if (index == 13) {
+    //   Navigator.pushNamed(context, shiftScheduleListRoute,
+    //       arguments: {"Shift Schedule": false});
+    // }
   }
 
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
@@ -503,7 +504,8 @@ class NavigationDrawer1 extends StatelessWidget {
                               .getSecurityIndexChange(10);
                         }
                       },
-                      trailing: const SizedBox.shrink(),
+                      trailing: const Icon(Icons.arrow_drop_down_rounded),
+                      // trailing: const SizedBox.shrink(),
                       title: Text(
                         Constants.securityFunctions,
                         style: TextStyle(
@@ -594,7 +596,7 @@ class NavigationDrawer1 extends StatelessWidget {
                             _securityfunfunctionslastSelectedItem);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       drawerItem.title,
                       style: TextStyle(
@@ -713,7 +715,7 @@ class NavigationDrawer1 extends StatelessWidget {
                             .getOperationsIndexChange(10);
                       }
                     },
-                    trailing: const SizedBox.shrink(),
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
                     title: Text(
                       drawerItem.title,
                       style: TextStyle(
@@ -911,7 +913,7 @@ class NavigationDrawer1 extends StatelessWidget {
         securitySystemTicketsIncidentItems,
         title,
       );
-    } else if (title == Constants.keyManagementMaster) {
+    } else if (title == Constants.keyManagementData) {
       return _genericItemSelection(
         context,
         keyManagementDataItems,

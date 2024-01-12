@@ -748,7 +748,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         CommonWidgets.textDisplay(
           Constants.emailid,
           Styles.textStyleBlack14,
-          isMandatory: true,
+          isMandatory: state.getVisitsCount != 1 ? false : true,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
@@ -1206,8 +1206,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     log('pickedDate---$pickedDate'); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
-    log(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
+    log(formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == actualDateTextController) {
       actualDateTextController.text = formattedDate;
