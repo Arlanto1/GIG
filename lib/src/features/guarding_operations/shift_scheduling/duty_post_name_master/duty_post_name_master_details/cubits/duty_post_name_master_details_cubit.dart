@@ -1,15 +1,12 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'duty_post_name_master_details_state.dart';
 
@@ -44,19 +41,6 @@ class DutyPostNameMasterDetailsCubit
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
-
-  // void onAddParticipationDate(String participationDate) {
-  //   emit(state.copyWith(model: model, status: FormStatus.loading));
-  //   List<String>? dates = state.participationDates ?? [];
-  //   dates.add(participationDate);
-  //
-  //   state.copyWith(
-  //     participationDates: dates,
-  //   );
-  //
-  //   state.model.csrParticipationDates = Utils().joinListWithComma(dates);
-  //   emit(state.copyWith(model: model, status: FormStatus.initial));
-  // }
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -94,9 +78,6 @@ class DutyPostNameMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
 
-      // List<String> dutyPostLocationNames =
-      //     Utils().splitStringAfterComma(state.model.dutyPostLocationName ?? '');
-
       state.model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
@@ -109,7 +90,7 @@ class DutyPostNameMasterDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          // dutyPostLocationNames: dutyPostLocationNames,
+          locationNames: state.model.locationNames,
           labels: labels,
         ),
       );
@@ -125,25 +106,19 @@ class DutyPostNameMasterDetailsCubit
     }
   }
 
-  void onAddDutyPostLocationName(String dutyPostLocationName) {
-    log('-dutyPostLocationNames---$dutyPostLocationName-');
+  void onAddDutyPostLocationName(String locationName) {
+    log('-locationNames---$locationName-');
 
     emit(state.copyWith(
       model: model,
       status: FormStatus.loading,
     ));
-    log('-state.dutyPostLocationNames---before---${state.dutyPostLocationNames}----');
 
-    List<String>? dutyPostLocationNames = state.dutyPostLocationNames ?? [];
-    log('-dutyPostLocationNames--$dutyPostLocationNames----');
-    dutyPostLocationNames.add(dutyPostLocationName);
-    log('-dutyPostLocationNames-22-$dutyPostLocationNames----');
-    state.copyWith(
-      dutyPostLocationNames: dutyPostLocationNames,
-    );
-    log('-state.dutyPostLocationNames---after---${state.dutyPostLocationNames}----');
-    // state.model.dutyPostLocationName =
-    //     Utils().joinListWithComma(dutyPostLocationNames);
+    // state.model??=DutyPostNameMasterModel();
+    log('-state.locationNames---before-1--${model?.locationNames}----');
+    model?.locationNames??=[];
+    model?.locationNames?.add(locationName);
+    log('-state.locationNames---after-2--${model?.locationNames}----');
 
     emit(state.copyWith(
       model: model,
@@ -212,7 +187,7 @@ class DutyPostNameMasterDetailsCubit
           );
           return;
         }
-        response = (await services.createDutyNamePostMaster(
+        response = (await services.create(
             body: request, isSubmit: false));
       } else {
         //Validating Fields
@@ -225,7 +200,7 @@ class DutyPostNameMasterDetailsCubit
           );
           return;
         }
-        response = (await services.createDutyNamePostMaster(
+        response = (await services.create(
             body: request, isSubmit: true));
       }
     } on Exception catch (e) {

@@ -293,7 +293,8 @@ class _DutyPostNameMasterDetailsViewState
                             ),
                           ),
                           Column(
-                            children: getDutyPostLocationName(state, height),
+                            children: getDutyPostLocationName(
+                                state.model.locationNames ?? [], height),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -337,11 +338,9 @@ class _DutyPostNameMasterDetailsViewState
     }
   }
 
-  List<Widget> getDutyPostLocationName(
-      DutyPostNameMasterDetailsState state, double height) {
+  List<Widget> getDutyPostLocationName(List<String> list, double height) {
     List<Widget> widgets = [];
-    log('-state.poc.length---${state.dutyPostLocationNames?.length}---');
-    for (String dutyPostLocationName in state.dutyPostLocationNames ?? []) {
+    for (String dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
           TextEditingController();
       dutyPostLocationNameController.text = dutyPostLocationName;

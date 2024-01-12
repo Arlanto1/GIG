@@ -11,7 +11,7 @@ class Apis {
 
   static final String _getById = '$baseUrl/getDpnById';
 
-  static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+  static final String _create = '$baseUrl/createDpn?';
 }
 
 class DutyPostNameMasterServices {
@@ -42,12 +42,12 @@ class DutyPostNameMasterServices {
 
   /// Create Services
 
-  Future<GenericResponse> createDutyNamePostMaster({
+  Future<GenericResponse> create({
     required DutyPostNameMasterRequest body,
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._create}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
