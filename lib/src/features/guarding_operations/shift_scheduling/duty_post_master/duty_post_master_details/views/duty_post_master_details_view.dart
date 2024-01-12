@@ -220,7 +220,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                                     DutyPostMasterDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                rank: int.tryParse(
+                                                rankId: int.tryParse(
                                                     selectedLabel.value));
                                       });
                                 }
@@ -260,7 +260,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                                     DutyPostMasterDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                rank: int.tryParse(
+                                                rankId: int.tryParse(
                                                     selectedLabel.value));
                                       });
                                 }

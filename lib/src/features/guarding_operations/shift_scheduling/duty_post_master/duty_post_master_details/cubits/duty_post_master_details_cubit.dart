@@ -113,7 +113,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     Organisation? location,
     BaseUser? user,
     int? status,
-    int? rank,
+    int? rankId,
     int? dutyType,
   }) async {
     emit(
@@ -131,6 +131,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     //   state.model.location = location;
     //   state.model.slNo = slNo.serialNo;
     // }
+
+    state.model.rankId = rankId ?? state.model.rankId;
 
   }
 
@@ -190,7 +192,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('---response--msg--${response.message}---');
-
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,
