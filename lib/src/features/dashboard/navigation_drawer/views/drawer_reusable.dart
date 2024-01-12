@@ -620,12 +620,11 @@ class NavigationDrawer1 extends StatelessWidget {
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
                     children: drawerItem.title == Constants.operations
-                        ?
-                        _genericItemExpandable(
-                                context,
-                                expansionTileDrawerItems,
-                                Constants.operations,
-                              )
+                        ? _genericItemExpandable(
+                            context,
+                            expansionTileDrawerItems,
+                            Constants.operations,
+                          )
 
                         // _genericItemSelection(
                         //     context,

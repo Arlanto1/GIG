@@ -105,10 +105,10 @@ class _DutyPostNameMasterListViewState
                     ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
+                        location: state.list[index].location,
+                        locationRegion: state.list[index].locationRegion,
                         labels: labels,
                         status: state.list[index].status,
-                        isMasterGuard: true,
-                        guardRank: state.list[index].guardRank,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -116,13 +116,10 @@ class _DutyPostNameMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
+                                location: state.list[selectedIndex].location,
+                                locationRegion:
+                                    state.list[selectedIndex].locationRegion,
                                 labels: labels,
-                                isMaterGuard: true,
                                 //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
                               );
@@ -140,14 +137,11 @@ class _DutyPostNameMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
+                                location: state.list[selectedIndex].location,
+                                locationRegion:
+                                    state.list[selectedIndex].locationRegion,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
                                 // isEventProtectionStatus: false,
                               );
                             },
