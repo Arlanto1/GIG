@@ -12,7 +12,7 @@ class Apis {
 
   static final String _getDutyPostMasterById = '$baseUrl/getDpmById';
 
-  static final String _createDutyPostMaster = '$baseUrl/createGMData?';
+  static final String _createDutyPostMaster = '$baseUrl/createDpm?';
 }
 
 class DutyPostMasterServices {
