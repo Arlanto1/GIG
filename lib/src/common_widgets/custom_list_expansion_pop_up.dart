@@ -163,7 +163,6 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 
   Widget _buildPlayerModelList(
       List<Organisation>? items, String title, BuildContext context) {
-    log('-----items-------${items?.length}');
 
     return ExpansionTile(
       trailing: const SizedBox.shrink(),

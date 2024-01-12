@@ -58,21 +58,6 @@ class DutyPostNameMasterDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.guard == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Name');
-    }
-    if (model.guardRank == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Rank');
-    }
-    if (model.dutyPostLocationName == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Partner POC');
-    }
-
-    if (model.dutyType == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Type of Duty');
-    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -112,7 +97,8 @@ class DutyPostNameMasterDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
-      dutyPostLocationNames: dutyPostLocationNames ?? this.dutyPostLocationNames,
+      dutyPostLocationNames:
+          dutyPostLocationNames ?? this.dutyPostLocationNames,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,

@@ -113,7 +113,7 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       msgbFormBSubmitted: json['msgbFormBSubmitted'] as int?,
       staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
       csrParticipation: json['csrParticipation'] as bool? ?? false,
-      specialAchievement: json['specialAchievement'] ?? false,
+      specialAchievement: json['specialAchievement'] as bool? ?? false,
       specialAchievementText: json['specialAchievementText'] as String?,
       additionalInitiatives: json['additionalInitiatives'] as String?,
       history: json['history'] as List<dynamic>?,

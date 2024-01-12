@@ -75,11 +75,6 @@ class DutyPostNameMasterDetailsCubit
       final futures = await Future.wait([
         commonServices.getLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getDepartments(name: 'ATOM_VENDORS'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
@@ -88,11 +83,8 @@ class DutyPostNameMasterDetailsCubit
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[4];
-      GetDepositor emailUsers = futures[6];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      dynamic responseLabels = futures[2];
+      Organisation? defaultLocation = futures[3];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -102,8 +94,8 @@ class DutyPostNameMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
 
-      List<String> dutyPostLocationNames =
-          Utils().splitStringAfterComma(state.model.dutyPostLocationName ?? '');
+      // List<String> dutyPostLocationNames =
+      //     Utils().splitStringAfterComma(state.model.dutyPostLocationName ?? '');
 
       state.model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
@@ -117,10 +109,7 @@ class DutyPostNameMasterDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
-          entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
-          dutyPostLocationNames: dutyPostLocationNames,
+          // dutyPostLocationNames: dutyPostLocationNames,
           labels: labels,
         ),
       );
@@ -153,8 +142,8 @@ class DutyPostNameMasterDetailsCubit
       dutyPostLocationNames: dutyPostLocationNames,
     );
     log('-state.dutyPostLocationNames---after---${state.dutyPostLocationNames}----');
-    state.model.dutyPostLocationName =
-        Utils().joinListWithComma(dutyPostLocationNames);
+    // state.model.dutyPostLocationName =
+    //     Utils().joinListWithComma(dutyPostLocationNames);
 
     emit(state.copyWith(
       model: model,
@@ -186,10 +175,11 @@ class DutyPostNameMasterDetailsCubit
       state.model.slNo = slNo.serialNo;
     }
 
-    state.model.vendor = vendor ?? state.model.vendor;
-    state.model.guardRank = guardRank ?? state.model.guardRank;
-    state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.status = status ?? state.model.status;
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
