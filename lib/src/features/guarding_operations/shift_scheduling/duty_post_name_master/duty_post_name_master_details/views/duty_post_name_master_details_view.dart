@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
@@ -30,7 +31,9 @@ class _DutyPostNameMasterDetailsViewState
 
   bool isDisabled = true;
   bool isReadOnly = false;
+
   get model => null;
+
   get guardingMasterData => null;
 
   @override
@@ -47,7 +50,6 @@ class _DutyPostNameMasterDetailsViewState
         DutyPostNameMasterDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -94,7 +96,7 @@ class _DutyPostNameMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSubmitButton:  state.model.status != 5 ? true : false,
+            showSubmitButton: state.model.status != 5 ? true : false,
             showSaveButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
@@ -220,18 +222,7 @@ class _DutyPostNameMasterDetailsViewState
                               .creationDateDisplay(state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Region
-                          CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.region,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///Location
+                          /// Location
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.location ??
                               //  state.labels?.defaultLocale.location ??
@@ -239,7 +230,16 @@ class _DutyPostNameMasterDetailsViewState
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<DutyPostNameMasterDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -254,9 +254,9 @@ class _DutyPostNameMasterDetailsViewState
 
                           /// DutyPost Location Name
                           CommonWidgets.textDisplay(
-                            //  state.labels?.locale.poc ??
+                              //  state.labels?.locale.poc ??
                               //    state.labels?.defaultLocale.poc ??
-                                  Constants.dutyPostLocationName,
+                              Constants.dutyPostLocationName,
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -293,7 +293,8 @@ class _DutyPostNameMasterDetailsViewState
                             ),
                           ),
                           Column(
-                            children: getDutyPostLocationName(state, height),
+                            children: getDutyPostLocationName(
+                                state.model.locationNames ?? [], height),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -337,11 +338,11 @@ class _DutyPostNameMasterDetailsViewState
     }
   }
 
-  List<Widget> getDutyPostLocationName(DutyPostNameMasterDetailsState state, double height) {
+  List<Widget> getDutyPostLocationName(List<String> list, double height) {
     List<Widget> widgets = [];
-    log('-state.poc.length---${state.dutyPostLocationNames?.length}---');
-    for (String dutyPostLocationName in state.dutyPostLocationNames ?? []) {
-      TextEditingController dutyPostLocationNameController = TextEditingController();
+    for (String dutyPostLocationName in list) {
+      TextEditingController dutyPostLocationNameController =
+          TextEditingController();
       dutyPostLocationNameController.text = dutyPostLocationName;
       widgets.add(Row(
         children: [
@@ -375,6 +376,7 @@ class _DutyPostNameMasterDetailsViewState
       return []; // Or provide a default list based on your requirements
     }
   }
+
   Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
@@ -400,38 +402,6 @@ class _DutyPostNameMasterDetailsViewState
         BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
-    );
-  }
-
-  Widget locationWidgetDisplay(DutyPostNameMasterDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

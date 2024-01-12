@@ -4,32 +4,28 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 
-
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getDpnList?';
 
-  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+  static final String _getById = '$baseUrl/getDpnById';
 
-  static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+  static final String _create = '$baseUrl/createDpn?';
 }
 
 class DutyPostNameMasterServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
 
   Future<DutyPostNameMasterResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -37,7 +33,7 @@ class DutyPostNameMasterServices {
   }
 
   Future<DutyPostNameMasterModel> getById(int id) async {
-    final String url = '${Apis._getGuardingMasterData}/$id';
+    final String url = '${Apis._getById}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
@@ -46,12 +42,12 @@ class DutyPostNameMasterServices {
 
   /// Create Services
 
-  Future<GenericResponse> createDutyNamePostMaster({
+  Future<GenericResponse> create({
     required DutyPostNameMasterRequest body,
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._create}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
@@ -59,5 +55,4 @@ class DutyPostNameMasterServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }

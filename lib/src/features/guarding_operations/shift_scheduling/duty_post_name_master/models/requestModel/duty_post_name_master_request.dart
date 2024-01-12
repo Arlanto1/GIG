@@ -10,12 +10,12 @@ class DutyPostNameMasterRequest {
 
   DutyPostNameMasterRequest.fromJson(Map<String, dynamic> json) {
     dutyPostNameMaster =
-        DutyPostNameMasterModel.fromJson(json['guardingMaster']);
+        DutyPostNameMasterModel.fromJson(json['dutyPostName']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['guardingMaster'] = dutyPostNameMaster.toJson();
+    data['dutyPostName'] = dutyPostNameMaster.toJson();
     return data;
   }
 }
