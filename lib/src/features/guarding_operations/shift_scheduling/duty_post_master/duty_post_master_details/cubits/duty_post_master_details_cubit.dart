@@ -77,7 +77,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           moduleCode: Constants.contactDetailsModule,
         );
         state.model.location = defaultLocation;
-       // state.model.slNo = slNo.serialNo;
+        // state.model.slNo = slNo.serialNo;
       }
       // state.model.createdBy = loggedInUserDetails;
       // Get Date of Creation
@@ -131,9 +131,11 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     //   state.model.location = location;
     //   state.model.slNo = slNo.serialNo;
     // }
-
     state.model.rankId = rankId ?? state.model.rankId;
-
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -192,7 +194,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('---response--msg--${response.message}---');
-    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,
