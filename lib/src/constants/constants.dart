@@ -20,7 +20,7 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
   static const String slaViolationPenaltyDetailsModule = 'SVP';
-  static const String keyManagementIssuanceModule = 'KMISS ';
+  static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
 
@@ -118,8 +118,9 @@ class Constants {
   static const String newPassword = "New Password";
   static const String confirmNewPassword = "Confirm New Password";
   static const String forgotPassowrd = 'Forgot Password?';
-  static const String supportText = "Support: +49 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2023 RimaOne.";
+  static const String support = "Support :";
+  static const String supportContact = "+91 6150 961 6244";
+  static const String copyrightText = "Copyright Â© 2024 Arlanto.";
   static const String submit = "Submit";
 
   //Dashboard
@@ -749,7 +750,6 @@ class Constants {
   static const String createShiftSchedule = 'Create Shift Schedule';
   static const String dutyType = 'Duty Type';
 
-
   ///VVIP Visitors
   static const String vvipVisitors = 'VVIP Visitors';
   static const String visitorsName = 'Visitors Name';
@@ -759,8 +759,6 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitors';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
-
-
 
   /// INT values
   static const int lockChangeHistoryInt = 0;

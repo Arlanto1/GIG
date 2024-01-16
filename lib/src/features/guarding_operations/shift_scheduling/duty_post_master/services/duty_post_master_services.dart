@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getGMData?';
 
   static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
 
@@ -29,7 +29,7 @@ class DutyPostMasterServices {
     required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

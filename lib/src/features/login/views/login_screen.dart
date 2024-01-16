@@ -82,7 +82,8 @@ class _LoginState extends State<Login> {
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {
-              "userDetails": VerifyOTPArguments(bloc.userName, bloc.password, bloc.deviceToken)
+              "userDetails": VerifyOTPArguments(
+                  bloc.userName, bloc.password, bloc.deviceToken)
             });
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
@@ -248,10 +249,26 @@ class _LoginState extends State<Login> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const Center(
-                                    child: Text(
-                                      Constants.supportText,
-                                      style: Styles.textStyleBlack16,
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          Constants.support,
+                                          style: Styles.textStyleBlack16,
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            // do action on view
+                                          },
+                                          icon: SvgPicture.asset(AppIcon.email),
+                                        ),
+                                        const Text(
+                                          Constants.supportContact,
+                                          style: Styles.textStyleBlack16,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -262,7 +279,7 @@ class _LoginState extends State<Login> {
                                       Constants.copyrightText,
                                       style: Styles.textStyleRegularGrey14,
                                     ),
-                                  )
+                                  ),
                                 ],
                               )
 
@@ -345,5 +362,5 @@ class VerifyOTPArguments {
   final String pwd;
   final String deviceToken;
 
-  VerifyOTPArguments(this.name, this.pwd,  this.deviceToken);
+  VerifyOTPArguments(this.name, this.pwd, this.deviceToken);
 }

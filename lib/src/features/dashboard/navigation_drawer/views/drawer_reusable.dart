@@ -184,6 +184,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
+              log('--title---${title}---');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -210,7 +211,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
-                case Constants.keyManagementMaster:
+                case Constants.keyManagementData:
                   _onKeyManagementItemSelected(i, context);
                   break;
 

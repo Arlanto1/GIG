@@ -71,6 +71,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isKeyManagementStatus;
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
+  final bool isKeyManagementHistoryStatus;
   final User? srh;
   final User? securityManager;
   final int? keyType;
@@ -147,6 +148,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isKeyManagementIssuanceStatus = false,
     this.isKeyManagementStatus = false,
     this.isVipStatus = false,
+    this.isKeyManagementHistoryStatus = false,
     this.handOverSecurity,
     this.incidentType,
     this.srh,
@@ -431,6 +433,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.status != null &&
+          widget.isKeyManagementHistoryStatus == true) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().keyManagementMasterHistoryStatus(widget.status ?? 0),
           ],
         ),
       ],
