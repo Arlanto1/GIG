@@ -33,36 +33,22 @@ class DutyPostMasterDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    log('-model.status---${model.status}--');
 
     if (model.location == null) {
       log('-model.location-----isValidDraft-');
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.entrySecurity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entry Security');
-    }
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
+    // if (model.createdBy == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Created By');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   ErrorResponse get isValid {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
 
-    if (model.height == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Height');
-    }
-    if (model.localLanguage == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Local language');
-    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

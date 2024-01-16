@@ -67,21 +67,21 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
-      List<User> entrySecurities = futures[4];
-      GetDepositor emailUsers = futures[6];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      List<User> entrySecurities = futures[3];
+      GetDepositor emailUsers = futures[4];
+      dynamic responseLabels = futures[5];
+      Organisation? defaultLocation = futures[6];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.contactDetailsModule,
         );
         state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        // state.model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      // state.model.createdBy = loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      state.model.createdDate = _getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -99,7 +99,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Guarding Master Data Details Cubit');
+          error: e, name: 'Duty Post Master Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -113,7 +113,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     Organisation? location,
     BaseUser? user,
     int? status,
-    int? guardRank,
+    int? rankId,
     int? dutyType,
   }) async {
     emit(
@@ -122,19 +122,20 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       ),
     );
     ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
-
-    state.model.guardRank = guardRank ?? state.model.guardRank;
-    state.model.dutyType = dutyType ?? state.model.dutyType;
-    state.model.status = status ?? state.model.status;
+    // if (location != null) {
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //     locationId: location.id.toString(),
+    //     moduleCode: Constants.guardingMasterDataModule,
+    //   );
+    //
+    //   state.model.location = location;
+    //   state.model.slNo = slNo.serialNo;
+    // }
+    state.model.rankId = rankId ?? state.model.rankId;
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -144,11 +145,11 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    // if (state.model.status == 0 || state.model.status == null) {
+    //   state.model.status = 1;
+    // }
     // Setting time in milliseconds
-    state.model.inputDate =
+    state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
@@ -193,7 +194,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('---response--msg--${response.message}---');
-
     emit(
       state.copyWith(
         message: response.message,

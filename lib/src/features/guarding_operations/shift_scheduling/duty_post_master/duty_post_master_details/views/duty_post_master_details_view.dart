@@ -22,8 +22,7 @@ class DutyPostMasterDetailsView extends StatefulWidget {
 class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  TextEditingController genderController = TextEditingController();
-  TextEditingController statusController = TextEditingController();
+  TextEditingController totalController = TextEditingController();
   TextEditingController rankController = TextEditingController();
 
   bool isDisabled = true;
@@ -34,6 +33,11 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   @override
   void initState() {
     super.initState();
+    totalController.text = (((widget.model?.shiftA ?? 0) +
+            (widget.model?.shiftB ?? 0) +
+            (widget.model?.shiftC ?? 0) +
+            (widget.model?.shiftG ?? 0))
+        .toString());
     BlocProvider.of<DutyPostMasterDetailsCubit>(context).initializeValues();
   }
 
@@ -43,9 +47,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
     final height = size.height;
     return BlocConsumer<DutyPostMasterDetailsCubit, DutyPostMasterDetailsState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
-        log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Duty Post Master',
@@ -78,12 +79,12 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
-        }
-        if (state.model.status == null) {
-          isReadOnly = false;
-        }
+        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        //   isReadOnly = true;
+        // }
+        // if (state.model.status == null) {
+        //   isReadOnly = false;
+        // }
 
         initializeDates();
         return Scaffold(
@@ -91,8 +92,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+            showSaveButton: true,
+            showSubmitButton: true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostMasterDetailsCubit>(context)
@@ -130,9 +131,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                   )),
               child: Form(
                 key: _formKey,
-                autovalidateMode: state.model.status == 4
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
+                // autovalidateMode: state.model == 4
+                //     ? AutovalidateMode.disabled
+                //     : AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -154,47 +155,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Status
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
-                            textController: statusController,
-                            items: statusDropDownValues,
-                            initialValue: '${state.model.status ?? 1}',
-                            onTap: () {
-                              if (widget.model != null) {
-                                BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: statusDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        statusDropDownValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<DutyPostMasterDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value));
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.entrySecurity ??
@@ -212,8 +172,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate()
-                              .creationDateDisplay(state.model.inputDate ?? ''),
+                          BaseDate().creationDateDisplay(
+                              state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
@@ -237,10 +197,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: false,
                               textController: rankController,
                               items: guardRankDropDownValues,
-                              initialValue: state.model.guardRank.toString(),
+                              initialValue: state.model.rankId.toString(),
                               onTap: () {
                                 if (isDisabled) {
                                   BaseDropDown().assetTypeDialog(
@@ -260,7 +220,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                                     DutyPostMasterDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                guardRank: int.tryParse(
+                                                rankId: int.tryParse(
                                                     selectedLabel.value));
                                       });
                                 }
@@ -277,10 +237,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: false,
                               textController: rankController,
                               items: guardRankDropDownValues,
-                              initialValue: state.model.guardRank.toString(),
+                              initialValue: state.model.rankId.toString(),
                               onTap: () {
                                 if (isDisabled) {
                                   BaseDropDown().assetTypeDialog(
@@ -300,7 +260,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                                     DutyPostMasterDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                guardRank: int.tryParse(
+                                                rankId: int.tryParse(
                                                     selectedLabel.value));
                                       });
                                 }
@@ -317,13 +277,22 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
+                            initialValue: '${widget.model?.shiftA}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.guardingPOC = value;
+                              state.model.shiftA = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -342,13 +311,22 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
+                            initialValue: '${widget.model?.shiftB}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.guardingPOC = value;
+                              state.model.shiftB = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -367,16 +345,25 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
+                            initialValue: '${widget.model?.shiftC}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.guardingPOC = value;
-                              context
-                                  .read<DutyPostMasterDetailsCubit>()
-                                  .onModelValueChange(state.model);
+                              state.model.shiftC = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
+                              // context
+                              //     .read<DutyPostMasterDetailsCubit>()
+                              //     .onModelValueChange(state.model);
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -392,16 +379,25 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
+                            initialValue: '${widget.model?.shiftG}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
-                              state.model.guardingPOC = value;
-                              context
-                                  .read<DutyPostMasterDetailsCubit>()
-                                  .onModelValueChange(state.model);
+                              state.model.shiftG = int.tryParse(value);
+                              int shiftA = state.model.shiftA ?? 0;
+                              int shiftB = state.model.shiftB ?? 0;
+                              int shiftC = state.model.shiftC ?? 0;
+                              int shiftG = state.model.shiftG ?? 0;
+                              totalController.text =
+                                  (shiftA + shiftB + shiftC + shiftG)
+                                      .toString();
+                              widget.model?.total =
+                                  int.tryParse(totalController.text);
+                              // context
+                              //     .read<DutyPostMasterDetailsCubit>()
+                              //     .onModelValueChange(state.model);
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -417,16 +413,16 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
+                            //           initialValue: (((state.model.shiftA ?? 0) +
+                            //           (state.model.shiftB ?? 0))
+                            // .toString()),
+                            textFieldController: totalController,
                             hintText: '',
                             isEnable: false,
                             isDisableColor: true,
-                            onChange: (String value) {
-                              // state.model.guardingPOC = value;
-                              // context
-                              //     .read<DutyPostMasterDetailsCubit>()
-                              //     .onModelValueChange(state.model);
+                            onChange: (int value) {
+                              state.model.total = value;
                             },
                             validateTextField: (String? user) {},
                           ),
@@ -455,21 +451,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         ),
       ),
     );
-  }
-
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
   }
 
   Widget cancelButtonDisplay() {
