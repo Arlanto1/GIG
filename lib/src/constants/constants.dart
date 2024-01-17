@@ -408,7 +408,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
-  static const String contactDetails = 'Contact Details';
+  static const String contactDetails = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
@@ -640,7 +640,7 @@ class Constants {
       'Guarding Agency Escalation Contact';
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
-  static const String zonalEscalationContact = 'Zonal Escalation Contact';
+  static const String zonalEscalationContact = 'CMS Escalation(IPB)';
   static const String escalationLevel = 'Escalation Level';
 
   ///SLA Violation Penalty
