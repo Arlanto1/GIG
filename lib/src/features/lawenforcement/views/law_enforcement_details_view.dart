@@ -129,15 +129,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  isDistrbuted
-                      ? SvgPicture.asset(
-                          AppIcon.createfoundsaveicon,
-                          color: AppColors.disabletextfieldBackground
-                              .withOpacity(0.5),
-                        )
-                      : SvgPicture.asset(
-                          AppIcon.createfoundsaveicon,
-                        ),
+                  if (!isDistrbuted)
+                    SvgPicture.asset(
+                      AppIcon.createfoundsaveicon,
+                    )
                 ],
               ),
             ),
@@ -158,15 +153,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  isDistrbuted
-                      ? const Icon(
-                          Icons.send,
-                          color: AppColors.white,
-                        )
-                      : const Icon(
-                          Icons.send,
-                          color: AppColors.white,
-                        ),
+                  if (!isDistrbuted)
+                    const Icon(
+                      Icons.send,
+                      color: AppColors.white,
+                    )
                 ],
               ),
             ),
