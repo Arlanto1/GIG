@@ -122,11 +122,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
-              showSubmitButton: state.model.status != 6 &&
-          state.model.status != 1 &&
-          !isReadOnly
-          ? true
-              : false,
+            showSubmitButton: state.model.status != 6 &&
+                    state.model.status != 1 &&
+                    !isReadOnly
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
@@ -140,7 +140,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                   .submitForm(
                 isSaveOnly: false,
-                navigateToNextScreen: true,
+                navigateToNextScreen: false,
               );
             },
           ),
