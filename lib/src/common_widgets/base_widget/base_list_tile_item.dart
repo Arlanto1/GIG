@@ -38,6 +38,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
 final bool isKeyManagementHistoryStatus;
+  final bool isDutyPostNameMasterStatus;
 
   const BaseListTileItem({
     super.key,
@@ -76,6 +77,7 @@ final bool isKeyManagementHistoryStatus;
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
     this.isKeyManagementHistoryStatus=false,
+    this.isDutyPostNameMasterStatus = false,
   });
 
   @override
@@ -271,6 +273,12 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.isVipStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().vIPVisitorStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
+                          widget.isDutyPostNameMasterStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils()
+                            .dutyPostNameMasterStatus(widget.status ?? 0),
                       ],
                     ],
                   ),
