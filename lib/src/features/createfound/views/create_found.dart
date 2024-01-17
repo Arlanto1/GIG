@@ -86,7 +86,6 @@ class _CreateFoundState extends State<CreateFound> {
 
   // String slnoValue = "dfwe";
   String createdByValue = "";
-  String itemhandoverByValue = "";
   String locationselectedText = "";
   Organisation? selectedEmployeedepartment;
   Organisation? selectedClaimdepartment;
@@ -96,6 +95,7 @@ class _CreateFoundState extends State<CreateFound> {
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
   User? userDetails;
+  User? handOverSecurity;
   Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
@@ -143,6 +143,11 @@ class _CreateFoundState extends State<CreateFound> {
           ? User(
               userId: widget.model?.entrySecurity?.userId ?? 1,
               lastName: widget.model?.entrySecurity?.lastName ?? "")
+          : User();
+      handOverSecurity = widget.model?.handoverSecurity != null
+          ? User(
+              userId: widget.model?.handoverSecurity?.userId ?? 1,
+              lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
       createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
@@ -222,8 +227,6 @@ class _CreateFoundState extends State<CreateFound> {
       claimant = widget.model?.claimant?.lastName != null
           ? widget.model?.claimant?.lastName ?? ''
           : '';
-      itemhandoverByValue = widget.model?.handoverSecurity?.name ?? '';
-
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
       claimantTextController.text = widget.model?.claimant?.name != null
           ? widget.model?.claimant?.name ?? ''
@@ -268,6 +271,9 @@ class _CreateFoundState extends State<CreateFound> {
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
     };
+    Map<String, dynamic> handOverSecurityBody = {
+      "userId": handOverSecurity?.userId ?? 0,
+    };
     Map<String, dynamic> locationBody = {
       "id": locationSelectedlist?.id ?? 0,
       "name": locationSelectedlist?.name ?? ''
@@ -293,6 +299,7 @@ class _CreateFoundState extends State<CreateFound> {
       "slNo": serialNumber,
       "typeOfArticle": articleBody,
       "entrySecurity": entrySecurityBody,
+      "handoverSecurity": handOverSecurityBody,
       "foundLocation": foundLocationTextController.text,
       "quantity": quantityTextController.text.isNotEmpty
           ? int.parse(quantityTextController.text)
@@ -361,6 +368,9 @@ class _CreateFoundState extends State<CreateFound> {
         id: selectedArtclelist?.id ?? widget.model?.typeOfArticle?.id);
     User? entrySecurity = User(
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
+    User? handoverSecurity = User(
+        userId:
+            handOverSecurity?.userId ?? widget.model?.handoverSecurity?.userId);
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
     Organisation? location = Organisation(
@@ -382,15 +392,7 @@ class _CreateFoundState extends State<CreateFound> {
         name: selectedClaimList?.name,
       );
     }
-    log('--2222-state?.loggedInUser-${state?.loggedInUser}--');
-    User? handoverSecurity;
-    if (widget.model?.status == 1) {
-      log('---state?.loggedInUser-${state?.loggedInUser}--');
-      handoverSecurity = state?.loggedInUser;
-    }
 
-    log('-assettypeTextController.text---${assettypeTextController.text}----');
-    log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0) : null}----');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -400,7 +402,6 @@ class _CreateFoundState extends State<CreateFound> {
         claimantNoSign: isClaimSignSelectedValue,
         // Passing signature
         claimantSign: widget.model?.claimantSign,
-        handoverSecurity: handoverSecurity,
         handoverDate: handoverDate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
             ? 0
@@ -430,6 +431,7 @@ class _CreateFoundState extends State<CreateFound> {
         inputDate: inputDate,
         foundDate: foundDate,
         entrySecurity: entrySecurity,
+        handoverSecurity: handoverSecurity,
         location: location,
         depositorName: isDepositorDBEmployeeSelected == 1
             ? selecteddepositorList?.name ?? ''
@@ -1490,7 +1492,8 @@ class _CreateFoundState extends State<CreateFound> {
                               if (widget.model?.status == 2) ...[
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.itemhandoverby,
-                                    itemhandoverByValue,
+                                    // widget.model?.handoverSecurity?.name ?? '',
+                                    '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}',
                                     isMandatory: true),
 
                                 /// Handed over date
