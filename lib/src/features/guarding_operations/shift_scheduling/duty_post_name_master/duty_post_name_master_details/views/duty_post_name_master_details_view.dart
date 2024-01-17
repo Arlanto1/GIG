@@ -283,7 +283,7 @@ class _DutyPostNameMasterDetailsViewState
                                 // ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  Constants.addGuardingAgencyPOC,
+                                  Constants.addDutyPostLocationName,
                                   style: TextStyle(
                                     color: AppColors.navigationSkybluecolor,
                                     decoration: TextDecoration.underline,
@@ -294,7 +294,7 @@ class _DutyPostNameMasterDetailsViewState
                           ),
                           Column(
                             children: getDutyPostLocationName(
-                                state.model.locationNames ?? [], height),
+                                state.model.locationNames ?? [], height, state),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -338,7 +338,8 @@ class _DutyPostNameMasterDetailsViewState
     }
   }
 
-  List<Widget> getDutyPostLocationName(List<String> list, double height) {
+  List<Widget> getDutyPostLocationName(
+      List<String> list, double height, DutyPostNameMasterDetailsState state) {
     List<Widget> widgets = [];
     for (String dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
@@ -349,6 +350,20 @@ class _DutyPostNameMasterDetailsViewState
           Text(
             dutyPostLocationName,
             textAlign: TextAlign.start,
+          ),
+          GestureDetector(
+            onTap: () {
+              // Implement the logic to delete the corresponding record
+              // For example, you can show a confirmation dialog and delete the record if confirmed
+              deleteDutyPostLocationName(dutyPostLocationName, state);
+            },
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: SvgPicture.asset(
+                AppIcon.closeicon,
+                color: AppColors.black,
+              ),
+            ), //
           ),
         ],
       ));
@@ -375,6 +390,15 @@ class _DutyPostNameMasterDetailsViewState
     } else {
       return []; // Or provide a default list based on your requirements
     }
+  }
+
+  void deleteDutyPostLocationName(
+      String locationName, DutyPostNameMasterDetailsState state) {
+    setState(() {
+      // Assuming your state has a list of duty post location names
+      // Update the state to remove the specified location name
+      state.model.locationNames?.remove(locationName);
+    });
   }
 
   Widget cancelButtonDisplay() {
