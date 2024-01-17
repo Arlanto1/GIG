@@ -38,11 +38,11 @@ class ShiftScheduleDetailsState extends Equatable {
   ErrorResponse get isValidDraft {
     log('-model.status---${model.status}--');
 
-    if (model.location == null) {
-      log('-model.location-----isValidDraft-');
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
+    // if (model.location == null) {
+    //   log('-model.location-----isValidDraft-');
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Location');
+    // }
     if (model.entrySecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entry Security');
@@ -58,9 +58,9 @@ class ShiftScheduleDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.vendor == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    }
+    // if (model.vendor == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    // }
     if (model.dutyType == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Type of Duty');

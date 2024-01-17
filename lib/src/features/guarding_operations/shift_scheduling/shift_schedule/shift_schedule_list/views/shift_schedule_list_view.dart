@@ -1,5 +1,5 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 
@@ -65,104 +65,101 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
         ),
         body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
             builder: (context, state) {
-              if (state.status == FormStatus.initial) {
-                return const BaseLoader();
-              }
-              if (state.list.isEmptyOrNull) {
-                return const NoRecordFoundWidget();
-              }
-              // log('--labels-${state.labels?.locale.locationRegion}');
-              return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
+          if (state.status == FormStatus.initial) {
+            return const BaseLoader();
+          }
+          if (state.items.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
+          }
+          // log('--labels-${state.labels?.locale.locationRegion}');
+          return Container(
+            margin: allMargin16,
+            decoration: const ShapeDecoration(
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: state.hasReachedMax
-                      ? state.list.length
-                      : state.list.length + 1,
-                  itemBuilder: (context, index) {
-                    List<Label> labels = [];
-                    if (index < state.list.length) {
-                      //labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      //'Region',
-                      // value: state.list[index].locationRegion?.name ?? ''));
-                      // labels.add(Label(
-                      //key: state.labels?.locale.location ??
-                      //     state.labels?.defaultLocale.location ??'Building Location ',
-                      // value: state.list[index].location?.name ?? ''));
-                    }
-                    return index >= state.list.length
-                        ? const BaseLoader()
-                        : BaseListTileItem(
-                      id: state.list[index].id,
-                      labels: labels,
-                      status: state.list[index].status,
-                      isMasterGuard: true,
-                      //guardRank: state.list[index].guardRank,
-                      onTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return BasePopUpItems(
-                              id: state.list[selectedIndex].id.toString(),
-                              slNo: state.list[selectedIndex].slNo,
-                             // guardRank: state.list[selectedIndex].guardRank,
-                              gender: state.list[selectedIndex].gender,
-                              dutyType: state.list[selectedIndex].dutyType,
-                              maritalStatus:
-                              state.list[selectedIndex].maritalStatus,
-                              labels: labels,
-                              isMaterGuard: true,
-                              //isEventProtectionStatus: false,
-                              status: state.list[selectedIndex].status,
-                            );
-                          },
-                        );
-                      },
-                      onEditTap: (selectedIndex) {
-                        getById(state.list[index].id ?? 0);
-                      },
-                      showEditButton: true,
-                      onViewTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return BasePopUpItems(
-                              id: state.list[selectedIndex].id.toString(),
-                              slNo: state.list[selectedIndex].slNo,
-                              //guardRank: state.list[selectedIndex].guardRank,
-                              gender: state.list[selectedIndex].gender,
-                              dutyType: state.list[selectedIndex].dutyType,
-                              maritalStatus:
-                              state.list[selectedIndex].maritalStatus,
-                              labels: labels,
-                              status: state.list[selectedIndex].status,
-                              isMaterGuard: true,
-                              // isEventProtectionStatus: false,
-                            );
-                          },
-                        );
-                      },
-                      index: index,
-                    );
-                  },
-                ),
-              );
-            }));
-  }
+                )),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: state.hasReachedMax
+                  ? state.items.length
+                  : state.items.length + 1,
+              itemBuilder: (context, index) {
+                List<Label> labels = [];
+                if (index < state.items.length) {
+                  labels.add(Label(
+                      key: 'Date of Creation',
+                      value: state.items[index].inputDate != null
+                          ? Utils.timestamptoDateConversion(
+                          int.parse(state.items[index].inputDate ?? '0'),
+                          Constants.dateFormat)
+                          : ''));
+                  labels.add(Label(
+                      key: 'Region',
+                      value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Location',
+                      value: state.items[index].location?.name ?? ''));
+
+                  return index >= state.items.length
+                      ? const BaseLoader()
+                      : BaseListTileItem(
+                    id: state.items[index].id,
+                    labels: labels,
+                    status: state.items[index].status,
+                    isMasterGuard: false,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items[selectedIndex].id.toString(),
+                            labels: labels,
+                            slNo: state.items[selectedIndex].slNo,
+                            status: state.items[selectedIndex].status,
+                            isMasterGuard: false,
+                          );
+                        },
+                      );
+                    },
+                    onEditTap: (selectedIndex) {
+                      // getId(
+                      //     id: state.items[index].id ?? 0,
+                      //     eventStatus: state.items[index].status ?? 0);
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items[selectedIndex].id.toString(),
+                            labels: labels,
+                            slNo: state.items[selectedIndex].slNo,
+                            status: state.items[selectedIndex].status,
+                          );
+                        },
+                      );
+                    },
+                    index: index,
+                  );
+                }
+                return const Center(
+                  child: SizedBox(),
+                );
+              },
+            ),
+          );
+            },
+        ),
+    );
+}
 
   getById(int id) async {
     showLoadingDialog(context);
 
     ShiftScheduleModel shiftScheduleModel =
-    await ShiftScheduleServices().getById(id);
+        await ShiftScheduleServices().getById(id);
 
     editDataLoading(shiftScheduleModel);
   }

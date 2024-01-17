@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
@@ -45,7 +45,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -225,7 +224,16 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
+                          // BaseLocationDropdown().locationWidgetDisplay(
+                          //     context: context,
+                          //     locations: state.locations ?? Locations(),
+                          //     selectedLocationName:
+                          //     state.model.location?.name ?? '',
+                          //     onTap: (Organisation? location) {
+                          //       BlocProvider.of<DutyPostNameMasterDetailsCubit>(
+                          //           context)
+                          //           .updateDropdownValues(location: location);
+                          //     }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -246,22 +254,22 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
-                            title: state.model.vendor?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: state.departments,
-                                onTap: (Organisation department) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(vendor: department);
-                                },
-                              );
-                            },
-                          ),
+                          // TextfieldAddButton(
+                          //   title: state.model.vendor?.name,
+                          //   height: 60,
+                          //   isDisableColor: false,
+                          //   onTap: () {
+                          //     BaseOrganisationDialog().departmentDialog(
+                          //       context: context,
+                          //       organisations: state.departments,
+                          //       onTap: (Organisation department) {
+                          //         BlocProvider.of<ShiftScheduleDetailsCubit>(
+                          //                 context)
+                          //             .updateDropdownValues(vendor: department);
+                          //       },
+                          //     );
+                          //   },
+                          // ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -317,19 +325,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                          BaseDate().datePickerWidgetLoading(
-                            textController: fromDateController,
-                            onlyDate: false,
-                            showPastDate: false,
-                            onChange: (String value) {
-                              state.model.dateOfBirth =
-                                  Utils().formatTime(value);
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .onModelValueChange(state.model);
-                            },
-                            context: context,
-                          ),
+                          // BaseDate().datePickerWidgetLoading(
+                          //   textController: fromDateController,
+                          //   onlyDate: false,
+                          //   showPastDate: false,
+                          //   onChange: (String value) {
+                          //     state.model.dateOfBirth =
+                          //         Utils().formatTime(value);
+                          //     BlocProvider.of<ShiftScheduleDetailsCubit>(
+                          //             context)
+                          //         .onModelValueChange(state.model);
+                          //   },
+                          //   context: context,
+                          // ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// To Date
@@ -342,19 +350,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                          BaseDate().datePickerWidgetLoading(
-                            textController: toDateController,
-                            onlyDate: false,
-                            showPastDate: false,
-                            onChange: (String value) {
-                              state.model.dateOfBirth =
-                                  Utils().formatTime(value);
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .onModelValueChange(state.model);
-                            },
-                            context: context,
-                          ),
+                          // BaseDate().datePickerWidgetLoading(
+                          //   textController: toDateController,
+                          //   onlyDate: false,
+                          //   showPastDate: false,
+                          //   onChange: (String value) {
+                          //     state.model.dateOfBirth =
+                          //         Utils().formatTime(value);
+                          //     BlocProvider.of<ShiftScheduleDetailsCubit>(
+                          //             context)
+                          //         .onModelValueChange(state.model);
+                          //   },
+                          //   context: context,
+                          // ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -425,35 +433,4 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     );
   }
 
-  Widget locationWidgetDisplay(ShiftScheduleDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
-    );
-  }
 }

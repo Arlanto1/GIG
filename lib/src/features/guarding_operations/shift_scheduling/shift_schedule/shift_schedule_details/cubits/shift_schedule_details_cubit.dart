@@ -4,7 +4,7 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -84,22 +84,20 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+      // if (state.model.location == null && defaultLocation != null) {
+      //   SerialNumberModel slNo = await commonServices.getSlNo(
+      //     locationId: defaultLocation.id.toString(),
+      //     moduleCode: Constants.contactDetailsModule,
+      //   );
+      //   state.model.location = defaultLocation;
+      //   state.model.slNo = slNo.serialNo;
+      // }
       state.model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
-      dynamic participationDates = Utils()
-          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      log('-participationDates---${participationDates.toString()}---');
+      // dynamic participationDates = Utils()
+      //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -147,13 +145,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         moduleCode: Constants.guardingMasterDataModule,
       );
 
-      state.model.location = location;
+      // state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
 
-    state.model.vendor = vendor ?? state.model.vendor;
     state.model.dutyType = dutyType ?? state.model.dutyType;
-    state.model.systemAccess = systemAccess ?? state.model.systemAccess;
     state.model.status = status ?? state.model.status;
   }
 

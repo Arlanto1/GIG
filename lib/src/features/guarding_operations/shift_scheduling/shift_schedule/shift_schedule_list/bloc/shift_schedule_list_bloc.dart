@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
@@ -49,8 +49,6 @@ class ShiftScheduleListBloc
         ShiftScheduleResponse getShiftSchedules = await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-          locationId: '56',
         );
         return emit(
           state.copyWith(
@@ -64,8 +62,6 @@ class ShiftScheduleListBloc
       ShiftScheduleResponse getShiftSchedule = await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
-        locationId: '56',
       );
 
       if (getShiftSchedule.items?.isEmpty == true) {
@@ -73,22 +69,20 @@ class ShiftScheduleListBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.list)
+          items: List.of(state.items)
             ..addAll(getShiftSchedule.items?.toList() ?? []),
           hasReachedMax: false,
         ),
       );
-    }
-    // on TokenExpiredException catch (e) {
-    //   emit(
-    //     state.copyWith(
-    //       message: e.message,
-    //       status: FormStatus.sessionExpired,
-    //     ),
-    //   );
-    //   return;
-    // }
-    catch (e) {
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

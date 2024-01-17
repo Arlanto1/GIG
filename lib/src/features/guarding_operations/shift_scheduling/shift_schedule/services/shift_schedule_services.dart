@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getShiftSchdList?';
 
-  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+  static final String _getById = '$baseUrl/getSsGiById';
 
   static final String _createGuardingMasterData = '$baseUrl/createGMData?';
 }
@@ -25,11 +25,9 @@ class ShiftScheduleServices {
   Future<ShiftScheduleResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -37,7 +35,7 @@ class ShiftScheduleServices {
   }
 
   Future<ShiftScheduleModel> getById(int id) async {
-    final String url = '${Apis._getGuardingMasterData}/$id';
+    final String url = '${Apis._getById}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
