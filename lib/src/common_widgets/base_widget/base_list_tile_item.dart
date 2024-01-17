@@ -39,6 +39,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isMaterialMovementStatus;
   final bool isKeyManagementHistoryStatus;
   final bool isShiftScheduleStatus;
+  final bool isDutyPostNameMasterStatus;
 
   const BaseListTileItem({
     super.key,
@@ -77,6 +78,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
     this.isKeyManagementHistoryStatus = false,
+    this.isDutyPostNameMasterStatus = false,
     this.isShiftScheduleStatus = false,
   });
 
@@ -189,13 +191,18 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Utils()
                             .buildMaterialMovementStatusRow(widget.status ?? 0),
                       ],
-                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildGuardrank(widget.guardRank ?? 0),
-                      ],
                       if (widget.status != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().buildGuardrank(widget.guardRank ?? 0),
+                          ],
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isEventProtectionStatus &&
@@ -285,6 +292,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             Utils().shiftScheduleStatusRow(widget.status ?? 0),
                           ],
                         ),
+                      ],
+                      if (widget.status != null &&
+                          widget.isDutyPostNameMasterStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().dutyPostNameMasterStatus(widget.status ?? 0),
                       ],
                     ],
                   ),

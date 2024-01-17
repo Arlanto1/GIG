@@ -73,6 +73,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isMaterialMovementStatus;
   final bool isKeyManagementHistoryStatus;
   final bool isShiftScheduleStatus;
+  final bool isDutyPostNameMasterStatus;
   final User? srh;
   final User? securityManager;
   final int? keyType;
@@ -150,6 +151,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isKeyManagementStatus = false,
     this.isVipStatus = false,
     this.isKeyManagementHistoryStatus = false,
+    this.isDutyPostNameMasterStatus = false,
     this.isShiftScheduleStatus = false,
     this.handOverSecurity,
     this.incidentType,
@@ -533,6 +535,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Utils().keyLossDestructionStatus(widget.status ?? 0),
           ],
         )
+      ],
+      if (widget.maritalStatus != null &&
+          widget.isDutyPostNameMasterStatus == true) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().dutyPostNameMasterStatus(widget.maritalStatus ?? 0),
+          ],
+        ),
       ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),

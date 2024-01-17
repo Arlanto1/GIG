@@ -54,7 +54,8 @@ class _DutyPostNameMasterListViewState
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
             Navigator.pushNamed(context, dutyPostNameMasterDetailsRoute,
-                arguments: {"title": Constants.createDutyPostNameMaster,
+                arguments: {
+                  "title": Constants.createDutyPostNameMaster,
                   "dutyPostNameMasterModel": DutyPostNameMasterModel(),
                 }),
           },
@@ -111,6 +112,9 @@ class _DutyPostNameMasterListViewState
                         locationRegion: state.list[index].locationRegion,
                         labels: labels,
                         status: state.list[index].status,
+                        isDutyPostNameMasterStatus: true,
+                        isMasterGuard: false,
+                        isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -122,7 +126,8 @@ class _DutyPostNameMasterListViewState
                                 locationRegion:
                                     state.list[selectedIndex].locationRegion,
                                 labels: labels,
-                                //isEventProtectionStatus: false,
+                                isEventProtectionStatus: false,
+                                isDutyPostNameMasterStatus: true,
                                 status: state.list[selectedIndex].status,
                               );
                             },
@@ -144,7 +149,8 @@ class _DutyPostNameMasterListViewState
                                     state.list[selectedIndex].locationRegion,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
-                                // isEventProtectionStatus: false,
+                                isEventProtectionStatus: false,
+                                isDutyPostNameMasterStatus: true,
                               );
                             },
                           );

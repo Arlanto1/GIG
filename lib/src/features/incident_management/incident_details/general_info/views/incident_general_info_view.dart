@@ -98,6 +98,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               BlocProvider.of<IncidentGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<IncidentGeneralInfoCubit>(context).submitForm(
+                isSaveOnly: false,
+              );
+            },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
