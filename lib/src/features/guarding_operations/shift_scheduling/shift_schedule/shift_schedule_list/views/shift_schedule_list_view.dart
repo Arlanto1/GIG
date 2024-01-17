@@ -45,26 +45,26 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, shiftScheduleDetailsRoute,
-                arguments: {"title": Constants.createShiftSchedule}),
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.shiftSchedule,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      floatingActionButton: Flutterfloatingbutton(
+        backgroundColor: AppColors.navigationSkybluecolor,
+        foregroundColor: AppColors.backgroundWhitecolor,
+        onPressed: () => {
+          Navigator.pushNamed(context, shiftScheduleDetailsRoute,
+              arguments: {"title": Constants.createShiftSchedule}),
+        },
+      ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.shiftSchedule,
+        showPopUp: true,
+        showSaveButton: false,
+        showSubmitButton: false,
+        excelAPIName: 'exportGMDataExcel',
+        pdfAPIName: 'exportGMDataPDF',
+      ),
+      body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -92,9 +92,12 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       key: 'Date of Creation',
                       value: state.items[index].inputDate != null
                           ? Utils.timestamptoDateConversion(
-                          int.parse(state.items[index].inputDate ?? '0'),
-                          Constants.dateFormat)
+                              int.parse(state.items[index].inputDate ?? '0'),
+                              Constants.dateFormat)
                           : ''));
+                  labels.add(Label(
+                      key: 'Created By',
+                      value: state.items[index].entrySecurity?.name ?? ''));
                   labels.add(Label(
                       key: 'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
@@ -105,44 +108,50 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                   return index >= state.items.length
                       ? const BaseLoader()
                       : BaseListTileItem(
-                    id: state.items[index].id,
-                    labels: labels,
-                    status: state.items[index].status,
-                    isMasterGuard: false,
-                    onTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items[selectedIndex].id.toString(),
-                            labels: labels,
-                            slNo: state.items[selectedIndex].slNo,
-                            status: state.items[selectedIndex].status,
-                            isMasterGuard: false,
-                          );
-                        },
-                      );
-                    },
-                    onEditTap: (selectedIndex) {
-                      // getId(
-                      //     id: state.items[index].id ?? 0,
-                      //     eventStatus: state.items[index].status ?? 0);
-                    },
-                    onViewTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items[selectedIndex].id.toString(),
-                            labels: labels,
-                            slNo: state.items[selectedIndex].slNo,
-                            status: state.items[selectedIndex].status,
-                          );
-                        },
-                      );
-                    },
-                    index: index,
-                  );
+                          id: state.items[index].id,
+                          status: state.items[index].status,
+                          isMasterGuard: false,
+                          isShiftScheduleStatus: true,
+                          isEventProtectionStatus: false,
+                          labels: labels,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                  isShiftScheduleStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            // getId(
+                            //     id: state.items[index].id ?? 0,
+                            //     eventStatus: state.items[index].status ?? 0);
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isEventProtectionStatus: false,
+                                  isShiftScheduleStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
                 }
                 return const Center(
                   child: SizedBox(),
@@ -150,10 +159,10 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
               },
             ),
           );
-            },
-        ),
+        },
+      ),
     );
-}
+  }
 
   getById(int id) async {
     showLoadingDialog(context);

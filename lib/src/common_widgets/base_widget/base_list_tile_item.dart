@@ -37,7 +37,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyManagementIssuanceStatus;
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
-final bool isKeyManagementHistoryStatus;
+  final bool isKeyManagementHistoryStatus;
+  final bool isShiftScheduleStatus;
 
   const BaseListTileItem({
     super.key,
@@ -75,7 +76,8 @@ final bool isKeyManagementHistoryStatus;
     this.isVipStatus = false,
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
-    this.isKeyManagementHistoryStatus=false,
+    this.isKeyManagementHistoryStatus = false,
+    this.isShiftScheduleStatus = false,
   });
 
   @override
@@ -180,8 +182,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null && widget.isMaterialMovementStatus == true) && !widget.isMasterGuard
-                          ) ...[
+                      if ((widget.status != null &&
+                              widget.isMaterialMovementStatus == true) &&
+                          !widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()
                             .buildMaterialMovementStatusRow(widget.status ?? 0),
@@ -214,7 +217,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.status != null &&
                           widget.isKeyManagementHistoryStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementMasterHistoryStatus(widget.status ?? 0),
+                        Utils().keyManagementMasterHistoryStatus(
+                            widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isOccurrenceStatus == true) ...[
@@ -271,6 +275,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.isVipStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().vIPVisitorStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
+                          widget.isShiftScheduleStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().shiftScheduleStatusRow(widget.status ?? 0),
+                          ],
+                        ),
                       ],
                     ],
                   ),
