@@ -7,7 +7,7 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getList = '$baseUrl/getDpnByLocId?';
+  static final String _getList = '$baseUrl/getDpnList?';
 
   static final String _getById = '$baseUrl/getDpnById';
 
