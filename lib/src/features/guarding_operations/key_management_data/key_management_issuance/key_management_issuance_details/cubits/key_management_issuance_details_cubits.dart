@@ -198,14 +198,14 @@ class KeyManagementIssuanceDetailsCubit
       );
       state.model.handedOverTo = userDetails;
     }
-    // if (user != null) {
-    //   User userDetails = User(
-    //     name: user.name,
-    //     userId: user.id,
-    //     userName: user.name,
-    //   );
-    //   state.model.dbSponsorCwrT2 = userDetails;
-    // }
+    if (user != null) {
+      User userDetails = User(
+        name: user.name,
+        userId: user.id,
+        userName: user.name,
+      );
+      state.model.dbSponsorCwrT2 = userDetails;
+    }
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
