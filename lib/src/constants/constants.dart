@@ -745,6 +745,7 @@ class Constants {
   static const String attachments = 'Attachments';
 
   ///Shift Schedule
+  static const String shiftScheduling = 'Shift Scheduling';
   static const String shiftSchedule = 'Shift Schedule';
   static const String editShiftSchedule = 'Edit Shift Schedule';
   static const String createShiftSchedule = 'Create Shift Schedule';

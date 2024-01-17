@@ -77,6 +77,9 @@ class NavigationDrawer1 extends StatelessWidget {
     _lastSelectedItem = await SharedPrefs.getIdentifymenuindex();
   }
 
+  // TODO: Need to define all the Titles here
+  static const String shiftSchedulingTitle = Constants.shiftScheduling;
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -213,6 +216,10 @@ class NavigationDrawer1 extends StatelessWidget {
 
                 case Constants.keyManagementData:
                   _onKeyManagementItemSelected(i, context);
+                  break;
+
+                case shiftSchedulingTitle:
+                  _onShiftScheduleItemSelected(i, context);
                   break;
 
                 // case 'Guarding Operations':
@@ -383,6 +390,28 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
+  _onShiftScheduleItemSelected(int index, BuildContext context) async {
+    _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+
+    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+    //state = const DrawerInitial();
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, dutyPostMasterListRoute,
+          arguments: {"Duty Post Master list": false});
+    } else if (index == 1) {
+      Navigator.pushNamed(context, dutyPostNameMasterListRoute,
+          arguments: {"Duty Post Name Master list": false});
+    } else if (index == 2) {
+      Navigator.pushNamed(context, attendanceListRoute,
+          arguments: {"Attendance list": false});
+    } else if (index == 3) {
+      Navigator.pushNamed(context, shiftScheduleListRoute,
+          arguments: {"Shift Schedule": false});
+    }
+  }
+
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
@@ -418,29 +447,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 6) {
       Navigator.pushNamed(context, contactDetailsListRoute,
           arguments: {"Contact Details": true});
-    } else if (index == 7) {
-      Navigator.pushNamed(context, dutyPostMasterListRoute,
-          arguments: {"Duty Post Master list": false});
-    } else if (index == 8) {
-      Navigator.pushNamed(context, dutyPostNameMasterListRoute,
-          arguments: {"Duty Post Name Master list": false});
-    } else if (index == 9) {
-      Navigator.pushNamed(context, attendanceListRoute,
-          arguments: {"Attendance list": false});
-    } else if (index == 10) {
-      Navigator.pushNamed(context, shiftScheduleListRoute,
-          arguments: {"Shift Schedule": false});
     }
-    // else if (index == 11) {
-    //   Navigator.pushNamed(context, dutyPostNameMasterListRoute,
-    //       arguments: {"Duty Post Name Master list": false});
-    // } else if (index == 12) {
-    //   Navigator.pushNamed(context, attendanceListRoute,
-    //       arguments: {"Attendance list": false});
-    // } else if (index == 13) {
-    //   Navigator.pushNamed(context, shiftScheduleListRoute,
-    //       arguments: {"Shift Schedule": false});
-    // }
   }
 
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
@@ -919,6 +926,12 @@ class NavigationDrawer1 extends StatelessWidget {
         keyManagementDataItems,
         title,
       );
+    } else if (title == shiftSchedulingTitle) {
+      return _genericItemSelection(
+        context,
+        shiftSchedulingDataItems,
+        title,
+      );
     } else if (title == Constants.passManagement) {
       return _genericItemSelection(
         context,
@@ -932,365 +945,4 @@ class NavigationDrawer1 extends StatelessWidget {
           context, guardingOperationDrawerItems, title);
     }
   }
-
-// List<Widget> _buildDrawerChildrenIncidentChild(
-//     BuildContext context, List items) {
-//   List<Widget> children = [];
-//
-//   for (int i = 0; i < items.length; i++) {
-//     MenuItem drawerItem = items[i];
-//     log('-_buildDrawerChildren-----drawerItem.title- ${drawerItem.title}--');
-//
-//     children.add(
-//       drawerItem.numberOfChildren == 0
-//           ? Container(
-//         decoration: const BoxDecoration(
-//           border: Border(
-//               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//         ),
-//         child: ListTile(
-//           leading: SizedBox(
-//               width: 20,
-//               height: 20,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.cover,
-//                   color: (i == _lastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           title: Text(drawerItem.title,
-//               //style: Styles.textStyleBlack16,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _lastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           //selected: i == _lastSelectedItem,
-//           onTap: () => _onSelectItem(
-//             i,
-//             context,
-//           ),
-//         ),
-//       )
-//           : Theme(
-//         data: Theme.of(context)
-//             .copyWith(dividerColor: Colors.transparent),
-//         child: Container(
-//           decoration: const BoxDecoration(
-//             border: Border(
-//                 bottom:
-//                 BorderSide(color: AppColors.dividelineGreycolor)),
-//           ),
-//           child: ExpansionTile(
-//             onExpansionChanged: (value) {
-//               if (value == true) {
-//                 _lastSelectedItem = i;
-//                 context
-//                     .read<DrawerCubit>()
-//                     .getIndexChange(_lastSelectedItem);
-//               } else {
-//                 _securityfunfunctionslastSelectedItem = 10;
-//                 context.read<DrawerCubit>().getSecurityIndexChange(10);
-//               }
-//             },
-//             trailing: const SizedBox.shrink(),
-//             title: Text(
-//               drawerItem.title,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _lastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor),
-//               // style: Styles.textStyleBlack16,
-//             ),
-//             leading: SizedBox(
-//                 width: 20,
-//                 height: 20,
-//                 child: Image.asset(AppIcon.securityprotection,
-//                     fit: BoxFit.cover,
-//                     color: (i == _lastSelectedItem)
-//                         ? AppColors.navigationSkybluecolor
-//                         : AppColors.textgreyThemecolor)),
-//             childrenPadding: const EdgeInsets.only(left: 20),
-//             //children padding
-//             children: _genericItemSelection(
-//               context,
-//               securitySystemTicketsIncidentItems,
-//               Constants.incident,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   return children;
-// }
-//
-// List<Widget> _expansionBuildDrawerChildren(
-//     BuildContext context,
-//     List items,
-//     String title,
-//     ) {
-//   List<Widget> children = [];
-//
-//   for (int i = 0; i < expansionTileDrawerItems.length; i++) {
-//     MenuItem drawerItem = expansionTileDrawerItems[i];
-//     children.add(
-//       drawerItem.numberOfChildren == 0
-//           ? Container(
-//         decoration: const BoxDecoration(
-//           border: Border(
-//               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//         ),
-//         child: ListTile(
-//           leading: SizedBox(
-//               width: 20,
-//               height: 20,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.cover,
-//                   color: (i == _opearationsLastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           title: Text(drawerItem.title,
-//               //style: Styles.textStyleBlack16,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _opearationsLastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           // selected: i == _lastSelectedItem,
-//           onTap: () => _onExpansionSelectItem(i, context),
-//         ),
-//       )
-//           : Theme(
-//         data: Theme.of(context)
-//             .copyWith(dividerColor: Colors.transparent),
-//         child: Container(
-//           decoration: const BoxDecoration(
-//             border: Border(
-//                 bottom:
-//                 BorderSide(color: AppColors.dividelineGreycolor)),
-//           ),
-//           child: ExpansionTile(
-//             onExpansionChanged: (value) {
-//               if (value == true) {
-//                 _opearationsLastSelectedItem = i;
-//                 //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-//                 //state = const DrawerInitial();
-//                 context.read<DrawerCubit>().getOperationsIndexChange(
-//                     _opearationsLastSelectedItem);
-//               } else {
-//                 _opearationsLastSelectedItem = 10;
-//                 context
-//                     .read<DrawerCubit>()
-//                     .getOperationsIndexChange(10);
-//               }
-//             },
-//             trailing: const SizedBox.shrink(),
-//             title: Text(
-//               drawerItem.title,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _opearationsLastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor),
-//               // style: Styles.textStyleBlack16,
-//             ),
-//             leading: SizedBox(
-//               width: 18,
-//               height: 18,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.fitHeight,
-//                   color: (i == _opearationsLastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor),
-//             ),
-//             childrenPadding: const EdgeInsets.only(left: 20),
-//             //children padding
-//             children: buildDrawerChildren(context, drawerItem.title),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   return children;
-// }
-
-// _onKeyManagementDataItemSelected(int index, BuildContext context) async {
-//   _menuScaffoldKey.currentState!.closeDrawer();
-//   _passlastSelectedItem = index;
-//   //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-//   //state = const DrawerInitial();
-//   context.read<DrawerCubit>().getPassMgmtIndexChange(index);
-//   if (index == 0) {
-//     Navigator.pushNamed(context, keyManagementMasterListRoute,
-//         arguments: {"Key Management Master": true});
-//   } else if (index == 1) {
-//     Navigator.pushNamed(context, guardingMasterReportRoute,
-//         arguments: {"Key Management Issuance": false});
-//   } else if (index == 2) {
-//     Navigator.pushNamed(context, guardingRatesRoute,
-//         arguments: {"Key Reconciliation List": true});
-//   } else if (index == 3) {
-//     Navigator.pushNamed(context, keyLossDestructionListRoute,
-//         arguments: {"Key Loss Destruction List": true});
-//   }
-// }
-
-// List<Widget> _passmgmtbuildDrawerChildren(
-//   BuildContext context,
-//   List items,
-//   String title,
-// ) {
-//   List<Widget> children = [];
-//
-//   for (int i = 0; i < items.length; i++) {
-//     MenuItem drawerItem = items[i];
-//     children.add(
-//       Container(
-//         decoration: const BoxDecoration(
-//           border: Border(
-//               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//         ),
-//         child: ListTile(
-//           leading: SizedBox(
-//               width: 18,
-//               height: 18,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.scaleDown,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.boldgreyBackground)),
-//           title: Text(drawerItem.title,
-//               //style: Styles.textStyleBlack16,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           // selected: i == _lastSelectedItem,
-//           onTap: () => _onPassMgmtSelectItem(i, context),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   return children;
-// }
-
-// List<Widget> _genericBuildDrawerChildren(
-//   BuildContext context,
-//   List items,
-//   String title,
-// ) {
-//   List<Widget> children = [];
-//
-//   for (int i = 0; i < items.length; i++) {
-//     MenuItem drawerItem = items[i];
-//
-//     children.add(
-//       Container(
-//         decoration: const BoxDecoration(
-//           border: Border(
-//               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//         ),
-//         child: ListTile(
-//           leading: SizedBox(
-//               width: 20,
-//               height: 20,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.scaleDown,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.boldgreyBackground)),
-//           title: Text(drawerItem.title,
-//               //style: Styles.textStyleBlack16,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           onTap: () {
-//             switch (title) {
-//               case Constants.guarding:
-//                 _onGuardingOperationItemSelected(
-//                   i,
-//                   context,
-//                 );
-//                 break;
-//               case Constants.securitySystemsTickets:
-//                 _onSecuritySystemIncidentItemSelected(i, context);
-//                 break;
-//
-//               case Constants.operations:
-//                 buildDrawerChildren(context, drawerItem.title);
-//                 break;
-//
-//               case Constants.securitySystems:
-//                 buildDrawerChildren(context, drawerItem.title);
-//                 break;
-//
-//               // Add more cases for other conditions as needed
-//               default:
-//                 _onSecuritySystemIncidentItemSelected(i, context);
-//             }
-//           },
-//         ),
-//       ),
-//     );
-//   }
-//   return children;
-// }
-
-// List<Widget> _keyManagementDataBuildDrawerChildren(
-//     BuildContext context, DrawerState state) {
-//   List<Widget> children = [];
-//
-//   for (int i = 0; i < keyManagementDataItems.length; i++) {
-//     MenuItem drawerItem = keyManagementDataItems[i];
-//     children.add(
-//       Container(
-//         decoration: const BoxDecoration(
-//           border: Border(
-//               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-//         ),
-//         child: ListTile(
-//           leading: SizedBox(
-//               width: 20,
-//               height: 20,
-//               child: Image.asset(drawerItem.imageName,
-//                   fit: BoxFit.scaleDown,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.boldgreyBackground)),
-//           title: Text(drawerItem.title,
-//               //style: Styles.textStyleBlack16,
-//               style: TextStyle(
-//                   fontSize: 16,
-//                   fontFamily: Constants.customFontSemiBoldFamily,
-//                   fontWeight: FontWeight.w600,
-//                   color: (i == _passlastSelectedItem)
-//                       ? AppColors.navigationSkybluecolor
-//                       : AppColors.textgreyThemecolor)),
-//           //selected: i == _lastSelectedItem,
-//           onTap: () => _onKeyManagementDataItemSelected(i, context),
-//         ),
-//       ),
-//     );
-//   }
-//   return children;
-// }
 }
