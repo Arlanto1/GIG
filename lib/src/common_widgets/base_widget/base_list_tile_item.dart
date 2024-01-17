@@ -37,7 +37,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyManagementIssuanceStatus;
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
-final bool isKeyManagementHistoryStatus;
+  final bool isKeyManagementHistoryStatus;
   final bool isDutyPostNameMasterStatus;
 
   const BaseListTileItem({
@@ -76,7 +76,7 @@ final bool isKeyManagementHistoryStatus;
     this.isVipStatus = false,
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
-    this.isKeyManagementHistoryStatus=false,
+    this.isKeyManagementHistoryStatus = false,
     this.isDutyPostNameMasterStatus = false,
   });
 
@@ -182,19 +182,25 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null && widget.isMaterialMovementStatus == true) && !widget.isMasterGuard
-                          ) ...[
+                      if ((widget.status != null &&
+                              widget.isMaterialMovementStatus == true) &&
+                          !widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()
                             .buildMaterialMovementStatusRow(widget.status ?? 0),
                       ],
-                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildGuardrank(widget.guardRank ?? 0),
-                      ],
                       if (widget.status != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().buildGuardrank(widget.guardRank ?? 0),
+                          ],
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isEventProtectionStatus &&
@@ -216,7 +222,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.status != null &&
                           widget.isKeyManagementHistoryStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementMasterHistoryStatus(widget.status ?? 0),
+                        Utils().keyManagementMasterHistoryStatus(
+                            widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isOccurrenceStatus == true) ...[
@@ -277,8 +284,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.status != null &&
                           widget.isDutyPostNameMasterStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .dutyPostNameMasterStatus(widget.status ?? 0),
+                        Utils().dutyPostNameMasterStatus(widget.status ?? 0),
                       ],
                     ],
                   ),
