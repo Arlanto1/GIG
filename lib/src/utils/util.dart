@@ -1110,6 +1110,30 @@ class Utils {
     );
   }
 
+  Widget dutyPostNameMasterStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget employeeTypeValues(int employeeType) {
     String employeeTypeText;
 
