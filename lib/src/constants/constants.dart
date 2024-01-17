@@ -640,7 +640,7 @@ class Constants {
       'Guarding Agency Escalation Contact';
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
-  static const String zonalEscalationContact = 'Zonal Escalation Contact';
+  static const String zonalEscalationContact = 'CMS Escalation(IPB)';
   static const String escalationLevel = 'Escalation Level';
 
   ///SLA Violation Penalty

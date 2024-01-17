@@ -361,7 +361,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.guardingAgencyContact,
                                     ConstantsArgument.type: 1,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType: Constants
@@ -421,7 +421,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.systemEscalationContact,
                                     ConstantsArgument.type: 2,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
@@ -481,7 +481,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.supervisorContact,
                                     ConstantsArgument.type: 3,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
@@ -542,7 +542,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.zonalEscalationContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
