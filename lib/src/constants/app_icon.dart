@@ -15,6 +15,7 @@ class AppIcon {
   static const String lock = 'assets/images/lock.svg';
   static const String list = 'assets/images/list.png';
   static const String file = 'assets/images/file.png';
+  static const String email = 'assets/images/email.svg';
   static const String dashboardselect = 'assets/images/dashboard-select.png';
   static const String apple = 'assets/images/1684149197EveApple.svg';
   static const String notifications = 'assets/images/Vector.svg';

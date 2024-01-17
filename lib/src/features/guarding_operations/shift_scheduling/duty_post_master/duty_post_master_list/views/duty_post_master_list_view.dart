@@ -88,40 +88,60 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Created Date',
+                      value: state.list[index].createdDate != null
+                          ? Utils.timestamptoDateConversion(
+                              int.parse(state.list[index].createdDate ?? '0'),
+                              Constants.dateFormat)
+                          : ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Region',
+                      value: state.list[index].region?.name ?? ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Location',
+                      value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Shift A',
+                      value: state.list[index].shiftA.toString()));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Shift B',
+                      value: state.list[index].shiftB.toString()));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Shift C',
+                      value: state.list[index].shiftC.toString()));
+                  labels.add(Label(
+                      // key: state.labels?.locale.locationRegion ??
+                      //  state.labels?.defaultLocale.locationRegion ??
+                      key: 'Shift G',
+                      value: state.list[index].shiftG.toString()));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
                         labels: labels,
-                        status: state.list[index].status,
-                        isMasterGuard: true,
-                        guardRank: state.list[index].guardRank,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
                                 labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
-                                status: state.list[selectedIndex].status,
+                                guardRank: state.list[selectedIndex].rankId,
+                                isMasterGuard: true,
                               );
                             },
                           );
@@ -136,16 +156,6 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                labels: labels,
-                                status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
-                                // isEventProtectionStatus: false,
                               );
                             },
                           );

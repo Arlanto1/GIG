@@ -37,6 +37,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyManagementIssuanceStatus;
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
+final bool isKeyManagementHistoryStatus;
 
   const BaseListTileItem({
     super.key,
@@ -74,6 +75,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isVipStatus = false,
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
+    this.isKeyManagementHistoryStatus=false,
   });
 
   @override
@@ -178,8 +180,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null || widget.isMaterialMovementStatus == true) &&
-                          !widget.isMasterGuard
+                      if ((widget.status != null && widget.isMaterialMovementStatus == true) && !widget.isMasterGuard
                           ) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()
@@ -209,6 +210,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isKeyManagementStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().keyManagementStatus(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
+                          widget.isKeyManagementHistoryStatus) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().keyManagementMasterHistoryStatus(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isOccurrenceStatus == true) ...[

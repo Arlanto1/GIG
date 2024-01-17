@@ -52,7 +52,9 @@ class _KeyManagementMasterListViewState
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
             Navigator.pushNamed(context, keyManagementMasterDetailsRoute,
-                arguments: {"title": Constants.createkeyManagementMaster}),
+                arguments: {"title": Constants.createkeyManagementMaster,
+                  "keyMgmtGi": KeyManagementMasterModel(),
+                }),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
