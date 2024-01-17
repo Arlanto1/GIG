@@ -1,6 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 
 class ShiftScheduleListView extends StatefulWidget {
@@ -109,12 +107,12 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       ? const BaseLoader()
                       : BaseListTileItem(
                           id: state.items[index].id,
+
                           status: state.items[index].status,
                           isMasterGuard: false,
                           isShiftScheduleStatus: true,
                           isEventProtectionStatus: false,
-                          labels: labels,
-                          onTap: (selectedIndex) {
+                          labels: labels,onTap: (selectedIndex) {
                             showDialog(
                               context: context,
                               builder: (BuildContext dialogContext) {
@@ -124,16 +122,13 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
                                   isMasterGuard: false,
-                                  isEventProtectionStatus: false,
-                                  isShiftScheduleStatus: true,
-                                );
+                                isEventProtectionStatus: false,
+                                  isShiftScheduleStatus: true,);
                               },
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            // getId(
-                            //     id: state.items[index].id ?? 0,
-                            //     eventStatus: state.items[index].status ?? 0);
+                            getById(id: state.items[index].id ?? 0);
                           },
                           onViewTap: (selectedIndex) {
                             showDialog(
@@ -143,8 +138,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                   id: state.items[selectedIndex].id.toString(),
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
-                                  status: state.items[selectedIndex].status,
-                                  isEventProtectionStatus: false,
+                                  status: state.items[selectedIndex].status,isEventProtectionStatus: false,
                                   isShiftScheduleStatus: true,
                                 );
                               },
@@ -164,22 +158,35 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
     );
   }
 
-  getById(int id) async {
-    showLoadingDialog(context);
+  // getById(int id) async {
+  //   showLoadingDialog(context);
+  //
+  //   ShiftScheduleModel shiftScheduleModel =
+  //       await ShiftScheduleServices().getById(id);
+  //
+  //   editDataLoading(shiftScheduleModel);
+  // }
+  //
+  // void editDataLoading(ShiftScheduleModel? shiftScheduleModel) {
+  //   dismissLoadingDialog(context);
+  //   if (shiftScheduleModel != null) {
+  //     Navigator.pushNamed(context, dutyPostMasterDetailsRoute, arguments: {
+  //       "shiftScheduleModel": shiftScheduleModel,
+  //       "title": Constants.editShiftSchedule
+  //     });
+  //   }
+  // }
 
-    ShiftScheduleModel shiftScheduleModel =
-        await ShiftScheduleServices().getById(id);
-
-    editDataLoading(shiftScheduleModel);
-  }
-
-  void editDataLoading(ShiftScheduleModel? shiftScheduleModel) {
-    dismissLoadingDialog(context);
-    if (shiftScheduleModel != null) {
-      Navigator.pushNamed(context, dutyPostMasterDetailsRoute, arguments: {
-        "shiftScheduleModel": shiftScheduleModel,
-        "title": Constants.editShiftSchedule
-      });
-    }
+  getById({
+    required int id,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      shiftScheduleDetailsRoute,
+      arguments: {
+        ConstantsArgument.id: id.toString(),
+        ConstantsArgument.title: Constants.editShiftSchedule
+      },
+    );
   }
 }

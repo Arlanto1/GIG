@@ -1,31 +1,33 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final ShiftScheduleServices services;
-  final ShiftScheduleModel? model;
+
+  // final ShiftScheduleModel? model;
   final CommonServices commonServices;
+  final String id;
 
   ShiftScheduleDetailsCubit({
     required this.services,
     required this.commonServices,
-    required this.model,
+    // required this.model,
+    required this.id,
   }) : super(
           ShiftScheduleDetailsState.initial(
-            model: model ?? ShiftScheduleModel(),
+            model: ShiftScheduleModel(),
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
@@ -57,6 +59,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       ),
     );
 
+    ShiftScheduleModel model = ShiftScheduleModel();
+    if (id.isNotEmpty) {
+      model = await services.getById(int.tryParse(id) ?? 0);
+    }
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -84,17 +91,17 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      // if (state.model.location == null && defaultLocation != null) {
-      //   SerialNumberModel slNo = await commonServices.getSlNo(
-      //     locationId: defaultLocation.id.toString(),
-      //     moduleCode: Constants.contactDetailsModule,
-      //   );
-      //   state.model.location = defaultLocation;
-      //   state.model.slNo = slNo.serialNo;
-      // }
-      state.model.entrySecurity = loggedInUserDetails;
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.contactDetailsModule,
+        );
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
+      }
+      model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      model.inputDate = _getCurrentDate();
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -106,7 +113,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          model: state.model,
+          model: model,
           users: users.t1Analyst,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
