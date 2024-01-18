@@ -218,3 +218,21 @@ const List<Label> keyManagementStatus = [
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
 ];
+
+const List<Label> sstIncidentsStatusItems  = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Created', value: '1'),
+  Label(key: 'Submitted', value: '2'),
+  Label(key: 'Acknowledge', value: '3'),
+  Label(key: 'Hold', value: '4'),
+  Label(key: 'Rework', value: '5'),
+  Label(key: 'Review', value: '6'),
+  Label(key: 'Solve Proposed', value: '7'),
+  Label(key: 'Quotes Rejected', value: '8'),
+  Label(key: 'Quotes Approved', value: '9'),
+  Label(key: 'Po Raised', value: '10'),
+  Label(key: 'Work Completed', value: '11'),
+  Label(key: 'Invoice Requested', value: '12'),
+  Label(key: 'Invoice Submit', value: '13'),
+  Label(key: 'Closed', value: '14'),
+];
