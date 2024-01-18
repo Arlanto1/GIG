@@ -20,7 +20,7 @@ class BaseOrganisationDialog {
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
-          duplicateatomCompanyTypes: organisations,
+          duplicateEmployeeDepartments: organisations,
           leftImageName: AppIcon.addicon,
           onLeftButtonTap: () {
             Navigator.pop(context);

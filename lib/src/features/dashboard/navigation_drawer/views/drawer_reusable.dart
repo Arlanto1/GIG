@@ -439,12 +439,12 @@ class NavigationDrawer1 extends StatelessWidget {
       // );
       // Navigator.pushNamed(context, keyManagementMasterListRoute,
       //     arguments: {"Key Management Master": false});
-    } else if (index == 4) {
-      Navigator.pushNamed(context, occurrenceRoute);
     } else if (index == 5) {
+      Navigator.pushNamed(context, occurrenceRoute);
+    } else if (index == 6) {
       Navigator.pushNamed(context, slaViolationPenaltyListRoute,
           arguments: {"SLA Violation Penalty": false});
-    } else if (index == 6) {
+    } else if (index == 7) {
       Navigator.pushNamed(context, contactDetailsListRoute,
           arguments: {"Contact Details": true});
     }
