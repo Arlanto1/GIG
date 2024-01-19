@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
@@ -448,6 +449,7 @@ class DutyPostListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DutyPostModel model = DutyPostModel.fromJson(json.decode(jsonString));
     log('---dutyPosts----${dutyPosts.length}----');
     return ListView.builder(
       itemCount: dutyPosts.length,
@@ -459,8 +461,7 @@ class DutyPostListWidget extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    DutyPostDetailsView(model: dutyPosts[index]),
+                builder: (context) => DutyPostDetailsView(model: model),
               ),
             );
           },
@@ -469,3 +470,6 @@ class DutyPostListWidget extends StatelessWidget {
     );
   }
 }
+
+const String jsonString =
+    '{\r\n    \"id\": 43,\r\n    \"name\": \"Shift I\/C SECURITY SUPERVISOR\",\r\n    \"ranks\": [\r\n        {\r\n            \"rank\": 1,\r\n            \"shifts\": [\r\n                {\r\n                    \"shift\": \"A\",\r\n                    \"allowed\": 1,\r\n                    \"selectedGuards\": [\r\n                        {\r\n                            \"userId\": 462,\r\n                            \"name\": \"Prabhat  Rautaray\"\r\n                        }\r\n                    ],\r\n                    \"availableGuards\": [\r\n                        {\r\n                            \"userId\": 495,\r\n                            \"name\": \"Sagar Kumar Barik\"\r\n                        },\r\n                        {\r\n                            \"userId\": 494,\r\n                            \"name\": \"Rupam Gurung\"\r\n                        },\r\n                        {\r\n                            \"userId\": 493,\r\n                            \"name\": \"Munibur Raja Choudhury\"\r\n                        },\r\n                        {\r\n                            \"userId\": 492,\r\n                            \"name\": \"Mohanlal Banjara\"\r\n                        },\r\n                        {\r\n                            \"userId\": 490,\r\n                            \"name\": \"Kadappa Billannavar\"\r\n                        },\r\n                        {\r\n                            \"userId\": 489,\r\n                            \"name\": \"Bikram Chakma\"\r\n                        },\r\n                        {\r\n                            \"userId\": 488,\r\n                            \"name\": \"Rakesh Kumar Nayak\"\r\n                        },\r\n                        {\r\n                            \"userId\": 487,\r\n                            \"name\": \"Chandan Malik\"\r\n                        },\r\n                        {\r\n                            \"userId\": 486,\r\n                            \"name\": \"Chinaswamy \"\r\n                        },\r\n                        {\r\n                            \"userId\": 485,\r\n                            \"name\": \"Krishna Sharma\"\r\n                        },\r\n                        {\r\n                            \"userId\": 484,\r\n                            \"name\": \"Maheshwar Behera\"\r\n                        },\r\n                        {\r\n                            \"userId\": 483,\r\n                            \"name\": \"Balaji S\"\r\n                        },\r\n                        {\r\n                            \"userId\": 482,\r\n                            \"name\": \"Subrata Jana\"\r\n                        },\r\n                        {\r\n                            \"userId\": 481,\r\n                            \"name\": \"Manoj Kumar Nayak\"\r\n                        },\r\n                        {\r\n                            \"userId\": 480,\r\n                            \"name\": \"Suman Das\"\r\n                        },\r\n                        {\r\n                            \"userId\": 479,\r\n                            \"name\": \"Sanjoy Maity\"\r\n                        },\r\n                        {\r\n                            \"userId\": 478,\r\n                            \"name\": \"Ranuj Pegu\"\r\n                        },\r\n                        {\r\n                            \"userId\": 477,\r\n                            \"name\": \"Ishwar Majhi\"\r\n                        },\r\n                        {\r\n                            \"userId\": 476,\r\n                            \"name\": \"Keshab Chandra Jena\"\r\n                        },\r\n                        {\r\n                            \"userId\": 475,\r\n                            \"name\": \"Janak Gogoi\"\r\n                        },\r\n                        {\r\n                            \"userId\": 474,\r\n                            \"name\": \"Bulu Pradhan\"\r\n                        },\r\n                        {\r\n                            \"userId\": 473,\r\n                            \"name\": \"Suryakanta Chhotaray\"\r\n                        },\r\n                        {\r\n                            \"userId\": 472,\r\n                            \"name\": \"Rajib Munda Lohar\"\r\n                        },\r\n                        {\r\n                            \"userId\": 470,\r\n                            \"name\": \"Soumya Ranjan Barik\"\r\n                        }\r\n                    ],\r\n                    \"replacement\": null\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}';

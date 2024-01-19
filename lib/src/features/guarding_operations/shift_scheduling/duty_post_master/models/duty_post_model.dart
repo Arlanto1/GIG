@@ -1,7 +1,7 @@
 class DutyPostModel {
-  final int? id;
-  final String? name;
-  final List<Rank>? ranks;
+  int? id;
+  String? name;
+  List<Rank>? ranks;
 
   DutyPostModel({
     this.id,
@@ -22,8 +22,8 @@ class DutyPostModel {
 }
 
 class Rank {
-  final int? rank;
-  final List<Shift>? shifts;
+  int? rank;
+  List<Shift>? shifts;
 
   Rank({
     this.rank,
@@ -41,11 +41,11 @@ class Rank {
 }
 
 class Shift {
-  final String? shift;
-  final int? allowed;
-  final List<Guard>? selectedGuards;
-  final List<Guard>? availableGuards;
-  final dynamic replacement;
+  String? shift;
+  int? allowed;
+  List<Guard>? selectedGuards;
+  List<Guard>? availableGuards;
+  dynamic replacement;
 
   Shift({
     this.shift,
@@ -72,8 +72,8 @@ class Shift {
 }
 
 class Guard {
-  final int? userId;
-  final String? name;
+  int? userId;
+  String? name;
 
   Guard({
     this.userId,
