@@ -48,8 +48,9 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
 
     for (Rank rank in widget.model.ranks ?? []) {
       widgets.add(
-        SizedBox( // Wrap with Container
-          height: 360, // Specify a height
+        SizedBox(
+          // Wrap with Container
+          height: 385, // Specify a height
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,10 +61,9 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                   Styles.textStyleBlack14),
               CommonWidgets.verticalSpacerWidget(height * 0.01),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: buildDutyPostSelectionWidget(rank.shifts ?? []),
+                child: Column(
+                  children:
+                      buildDutyPostSelectionWidget(rank.shifts ?? [], height),
                 ),
               ),
               GestureDetector(
@@ -105,60 +105,82 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     return widgets;
   }
 
-  List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts) {
+  List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts, double height) {
     List<Widget> widgets = [];
 
     for (Shift shift in shifts) {
       widgets.add(
-        buildUserList(
-          availableGuards: shift.availableGuards ?? [],
-          isSourceList: true,
-          selectedGuards: shift.selectedGuards ?? [],
-          maxAllowed: shift.allowed ?? 0,
-          onAdd: (Guard guard) {
-            setState(() {
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
-            });
-          },
-          onRemove: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..add(guard);
-            });
-          },
-        ),
-      );
-      widgets.add(
-        buildUserList(
-          availableGuards: shift.selectedGuards ?? [],
-          isSourceList: false,
-          selectedGuards: shift.selectedGuards ?? [],
-          maxAllowed: shift.allowed ?? 0,
-          onAdd: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
-            });
-          },
-          onRemove: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..add(guard);
-            });
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonWidgets.textDisplay(
+                    'Select For Shift: ${shift.shift}',
+                    isMandatory: false,
+                    Styles.textStyleBlack14),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                buildUserList(
+                  availableGuards: shift.availableGuards ?? [],
+                  isSourceList: true,
+                  selectedGuards: shift.selectedGuards ?? [],
+                  maxAllowed: shift.allowed ?? 0,
+                  onAdd: (Guard guard) {
+                    setState(() {
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..remove(guard);
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..add(guard);
+                    });
+                  },
+                  onRemove: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..remove(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..add(guard);
+                    });
+                  },
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonWidgets.textDisplay(
+                    'Selected (Max Allowed: ${shift.allowed})',
+                    isMandatory: false,
+                    Styles.textStyleBlack14),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                buildUserList(
+                  availableGuards: shift.selectedGuards ?? [],
+                  isSourceList: false,
+                  selectedGuards: shift.selectedGuards ?? [],
+                  maxAllowed: shift.allowed ?? 0,
+                  onAdd: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..add(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..remove(guard);
+                    });
+                  },
+                  onRemove: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..remove(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..add(guard);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       );
     }
-
     return widgets;
   }
 
