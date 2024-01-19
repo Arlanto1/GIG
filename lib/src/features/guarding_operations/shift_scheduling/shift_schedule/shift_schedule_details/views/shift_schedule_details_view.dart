@@ -106,11 +106,15 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   }
 
   void initializeDates(ShiftScheduleDetailsState state) {
-    fromDateController.text = Utils.timestamptoDateConversion(
-        int.parse(state.model.fromDate ?? '0'), Constants.dateFormat);
+    if (state.model.fromDate != null) {
+      fromDateController.text = Utils.timestamptoDateConversion(
+          int.parse(state.model.fromDate ?? '0'), Constants.dateFormat);
+    }
 
-    toDateController.text = Utils.timestamptoDateConversion(
-        int.parse(state.model.toDate ?? '0'), Constants.dateFormat);
+    if (state.model.toDate != null) {
+      toDateController.text = Utils.timestamptoDateConversion(
+          int.parse(state.model.toDate ?? '0'), Constants.dateFormat);
+    }
   }
 
   getBodybuilder(ShiftScheduleDetailsState state, height) {
@@ -278,7 +282,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Duty Post Name
+                          /// Duty Type
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.guardRank ??
                               //    state.labels?.defaultLocale.guardRank ??

@@ -14,7 +14,7 @@ class Apis {
   static final String _getDutyPostsById = '$baseUrl/getSsDpById';
   static final String _getGuardsByAssignedId = '$baseUrl/getGuardsByAssignedId';
 
-  static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+  static final String _createShiftSchedule = '$baseUrl/createSsGi?';
 }
 
 class ShiftScheduleServices {
@@ -79,7 +79,7 @@ class ShiftScheduleServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createShiftSchedule}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
