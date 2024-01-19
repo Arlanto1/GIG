@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: shift schedule Details duty posts">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
     </list>
@@ -493,7 +488,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <option name="localTasksCounter" value="157" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

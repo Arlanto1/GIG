@@ -50,7 +50,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
       widgets.add(
         SizedBox(
           // Wrap with Container
-          height: 385, // Specify a height
+          height: MediaQuery.of(context).size.height / 1.9, // Specify a height
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,6 +94,8 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                         decoration: TextDecoration.underline,
                       ),
                     ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
                   ],
                 ),
               )
@@ -193,9 +195,14 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     required void Function(Guard guard) onRemove,
   }) {
     return Container(
-      height: 300,
-      width: 170,
-      color: Colors.grey[300],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        // Adjust the value to control the curvature
+        color: AppColors.disabletextfieldBackground,
+      ),
+      // height: 300,
+      height: MediaQuery.of(context).size.height / 2.3,
+      width: MediaQuery.of(context).size.width / 2.3,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
@@ -217,6 +224,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                     // Show a message when the maximum number of users is reached
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         content: Text('You can not add more than $maxAllowed'),
                       ),
                     );
@@ -230,9 +238,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
               });
             },
             child: Card(
-              child: ListTile(
-                title: Text(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
                   element.name ?? '',
+                  style: TextStyle(fontSize: 15),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
