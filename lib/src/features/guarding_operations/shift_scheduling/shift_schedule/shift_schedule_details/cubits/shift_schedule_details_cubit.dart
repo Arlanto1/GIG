@@ -37,11 +37,14 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void getGuardsByAssignedId(int id) {
+  Future<void> getGuardsByAssignedId(int id) async {
     log('-getGuardsByAssignedId---');
     emit(state.copyWith(status: FormStatus.loading));
-    services.getGuardsByAssignedId(id: id);
-    // emit(state.copyWith(model: model, status: FormStatus.navigateToNextScreen));
+    DutyPostModel dutyPostModel = await services.getGuardsByAssignedId(id: 53);
+    log('-dutyPostModel--${dutyPostModel.name}-');
+    emit(state.copyWith(
+        seletedDutyPostModel: dutyPostModel,
+        status: FormStatus.navigateToNextScreen));
   }
 
   void onCheckBoxChange(ShiftScheduleModel model) {

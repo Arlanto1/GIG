@@ -68,6 +68,15 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
+        if (state.status == FormStatus.navigateToNextScreen) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DutyPostDetailsView(
+                  model: state.seletedDutyPostModel ?? DutyPostModel()),
+            ),
+          );
+        }
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -463,12 +472,8 @@ class DutyPostListWidget extends StatelessWidget {
         return ListTile(
           title: Text(dutyPosts[index].name ?? ''),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DutyPostDetailsView(model: model),
-              ),
-            );
+            BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                .getGuardsByAssignedId(dutyPosts[index].id ?? 0);
           },
         );
       },

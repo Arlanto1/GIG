@@ -112,6 +112,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     List<Widget> widgets = [];
 
     for (Shift shift in shifts) {
+      log('---shift--${shift.shift}------');
       widgets.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +130,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                   isSourceList: true,
                   selectedGuards: shift.selectedGuards ?? [],
                   maxAllowed: shift.allowed ?? 0,
-                  onAdd: (Guard guard) {
+                  onAdd: (BaseUser guard) {
                     setState(() {
                       shift.availableGuards = List.from(shift.availableGuards!)
                         ..remove(guard);
@@ -137,7 +138,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                         ..add(guard);
                     });
                   },
-                  onRemove: (Guard guard) {
+                  onRemove: (BaseUser guard) {
                     setState(() {
                       shift.selectedGuards = List.from(shift.selectedGuards!)
                         ..remove(guard);
@@ -161,7 +162,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                   isSourceList: false,
                   selectedGuards: shift.selectedGuards ?? [],
                   maxAllowed: shift.allowed ?? 0,
-                  onAdd: (Guard guard) {
+                  onAdd: (BaseUser guard) {
                     setState(() {
                       shift.selectedGuards = List.from(shift.selectedGuards!)
                         ..add(guard);
@@ -169,7 +170,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                         ..remove(guard);
                     });
                   },
-                  onRemove: (Guard guard) {
+                  onRemove: (BaseUser guard) {
                     setState(() {
                       shift.selectedGuards = List.from(shift.selectedGuards!)
                         ..remove(guard);
@@ -188,13 +189,16 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   }
 
   Widget buildUserList({
-    required List<Guard> availableGuards,
-    required List<Guard> selectedGuards,
+    required List<BaseUser> availableGuards,
+    required List<BaseUser> selectedGuards,
     required bool isSourceList,
     required int maxAllowed,
-    required void Function(Guard guard) onAdd,
-    required void Function(Guard guard) onRemove,
+    required void Function(BaseUser guard) onAdd,
+    required void Function(BaseUser guard) onRemove,
   }) {
+
+    log('---availableGuards--${availableGuards.length}------');
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
@@ -243,7 +247,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   element.name ?? '',
-                  style: TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
