@@ -91,6 +91,21 @@ class _FoundListItemState extends State<FoundListItem> {
                           ],
                         ),
                       ],
+                      if (widget.userItem.inputDate != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          children: [
+                            textHandling(
+                                'Date of Creation : ',
+                                widget.userItem.inputDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            widget.userItem.inputDate ?? '0'),
+                                        Constants.dateFormat)
+                                    : ''),
+                          ],
+                        ),
+                      ],
                       if (widget.userItem.foundDate != null) ...[
                         CommonWidgets.verticalSpacerWidget(5),
                         Row(
@@ -99,9 +114,9 @@ class _FoundListItemState extends State<FoundListItem> {
                                 'Found Date : ',
                                 widget.userItem.foundDate != null
                                     ? Utils.timestamptoDateConversion(
-                                        int.parse(
-                                            widget.userItem.foundDate ?? '0'),
-                                        Constants.dateFormat)
+                                    int.parse(
+                                        widget.userItem.foundDate ?? '0'),
+                                    Constants.dateFormat)
                                     : ''),
                           ],
                         ),
