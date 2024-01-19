@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
   // final String title;
@@ -367,7 +368,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// List of Duty Posts
-
+                          DutyPostListWidget(
+                            dutyPosts: state.dutyPosts ?? [],
+                          ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -433,6 +436,35 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         FocusScope.of(context).unfocus();
         BlocProvider.of<ShiftScheduleDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
+      },
+    );
+  }
+}
+
+class DutyPostListWidget extends StatelessWidget {
+  final List<DutyPostModel> dutyPosts;
+
+  const DutyPostListWidget({super.key, required this.dutyPosts});
+
+  @override
+  Widget build(BuildContext context) {
+    log('---dutyPosts----${dutyPosts.length}----');
+    return ListView.builder(
+      itemCount: dutyPosts.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(dutyPosts[index].name ?? ''),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DutyPostDetailsView(model: dutyPosts[index]),
+              ),
+            );
+          },
+        );
       },
     );
   }

@@ -10,6 +10,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final List<Organisation> departments;
   final String? message;
   final List<User>? entrySecurities;
+  final List<DutyPostModel>? dutyPosts;
   final GmUiLabels? labels;
 
   factory ShiftScheduleDetailsState.initial({
@@ -81,6 +82,7 @@ class ShiftScheduleDetailsState extends Equatable {
     this.emailUsers,
     this.message,
     this.entrySecurities,
+    this.dutyPosts,
     required this.departments,
     this.labels,
   });
@@ -95,6 +97,7 @@ class ShiftScheduleDetailsState extends Equatable {
     List<Organisation>? vendors,
     String? message,
     List<User>? entrySecurities,
+    List<DutyPostModel>? dutyPosts,
     final GmUiLabels? labels,
   }) {
     return ShiftScheduleDetailsState(
@@ -107,6 +110,7 @@ class ShiftScheduleDetailsState extends Equatable {
       departments: vendors ?? departments,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      dutyPosts: dutyPosts ?? this.dutyPosts,
       labels: labels ?? this.labels,
     );
   }

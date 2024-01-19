@@ -14,13 +14,16 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key});
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   List<String> userList = ["User 1", "User 2", "User 3"];
   List<String> selectedUsers = [];
+  int maxSelectedUsers = 1; // Set the maximum number of selected users
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +54,17 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               setState(() {
                 if (isSourceList) {
-                  selectedUsers.add(user);
-                  userList.remove(user);
+                  if (selectedUsers.length < maxSelectedUsers) {
+                    selectedUsers.add(user);
+                    userList.remove(user);
+                  } else {
+                    // Show a message when the maximum number of users is reached
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Maximum users selected'),
+                      ),
+                    );
+                  }
                 } else {
                   userList.add(user);
                   selectedUsers.remove(user);

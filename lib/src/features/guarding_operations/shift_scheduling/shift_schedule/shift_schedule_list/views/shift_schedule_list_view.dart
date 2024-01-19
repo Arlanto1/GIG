@@ -48,8 +48,9 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () => {
-          Navigator.pushNamed(context, shiftScheduleDetailsRoute,
-              arguments: {"title": Constants.createShiftSchedule}),
+          Navigator.pushNamed(context, shiftScheduleDetailsRoute, arguments: {
+            ConstantsArgument.title: Constants.createShiftSchedule,
+          }),
         },
       ),
       appBar: BaseAppBar().buildAppHeader(
@@ -107,12 +108,12 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       ? const BaseLoader()
                       : BaseListTileItem(
                           id: state.items[index].id,
-
                           status: state.items[index].status,
                           isMasterGuard: false,
                           isShiftScheduleStatus: true,
                           isEventProtectionStatus: false,
-                          labels: labels,onTap: (selectedIndex) {
+                          labels: labels,
+                          onTap: (selectedIndex) {
                             showDialog(
                               context: context,
                               builder: (BuildContext dialogContext) {
@@ -122,8 +123,9 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
                                   isMasterGuard: false,
-                                isEventProtectionStatus: false,
-                                  isShiftScheduleStatus: true,);
+                                  isEventProtectionStatus: false,
+                                  isShiftScheduleStatus: true,
+                                );
                               },
                             );
                           },
@@ -138,7 +140,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                   id: state.items[selectedIndex].id.toString(),
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
-                                  status: state.items[selectedIndex].status,isEventProtectionStatus: false,
+                                  status: state.items[selectedIndex].status,
+                                  isEventProtectionStatus: false,
                                   isShiftScheduleStatus: true,
                                 );
                               },

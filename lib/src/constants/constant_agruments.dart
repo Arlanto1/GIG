@@ -1,5 +1,6 @@
 class ConstantsArgument {
   static const String id = "id";
+  static const String model = "model";
   static const String parentId = "parentId";
   static const String parentStatus = "parentStatus";
   static const String locationId = "locationId";

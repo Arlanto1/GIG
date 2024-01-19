@@ -141,7 +141,7 @@ class Constants {
       'Annual Power Shutdown List Details';
 
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Occurrence';
+  static const String occurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';

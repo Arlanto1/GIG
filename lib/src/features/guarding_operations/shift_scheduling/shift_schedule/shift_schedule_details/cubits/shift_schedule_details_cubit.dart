@@ -2,12 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -42,6 +37,13 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  void getGuardsByAssignedId(int id) {
+    log('-getGuardsByAssignedId---');
+    emit(state.copyWith(status: FormStatus.loading));
+    services.getGuardsByAssignedId(id: id);
+    // emit(state.copyWith(model: model, status: FormStatus.navigateToNextScreen));
+  }
+
   void onCheckBoxChange(ShiftScheduleModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
@@ -73,7 +75,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
+        services.getDutyPostsById(id: model.id),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -87,6 +89,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       List<User> entrySecurities = futures[4];
+      List<DutyPostModel> dutyPosts = futures[5];
       GetDepositor emailUsers = futures[6];
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
@@ -117,6 +120,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           users: users.t1Analyst,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
+          dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
         ),
