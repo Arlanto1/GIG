@@ -48,8 +48,9 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
 
     for (Rank rank in widget.model.ranks ?? []) {
       widgets.add(
-        SizedBox( // Wrap with Container
-          height: 360, // Specify a height
+        SizedBox(
+          // Wrap with Container
+          height: MediaQuery.of(context).size.height / 1.9, // Specify a height
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,10 +61,9 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                   Styles.textStyleBlack14),
               CommonWidgets.verticalSpacerWidget(height * 0.01),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: buildDutyPostSelectionWidget(rank.shifts ?? []),
+                child: Column(
+                  children:
+                      buildDutyPostSelectionWidget(rank.shifts ?? [], height),
                 ),
               ),
               GestureDetector(
@@ -94,6 +94,8 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                         decoration: TextDecoration.underline,
                       ),
                     ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
                   ],
                 ),
               )
@@ -105,60 +107,82 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     return widgets;
   }
 
-  List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts) {
+  List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts, double height) {
     List<Widget> widgets = [];
 
     for (Shift shift in shifts) {
       widgets.add(
-        buildUserList(
-          availableGuards: shift.availableGuards ?? [],
-          isSourceList: true,
-          selectedGuards: shift.selectedGuards ?? [],
-          maxAllowed: shift.allowed ?? 0,
-          onAdd: (Guard guard) {
-            setState(() {
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
-            });
-          },
-          onRemove: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..add(guard);
-            });
-          },
-        ),
-      );
-      widgets.add(
-        buildUserList(
-          availableGuards: shift.selectedGuards ?? [],
-          isSourceList: false,
-          selectedGuards: shift.selectedGuards ?? [],
-          maxAllowed: shift.allowed ?? 0,
-          onAdd: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
-            });
-          },
-          onRemove: (Guard guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..add(guard);
-            });
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonWidgets.textDisplay(
+                    'Select For Shift: ${shift.shift}',
+                    isMandatory: false,
+                    Styles.textStyleBlack14),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                buildUserList(
+                  availableGuards: shift.availableGuards ?? [],
+                  isSourceList: true,
+                  selectedGuards: shift.selectedGuards ?? [],
+                  maxAllowed: shift.allowed ?? 0,
+                  onAdd: (Guard guard) {
+                    setState(() {
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..remove(guard);
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..add(guard);
+                    });
+                  },
+                  onRemove: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..remove(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..add(guard);
+                    });
+                  },
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonWidgets.textDisplay(
+                    'Selected (Max Allowed: ${shift.allowed})',
+                    isMandatory: false,
+                    Styles.textStyleBlack14),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                buildUserList(
+                  availableGuards: shift.selectedGuards ?? [],
+                  isSourceList: false,
+                  selectedGuards: shift.selectedGuards ?? [],
+                  maxAllowed: shift.allowed ?? 0,
+                  onAdd: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..add(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..remove(guard);
+                    });
+                  },
+                  onRemove: (Guard guard) {
+                    setState(() {
+                      shift.selectedGuards = List.from(shift.selectedGuards!)
+                        ..remove(guard);
+                      shift.availableGuards = List.from(shift.availableGuards!)
+                        ..add(guard);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       );
     }
-
     return widgets;
   }
 
@@ -171,9 +195,14 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     required void Function(Guard guard) onRemove,
   }) {
     return Container(
-      height: 300,
-      width: 170,
-      color: Colors.grey[300],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        // Adjust the value to control the curvature
+        color: AppColors.disabletextfieldBackground,
+      ),
+      // height: 300,
+      height: MediaQuery.of(context).size.height / 2.3,
+      width: MediaQuery.of(context).size.width / 2.3,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
@@ -195,6 +224,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                     // Show a message when the maximum number of users is reached
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         content: Text('You can not add more than $maxAllowed'),
                       ),
                     );
@@ -208,9 +238,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
               });
             },
             child: Card(
-              child: ListTile(
-                title: Text(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
                   element.name ?? '',
+                  style: TextStyle(fontSize: 15),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

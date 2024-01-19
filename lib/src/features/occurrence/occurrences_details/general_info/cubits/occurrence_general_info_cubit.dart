@@ -146,8 +146,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     List<Organisation>? entities,
     Organisation? location,
     BaseUser? shiftTakenOverBy,
-    Organisation? vendor,
-    Organisation? entity,
     int? status,
   }) async {
     emit(

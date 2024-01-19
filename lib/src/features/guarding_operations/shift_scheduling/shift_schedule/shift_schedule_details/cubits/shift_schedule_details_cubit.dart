@@ -159,9 +159,16 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       // state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-
+    if (vendor != null) {
+      state.model.vendor = vendor;
+    }
     state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.status = status ?? state.model.status;
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -210,6 +217,14 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         response =
             (await services.createShiftSchedule(body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(
