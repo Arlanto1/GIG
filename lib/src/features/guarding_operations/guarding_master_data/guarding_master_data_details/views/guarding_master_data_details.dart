@@ -424,17 +424,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               getFiles: guardFiles,
                               onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<ImageContent>? files = [];
-                                files.add(data);
+                                //List<ImageContent>? files = [];
+                                guardFiles = [data];
+                               // files.add(data);
                                 for (ImageContent image in guardFiles ?? []) {
-                                  files.add(image);
+                                //  files.add(image);
                                 }
-                                log('-------function---${files.length}---------');
-
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .addAttachment(
-                                  guardImages: files,
+                                  guardImages: guardFiles,
                                 );
                               },
                             ),
@@ -1842,8 +1841,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   state.model.msgbExemptionDate =
                                       Utils().formatTime(value);
 
-                                  BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                      context)
+                                  BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                          context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,

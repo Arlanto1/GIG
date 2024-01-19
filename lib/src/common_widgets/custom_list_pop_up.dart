@@ -159,7 +159,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             Row(
               children: [
                 textHandling(
-                    'Claimant : ', widget.userItem?.claimant?.name ?? ""),
+                    'Claimant : ', widget.userItem?.claimantName.toString()?? ""),
               ],
             ),
           ],
