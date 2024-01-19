@@ -4,8 +4,8 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import '../../../../../../../index.dart';
 import '../cubits/shift_schedule_details_cubit.dart';
 
-class AddDutyPostLocationNamePopUp extends StatefulWidget {
-  const AddDutyPostLocationNamePopUp({
+class AddReplacementPopUp extends StatefulWidget {
+  const AddReplacementPopUp({
     super.key,
     required this.mainContext,
     required this.model,
@@ -15,12 +15,12 @@ class AddDutyPostLocationNamePopUp extends StatefulWidget {
   final DutyPostNameMasterModel? model;
 
   @override
-  State<AddDutyPostLocationNamePopUp> createState() =>
+  State<AddReplacementPopUp> createState() =>
       AddDutyPostLocationNamePopUpState();
 }
 
 class AddDutyPostLocationNamePopUpState
-    extends State<AddDutyPostLocationNamePopUp> {
+    extends State<AddReplacementPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController dutyPostLocationNameController =
       TextEditingController();
@@ -178,24 +178,41 @@ class AddDutyPostLocationNamePopUpState
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      ///Duty Post Location Name
+                      ///Reason
                       CommonWidgets.textDisplay(
                         Constants.reason,
                         Styles.textStyleBlack14,
                       ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      BaseDropDown().getDropDown(
+                          isDisabled: false,
+                          textController: replacementByController,
+                          items: reasonDropDownValues,
+                          initialValue: '',
+                          onTap: () {
+                            BaseDropDown().assetTypeDialog(
+                                context: context,
+                                dropDownValues: reasonDropDownValues
+                                    .map((label) => label.key)
+                                    .toList(),
+                                onTap: (String value) {
+                                  Label? selectedLabel;
+                                  selectedLabel =
+                                      reasonDropDownValues.firstWhere(
+                                            (label) => label.key == value,
+                                        orElse: () =>
+                                        const Label(key: '', value: ''),
+                                      );
+                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
+                                      .updateDropdownValues(
+                                      dutyType: int.tryParse(
+                                          selectedLabel.value));
+                                });
+                          }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        lineHeight: 1,
-                        textFieldController: dutyPostLocationNameController,
-                        textFormKey: Keys.equipmentNoKey,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {
-                          dutyPostLocationNameController.text = value;
-                        },
-                        validateTextField: (String value) {},
-                      ),
+
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       buttonViews(widget.mainContext, width),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),

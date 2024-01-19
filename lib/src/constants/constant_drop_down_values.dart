@@ -237,3 +237,12 @@ const List<Label> sstIncidentsStatusItems  = [
   Label(key: 'Invoice Submit', value: '13'),
   Label(key: 'Closed', value: '14'),
 ];
+
+const List<Label> reasonDropDownValues = [
+  Label(key: 'Leave', value: '1'),
+  Label(key: 'Week Off', value: '2'),
+  Label(key: 'Resigned', value: '3'),
+  Label(key: 'Terminated', value: '4'),
+  Label(key: 'Absent', value: '5'),
+
+];

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
 import '../../../duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
 import '../../../duty_post_name_master/models/duty_post_name_master_model.dart';
@@ -55,11 +56,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CommonWidgets.textDisplay(
-                  'Rank: ${rank.rank}',
-                  isMandatory: false,
-                  Styles.textStyleBlack14),
-              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              // CommonWidgets.textDisplay(
+              //     'Rank: ${rank.rank}',
+              //     isMandatory: false,
+              //     Styles.textStyleBlack14),
+              // CommonWidgets.verticalSpacerWidget(height * 0.01),
               Expanded(
                 child: Column(
                   children:
@@ -73,7 +74,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                   showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {
-                      return AddDutyPostLocationNamePopUp(
+                      return AddReplacementPopUp(
                         model: DutyPostNameMasterModel(),
                         mainContext: context,
                       );
