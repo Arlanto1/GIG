@@ -66,15 +66,18 @@ const String slaViolationPenaltyRecordsRoute =
     '/slaViolationPenaltyListingRoute';
 
 const String annualPowerShutdownListRoute = '/annualPowerShutdownListRoute';
-const String annualPowerShutdownListDetailsRoute = '/annualPowerShutdownListDetailsRoute';
-
+const String annualPowerShutdownListDetailsRoute =
+    '/annualPowerShutdownListDetailsRoute';
 
 const String keyManagementMasterListRoute = '/keyManagementMasterListRoute';
-const String keyManagementMasterDetailsRoute = '/keyManagementMasterDetailsRoute';
+const String keyManagementMasterDetailsRoute =
+    '/keyManagementMasterDetailsRoute';
 
 const String keyManagementIssuanceListRoute = '/keyManagementIssuanceListRoute';
-const String keyManagementIssuanceDetailsRoute = '/keyManagementIssuanceDetailsRoute';
-const String keyManagementIssuanceProcessRecordsRoute = '/keyManagementIssuanceProcessRecordsRoute';
+const String keyManagementIssuanceDetailsRoute =
+    '/keyManagementIssuanceDetailsRoute';
+const String keyManagementIssuanceProcessRecordsRoute =
+    '/keyManagementIssuanceProcessRecordsRoute';
 const String keyHistoryRecordsViewRoute = '/keyHistoryRecordsViewRoute';
 const String keyHistoryRecordsDetailsRoute = '/keyHistoryRecordsDetailsRoute';
 
@@ -92,9 +95,6 @@ const String attendanceListRoute = '/attendanceListRoute';
 const String shiftScheduleListRoute = '/shiftScheduleListRoute';
 const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';
 
-
 const String vipVisitorsListRoute = '/vipVisitorsListRoute';
-const String vipVisitorsDetailsRoute =
-    '/vipVisitorsDetailsRoute';
-const String vipVisitorsRecordsRoute =
-    '/vipVisitorsRecordsRoute';
+const String vipVisitorsDetailsRoute = '/vipVisitorsDetailsRoute';
+const String vipVisitorsRecordsRoute = '/vipVisitorsRecordsRoute';

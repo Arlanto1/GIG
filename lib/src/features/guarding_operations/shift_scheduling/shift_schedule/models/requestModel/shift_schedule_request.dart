@@ -1,5 +1,5 @@
 
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 class ShiftScheduleRequest {
   ShiftScheduleRequest({

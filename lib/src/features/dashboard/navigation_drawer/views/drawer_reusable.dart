@@ -633,11 +633,10 @@ class NavigationDrawer1 extends StatelessWidget {
                             expansionTileDrawerItems,
                             Constants.operations,
                           )
-
-                        // _genericItemSelection(
+                        // : _genericItemSelection(
                         //     context,
-                        //     keyManagementDataItems,
-                        //     Constants.keyManagementMaster,
+                        //     shiftSchedulingDataItems,
+                        //     Constants.shiftScheduling,
                         //   )
                         : _genericItemExpandable(
                             context,

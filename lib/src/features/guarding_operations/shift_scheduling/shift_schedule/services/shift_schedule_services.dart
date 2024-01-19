@@ -1,35 +1,34 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
-
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getShiftSchdList?';
 
-  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+  static final String _getById = '$baseUrl/getSsGiById';
+  static final String _getDutyPostsById = '$baseUrl/getSsDpById';
+  static final String _getGuardsByAssignedId = '$baseUrl/getGuardsByAssignedId';
 
   static final String _createGuardingMasterData = '$baseUrl/createGMData?';
 }
 
 class ShiftScheduleServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
 
   Future<ShiftScheduleResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -37,11 +36,40 @@ class ShiftScheduleServices {
   }
 
   Future<ShiftScheduleModel> getById(int id) async {
-    final String url = '${Apis._getGuardingMasterData}/$id';
+    final String url = '${Apis._getById}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
     return ShiftScheduleModel.fromJson(response);
+  }
+
+  Future<List<DutyPostModel>> getDutyPostsById({
+    required int? id,
+    BuildContext? context,
+  }) async {
+    if (id == null) {
+      return [];
+    }
+    final String url = '${Apis._getDutyPostsById}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<DutyPostModel>.from(
+        response.map((x) => DutyPostModel.fromJson(x)));
+  }
+
+  Future<DutyPostModel> getGuardsByAssignedId({
+    required int? id,
+    BuildContext? context,
+  }) async {
+    final String url = '${Apis._getGuardsByAssignedId}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return DutyPostModel.fromJson(response);
+
   }
 
   /// Create Services
@@ -59,5 +87,4 @@ class ShiftScheduleServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }

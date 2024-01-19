@@ -205,6 +205,7 @@ const List<Label> typesDropDownValues = [
 const List<Label> shiftDutyTypeDropDownValues = [
   Label(key: 'Transport', value: '1'),
   Label(key: 'Building', value: '2'),
+  Label(key: 'Transport and Building', value: '3'),
 ];
 
 const List<Label> keyTaggingDropDownValues = [

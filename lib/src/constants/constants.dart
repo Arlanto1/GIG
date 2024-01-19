@@ -141,7 +141,7 @@ class Constants {
       'Annual Power Shutdown List Details';
 
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Occurrence';
+  static const String occurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -739,6 +739,7 @@ class Constants {
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
   static const String dutyPostLocationName = 'Duty Post Location Name';
   static const String region = 'Region';
+  static const String addDutyPostLocationName = 'Add Duty Post Location Name';
 
   ///Attendance
   static const String attendance = 'Attendance';

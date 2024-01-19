@@ -38,6 +38,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
   final bool isKeyManagementHistoryStatus;
+  final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
 
   const BaseListTileItem({
@@ -78,6 +79,7 @@ class BaseListTileItem extends StatefulWidget {
     this.onDeleteTap,
     this.isKeyManagementHistoryStatus = false,
     this.isDutyPostNameMasterStatus = false,
+    this.isShiftScheduleStatus = false,
   });
 
   @override
@@ -280,6 +282,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.isVipStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().vIPVisitorStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
+                          widget.isShiftScheduleStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().shiftScheduleStatusRow(widget.status ?? 0),
+                          ],
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isDutyPostNameMasterStatus == true) ...[

@@ -1,17 +1,15 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
-  final ShiftScheduleModel? model;
-  final String title;
+  // final String title;
 
   const ShiftScheduleDetailsView({
     super.key,
-    this.model,
-    required this.title,
+    // required this.title,
   });
 
   @override
@@ -45,8 +43,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Duty Post Master',
@@ -86,14 +82,15 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           isReadOnly = false;
         }
 
-        initializeDates();
+        initializeDates(state);
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: widget.title,
+            title: Constants.shiftSchedule,
+            // title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
-              showSubmitButton: state.model.status != 5 ? true : false,
+            showSubmitButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ShiftScheduleDetailsCubit>(context)
@@ -104,10 +101,16 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           body: getBodybuilder(state, height),
         );
       },
-    ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+    );
   }
 
-  void initializeDates() {}
+  void initializeDates(ShiftScheduleDetailsState state) {
+    fromDateController.text = Utils.timestamptoDateConversion(
+        int.parse(state.model.fromDate ?? '0'), Constants.dateFormat);
+
+    toDateController.text = Utils.timestamptoDateConversion(
+        int.parse(state.model.toDate ?? '0'), Constants.dateFormat);
+  }
 
   getBodybuilder(ShiftScheduleDetailsState state, height) {
     if (state.status == FormStatus.loading) {
@@ -170,7 +173,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             items: statusDropDownValues,
                             initialValue: '${state.model.status ?? 1}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (state.model.id != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: statusDropDownValues
@@ -225,7 +228,16 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -322,8 +334,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             onlyDate: false,
                             showPastDate: false,
                             onChange: (String value) {
-                              state.model.dateOfBirth =
-                                  Utils().formatTime(value);
+                              state.model.fromDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)
                                   .onModelValueChange(state.model);
@@ -347,8 +358,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             onlyDate: false,
                             showPastDate: false,
                             onChange: (String value) {
-                              state.model.dateOfBirth =
-                                  Utils().formatTime(value);
+                              state.model.toDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)
                                   .onModelValueChange(state.model);
@@ -356,6 +366,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             context: context,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// List of Duty Posts
+                          DutyPostListWidget(
+                            dutyPosts: state.dutyPosts ?? [],
+                          ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -424,36 +439,33 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       },
     );
   }
+}
 
-  Widget locationWidgetDisplay(ShiftScheduleDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
+class DutyPostListWidget extends StatelessWidget {
+  final List<DutyPostModel> dutyPosts;
 
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+  const DutyPostListWidget({super.key, required this.dutyPosts});
 
-                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
+  @override
+  Widget build(BuildContext context) {
+    log('---dutyPosts----${dutyPosts.length}----');
+    return ListView.builder(
+      itemCount: dutyPosts.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(dutyPosts[index].name ?? ''),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DutyPostDetailsView(model: dutyPosts[index]),
+              ),
             );
           },
         );
-        // }
       },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

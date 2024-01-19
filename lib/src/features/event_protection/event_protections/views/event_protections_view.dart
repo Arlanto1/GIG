@@ -158,7 +158,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            getId(
+                            getById(
                                 id: state.items[index].id ?? 0,
                                 eventStatus: state.items[index].status ?? 0);
                           },
@@ -193,7 +193,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     );
   }
 
-  getId({
+  getById({
     required int id,
     required int eventStatus,
   }) async {

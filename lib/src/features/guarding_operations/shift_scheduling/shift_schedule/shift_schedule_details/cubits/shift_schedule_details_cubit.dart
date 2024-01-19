@@ -1,31 +1,28 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final ShiftScheduleServices services;
-  final ShiftScheduleModel? model;
+
+  // final ShiftScheduleModel? model;
   final CommonServices commonServices;
+  final String id;
 
   ShiftScheduleDetailsCubit({
     required this.services,
     required this.commonServices,
-    required this.model,
+    // required this.model,
+    required this.id,
   }) : super(
           ShiftScheduleDetailsState.initial(
-            model: model ?? ShiftScheduleModel(),
+            model: ShiftScheduleModel(),
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
@@ -38,6 +35,13 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   void onModelValueChange(ShiftScheduleModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  void getGuardsByAssignedId(int id) {
+    log('-getGuardsByAssignedId---');
+    emit(state.copyWith(status: FormStatus.loading));
+    services.getGuardsByAssignedId(id: id);
+    // emit(state.copyWith(model: model, status: FormStatus.navigateToNextScreen));
   }
 
   void onCheckBoxChange(ShiftScheduleModel model) {
@@ -57,6 +61,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       ),
     );
 
+    ShiftScheduleModel model = ShiftScheduleModel();
+    if (id.isNotEmpty) {
+      model = await services.getById(int.tryParse(id) ?? 0);
+    }
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -66,7 +75,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
+        services.getDutyPostsById(id: model.id),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -80,6 +89,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       List<User> entrySecurities = futures[4];
+      List<DutyPostModel> dutyPosts = futures[5];
       GetDepositor emailUsers = futures[6];
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
@@ -89,17 +99,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.contactDetailsModule,
         );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      model.inputDate = _getCurrentDate();
 
-      dynamic participationDates = Utils()
-          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      log('-participationDates---${participationDates.toString()}---');
+      // dynamic participationDates = Utils()
+      //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -108,10 +116,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          model: state.model,
+          model: model,
           users: users.t1Analyst,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
+          dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
         ),
@@ -147,13 +156,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         moduleCode: Constants.guardingMasterDataModule,
       );
 
-      state.model.location = location;
+      // state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
 
-    state.model.vendor = vendor ?? state.model.vendor;
     state.model.dutyType = dutyType ?? state.model.dutyType;
-    state.model.systemAccess = systemAccess ?? state.model.systemAccess;
     state.model.status = status ?? state.model.status;
   }
 

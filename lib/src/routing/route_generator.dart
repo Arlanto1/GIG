@@ -44,7 +44,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart';
@@ -92,8 +91,10 @@ import '../features/guarding_operations/shift_scheduling/duty_post_name_master/d
 import '../features/guarding_operations/vvip_visitor/models/vvip_visitor_response_model.dart';
 import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart';
 import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart';
-import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart' as vip;
-import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart' as vipr;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart'
+    as vip;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
+    as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
 
 class RouteGenerator {
@@ -1144,28 +1145,47 @@ class RouteGenerator {
                 ));
 
       case shiftScheduleDetailsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+        }
         ShiftScheduleServices services = ShiftScheduleServices();
         CommonServices commonServices = CommonServices();
-        String title;
-        Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
-        title = arguments[ConstantsArgument.title];
-        ShiftScheduleModel? shiftScheduleModel =
-            arguments["shiftScheduleModel"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(
+              id: id,
               services: services,
-              model: shiftScheduleModel,
               commonServices: commonServices,
             ),
-            child: ShiftScheduleDetailsView(
-              model: shiftScheduleModel,
-              title: title,
-            ),
+            child: const ShiftScheduleDetailsView(),
           ),
         );
 
+      // case shiftScheduleDetailsRoute:
+      //   ShiftScheduleServices services = ShiftScheduleServices();
+      //   CommonServices commonServices = CommonServices();
+      //   String title;
+      //   Map<String, dynamic> arguments =
+      //       settings.arguments as Map<String, dynamic>;
+      //   title = arguments[ConstantsArgument.title];
+      //   ShiftScheduleModel? shiftScheduleModel =
+      //       arguments["shiftScheduleModel"];
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
+      //       create: (_) => ShiftScheduleDetailsCubit(
+      //         services: services,
+      //         model: shiftScheduleModel,
+      //         commonServices: commonServices,
+      //       ),
+      //       child: ShiftScheduleDetailsView(
+      //         model: shiftScheduleModel,
+      //         title: title,
+      //       ),
+      //     ),
+      //   );
 
       case vipVisitorsListRoute:
         return MaterialPageRoute(
@@ -1181,7 +1201,7 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         VIVPVisitorModel? model = arguments["model"];
         return MaterialPageRoute(
@@ -1204,7 +1224,7 @@ class RouteGenerator {
         // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           // violationDescription =
@@ -1213,19 +1233,19 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vipr.VVIPVisitorsRecordBloc>(
             create: (_) => vipr.VVIPVisitorsRecordBloc(
-              //violationDescription: violationDescription,
-            )..add(vipr.FetchData(
-              id: id,
-              startPos: 0,
-              maxPos: 100,
-            )),
+                //violationDescription: violationDescription,
+                )
+              ..add(vipr.FetchData(
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
             child: VVIPVisitorsRecordView(
               id: id,
               title: title,
             ),
           ),
         );
-
 
       default:
         CommonServices commonServices = CommonServices();

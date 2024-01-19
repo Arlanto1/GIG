@@ -72,6 +72,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
   final bool isKeyManagementHistoryStatus;
+  final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
   final User? srh;
   final User? securityManager;
@@ -151,6 +152,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isVipStatus = false,
     this.isKeyManagementHistoryStatus = false,
     this.isDutyPostNameMasterStatus = false,
+    this.isShiftScheduleStatus = false,
     this.handOverSecurity,
     this.incidentType,
     this.srh,
@@ -823,6 +825,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().contactDetailsStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      CommonWidgets.verticalSpacerWidget(5),
+      if (widget.status != null && widget.isShiftScheduleStatus == true) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().shiftScheduleStatusRow(widget.status ?? 0),
           ],
         ),
       ],
