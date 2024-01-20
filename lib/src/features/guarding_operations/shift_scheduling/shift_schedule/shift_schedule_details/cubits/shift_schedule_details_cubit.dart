@@ -9,16 +9,12 @@ import 'package:intl/intl.dart';
 part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
-  final ShiftScheduleServices services;
+  final ShiftScheduleServices services = ShiftScheduleServices();
 
-  // final ShiftScheduleModel? model;
-  final CommonServices commonServices;
+  final CommonServices commonServices = CommonServices();
   final String id;
 
   ShiftScheduleDetailsCubit({
-    required this.services,
-    required this.commonServices,
-    // required this.model,
     required this.id,
   }) : super(
           ShiftScheduleDetailsState.initial(

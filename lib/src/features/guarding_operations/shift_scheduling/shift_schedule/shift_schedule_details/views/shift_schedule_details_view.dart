@@ -72,8 +72,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DutyPostDetailsView(
-                  model: state.seletedDutyPostModel ?? DutyPostModel()),
+              builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
+                create: (_) => ShiftScheduleDetailsCubit(
+                  id: state.model.id.toString(),
+                ),
+                child:  DutyPostDetailsView(model: state.seletedDutyPostModel ?? DutyPostModel(),),
+              ),
             ),
           );
         }

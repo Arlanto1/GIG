@@ -1,15 +1,18 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
-import '../../../duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
 import '../../../duty_post_name_master/models/duty_post_name_master_model.dart';
 
 class DutyPostDetailsView extends StatefulWidget {
   final DutyPostModel model;
 
-  const DutyPostDetailsView({super.key, required this.model});
+  const DutyPostDetailsView({
+    super.key,
+    required this.model,
+  });
 
   @override
   DutyPostDetailsViewState createState() => DutyPostDetailsViewState();
@@ -20,27 +23,34 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return Scaffold(
-      appBar: BaseAppBar().buildAppHeader(
-        context: context,
-        title: widget.model.name ?? '',
-        showPopUp: false,
-        showSaveButton: true,
-        showSubmitButton: true,
-        onTapSave: () {
-          FocusScope.of(context).unfocus();
-          // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-          //     .submitForm(isSaveOnly: true);
-        },
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: buildDutyPostRow(height),
+    return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: widget.model.name ?? '',
+            showPopUp: false,
+            showSaveButton: true,
+            showSubmitButton: true,
+            onTapSave: () {
+              FocusScope.of(context).unfocus();
+              // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+              //     .submitForm(isSaveOnly: true);
+            },
           ),
-        ),
-      ),
+          body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: buildDutyPostRow(height),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -196,7 +206,6 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     required void Function(BaseUser guard) onAdd,
     required void Function(BaseUser guard) onRemove,
   }) {
-
     log('---availableGuards--${availableGuards.length}------');
 
     return Container(
