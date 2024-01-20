@@ -200,7 +200,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils().buildGuardrank(widget.guardRank ?? 0),
+                            Utils().buildGuardRank(guardRank: widget.guardRank ?? 0),
                           ],
                         ),
                       ],

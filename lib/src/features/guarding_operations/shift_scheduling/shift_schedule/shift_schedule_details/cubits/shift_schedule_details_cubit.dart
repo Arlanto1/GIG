@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -215,6 +216,77 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         }
         response =
             (await services.createShiftSchedule(body: request, isSubmit: true));
+      }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    log('---response--msg--${response.message}---');
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
+  }
+
+  void submitDutyPost(
+      {bool isSaveOnly = false, required DutyPostModel model}) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    log('---submitDutyPost---');
+
+    // Create/Update API Call
+    DutyPostRequest request = DutyPostRequest(dutyPost: model);
+
+    GenericResponse response = GenericResponse();
+    try {
+      if (isSaveOnly) {
+        // if (!state.isValidDraft.status) {
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.error,
+        //       message: state.isValidDraft.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = (await services.assignGuards(
+          body: request,
+          isSubmit: false,
+        ));
+      } else {
+        //Validating Fields
+        // if (!state.isValid.status) {
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.error,
+        //       message: state.isValid.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = (await services.assignGuards(
+          body: request,
+          isSubmit: true,
+        ));
       }
     } on GenericResponse catch (e) {
       emit(

@@ -25,7 +25,31 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     final height = size.height;
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state.status == FormStatus.success) {
+          var dialog = CustomAlertDialog(
+            title: 'Duty Post Master',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPositivePressed: () {
+              // TODO: Need to improve this code
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                shiftScheduleListRoute,
+                arguments: {},
+              );
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+
+          // Utils.dynamicAlert(
+          //     context, state.message ?? '', 'Material Movement', '');
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -37,9 +61,16 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             showSubmitButton: true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-              //     .submitForm(isSaveOnly: true);
+              log('----onTapSave--');
+              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                  .submitDutyPost(model: widget.model, isSaveOnly: true);
             },
+            onTapSubmit: (){
+              FocusScope.of(context).unfocus();
+              log('----onTapSubmit--');
+              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                  .submitDutyPost(model: widget.model, isSaveOnly: false);
+            }
           ),
           body: Padding(
             padding: const EdgeInsets.all(20),
@@ -66,11 +97,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // CommonWidgets.textDisplay(
-              //     'Rank: ${rank.rank}',
-              //     isMandatory: false,
-              //     Styles.textStyleBlack14),
-              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+              CommonWidgets.textDisplay(
+                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                  isMandatory: false,
+                  Styles.textStyleBlack14),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
               Expanded(
                 child: Column(
                   children:
