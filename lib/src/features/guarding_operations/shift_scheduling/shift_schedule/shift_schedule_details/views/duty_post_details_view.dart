@@ -108,39 +108,39 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
                       buildDutyPostSelectionWidget(rank.shifts ?? [], height),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  log('--onTap------');
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return AddReplacementPopUp(
-                        model: DutyPostNameMasterModel(),
-                        mainContext: context,
-                      );
-                    },
-                  );
-                },
-                child: Row(
-                  children: <Widget>[
-                    const SizedBox(width: 14),
-                    SvgPicture.asset(
-                      AppIcon.pluscircle,
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      Constants.addReplacement,
-                      style: TextStyle(
-                        color: AppColors.navigationSkybluecolor,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  ],
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     log('--onTap------');
+              //
+              //     showDialog(
+              //       context: context,
+              //       builder: (BuildContext dialogContext) {
+              //         return AddReplacementPopUp(
+              //           model: DutyPostNameMasterModel(),
+              //           mainContext: context,
+              //         );
+              //       },
+              //     );
+              //   },
+              //   child: Row(
+              //     children: <Widget>[
+              //       const SizedBox(width: 14),
+              //       SvgPicture.asset(
+              //         AppIcon.pluscircle,
+              //       ),
+              //       const SizedBox(width: 10),
+              //       const Text(
+              //         Constants.addReplacement,
+              //         style: TextStyle(
+              //           color: AppColors.navigationSkybluecolor,
+              //           decoration: TextDecoration.underline,
+              //         ),
+              //       ),
+              //       CommonWidgets.verticalSpacerWidget(height * 0.01),
+              //       CommonWidgets.verticalSpacerWidget(height * 0.01),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

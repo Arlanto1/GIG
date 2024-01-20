@@ -475,6 +475,7 @@ class DutyPostListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(dutyPosts[index].name ?? ''),
+          trailing: const Icon(Icons.arrow_right),
           onTap: () {
             BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                 .getGuardsByAssignedId(dutyPosts[index].id ?? 0);

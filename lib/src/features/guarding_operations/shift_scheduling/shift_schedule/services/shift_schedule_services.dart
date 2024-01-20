@@ -1,10 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -14,6 +11,8 @@ class Apis {
   static final String _getById = '$baseUrl/getSsGiById';
   static final String _getDutyPostsById = '$baseUrl/getSsDpById';
   static final String _getGuardsByAssignedId = '$baseUrl/getGuardsByAssignedId';
+  static final String _getDutyPostsByLocationAndVendor =
+      '$baseUrl/getSsDpByLocAndVendor?';
 
   static final String _createShiftSchedule = '$baseUrl/createSsGi?';
   static final String _assignGuards = '$baseUrl/assignGuards?';
@@ -71,7 +70,19 @@ class ShiftScheduleServices {
     );
 
     return DutyPostModel.fromJson(response);
+  }
 
+  Future<List<DutyPostModel>> getDutyPostsByLocationAndVendor({
+    required int locationId,
+    required int vendorId,
+  }) async {
+    String url =
+        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<DutyPostModel>.from(
+        response.map((x) => DutyPostModel.fromJson(x)));
   }
 
   /// Create Services
@@ -80,8 +91,7 @@ class ShiftScheduleServices {
     required ShiftScheduleRequest body,
     required bool isSubmit,
   }) async {
-    final String url =
-        "${Apis._createShiftSchedule}&isSubmit=$isSubmit";
+    final String url = "${Apis._createShiftSchedule}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
@@ -94,8 +104,7 @@ class ShiftScheduleServices {
     required DutyPostRequest body,
     required bool isSubmit,
   }) async {
-    final String url =
-        "${Apis._assignGuards}&isSubmit=$isSubmit";
+    final String url = "${Apis._assignGuards}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
