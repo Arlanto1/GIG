@@ -16,10 +16,10 @@ class AddReplacementPopUp extends StatefulWidget {
 
   @override
   State<AddReplacementPopUp> createState() =>
-      AddDutyPostLocationNamePopUpState();
+      AddReplacementPopUpState();
 }
 
-class AddDutyPostLocationNamePopUpState
+class AddReplacementPopUpState
     extends State<AddReplacementPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController dutyPostLocationNameController =
