@@ -203,7 +203,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations:state.dutyPostName,
+                                organisations: [],
                                 onTap: (Organisation department) {
                                   state.model.dutyPostLocation?.name =
                                       department.name;
