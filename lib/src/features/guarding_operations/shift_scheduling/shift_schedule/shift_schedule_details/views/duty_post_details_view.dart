@@ -54,24 +54,23 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
       builder: (context, state) {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
-            context: context,
-            title: widget.model.name ?? '',
-            showPopUp: false,
-            showSaveButton: true,
-            showSubmitButton: true,
-            onTapSave: () {
-              FocusScope.of(context).unfocus();
-              log('----onTapSave--');
-              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                  .submitDutyPost(model: widget.model, isSaveOnly: true);
-            },
-            onTapSubmit: (){
-              FocusScope.of(context).unfocus();
-              log('----onTapSubmit--');
-              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                  .submitDutyPost(model: widget.model, isSaveOnly: false);
-            }
-          ),
+              context: context,
+              title: widget.model.name ?? '',
+              showPopUp: false,
+              showSaveButton: true,
+              showSubmitButton: true,
+              onTapSave: () {
+                FocusScope.of(context).unfocus();
+                log('----onTapSave--');
+                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                    .submitDutyPost(model: widget.model, isSaveOnly: true);
+              },
+              onTapSubmit: () {
+                FocusScope.of(context).unfocus();
+                log('----onTapSubmit--');
+                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                    .submitDutyPost(model: widget.model, isSaveOnly: false);
+              }),
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
@@ -92,57 +91,27 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
       widgets.add(
         SizedBox(
           // Wrap with Container
-          height: MediaQuery.of(context).size.height / 1.9, // Specify a height
+          height: MediaQuery.of(context).size.height / 1.9, // i want remove to remove this sized box so that that content take space accordingly
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CommonWidgets.textDisplay(
-                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                  isMandatory: false,
-                  Styles.textStyleBlack14),
+                'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                isMandatory: false,
+                Styles.textStyleBlack14,
+              ),
               CommonWidgets.verticalSpacerWidget(height * 0.01),
               Expanded(
-                child: Column(
-                  children:
-                      buildDutyPostSelectionWidget(rank.shifts ?? [], height),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: buildDutyPostSelectionWidget(rank.shifts ?? [], height),
+                  ),
                 ),
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     log('--onTap------');
-              //
-              //     showDialog(
-              //       context: context,
-              //       builder: (BuildContext dialogContext) {
-              //         return AddReplacementPopUp(
-              //           model: DutyPostNameMasterModel(),
-              //           mainContext: context,
-              //         );
-              //       },
-              //     );
-              //   },
-              //   child: Row(
-              //     children: <Widget>[
-              //       const SizedBox(width: 14),
-              //       SvgPicture.asset(
-              //         AppIcon.pluscircle,
-              //       ),
-              //       const SizedBox(width: 10),
-              //       const Text(
-              //         Constants.addReplacement,
-              //         style: TextStyle(
-              //           color: AppColors.navigationSkybluecolor,
-              //           decoration: TextDecoration.underline,
-              //         ),
-              //       ),
-              //       CommonWidgets.verticalSpacerWidget(height * 0.01),
-              //       CommonWidgets.verticalSpacerWidget(height * 0.01),
-              //     ],
-              //   ),
-              // )
             ],
           ),
+
         ),
       );
     }
@@ -225,6 +194,79 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
           ],
         ),
       );
+
+      widgets.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () {
+                log('--onTap------');
+
+                showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return AddReplacementPopUp(
+                      model: DutyPostNameMasterModel(),
+                      mainContext: context,
+                    );
+                  },
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  const SizedBox(width: 14),
+                  SvgPicture.asset(
+                    AppIcon.pluscircle,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    Constants.addReplacement,
+                    style: TextStyle(
+                      color: AppColors.navigationSkybluecolor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
+              ),
+            ),
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // children: buildReplacements(shift),
+                  children: [
+                    Text('Replacement For: asfd}'),
+                    Text('Replacement By: asfd}'),
+                    Text('From Date: asfd}'),
+                    Text('To Date: asfd}'),
+                    Text('Reason: asfd}'),
+                    Divider(),
+                    Text('Replacement For: asfd}'),
+                    Text('Replacement By: asfd}'),
+                    Text('From Date: asfd}'),
+                    Text('To Date: asfd}'),
+                    Text('Reason: asfd}'),
+
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return widgets;
+  }
+
+  List<Widget> buildReplacements(Shift shift) {
+    List<Widget> widgets = [];
+
+    for (Replacement replacement in shift.replacements ?? []) {
+      widgets.add(Text('Replacement For: ${replacement.replacedFor}'));
     }
     return widgets;
   }
@@ -246,7 +288,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
         color: AppColors.disabletextfieldBackground,
       ),
       // height: 300,
-      height: MediaQuery.of(context).size.height / 2.3,
+      height: MediaQuery.of(context).size.height / 3.3,
       width: MediaQuery.of(context).size.width / 2.3,
       child: ListView.builder(
         itemCount: availableGuards.length,
