@@ -141,6 +141,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
                                   isEventProtectionStatus: false,
                                   isShiftScheduleStatus: true,
                                 );
