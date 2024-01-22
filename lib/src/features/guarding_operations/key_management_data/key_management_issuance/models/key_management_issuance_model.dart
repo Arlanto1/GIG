@@ -128,7 +128,7 @@ class KeyManagementIssuanceModel {
   dynamic region;
   User? createdBy;
   int? keyHandingOverDuration;
-  dynamic keyHandOverDate;
+  String? keyHandOverDate;
   dynamic keyHandOverDue;
   int? employeeType;
   dynamic handedOverTo;
