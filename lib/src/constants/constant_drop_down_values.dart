@@ -246,3 +246,8 @@ const List<Label> reasonDropDownValues = [
   Label(key: 'Absent', value: '5'),
 
 ];
+const List<Label> dutyPostNameMasterStatusValues = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Active', value: '1'),
+];
