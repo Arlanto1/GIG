@@ -316,7 +316,7 @@ class Utils {
     );
   }
 
-  Widget buildGuardrank(int guardRank) {
+  dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
     switch (guardRank) {
@@ -340,6 +340,10 @@ class Utils {
         break;
       default:
         guardRankText = ''; // Handle the default case if needed
+    }
+
+    if(returnTextOnly??false) {
+      return guardRankText;
     }
 
     return IntrinsicWidth(

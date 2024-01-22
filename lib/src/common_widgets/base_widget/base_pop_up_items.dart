@@ -409,7 +409,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
-            Utils().buildGuardrank(widget.guardRank ?? 0),
+            Utils().buildGuardRank(guardRank: widget.guardRank ?? 0),
           ],
         ),
       ],

@@ -1157,35 +1157,10 @@ class RouteGenerator {
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(
               id: id,
-              services: services,
-              commonServices: commonServices,
             ),
             child: const ShiftScheduleDetailsView(),
           ),
         );
-
-      // case shiftScheduleDetailsRoute:
-      //   ShiftScheduleServices services = ShiftScheduleServices();
-      //   CommonServices commonServices = CommonServices();
-      //   String title;
-      //   Map<String, dynamic> arguments =
-      //       settings.arguments as Map<String, dynamic>;
-      //   title = arguments[ConstantsArgument.title];
-      //   ShiftScheduleModel? shiftScheduleModel =
-      //       arguments["shiftScheduleModel"];
-      //   return MaterialPageRoute(
-      //     builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
-      //       create: (_) => ShiftScheduleDetailsCubit(
-      //         services: services,
-      //         model: shiftScheduleModel,
-      //         commonServices: commonServices,
-      //       ),
-      //       child: ShiftScheduleDetailsView(
-      //         model: shiftScheduleModel,
-      //         title: title,
-      //       ),
-      //     ),
-      //   );
 
       case vipVisitorsListRoute:
         return MaterialPageRoute(
