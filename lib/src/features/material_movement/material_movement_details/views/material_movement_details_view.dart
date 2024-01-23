@@ -425,10 +425,9 @@ class _MaterialMovementDetailsViewState
                           FlutterInputField(
                             showBorder: true,
                             lineHeight: 6,
-                            textFieldController:
-                                materialBriefDescriptionController,
+                            initialValue: state.model.materialDescription,
                             textFormKey: Keys.materialBreifDescKey,
-                            hintText: Constants.informationhere,
+                            hintText:Constants.informationhere,
                             isEnable: state.model.status == 6 ||
                                     state.model.status == 1
                                 ? false
@@ -436,20 +435,8 @@ class _MaterialMovementDetailsViewState
                             isDisableColor: state.model.status == 6 ||
                                 state.model.status == 1,
                             validateTextField: (String? user) {},
-                            onfieldSubmitted: (String value) {
-                              state.model?.materialFromAddress =materialBriefDescriptionController.text;
-                              materialBriefDescriptionController.value =
-                                  TextEditingValue(
-                                text:
-                                    '${materialBriefDescriptionController.text}\n',
-                                selection: TextSelection.collapsed(
-                                  offset: materialBriefDescriptionController
-                                          .text.length +
-                                      1,
-                                ),
-                              );
-                              },
-                            onChange: (String username) {
+                            onChange: (String value) {
+                              state.model?.materialDescription =value;
                             },
                           ),
 
@@ -1392,34 +1379,14 @@ class _MaterialMovementDetailsViewState
                             FlutterInputField(
                               showBorder: true,
                               lineHeight: 6,
-                              textFieldController:
-                                  materialComingFromBriefDescriptionController,
+                              initialValue: state.model.materialFromAddress,
                               textFormKey: Keys.materialComingFromKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               validateTextField: (String? user) {},
-                              onfieldSubmitted: (String value) {
-                                materialComingFromBriefDescriptionController
-                                    .value = TextEditingValue(
-                                  text:
-                                      '${materialComingFromBriefDescriptionController.text}\n',
-                                  selection: TextSelection.collapsed(
-                                    offset:
-                                        materialComingFromBriefDescriptionController
-                                                .text.length +
-                                            1,
-                                  ),
-                                );
-                                state.model.materialFromAddress = materialComingFromBriefDescriptionController.text;
-                              },
                               onChange: (String value) {
-                                // setState(() {});
-                                // state.model.materialFromAddress = value;
-                                state.model.materialFromAddress = materialComingFromBriefDescriptionController.text;
-                                // context
-                                //     .read<MaterialMovementDetailsCubit>()
-                                //     .onModelValueChange(state.model);
+                                state.model.materialFromAddress = value;
                               },
                             ),
 
