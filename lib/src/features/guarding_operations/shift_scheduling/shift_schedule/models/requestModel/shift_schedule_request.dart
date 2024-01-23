@@ -10,12 +10,12 @@ class ShiftScheduleRequest {
 
   ShiftScheduleRequest.fromJson(Map<String, dynamic> json) {
     shiftScheduleModel =
-        ShiftScheduleModel.fromJson(json['guardingMaster']);
+        ShiftScheduleModel.fromJson(json['ssGi']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['guardingMaster'] = shiftScheduleModel.toJson();
+    data['ssGi'] = shiftScheduleModel.toJson();
     return data;
   }
 }

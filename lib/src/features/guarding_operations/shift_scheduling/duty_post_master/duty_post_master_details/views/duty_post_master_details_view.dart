@@ -196,35 +196,27 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
-                              isDisabled: false,
-                              textController: rankController,
-                              items: guardRankDropDownValues,
-                              initialValue: state.model.rankId.toString(),
-                              onTap: () {
-                                if (isDisabled) {
-                                  BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: guardRankDropDownValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            guardRankDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    DutyPostMasterDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                rankId: int.tryParse(
-                                                    selectedLabel.value));
-                                      });
-                                }
-                              }),
+                          TextfieldAddButton(
+                            title: state.model.dutyPostLocation?.name,
+                            height: 70,
+                            isDisableColor:false,
+                            onTap: () {
+                              BaseOrganisationDialog().departmentDialog(
+                                context: context,
+                                organisations: [],
+                                onTap: (Organisation department) {
+                                  state.model.dutyPostLocation?.name =
+                                      department.name;
+
+                                  BlocProvider.of<
+                                      DutyPostMasterDetailsCubit>(
+                                      context)
+                                      .updateDropdownValues(
+                                      dutyPostName: department);
+                                },
+                              );
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Rank
@@ -278,7 +270,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            initialValue: '${widget.model?.shiftA}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -312,7 +303,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            initialValue: '${widget.model?.shiftB}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -346,7 +336,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            initialValue: '${widget.model?.shiftC}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
@@ -380,7 +369,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
-                            initialValue: '${widget.model?.shiftG}',
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,

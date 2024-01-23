@@ -171,19 +171,20 @@ class _DutyPostNameMasterDetailsViewState
                           BaseDropDown().getDropDown(
                             isDisabled: state.model.status != 6,
                             textController: statusController,
-                            items: statusDropDownValues,
-                            initialValue: '${state.model.status ?? 1}',
+                            items: dutyPostNameMasterStatusValues,
+                            initialValue: '${state.model.status ?? 0}',
                             onTap: () {
                               if (widget.model != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: statusDropDownValues
+                                  dropDownValues: dutyPostNameMasterStatusValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        dutyPostNameMasterStatusValues
+                                            .firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),

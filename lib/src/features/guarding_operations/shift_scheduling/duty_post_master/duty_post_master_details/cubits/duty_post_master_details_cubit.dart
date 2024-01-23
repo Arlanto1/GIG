@@ -111,6 +111,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
 
   Future<void> updateDropdownValues({
     Organisation? location,
+    Organisation? dutyPostName,
     BaseUser? user,
     int? status,
     int? rankId,
