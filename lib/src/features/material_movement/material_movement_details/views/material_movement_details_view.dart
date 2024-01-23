@@ -435,11 +435,9 @@ class _MaterialMovementDetailsViewState
                                 : true,
                             isDisableColor: state.model.status == 6 ||
                                 state.model.status == 1,
-                            onChange: (String username) {
-                              setState(() {});
-                            },
                             validateTextField: (String? user) {},
                             onfieldSubmitted: (String value) {
+                              state.model?.materialFromAddress =materialBriefDescriptionController.text;
                               materialBriefDescriptionController.value =
                                   TextEditingValue(
                                 text:
@@ -450,6 +448,8 @@ class _MaterialMovementDetailsViewState
                                       1,
                                 ),
                               );
+                              },
+                            onChange: (String username) {
                             },
                           ),
 
@@ -1398,9 +1398,6 @@ class _MaterialMovementDetailsViewState
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
-                              onChange: (String username) {
-                                setState(() {});
-                              },
                               validateTextField: (String? user) {},
                               onfieldSubmitted: (String value) {
                                 materialComingFromBriefDescriptionController
@@ -1414,6 +1411,15 @@ class _MaterialMovementDetailsViewState
                                             1,
                                   ),
                                 );
+                                state.model.materialFromAddress = materialComingFromBriefDescriptionController.text;
+                              },
+                              onChange: (String value) {
+                                // setState(() {});
+                                // state.model.materialFromAddress = value;
+                                state.model.materialFromAddress = materialComingFromBriefDescriptionController.text;
+                                // context
+                                //     .read<MaterialMovementDetailsCubit>()
+                                //     .onModelValueChange(state.model);
                               },
                             ),
 

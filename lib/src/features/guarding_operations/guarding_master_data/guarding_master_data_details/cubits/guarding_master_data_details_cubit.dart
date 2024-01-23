@@ -42,21 +42,21 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-          GuardingMasterDataDetailsState.initial(
-              model: model ?? GuardingMastersDataModel(),
-              locations: Locations(),
-              loggedInUserDetails: User(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null,
-              listOfEntities: const [],
-              getEntitiesResponse: null,
-              departments: const [],
-              listOfQualifications: const [],
-              getQualificationsResponse: null),
-        );
+    GuardingMasterDataDetailsState.initial(
+        model: model ?? GuardingMastersDataModel(),
+        locations: Locations(),
+        loggedInUserDetails: User(),
+        users: const [],
+        emailUsers: const [],
+        errorMessage: '',
+        loadAttachments: const [],
+        eventId: null,
+        listOfEntities: const [],
+        getEntitiesResponse: null,
+        departments: const [],
+        listOfQualifications: const [],
+        getQualificationsResponse: null),
+  );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
@@ -233,7 +233,7 @@ class GuardingMasterDataDetailsCubit
     // TODO: Object issue
     if (guard != null) {
       User userDetails =
-          User(name: guard.name, userId: guard.id, userName: guard.name);
+      User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -263,125 +263,164 @@ class GuardingMasterDataDetailsCubit
     int eventIds = math.Random.secure().nextInt(5);
 
     log('--guardImages---${guardImages?.length}----');
-    if (guardImages != null) {
-      state.model.photoGraph = guardImages.first;
+    if (data != null) {
+      for (var image in data) {
+        image.type = 0;
+      }
+      if (guardImages != null) {
+        state.model.photoGraph = guardImages.first;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            guardAttachments: guardImages,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+
+    if (data != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      if (deploymentFiles != null) {
+        state.model.deploymentOrders = deploymentFiles;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            deploymentAttachments: deploymentFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+    if (data != null) {
+      for (var image in data) {
+        image.type = 6;
+      }
+      if (bioDataFiles != null) {
+        state.model.bopData = bioDataFiles.first;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            bioDataAttachments: bioDataFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+    if (data != null) {
+      for (var image in data) {
+        image.type = 7;
+      }
+      if (permanentAddressFiles != null) {
+        state.model.permanentAddressProof = permanentAddressFiles.first;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            permanentAddressAttachments: permanentAddressFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+    if (data != null) {
+      for (var image in data) {
+        image.type = 8;
+      }
+      if (localAddressFiles != null) {
+        state.model.localAddressProof = localAddressFiles.first;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            localAddressAttachments: localAddressFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+
+    if (data != null) {
+      for (var image in data) {
+        image.type = 2;
+      }
+      if (pVCFiles != null) {
+        state.model.pvc = pVCFiles;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            pVCAttachments: pVCFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+
+    if (data != null) {
+      for (var image in data) {
+        image.type = 3;
+      }
+      if (trainingFiles != null) {
+        state.model.trainingCertificates = trainingFiles;
+
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            trainingAttachments: trainingFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+    if (data != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      if (mSGBExemptionFiles != null) {
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            mSGBAttachments: mSGBExemptionFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    }
+    if (data != null) {
+      for (var image in data) {
+        image.type = 4;
+      }
+      if (medicalFiles != null) {
+        log('---medicalFiles---------${medicalFiles.length}---');
+        state.model.medicalCertificates = medicalFiles;
+        emit(
+          state.copyWith(
+            eventId: eventIds,
+            model: state.model,
+            medicalAttachments: medicalFiles,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+
       emit(
         state.copyWith(
           eventId: eventIds,
           model: state.model,
+          loadAttachments: data,
           guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
       );
     }
-
-    if (deploymentFiles != null) {
-      state.model.deploymentOrders = deploymentFiles;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          deploymentAttachments: deploymentFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (bioDataFiles != null) {
-      state.model.bopData = bioDataFiles.first;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          bioDataAttachments: bioDataFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (permanentAddressFiles != null) {
-      state.model.permanentAddressProof = permanentAddressFiles.first;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          permanentAddressAttachments: permanentAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (localAddressFiles != null) {
-      state.model.localAddressProof = localAddressFiles.first;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          localAddressAttachments: localAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (pVCFiles != null) {
-      state.model.pvc = pVCFiles;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          pVCAttachments: pVCFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (trainingFiles != null) {
-      state.model.trainingCertificates = trainingFiles;
-
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          trainingAttachments: trainingFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (mSGBExemptionFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          mSGBAttachments: mSGBExemptionFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (medicalFiles != null) {
-      log('---medicalFiles---------${medicalFiles.length}---');
-      state.model.medicalCertificates = medicalFiles;
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          medicalAttachments: medicalFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    emit(
-      state.copyWith(
-        eventId: eventIds,
-        model: state.model,
-        loadAttachments: data,
-        guardAttachments: guardImages,
-        status: FormStatus.initial,
-      ),
-    );
-
     log('--state.status--3--${state.status}----');
   }
 
@@ -434,7 +473,7 @@ class GuardingMasterDataDetailsCubit
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-        GuardingMasterDataRequest(guardingMasterData: state.model);
+    GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericResponse response = GenericResponse();
     try {
