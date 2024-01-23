@@ -5,6 +5,7 @@ class DutyPostMasterDetailsState extends Equatable {
   final DutyPostMasterModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
+  final List<Organisation>? dutyPosts;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final String? message;
@@ -62,6 +63,7 @@ class DutyPostMasterDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.users,
+    this.dutyPosts,
     this.emailUsers,
     this.message,
     this.entrySecurities,
@@ -74,6 +76,7 @@ class DutyPostMasterDetailsState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
+    List<Organisation>? dutyPosts,
     List<BaseUser>? emailUsers,
     String? message,
     List<User>? entrySecurities,
@@ -85,6 +88,7 @@ class DutyPostMasterDetailsState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
+      dutyPosts: dutyPosts ?? this.dutyPosts,
       emailUsers: emailUsers ?? this.emailUsers,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,

@@ -1,9 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/requestModel/duty_post_master_request.dart';
-
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -11,14 +8,14 @@ class Apis {
   static final String _getDutyPostMaster = '$baseUrl/getDpmList?';
 
   static final String _getDutyPostMasterById = '$baseUrl/getDpmById';
+  static final String _getDutyPostsByLocation = '$baseUrl/getDpnByLocId';
 
   static final String _createDutyPostMaster = '$baseUrl/createDpm?';
 }
 
 class DutyPostMasterServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
 
@@ -44,6 +41,18 @@ class DutyPostMasterServices {
     return DutyPostMasterModel.fromJson(response);
   }
 
+  Future<List<Organisation>> getDutyPostsByLocation({
+    required String locationId,
+  }) async {
+    final String url = '${Apis._getDutyPostsByLocation}/$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
   /// Create Services
 
   Future<GenericResponse> createDutyPostMaster({
@@ -59,5 +68,4 @@ class DutyPostMasterServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }
