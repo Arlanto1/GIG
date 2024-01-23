@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
 
 class DutyPostMasterDetailsView extends StatefulWidget {
   final DutyPostMasterModel? model;
@@ -199,20 +198,19 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           TextfieldAddButton(
                             title: state.model.dutyPostLocation?.name,
                             height: 70,
-                            isDisableColor:false,
+                            isDisableColor: false,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: [],
-                                onTap: (Organisation department) {
-                                  state.model.dutyPostLocation?.name =
-                                      department.name;
+                                organisations: state.dutyPosts ?? [],
+                                onTap: (Organisation org) {
+                                  // state.model.dutyPostLocation?.name =
+                                  //     org.name;
 
-                                  BlocProvider.of<
-                                      DutyPostMasterDetailsCubit>(
-                                      context)
+                                  BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(
-                                      dutyPostName: department);
+                                          dutyPostName: org);
                                 },
                               );
                             },
@@ -244,16 +242,16 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                         Label? selectedLabel;
                                         selectedLabel =
                                             guardRankDropDownValues.firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
+                                          (label) => label.key == value,
+                                          orElse: () =>
                                               const Label(key: '', value: ''),
-                                            );
+                                        );
                                         BlocProvider.of<
-                                            DutyPostMasterDetailsCubit>(
-                                            context)
+                                                    DutyPostMasterDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            rankId: int.tryParse(
-                                                selectedLabel.value));
+                                                rankId: int.tryParse(
+                                                    selectedLabel.value));
                                       });
                                 }
                               }),
