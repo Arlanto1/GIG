@@ -277,7 +277,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           requestorEmailUsers: state.emailUsers,
         ),
       );
-
       state.approver1Users?.remove(requesterEmailUser);
       state.approver2Users?.remove(requesterEmailUser);
 
@@ -338,28 +337,30 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   void addAttchment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
-
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
     int eventIds = math.Random.secure().nextInt(5);
+    if (data != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      log('--data----${data?.length}----');
 
-    log('--data----${data?.length}----');
-    log('--state.status-2---${state.status}----');
+      state.model.images = data;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          loadAttachments: data,
+          status: FormStatus.initial,
+        ),
+      );
 
-    state.model.images = data;
-    emit(
-      state.copyWith(
-        eventId: eventIds,
-        model: state.model,
-        loadAttachments: data,
-        status: FormStatus.initial,
-      ),
-    );
-
-    log('--state.status--3--${state.status}----');
+      log('--state.status--3--${state.status}----');
+    }
   }
 
   void showFields(
