@@ -15,9 +15,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
   final CommonServices commonServices = CommonServices();
   final String id;
+  final DutyPostModel? mainDutyPostModel;
 
   ShiftScheduleDetailsCubit({
     required this.id,
+     this.mainDutyPostModel,
   }) : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
@@ -27,6 +29,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
             emailUsers: const [],
             errorMessage: '',
             departments: const [],
+            selectedDutyPostModel: mainDutyPostModel,
           ),
         );
 
@@ -35,20 +38,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  Future<void> getGuardsByAssignedId(int id) async {
+  Future<void> getDutyPostById(int id) async {
     log('-getGuardsByAssignedId---');
     emit(state.copyWith(status: FormStatus.loading));
-    DutyPostModel dutyPostModel = await services.getGuardsByAssignedId(id: 53);
+    DutyPostModel dutyPostModel =
+        await services.getDutyPostById(id: 81); // TODO: make it dynamic
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
         seletedDutyPostModel: dutyPostModel,
         status: FormStatus.navigateToNextScreen));
-  }
-
-  void onCheckBoxChange(ShiftScheduleModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-
-    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   String _getCurrentDate() {
@@ -199,6 +197,54 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
     emit(state.copyWith(
       model: state.model,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void updateReplacement(
+    Replacement replacement,
+  ) {
+    emit(state.copyWith(
+      status: FormStatus.loading,
+    ));
+
+    log('----state.selectedDutyPostModel--before-${json.encode(state.selectedDutyPostModel.toString())}-');
+    log('----replacement.fromDate---${replacement.fromDate}-');
+
+    // Check if replacement has an ID
+    if (replacement.id != null) {
+      // Iterate over ranks and shifts to find and update the replacement
+      state.selectedDutyPostModel?.ranks?.forEach((rank) {
+        rank.shifts?.forEach((shift) {
+          shift.replacements?.forEach((existingReplacement) {
+            log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
+            if (existingReplacement.id == replacement.id) {
+              // Update the existing replacement with the new values
+              existingReplacement.replacedFor = replacement.replacedFor;
+              existingReplacement.replacementBy = replacement.replacementBy;
+              existingReplacement.fromDate = replacement.fromDate;
+              existingReplacement.toDate = replacement.toDate;
+              existingReplacement.status = replacement.status;
+            }
+          });
+        });
+      });
+    } else {
+      // If replacement has no ID, add it as a new object to the replacements list
+      state.selectedDutyPostModel?.ranks?.forEach((rank) {
+        rank.shifts?.forEach((shift) {
+          shift.replacements ??= [];
+          shift.replacements!.add(replacement);
+        });
+      });
+    }
+
+    log('----state.selectedDutyPostModel--after-${json.encode(state.selectedDutyPostModel.toString())}-');
+
+    log('----end----');
+    emit(state.copyWith(
+      model: state.model,
+      seletedDutyPostModel: state.selectedDutyPostModel,
       status: FormStatus.initial,
     ));
   }

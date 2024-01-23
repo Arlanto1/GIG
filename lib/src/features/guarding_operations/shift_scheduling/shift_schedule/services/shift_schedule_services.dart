@@ -10,7 +10,7 @@ class Apis {
 
   static final String _getById = '$baseUrl/getSsGiById';
   static final String _getDutyPostsById = '$baseUrl/getSsDpById';
-  static final String _getGuardsByAssignedId = '$baseUrl/getGuardsByAssignedId';
+  static final String _getDutyPostById = '$baseUrl/getGuardsByAssignedId';
   static final String _getDutyPostsByLocationAndVendor =
       '$baseUrl/getSsDpByLocAndVendor?';
 
@@ -60,11 +60,11 @@ class ShiftScheduleServices {
         response.map((x) => DutyPostModel.fromJson(x)));
   }
 
-  Future<DutyPostModel> getGuardsByAssignedId({
+  Future<DutyPostModel> getDutyPostById({
     required int? id,
     BuildContext? context,
   }) async {
-    final String url = '${Apis._getGuardsByAssignedId}/$id';
+    final String url = '${Apis._getDutyPostById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );

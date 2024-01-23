@@ -20,6 +20,11 @@ class DutyPostModel {
 
   Map<String, dynamic> toJson() =>
       {'id': id, 'name': name, 'ranks': ranks?.map((e) => e.toJson()).toList()};
+
+  @override
+  String toString() {
+    return 'DutyPostModel{id: $id, name: $name, ranks: $ranks}';
+  }
 }
 
 class Rank {
@@ -39,6 +44,11 @@ class Rank {
 
   Map<String, dynamic> toJson() =>
       {'rank': rank, 'shifts': shifts?.map((e) => e.toJson()).toList()};
+
+  @override
+  String toString() {
+    return 'Rank{rank: $rank, shifts: $shifts}';
+  }
 }
 
 class Shift {
@@ -78,15 +88,20 @@ class Shift {
         'availableGuards': availableGuards?.map((e) => e.toJson()).toList(),
         'replacement': replacement
       };
+
+  @override
+  String toString() {
+    return 'Shift{shift: $shift, allowed: $allowed, selectedGuards: $selectedGuards, availableGuards: $availableGuards, replacements: $replacements, replacement: $replacement}';
+  }
 }
 
 class Replacement {
-  final int? id;
-  final BaseUser? replacedFor;
-  final BaseUser? replacementBy;
-  final String? fromDate;
-  final String? toDate;
-  final int? status;
+  int? id;
+  BaseUser? replacedFor;
+  BaseUser? replacementBy;
+  String? fromDate;
+  String? toDate;
+  int? status;
 
   Replacement({
     this.id,
@@ -117,4 +132,9 @@ class Replacement {
         'toDate': toDate,
         'status': status
       };
+
+  @override
+  String toString() {
+    return 'Replacement{id: $id, replacedFor: $replacedFor, replacementBy: $replacementBy, fromDate: $fromDate, toDate: $toDate, status: $status}';
+  }
 }

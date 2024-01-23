@@ -3,7 +3,7 @@ part of 'shift_schedule_details_cubit.dart';
 class ShiftScheduleDetailsState extends Equatable {
   final FormStatus status;
   final ShiftScheduleModel model;
-  final DutyPostModel? seletedDutyPostModel;
+  final DutyPostModel? selectedDutyPostModel;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -23,6 +23,7 @@ class ShiftScheduleDetailsState extends Equatable {
     required final List<Organisation> departments,
     required String errorMessage,
     List<User>? entrySecurities,
+    final DutyPostModel? selectedDutyPostModel,
   }) {
     return ShiftScheduleDetailsState(
       status: FormStatus.initial,
@@ -34,6 +35,7 @@ class ShiftScheduleDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       entrySecurities: entrySecurities,
+        selectedDutyPostModel: selectedDutyPostModel,
     );
   }
 
@@ -77,7 +79,7 @@ class ShiftScheduleDetailsState extends Equatable {
   const ShiftScheduleDetailsState({
     required this.status,
     required this.model,
-    this.seletedDutyPostModel,
+    this.selectedDutyPostModel,
     this.locations,
     this.loggedInUserDetails,
     this.users,
@@ -106,7 +108,7 @@ class ShiftScheduleDetailsState extends Equatable {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      seletedDutyPostModel: seletedDutyPostModel ?? this.seletedDutyPostModel,
+      selectedDutyPostModel: seletedDutyPostModel ?? this.selectedDutyPostModel,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
