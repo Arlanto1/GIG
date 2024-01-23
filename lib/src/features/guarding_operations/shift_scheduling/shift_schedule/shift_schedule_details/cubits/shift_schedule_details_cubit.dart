@@ -96,7 +96,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
+          moduleCode: Constants.shiftScheduleModule,
         );
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
@@ -155,7 +155,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.shiftScheduleModule,
       );
 
       // state.model.location = location;
