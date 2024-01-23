@@ -6,7 +6,9 @@ class AddReplacementPopUp extends StatefulWidget {
   const AddReplacementPopUp({
     super.key,
     required this.mainContext,
-    required this.model, required this.availableGuards, required this.selectedGuards,
+    required this.model,
+    required this.availableGuards,
+    required this.selectedGuards,
   });
 
   final BuildContext mainContext;
@@ -15,12 +17,10 @@ class AddReplacementPopUp extends StatefulWidget {
   final List<BaseUser> selectedGuards;
 
   @override
-  State<AddReplacementPopUp> createState() =>
-      AddReplacementPopUpState();
+  State<AddReplacementPopUp> createState() => AddReplacementPopUpState();
 }
 
-class AddReplacementPopUpState
-    extends State<AddReplacementPopUp> {
+class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController replacementForController = TextEditingController();
   TextEditingController replacementByController = TextEditingController();
@@ -28,14 +28,13 @@ class AddReplacementPopUpState
   TextEditingController toDateController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
     if (widget.model.id != null) {
       log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
-      replacementForController.text = widget.model.replacedFor?.name??'';
-      replacementByController.text = widget.model.replacementBy?.name??'';
+      replacementForController.text = widget.model.replacedFor?.name ?? '';
+      replacementByController.text = widget.model.replacementBy?.name ?? '';
       fromDateController.text = Utils.timestamptoDateConversion(
           int.parse(widget.model.fromDate ?? '0'), Constants.dateFormat);
 
@@ -43,14 +42,14 @@ class AddReplacementPopUpState
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
 
-    // if(widget.model.reason != null) {
-    //   Label matchingLabel = reasonDropDownValues.firstWhere(
-    //           (label) =>
-    //       label.value == widget.model.reason.toString());
-    //
-    //   reasonController.text = matchingLabel.key;
-    // }
+    if (widget.model.status != null) {
+      Label matchingLabel = reasonDropDownValues
+          .firstWhere((label) => label.value == widget.model.status.toString());
+
+      reasonController.text = matchingLabel.key;
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -94,15 +93,15 @@ class AddReplacementPopUpState
                               //     .updateDropdownValuesReplacement(
                               //   replacementFor: user,
                               // );
-                              replacementForController.text = user.name??'';
+                              replacementForController.text = user.name ?? '';
                               widget.model.replacedFor = user;
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(widget.mainContext)
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      widget.mainContext)
                                   .updateReplacement(widget.model);
 
                               setState(() {
                                 log('-setstate-');
-                                replacementForController.text =
-                                    user.name ?? '';
+                                replacementForController.text = user.name ?? '';
                               });
                             },
                           );
@@ -128,15 +127,14 @@ class AddReplacementPopUpState
                             context: context,
                             users: widget.availableGuards,
                             onTap: (BaseUser user) {
-
-                              replacementByController.text = user.name??'';
+                              replacementByController.text = user.name ?? '';
                               widget.model.replacedFor = user;
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(widget.mainContext)
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      widget.mainContext)
                                   .updateReplacement(widget.model);
 
                               setState(() {
-                                replacementByController.text =
-                                    user.name ?? '';
+                                replacementByController.text = user.name ?? '';
                               });
                             },
                           );
@@ -214,15 +212,13 @@ class AddReplacementPopUpState
                                   Label? selectedLabel;
                                   selectedLabel =
                                       reasonDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                        orElse: () =>
+                                    (label) => label.key == value,
+                                    orElse: () =>
                                         const Label(key: '', value: ''),
-                                      );
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                      .updateDropdownValues(
-                                      dutyType: int.tryParse(
-                                          selectedLabel.value));
+                                  );
+                                  widget.model.status =
+                                      int.tryParse(selectedLabel.value);
+                                  reasonController.text = selectedLabel.key;
                                 });
                           }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),

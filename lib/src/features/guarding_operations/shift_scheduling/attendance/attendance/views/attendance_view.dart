@@ -116,10 +116,10 @@ class _AttendanceViewState extends State<AttendanceView> {
                             },
                           );
                         },
-                        // onEditTap: (selectedIndex) {
-                        //   getById(state.list[index].id ?? 0);
-                        // },
-                        showEditButton: false,
+                        onEditTap: (selectedIndex) {
+                          // getById(state.list[index].id ?? 0);
+                        },
+                        showEditButton: true,
                         onViewTap: (selectedIndex) {
                           showDialog(
                             context: context,

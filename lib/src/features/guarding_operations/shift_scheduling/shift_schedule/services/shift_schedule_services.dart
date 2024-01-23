@@ -81,6 +81,7 @@ class ShiftScheduleServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
+
     return List<DutyPostModel>.from(
         response.map((x) => DutyPostModel.fromJson(x)));
   }

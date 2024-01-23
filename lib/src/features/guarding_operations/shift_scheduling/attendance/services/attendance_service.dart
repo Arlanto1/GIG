@@ -4,7 +4,7 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attend
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getAttendanceList?';
 }
 
 class AttendanceServices {
@@ -16,11 +16,9 @@ class AttendanceServices {
   Future<AttendanceResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );

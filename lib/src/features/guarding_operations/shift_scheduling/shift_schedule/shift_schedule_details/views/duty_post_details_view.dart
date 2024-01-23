@@ -23,7 +23,6 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
 
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
-
         log('----state.status--${state.status}--');
 
         if (state.status == FormStatus.success) {
@@ -66,6 +65,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: getBody(height),
               ),
             ),
@@ -85,32 +85,31 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   List<Widget> getBody(double height) {
     return [
       for (Rank rank in widget.model.ranks ?? [])
-        SizedBox(
-          height: MediaQuery.of(context).size.height / .8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                  style: Styles.textStyleNavigator16,
+        IntrinsicHeight(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                    style: Styles.textStyleNavigator16,
+                  ),
                 ),
-              ),
-              CommonWidgets.verticalSpacerWidget(height * 0.01),
-              Expanded(
-                child: Column(
-                  children:
-                      buildDutyPostSelectionWidget(rank.shifts ?? [], height),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: buildDutyPostSelectionWidget(rank.shifts ?? [], height),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ),
     ];
   }
-
   List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts, double height) {
     return [
       for (Shift shift in shifts) ...[
@@ -121,7 +120,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             buildShiftColumn(shift, isSourceList: false),
           ],
         ),
-        buildReplacementColumn(shift),
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.01),
+        if (!shift.selectedGuards.isEmptyOrNull) ...[
+          buildReplacementColumn(shift),
+        ],
       ],
     ];
   }
@@ -129,6 +132,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   Column buildShiftColumn(Shift shift, {required bool isSourceList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize:MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
           'Select For Shift: ${shift.shift}',
@@ -225,17 +229,54 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Replacement For: ${replacement.replacedFor?.name}'),
-              Text('Replacement By: ${replacement.replacementBy?.name}'),
-              Text('From Date: ${Utils.timestamptoDateConversion(
-                  int.parse(replacement.fromDate ?? '0'), Constants.dateFormat)}'),
-              Text('To Date: ${Utils.timestamptoDateConversion(
-                  int.parse(replacement.toDate ?? '0'), Constants.dateFormat)}'),
-
+              buildTextWithLabel(
+                  'Replacement For:', replacement.replacedFor?.name),
+              buildTextWithLabel(
+                  'Replacement By:', replacement.replacementBy?.name),
+              buildTextWithLabel(
+                'From Date:',
+                Utils.timestamptoDateConversion(
+                  int.parse(replacement.fromDate ?? '0'),
+                  Constants.dateFormat,
+                ),
+              ),
+              buildTextWithLabel(
+                'To Date:',
+                Utils.timestamptoDateConversion(
+                  int.parse(replacement.toDate ?? '0'),
+                  Constants.dateFormat,
+                ),
+              ),
             ],
           ),
         ),
     ];
+  }
+
+  // Helper method to create a RichText widget with label and value
+  Widget buildTextWithLabel(String label, String? value) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: '$label ',
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.normal,
+              color: Colors.black, // You can adjust the color as needed
+            ),
+          ),
+          TextSpan(
+            text: value,
+            style: const TextStyle(
+              color: AppColors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildUserList({
