@@ -316,6 +316,29 @@ class Utils {
     );
   }
 
+  Row buildAttendanceDutyTypeRow(int dutyType) {
+    String dutyTypeText;
+
+    switch (dutyType) {
+      case 1:
+        dutyTypeText = 'Transport';
+        break;
+      case 2:
+        dutyTypeText = 'Building';
+        break;
+      case 3:
+        dutyTypeText = 'Building and Transport';
+        break;
+      default:
+        dutyTypeText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('DutyType: ', dutyTypeText),
+      ],
+    );
+  }
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
@@ -966,14 +989,17 @@ class Utils {
     String statusText;
 
     switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
       case 1:
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'Draft';
-        break;
-      case 3:
         statusText = 'Finalize';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
