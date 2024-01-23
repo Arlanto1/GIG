@@ -1,38 +1,53 @@
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
+import 'dart:developer';
 
-import '../../../../../../../index.dart';
-import '../cubits/shift_schedule_details_cubit.dart';
+import 'package:db_atom/index.dart';
 
 class AddReplacementPopUp extends StatefulWidget {
   const AddReplacementPopUp({
     super.key,
     required this.mainContext,
     required this.model,
+    required this.availableGuards,
+    required this.selectedGuards,
   });
 
   final BuildContext mainContext;
-  final DutyPostNameMasterModel? model;
+  final Replacement model;
+  final List<BaseUser> availableGuards;
+  final List<BaseUser> selectedGuards;
 
   @override
-  State<AddReplacementPopUp> createState() =>
-      AddReplacementPopUpState();
+  State<AddReplacementPopUp> createState() => AddReplacementPopUpState();
 }
 
-class AddReplacementPopUpState
-    extends State<AddReplacementPopUp> {
+class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController dutyPostLocationNameController =
-      TextEditingController();
-  TextEditingController startController = TextEditingController();
-  TextEditingController fromDateController = TextEditingController();
-  TextEditingController toDateController = TextEditingController();
   TextEditingController replacementForController = TextEditingController();
   TextEditingController replacementByController = TextEditingController();
+  TextEditingController fromDateController = TextEditingController();
+  TextEditingController toDateController = TextEditingController();
+  TextEditingController reasonController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    if (widget.model.id != null) {
+      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
+      replacementForController.text = widget.model.replacedFor?.name ?? '';
+      replacementByController.text = widget.model.replacementBy?.name ?? '';
+      fromDateController.text = Utils.timestamptoDateConversion(
+          int.parse(widget.model.fromDate ?? '0'), Constants.dateFormat);
+
+      toDateController.text = Utils.timestamptoDateConversion(
+          int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
+    }
+
+    if (widget.model.status != null) {
+      Label matchingLabel = reasonDropDownValues
+          .firstWhere((label) => label.value == widget.model.status.toString());
+
+      reasonController.text = matchingLabel.key;
+    }
   }
 
   @override
@@ -45,7 +60,7 @@ class AddReplacementPopUpState
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 1.5,
+          height: height / 1.9,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -65,32 +80,33 @@ class AddReplacementPopUpState
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      BaseDropDown().getDropDown(
-                          isDisabled: false,
-                          textController: replacementForController,
-                          items: shiftDutyTypeDropDownValues,
-                          initialValue: '',
-                          onTap: () {
-                            BaseDropDown().assetTypeDialog(
-                                context: context,
-                                dropDownValues: shiftDutyTypeDropDownValues
-                                    .map((label) => label.key)
-                                    .toList(),
-                                onTap: (String value) {
-                                  Label? selectedLabel;
-                                  selectedLabel =
-                                      shiftDutyTypeDropDownValues.firstWhere(
-                                    (label) => label.key == value,
-                                    orElse: () =>
-                                        const Label(key: '', value: ''),
-                                  );
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          dutyType: int.tryParse(
-                                              selectedLabel.value));
-                                });
-                          }),
+                      TextfieldAddButton(
+                        title: replacementForController.text,
+                        height: 60,
+                        isDisableColor: false,
+                        onTap: () {
+                          BaseOrganisationDialog().userDialog(
+                            context: context,
+                            users: widget.selectedGuards,
+                            onTap: (BaseUser user) {
+                              // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                              //     .updateDropdownValuesReplacement(
+                              //   replacementFor: user,
+                              // );
+                              replacementForController.text = user.name ?? '';
+                              widget.model.replacedFor = user;
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      widget.mainContext)
+                                  .updateReplacement(widget.model);
+
+                              setState(() {
+                                log('-setstate-');
+                                replacementForController.text = user.name ?? '';
+                              });
+                            },
+                          );
+                        },
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// Replacement By
@@ -102,32 +118,29 @@ class AddReplacementPopUpState
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      BaseDropDown().getDropDown(
-                          isDisabled: false,
-                          textController: replacementByController,
-                          items: shiftDutyTypeDropDownValues,
-                          initialValue: '',
-                          onTap: () {
-                            BaseDropDown().assetTypeDialog(
-                                context: context,
-                                dropDownValues: shiftDutyTypeDropDownValues
-                                    .map((label) => label.key)
-                                    .toList(),
-                                onTap: (String value) {
-                                  Label? selectedLabel;
-                                  selectedLabel =
-                                      shiftDutyTypeDropDownValues.firstWhere(
-                                    (label) => label.key == value,
-                                    orElse: () =>
-                                        const Label(key: '', value: ''),
-                                  );
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          dutyType: int.tryParse(
-                                              selectedLabel.value));
-                                });
-                          }),
+                      TextfieldAddButton(
+                        title: replacementByController.text,
+                        height: 60,
+                        isDisableColor: false,
+                        onTap: () {
+                          BaseOrganisationDialog().userDialog(
+                            context: context,
+                            users: widget.availableGuards,
+                            onTap: (BaseUser user) {
+                              replacementByController.text = user.name ?? '';
+                              widget.model.replacedFor = user;
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      widget.mainContext)
+                                  .updateReplacement(widget.model);
+
+                              setState(() {
+                                replacementByController.text = user.name ?? '';
+                              });
+                            },
+                          );
+                        },
+                      ),
+
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// From Date
@@ -142,13 +155,15 @@ class AddReplacementPopUpState
 
                       BaseDate().datePickerWidgetLoading(
                         textController: fromDateController,
-                        onlyDate: false,
+                        onlyDate: true,
                         showPastDate: false,
                         onChange: (String value) {
                           // state.model.fromDate = Utils().formatTime(value);
                           // BlocProvider.of<ShiftScheduleDetailsCubit>(
                           //     context)
                           //     .onModelValueChange(state.model);
+
+                          widget.model.fromDate = Utils().formatTime(value);
                         },
                         context: context,
                       ),
@@ -166,13 +181,10 @@ class AddReplacementPopUpState
 
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
-                        onlyDate: false,
+                        onlyDate: true,
                         showPastDate: false,
                         onChange: (String value) {
-                          // state.model.toDate = Utils().formatTime(value);
-                          // BlocProvider.of<ShiftScheduleDetailsCubit>(
-                          //     context)
-                          //     .onModelValueChange(state.model);
+                          widget.model.toDate = Utils().formatTime(value);
                         },
                         context: context,
                       ),
@@ -187,7 +199,7 @@ class AddReplacementPopUpState
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       BaseDropDown().getDropDown(
                           isDisabled: false,
-                          textController: replacementByController,
+                          textController: reasonController,
                           items: reasonDropDownValues,
                           initialValue: '',
                           onTap: () {
@@ -200,15 +212,13 @@ class AddReplacementPopUpState
                                   Label? selectedLabel;
                                   selectedLabel =
                                       reasonDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                        orElse: () =>
+                                    (label) => label.key == value,
+                                    orElse: () =>
                                         const Label(key: '', value: ''),
-                                      );
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                      .updateDropdownValues(
-                                      dutyType: int.tryParse(
-                                          selectedLabel.value));
+                                  );
+                                  widget.model.status =
+                                      int.tryParse(selectedLabel.value);
+                                  reasonController.text = selectedLabel.key;
                                 });
                           }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -260,8 +270,8 @@ class AddReplacementPopUpState
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
-            .onAddDutyPostLocationName(dutyPostLocationNameController.text);
+        BlocProvider.of<ShiftScheduleDetailsCubit>(widget.mainContext)
+            .updateReplacement(widget.model);
         Navigator.pop(context);
       },
     );

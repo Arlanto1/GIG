@@ -1,15 +1,11 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/requestModel/duty_post_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'duty_post_master_details_state.dart';
 
@@ -78,6 +74,12 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         );
         state.model.location = defaultLocation;
         // state.model.slNo = slNo.serialNo;
+        List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
+            locationId: defaultLocation.id.toString());
+        emit(state.copyWith(
+          dutyPosts: dutyPosts,
+          status: FormStatus.initial,
+        ));
       }
       // state.model.createdBy = loggedInUserDetails;
       // Get Date of Creation
@@ -122,16 +124,26 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    ////Get Sl No from API
-    // if (location != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //     locationId: location.id.toString(),
-    //     moduleCode: Constants.guardingMasterDataModule,
-    //   );
-    //
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    // }
+    //Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.guardingMasterDataModule,
+      );
+
+      state.model.location = location;
+      List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
+          locationId: location.id.toString());
+      emit(state.copyWith(
+        dutyPosts: dutyPosts,
+        status: FormStatus.initial,
+      ));
+    }
+
+    log('--dutyPostName--${dutyPostName?.name}---');
+    if(dutyPostName != null) {
+      state.model.dutyPostLocation = dutyPostName;
+    }
     state.model.rankId = rankId ?? state.model.rankId;
     emit(state.copyWith(
       model: state.model,

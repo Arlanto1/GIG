@@ -43,7 +43,7 @@ class DutyPostMasterModel extends BaseObject {
   int? rankId;
   int? total;
   String? createdDate;
-  String? createdBy;
+  User? createdBy;
   String? modifiedDate;
   String? modifiedBy;
 
@@ -84,10 +84,13 @@ class DutyPostMasterModel extends BaseObject {
         rankId = json['rankId'] as int?,
         total = json['total'] as int?,
         createdDate = json['createdDate'] as String?,
-        createdBy = json['createdBy'] as String?,
+        createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
+            : null,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?;
 
+  @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'location': location?.toJson(),
@@ -100,7 +103,7 @@ class DutyPostMasterModel extends BaseObject {
         'rankId': rankId,
         'total': total,
         'createdDate': createdDate,
-        'createdBy': createdBy,
+        'createdBy': createdBy?.toJson(),
         'modifiedDate': modifiedDate,
         'modifiedBy': modifiedBy
       };

@@ -510,12 +510,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.departments,
-                                    onTap: (Organisation department) {
+                                    onTap: (Organisation org) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .updateDropdownValues(
                                               complainantDepartment:
-                                                  department);
+                                                  org);
                                     },
                                   );
                                 },

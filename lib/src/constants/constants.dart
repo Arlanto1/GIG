@@ -23,6 +23,7 @@ class Constants {
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
+  static const String shiftScheduleModule = 'SS';
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';

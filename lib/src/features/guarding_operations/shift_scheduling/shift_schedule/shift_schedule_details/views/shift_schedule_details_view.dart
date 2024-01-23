@@ -74,9 +74,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             MaterialPageRoute(
               builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
                 create: (_) => ShiftScheduleDetailsCubit(
+                  mainDutyPostModel: state.selectedDutyPostModel ?? DutyPostModel(),
+
                   id: state.model.id.toString(),
                 ),
-                child:  DutyPostDetailsView(model: state.seletedDutyPostModel ?? DutyPostModel(),),
+                child:  DutyPostDetailsView(model: state.selectedDutyPostModel ?? DutyPostModel(),),
               ),
             ),
           );
@@ -478,7 +480,7 @@ class DutyPostListWidget extends StatelessWidget {
           trailing: const Icon(Icons.arrow_right),
           onTap: () {
             BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                .getGuardsByAssignedId(dutyPosts[index].id ?? 0);
+                .getDutyPostById(dutyPosts[index].id ?? 0);
           },
         );
       },

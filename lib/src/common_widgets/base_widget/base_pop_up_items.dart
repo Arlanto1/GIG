@@ -53,6 +53,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? gender;
   final int? maritalStatus;
   final bool isMasterGuard;
+  final bool isAttendance;
   final bool? eventType;
   final bool isOccurrenceStatus;
   final bool isEventProtectionStatus;
@@ -134,6 +135,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
+    this.isAttendance= false,
     this.isIncident = false,
     this.eventType,
     this.isEventProtectionStatus = true,
@@ -429,6 +431,9 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
+
+
+
       if (widget.status != null &&
           widget.isKeyManagementIssuanceStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
@@ -475,12 +480,18 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.region != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
             Utils().textHandling('Region : ', widget.region.toString()),
           ],
         ),
+      ],
+      if (widget.dutyType != 0 &&
+          widget.dutyType != null &&
+          widget.isAttendance == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildAttendanceDutyTypeRow(widget.dutyType ?? 0),
       ],
       if (widget.epManager1Name != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
