@@ -251,3 +251,10 @@ const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
 ];
+
+const List<Label> slaStatusDropDownValues = [
+  Label(key: 'Draft ', value: '0 '),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'Finalize', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
+];

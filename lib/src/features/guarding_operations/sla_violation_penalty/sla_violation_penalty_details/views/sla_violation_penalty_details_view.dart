@@ -21,6 +21,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../index.dart';
 import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
@@ -52,6 +53,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
   TextEditingController guardingAgencyPOCController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
   bool isReadOnly = false;
 
   get model => null;
@@ -222,15 +224,44 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
+                            // FlutterInputField(
+                            //   isEnable: false,
+                            //   isDisableColor: true,
+                            //   textFormKey: Keys.statusTextController,
+                            //   hintText: '',
+                            //   initialValue:
+                            //       getStatusString(state.model.status ?? 0),
+                            //   onChange: (String value) {},
+                            //   validateTextField: (String? user) {},
+                            // ),
+                            BaseDropDown().getDropDown(
+                              isDisabled: state.model.status != 6,
+                              textController: statusController,
+                              items: slaStatusDropDownValues,
+                              initialValue: '${state.model.status ?? 0}',
+                              onTap: () {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: slaStatusDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          slaStatusDropDownValues.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<
+                                          SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          status: int.tryParse(
+                                              selectedLabel.value));
+                                    },
+                                  );
+                              },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
