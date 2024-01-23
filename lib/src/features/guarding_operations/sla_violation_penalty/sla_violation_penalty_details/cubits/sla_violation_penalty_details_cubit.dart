@@ -172,6 +172,7 @@ class SLAViolationPenaltyDetailsCubit
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
+    int? status,
     BaseUser? receiverEmailUser,
   }) async {
     emit(
@@ -188,6 +189,7 @@ class SLAViolationPenaltyDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
+    state.model.status = status ?? state.model.status;
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
