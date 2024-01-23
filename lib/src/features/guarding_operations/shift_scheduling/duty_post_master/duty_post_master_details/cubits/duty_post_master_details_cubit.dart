@@ -67,6 +67,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       GetDepositor emailUsers = futures[4];
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
+      List<Organisation> dutyPosts =[];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -74,12 +75,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         );
         state.model.location = defaultLocation;
         // state.model.slNo = slNo.serialNo;
-        List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
+        dutyPosts = await services.getDutyPostsByLocation(
             locationId: defaultLocation.id.toString());
-        emit(state.copyWith(
-          dutyPosts: dutyPosts,
-          status: FormStatus.initial,
-        ));
       }
       // state.model.createdBy = loggedInUserDetails;
       // Get Date of Creation
@@ -95,6 +92,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           model: state.model,
           users: users.t1Analyst,
           entrySecurities: entrySecurities,
+          dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
         ),
@@ -132,6 +130,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       );
 
       state.model.location = location;
+      state.model.dutyPostLocation = null;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
           locationId: location.id.toString());
       emit(state.copyWith(

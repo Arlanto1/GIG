@@ -183,7 +183,20 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
+                          // locationWidgetDisplay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                              state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+
+                                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                                    .updateDropdownValues(location: location);
+                                // BlocProvider.of<DutyPostNameMasterDetailsCubit>(
+                                //     context)
+                                //     .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Duty Post Name
