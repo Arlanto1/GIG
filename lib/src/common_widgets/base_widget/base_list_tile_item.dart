@@ -296,7 +296,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.status != null &&
                           widget.isDutyPostNameMasterStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().dutyPostNameMasterStatus(widget.status ?? 0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils()
+                                .dutyPostNameMasterStatus(widget.status ?? 0),
+                          ],
+                        )
                       ],
                     ],
                   ),
