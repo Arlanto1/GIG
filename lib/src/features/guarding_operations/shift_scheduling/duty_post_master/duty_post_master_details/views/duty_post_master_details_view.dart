@@ -244,19 +244,21 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                         Label? selectedLabel;
                                         selectedLabel =
                                             guardRankDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
+                                                  (label) => label.key == value,
+                                              orElse: () =>
                                               const Label(key: '', value: ''),
-                                        );
+                                            );
                                         BlocProvider.of<
-                                                    DutyPostMasterDetailsCubit>(
-                                                context)
+                                            DutyPostMasterDetailsCubit>(
+                                            context)
                                             .updateDropdownValues(
-                                                rankId: int.tryParse(
-                                                    selectedLabel.value));
+                                            rankId: int.tryParse(
+                                                selectedLabel.value));
                                       });
                                 }
                               }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// A Shift(7AM-3PM)
