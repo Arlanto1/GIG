@@ -42,7 +42,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     log('-getGuardsByAssignedId---');
     emit(state.copyWith(status: FormStatus.loading));
     DutyPostModel dutyPostModel =
-        await services.getDutyPostById(id: id); // TODO: make it dynamic
+        await services.getDutyPostById(id: id);
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
         seletedDutyPostModel: dutyPostModel,
