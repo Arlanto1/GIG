@@ -72,7 +72,7 @@ class DutyPostNameMasterDetailsCubit
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
+          moduleCode: Constants.dutyPostNameMasterModule,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
@@ -143,7 +143,7 @@ class DutyPostNameMasterDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.dutyPostNameMasterModule,
       );
 
       state.model.location = location;
