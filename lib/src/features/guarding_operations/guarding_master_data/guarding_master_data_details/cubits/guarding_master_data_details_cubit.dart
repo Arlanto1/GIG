@@ -42,21 +42,21 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-    GuardingMasterDataDetailsState.initial(
-        model: model ?? GuardingMastersDataModel(),
-        locations: Locations(),
-        loggedInUserDetails: User(),
-        users: const [],
-        emailUsers: const [],
-        errorMessage: '',
-        loadAttachments: const [],
-        eventId: null,
-        listOfEntities: const [],
-        getEntitiesResponse: null,
-        departments: const [],
-        listOfQualifications: const [],
-        getQualificationsResponse: null),
-  );
+          GuardingMasterDataDetailsState.initial(
+              model: model ?? GuardingMastersDataModel(),
+              locations: Locations(),
+              loggedInUserDetails: User(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              loadAttachments: const [],
+              eventId: null,
+              listOfEntities: const [],
+              getEntitiesResponse: null,
+              departments: const [],
+              listOfQualifications: const [],
+              getQualificationsResponse: null),
+        );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
@@ -107,7 +107,8 @@ class GuardingMasterDataDetailsCubit
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode),
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.guardingMasterModuleCode),
         SharedPrefs.getDefaultLocation(),
       ]);
 
@@ -233,7 +234,7 @@ class GuardingMasterDataDetailsCubit
     // TODO: Object issue
     if (guard != null) {
       User userDetails =
-      User(name: guard.name, userId: guard.id, userName: guard.name);
+          User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -473,7 +474,7 @@ class GuardingMasterDataDetailsCubit
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-    GuardingMasterDataRequest(guardingMasterData: state.model);
+        GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -503,6 +504,14 @@ class GuardingMasterDataDetailsCubit
         response = (await services.createGuardingMasterData(
             body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(
