@@ -162,35 +162,35 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.model.slNo = slNo.serialNo;
 
       // TODO: uncomment
-      // if (state.model.vendor != null) {
-      //   List<DutyPostModel> dutyPosts =
-      //       await services.getDutyPostsByLocationAndVendor(
-      //           locationId: state.model.location!.id ?? 0,
-      //           vendorId: state.model.vendor?.id ?? 0);
-      //   // List<DutyPostModel> dutyPosts=[];
-      //   // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
-      //   emit(state.copyWith(
-      //     dutyPosts: dutyPosts,
-      //     status: FormStatus.initial,
-      //   ));
-      // }
+      if (state.model.vendor != null) {
+        List<DutyPostModel> dutyPosts =
+            await services.getDutyPostsByLocationAndVendor(
+                locationId: state.model.location!.id ?? 0,
+                vendorId: state.model.vendor?.id ?? 0);
+        // List<DutyPostModel> dutyPosts=[];
+        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        emit(state.copyWith(
+          dutyPosts: dutyPosts,
+          status: FormStatus.initial,
+        ));
+      }
     }
     if (vendor != null) {
       state.model.vendor = vendor;
 
       // TODO: uncomment
-      // if (state.model.location != null) {
-      //   List<DutyPostModel> dutyPosts =
-      //       await services.getDutyPostsByLocationAndVendor(
-      //           locationId: state.model.location!.id ?? 0,
-      //           vendorId: state.model.vendor?.id ?? 0);
-      //   // List<DutyPostModel> dutyPosts=[];
-      //   // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
-      //   emit(state.copyWith(
-      //     dutyPosts: dutyPosts,
-      //     status: FormStatus.initial,
-      //   ));
-      // }
+      if (state.model.location != null) {
+        List<DutyPostModel> dutyPosts =
+            await services.getDutyPostsByLocationAndVendor(
+                locationId: state.model.location!.id ?? 0,
+                vendorId: state.model.vendor?.id ?? 0);
+        // List<DutyPostModel> dutyPosts=[];
+        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        emit(state.copyWith(
+          dutyPosts: dutyPosts,
+          status: FormStatus.initial,
+        ));
+      }
     }
     state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.status = status ?? state.model.status;
