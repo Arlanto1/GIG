@@ -19,7 +19,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
   ShiftScheduleDetailsCubit({
     required this.id,
-     this.mainDutyPostModel,
+    this.mainDutyPostModel,
   }) : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
@@ -28,7 +28,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
             users: const [],
             emailUsers: const [],
             errorMessage: '',
-            departments: const [],
+            vendors: const [],
             selectedDutyPostModel: mainDutyPostModel,
           ),
         );

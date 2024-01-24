@@ -8,7 +8,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Organisation> departments;
+  final List<Organisation> vendors;
   final String? message;
   final List<User>? entrySecurities;
   final List<DutyPostModel>? dutyPosts;
@@ -20,7 +20,7 @@ class ShiftScheduleDetailsState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Organisation> departments,
+    required final List<Organisation> vendors,
     required String errorMessage,
     List<User>? entrySecurities,
     final DutyPostModel? selectedDutyPostModel,
@@ -31,7 +31,7 @@ class ShiftScheduleDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       users: users,
-      departments: departments,
+      vendors: vendors,
       emailUsers: emailUsers,
       message: errorMessage,
       entrySecurities: entrySecurities,
@@ -87,7 +87,7 @@ class ShiftScheduleDetailsState extends Equatable {
     this.message,
     this.entrySecurities,
     this.dutyPosts,
-    required this.departments,
+    required this.vendors,
     this.labels,
   });
 
@@ -113,7 +113,7 @@ class ShiftScheduleDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
-      departments: vendors ?? departments,
+      vendors: vendors ?? this.vendors,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       dutyPosts: dutyPosts ?? this.dutyPosts,

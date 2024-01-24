@@ -72,7 +72,7 @@ class AttendanceBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.list)
+          items: List.of(state.items)
             ..addAll(getAttendanceList.items?.toList() ?? []),
           hasReachedMax: false,
         ),

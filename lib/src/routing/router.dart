@@ -91,6 +91,7 @@ const String dutyPostNameMasterListRoute = '/dutyPostNameMasterListRoute';
 const String dutyPostNameMasterDetailsRoute = '/dutyPostNameMasterDetailsRoute';
 
 const String attendanceListRoute = '/attendanceListRoute';
+const String attendanceDetailsRoute = '/attendanceDetailsRoute';
 
 const String shiftScheduleListRoute = '/shiftScheduleListRoute';
 const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';

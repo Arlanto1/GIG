@@ -1,5 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 
 class AttendanceView extends StatefulWidget {
   const AttendanceView({
@@ -58,7 +59,7 @@ class _AttendanceViewState extends State<AttendanceView> {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
-          if (state.list.isEmptyOrNull) {
+          if (state.items.isEmptyOrNull) {
             return const NoRecordFoundWidget();
           }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -73,61 +74,61 @@ class _AttendanceViewState extends State<AttendanceView> {
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
-                  ? state.list.length
-                  : state.list.length + 1,
+                  ? state.items.length
+                  : state.items.length + 1,
               itemBuilder: (context, index) {
                 List<Label> labels = [];
-                if (index < state.list.length) {
+                if (index < state.items.length) {
                   labels.add(Label(
                       key:
                           // state.labels?.locale.locationRegion ??
                           //  state.labels?.defaultLocale.locationRegion ??
                           'Region',
-                      value: state.list[index].locationRegion?.name ?? ''));
+                      value: state.items[index].locationRegion?.name ?? ''));
                   labels.add(Label(
                       key:
                           // state.labels?.locale.location ??
                           //     state.labels?.defaultLocale.location ??
                           'Building Location ',
-                      value: state.list[index].location?.name ?? ''));
+                      value: state.items[index].location?.name ?? ''));
                   labels.add(Label(
                       key:
                           // state.labels?.locale.locationRegion ??
                           //  state.labels?.defaultLocale.locationRegion ??
                           'SlNo',
-                      value: state.list[index].slNo ?? ''));
-                  return index >= state.list.length
+                      value: state.items[index].slNo ?? ''));
+                  return index >= state.items.length
                       ? const BaseLoader()
                       : BaseListTileItem(
-                          id: state.list[index].id,
+                          id: state.items[index].id,
                           labels: labels,
-                          status: state.list[index].status,
+                          status: state.items[index].status,
                           isMasterGuard: false,
-                          guardRank: state.list[index].guardRank,
+                          guardRank: state.items[index].guardRank,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
                               builder: (BuildContext dialogContext) {
                                 return BasePopUpItems(
-                                  id: state.list[selectedIndex].id.toString(),
+                                  id: state.items[selectedIndex].id.toString(),
                                   guardRank:
-                                      state.list[selectedIndex].guardRank,
-                                  gender: state.list[selectedIndex].gender,
+                                      state.items[selectedIndex].guardRank,
+                                  gender: state.items[selectedIndex].gender,
                                   maritalStatus:
-                                      state.list[selectedIndex].maritalStatus,
+                                      state.items[selectedIndex].maritalStatus,
                                   labels: labels,
-                                  dutyType: state.list[selectedIndex].dutyType,
+                                  dutyType: state.items[selectedIndex].dutyType,
                                   isMaterGuard: false,
                                   isAttendance: true,
                                   isMasterGuard: false,
                                   isEventProtectionStatus: false,
-                                  status: state.list[selectedIndex].status,
+                                  status: state.items[selectedIndex].status,
                                 );
                               },
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            // getById(state.list[index].id ?? 0);
+                            getById(state.items[index].id ?? 0);
                           },
                           showEditButton: true,
                           onViewTap: (selectedIndex) {
@@ -135,15 +136,15 @@ class _AttendanceViewState extends State<AttendanceView> {
                               context: context,
                               builder: (BuildContext dialogContext) {
                                 return BasePopUpItems(
-                                  id: state.list[selectedIndex].id.toString(),
+                                  id: state.items[selectedIndex].id.toString(),
                                   guardRank:
-                                      state.list[selectedIndex].guardRank,
-                                  gender: state.list[selectedIndex].gender,
+                                      state.items[selectedIndex].guardRank,
+                                  gender: state.items[selectedIndex].gender,
                                   maritalStatus:
-                                      state.list[selectedIndex].maritalStatus,
+                                      state.items[selectedIndex].maritalStatus,
                                   labels: labels,
-                                  dutyType: state.list[selectedIndex].dutyType,
-                                  status: state.list[selectedIndex].status,
+                                  dutyType: state.items[selectedIndex].dutyType,
+                                  status: state.items[selectedIndex].status,
                                   isMaterGuard: false,
                                   isMasterGuard: false,
                                   isAttendance: true,
@@ -164,5 +165,28 @@ class _AttendanceViewState extends State<AttendanceView> {
             ),
           );
         }));
+  }
+
+  getById(int id) async {
+    showLoadingDialog(context);
+
+    DutyPostNameMasterModel dutyPostNameMasterModel =
+        await DutyPostNameMasterServices().getById(id);
+
+    editDataLoading(dutyPostNameMasterModel);
+  }
+
+  void editDataLoading(DutyPostNameMasterModel? model) {
+    dismissLoadingDialog(context);
+    if (model != null) {
+      Navigator.pushNamed(
+        context,
+        dutyPostNameMasterDetailsRoute,
+        arguments: {
+          ConstantsArgument.model: model,
+          ConstantsArgument.title: Constants.editDutyPostNameMaster
+        },
+      );
+    }
   }
 }
