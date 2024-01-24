@@ -1404,12 +1404,8 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.materialComingFrom,
                               textFormKey: Keys.sendersKey,
                               hintText: '',
-                              isEnable: state.model.status != 6 ||
-                                  state.model.status != 10 ||
-                                  state.model.status != -1,
-                              isDisableColor: state.model.status == 6 ||
-                                  state.model.status == 10 ||
-                                  state.model.status == -1,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
                               onChange: (String value) {
                                 state.model.materialComingFrom = value;
                                 context
@@ -1507,22 +1503,12 @@ class _MaterialMovementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
-                                widget.materialMovement?.status != 6 ||
-                                        widget.materialMovement?.status != -1 ||
-                                        widget.materialMovement?.status != 10
-                                    ? TextfieldAddButton(
+                                TextfieldAddButton(
                                         title: state.model.receiverEmail,
                                         height: 70,
-                                        isDisableColor:
-                                            state.model.status == 6 ||
-                                                    state.model.status == -1 ||
-                                                    state.model.status == 10
-                                                ? true
-                                                : false,
+                                        isDisableColor:isReadOnly,
                                         onTap: () {
-                                          if (state.model.status != 6 ||
-                                              state.model.status != -1 ||
-                                              state.model.status != 10) {
+                                          if (!isReadOnly) {
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.emailUsers!,
@@ -1536,27 +1522,8 @@ class _MaterialMovementDetailsViewState
                                               },
                                             );
                                           }
-                                        })
-                                    : FlutterInputField(
-                                        initialValue:
-                                            state.model.otherReceiverName,
-                                        textFormKey:
-                                            Keys.depositorTextController,
-                                        hintText: '',
-                                        isEnable: state.model.status != 6 ||
-                                                state.model.status != -1 ||
-                                                state.model.status != 10
-                                            ? false
-                                            : true,
-                                        isDisableColor:
-                                            state.model.status == 6 ||
-                                                    state.model.status == 10 ||
-                                                    state.model.status == -1
-                                                ? true
-                                                : false,
-                                        onChange: (String username) {},
-                                        validateTextField: (String? user) {},
-                                      ),
+                                        }),
+
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
