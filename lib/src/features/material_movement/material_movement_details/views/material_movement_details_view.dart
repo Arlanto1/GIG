@@ -105,6 +105,12 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        if (state.model.status == 10 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -1606,64 +1612,30 @@ class _MaterialMovementDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            widget.materialMovement?.status == 6
-                                ? FlutterInputField(
-                                    initialValue:
-                                        state.model.receiverDepartmenttName,
-                                    textFormKey: Keys.receiverDepartmentKey,
-                                    hintText: '',
-                                    isEnable: state.model.status != 6 ||
-                                            state.model.status != 10 ||
-                                            state.model.status != -1
-                                        ? false
-                                        : true,
-                                    isDisableColor: state.model.status != 6 ||
-                                            state.model.status != -1 ||
-                                            state.model.status != 10
-                                        ? true
-                                        : false,
-                                    onChange: (String value) {
+                            TextfieldAddButton(
+                              title: state.model.receiverDepartmenttName,
+                              height: 70,
+                              isDisableColor: isReadOnly,
+                              onTap: () {
+                                if (!isReadOnly) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
                                       state.model.receiverDepartmenttName =
-                                          value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
-                                : TextfieldAddButton(
-                                    title: state.model.receiverDepartmenttName,
-                                    height: 70,
-                                    isDisableColor: state.model.status != 6 ||
-                                            state.model.status != -1 ||
-                                            state.model.status != 10
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if (state.model.status != 6 ||
-                                          state.model.status != 10 ||
-                                          state.model.status != -1) {
-                                        BaseOrganisationDialog()
-                                            .departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model
-                                                    .receiverDepartmenttName =
-                                                department.name;
+                                          department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    receiverDepartment:
-                                                        department);
-                                          },
-                                        );
-                                        // leodepartmentsDialog(state);
-                                      }
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              receiverDepartment: department);
                                     },
-                                  ),
+                                  );
+                                  // leodepartmentsDialog(state);
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (!state.model.originalReceiver) ...[
