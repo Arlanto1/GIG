@@ -411,17 +411,16 @@ class GuardingMasterDataDetailsCubit
           ),
         );
       }
-
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          loadAttachments: data,
-          guardAttachments: guardImages,
-          status: FormStatus.initial,
-        ),
-      );
     }
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        model: state.model,
+        loadAttachments: data,
+        guardAttachments: guardImages,
+        status: FormStatus.initial,
+      ),
+    );
     log('--state.status--3--${state.status}----');
   }
 
