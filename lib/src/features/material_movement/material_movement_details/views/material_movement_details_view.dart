@@ -358,12 +358,14 @@ class _MaterialMovementDetailsViewState
                             textFormKey: Keys.challanKey,
                             initialValue: state.model.challanNo,
                             hintText: '',
-                            isEnable: state.model.status == 6 ||
-                                    state.model.status == 1
+                            isEnable: state.model.status == 10 ||
+                                    state.model.status == -1 ||
+                                    state.model.status == 6
                                 ? false
                                 : true,
-                            isDisableColor: state.model.status == 6 ||
-                                state.model.status == 1,
+                            isDisableColor: state.model.status == 10 ||
+                                state.model.status == -1 ||
+                                state.model.status == 6,
                             onChange: (String value) {
                               state.model.challanNo = value;
                               context
@@ -388,19 +390,14 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.poNumber,
                               textFormKey: Keys.poNumberKey,
                               hintText: '',
-                              isEnable: widget.materialMovement != null
-                                  ? true
-                                  : (widget.materialMovement != null &&
-                                          (widget.materialMovement?.poNumber ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor:
-                                  (widget.materialMovement != null &&
-                                          (widget.materialMovement?.poNumber !=
-                                              null))
-                                      ? true
-                                      : false,
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
+                                  ? false
+                                  : true,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.poNumber = value;
                                 context
@@ -427,16 +424,18 @@ class _MaterialMovementDetailsViewState
                             lineHeight: 6,
                             initialValue: state.model.materialDescription,
                             textFormKey: Keys.materialBreifDescKey,
-                            hintText:Constants.informationhere,
-                            isEnable: state.model.status == 6 ||
-                                    state.model.status == 1
+                            hintText: Constants.informationhere,
+                            isEnable: state.model.status == 10 ||
+                                    state.model.status == -1 ||
+                                    state.model.status == 6
                                 ? false
                                 : true,
-                            isDisableColor: state.model.status == 6 ||
-                                state.model.status == 1,
+                            isDisableColor: state.model.status == 10 ||
+                                state.model.status == -1 ||
+                                state.model.status == 6,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
-                              state.model?.materialDescription =value;
+                              state.model?.materialDescription = value;
                             },
                           ),
 
@@ -465,14 +464,14 @@ class _MaterialMovementDetailsViewState
                                   initialValue: '${state.model.quantity ?? ''}',
                                   textFormKey: Keys.quantityKey,
                                   hintText: '',
-                                  isEnable: state.model.status == 6 ||
-                                          state.model.status == 1
+                                  isEnable: state.model.status == 10 ||
+                                          state.model.status == -1 ||
+                                          state.model.status == 6
                                       ? false
                                       : true,
-                                  isDisableColor: state.model.status != 6 ||
-                                          state.model.status != 1
-                                      ? true
-                                      : false,
+                                  isDisableColor: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6,
                                   onChange: (String? value) {
                                     if (value != null) {
                                       state.model.quantity = int.parse(value);
@@ -533,12 +532,14 @@ class _MaterialMovementDetailsViewState
                               showBorder: true,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: state.model.status == 6 ||
-                                  state.model.status == 1,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.modelInfo = value;
                                 context
@@ -564,12 +565,14 @@ class _MaterialMovementDetailsViewState
                               showBorder: true,
                               textFormKey: Keys.addressKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: state.model.status == 6 ||
-                                  state.model.status == 1,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.address = value;
                                 context
@@ -597,13 +600,13 @@ class _MaterialMovementDetailsViewState
                                         title: state.model.requestorEmail,
                                         height: 70,
                                         isDisableColor:
-                                            (state.model.status == 6 ||
-                                                    state.model.status == 1)
-                                                ? true
-                                                : false,
+                                            state.model.status == 10 ||
+                                                state.model.status == -1 ||
+                                                state.model.status == 6,
                                         onTap: () {
-                                          if (state.model.status == 6 ||
-                                                  state.model.status == 1
+                                          if (state.model.status == 10 ||
+                                                  state.model.status == -1 ||
+                                                  state.model.status == 6
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -625,11 +628,15 @@ class _MaterialMovementDetailsViewState
                                             state.model.requestorEmail,
                                         textFormKey: Keys.requesterEmailKey,
                                         hintText: '',
-                                        isEnable: (state.model.status != 6 ||
-                                            state.model.status != 1),
+                                        isEnable: state.model.status == 10 ||
+                                                state.model.status == -1 ||
+                                                state.model.status == 6
+                                            ? false
+                                            : true,
                                         isDisableColor:
-                                            state.model.status == 6 ||
-                                                state.model.status == 1,
+                                            state.model.status == 10 ||
+                                                state.model.status == -1 ||
+                                                state.model.status == 6,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -653,14 +660,14 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.requestorEmployeeId,
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: (state.model.status == 6 ||
-                                      state.model.status == 1)
-                                  ? true
-                                  : false,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.requestorEmployeeId = value;
                                 context
@@ -686,8 +693,12 @@ class _MaterialMovementDetailsViewState
                                         state.model.requestorDepartment?.name,
                                     textFormKey: Keys.requesterDepartmentKey,
                                     hintText: '',
-                                    isEnable: state.model.status == 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status != 6 ||
+                                        state.model.status != -1 ||
+                                        state.model.status != 10,
+                                    isDisableColor: state.model.status == 6 ||
+                                        state.model.status == -1 ||
+                                        state.model.status == 10,
                                     onChange: (String value) {
                                       state.model.requestorDepartment?.name =
                                           value;
@@ -702,12 +713,14 @@ class _MaterialMovementDetailsViewState
                                         state.model.requestorDepartment?.name,
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
+                                            state.model.status == -1 ||
+                                            state.model.status == 10)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if (state.model.status == 6 ||
-                                              state.model.status == 1
+                                              state.model.status == 10 ||
+                                              state.model.status == -1
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -749,11 +762,14 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.sentTo,
                               textFormKey: Keys.sentToKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: state.model.status == 6,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.sentTo = value;
                                 context
@@ -779,14 +795,14 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.purpose,
                               textFormKey: Keys.purposeKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: (state.model.status != 6 ||
-                                      state.model.status != 1)
-                                  ? false
-                                  : true,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.purpose = value;
                                 context
@@ -812,14 +828,14 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.preparedBy,
                               textFormKey: Keys.preparedByKey,
                               hintText: '',
-                              isEnable: state.model.status == 6 ||
-                                      state.model.status == 1
+                              isEnable: state.model.status == 10 ||
+                                      state.model.status == -1 ||
+                                      state.model.status == 6
                                   ? false
                                   : true,
-                              isDisableColor: (state.model.status != 6 ||
-                                      state.model.status != 1)
-                                  ? false
-                                  : true,
+                              isDisableColor: state.model.status == 10 ||
+                                  state.model.status == -1 ||
+                                  state.model.status == 6,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
                                 BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -845,11 +861,14 @@ class _MaterialMovementDetailsViewState
                                         state.model.preparedByDepartment?.name,
                                     textFormKey: Keys.preparedByDepartmentKey,
                                     hintText: '',
-                                    isEnable: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status == 10 ||
+                                        state.model.status == -1 ||
+                                        state.model.status == 6,
                                     onChange: (String value) {
                                       state.model.preparedByDepartment?.name =
                                           value;
@@ -863,13 +882,13 @@ class _MaterialMovementDetailsViewState
                                     title:
                                         state.model.preparedByDepartment?.name,
                                     height: 70,
-                                    isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
-                                        ? true
-                                        : false,
+                                    isDisableColor: state.model.status == 10 ||
+                                        state.model.status == -1 ||
+                                        state.model.status == 6,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
-                                              state.model.status == 1)
+                                              state.model.status == -1 ||
+                                              state.model.status == 10)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -911,12 +930,14 @@ class _MaterialMovementDetailsViewState
                                         height: 70,
                                         isDisableColor:
                                             (state.model.status == 6 ||
-                                                    state.model.status == 1)
+                                                    state.model.status == -1 ||
+                                                    state.model.status == 10)
                                                 ? true
                                                 : false,
                                         onTap: () {
                                           if ((state.model.status == 6 ||
-                                                  state.model.status == 1)
+                                                  state.model.status == -1 ||
+                                                  state.model.status == 10)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -938,8 +959,13 @@ class _MaterialMovementDetailsViewState
                                             state.model.approver1Email,
                                         textFormKey: Keys.approver1EmailKey,
                                         hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
+                                        isEnable: state.model.status != 6 ||
+                                            state.model.status != -1 ||
+                                            state.model.status != 10,
+                                        isDisableColor:
+                                            state.model.status == 6 ||
+                                                state.model.status == 10 ||
+                                                state.model.status == -1,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -962,7 +988,9 @@ class _MaterialMovementDetailsViewState
                                         state.model.approver1Department?.name,
                                     textFormKey: Keys.aprrover1DepartmentKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
+                                    isEnable: state.model.status != 6 ||
+                                        state.model.status != 10 ||
+                                        state.model.status != -1,
                                     isDisableColor: state.model.status == 6,
                                     onChange: (String value) {
                                       state.model.approver1Department?.name =
@@ -978,12 +1006,14 @@ class _MaterialMovementDetailsViewState
                                         state.model.approver1Department?.name,
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
+                                            state.model.status == -1 ||
+                                            state.model.status == 10)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
-                                              state.model.status == 1)
+                                              state.model.status == -1 ||
+                                              state.model.status == 10)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1025,12 +1055,14 @@ class _MaterialMovementDetailsViewState
                                         height: 70,
                                         isDisableColor:
                                             (state.model.status == 6 ||
-                                                    state.model.status == 1)
+                                                    state.model.status == 10 ||
+                                                    state.model.status == -1)
                                                 ? true
                                                 : false,
                                         onTap: () {
                                           if ((state.model.status == 6 ||
-                                                  state.model.status == 1)
+                                                  state.model.status == -1 ||
+                                                  state.model.status == 10)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1052,8 +1084,13 @@ class _MaterialMovementDetailsViewState
                                             state.model.approver2Email,
                                         textFormKey: Keys.approver2EmailKey,
                                         hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
+                                        isEnable: state.model.status != 6 ||
+                                            state.model.status != 10 ||
+                                            state.model.status != -1,
+                                        isDisableColor:
+                                            state.model.status == 6 ||
+                                                state.model.status == 10 ||
+                                                state.model.status == -1,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1077,8 +1114,12 @@ class _MaterialMovementDetailsViewState
                                         state.model.approver2Department?.name,
                                     textFormKey: Keys.approver2EmailKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status != 6 ||
+                                        state.model.status != 10 ||
+                                        state.model.status != 1,
+                                    isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 10 ||
+                                        state.model.status == -1,
                                     onChange: (String value) {
                                       state.model.approver2Department?.name =
                                           value;
@@ -1093,12 +1134,14 @@ class _MaterialMovementDetailsViewState
                                         state.model.approver2Department?.name,
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
-                                            state.model.status == 1)
+                                            state.model.status == 10 ||
+                                            state.model.status == -1)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
-                                              state.model.status == 1)
+                                              state.model.status == 10 ||
+                                              state.model.status == -1)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1140,7 +1183,8 @@ class _MaterialMovementDetailsViewState
                                 showPastDate: false,
                                 isDisabled: (widget.materialMovement?.status ==
                                             6 ||
-                                        widget.materialMovement?.status == 1)
+                                        widget.materialMovement?.status == 10 ||
+                                        widget.materialMovement?.status == -1)
                                     ? true
                                     : false,
                                 textController: expectedDateOfReturnController,
@@ -1205,8 +1249,8 @@ class _MaterialMovementDetailsViewState
                                   initialValue: state.model.takenOutEmail,
                                   textFormKey: Keys.takenOutByKey,
                                   hintText: '',
-                                  isEnable: state.model.status == 2,
-                                  isDisableColor: state.model.status != 2,
+                                  isEnable: state.model.status == 6,
+                                  isDisableColor: state.model.status != 6,
                                   onChange: (String value) {
                                     state.model.takenOutEmail = value;
                                     context
@@ -1234,8 +1278,8 @@ class _MaterialMovementDetailsViewState
                                   initialValue: state.model.takenOutContactNo,
                                   textFormKey: Keys.takenOutContactKey,
                                   hintText: '',
-                                  isEnable: state.model.status == 2,
-                                  isDisableColor: state.model.status != 2,
+                                  isEnable: state.model.status == 6,
+                                  isDisableColor: state.model.status != 6,
                                   onChange: (String value) {
                                     state.model.takenOutContactNo = value;
                                     context
@@ -1264,8 +1308,8 @@ class _MaterialMovementDetailsViewState
                                   textFormKey: Keys.takenOutAddressKey,
                                   hintText: '',
                                   showBorder: true,
-                                  isEnable: state.model.status == 2,
-                                  isDisableColor: state.model.status != 2,
+                                  isEnable: state.model.status == 6,
+                                  isDisableColor: state.model.status != 6,
                                   onChange: (String value) {
                                     state.model.takenOutAddress = value;
                                     context
@@ -1308,8 +1352,8 @@ class _MaterialMovementDetailsViewState
                               ]
                             ],
 
-                            /// If Status is Rejected(status=3)
-                            if (state.model.status == 3) ...[
+                            /// If Status is Rejected(status=7)
+                            if (state.model.status == 7) ...[
                               /// Rejected By
                               CommonWidgets.verticalTextHandling(
                                   state.labels?.locale.rejectedBy ??
@@ -1354,8 +1398,12 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.materialComingFrom,
                               textFormKey: Keys.sendersKey,
                               hintText: '',
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 6 ||
+                                  state.model.status != 10 ||
+                                  state.model.status != -1,
+                              isDisableColor: state.model.status == 6 ||
+                                  state.model.status == 10 ||
+                                  state.model.status == -1,
                               onChange: (String value) {
                                 state.model.materialComingFrom = value;
                                 context
@@ -1382,8 +1430,12 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.materialFromAddress,
                               textFormKey: Keys.materialComingFromKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 6 ||
+                                  state.model.status != 10 ||
+                                  state.model.status != -1,
+                              isDisableColor: state.model.status == 6 ||
+                                  state.model.status == 10 ||
+                                  state.model.status == 1,
                               validateTextField: (String? user) {},
                               onChange: (String value) {
                                 state.model.materialFromAddress = value;
@@ -1405,7 +1457,10 @@ class _MaterialMovementDetailsViewState
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.originalReceiver ? 1 : 0,
-                              onChangedYes: widget.materialMovement?.status == 6
+                              onChangedYes: widget.materialMovement?.status ==
+                                          6 ||
+                                      widget.materialMovement?.status == -1 ||
+                                      widget.materialMovement?.status == 10
                                   ? null
                                   : (val) {
                                       BlocProvider.of<
@@ -1415,7 +1470,10 @@ class _MaterialMovementDetailsViewState
                                         isOriginalReceiverReceiving: true,
                                       );
                                     },
-                              onChangedNo: widget.materialMovement?.status == 6
+                              onChangedNo: widget.materialMovement?.status ==
+                                          6 ||
+                                      widget.materialMovement?.status == -1 ||
+                                      widget.materialMovement?.status == 10
                                   ? null
                                   : (val) {
                                       BlocProvider.of<
@@ -1443,15 +1501,22 @@ class _MaterialMovementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
-                                widget.materialMovement?.status != 6
+                                widget.materialMovement?.status != 6 ||
+                                        widget.materialMovement?.status != -1 ||
+                                        widget.materialMovement?.status != 10
                                     ? TextfieldAddButton(
                                         title: state.model.receiverEmail,
                                         height: 70,
-                                        isDisableColor: state.model.status != 6
-                                            ? false
-                                            : true,
+                                        isDisableColor:
+                                            state.model.status == 6 ||
+                                                    state.model.status == -1 ||
+                                                    state.model.status == 10
+                                                ? true
+                                                : false,
                                         onTap: () {
-                                          if (state.model.status != 6) {
+                                          if (state.model.status != 6 ||
+                                              state.model.status != -1 ||
+                                              state.model.status != 10) {
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.emailUsers!,
@@ -1472,8 +1537,17 @@ class _MaterialMovementDetailsViewState
                                         textFormKey:
                                             Keys.depositorTextController,
                                         hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
+                                        isEnable: state.model.status != 6 ||
+                                                state.model.status != -1 ||
+                                                state.model.status != 10
+                                            ? false
+                                            : true,
+                                        isDisableColor:
+                                            state.model.status == 6 ||
+                                                    state.model.status == 10 ||
+                                                    state.model.status == -1
+                                                ? true
+                                                : false,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1502,8 +1576,16 @@ class _MaterialMovementDetailsViewState
                             FlutterInputField(
                               initialValue: state.model.receiverEmployeeId,
                               textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 6 ||
+                                      state.model.status != 10 ||
+                                      state.model.status != -1
+                                  ? false
+                                  : true,
+                              isDisableColor: state.model.status == 6 ||
+                                      state.model.status == 10 ||
+                                      state.model.status == -1
+                                  ? true
+                                  : false,
                               hintText: '',
                               onChange: (String value) {
                                 state.model.receiverEmployeeId = value;
@@ -1530,8 +1612,16 @@ class _MaterialMovementDetailsViewState
                                         state.model.receiverDepartmenttName,
                                     textFormKey: Keys.receiverDepartmentKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status != 6 ||
+                                            state.model.status != 10 ||
+                                            state.model.status != -1
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status != 6 ||
+                                            state.model.status != -1 ||
+                                            state.model.status != 10
+                                        ? true
+                                        : false,
                                     onChange: (String value) {
                                       state.model.receiverDepartmenttName =
                                           value;
@@ -1544,27 +1634,34 @@ class _MaterialMovementDetailsViewState
                                 : TextfieldAddButton(
                                     title: state.model.receiverDepartmenttName,
                                     height: 70,
-                                    isDisableColor:
-                                        state.model.status != 6 ? false : true,
+                                    isDisableColor: state.model.status != 6 ||
+                                            state.model.status != -1 ||
+                                            state.model.status != 10
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      // if (widget.materialMovement != null) {
-                                      BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: state.departments,
-                                        onTap: (Organisation department) {
-                                          state.model.receiverDepartmenttName =
-                                              department.name;
+                                      if (state.model.status != 6 ||
+                                          state.model.status != 10 ||
+                                          state.model.status != -1) {
+                                        BaseOrganisationDialog()
+                                            .departmentDialog(
+                                          context: context,
+                                          organisations: state.departments,
+                                          onTap: (Organisation department) {
+                                            state.model
+                                                    .receiverDepartmenttName =
+                                                department.name;
 
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  receiverDepartment:
-                                                      department);
-                                        },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                      // }
+                                            BlocProvider.of<
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    receiverDepartment:
+                                                        department);
+                                          },
+                                        );
+                                        // leodepartmentsDialog(state);
+                                      }
                                     },
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1582,8 +1679,16 @@ class _MaterialMovementDetailsViewState
                               FlutterInputField(
                                 initialValue: state.model.otherReceiverName,
                                 textFormKey: Keys.receivedByKey,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: state.model.status != 6 ||
+                                        state.model.status != 10 ||
+                                        state.model.status != -1
+                                    ? false
+                                    : true,
+                                isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 10 ||
+                                        state.model.status == -1
+                                    ? true
+                                    : false,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.otherReceiverName = value;
@@ -1610,8 +1715,16 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.otherReceiverEmployeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: state.model.status != 6 ||
+                                        state.model.status != 10 ||
+                                        state.model.status != -1
+                                    ? false
+                                    : true,
+                                isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 10 ||
+                                        state.model.status == -1
+                                    ? true
+                                    : false,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.otherReceiverEmployeeId = value;
@@ -1685,23 +1798,25 @@ class _MaterialMovementDetailsViewState
                                     state.model.materialPhysicallyChecked
                                         ? 1
                                         : 0,
-                                onChangedYes:
-                                    (widget.materialMovement?.status == 6 ||
-                                            widget.materialMovement?.status ==
-                                                1)
-                                        ? null
-                                        : (val) {
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                              isMaterialPhysicallyChecked: true,
-                                              // materialMovement: materialMovement,
-                                            );
-                                          },
+                                onChangedYes: (widget
+                                                .materialMovement?.status ==
+                                            6 ||
+                                        widget.materialMovement?.status == 10 ||
+                                        widget.materialMovement?.status == -1)
+                                    ? null
+                                    : (val) {
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .showFields(
+                                          isMaterialPhysicallyChecked: true,
+                                          // materialMovement: materialMovement,
+                                        );
+                                      },
                                 onChangedNo: widget.materialMovement?.status ==
                                             6 ||
-                                        widget.materialMovement?.status == 1
+                                        widget.materialMovement?.status == 10 ||
+                                        widget.materialMovement?.status == -1
                                     ? null
                                     : (val) {
                                         BlocProvider.of<
@@ -1790,12 +1905,16 @@ class _MaterialMovementDetailsViewState
                                           title:
                                               state.model.returnReceiverMailId,
                                           height: 70,
-                                          isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
+                                          isDisableColor: state.model.status !=
+                                                      6 ||
+                                                  state.model.status != -1 ||
+                                                  state.model.status != 10
+                                              ? false
+                                              : true,
                                           onTap: () {
-                                            if (state.model.status != 6) {
+                                            if (state.model.status != 6 ||
+                                                state.model.status != -1 ||
+                                                state.model.status != 10) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 context: context,
@@ -1818,9 +1937,15 @@ class _MaterialMovementDetailsViewState
                                           textFormKey:
                                               Keys.returnReceiverEmailKey,
                                           hintText: '',
-                                          isEnable: state.model.status != 6,
-                                          isDisableColor:
-                                              state.model.status == 6,
+                                          isEnable: state.model.status != 6 ||
+                                              state.model.status != -1 ||
+                                              state.model.status != 10,
+                                          isDisableColor: state.model.status !=
+                                                      6 ||
+                                                  state.model.status != -1 ||
+                                                  state.model.status != 10
+                                              ? false
+                                              : true,
                                           onChange: (String username) {},
                                           validateTextField: (String? user) {},
                                         ),
@@ -1841,8 +1966,12 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     '${state.model.returnQuantity ?? ''}',
                                 textFormKey: Keys.returnQuantityTextController,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: state.model.status != 6 ||
+                                    state.model.status != -1 ||
+                                    state.model.status != 10,
+                                isDisableColor: state.model.status == 6 ||
+                                    state.model.status == -1 ||
+                                    state.model.status == 10,
                                 hintText: '',
                                 onChange: (String? value) {
                                   if (value != null) {
@@ -1874,11 +2003,15 @@ class _MaterialMovementDetailsViewState
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
                                 isEnable: state.model.status == 6 ||
-                                        state.model.status == 1
+                                        state.model.status == -1 ||
+                                        state.model.status == 10
                                     ? false
                                     : true,
                                 isDisableColor: state.model.status == 6 ||
-                                    state.model.status == 1,
+                                        state.model.status == -1 ||
+                                        state.model.status == 10
+                                    ? true
+                                    : false,
                                 onChange: (String value) {
                                   state.model.materialNotCheckedComment = value;
                                   context
@@ -2076,7 +2209,7 @@ class _MaterialMovementDetailsViewState
       case 9:
         return 'Inward Waiting';
       case 10:
-        return 'Closed';
+        return 'Closed/Finalized';
       case -1:
         return 'Cancelled';
       default:
@@ -2092,7 +2225,9 @@ class _MaterialMovementDetailsViewState
       height: 70,
       isDisableColor: state.model.quantity == null ? false : true,
       onTap: () {
-        if ((state.model.status != 6 || state.model.status != 1)) {
+        if ((state.model.status != 6 ||
+            state.model.status != -1 ||
+            state.model.status != 10)) {
           quantityUnitDialog(
               context: context, quantityUnits: state.quantityUnits);
         }
@@ -2225,8 +2360,8 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.materialMovement?.status == 6 ||
-                widget.materialMovement?.status == 1)
+        if ((widget.materialMovement?.status == 10 ||
+                widget.materialMovement?.status == -1)
             ? false
             : true) {
           showDialog(

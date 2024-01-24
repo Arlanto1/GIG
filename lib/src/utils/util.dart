@@ -244,7 +244,7 @@ class Utils {
         statusText = 'Inward Waiting';
         break;
       case 10:
-        statusText = 'Closed';
+        statusText = 'Closed/Finalize';
         break;
       case -1:
         statusText = 'Cancelled';
