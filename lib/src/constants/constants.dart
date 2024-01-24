@@ -747,6 +747,8 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attendanceDetails = 'Attendance Details';
+
   static const String attachments = 'Attachments';
 
   ///Shift Schedule

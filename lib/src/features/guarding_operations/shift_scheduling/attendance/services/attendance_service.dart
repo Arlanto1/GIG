@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getList = '$baseUrl/getAttendanceList?';
+  static final String _getById = '$baseUrl/getAttendanceById';
+  static final String _create = '$baseUrl/UpdateAttendanceGi?';
+
 }
 
 class AttendanceServices {
@@ -24,4 +28,25 @@ class AttendanceServices {
     );
     return AttendanceResponse.fromJson(response);
   }
+
+  Future<AttendanceModel> getById(int id) async {
+    final String url = '${Apis._getById}/$id';
+    var response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return AttendanceModel.fromJson(response);
+  }
+
+  Future<GenericResponse> create({
+    required AttendanceRequest body,
+    required bool isSubmit,
+  }) async {
+    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
 }
