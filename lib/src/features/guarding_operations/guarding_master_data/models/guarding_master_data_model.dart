@@ -45,7 +45,7 @@ class GuardingMastersDataModel extends BaseObject {
   User? guard;
   ImageContent? localAddressProof;
   ImageContent? permanentAddressProof;
-  ImageContent? bopData;
+  ImageContent? bioData;
   ImageContent? photoGraph;
   Organisation? entity;
   String? inputDate;
@@ -118,7 +118,7 @@ class GuardingMastersDataModel extends BaseObject {
     this.guard,
     this.localAddressProof,
     this.permanentAddressProof,
-    this.bopData,
+    this.bioData,
     this.photoGraph,
     this.entity,
     this.inputDate,

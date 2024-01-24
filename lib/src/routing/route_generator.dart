@@ -762,17 +762,19 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        GuardingMastersDataModel? guardingMastersData =
+        GuardingMastersDataModel? model =
             arguments["GuardingMastersDataModel"];
+        log('-guardingMastersDataModel-model--id---${model?.id}---');
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
             create: (_) => GuardingMasterDataDetailsCubit(
               services: services,
-              model: guardingMastersData,
+              model: model,
               commonServices: commonServices,
             ),
             child: GuardingMasterDataDetails(
-              guardingMasterData: guardingMastersData,
+              guardingMasterData: model,
               title: title,
             ),
           ),

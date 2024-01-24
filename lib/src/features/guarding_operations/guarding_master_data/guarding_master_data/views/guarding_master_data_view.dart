@@ -169,6 +169,9 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
 
   void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel) {
     dismissLoadingDialog(context);
+
+    log('-guardingMastersDataModel---id---${guardingMastersDataModel?.id}---');
+
     if (guardingMastersDataModel != null) {
       Navigator.pushNamed(context, guardingMasterDataDetailsRoute, arguments: {
         "GuardingMastersDataModel": guardingMastersDataModel,
