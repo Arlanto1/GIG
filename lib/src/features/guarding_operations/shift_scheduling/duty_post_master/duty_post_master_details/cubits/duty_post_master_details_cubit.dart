@@ -67,7 +67,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       GetDepositor emailUsers = futures[4];
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
-      List<Organisation> dutyPosts =[];
+      List<Organisation> dutyPosts = [];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -140,7 +140,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('--dutyPostName--${dutyPostName?.name}---');
-    if(dutyPostName != null) {
+    if (dutyPostName != null) {
       state.model.dutyPostLocation = dutyPostName;
     }
     state.model.rankId = rankId ?? state.model.rankId;
@@ -196,6 +196,14 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(
