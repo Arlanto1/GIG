@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
+
+import '../cubits/attendance_details_cubit.dart';
 
 class AttendanceDetailsView extends StatefulWidget {
-  final DutyPostNameMasterModel? model;
+  final AttendanceModel? model;
 
   const AttendanceDetailsView({
     super.key,
@@ -13,17 +13,16 @@ class AttendanceDetailsView extends StatefulWidget {
   });
 
   @override
-  State<AttendanceDetailsView> createState() =>
-      _AttendanceDetailsViewState();
+  State<AttendanceDetailsView> createState() => _AttendanceDetailsViewState();
 }
 
-class _AttendanceDetailsViewState
-    extends State<AttendanceDetailsView> {
+class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   TextEditingController genderController = TextEditingController();
   TextEditingController statusController = TextEditingController();
-  TextEditingController rankController = TextEditingController();
+  TextEditingController dutyTypeController = TextEditingController();
+  TextEditingController attendanceTypeController = TextEditingController();
 
   bool isDisabled = true;
   bool isReadOnly = false;
@@ -35,15 +34,14 @@ class _AttendanceDetailsViewState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DutyPostNameMasterDetailsCubit>(context).initializeValues();
+    BlocProvider.of<AttendanceDetailsCubit>(context).initializeValues();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<DutyPostNameMasterDetailsCubit,
-        DutyPostNameMasterDetailsState>(
+    return BlocConsumer<AttendanceDetailsCubit, AttendanceDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
 
@@ -109,7 +107,7 @@ class _AttendanceDetailsViewState
 
   void initializeDates() {}
 
-  getBodybuilder(DutyPostNameMasterDetailsState state, height) {
+  getBodybuilder(AttendanceDetailsState state, height) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -165,28 +163,27 @@ class _AttendanceDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: state.model.status != 3,
                             textController: statusController,
-                            items: dutyPostNameMasterStatusValues,
+                            items: attendanceStatusDropDownValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
                               if (widget.model != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: dutyPostNameMasterStatusValues
+                                  dropDownValues: attendanceStatusDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        dutyPostNameMasterStatusValues
+                                        attendanceStatusDropDownValues
                                             .firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
                                     );
-                                    BlocProvider.of<
-                                                DutyPostNameMasterDetailsCubit>(
+                                    BlocProvider.of<AttendanceDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
                                             status: int.tryParse(
@@ -196,7 +193,6 @@ class _AttendanceDetailsViewState
                               }
                             },
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
@@ -233,8 +229,7 @@ class _AttendanceDetailsViewState
                               selectedLocationName:
                                   state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
-                                BlocProvider.of<DutyPostNameMasterDetailsCubit>(
-                                        context)
+                                BlocProvider.of<AttendanceDetailsCubit>(context)
                                     .updateDropdownValues(location: location);
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -249,52 +244,112 @@ class _AttendanceDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// DutyPost Location Name
+                          /// Vendor
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.poc ??
-                              //    state.labels?.defaultLocale.poc ??
-                              Constants.dutyPostLocationName,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          GestureDetector(
+                            state.labels?.locale.vendor ??
+                                state.labels?.defaultLocale.vendor ??
+                                Constants.vendor,
+                            isMandatory: true,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.vendor?.name,
+                            height: 60,
+                            isDisableColor: false,
                             onTap: () {
-                              log('--onTap------');
-
-                              showDialog(
+                              BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return AddDutyPostLocationNamePopUp(
-                                    model: model,
-                                    mainContext: context,
-                                  );
+                                organisations: state.departments,
+                                onTap: (Organisation department) {
+                                  BlocProvider.of<AttendanceDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(vendor: department);
                                 },
                               );
                             },
-                            child: Row(
-                              children: <Widget>[
-                                const SizedBox(width: 14),
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                // ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  Constants.addDutyPostLocationName,
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
-                          Column(
-                            children: getDutyPostLocationName(
-                                state.model.locationNames ?? [], height, state),
-                          ),
+
+                          /// Duty Type
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.guardRank ??
+                              //    state.labels?.defaultLocale.guardRank ??
+                              Constants.dutyType,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDropDown().getDropDown(
+                              isDisabled: state.model.status != 6,
+                              textController: dutyTypeController,
+                              items: shiftDutyTypeDropDownValues,
+                              initialValue: state.model.dutyType.toString(),
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                          shiftDutyTypeDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            shiftDutyTypeDropDownValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                dutyType: int.tryParse(
+                                                    selectedLabel.value));
+                                      });
+                                }
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                          /// Attendance Type
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.guardRank ??
+                              //    state.labels?.defaultLocale.guardRank ??
+                              Constants.attendanceType,
+                              isMandatory: true,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDropDown().getDropDown(
+                              isDisabled: state.model.status != 6,
+                              textController: attendanceTypeController,
+                              items: attendanceTypeDropDownValues,
+                              initialValue: state.model.guardRank.toString(),
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                          attendanceTypeDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            attendanceTypeDropDownValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                attendanceType: int.tryParse(
+                                                    selectedLabel.value));
+                                      });
+                                }
+                              }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// SubmitButton
@@ -322,14 +377,14 @@ class _AttendanceDetailsViewState
 
   String getStatusString(int status) {
     switch (status) {
+      case 0:
+        return 'Draft';
       case 1:
         return 'Active';
       case 2:
         return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
+      case -1:
+        return 'Cancelled';
       default:
         return 'Unknown Status';
     }

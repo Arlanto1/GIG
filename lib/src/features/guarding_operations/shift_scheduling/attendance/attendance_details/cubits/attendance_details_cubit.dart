@@ -5,16 +5,12 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'attendance_details_state.dart';
 
-class AttendanceDetailsCubit
-    extends Cubit<AttendanceDetailsState> {
+class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
   final AttendanceServices services;
   final String id;
   final CommonServices commonServices;
@@ -31,6 +27,7 @@ class AttendanceDetailsCubit
             users: const [],
             emailUsers: const [],
             errorMessage: '',
+            departments: const [],
           ),
         );
 
@@ -68,31 +65,27 @@ class AttendanceDetailsCubit
         commonServices.getLocations(name: 'ATOM_LOCATIONS'), // 0
         commonServices.getUserDetails(userId: userId), // 1
         commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
-        commonServices.getEntities(name: 'ATOM_ENTITIES'), // 3
         commonServices.getUsers(), // 3
-        // services.getDutyPostsById(id: model.id),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.guardingMasterModuleCode),
+            moduleCode: Constants.attendanceModule),
         SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
-      List<User> entrySecurities = futures[4];
-      List<DutyPostModel> dutyPosts = futures[5];
-      GetDepositor emailUsers = futures[6];
-      Vendors vendors = futures[8];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      List<User> entrySecurities = futures[3];
+      GetDepositor emailUsers = futures[4];
+      Vendors vendors = futures[5];
+      dynamic responseLabels = futures[6];
+      Organisation? defaultLocation = futures[7];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.shiftScheduleModule,
+          moduleCode: Constants.attendanceModule,
         );
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
@@ -120,12 +113,10 @@ class AttendanceDetailsCubit
         ),
       );
     } catch (e) {
-      log('Initialization issue',
-          error: e, name: 'Guarding Master Data Details Cubit');
+      log('Initialization issue', error: e, name: 'Attendance Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
-          status: FormStatus.error,
         ),
       );
     }
@@ -136,7 +127,7 @@ class AttendanceDetailsCubit
     BaseUser? user,
     Organisation? vendor,
     int? status,
-    int? guardRank,
+    int? attendanceType,
     int? dutyType,
   }) async {
     emit(
@@ -148,13 +139,15 @@ class AttendanceDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.dutyPostNameMasterModule,
+        moduleCode: Constants.attendanceModule,
       );
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-
+    state.model.guardRank = attendanceType ?? state.model.guardRank;
+    state.model.dutyType = dutyType ?? state.model.dutyType;
+    state.model.vendor = vendor ?? state.model.vendor;
     state.model.status = status ?? state.model.status;
     emit(state.copyWith(
       model: state.model,
@@ -169,16 +162,16 @@ class AttendanceDetailsCubit
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    // if (state.model.status == 0 || state.model.status == null) {
+    //   state.model.status = 1;
+    // }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     AttendanceRequest request =
-    AttendanceRequest(requestModel: state.model); // TODO: state.model
+        AttendanceRequest(requestModel: state.model); // TODO: state.model
 
     GenericResponse response = GenericResponse();
     try {
@@ -192,8 +185,7 @@ class AttendanceDetailsCubit
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: false));
+        response = (await services.create(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -205,8 +197,7 @@ class AttendanceDetailsCubit
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: true));
+        response = (await services.create(body: request, isSubmit: true));
       }
     } on Exception catch (e) {
       emit(

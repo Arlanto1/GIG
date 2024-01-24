@@ -339,6 +339,32 @@ class Utils {
       ],
     );
   }
+  Row buildAttendanceStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('Status: ', statusText),
+      ],
+    );
+  }
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 

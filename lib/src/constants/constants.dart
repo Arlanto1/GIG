@@ -25,6 +25,7 @@ class Constants {
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDPN';
+  static const String attendanceModule = 'ATD';
 
 
   /// UI Labels Module Code
@@ -747,7 +748,9 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String editAttendance = 'Edit Attendance';
   static const String attendanceDetails = 'Attendance Details';
+  static const String attendanceType = 'Attendance Type';
 
   static const String attachments = 'Attachments';
 

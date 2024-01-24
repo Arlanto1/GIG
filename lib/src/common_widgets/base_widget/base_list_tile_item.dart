@@ -40,6 +40,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyManagementHistoryStatus;
   final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
+  final bool isAttendanceStatus;
+
 
   const BaseListTileItem({
     super.key,
@@ -80,6 +82,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isKeyManagementHistoryStatus = false,
     this.isDutyPostNameMasterStatus = false,
     this.isShiftScheduleStatus = false,
+    this.isAttendanceStatus = false,
   });
 
   @override
@@ -215,6 +218,10 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isKeyManagementIssuanceStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+                      ],
+                      if (widget.status != null && widget.isAttendanceStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().buildAttendanceStatusRow(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isKeyManagementStatus) ...[

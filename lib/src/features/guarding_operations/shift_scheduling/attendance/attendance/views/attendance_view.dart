@@ -2,6 +2,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 
+import '../../services/attendance_service.dart';
+
 class AttendanceView extends StatefulWidget {
   const AttendanceView({
     super.key,
@@ -104,6 +106,8 @@ class _AttendanceViewState extends State<AttendanceView> {
                           labels: labels,
                           status: state.items[index].status,
                           isMasterGuard: false,
+                          isAttendanceStatus: true,
+                          isEventProtectionStatus: false,
                           guardRank: state.items[index].guardRank,
                           onTap: (selectedIndex) {
                             showDialog(
@@ -118,7 +122,6 @@ class _AttendanceViewState extends State<AttendanceView> {
                                       state.items[selectedIndex].maritalStatus,
                                   labels: labels,
                                   dutyType: state.items[selectedIndex].dutyType,
-                                  isMaterGuard: false,
                                   isAttendance: true,
                                   isMasterGuard: false,
                                   isEventProtectionStatus: false,
@@ -170,21 +173,21 @@ class _AttendanceViewState extends State<AttendanceView> {
   getById(int id) async {
     showLoadingDialog(context);
 
-    DutyPostNameMasterModel dutyPostNameMasterModel =
-        await DutyPostNameMasterServices().getById(id);
+    AttendanceModel attendanceModel =
+        await AttendanceServices().getById(id);
 
-    editDataLoading(dutyPostNameMasterModel);
+    editDataLoading(attendanceModel);
   }
 
-  void editDataLoading(DutyPostNameMasterModel? model) {
+  void editDataLoading(AttendanceModel? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
         context,
-        dutyPostNameMasterDetailsRoute,
+        attendanceDetailsRoute,
         arguments: {
           ConstantsArgument.model: model,
-          ConstantsArgument.title: Constants.editDutyPostNameMaster
+          ConstantsArgument.title: Constants.editAttendance
         },
       );
     }

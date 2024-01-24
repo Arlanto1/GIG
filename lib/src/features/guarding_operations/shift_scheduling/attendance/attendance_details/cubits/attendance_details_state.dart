@@ -4,7 +4,7 @@ class AttendanceDetailsState extends Equatable {
   final FormStatus status;
   final AttendanceModel model;
   final Locations? locations;
-  final List<Organisation>? vendors;
+  final List<Organisation> departments;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -19,6 +19,7 @@ class AttendanceDetailsState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
+    required final List<Organisation> departments,
     required String errorMessage,
     List<User>? entrySecurities,
     List<String>? dutyPostLocationNames,
@@ -33,6 +34,7 @@ class AttendanceDetailsState extends Equatable {
       message: errorMessage,
       locationNames: dutyPostLocationNames,
       entrySecurities: entrySecurities,
+      departments: departments,
     );
   }
 
@@ -69,7 +71,6 @@ class AttendanceDetailsState extends Equatable {
   const AttendanceDetailsState({
     required this.status,
     required this.model,
-    this.vendors,
     this.locations,
     this.loggedInUserDetails,
     this.users,
@@ -78,6 +79,7 @@ class AttendanceDetailsState extends Equatable {
     this.message,
     this.entrySecurities,
     this.labels,
+    required this.departments,
   });
 
   AttendanceDetailsState copyWith({
@@ -96,7 +98,6 @@ class AttendanceDetailsState extends Equatable {
     return AttendanceDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      vendors: vendors ?? this.vendors,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
@@ -105,6 +106,7 @@ class AttendanceDetailsState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,
+      departments: vendors ?? departments,
     );
   }
 }
