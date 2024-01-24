@@ -55,7 +55,7 @@ class MaterialMovementBloc
         MaterialMovementsModel response = await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
+          userId: '1',
           mmType: isInward ? 1 : 0,
         );
 
