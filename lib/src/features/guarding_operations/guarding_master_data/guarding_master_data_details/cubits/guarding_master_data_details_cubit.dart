@@ -254,7 +254,7 @@ class GuardingMasterDataDetailsCubit
     log('--data---${data?.length}----');
     if (data != null && guardImages != null) {
       for (var image in data) {
-        image.type = 0;
+        image.type = 8;
       }
       state.model.photoGraph = guardImages.first;
       emit(
@@ -311,7 +311,7 @@ class GuardingMasterDataDetailsCubit
         }
     if (data != null && localAddressFiles != null) {
       for (var image in data) {
-        image.type = 8;
+        image.type = 5;
       }
       state.model.localAddressProof = localAddressFiles.first;
       emit(
