@@ -258,7 +258,7 @@ class UploadAttachmentState extends State<UploadAttachment>
   showImagePicker(BuildContext context) {
     showModalBottomSheet<void>(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         backgroundColor: Colors.white,
         context: context,
@@ -270,7 +270,7 @@ class UploadAttachmentState extends State<UploadAttachment>
             height: 180,
             margin: const EdgeInsets.only(top: 8.0),
             padding:
-                const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 8),
+                const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 12),
             child: Column(
               children: [
                 Container(
