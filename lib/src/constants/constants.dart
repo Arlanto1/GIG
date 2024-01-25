@@ -240,6 +240,9 @@ class Constants {
   static const String lastname = 'Last Name';
   static const String uploadfile = 'Upload File';
   static const String caotureorupload = 'Capture or Upload';
+  static const String gallery = 'Gallery';
+  static const String camera = 'Camera';
+  static const String document = 'Document';
   static const String addarticletype = 'Add Article Type';
   static const String clicktoupload = 'Click to upload';
   static const String abort = 'Abort';
