@@ -1549,16 +1549,8 @@ class _MaterialMovementDetailsViewState
                             FlutterInputField(
                               initialValue: state.model.receiverEmployeeId,
                               textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: state.model.status != 6 ||
-                                      state.model.status != 10 ||
-                                      state.model.status != -1
-                                  ? false
-                                  : true,
-                              isDisableColor: state.model.status == 6 ||
-                                      state.model.status == 10 ||
-                                      state.model.status == -1
-                                  ? true
-                                  : false,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
                               hintText: '',
                               onChange: (String value) {
                                 state.model.receiverEmployeeId = value;
@@ -1618,16 +1610,8 @@ class _MaterialMovementDetailsViewState
                               FlutterInputField(
                                 initialValue: state.model.otherReceiverName,
                                 textFormKey: Keys.receivedByKey,
-                                isEnable: state.model.status != 6 ||
-                                        state.model.status != 10 ||
-                                        state.model.status != -1
-                                    ? false
-                                    : true,
-                                isDisableColor: state.model.status == 6 ||
-                                        state.model.status == 10 ||
-                                        state.model.status == -1
-                                    ? true
-                                    : false,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.otherReceiverName = value;
@@ -1654,16 +1638,8 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.otherReceiverEmployeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: state.model.status != 6 ||
-                                        state.model.status != 10 ||
-                                        state.model.status != -1
-                                    ? false
-                                    : true,
-                                isDisableColor: state.model.status == 6 ||
-                                        state.model.status == 10 ||
-                                        state.model.status == -1
-                                    ? true
-                                    : false,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.otherReceiverEmployeeId = value;
