@@ -124,7 +124,7 @@ class _AttendanceReportBillingViewState extends State<AttendanceReportBillingVie
                           onEditTap: (selectedIndex) {
                             getById(id: state.items[index].id ?? 0);
                           },
-                          showEditButton: true,
+                          showEditButton: false,
                           onViewTap: (selectedIndex) {
                             showDialog(
                               context: context,
