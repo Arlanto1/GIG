@@ -123,7 +123,11 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                     ? widget.onEditTap!(widget.index)
                                     : null;
                               },
-                              icon: const Icon(Icons.edit),
+                              icon: widget.userItem.status == 0 ||
+                                      widget.userItem.status == 1 ||
+                                      widget.userItem.status == 3
+                                  ? const Icon(Icons.edit)
+                                  : const Icon(Icons.auto_stories),
                             ),
                             IconButton(
                               onPressed: () {

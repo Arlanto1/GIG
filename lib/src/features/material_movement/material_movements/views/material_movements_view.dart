@@ -149,6 +149,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                 labels: labels,
                                 status: state.items[index].status,
                                 isMasterGuard: false,
+                               isMaterialMovementStatus: true,
                                 isEventProtectionStatus: false,
                                 onTap: (selectedIndex) {
                                   showDialog(

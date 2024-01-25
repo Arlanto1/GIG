@@ -169,6 +169,9 @@ class Utils {
       case 2:
         statusText = 'Handed Over';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -196,6 +199,9 @@ class Utils {
         break;
       case 3:
         statusText = 'Distributed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -1022,7 +1028,7 @@ class Utils {
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'Finalize';
+        statusText = 'Finalized';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -1153,6 +1159,9 @@ class Utils {
         break;
       case 1:
         statusText = 'Active';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
