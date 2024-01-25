@@ -126,6 +126,7 @@ class GuardingMasterDataDetailsCubit
 
       log('-state.model.id---${state.model.id}---');
       log('-state.model.bopData---${state.model.bioData}---');
+      log('--guardImages---${state.model.photoGraph}----');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -149,6 +150,9 @@ class GuardingMasterDataDetailsCubit
               : null,
           bioDataAttachments: state.model.bioData != null
               ? [state.model.bioData ?? ImageContent()]
+              : null,
+          guardAttachments: state.model.photoGraph != null
+              ? [state.model.photoGraph ?? ImageContent()]
               : null,
           deploymentAttachments: state.model.deploymentOrders,
           permanentAddressAttachments: state.model.permanentAddressProof != null

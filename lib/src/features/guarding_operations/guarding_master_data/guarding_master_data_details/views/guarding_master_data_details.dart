@@ -426,7 +426,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
                                 guardFiles = [data];
-                                files.add(data);
+                                files?.add(data);
                                 for (ImageContent image in guardFiles ?? []) {
                                   files.add(image);
                                 }

@@ -159,7 +159,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     // );
 
     imageupload(result);
-    }
+  }
 
   imageupload(File result) async {
     String fileName = result.path.split('/').last;
@@ -258,7 +258,7 @@ class UploadAttachmentState extends State<UploadAttachment>
   showImagePicker(BuildContext context) {
     showModalBottomSheet<void>(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         backgroundColor: Colors.white,
         context: context,
@@ -267,7 +267,7 @@ class UploadAttachmentState extends State<UploadAttachment>
               child: SingleChildScrollView(
                   child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 150,
+            height: 180,
             margin: const EdgeInsets.only(top: 8.0),
             padding:
                 const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 12),
@@ -275,7 +275,7 @@ class UploadAttachmentState extends State<UploadAttachment>
               children: [
                 Container(
                   padding: const EdgeInsets.only(
-                      left: 10, top: 5, right: 10, bottom: 10),
+                      left: 10, top: 5, right: 10, bottom: 14),
                   alignment: Alignment.topLeft,
                   child: const Text(
                     Constants.caotureorupload,
@@ -304,6 +304,10 @@ class UploadAttachmentState extends State<UploadAttachment>
                                 AppIcon.galleryIcon,
                                 width: 36,
                                 height: 36,
+                              ),
+                               const Text(
+                                Constants.gallery,
+                                style: Styles.textStyleRegularGrey14,
                               ),
                             ],
                           ),
@@ -335,7 +339,10 @@ class UploadAttachmentState extends State<UploadAttachment>
                                   width: 36,
                                   height: 36,
                                 ),
-                                //  ),
+                                const Text(
+                                  Constants.camera,
+                                  style: Styles.textStyleRegularGrey14,
+                                ),
                               ],
                             ),
                           ),
@@ -367,7 +374,10 @@ class UploadAttachmentState extends State<UploadAttachment>
                                   width: 36,
                                   height: 36,
                                 ),
-                                // ),
+                                const Text(
+                                  Constants.document,
+                                  style: Styles.textStyleRegularGrey14,
+                                ),
                               ],
                             ),
                           ),
