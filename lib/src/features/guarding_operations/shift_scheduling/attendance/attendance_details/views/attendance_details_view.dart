@@ -97,13 +97,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: state.model.status != 5 ? true : false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            onTapSave: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<AttendanceDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
-            },
+            showSubmitButton: false,
+            showSaveButton: false,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
@@ -374,7 +369,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(),
-                              submitButtonDisplay()
+                              // submitButtonDisplay()
                             ],
                           ),
 

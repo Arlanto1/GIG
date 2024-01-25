@@ -4,48 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: attendance detail page">
-      <change afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_duty_post_list.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_event.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_drop_down_values.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_drop_down_values.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/add_duty_post_location_name_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/add_duty_post_location_name_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/duty_post_name_master_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/duty_post_name_master_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/router.dart" afterDir="false" />
-    </list>
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: attendance report and billing" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -525,7 +484,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="179" />
+    <option name="localTasksCounter" value="181" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -562,7 +521,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="save issue" />
     <MESSAGE value="DONE: Key Management Master" />
     <MESSAGE value="WIP: Key Management Issuance" />
     <MESSAGE value="WIP: Notification Attachments" />
@@ -587,7 +545,8 @@
     <MESSAGE value="mm issue fixed" />
     <MESSAGE value="attendance_view loader issue fixed" />
     <MESSAGE value="WIP: attendance detail page" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: attendance detail page" />
+    <MESSAGE value="WIP: attendance report and billing" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP: attendance report and billing" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
