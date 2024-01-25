@@ -4,14 +4,16 @@ class AttendanceDetailsState extends Equatable {
   final FormStatus status;
   final AttendanceModel model;
   final Locations? locations;
-  final List<Organisation> departments;
+  final List<Organisation> vendors;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final String? message;
   final List<String>? locationNames;
   final List<User>? entrySecurities;
+  final List<DutyPostModel>? dutyPosts;
   final GmUiLabels? labels;
+  final String? selectedDutyTypeId;
 
   factory AttendanceDetailsState.initial({
     required AttendanceModel model,
@@ -34,7 +36,7 @@ class AttendanceDetailsState extends Equatable {
       message: errorMessage,
       locationNames: dutyPostLocationNames,
       entrySecurities: entrySecurities,
-      departments: departments,
+      vendors: departments,
     );
   }
 
@@ -46,10 +48,10 @@ class AttendanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.entrySecurity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entry Security');
-    }
+    // if (model.entrySecurity == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Entry Security');
+    // }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
@@ -77,9 +79,11 @@ class AttendanceDetailsState extends Equatable {
     this.emailUsers,
     this.locationNames,
     this.message,
+    this.dutyPosts,
     this.entrySecurities,
     this.labels,
-    required this.departments,
+    required this.vendors,
+    this.selectedDutyTypeId,
   });
 
   AttendanceDetailsState copyWith({
@@ -92,8 +96,10 @@ class AttendanceDetailsState extends Equatable {
     List<String>? locationNames,
     List<Organisation>? vendors,
     String? message,
+    List<DutyPostModel>? dutyPosts,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
+    String? selectedDutyTypeId,
   }) {
     return AttendanceDetailsState(
       status: status ?? this.status,
@@ -105,8 +111,10 @@ class AttendanceDetailsState extends Equatable {
       locationNames: locationNames ?? this.locationNames,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      dutyPosts: dutyPosts ?? this.dutyPosts,
       labels: labels ?? this.labels,
-      departments: vendors ?? departments,
+      vendors: vendors ?? this.vendors,
+      selectedDutyTypeId: selectedDutyTypeId ?? this.selectedDutyTypeId,
     );
   }
 }

@@ -1,8 +1,5 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-
-import '../../services/attendance_service.dart';
 
 class AttendanceView extends StatefulWidget {
   const AttendanceView({
@@ -46,18 +43,18 @@ class _AttendanceViewState extends State<AttendanceView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.attendance,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.attendance,
+        showPopUp: true,
+        showSaveButton: false,
+        showSubmitButton: false,
+        excelAPIName: 'exportGMDataExcel',
+        pdfAPIName: 'exportGMDataPDF',
+      ),
+      body: BlocBuilder<AttendanceBloc, AttendanceState>(
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -108,18 +105,12 @@ class _AttendanceViewState extends State<AttendanceView> {
                           isMasterGuard: false,
                           isAttendanceStatus: true,
                           isEventProtectionStatus: false,
-                          guardRank: state.items[index].guardRank,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
                               builder: (BuildContext dialogContext) {
                                 return BasePopUpItems(
                                   id: state.items[selectedIndex].id.toString(),
-                                  guardRank:
-                                      state.items[selectedIndex].guardRank,
-                                  gender: state.items[selectedIndex].gender,
-                                  maritalStatus:
-                                      state.items[selectedIndex].maritalStatus,
                                   labels: labels,
                                   dutyType: state.items[selectedIndex].dutyType,
                                   isAttendance: true,
@@ -131,7 +122,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            getById(state.items[index].id ?? 0);
+                            getById(id: state.items[index].id ?? 0);
                           },
                           showEditButton: true,
                           onViewTap: (selectedIndex) {
@@ -140,11 +131,6 @@ class _AttendanceViewState extends State<AttendanceView> {
                               builder: (BuildContext dialogContext) {
                                 return BasePopUpItems(
                                   id: state.items[selectedIndex].id.toString(),
-                                  guardRank:
-                                      state.items[selectedIndex].guardRank,
-                                  gender: state.items[selectedIndex].gender,
-                                  maritalStatus:
-                                      state.items[selectedIndex].maritalStatus,
                                   labels: labels,
                                   dutyType: state.items[selectedIndex].dutyType,
                                   status: state.items[selectedIndex].status,
@@ -167,29 +153,21 @@ class _AttendanceViewState extends State<AttendanceView> {
               },
             ),
           );
-        }));
-  }
-
-  getById(int id) async {
-    showLoadingDialog(context);
-
-    AttendanceModel attendanceModel =
-        await AttendanceServices().getById(id);
-
-    editDataLoading(attendanceModel);
-  }
-
-  void editDataLoading(AttendanceModel? model) {
-    dismissLoadingDialog(context);
-    if (model != null) {
-      Navigator.pushNamed(
-        context,
-        attendanceDetailsRoute,
-        arguments: {
-          ConstantsArgument.model: model,
-          ConstantsArgument.title: Constants.editAttendance
         },
-      );
-    }
+      ),
+    );
+  }
+
+  getById({
+    required int id,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      attendanceDetailsRoute,
+      arguments: {
+        ConstantsArgument.id: id.toString(),
+        ConstantsArgument.title: Constants.editAttendance
+      },
+    );
   }
 }

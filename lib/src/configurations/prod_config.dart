@@ -15,5 +15,5 @@ class ProdConfig implements BaseConfig {
   bool get useHttps => false;
 
   @override
-  Duration get inactivityDuration => const Duration(minutes: 5);
+  Duration get inactivityDuration => const Duration(minutes: 10);
 }

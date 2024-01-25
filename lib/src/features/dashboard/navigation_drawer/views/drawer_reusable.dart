@@ -187,7 +187,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
-              log('--title---${title}---');
+              log('--title---$title---');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -409,8 +409,10 @@ class NavigationDrawer1 extends StatelessWidget {
         attendanceListRoute,
       );
     } else if (index == 3) {
-      Navigator.pushNamed(context, shiftScheduleListRoute,
-          arguments: {"Shift Schedule": false});
+      Navigator.pushNamed(
+        context,
+        attendanceReportBillingListRoute,
+      );
     }
   }
 
@@ -635,16 +637,16 @@ class NavigationDrawer1 extends StatelessWidget {
                               expansionTileDrawerItems,
                               Constants.operations,
                             )
-                          // : _genericItemSelection(
-                          //     context,
-                          //     shiftSchedulingDataItems,
-                          //     Constants.shiftScheduling,
-                          //   )
-                      : _genericItemExpandable(
-                          context,
-                          securitySystemExpansionTileDrawerItems,
-                          Constants.securitySystems,
-                        ),
+                          : _genericItemSelection(
+                              context,
+                              shiftSchedulingDataItems,
+                              Constants.shiftScheduling,
+                            )
+                      // : _genericItemExpandable(
+                      //     context,
+                      //     securitySystemExpansionTileDrawerItems,
+                      //     Constants.securitySystems,
+                      //   ),
                       ),
                 ),
               ),

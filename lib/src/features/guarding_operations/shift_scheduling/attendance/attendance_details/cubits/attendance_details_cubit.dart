@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -31,21 +29,6 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           ),
         );
 
-  void onModelValueChange(AttendanceModel model) {
-    log('-onModelValueChange---');
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void onCheckBoxChange(AttendanceModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
-
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -66,12 +49,13 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         commonServices.getUserDetails(userId: userId), // 1
         commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
         commonServices.getUsers(), // 3
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'), // 4
+        commonServices.getVendors(name: 'ATOM_VENDORS'), // 5
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.attendanceModule),
-        SharedPrefs.getDefaultLocation(),
+            moduleCode: Constants.attendanceModule), // 6
+        SharedPrefs.getDefaultLocation(), // 7
+        services.getDutyPostsById(id: model.id), // 8
       ]);
 
       Locations getLocationsData = futures[0];
@@ -82,6 +66,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       Vendors vendors = futures[5];
       dynamic responseLabels = futures[6];
       Organisation? defaultLocation = futures[7];
+      List<DutyPostModel> dutyPosts = futures[8];
+
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -90,7 +76,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-      model.entrySecurity = loggedInUserDetails;
+      // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       model.inputDate = _getCurrentDate();
 
@@ -109,6 +95,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           users: users.t1Analyst,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
+          dutyPosts: dutyPosts,
           labels: labels,
         ),
       );
@@ -120,6 +107,21 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         ),
       );
     }
+  }
+
+  void onModelValueChange(AttendanceModel model) {
+    log('-onModelValueChange---');
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  void onCheckBoxChange(AttendanceModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  String _getCurrentDate() {
+    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
   Future<void> updateDropdownValues({
@@ -145,7 +147,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    state.model.guardRank = attendanceType ?? state.model.guardRank;
+    state.model.attendanceType = attendanceType ?? state.model.attendanceType;
     state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.vendor = vendor ?? state.model.vendor;
     state.model.status = status ?? state.model.status;
@@ -162,16 +164,15 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       ),
     );
 
-    // if (state.model.status == 0 || state.model.status == null) {
-    //   state.model.status = 1;
-    // }
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 1;
+    }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
-    AttendanceRequest request =
-        AttendanceRequest(requestModel: state.model); // TODO: state.model
+    AttendanceRequest request = AttendanceRequest(requestModel: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -199,6 +200,14 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         }
         response = (await services.create(body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -216,5 +225,11 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         status: FormStatus.success,
       ),
     );
+  }
+
+  Future<void> navigateToNextScreen(String id) async {
+    log('-navigateToNextScreen---');
+    emit(state.copyWith(status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
   }
 }

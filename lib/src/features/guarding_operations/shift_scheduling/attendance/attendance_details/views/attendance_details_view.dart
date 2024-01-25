@@ -27,10 +27,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
   bool isDisabled = true;
   bool isReadOnly = false;
 
-  get model => null;
-
-  get guardingMasterData => null;
-
   @override
   void initState() {
     super.initState();
@@ -56,7 +52,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                dutyPostNameMasterListRoute,
+                attendanceListRoute,
                 arguments: {},
               );
             },
@@ -73,6 +69,17 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
           Validator().showToast(
             context,
             state.message ?? 'Invalid Information',
+          );
+        }
+
+        if (state.status == FormStatus.navigateToNextScreen) {
+          log('Navigating to Next Screen');
+          Navigator.pushNamed(
+            context,
+            attendanceShiftsRoute,
+            arguments: {
+              ConstantsArgument.id: state.selectedDutyTypeId,
+            },
           );
         }
       },
@@ -94,7 +101,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             showSaveButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+              BlocProvider.of<AttendanceDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
           ),
@@ -259,7 +266,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: state.departments,
+                                organisations: state.vendors,
                                 onTap: (Organisation department) {
                                   BlocProvider.of<AttendanceDetailsCubit>(
                                           context)
@@ -323,7 +330,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               isDisabled: state.model.status != 6,
                               textController: attendanceTypeController,
                               items: attendanceTypeDropDownValues,
-                              initialValue: state.model.guardRank.toString(),
+                              initialValue:
+                                  state.model.attendanceType.toString(),
                               onTap: () {
                                 if (isDisabled) {
                                   BaseDropDown().assetTypeDialog(
@@ -350,6 +358,15 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 }
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// List of Duty Posts
+                          DutyPostListWidget(
+                            dutyPosts: state.dutyPosts ?? [],
+                            onTap: (id) {
+                              BlocProvider.of<AttendanceDetailsCubit>(context)
+                                  .navigateToNextScreen(id.toString());
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// SubmitButton
@@ -475,7 +492,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+        BlocProvider.of<AttendanceDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
     );

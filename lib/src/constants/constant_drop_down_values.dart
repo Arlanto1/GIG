@@ -199,7 +199,6 @@ const List<Label> typesDropDownValues = [
   Label(key: 'Has Key Lost', value: '1'),
   Label(key: 'Has Key/Lock Damaged', value: '2'),
   Label(key: 'Key Destruction Process', value: '3'),
-
 ];
 
 const List<Label> shiftDutyTypeDropDownValues = [
@@ -220,7 +219,7 @@ const List<Label> keyManagementStatus = [
   Label(key: 'Closed', value: '2'),
 ];
 
-const List<Label> sstIncidentsStatusItems  = [
+const List<Label> sstIncidentsStatusItems = [
   Label(key: 'Cancelled', value: '-1'),
   Label(key: 'Created', value: '1'),
   Label(key: 'Submitted', value: '2'),
@@ -244,7 +243,6 @@ const List<Label> reasonDropDownValues = [
   Label(key: 'Resigned', value: '3'),
   Label(key: 'Terminated', value: '4'),
   Label(key: 'Absent', value: '5'),
-
 ];
 const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Cancelled', value: '-1'),
@@ -253,6 +251,7 @@ const List<Label> dutyPostNameMasterStatusValues = [
 ];
 
 const List<Label> attendanceTypeDropDownValues = [
+  Label(key: 'Regular', value: '0'),
   Label(key: 'Regular', value: '1'),
   Label(key: 'AD HOC', value: '2'),
 ];
@@ -262,5 +261,4 @@ const List<Label> attendanceStatusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
-
 ];

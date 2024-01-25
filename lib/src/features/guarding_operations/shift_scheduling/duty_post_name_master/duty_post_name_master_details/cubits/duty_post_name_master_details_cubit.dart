@@ -202,6 +202,14 @@ class DutyPostNameMasterDetailsCubit
         response = (await services.create(
             body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(

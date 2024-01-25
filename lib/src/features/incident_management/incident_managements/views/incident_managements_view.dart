@@ -173,7 +173,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                       );
                     },
                     onEditTap: (selectedIndex) {
-                      getId(
+                      getById(
                         id: state.items[index].id ?? 0,
                         occType: state.items[index].occType ?? 0,
                       );
@@ -209,12 +209,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     );
   }
 
-  getId({required int id, required int occType}) async {
+  getById({required int id, required int occType}) async {
     Navigator.pushNamed(
       context,
       incidentManagementDetailsRoute,
       arguments: {
-        'id': id.toString(),
+        ConstantsArgument.id: id.toString(),
       },
     );
   }

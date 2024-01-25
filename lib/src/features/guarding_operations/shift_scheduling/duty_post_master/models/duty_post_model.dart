@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import '../../../../../../index.dart';
+
+part 'duty_post_model.g.dart';
 
 class DutyPostModel {
   int? id;
@@ -27,23 +31,48 @@ class DutyPostModel {
   }
 }
 
+@JsonSerializable()
 class Rank {
   int? rank;
   List<Shift>? shifts;
+  List<Shift>? attendanceShift;
 
   Rank({
     this.rank,
     this.shifts,
+    this.attendanceShift,
   });
 
-  Rank.fromJson(Map<String, dynamic> json)
-      : rank = json['rank'] as int?,
-        shifts = (json['shifts'] as List?)
-            ?.map((dynamic e) => Shift.fromJson(e as Map<String, dynamic>))
-            .toList();
+  factory Rank.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$RankFromJson(json);
+    } catch (e) {
+      if (e is CheckedFromJsonException) {
+        // Access the information about the error
+        log('Error during deserialization: ${e.message}, path: ${e.key}');
+      } else {
+        // Handle other types of exceptions if needed
+        log('Unexpected error during deserialization: $e');
+      }
 
-  Map<String, dynamic> toJson() =>
-      {'rank': rank, 'shifts': shifts?.map((e) => e.toJson()).toList()};
+      // Return a default instance or handle differently based on your needs.
+      return Rank();
+    }
+  }
+
+  Map<String, dynamic> toJson() => _$RankToJson(this);
+
+  // Rank.fromJson(Map<String, dynamic> json)
+  //     : rank = json['rank'] as int?,
+  //       shifts = (json['shifts'] as List?)
+  //           ?.map((dynamic e) => Shift.fromJson(e as Map<String, dynamic>))
+  //           .toList(),
+  //       attendanceShift = (json['attendanceShift'] as List?)
+  //           ?.map((dynamic e) => Shift.fromJson(e as Map<String, dynamic>))
+  //           .toList();
+  //
+  // Map<String, dynamic> toJson() =>
+  //     {'rank': rank, 'shifts': shifts?.map((e) => e.toJson()).toList()};
 
   @override
   String toString() {
@@ -51,50 +80,83 @@ class Rank {
   }
 }
 
+@JsonSerializable()
 class Shift {
   String? shift;
   int? allowed;
+  int? attdStatus;
+  bool? activeShift;
   List<BaseUser>? selectedGuards;
   List<BaseUser>? availableGuards;
   List<Replacement>? replacements;
-  dynamic replacement;
+
+  List<BaseUser>? selectForAttendance;
+  List<BaseUser>? attended;
+  List<BaseUser>? previousShift;
+  String? briefingPoints;
 
   Shift({
     this.shift,
     this.allowed,
+    this.attdStatus,
+    this.activeShift,
     this.selectedGuards,
     this.availableGuards,
-    this.replacement,
+    this.selectForAttendance,
+    this.attended,
+    this.previousShift,
+    this.briefingPoints,
+    this.replacements,
   });
 
-  Shift.fromJson(Map<String, dynamic> json)
-      : shift = json['shift'] as String?,
-        allowed = json['allowed'] as int?,
-        selectedGuards = (json['selectedGuards'] as List?)
-            ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        availableGuards = (json['availableGuards'] as List?)
-            ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        replacements = (json['replacements'] as List?)
-            ?.map(
-                (dynamic e) => Replacement.fromJson(e as Map<String, dynamic>))
-            .toList();
+  factory Shift.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$ShiftFromJson(json);
+    } catch (e) {
+      if (e is CheckedFromJsonException) {
+        // Access the information about the error
+        log('Error during deserialization: ${e.message}, path: ${e.key}');
+      } else {
+        // Handle other types of exceptions if needed
+        log('Unexpected error during deserialization: $e');
+      }
 
-  Map<String, dynamic> toJson() => {
-        'shift': shift,
-        'allowed': allowed,
-        'selectedGuards': selectedGuards?.map((e) => e.toJson()).toList(),
-        'availableGuards': availableGuards?.map((e) => e.toJson()).toList(),
-        'replacement': replacement
-      };
+      // Return a default instance or handle differently based on your needs.
+      return Shift();
+    }
+  }
+
+  Map<String, dynamic> toJson() => _$ShiftToJson(this);
+
+  // Shift.fromJson(Map<String, dynamic> json)
+  //     : shift = json['shift'] as String?,
+  //       allowed = json['allowed'] as int?,
+  //       selectedGuards = (json['selectedGuards'] as List?)
+  //           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
+  //           .toList(),
+  //       availableGuards = (json['availableGuards'] as List?)
+  //           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
+  //           .toList(),
+  //       replacements = (json['replacements'] as List?)
+  //           ?.map(
+  //               (dynamic e) => Replacement.fromJson(e as Map<String, dynamic>))
+  //           .toList();
+  //
+  // Map<String, dynamic> toJson() => {
+  //       'shift': shift,
+  //       'allowed': allowed,
+  //       'selectedGuards': selectedGuards?.map((e) => e.toJson()).toList(),
+  //       'availableGuards': availableGuards?.map((e) => e.toJson()).toList(),
+  //       'replacement': replacement
+  //     };
 
   @override
   String toString() {
-    return 'Shift{shift: $shift, allowed: $allowed, selectedGuards: $selectedGuards, availableGuards: $availableGuards, replacements: $replacements, replacement: $replacement}';
+    return 'Shift{shift: $shift, allowed: $allowed, selectedGuards: $selectedGuards, availableGuards: $availableGuards, replacements: $replacements}';
   }
 }
 
+@JsonSerializable()
 class Replacement {
   int? id;
   BaseUser? replacedFor;
@@ -112,26 +174,46 @@ class Replacement {
     this.status,
   });
 
-  Replacement.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        replacedFor = (json['replacedFor'] as Map<String, dynamic>?) != null
-            ? BaseUser.fromJson(json['replacedFor'] as Map<String, dynamic>)
-            : null,
-        replacementBy = (json['replacementBy'] as Map<String, dynamic>?) != null
-            ? BaseUser.fromJson(json['replacementBy'] as Map<String, dynamic>)
-            : null,
-        fromDate = json['fromDate'] as String?,
-        toDate = json['toDate'] as String?,
-        status = json['status'] as int?;
+  factory Replacement.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$ReplacementFromJson(json);
+    } catch (e) {
+      if (e is CheckedFromJsonException) {
+        // Access the information about the error
+        log('Error during deserialization: ${e.message}, path: ${e.key}');
+      } else {
+        // Handle other types of exceptions if needed
+        log('Unexpected error during deserialization: $e');
+      }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'replacedFor': replacedFor?.toJson(),
-        'replacementBy': replacementBy?.toJson(),
-        'fromDate': fromDate,
-        'toDate': toDate,
-        'status': status
-      };
+      // Return a default instance or handle differently based on your needs.
+      return Replacement();
+    }
+  }
+
+  Map<String, dynamic> toJson() => _$ReplacementToJson(this);
+
+  //
+  // Replacement.fromJson(Map<String, dynamic> json)
+  //     : id = json['id'] as int?,
+  //       replacedFor = (json['replacedFor'] as Map<String, dynamic>?) != null
+  //           ? BaseUser.fromJson(json['replacedFor'] as Map<String, dynamic>)
+  //           : null,
+  //       replacementBy = (json['replacementBy'] as Map<String, dynamic>?) != null
+  //           ? BaseUser.fromJson(json['replacementBy'] as Map<String, dynamic>)
+  //           : null,
+  //       fromDate = json['fromDate'] as String?,
+  //       toDate = json['toDate'] as String?,
+  //       status = json['status'] as int?;
+  //
+  // Map<String, dynamic> toJson() => {
+  //       'id': id,
+  //       'replacedFor': replacedFor?.toJson(),
+  //       'replacementBy': replacementBy?.toJson(),
+  //       'fromDate': fromDate,
+  //       'toDate': toDate,
+  //       'status': status
+  //     };
 
   @override
   String toString() {

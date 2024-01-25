@@ -38,6 +38,11 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart'
+    as arb;
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
@@ -1154,6 +1159,35 @@ class RouteGenerator {
             child: const AttendanceDetailsView(),
           ),
         );
+
+      case attendanceShiftsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+        }
+        AttendanceServices services = AttendanceServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<AttendanceShiftsCubit>(
+            create: (_) => AttendanceShiftsCubit(
+              id: id,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: const AttendanceShiftsView(),
+          ),
+        );
+
+      case attendanceReportBillingListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<arb.AttendanceReportBillingBloc>(
+                  create: (_) => arb.AttendanceReportBillingBloc()
+                    ..add(
+                        const arb.FetchAttendanceList(startPos: 0, maxPos: 20)),
+                  child: const AttendanceReportBillingView(),
+                ));
 
       case shiftScheduleListRoute:
         return MaterialPageRoute(

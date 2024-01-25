@@ -190,10 +190,10 @@ class GuardingMastersDataModel extends BaseObject {
     } catch (e) {
       if (e is CheckedFromJsonException) {
         // Access the information about the error
-        print('Error during deserialization: ${e.message}, path: ${e.key}');
+        log('Error during deserialization: ${e.message}, path: ${e.key}');
       } else {
         // Handle other types of exceptions if needed
-        print('Unexpected error during deserialization: $e');
+        log('Unexpected error during deserialization: $e');
       }
 
       // Return a default instance or handle differently based on your needs.

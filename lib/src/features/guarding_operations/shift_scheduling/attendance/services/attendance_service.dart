@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
 
 class Apis {
@@ -7,8 +5,11 @@ class Apis {
 
   static final String _getList = '$baseUrl/getAttendanceList?';
   static final String _getById = '$baseUrl/getAttendanceById';
-  static final String _create = '$baseUrl/UpdateAttendanceGi?';
 
+  static final String _getDutyPostsById = '$baseUrl/getAttdDpList';
+  static final String _getDutyPostById = '$baseUrl/getAttdDpById';
+
+  static final String _create = '$baseUrl/UpdateAttendanceGi?';
 }
 
 class AttendanceServices {
@@ -37,6 +38,34 @@ class AttendanceServices {
     return AttendanceModel.fromJson(response);
   }
 
+  Future<List<DutyPostModel>> getDutyPostsById({
+    required int? id,
+    BuildContext? context,
+  }) async {
+    if (id == null) {
+      return [];
+    }
+    final String url = '${Apis._getDutyPostsById}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<DutyPostModel>.from(
+        response.map((x) => DutyPostModel.fromJson(x)));
+  }
+
+  Future<DutyPostModel> getDutyPostById({
+    required int? id,
+    BuildContext? context,
+  }) async {
+    final String url = '${Apis._getDutyPostById}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return DutyPostModel.fromJson(response);
+  }
+
   Future<GenericResponse> create({
     required AttendanceRequest body,
     required bool isSubmit,
@@ -48,5 +77,4 @@ class AttendanceServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }

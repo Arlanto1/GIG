@@ -1,6 +1,5 @@
 
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 
 class AttendanceRequest {
   AttendanceRequest({
