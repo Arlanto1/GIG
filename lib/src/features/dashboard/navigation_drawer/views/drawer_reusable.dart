@@ -398,11 +398,15 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, dutyPostMasterListRoute,
-          arguments: {"Duty Post Master list": false});
+      Navigator.pushNamed(
+        context,
+        dutyPostMasterListRoute,
+      );
     } else if (index == 1) {
-      Navigator.pushNamed(context, dutyPostNameMasterListRoute,
-          arguments: {"Duty Post Name Master list": false});
+      Navigator.pushNamed(
+        context,
+        dutyPostNameMasterListRoute,
+      );
     } else if (index == 2) {
       Navigator.pushNamed(
         context,
@@ -412,6 +416,11 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(
         context,
         attendanceReportBillingListRoute,
+      );
+    } else if (index == 4) {
+      Navigator.pushNamed(
+        context,
+        shiftScheduleListRoute,
       );
     }
   }
