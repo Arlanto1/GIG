@@ -175,6 +175,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   status: state.items[selectedIndex].status,
                                   isContactDetailsStatus: true,
                                   isEventProtectionStatus: false,
+                                  isMasterGuard: false,
                                 );
                               },
                             );
@@ -192,6 +193,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   status: state.items[selectedIndex].status,
                                   isContactDetailsStatus: true,
                                   isEventProtectionStatus: false,
+                                  isMasterGuard: false,
                                 );
                               },
                             );

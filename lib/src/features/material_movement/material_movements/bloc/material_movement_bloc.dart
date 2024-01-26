@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
@@ -45,7 +46,6 @@ class MaterialMovementBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
     try {
@@ -55,10 +55,10 @@ class MaterialMovementBloc
         MaterialMovementsModel response = await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
+          userId: '608',
+          //'${state.loggedInUser?.userId}',
           mmType: isInward ? 1 : 0,
         );
-
         return emit(
           state.copyWith(
             items: response.items,

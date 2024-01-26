@@ -114,9 +114,9 @@ class _FoundListItemState extends State<FoundListItem> {
                                 'Found Date : ',
                                 widget.userItem.foundDate != null
                                     ? Utils.timestamptoDateConversion(
-                                    int.parse(
-                                        widget.userItem.foundDate ?? '0'),
-                                    Constants.dateFormat)
+                                        int.parse(
+                                            widget.userItem.foundDate ?? '0'),
+                                        Constants.dateFormat)
                                     : ''),
                           ],
                         ),
@@ -136,7 +136,10 @@ class _FoundListItemState extends State<FoundListItem> {
                                     ? widget.onEditTap!(widget.index)
                                     : null;
                               },
-                              icon: const Icon(Icons.edit),
+                              icon: widget.userItem.status == 2 ||
+                                      widget.userItem.status == -1
+                                  ? const Icon(Icons.auto_stories)
+                                  : const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () {

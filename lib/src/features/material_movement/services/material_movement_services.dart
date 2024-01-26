@@ -25,7 +25,7 @@ class MaterialMovementServices {
     required int mmType,
   }) async {
     String url =
-        '${Apis._getMaterialMovements}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&mmType=$mmType';
+        '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

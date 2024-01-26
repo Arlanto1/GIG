@@ -32,9 +32,9 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
           ? null
           : ImageContent.fromJson(
               json['permanentAddressProof'] as Map<String, dynamic>),
-      bopData: json['bopData'] == null
+      bioData: json['bioData'] == null
           ? null
-          : ImageContent.fromJson(json['bopData'] as Map<String, dynamic>),
+          : ImageContent.fromJson(json['bioData'] as Map<String, dynamic>),
       photoGraph: json['photoGraph'] == null
           ? null
           : ImageContent.fromJson(json['photoGraph'] as Map<String, dynamic>),
@@ -133,7 +133,7 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'guard': instance.guard,
       'localAddressProof': instance.localAddressProof,
       'permanentAddressProof': instance.permanentAddressProof,
-      'bopData': instance.bopData,
+      'bioData': instance.bioData,
       'photoGraph': instance.photoGraph,
       'entity': instance.entity,
       'inputDate': instance.inputDate,

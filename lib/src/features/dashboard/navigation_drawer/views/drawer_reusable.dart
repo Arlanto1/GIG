@@ -187,7 +187,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
-              log('--title---${title}---');
+              log('--title---$title---');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -398,19 +398,30 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, dutyPostMasterListRoute,
-          arguments: {"Duty Post Master list": false});
+      Navigator.pushNamed(
+        context,
+        dutyPostMasterListRoute,
+      );
     } else if (index == 1) {
-      Navigator.pushNamed(context, dutyPostNameMasterListRoute,
-          arguments: {"Duty Post Name Master list": false});
+      Navigator.pushNamed(
+        context,
+        dutyPostNameMasterListRoute,
+      );
     } else if (index == 2) {
       Navigator.pushNamed(
         context,
         attendanceListRoute,
       );
     } else if (index == 3) {
-      Navigator.pushNamed(context, shiftScheduleListRoute,
-          arguments: {"Shift Schedule": false});
+      Navigator.pushNamed(
+        context,
+        attendanceReportBillingListRoute,
+      );
+    } else if (index == 4) {
+      Navigator.pushNamed(
+        context,
+        shiftScheduleListRoute,
+      );
     }
   }
 
@@ -593,59 +604,59 @@ class NavigationDrawer1 extends StatelessWidget {
                             BorderSide(color: AppColors.dividelineGreycolor)),
                   ),
                   child: ExpansionTile(
-                      onExpansionChanged: (value) {
-                        if (value == true) {
-                          _securityfunfunctionslastSelectedItem = i;
-                          //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-                          //state = const DrawerInitial();
-                          context.read<DrawerCubit>().getSecurityIndexChange(
-                              _securityfunfunctionslastSelectedItem);
-                        } else {
-                          _securityfunfunctionslastSelectedItem = 10;
-                          context.read<DrawerCubit>().getSecurityIndexChange(
-                              _securityfunfunctionslastSelectedItem);
-                        }
-                      },
-                      trailing: const Icon(Icons.arrow_drop_down_rounded),
-                      title: Text(
-                        drawerItem.title,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: Constants.customFontSemiBoldFamily,
-                            fontWeight: FontWeight.w600,
-                            color: (i == _securityfunfunctionslastSelectedItem)
-                                ? AppColors.navigationSkybluecolor
-                                : AppColors.textgreyThemecolor),
-                        // style: Styles.textStyleBlack16,
-                      ),
-                      leading: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Image.asset(AppIcon.operatingsystem,
-                            fit: BoxFit.cover,
-                            color: (i == _securityfunfunctionslastSelectedItem)
-                                ? AppColors.navigationSkybluecolor
-                                : AppColors.textgreyThemecolor),
-                      ),
-                      childrenPadding: const EdgeInsets.only(left: 20),
-                      //children padding
-                      children: drawerItem.title == Constants.operations
-                          ? _genericItemExpandable(
-                              context,
-                              expansionTileDrawerItems,
-                              Constants.operations,
-                            )
-                          // : _genericItemSelection(
-                          //     context,
-                          //     shiftSchedulingDataItems,
-                          //     Constants.shiftScheduling,
-                          //   )
-                      : _genericItemExpandable(
-                          context,
-                          securitySystemExpansionTileDrawerItems,
-                          Constants.securitySystems,
-                        ),
-                      ),
+                    onExpansionChanged: (value) {
+                      if (value == true) {
+                        _securityfunfunctionslastSelectedItem = i;
+                        //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+                        //state = const DrawerInitial();
+                        context.read<DrawerCubit>().getSecurityIndexChange(
+                            _securityfunfunctionslastSelectedItem);
+                      } else {
+                        _securityfunfunctionslastSelectedItem = 10;
+                        context.read<DrawerCubit>().getSecurityIndexChange(
+                            _securityfunfunctionslastSelectedItem);
+                      }
+                    },
+                    trailing: const Icon(Icons.arrow_drop_down_rounded),
+                    title: Text(
+                      drawerItem.title,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: Constants.customFontSemiBoldFamily,
+                          fontWeight: FontWeight.w600,
+                          color: (i == _securityfunfunctionslastSelectedItem)
+                              ? AppColors.navigationSkybluecolor
+                              : AppColors.textgreyThemecolor),
+                      // style: Styles.textStyleBlack16,
+                    ),
+                    leading: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Image.asset(AppIcon.operatingsystem,
+                          fit: BoxFit.cover,
+                          color: (i == _securityfunfunctionslastSelectedItem)
+                              ? AppColors.navigationSkybluecolor
+                              : AppColors.textgreyThemecolor),
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 20),
+                    //children padding
+                    children: drawerItem.title == Constants.operations
+                        ? _genericItemExpandable(
+                            context,
+                            expansionTileDrawerItems,
+                            Constants.operations,
+                          )
+                        // : _genericItemSelection(
+                        //     context,
+                        //     shiftSchedulingDataItems,
+                        //     Constants.shiftScheduling,
+                        //   )
+                        : _genericItemExpandable(
+                            context,
+                            securitySystemExpansionTileDrawerItems,
+                            Constants.securitySystems,
+                          ),
+                  ),
                 ),
               ),
       );

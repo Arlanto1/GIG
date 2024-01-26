@@ -169,6 +169,9 @@ class Utils {
       case 2:
         statusText = 'Handed Over';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -196,6 +199,9 @@ class Utils {
         break;
       case 3:
         statusText = 'Distributed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -244,7 +250,7 @@ class Utils {
         statusText = 'Inward Waiting';
         break;
       case 10:
-        statusText = 'Closed';
+        statusText = 'Closed/Finalize';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -336,6 +342,32 @@ class Utils {
     return Row(
       children: [
         textHandling('DutyType: ', dutyTypeText),
+      ],
+    );
+  }
+  Row buildAttendanceStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('Status: ', statusText),
       ],
     );
   }
@@ -996,7 +1028,7 @@ class Utils {
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'Finalize';
+        statusText = 'Finalized';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -1127,6 +1159,9 @@ class Utils {
         break;
       case 1:
         statusText = 'Active';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed

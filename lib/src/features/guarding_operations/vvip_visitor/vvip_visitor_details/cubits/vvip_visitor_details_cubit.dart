@@ -1,25 +1,9 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/sla_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_response.dart';
-import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/requestModels/vvip_visitor_request.dart';
 import '../../models/vvip_visitor_response_model.dart';
 import '../../services/vvip_visitor_services.dart';
@@ -234,6 +218,14 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return true;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

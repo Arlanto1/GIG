@@ -1,14 +1,14 @@
 part of 'attendance_bloc.dart';
 
 class AttendanceState extends Equatable {
-  final List<AttendanceModel> list;
+  final List<AttendanceModel> items;
   final bool hasReachedMax;
   final FormStatus status;
 
   //final GmUiLabels? labels;
 
   const AttendanceState({
-    this.list = const <AttendanceModel>[],
+    this.items = const <AttendanceModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     //this.labels
@@ -21,7 +21,7 @@ class AttendanceState extends Equatable {
     // GmUiLabels? labels,
   }) {
     return AttendanceState(
-      list: items ?? list,
+      items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       // labels: labels ?? this.labels
@@ -29,5 +29,5 @@ class AttendanceState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [list, hasReachedMax, status];
+  List<Object?> get props => [items, hasReachedMax, status];
 }

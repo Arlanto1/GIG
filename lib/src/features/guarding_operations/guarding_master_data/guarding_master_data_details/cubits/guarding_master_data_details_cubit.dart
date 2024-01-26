@@ -1,33 +1,16 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_response.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../createfound/models/serial_number_model.dart';
-import '../../../../createfound/models/user.dart';
-import '../../../../lawenforcement/models/addentities.dart';
-import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import '../../models/guarding_master_data_model.dart';
-import '../../services/guarding_master_data_services.dart';
+import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_details_state.dart';
 
@@ -42,21 +25,21 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-    GuardingMasterDataDetailsState.initial(
-        model: model ?? GuardingMastersDataModel(),
-        locations: Locations(),
-        loggedInUserDetails: User(),
-        users: const [],
-        emailUsers: const [],
-        errorMessage: '',
-        loadAttachments: const [],
-        eventId: null,
-        listOfEntities: const [],
-        getEntitiesResponse: null,
-        departments: const [],
-        listOfQualifications: const [],
-        getQualificationsResponse: null),
-  );
+          GuardingMasterDataDetailsState.initial(
+              model: model ?? GuardingMastersDataModel(),
+              locations: Locations(),
+              loggedInUserDetails: User(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              loadAttachments: const [],
+              eventId: null,
+              listOfEntities: const [],
+              getEntitiesResponse: null,
+              departments: const [],
+              listOfQualifications: const [],
+              getQualificationsResponse: null),
+        );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
@@ -93,6 +76,9 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
+    log('-guardingMastersDataModel--cubit-model--id---${model?.id}---');
+    log('-guardingMastersDataModel--cubit-state.model--id---${state.model.id}---');
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -107,7 +93,8 @@ class GuardingMasterDataDetailsCubit
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode),
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.guardingMasterModuleCode),
         SharedPrefs.getDefaultLocation(),
       ]);
 
@@ -137,7 +124,9 @@ class GuardingMasterDataDetailsCubit
       dynamic participationDates = Utils()
           .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
-      log('-participationDates---${participationDates.toString()}---');
+      log('-state.model.id---${state.model.id}---');
+      log('-state.model.bopData---${state.model.bioData}---');
+      log('--guardImages---${state.model.photoGraph}----');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -159,8 +148,11 @@ class GuardingMasterDataDetailsCubit
           localAddressAttachments: state.model.localAddressProof != null
               ? [state.model.localAddressProof ?? ImageContent()]
               : null,
-          bioDataAttachments: state.model.bopData != null
-              ? [state.model.bopData ?? ImageContent()]
+          bioDataAttachments: state.model.bioData != null
+              ? [state.model.bioData ?? ImageContent()]
+              : null,
+          guardAttachments: state.model.photoGraph != null
+              ? [state.model.photoGraph ?? ImageContent()]
               : null,
           deploymentAttachments: state.model.deploymentOrders,
           permanentAddressAttachments: state.model.permanentAddressProof != null
@@ -233,7 +225,7 @@ class GuardingMasterDataDetailsCubit
     // TODO: Object issue
     if (guard != null) {
       User userDetails =
-      User(name: guard.name, userId: guard.id, userName: guard.name);
+          User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -263,154 +255,136 @@ class GuardingMasterDataDetailsCubit
     int eventIds = math.Random.secure().nextInt(5);
 
     log('--guardImages---${guardImages?.length}----');
-    if (data != null) {
-      for (var image in data) {
-        image.type = 0;
-      }
-      if (guardImages != null) {
-        state.model.photoGraph = guardImages.first;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            guardAttachments: guardImages,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-
-    if (data != null) {
-      for (var image in data) {
-        image.type = 1;
-      }
-      if (deploymentFiles != null) {
-        state.model.deploymentOrders = deploymentFiles;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            deploymentAttachments: deploymentFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-    if (data != null) {
-      for (var image in data) {
-        image.type = 6;
-      }
-      if (bioDataFiles != null) {
-        state.model.bopData = bioDataFiles.first;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            bioDataAttachments: bioDataFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-    if (data != null) {
-      for (var image in data) {
-        image.type = 7;
-      }
-      if (permanentAddressFiles != null) {
-        state.model.permanentAddressProof = permanentAddressFiles.first;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            permanentAddressAttachments: permanentAddressFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-    if (data != null) {
+    log('--data---${data?.length}----');
+    if (data != null && guardImages != null) {
       for (var image in data) {
         image.type = 8;
       }
-      if (localAddressFiles != null) {
-        state.model.localAddressProof = localAddressFiles.first;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            localAddressAttachments: localAddressFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
+      state.model.photoGraph = guardImages.first;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          guardAttachments: guardImages,
+          status: FormStatus.initial,
+        ),
+      );
+        }
 
-    if (data != null) {
-      for (var image in data) {
-        image.type = 2;
-      }
-      if (pVCFiles != null) {
-        state.model.pvc = pVCFiles;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            pVCAttachments: pVCFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-
-    if (data != null) {
-      for (var image in data) {
-        image.type = 3;
-      }
-      if (trainingFiles != null) {
-        state.model.trainingCertificates = trainingFiles;
-
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            trainingAttachments: trainingFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-    }
-    if (data != null) {
+    if (data != null && deploymentFiles != null) {
       for (var image in data) {
         image.type = 1;
       }
-      if (mSGBExemptionFiles != null) {
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            mSGBAttachments: mSGBExemptionFiles,
-            status: FormStatus.initial,
-          ),
-        );
+      state.model.deploymentOrders = deploymentFiles;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          deploymentAttachments: deploymentFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+    if (data != null && bioDataFiles != null) {
+      for (var image in data) {
+        image.type = 6;
       }
-    }
-    if (data != null) {
+      state.model.bioData = bioDataFiles.first;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          bioDataAttachments: bioDataFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+    if (data != null && permanentAddressFiles != null) {
+      for (var image in data) {
+        image.type = 7;
+      }
+      state.model.permanentAddressProof = permanentAddressFiles.first;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          permanentAddressAttachments: permanentAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+    if (data != null && localAddressFiles != null) {
+      for (var image in data) {
+        image.type = 5;
+      }
+      state.model.localAddressProof = localAddressFiles.first;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          localAddressAttachments: localAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+
+    if (data != null && pVCFiles != null) {
+      for (var image in data) {
+        image.type = 2;
+      }
+      state.model.pvc = pVCFiles;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          pVCAttachments: pVCFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+
+    if (data != null && trainingFiles != null) {
+      for (var image in data) {
+        image.type = 3;
+      }
+      state.model.trainingCertificates = trainingFiles;
+
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          trainingAttachments: trainingFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+    if (data != null && mSGBExemptionFiles != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          mSGBAttachments: mSGBExemptionFiles,
+          status: FormStatus.initial,
+        ),
+      );
+        }
+    if (data != null && medicalFiles != null) {
       for (var image in data) {
         image.type = 4;
       }
-      if (medicalFiles != null) {
-        log('---medicalFiles---------${medicalFiles.length}---');
-        state.model.medicalCertificates = medicalFiles;
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            model: state.model,
-            medicalAttachments: medicalFiles,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-
+      log('---medicalFiles---------${medicalFiles.length}---');
+      state.model.medicalCertificates = medicalFiles;
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          model: state.model,
+          medicalAttachments: medicalFiles,
+          status: FormStatus.initial,
+        ),
+      );
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -420,7 +394,8 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-    }
+        }
+
     log('--state.status--3--${state.status}----');
   }
 
@@ -473,7 +448,7 @@ class GuardingMasterDataDetailsCubit
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-    GuardingMasterDataRequest(guardingMasterData: state.model);
+        GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -503,6 +478,14 @@ class GuardingMasterDataDetailsCubit
         response = (await services.createGuardingMasterData(
             body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(

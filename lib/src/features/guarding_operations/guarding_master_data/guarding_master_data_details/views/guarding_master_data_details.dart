@@ -424,15 +424,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               getFiles: guardFiles,
                               onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                //List<ImageContent>? files = [];
+                                List<ImageContent>? files = [];
                                 guardFiles = [data];
-                               // files.add(data);
+                                files?.add(data);
                                 for (ImageContent image in guardFiles ?? []) {
-                                //  files.add(image);
+                                  files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .addAttachment(
+                                  data: files,
                                   guardImages: guardFiles,
                                 );
                               },
@@ -951,7 +952,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttachment(deploymentFiles: files);
+                                      .addAttachment(
+                                    data: files,
+                                    deploymentFiles: files,
+                                  );
                                 },
                               ),
                               // Attachments
@@ -1188,7 +1192,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttachment(bioDataFiles: files);
+                                    .addAttachment(
+                                  data: files,
+                                  bioDataFiles: files,
+                                );
                               },
                             ),
                             // Attachments
@@ -1294,7 +1301,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .addAttachment(
-                                        permanentAddressFiles: files);
+                                  data: files,
+                                  permanentAddressFiles: files,
+                                );
                               },
                             ),
                             // Attachments
@@ -1362,7 +1371,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttachment(localAddressFiles: files);
+                                    .addAttachment(
+                                  data: files,
+                                  localAddressFiles: files,
+                                );
                               },
                             ),
                             // Attachments
@@ -1478,7 +1490,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttachment(pVCFiles: files);
+                                          .addAttachment(
+                                        data: files,
+                                        pVCFiles: files,
+                                      );
                                     },
                                   )
                                 : Container(),
@@ -1562,7 +1577,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttachment(trainingFiles: files);
+                                      .addAttachment(
+                                    data: files,
+                                    trainingFiles: files,
+                                  );
                                 },
                               ),
                               // Attachments
@@ -1632,7 +1650,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttachment(medicalFiles: files);
+                                    .addAttachment(
+                                  data: files,
+                                  medicalFiles: files,
+                                );
                               },
                             ),
                             // Attachments

@@ -24,6 +24,9 @@ class Constants {
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
+  static const String dutyPostNameMasterModule = 'SSDPN';
+  static const String attendanceModule = 'ATD';
+
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
@@ -237,6 +240,9 @@ class Constants {
   static const String lastname = 'Last Name';
   static const String uploadfile = 'Upload File';
   static const String caotureorupload = 'Capture or Upload';
+  static const String gallery = 'Gallery';
+  static const String camera = 'Camera';
+  static const String document = 'Document';
   static const String addarticletype = 'Add Article Type';
   static const String clicktoupload = 'Click to upload';
   static const String abort = 'Abort';
@@ -745,6 +751,11 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attendanceReportBilling = 'Attendance Report and Billing';
+  static const String editAttendance = 'Edit Attendance';
+  static const String attendanceDetails = 'Attendance Details';
+  static const String attendanceType = 'Attendance Type';
+
   static const String attachments = 'Attachments';
 
   ///Shift Schedule

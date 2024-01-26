@@ -185,41 +185,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.vendor = vendor;
     }
 
-    // if (asl != null) {
-    //   User userDetails = User(
-    //     name: asl.name,
-    //     userId: asl.id,
-    //     userName: asl.name,
-    //   );
-    //   state.model.asl = userDetails;
-    //   state.systemManager?.remove(asl);
-    //   state.lt?.remove(asl);
-    // }
-    //
-    // if (systemManager != null) {
-    //   User userDetails = User(
-    //     name: systemManager.name,
-    //     userId: systemManager.id,
-    //     userName: systemManager.name,
-    //   );
-    //   state.model.systemManager = userDetails;
-    //   state.lsm?.remove(systemManager);
-    //   state.asl?.remove(systemManager);
-    //   state.lt?.remove(systemManager);
-    // }
-    //
-    // if (lsm != null) {
-    //   User userDetails = User(
-    //     name: lsm.name,
-    //     userId: lsm.id,
-    //     userName: lsm.name,
-    //   );
-    //   state.model.lsm = userDetails;
-    //   state.systemManager?.remove(lsm);
-    //   state.asl?.remove(lsm);
-    //   state.lt?.remove(lsm);
-    // }
-
     if (systemManager != null) {
       User userDetails = User(
         name: systemManager.name,
@@ -322,83 +287,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     ));
   }
 
-  // Future<void> updateApproverEmailsValue({
-  //   BaseUser? requesterEmailUser,
-  //   BaseUser? approver1EmailUser,
-  //   BaseUser? approver2EmailUser,
-  // }) async {
-  //   emit(
-  //     state.copyWith(
-  //       status: FormStatus.loading,
-  //     ),
-  //   );
-  //
-  //   if (requesterEmailUser != null) {
-  //     state.model.requestorEmail = requesterEmailUser.email;
-  //
-  //     emit(
-  //       state.copyWith(
-  //         requestorEmailUsers: state.emailUsers,
-  //       ),
-  //     );
-  //
-  //     state.approver1Users?.remove(requesterEmailUser);
-  //     state.approver2Users?.remove(requesterEmailUser);
-  //
-  //     emit(
-  //       state.copyWith(
-  //         model: state.model,
-  //         approver2Users: state.approver2Users,
-  //         approver1Users: state.approver1Users,
-  //         status: FormStatus.initial,
-  //       ),
-  //     );
-  //   }
-  //
-  //   if (approver1EmailUser != null) {
-  //     state.model.approver1Email = approver1EmailUser.email;
-  //
-  //     emit(
-  //       state.copyWith(
-  //         approver2Users: state.emailUsers,
-  //       ),
-  //     );
-  //
-  //     state.requestorEmailUsers?.remove(approver1EmailUser);
-  //     state.approver2Users?.remove(approver1EmailUser);
-  //
-  //     emit(
-  //       state.copyWith(
-  //         model: state.model,
-  //         requestorEmailUsers: state.requestorEmailUsers,
-  //         approver2Users: state.approver2Users,
-  //         status: FormStatus.initial,
-  //       ),
-  //     );
-  //   }
-  //
-  //   if (approver2EmailUser != null) {
-  //     state.model.approver2Email = approver2EmailUser.email;
-  //
-  //     emit(
-  //       state.copyWith(
-  //         approver1Users: state.emailUsers,
-  //       ),
-  //     );
-  //
-  //     state.requestorEmailUsers?.remove(approver2EmailUser);
-  //     state.approver1Users?.remove(approver2EmailUser);
-  //
-  //     emit(
-  //       state.copyWith(
-  //         model: state.model,
-  //         status: FormStatus.initial,
-  //         requestorEmailUsers: state.requestorEmailUsers,
-  //         approver1Users: state.approver1Users,
-  //       ),
-  //     );
-  //   }
-  // }
+
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? guardImages,
