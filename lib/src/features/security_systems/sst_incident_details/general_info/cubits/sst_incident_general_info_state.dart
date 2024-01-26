@@ -6,6 +6,9 @@ class SstIncidentGeneralInfoState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
+  final List<BaseUser>? asl;
+  final List<BaseUser>? systemManager;
+  final List<BaseUser>? lt;
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   //final List<Organisation> departments;
@@ -22,6 +25,9 @@ class SstIncidentGeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+     List<BaseUser>? asl,
+     List<BaseUser>? systemManager,
+     List<BaseUser>? lt,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     //required final List<Organisation> departments,
@@ -37,7 +43,9 @@ class SstIncidentGeneralInfoState extends Equatable {
       model: model,
       locations: locations,
       listOfEntities: listOfEntities,
-      //departments: departments,
+      asl:asl,
+      systemManager:systemManager,
+      lt:lt,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
@@ -75,6 +83,9 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.systemManager,
+    this.asl,
+    this.lt,
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -83,6 +94,9 @@ class SstIncidentGeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
+     List<BaseUser>? asl,
+     List<BaseUser>? systemManager,
+     List<BaseUser>? lt,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
@@ -101,7 +115,9 @@ class SstIncidentGeneralInfoState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-     // departments: departments ?? this.departments,
+     lt: lt ?? this.lt,
+      systemManager: systemManager ?? this.systemManager,
+      asl: asl ?? this.asl,
       vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,

@@ -98,6 +98,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               BlocProvider.of<IncidentGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<IncidentGeneralInfoCubit>(context).submitForm(
+                isSaveOnly: false,
+              );
+            },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
@@ -504,12 +510,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.departments,
-                                    onTap: (Organisation department) {
+                                    onTap: (Organisation org) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .updateDropdownValues(
                                               complainantDepartment:
-                                                  department);
+                                                  org);
                                     },
                                   );
                                 },

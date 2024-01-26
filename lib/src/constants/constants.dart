@@ -20,9 +20,13 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
   static const String slaViolationPenaltyDetailsModule = 'SVP';
-  static const String keyManagementIssuanceModule = 'KMISS ';
+  static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
+  static const String shiftScheduleModule = 'SS';
+  static const String dutyPostNameMasterModule = 'SSDPN';
+  static const String attendanceModule = 'ATD';
+
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
@@ -118,8 +122,9 @@ class Constants {
   static const String newPassword = "New Password";
   static const String confirmNewPassword = "Confirm New Password";
   static const String forgotPassowrd = 'Forgot Password?';
-  static const String supportText = "Support: +49 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2023 RimaOne.";
+  static const String support = "Support :";
+  static const String supportContact = "+91 6150 961 6244";
+  static const String copyrightText = "Copyright Â© 2024 Arlanto.";
   static const String submit = "Submit";
 
   //Dashboard
@@ -140,7 +145,7 @@ class Constants {
       'Annual Power Shutdown List Details';
 
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Occurrence';
+  static const String occurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -235,6 +240,9 @@ class Constants {
   static const String lastname = 'Last Name';
   static const String uploadfile = 'Upload File';
   static const String caotureorupload = 'Capture or Upload';
+  static const String gallery = 'Gallery';
+  static const String camera = 'Camera';
+  static const String document = 'Document';
   static const String addarticletype = 'Add Article Type';
   static const String clicktoupload = 'Click to upload';
   static const String abort = 'Abort';
@@ -407,7 +415,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
-  static const String contactDetails = 'Contact Details';
+  static const String contactDetails = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
@@ -639,7 +647,8 @@ class Constants {
       'Guarding Agency Escalation Contact';
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
-  static const String zonalEscalationContact = 'Zonal Escalation Contact';
+  static const String cmsEscalationContact = 'CMS Escalation(IPB)';
+  static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
 
   ///SLA Violation Penalty
@@ -738,16 +747,27 @@ class Constants {
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
   static const String dutyPostLocationName = 'Duty Post Location Name';
   static const String region = 'Region';
+  static const String addDutyPostLocationName = 'Add Duty Post Location Name';
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attendanceReportBilling = 'Attendance Report and Billing';
+  static const String editAttendance = 'Edit Attendance';
+  static const String attendanceDetails = 'Attendance Details';
+  static const String attendanceType = 'Attendance Type';
+
   static const String attachments = 'Attachments';
 
   ///Shift Schedule
+  static const String shiftScheduling = 'Shift Scheduling';
   static const String shiftSchedule = 'Shift Schedule';
   static const String editShiftSchedule = 'Edit Shift Schedule';
   static const String createShiftSchedule = 'Create Shift Schedule';
   static const String dutyType = 'Duty Type';
+  static const String addReplacement = 'Add Replacement';
+  static const String replacementFor = 'Replacement For';
+  static const String replacementBy = 'Replacement By';
+  static const String reason = 'Reason';
 
 
   ///VVIP Visitors
@@ -759,8 +779,6 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitors';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
-
-
 
   /// INT values
   static const int lockChangeHistoryInt = 0;

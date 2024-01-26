@@ -1,21 +1,7 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/index.dart';
 
-import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
 import '../bloc/incident_management_bloc.dart';
 
 class IncidentManagementsView extends StatefulWidget {
@@ -84,7 +70,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
       listener: (context, state) {},
       builder: (context, state) {
-
         log('--occId-im list--${widget.occId}--');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
@@ -139,15 +124,13 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
           List<Label> labels = [];
 
           if (index < state.items.length) {
-            labels.add(
-              Label(
+            labels.add(Label(
                 key: 'Date of Creation',
                 value: state.items[index].inputDate != null
                     ? Utils.timestamptoDateConversion(
                         int.parse(state.items[index].inputDate ?? '0'),
                         Constants.dateFormat)
-
-            : ''));
+                    : ''));
             labels.add(
               Label(
                 key: 'Region',
@@ -190,7 +173,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                       );
                     },
                     onEditTap: (selectedIndex) {
-                      getId(
+                      getById(
                         id: state.items[index].id ?? 0,
                         occType: state.items[index].occType ?? 0,
                       );
@@ -226,12 +209,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     );
   }
 
-  getId({required int id, required int occType}) async {
+  getById({required int id, required int occType}) async {
     Navigator.pushNamed(
       context,
       incidentManagementDetailsRoute,
       arguments: {
-        'id': id.toString(),
+        ConstantsArgument.id: id.toString(),
       },
     );
   }

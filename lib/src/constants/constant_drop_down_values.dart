@@ -199,12 +199,12 @@ const List<Label> typesDropDownValues = [
   Label(key: 'Has Key Lost', value: '1'),
   Label(key: 'Has Key/Lock Damaged', value: '2'),
   Label(key: 'Key Destruction Process', value: '3'),
-
 ];
 
 const List<Label> shiftDutyTypeDropDownValues = [
   Label(key: 'Transport', value: '1'),
   Label(key: 'Building', value: '2'),
+  Label(key: 'Transport and Building', value: '3'),
 ];
 
 const List<Label> keyTaggingDropDownValues = [
@@ -217,4 +217,54 @@ const List<Label> keyManagementStatus = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
+];
+
+const List<Label> sstIncidentsStatusItems = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Created', value: '1'),
+  Label(key: 'Submitted', value: '2'),
+  Label(key: 'Acknowledge', value: '3'),
+  Label(key: 'Hold', value: '4'),
+  Label(key: 'Rework', value: '5'),
+  Label(key: 'Review', value: '6'),
+  Label(key: 'Solve Proposed', value: '7'),
+  Label(key: 'Quotes Rejected', value: '8'),
+  Label(key: 'Quotes Approved', value: '9'),
+  Label(key: 'Po Raised', value: '10'),
+  Label(key: 'Work Completed', value: '11'),
+  Label(key: 'Invoice Requested', value: '12'),
+  Label(key: 'Invoice Submit', value: '13'),
+  Label(key: 'Closed', value: '14'),
+];
+
+const List<Label> reasonDropDownValues = [
+  Label(key: 'Leave', value: '1'),
+  Label(key: 'Week Off', value: '2'),
+  Label(key: 'Resigned', value: '3'),
+  Label(key: 'Terminated', value: '4'),
+  Label(key: 'Absent', value: '5'),
+];
+const List<Label> dutyPostNameMasterStatusValues = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Active', value: '1'),
+];
+
+const List<Label> slaStatusDropDownValues = [
+  Label(key: 'Draft ', value: '0 '),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'Finalize', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+const List<Label> attendanceTypeDropDownValues = [
+  Label(key: 'Regular', value: '0'),
+  Label(key: 'Regular', value: '1'),
+  Label(key: 'AD HOC', value: '2'),
+];
+
+const List<Label> attendanceStatusDropDownValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'InActive', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
 ];

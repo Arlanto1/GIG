@@ -133,7 +133,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VVIPVisitorDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
-                navigateToNextScreen: true,
+                navigateToNextScreen: false,
               );
             },
           ),

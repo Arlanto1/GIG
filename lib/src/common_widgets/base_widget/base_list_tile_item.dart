@@ -37,6 +37,10 @@ class BaseListTileItem extends StatefulWidget {
   final bool isKeyManagementIssuanceStatus;
   final bool isVipStatus;
   final bool isMaterialMovementStatus;
+  final bool isKeyManagementHistoryStatus;
+  final bool isShiftScheduleStatus;
+  final bool isDutyPostNameMasterStatus;
+  final bool isAttendanceStatus;
 
   const BaseListTileItem({
     super.key,
@@ -74,6 +78,10 @@ class BaseListTileItem extends StatefulWidget {
     this.isVipStatus = false,
     this.isMaterialMovementStatus = false,
     this.onDeleteTap,
+    this.isKeyManagementHistoryStatus = false,
+    this.isDutyPostNameMasterStatus = false,
+    this.isShiftScheduleStatus = false,
+    this.isAttendanceStatus = false,
   });
 
   @override
@@ -178,20 +186,26 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null || widget.isMaterialMovementStatus == true) &&
-                          !widget.isMasterGuard
-                          ) ...[
+                      if ((widget.status != null &&
+                              widget.isMaterialMovementStatus == true) &&
+                          !widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()
                             .buildMaterialMovementStatusRow(widget.status ?? 0),
                       ],
-                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildGuardrank(widget.guardRank ?? 0),
-                      ],
                       if (widget.status != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().buildGuardRank(
+                                guardRank: widget.guardRank ?? 0),
+                          ],
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isEventProtectionStatus &&
@@ -206,9 +220,20 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Utils().keyManagementIssuanceStatus(widget.status ?? 0),
                       ],
                       if (widget.status != null &&
+                          widget.isAttendanceStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().buildAttendanceStatusRow(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
                           widget.isKeyManagementStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().keyManagementStatus(widget.status ?? 0),
+                      ],
+                      if (widget.status != null &&
+                          widget.isKeyManagementHistoryStatus) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils().keyManagementMasterHistoryStatus(
+                            widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isOccurrenceStatus == true) ...[
@@ -266,6 +291,27 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().vIPVisitorStatusRow(widget.status ?? 0),
                       ],
+                      if (widget.status != null &&
+                          widget.isShiftScheduleStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().shiftScheduleStatusRow(widget.status ?? 0),
+                          ],
+                        ),
+                      ],
+                      if (widget.status != null &&
+                          widget.isDutyPostNameMasterStatus == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils()
+                                .dutyPostNameMasterStatus(widget.status ?? 0),
+                          ],
+                        )
+                      ],
                     ],
                   ),
                 ),
@@ -284,7 +330,22 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onEditTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: (widget.isMaterialMovementStatus &&
+                                (widget.status == 10 || widget.status == -1)) ||
+                            (widget.isSLAViolationStatus &&
+                                (widget.status == 2 || widget.status == -1)) ||
+                            (widget.isContactDetailsStatus &&
+                                widget.status == -1) ||
+                            (widget.isKeyManagementStatus &&
+                                (widget.status == -1 || widget.status == 2)) ||
+                            (widget.isKeyManagementIssuanceStatus &&
+                                widget.status == 2) ||
+                            (widget.isDutyPostNameMasterStatus &&
+                                widget.status == -1) ||
+                            (widget.isShiftScheduleStatus &&
+                                widget.status == -1)
+                        ? const Icon(Icons.auto_stories)
+                        : const Icon(Icons.edit),
                   ),
                 ],
                 IconButton(

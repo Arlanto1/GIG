@@ -115,14 +115,21 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onEditTap != null ? widget.onEditTap!(widget.index) : null;
+                                widget.onEditTap != null
+                                    ? widget.onEditTap!(widget.index)
+                                    : null;
                               },
-                              icon: const Icon(Icons.edit),
+                              icon: widget.userItem.status == 3 ||
+                                      widget.userItem.status == -1
+                                  ? const Icon(Icons.auto_stories)
+                                  : const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onViewTap != null ? widget.onViewTap!(widget.index) : null;
+                                widget.onViewTap != null
+                                    ? widget.onViewTap!(widget.index)
+                                    : null;
                               },
                               icon: const Icon(Icons.remove_red_eye),
                             ),

@@ -91,6 +91,21 @@ class _FoundListItemState extends State<FoundListItem> {
                           ],
                         ),
                       ],
+                      if (widget.userItem.inputDate != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          children: [
+                            textHandling(
+                                'Date of Creation : ',
+                                widget.userItem.inputDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            widget.userItem.inputDate ?? '0'),
+                                        Constants.dateFormat)
+                                    : ''),
+                          ],
+                        ),
+                      ],
                       if (widget.userItem.foundDate != null) ...[
                         CommonWidgets.verticalSpacerWidget(5),
                         Row(
@@ -121,7 +136,10 @@ class _FoundListItemState extends State<FoundListItem> {
                                     ? widget.onEditTap!(widget.index)
                                     : null;
                               },
-                              icon: const Icon(Icons.edit),
+                              icon: widget.userItem.status == 2 ||
+                                      widget.userItem.status == -1
+                                  ? const Icon(Icons.auto_stories)
+                                  : const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () {

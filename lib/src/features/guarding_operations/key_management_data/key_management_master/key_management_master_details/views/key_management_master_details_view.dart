@@ -24,6 +24,7 @@ class _KeyManagementMasterDetailsViewState
   User? userDetails;
   TextEditingController keyTaggingController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController totalKeyController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
 
@@ -34,9 +35,12 @@ class _KeyManagementMasterDetailsViewState
     super.initState();
     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
         .initializeValues();
-    widget.model?.total ==(((widget.model?.noKeys ?? 0) +
-        (widget.model?.noMasterKey ?? 0))
-        .toString());
+    widget.model?.total ==
+        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+            .toString());
+    totalKeyController.text =
+        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+            .toString());
   }
 
   @override
@@ -222,7 +226,7 @@ class _KeyManagementMasterDetailsViewState
                               state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Location
+                          /// Location
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.location ??
                               //  state.labels?.defaultLocale.location ??
@@ -303,7 +307,8 @@ class _KeyManagementMasterDetailsViewState
                           TextfieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor: state.model.status== 2 ? true : false,
+                            isDisableColor:
+                                state.model.status == 2 ? true : false,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
@@ -311,7 +316,8 @@ class _KeyManagementMasterDetailsViewState
                                 onTap: (Organisation department) {
                                   state.model.doorType?.name = department.name;
 
-                                  BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                  BlocProvider.of<
+                                              KeyManagementMasterDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
                                           doorType: department);
@@ -335,12 +341,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.doorName == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.doorName = value;
@@ -422,16 +423,11 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keyNo == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.keyNo = value;
@@ -492,19 +488,21 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noKeys == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.noKeys = int.tryParse(value);
+
+                              int noKeys = state.model.noKeys ?? 0;
+                              int noMasterKey = state.model.noMasterKey ?? 0;
+                              totalKeyController.text =
+                                  (noKeys + noMasterKey).toString();
+                              widget.model?.total =
+                                  int.tryParse(totalKeyController.text);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -513,7 +511,7 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// No. of  Master Keys
+                          /// Number of  Master Keys
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.employeeCode ??
                               //state.labels?.defaultLocale.employeeCode ??
@@ -522,19 +520,22 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.noMasterKey == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.noMasterKey = int.tryParse(value);
+
+                              int noKeys = state.model.noKeys ?? 0;
+                              int noMasterKey = state.model.noMasterKey ?? 0;
+                              totalKeyController.text =
+                                  (noKeys + noMasterKey).toString();
+
+                              widget.model?.total =
+                                  int.tryParse(totalKeyController.text);
                               context
                                   .read<KeyManagementMasterDetailsCubit>()
                                   .onModelValueChange(state.model);
@@ -543,7 +544,7 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///total Keys
+                          /// Total Keys
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.budget ??
                               //     state.labels?.defaultLocale.budget ??
@@ -552,9 +553,10 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             keyboardType: TextInputType.number,
-                            initialValue: (((state.model.noKeys ?? 0) +
-                                    (state.model.noMasterKey ?? 0))
-                                .toString()),
+                            textFieldController: totalKeyController,
+                            // initialValue: (((state.model.noKeys ?? 0) +
+                            //         (state.model.noMasterKey ?? 0))
+                            //     .toString()),
                             textFormKey: Keys.budgetKey,
                             hintText: '',
                             isEnable: !isDisabled,
@@ -582,12 +584,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keysStored,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.model == null
-                                ? true
-                                : (widget.model != null &&
-                                        (widget.model?.keysStored == null))
-                                    ? false
-                                    : true,
+                            isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.keysStored = value;
@@ -600,225 +597,229 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Lock Change History
-                          //if (state.model.status == 1) ...[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.lockChangeHistory,
-                              style: Styles.styleHeaderGreyText16,
+                          if (state.model.status == 1) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.lockChangeHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.lockChangeHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.lockChangeHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Lock Change History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.lockChangeHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.lockChangeHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///Key Lost History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyLostHistory,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyLostHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyLostHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Lost History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Lock Change History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Key Damage History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyDamageHistory,
-                              style: Styles.styleHeaderGreyText16,
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Lost History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyLostHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
 
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                                log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
 
-                              log('--state.model.id---${state.model.id}---');
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyDamageHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                      Constants.keyDamageHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Damage History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyLostHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyLostHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///Key Destroy History
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.keyDestroyHistory,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-
-                              nav.pushNamed(
-                                keyHistoryRecordsViewRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.keyDestroyHistory,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.type:
-                                  Constants.keyDestroyHistoryInt,
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Key Destroy History(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Lost History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Damage History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyDamageHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+                                log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+
+                                log('--state.model.id---${state.model.id}---');
+
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyDamageHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyDamageHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Damage History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Key Destroy History
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.keyDestroyHistory,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+
+                                nav.pushNamed(
+                                  keyHistoryRecordsViewRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.keyDestroyHistory,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.type:
+                                        Constants.keyDestroyHistoryInt,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Key Destroy History(S)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 

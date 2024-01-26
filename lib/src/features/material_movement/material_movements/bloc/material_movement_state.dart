@@ -5,6 +5,7 @@ class MaterialMovementState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
  final Locations? locations;
+ final User? loggedInUser;
   final String? message;
 
   const MaterialMovementState({
@@ -13,6 +14,7 @@ class MaterialMovementState extends Equatable {
     this.status = FormStatus.initial,
     this.message,
     this.locations,
+    this.loggedInUser,
   });
 
   MaterialMovementState copyWith({
@@ -21,6 +23,7 @@ class MaterialMovementState extends Equatable {
     FormStatus? status,
     String? message,
     Locations? locations,
+    User? loggedInUser,
   }) {
     return MaterialMovementState(
       items: items ?? this.items,
@@ -28,6 +31,7 @@ class MaterialMovementState extends Equatable {
       status: status ?? this.status,
       message: message ?? this.message,
       locations: locations ?? this.locations,
+        loggedInUser:loggedInUser??this.loggedInUser,
     );
   }
 

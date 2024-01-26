@@ -1,33 +1,37 @@
 part of 'shift_schedule_list_bloc.dart';
 
 class ShiftScheduleListState extends Equatable {
-  final List<ShiftScheduleModel> list;
+  final List<ShiftScheduleModel> items;
   final bool hasReachedMax;
   final FormStatus status;
+  final String? message;
 
   //final GmUiLabels? labels;
 
   const ShiftScheduleListState({
-    this.list = const <ShiftScheduleModel>[],
+    this.items = const <ShiftScheduleModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
+    this.message,
     //this.labels
   });
 
   ShiftScheduleListState copyWith({
     List<ShiftScheduleModel>? items,
     bool? hasReachedMax,
+    String? message,
     FormStatus? status,
     // GmUiLabels? labels,
   }) {
     return ShiftScheduleListState(
-      list: items ?? list,
+      items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
+      message: message ?? this.message,
       // labels: labels ?? this.labels
     );
   }
 
   @override
-  List<Object?> get props => [list, hasReachedMax, status];
+  List<Object?> get props => [items, hasReachedMax, status];
 }

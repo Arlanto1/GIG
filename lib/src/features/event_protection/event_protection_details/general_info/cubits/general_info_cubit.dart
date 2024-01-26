@@ -328,7 +328,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
 
     if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
+      state.model.status = 0;
     }
     // Setting time in milliseconds
     state.model.inputDate =
@@ -369,7 +369,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         response = (await services.createEventGeneralInfo(
             body: request, isSubmit: true));
       }
-    } on Exception catch (e) {
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    }on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),

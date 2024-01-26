@@ -8,7 +8,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final String? message;
-  final List<String>? dutyPostLocationNames;
+  final List<String>? locationNames;
   final List<User>? entrySecurities;
   final GmUiLabels? labels;
 
@@ -30,7 +30,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
-      dutyPostLocationNames: dutyPostLocationNames,
+      locationNames: dutyPostLocationNames,
       entrySecurities: entrySecurities,
     );
   }
@@ -58,21 +58,6 @@ class DutyPostNameMasterDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.guard == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Name');
-    }
-    if (model.guardRank == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Rank');
-    }
-    if (model.dutyPostLocationName == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Partner POC');
-    }
-
-    if (model.dutyType == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Type of Duty');
-    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -87,7 +72,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
-    this.dutyPostLocationNames,
+    this.locationNames,
     this.message,
     this.entrySecurities,
     this.labels,
@@ -100,7 +85,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<String>? dutyPostLocationNames,
+    List<String>? locationNames,
     String? message,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
@@ -112,7 +97,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
-      dutyPostLocationNames: dutyPostLocationNames ?? this.dutyPostLocationNames,
+      locationNames: locationNames ?? this.locationNames,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,

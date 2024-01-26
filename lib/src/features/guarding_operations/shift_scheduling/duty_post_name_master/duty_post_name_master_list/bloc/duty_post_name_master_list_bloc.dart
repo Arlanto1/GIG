@@ -50,8 +50,6 @@ class DutyPostNameMasterListBloc
             await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-          locationId: '56',
         );
         return emit(
           state.copyWith(
@@ -66,8 +64,6 @@ class DutyPostNameMasterListBloc
           await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
-        locationId: '56',
       );
 
       if (getDutyNamePostMaster.items?.isEmpty == true) {

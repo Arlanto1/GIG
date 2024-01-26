@@ -20,4 +20,9 @@ class BaseUser {
         "id": id,
         "name": name,
       };
+
+  @override
+  String toString() {
+    return 'BaseUser{email: $email, id: $id, name: $name}';
+  }
 }

@@ -180,37 +180,34 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0,
-                                textController: statusController,
-                                items: incidentManagementStatus,
-                                initialValue: '${state.model.status ?? 0}',
-                                onTap: () {
-                                  if (state.model.id == null &&
-                                      state.model.id != null) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: incidentManagementStatus
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            incidentManagementStatus.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    SstIncidentGeneralInfoCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                          status:
-                                              int.tryParse(selectedLabel.value),
-                                        );
-                                      },
+                              isDisabled: state.model.status != 0,
+                              textController: statusController,
+                              items: sstIncidentsStatusItems,
+                              initialValue: '${state.model.status ?? 0}',
+                              onTap: () {
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: statusDropDownValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        statusDropDownValues.firstWhere(
+                                      (label) => label.key == value,
+                                      orElse: () =>
+                                          const Label(key: '', value: ''),
                                     );
-                                  }
-                                }),
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            status: int.tryParse(
+                                                selectedLabel.value));
+                                  },
+                                );
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation

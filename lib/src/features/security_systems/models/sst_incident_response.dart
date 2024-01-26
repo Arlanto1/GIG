@@ -1,12 +1,12 @@
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
+
+import '../../../../index.dart';
 import '../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
 class SstIncidentResponse {
-  List<SstIncident>? items;
-  int? totalCount;
-  int? currentPageNo;
-  int? totalPageCount;
+  final List<SstIncident>? items;
+  final int? totalCount;
+  final int? currentPageNo;
+  final int? totalPageCount;
 
   SstIncidentResponse({
     this.items,
@@ -33,13 +33,12 @@ class SstIncidentResponse {
 }
 
 class SstIncident {
-  String? securitySystemSLAId;
   int? id;
   String? slNo;
-  OccurrenceModel? occurrence;
   Organisation? location;
   Organisation? region;
   Organisation? vendor;
+  OccurrenceModel? occurrence;
   String? vendorTicketNo;
   int? ticketType;
   int? staffType;
@@ -55,20 +54,15 @@ class SstIncident {
   String? detailDescription;
   String? rootCauseAnalysis;
   String? actionTaken;
-  String? escalation2;
   bool? costInvolved;
   String? invoiceNo;
-  String? escalation1Poc;
-  String? escalation2Poc;
-  String? escalation3Poc;
   String? emailList;
   String? poNo;
-  // List<dynamic>? entities;
-  // List<dynamic>? attachments;
-  // List<dynamic>? dataLossDocs;
-  // List<dynamic>? quotes;
-  // List<dynamic>? additionalDocs;
-  // int? modifiedDate;
+  List<dynamic>? entities;
+  List<dynamic>? attachments;
+  List<dynamic>? dataLossDocs;
+  List<dynamic>? quotes;
+  List<dynamic>? additionalDocs;
   String? modifiedBy;
   int? occType;
   List<ActivityNotes>? activityNotes;
@@ -77,9 +71,11 @@ class SstIncident {
   User? lt;
   User? systemManager;
   String? vendorPoc;
+  String? escalation1Poc;
+  String? escalation2Poc;
+  String? escalation3Poc;
 
   SstIncident({
-    this.securitySystemSLAId,
     this.id,
     this.slNo,
     this.location,
@@ -97,21 +93,18 @@ class SstIncident {
     this.dataLoss,
     this.status,
     this.shortDescription,
-   this.occurrence,
     this.detailDescription,
     this.rootCauseAnalysis,
     this.actionTaken,
-    this.escalation2,
     this.costInvolved,
     this.invoiceNo,
     this.emailList,
     this.poNo,
-    this.escalation1Poc,
-    this.escalation2Poc,
-    this.escalation3Poc,
-    // this.quotes,
-    // this.additionalDocs,
-    // this.modifiedDate,
+    this.entities,
+    this.attachments,
+    this.dataLossDocs,
+    this.quotes,
+    this.additionalDocs,
     this.modifiedBy,
     this.occType,
     this.activityNotes,
@@ -120,103 +113,127 @@ class SstIncident {
     this.lt,
     this.systemManager,
     this.vendorPoc,
+    this.escalation1Poc,
+    this.escalation2Poc,
+    this.escalation3Poc,
+    this.occurrence,
   });
 
   SstIncident.fromJson(Map<String, dynamic> json)
-      : securitySystemSLAId = json['securitySystemSLAId'] as String?,
-        id = json['id'] as int?,
+      : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
-        region = (json['region'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['region'] as Map<String,dynamic>) : null,
-        vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['vendor'] as Map<String,dynamic>) : null,
+        location = (json['location'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        region = (json['region'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
+            : null,
+        vendor = (json['vendor'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
+            : null,
         vendorTicketNo = json['vendorTicketNo'] as String?,
         ticketType = json['ticketType'] as int?,
         staffType = json['staffType'] as int?,
         ipbArea = json['ipbArea'] as bool,
-        occurrence = (json['occurrence'] as Map<String, dynamic>?) != null
-            ? OccurrenceModel.fromJson(json['occurrence'] as Map<String, dynamic>)
-            : null,  systemSLA = json['systemSLA'] as int?,
-        createdBy = (json['createdBy'] as Map<String,dynamic>?) != null ? User.fromJson(json['createdBy'] as Map<String,dynamic>) : null,
+        systemSLA = json['systemSLA'] as int?,
+        createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
+            : null,
         createdDate = json['createdDate'] as String?,
         criticalSpare = json['criticalSpare'] as bool?,
         issueType = json['issueType'] as int?,
         dataLoss = json['dataLoss'] as bool?,
         status = json['status'] as int?,
+        occurrence = (json['occurrence'] as Map<String, dynamic>?) != null
+            ? OccurrenceModel.fromJson(
+                json['occurrence'] as Map<String, dynamic>)
+            : null,
         shortDescription = json['shortDescription'] as String?,
         detailDescription = json['detailDescription'] as String?,
         rootCauseAnalysis = json['rootCauseAnalysis'] as String?,
         actionTaken = json['actionTaken'] as String?,
-        escalation2 = json['escalation2'] as String?,
         costInvolved = json['costInvolved'] as bool?,
         invoiceNo = json['invoiceNo'] as String?,
         emailList = json['emailList'] as String?,
         poNo = json['poNo'] as String?,
-        escalation1Poc = json['escalation1Poc'] as String?,
-        escalation2Poc = json['escalation2Poc'] as String?,
-        escalation3Poc = json['escalation3Poc'] as String?,
-  // quotes = json['quotes'] as List?,
-        // additionalDocs = json['additionalDocs'] as List?,
-        // modifiedDate = json['modifiedDate'] as int?,
+        entities = json['entities'] as List?,
+        attachments = json['attachments'] as List?,
+        dataLossDocs = json['dataLossDocs'] as List?,
+        quotes = json['quotes'] as List?,
+        additionalDocs = json['additionalDocs'] as List?,
         modifiedBy = json['modifiedBy'] as String?,
         occType = json['occType'] as int?,
-        activityNotes = (json['activityNotes'] as List?)?.map((dynamic e) => ActivityNotes.fromJson(e as Map<String,dynamic>)).toList(),
-        lsm = (json['lsm'] as Map<String,dynamic>?) != null ? User.fromJson(json['lsm'] as Map<String,dynamic>) : null,
-        asl = (json['asl'] as Map<String,dynamic>?) != null ? User.fromJson(json['asl'] as Map<String,dynamic>) : null,
-        lt = (json['lt'] as Map<String,dynamic>?) != null ? User.fromJson(json['lt'] as Map<String,dynamic>) : null,
-        systemManager = (json['systemManager'] as Map<String,dynamic>?) != null ? User.fromJson(json['systemManager'] as Map<String,dynamic>) : null,
-        vendorPoc = json['vendorPoc'] as String?;
+        activityNotes = (json['activityNotes'] as List?)
+            ?.map((dynamic e) =>
+                ActivityNotes.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        lsm = (json['lsm'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['lsm'] as Map<String, dynamic>)
+            : null,
+        asl = (json['asl'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['asl'] as Map<String, dynamic>)
+            : null,
+        lt = (json['lt'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['lt'] as Map<String, dynamic>)
+            : null,
+        systemManager = (json['systemManager'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['systemManager'] as Map<String, dynamic>)
+            : null,
+        vendorPoc = json['vendorPoc'] as String?,
+        escalation1Poc = json['escalation1Poc'] as String?,
+        escalation2Poc = json['escalation2Poc'] as String?,
+        escalation3Poc = json['escalation3Poc'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'securitySystemSLAId' : securitySystemSLAId,
-    'id' : id,
-    'slNo' : slNo,
-    'location' : location?.toJson(),
-   'occurrence': occurrence?.toJson(),
-    'region' : region?.toJson(),
-    'vendor' : vendor?.toJson(),
-    'vendorTicketNo' : vendorTicketNo,
-    'ticketType' : ticketType,
-    'staffType' : staffType,
-    'ipbArea' : ipbArea,
-    'systemSLA' : systemSLA,
-    'createdBy' : createdBy?.toJson(),
-    'createdDate' : createdDate,
-    'criticalSpare' : criticalSpare,
-    'issueType' : issueType,
-    'dataLoss' : dataLoss,
-    'status' : status,
-    'shortDescription' : shortDescription,
-    'detailDescription' : detailDescription,
-    'rootCauseAnalysis' : rootCauseAnalysis,
-    'actionTaken' : actionTaken,
-    'escalation2' : escalation2,
-    'costInvolved' : costInvolved,
-    'invoiceNo' : invoiceNo,
-    'emailList' : emailList,
-    'poNo' : poNo,
-    'escalation1Poc' : escalation1Poc,
-    'escalation2Poc' : escalation2Poc,
-    'escalation3Poc' : escalation3Poc,
-    // 'quotes' : quotes,
-    // 'additionalDocs' : additionalDocs,
-    // 'modifiedDate' : modifiedDate,
-    'modifiedBy' : modifiedBy,
-    'occType' : occType,
-    'activityNotes' : activityNotes?.map((e) => e.toJson()).toList(),
-    'lsm' : lsm?.toJson(),
-    'asl' : asl?.toJson(),
-    'lt' : lt?.toJson(),
-    'systemManager' : systemManager?.toJson(),
-    'vendorPoc' : vendorPoc
-  };
+        'id': id,
+        'slNo': slNo,
+        'location': location?.toJson(),
+        'region': region?.toJson(),
+        'vendor': vendor?.toJson(),
+        'vendorTicketNo': vendorTicketNo,
+        'ticketType': ticketType,
+        'staffType': staffType,
+        'ipbArea': ipbArea,
+        'systemSLA': systemSLA,
+        'createdBy': createdBy?.toJson(),
+        'createdDate': createdDate,
+        'criticalSpare': criticalSpare,
+        'issueType': issueType,
+        'dataLoss': dataLoss,
+        'status': status,
+        'shortDescription': shortDescription,
+        'detailDescription': detailDescription,
+        'rootCauseAnalysis': rootCauseAnalysis,
+        'actionTaken': actionTaken,
+        'costInvolved': costInvolved,
+        'invoiceNo': invoiceNo,
+        'emailList': emailList,
+        'poNo': poNo,
+        'entities': entities,
+        'attachments': attachments,
+        'dataLossDocs': dataLossDocs,
+        'quotes': quotes,
+        'additionalDocs': additionalDocs,
+        'modifiedBy': modifiedBy,
+        'occType': occType,
+        'activityNotes': activityNotes?.map((e) => e.toJson()).toList(),
+        'lsm': lsm?.toJson(),
+        'asl': asl?.toJson(),
+        'lt': lt?.toJson(),
+        'systemManager': systemManager?.toJson(),
+        'vendorPoc': vendorPoc,
+        'escalation1Poc': escalation1Poc,
+        'escalation2Poc': escalation2Poc,
+        'escalation3Poc': escalation3Poc,
+        'occType': occType,
+      };
 }
 
-
 class ActivityNotes {
-  int? id;
-  dynamic activityNotes;
-  int? submittedDate;
-  bool? submitted;
+  final int? id;
+  final String? activityNotes;
+  final int? submittedDate;
+  final bool? submitted;
 
   ActivityNotes({
     this.id,
@@ -227,14 +244,14 @@ class ActivityNotes {
 
   ActivityNotes.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        activityNotes = json['activityNotes'],
+        activityNotes = json['activityNotes'] as String?,
         submittedDate = json['submittedDate'] as int?,
         submitted = json['submitted'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'activityNotes' : activityNotes,
-    'submittedDate' : submittedDate,
-    'submitted' : submitted
-  };
+        'id': id,
+        'activityNotes': activityNotes,
+        'submittedDate': submittedDate,
+        'submitted': submitted
+      };
 }

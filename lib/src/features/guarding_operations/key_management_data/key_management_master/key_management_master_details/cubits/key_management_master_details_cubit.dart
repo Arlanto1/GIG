@@ -40,6 +40,7 @@ class KeyManagementMasterDetailsCubit
 
   void onModelValueChange(KeyManagementMasterModel model) {
     log('-onModelValueChange---');
+    emit(state.copyWith(model: model, status: FormStatus.loading));
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
@@ -47,16 +48,6 @@ class KeyManagementMasterDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void onAddParticipationDate(String participationDate) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    List<String>? dates = state.participationDates ?? [];
-    dates.add(participationDate);
-
-    state.copyWith(
-      participationDates: dates,
-    );
   }
 
   Future<void> initializeValues() async {

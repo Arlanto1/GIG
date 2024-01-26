@@ -153,7 +153,15 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         response = (await services.createEventEi(
             body: request, isSubmit: true, eventDuration: eventDuration));
       }
-    } on Exception catch (e) {
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    }on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),

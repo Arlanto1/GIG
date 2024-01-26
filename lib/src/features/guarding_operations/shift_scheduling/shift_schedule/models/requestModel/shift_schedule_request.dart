@@ -1,5 +1,5 @@
 
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 class ShiftScheduleRequest {
   ShiftScheduleRequest({
@@ -10,12 +10,12 @@ class ShiftScheduleRequest {
 
   ShiftScheduleRequest.fromJson(Map<String, dynamic> json) {
     shiftScheduleModel =
-        ShiftScheduleModel.fromJson(json['guardingMaster']);
+        ShiftScheduleModel.fromJson(json['ssGi']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['guardingMaster'] = shiftScheduleModel.toJson();
+    data['ssGi'] = shiftScheduleModel.toJson();
     return data;
   }
 }

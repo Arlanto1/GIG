@@ -139,7 +139,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
-                navigateToNextScreen: true,
+                navigateToNextScreen: false,
               );
             },
           ),
@@ -361,7 +361,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.guardingAgencyContact,
                                     ConstantsArgument.type: 1,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType: Constants
@@ -421,7 +421,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.systemEscalationContact,
                                     ConstantsArgument.type: 2,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
@@ -455,7 +455,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 state.labels?.locale.supervisorRank ??
                                     state
                                         .labels?.defaultLocale.supervisorRank ??
-                                    Constants.supervisorContact,
+                                    Constants.cmsEscalationContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -481,7 +481,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.cmsEscalationContact,
                                     ConstantsArgument.type: 3,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
@@ -516,7 +516,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                         .guardingAgencyZonalManager ??
                                     state.labels?.defaultLocale
                                         .guardingAgencyZonalManager ??
-                                    Constants.zonalEscalationContact,
+                                    Constants.guardingAgencyZonalManagerContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -542,7 +542,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                        Constants.guardingAgencyZonalManagerContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:

@@ -51,8 +51,6 @@ class AttendanceBloc
         await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-          locationId: '56',
         );
         return emit(
           state.copyWith(
@@ -67,8 +65,6 @@ class AttendanceBloc
       await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
-        locationId: '56',
       );
 
       if (getAttendanceList.items?.isEmpty == true) {
@@ -76,7 +72,7 @@ class AttendanceBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.list)
+          items: List.of(state.items)
             ..addAll(getAttendanceList.items?.toList() ?? []),
           hasReachedMax: false,
         ),

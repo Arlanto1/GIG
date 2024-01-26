@@ -453,8 +453,8 @@ class _KeyHistoryRecordsDetailsViewState
                             hintText: '',
                             isEnable: true,
                             isDisableColor: false,
-                            onChange: (int value) {
-                              state.model.noOfKeys = value;
+                            onChange: (String value) {
+                              state.model.noOfKeys = int.tryParse(value);
                               context
                                   .read<KeyHistoryRecordsDetailsCubit>()
                                   .onModelValueChange(state.model);

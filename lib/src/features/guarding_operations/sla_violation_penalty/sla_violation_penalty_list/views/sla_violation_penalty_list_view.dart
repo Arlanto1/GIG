@@ -25,7 +25,8 @@ class SLAViolationPenaltyListView extends StatefulWidget {
   });
 
   @override
-  State<SLAViolationPenaltyListView> createState() => _ContactDetailsListViewState();
+  State<SLAViolationPenaltyListView> createState() =>
+      _ContactDetailsListViewState();
 }
 
 class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
@@ -142,7 +143,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                         labels: labels,
                         status: state.items[index].status,
                         isEventProtectionStatus: false,
-                        isContactDetailsStatus: true,
+                        isSLAViolationStatus: true,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -152,6 +153,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                 labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isSLAViolationStatus: true,
+                                isEventProtectionStatus: false,
                               );
                             },
                           );
@@ -168,6 +170,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                 labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isSLAViolationStatus: true,
+                                isEventProtectionStatus: false,
                               );
                             },
                           );

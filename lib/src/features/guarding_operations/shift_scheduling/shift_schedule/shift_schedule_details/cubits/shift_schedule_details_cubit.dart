@@ -1,37 +1,35 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-
 part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
-  final ShiftScheduleServices services;
-  final ShiftScheduleModel? model;
-  final CommonServices commonServices;
+  final ShiftScheduleServices services = ShiftScheduleServices();
+
+  final CommonServices commonServices = CommonServices();
+  final String id;
+  final DutyPostModel? mainDutyPostModel;
 
   ShiftScheduleDetailsCubit({
-    required this.services,
-    required this.commonServices,
-    required this.model,
+    required this.id,
+    this.mainDutyPostModel,
   }) : super(
           ShiftScheduleDetailsState.initial(
-            model: model ?? ShiftScheduleModel(),
+            model: ShiftScheduleModel(),
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
-            departments: const [],
+            vendors: const [],
+            selectedDutyPostModel: mainDutyPostModel,
           ),
         );
 
@@ -40,10 +38,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(ShiftScheduleModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+  Future<void> getDutyPostById(int id) async {
+    log('-getGuardsByAssignedId---');
+    emit(state.copyWith(status: FormStatus.loading));
+    DutyPostModel dutyPostModel =
+        await services.getDutyPostById(id: id);
+    log('-dutyPostModel--${dutyPostModel.name}-');
+    emit(state.copyWith(
+        seletedDutyPostModel: dutyPostModel,
+        status: FormStatus.navigateToNextScreen));
   }
 
   String _getCurrentDate() {
@@ -57,6 +60,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       ),
     );
 
+    ShiftScheduleModel model = ShiftScheduleModel();
+    if (id.isNotEmpty) {
+      model = await services.getById(int.tryParse(id) ?? 0);
+    }
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -66,7 +74,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
+        services.getDutyPostsById(id: model.id),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -80,6 +88,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       List<User> entrySecurities = futures[4];
+      List<DutyPostModel> dutyPosts = futures[5];
       GetDepositor emailUsers = futures[6];
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
@@ -87,19 +96,17 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
+          moduleCode: Constants.shiftScheduleModule,
         );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      model.inputDate = _getCurrentDate();
 
-      dynamic participationDates = Utils()
-          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      log('-participationDates---${participationDates.toString()}---');
+      // dynamic participationDates = Utils()
+      //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -108,10 +115,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          model: state.model,
+          model: model,
           users: users.t1Analyst,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
+          dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
         ),
@@ -127,6 +135,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       );
     }
   }
+
+  String jsonString =
+      "{\n    \"id\": 55,\n    \"name\": \"Shift I/C SECURITY SUPERVISOR\",\n    \"ranks\": [\n        {\n            \"rank\": 1,\n            \"shifts\": [\n                {\n                    \"shift\": \"A\",\n                    \"allowed\": 1,\n                    \"selectedGuards\": [\n                        {\n                            \"userId\": 463,\n                            \"name\": \"Manas  Mohapatra \"\n                        }\n                    ],\n                    \"availableGuards\": [\n                        {\n                            \"userId\": 495,\n                            \"name\": \"Sagar Kumar Barik\"\n                        },\n                        {\n                            \"userId\": 494,\n                            \"name\": \"Rupam Gurung\"\n                        },\n                        {\n                            \"userId\": 493,\n                            \"name\": \"Munibur Raja Choudhury\"\n                        },\n                        {\n                            \"userId\": 492,\n                            \"name\": \"Mohanlal Banjara\"\n                        },\n                        {\n                            \"userId\": 490,\n                            \"name\": \"Kadappa Billannavar\"\n                        },\n                        {\n                            \"userId\": 489,\n                            \"name\": \"Bikram Chakma\"\n                        },\n                        {\n                            \"userId\": 488,\n                            \"name\": \"Rakesh Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 487,\n                            \"name\": \"Chandan Malik\"\n                        },\n                        {\n                            \"userId\": 486,\n                            \"name\": \"Chinaswamy \"\n                        },\n                        {\n                            \"userId\": 485,\n                            \"name\": \"Krishna Sharma\"\n                        },\n                        {\n                            \"userId\": 484,\n                            \"name\": \"Maheshwar Behera\"\n                        },\n                        {\n                            \"userId\": 483,\n                            \"name\": \"Balaji S\"\n                        },\n                        {\n                            \"userId\": 482,\n                            \"name\": \"Subrata Jana\"\n                        },\n                        {\n                            \"userId\": 481,\n                            \"name\": \"Manoj Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 480,\n                            \"name\": \"Suman Das\"\n                        },\n                        {\n                            \"userId\": 479,\n                            \"name\": \"Sanjoy Maity\"\n                        },\n                        {\n                            \"userId\": 478,\n                            \"name\": \"Ranuj Pegu\"\n                        },\n                        {\n                            \"userId\": 477,\n                            \"name\": \"Ishwar Majhi\"\n                        },\n                        {\n                            \"userId\": 476,\n                            \"name\": \"Keshab Chandra Jena\"\n                        },\n                        {\n                            \"userId\": 475,\n                            \"name\": \"Janak Gogoi\"\n                        },\n                        {\n                            \"userId\": 474,\n                            \"name\": \"Bulu Pradhan\"\n                        },\n                        {\n                            \"userId\": 473,\n                            \"name\": \"Suryakanta Chhotaray\"\n                        },\n                        {\n                            \"userId\": 472,\n                            \"name\": \"Rajib Munda Lohar\"\n                        },\n                        {\n                            \"userId\": 471,\n                            \"name\": \"Krushnachandra Sethy\"\n                        },\n                        {\n                            \"userId\": 470,\n                            \"name\": \"Soumya Ranjan Barik\"\n                        },\n                        {\n                            \"userId\": 466,\n                            \"name\": \"Sekhar Chandra Muduli\"\n                        }\n                    ],\n                    \"replacement\": null\n                }\n            ]\n        },\n{\n            \"rank\": 2,\n            \"shifts\": [\n                {\n                    \"shift\": \"A\",\n                    \"allowed\": 1,\n                    \"selectedGuards\": [\n                        {\n                            \"userId\": 463,\n                            \"name\": \"Manas  Mohapatra \"\n                        }\n                    ],\n                    \"availableGuards\": [\n                        {\n                            \"userId\": 495,\n                            \"name\": \"Sagar Kumar Barik\"\n                        },\n                        {\n                            \"userId\": 494,\n                            \"name\": \"Rupam Gurung\"\n                        },\n                        {\n                            \"userId\": 493,\n                            \"name\": \"Munibur Raja Choudhury\"\n                        },\n                        {\n                            \"userId\": 492,\n                            \"name\": \"Mohanlal Banjara\"\n                        },\n                        {\n                            \"userId\": 490,\n                            \"name\": \"Kadappa Billannavar\"\n                        },\n                        {\n                            \"userId\": 489,\n                            \"name\": \"Bikram Chakma\"\n                        },\n                        {\n                            \"userId\": 488,\n                            \"name\": \"Rakesh Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 487,\n                            \"name\": \"Chandan Malik\"\n                        },\n                        {\n                            \"userId\": 486,\n                            \"name\": \"Chinaswamy \"\n                        },\n                        {\n                            \"userId\": 485,\n                            \"name\": \"Krishna Sharma\"\n                        },\n                        {\n                            \"userId\": 484,\n                            \"name\": \"Maheshwar Behera\"\n                        },\n                        {\n                            \"userId\": 483,\n                            \"name\": \"Balaji S\"\n                        },\n                        {\n                            \"userId\": 482,\n                            \"name\": \"Subrata Jana\"\n                        },\n                        {\n                            \"userId\": 481,\n                            \"name\": \"Manoj Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 480,\n                            \"name\": \"Suman Das\"\n                        },\n                        {\n                            \"userId\": 479,\n                            \"name\": \"Sanjoy Maity\"\n                        },\n                        {\n                            \"userId\": 478,\n                            \"name\": \"Ranuj Pegu\"\n                        },\n                        {\n                            \"userId\": 477,\n                            \"name\": \"Ishwar Majhi\"\n                        },\n                        {\n                            \"userId\": 476,\n                            \"name\": \"Keshab Chandra Jena\"\n                        },\n                        {\n                            \"userId\": 475,\n                            \"name\": \"Janak Gogoi\"\n                        },\n                        {\n                            \"userId\": 474,\n                            \"name\": \"Bulu Pradhan\"\n                        },\n                        {\n                            \"userId\": 473,\n                            \"name\": \"Suryakanta Chhotaray\"\n                        },\n                        {\n                            \"userId\": 472,\n                            \"name\": \"Rajib Munda Lohar\"\n                        },\n                        {\n                            \"userId\": 471,\n                            \"name\": \"Krushnachandra Sethy\"\n                        },\n                        {\n                            \"userId\": 470,\n                            \"name\": \"Soumya Ranjan Barik\"\n                        },\n                        {\n                            \"userId\": 466,\n                            \"name\": \"Sekhar Chandra Muduli\"\n                        }\n                    ],\n                    \"replacement\": null\n                }\n            ]\n        },\n\n{\n            \"rank\": 3,\n            \"shifts\": [\n                {\n                    \"shift\": \"A\",\n                    \"allowed\": 1,\n                    \"selectedGuards\": [\n                        {\n                            \"userId\": 463,\n                            \"name\": \"Manas  Mohapatra \"\n                        }\n                    ],\n                    \"availableGuards\": [\n                        {\n                            \"userId\": 495,\n                            \"name\": \"Sagar Kumar Barik\"\n                        },\n                        {\n                            \"userId\": 494,\n                            \"name\": \"Rupam Gurung\"\n                        },\n                        {\n                            \"userId\": 493,\n                            \"name\": \"Munibur Raja Choudhury\"\n                        },\n                        {\n                            \"userId\": 492,\n                            \"name\": \"Mohanlal Banjara\"\n                        },\n                        {\n                            \"userId\": 490,\n                            \"name\": \"Kadappa Billannavar\"\n                        },\n                        {\n                            \"userId\": 489,\n                            \"name\": \"Bikram Chakma\"\n                        },\n                        {\n                            \"userId\": 488,\n                            \"name\": \"Rakesh Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 487,\n                            \"name\": \"Chandan Malik\"\n                        },\n                        {\n                            \"userId\": 486,\n                            \"name\": \"Chinaswamy \"\n                        },\n                        {\n                            \"userId\": 485,\n                            \"name\": \"Krishna Sharma\"\n                        },\n                        {\n                            \"userId\": 484,\n                            \"name\": \"Maheshwar Behera\"\n                        },\n                        {\n                            \"userId\": 483,\n                            \"name\": \"Balaji S\"\n                        },\n                        {\n                            \"userId\": 482,\n                            \"name\": \"Subrata Jana\"\n                        },\n                        {\n                            \"userId\": 481,\n                            \"name\": \"Manoj Kumar Nayak\"\n                        },\n                        {\n                            \"userId\": 480,\n                            \"name\": \"Suman Das\"\n                        },\n                        {\n                            \"userId\": 479,\n                            \"name\": \"Sanjoy Maity\"\n                        },\n                        {\n                            \"userId\": 478,\n                            \"name\": \"Ranuj Pegu\"\n                        },\n                        {\n                            \"userId\": 477,\n                            \"name\": \"Ishwar Majhi\"\n                        },\n                        {\n                            \"userId\": 476,\n                            \"name\": \"Keshab Chandra Jena\"\n                        },\n                        {\n                            \"userId\": 475,\n                            \"name\": \"Janak Gogoi\"\n                        },\n                        {\n                            \"userId\": 474,\n                            \"name\": \"Bulu Pradhan\"\n                        },\n                        {\n                            \"userId\": 473,\n                            \"name\": \"Suryakanta Chhotaray\"\n                        },\n                        {\n                            \"userId\": 472,\n                            \"name\": \"Rajib Munda Lohar\"\n                        },\n                        {\n                            \"userId\": 471,\n                            \"name\": \"Krushnachandra Sethy\"\n                        },\n                        {\n                            \"userId\": 470,\n                            \"name\": \"Soumya Ranjan Barik\"\n                        },\n                        {\n                            \"userId\": 466,\n                            \"name\": \"Sekhar Chandra Muduli\"\n                        }\n                    ],\n                    \"replacement\": null\n                }\n            ]\n        }\n    ]\n}\n";
 
   Future<void> updateDropdownValues({
     Organisation? location,
@@ -144,17 +155,98 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.shiftScheduleModule,
       );
 
-      state.model.location = location;
+      // state.model.location = location;
       state.model.slNo = slNo.serialNo;
+
+      // TODO: uncomment
+      if (state.model.vendor != null) {
+        List<DutyPostModel> dutyPosts =
+            await services.getDutyPostsByLocationAndVendor(
+                locationId: state.model.location!.id ?? 0,
+                vendorId: state.model.vendor?.id ?? 0);
+        // List<DutyPostModel> dutyPosts=[];
+        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        emit(state.copyWith(
+          dutyPosts: dutyPosts,
+          status: FormStatus.initial,
+        ));
+      }
+    }
+    if (vendor != null) {
+      state.model.vendor = vendor;
+
+      // TODO: uncomment
+      if (state.model.location != null) {
+        List<DutyPostModel> dutyPosts =
+            await services.getDutyPostsByLocationAndVendor(
+                locationId: state.model.location!.id ?? 0,
+                vendorId: state.model.vendor?.id ?? 0);
+        // List<DutyPostModel> dutyPosts=[];
+        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        emit(state.copyWith(
+          dutyPosts: dutyPosts,
+          status: FormStatus.initial,
+        ));
+      }
+    }
+    state.model.dutyType = dutyType ?? state.model.dutyType;
+    state.model.status = status ?? state.model.status;
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void updateReplacement(
+    Replacement replacement,
+  ) {
+    emit(state.copyWith(
+      status: FormStatus.loading,
+    ));
+
+    log('----state.selectedDutyPostModel--before-${json.encode(state.selectedDutyPostModel.toString())}-');
+    log('----replacement.fromDate---${replacement.fromDate}-');
+
+    // Check if replacement has an ID
+    if (replacement.id != null) {
+      // Iterate over ranks and shifts to find and update the replacement
+      state.selectedDutyPostModel?.ranks?.forEach((rank) {
+        rank.shifts?.forEach((shift) {
+          shift.replacements?.forEach((existingReplacement) {
+            log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
+            if (existingReplacement.id == replacement.id) {
+              // Update the existing replacement with the new values
+              existingReplacement.replacedFor = replacement.replacedFor;
+              existingReplacement.replacementBy = replacement.replacementBy;
+              existingReplacement.fromDate = replacement.fromDate;
+              existingReplacement.toDate = replacement.toDate;
+              existingReplacement.status = replacement.status;
+            }
+          });
+        });
+      });
+    } else {
+      // If replacement has no ID, add it as a new object to the replacements list
+      state.selectedDutyPostModel?.ranks?.forEach((rank) {
+        rank.shifts?.forEach((shift) {
+          shift.replacements ??= [];
+          shift.replacements!.add(replacement);
+        });
+      });
     }
 
-    state.model.vendor = vendor ?? state.model.vendor;
-    state.model.dutyType = dutyType ?? state.model.dutyType;
-    state.model.systemAccess = systemAccess ?? state.model.systemAccess;
-    state.model.status = status ?? state.model.status;
+    log('----state.selectedDutyPostModel--after-${json.encode(state.selectedDutyPostModel.toString())}-');
+
+    log('----end----');
+    emit(state.copyWith(
+      model: state.model,
+      seletedDutyPostModel: state.selectedDutyPostModel,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -203,6 +295,85 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         response =
             (await services.createShiftSchedule(body: request, isSubmit: true));
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    log('---response--msg--${response.message}---');
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
+  }
+
+  void submitDutyPost(
+      {bool isSaveOnly = false, required DutyPostModel model}) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    log('---submitDutyPost---');
+
+    // Create/Update API Call
+    DutyPostRequest request = DutyPostRequest(dutyPost: model);
+
+    GenericResponse response = GenericResponse();
+    try {
+      if (isSaveOnly) {
+        // if (!state.isValidDraft.status) {
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.error,
+        //       message: state.isValidDraft.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = (await services.assignGuards(
+          body: request,
+          isSubmit: false,
+        ));
+      } else {
+        //Validating Fields
+        // if (!state.isValid.status) {
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.error,
+        //       message: state.isValid.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = (await services.assignGuards(
+          body: request,
+          isSubmit: true,
+        ));
+      }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(

@@ -161,7 +161,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   Future<void> updateDropdownValues({
     BaseUser? asl,
     BaseUser? systemManager,
-    BaseUser? lsm,
     BaseUser? lt,
     Organisation? vendor,
     Organisation? location,
@@ -186,40 +185,83 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.vendor = vendor;
     }
 
-    if (asl != null) {
-      User userDetails = User(
-        name: asl.name,
-        userId: asl.id,
-        userName: asl.name,
-      );
-      state.model.asl = userDetails;
-    }
-
     if (systemManager != null) {
       User userDetails = User(
         name: systemManager.name,
         userId: systemManager.id,
-        userName: systemManager.name,
+        email: systemManager.email,
       );
       state.model.systemManager = userDetails;
-    }
 
-    if (lsm != null) {
-      User userDetails = User(
-        name: lsm.name,
-        userId: lsm.id,
-        userName: lsm.name,
+      emit(
+        state.copyWith(
+          systemManager: state.emailUsers,
+        ),
       );
-      state.model.lsm = userDetails;
+      state.lt?.remove(systemManager);
+      state.asl?.remove(systemManager);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          asl: state.asl,
+          lt: state.lt,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
     if (lt != null) {
       User userDetails = User(
         name: lt.name,
         userId: lt.id,
-        userName: lt.name,
+        email: lt.email,
       );
-      state.model.lt = userDetails; // TODO: need json property
+      state.model.lt = userDetails;
+
+      emit(
+        state.copyWith(
+          lt: state.emailUsers,
+        ),
+      );
+
+      state.systemManager?.remove(lt);
+      state.asl?.remove(lt);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          systemManager: state.systemManager,
+          asl: state.asl,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+    if (asl != null) {
+      User userDetails = User(
+        name: asl.name,
+        userId: asl.id,
+        email: asl.email,
+      );
+      state.model.asl = userDetails;
+
+      emit(
+        state.copyWith(
+          asl: state.emailUsers,
+        ),
+      );
+
+      state.systemManager?.remove(asl);
+      state.lt?.remove(asl);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          systemManager: state.systemManager,
+          lt: state.lt,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
     ////Get Sl No from API
@@ -244,6 +286,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       status: FormStatus.initial,
     ));
   }
+
 
   void addAttachment({
     List<ImageContent>? data,

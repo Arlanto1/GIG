@@ -36,17 +36,20 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart'
+    as arb;
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart';
@@ -85,15 +88,17 @@ import '../features/guarding_operations/key_management_data/key_management_maste
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
-import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart';
 import '../features/guarding_operations/vvip_visitor/models/vvip_visitor_response_model.dart';
 import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/cubits/vvip_visitor_details_cubit.dart';
 import '../features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart';
-import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart' as vip;
-import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart' as vipr;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart'
+    as vip;
+import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
+    as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
 
 class RouteGenerator {
@@ -761,17 +766,18 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        GuardingMastersDataModel? guardingMastersData =
-            arguments["GuardingMastersDataModel"];
+        GuardingMastersDataModel? model = arguments["GuardingMastersDataModel"];
+        log('-guardingMastersDataModel-model--id---${model?.id}---');
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
             create: (_) => GuardingMasterDataDetailsCubit(
               services: services,
-              model: guardingMastersData,
+              model: model,
               commonServices: commonServices,
             ),
             child: GuardingMasterDataDetails(
-              guardingMasterData: guardingMastersData,
+              guardingMasterData: model,
               title: title,
             ),
           ),
@@ -1134,6 +1140,55 @@ class RouteGenerator {
                   child: const AttendanceView(),
                 ));
 
+      case attendanceDetailsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+        }
+        AttendanceServices services = AttendanceServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<AttendanceDetailsCubit>(
+            create: (_) => AttendanceDetailsCubit(
+              id: id,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: const AttendanceDetailsView(),
+          ),
+        );
+
+      case attendanceShiftsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+        }
+        AttendanceServices services = AttendanceServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<AttendanceShiftsCubit>(
+            create: (_) => AttendanceShiftsCubit(
+              id: id,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: const AttendanceShiftsView(),
+          ),
+        );
+
+      case attendanceReportBillingListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<arb.AttendanceReportBillingBloc>(
+                  create: (_) => arb.AttendanceReportBillingBloc()
+                    ..add(
+                        const arb.FetchAttendanceList(startPos: 0, maxPos: 20)),
+                  child: const AttendanceReportBillingView(),
+                ));
+
       case shiftScheduleListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ShiftScheduleListBloc>(
@@ -1144,28 +1199,22 @@ class RouteGenerator {
                 ));
 
       case shiftScheduleDetailsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+        }
         ShiftScheduleServices services = ShiftScheduleServices();
         CommonServices commonServices = CommonServices();
-        String title;
-        Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
-        title = arguments[ConstantsArgument.title];
-        ShiftScheduleModel? shiftScheduleModel =
-            arguments["shiftScheduleModel"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(
-              services: services,
-              model: shiftScheduleModel,
-              commonServices: commonServices,
+              id: id,
             ),
-            child: ShiftScheduleDetailsView(
-              model: shiftScheduleModel,
-              title: title,
-            ),
+            child: const ShiftScheduleDetailsView(),
           ),
         );
-
 
       case vipVisitorsListRoute:
         return MaterialPageRoute(
@@ -1181,7 +1230,7 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         VIVPVisitorModel? model = arguments["model"];
         return MaterialPageRoute(
@@ -1204,7 +1253,7 @@ class RouteGenerator {
         // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           // violationDescription =
@@ -1213,19 +1262,19 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vipr.VVIPVisitorsRecordBloc>(
             create: (_) => vipr.VVIPVisitorsRecordBloc(
-              //violationDescription: violationDescription,
-            )..add(vipr.FetchData(
-              id: id,
-              startPos: 0,
-              maxPos: 100,
-            )),
+                //violationDescription: violationDescription,
+                )
+              ..add(vipr.FetchData(
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
             child: VVIPVisitorsRecordView(
               id: id,
               title: title,
             ),
           ),
         );
-
 
       default:
         CommonServices commonServices = CommonServices();

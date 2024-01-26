@@ -169,6 +169,9 @@ class Utils {
       case 2:
         statusText = 'Handed Over';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -196,6 +199,9 @@ class Utils {
         break;
       case 3:
         statusText = 'Distributed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -244,7 +250,7 @@ class Utils {
         statusText = 'Inward Waiting';
         break;
       case 10:
-        statusText = 'Closed';
+        statusText = 'Closed/Finalize';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -316,7 +322,56 @@ class Utils {
     );
   }
 
-  Widget buildGuardrank(int guardRank) {
+  Row buildAttendanceDutyTypeRow(int dutyType) {
+    String dutyTypeText;
+
+    switch (dutyType) {
+      case 1:
+        dutyTypeText = 'Transport';
+        break;
+      case 2:
+        dutyTypeText = 'Building';
+        break;
+      case 3:
+        dutyTypeText = 'Building and Transport';
+        break;
+      default:
+        dutyTypeText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('DutyType: ', dutyTypeText),
+      ],
+    );
+  }
+  Row buildAttendanceStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('Status: ', statusText),
+      ],
+    );
+  }
+  dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
     switch (guardRank) {
@@ -340,6 +395,10 @@ class Utils {
         break;
       default:
         guardRankText = ''; // Handle the default case if needed
+    }
+
+    if(returnTextOnly??false) {
+      return guardRankText;
     }
 
     return IntrinsicWidth(
@@ -768,6 +827,57 @@ class Utils {
     );
   }
 
+  Widget keyManagementMasterHistoryStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Lock Changed';
+        break;
+      case 2:
+        statusText = 'Lost';
+        break;
+      case 3:
+        statusText = 'Damaged';
+        break;
+      case 4:
+        statusText = 'Lost Approved';
+        break;
+      case 5:
+        statusText = 'Damaged Approved';
+        break;
+      case 6:
+        statusText = 'Investigation';
+        break;
+      case 7:
+        statusText = 'Destroy';
+        break;
+      case 8:
+        statusText = 'Destroy Rejected';
+        break;
+      case 9:
+        statusText = 'Destroy Approved';
+        break;
+      case 10:
+        statusText = 'Closed';
+        break;
+      case 11:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget buildIncidentStatus(int status) {
     String statusText;
 
@@ -911,14 +1021,17 @@ class Utils {
     String statusText;
 
     switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
       case 1:
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'Draft';
+        statusText = 'Finalized';
         break;
-      case 3:
-        statusText = 'Finalize';
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -1047,6 +1160,9 @@ class Utils {
       case 1:
         statusText = 'Active';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -1059,6 +1175,30 @@ class Utils {
     );
   }
 
+  Widget dutyPostNameMasterStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget employeeTypeValues(int employeeType) {
     String employeeTypeText;
 
@@ -1170,7 +1310,33 @@ class Utils {
     );
   }
 
+  Widget shiftScheduleStatusRow(int status) {
+    String statusText;
 
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,

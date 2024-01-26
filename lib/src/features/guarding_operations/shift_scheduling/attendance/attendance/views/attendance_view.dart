@@ -43,22 +43,22 @@ class _AttendanceViewState extends State<AttendanceView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.attendance,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.attendance,
+        showPopUp: true,
+        showSaveButton: false,
+        showSubmitButton: false,
+        excelAPIName: 'exportGMDataExcel',
+        pdfAPIName: 'exportGMDataPDF',
+      ),
+      body: BlocBuilder<AttendanceBloc, AttendanceState>(
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
-          if (state.list.isEmptyOrNull) {
+          if (state.items.isEmptyOrNull) {
             return const NoRecordFoundWidget();
           }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -73,78 +73,101 @@ class _AttendanceViewState extends State<AttendanceView> {
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
-                  ? state.list.length
-                  : state.list.length + 1,
+                  ? state.items.length
+                  : state.items.length + 1,
               itemBuilder: (context, index) {
                 List<Label> labels = [];
-                if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                if (index < state.items.length) {
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.locationRegion ??
+                          //  state.labels?.defaultLocale.locationRegion ??
+                          'Region',
+                      value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.location ??
+                          //     state.labels?.defaultLocale.location ??
+                          'Building Location ',
+                      value: state.items[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.locationRegion ??
+                          //  state.labels?.defaultLocale.locationRegion ??
+                          'SlNo',
+                      value: state.items[index].slNo ?? ''));
+                  return index >= state.items.length
+                      ? const BaseLoader()
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          isMasterGuard: false,
+                          isAttendanceStatus: true,
+                          isEventProtectionStatus: false,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  dutyType: state.items[selectedIndex].dutyType,
+                                  isAttendance: true,
+                                  isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                  status: state.items[selectedIndex].status,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getById(id: state.items[index].id ?? 0);
+                          },
+                          showEditButton: true,
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  dutyType: state.items[selectedIndex].dutyType,
+                                  status: state.items[selectedIndex].status,
+                                  isMaterGuard: false,
+                                  isMasterGuard: false,
+                                  isAttendance: true,
+                                  isEventProtectionStatus: false,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
                 }
-                return index >= state.list.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.list[index].id,
-                        labels: labels,
-                        status: state.list[index].status,
-                        isMasterGuard: true,
-                        guardRank: state.list[index].guardRank,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
-                                status: state.list[selectedIndex].status,
-                              );
-                            },
-                          );
-                        },
-                        // onEditTap: (selectedIndex) {
-                        //   getById(state.list[index].id ?? 0);
-                        // },
-                        showEditButton: false,
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                labels: labels,
-                                status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
-                                // isEventProtectionStatus: false,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+
+                // Handle the case where index is out of bounds
+                return const Center(
+                  child: SizedBox(),
+                );
               },
             ),
           );
-        }));
+        },
+      ),
+    );
+  }
+
+  getById({
+    required int id,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      attendanceDetailsRoute,
+      arguments: {
+        ConstantsArgument.id: id.toString(),
+        ConstantsArgument.title: Constants.editAttendance
+      },
+    );
   }
 }

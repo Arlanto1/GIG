@@ -1,24 +1,21 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/requestModel/duty_post_master_request.dart';
-
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getDutyPostMaster = '$baseUrl/getDpmList?';
 
-  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+  static final String _getDutyPostMasterById = '$baseUrl/getDpmById';
+  static final String _getDutyPostsByLocation = '$baseUrl/getDpnByLocId';
 
-  static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+  static final String _createDutyPostMaster = '$baseUrl/createDpm?';
 }
 
 class DutyPostMasterServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
 
@@ -29,7 +26,7 @@ class DutyPostMasterServices {
     required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getDutyPostMaster}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -37,11 +34,23 @@ class DutyPostMasterServices {
   }
 
   Future<DutyPostMasterModel> getById(int id) async {
-    final String url = '${Apis._getGuardingMasterData}/$id';
+    final String url = '${Apis._getDutyPostMasterById}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
     return DutyPostMasterModel.fromJson(response);
+  }
+
+  Future<List<Organisation>> getDutyPostsByLocation({
+    required String locationId,
+  }) async {
+    final String url = '${Apis._getDutyPostsByLocation}/$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 
   /// Create Services
@@ -51,7 +60,7 @@ class DutyPostMasterServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createDutyPostMaster}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
@@ -59,5 +68,4 @@ class DutyPostMasterServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }

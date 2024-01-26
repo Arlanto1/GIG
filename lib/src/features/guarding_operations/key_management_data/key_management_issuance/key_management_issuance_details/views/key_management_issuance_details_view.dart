@@ -55,7 +55,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         log('-state.status---${state.status}----');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'SLA Violation Penalty',
+            title: 'Key Management Issuance',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -258,23 +258,23 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: keyHandedOverDateController,
-                              isDisabled: true,
-                              onChange: (String value) {
-                                state.model.keyHandOverDate =
-                                    Utils().formatTime(value);
-
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                                //},
-                              },
-                              context: context,
-                            ),
+                            datecreateWidgetdisplay(
+                                state.model.keyHandOverDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            // BaseDate().datePickerWidgetLoading(
+                            //   textController: keyHandedOverDateController,
+                            //   isDisabled: true,
+                            //   onChange: (String value) {
+                            //       state.model.keyHandOverDate =
+                            //           Utils().formatTime(value);
+                            //       BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
+                            //           context)
+                            //           .onModelValueChange(state.model);
+                            //   },
+                            //   context: context,
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -412,14 +412,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               isDisabled: true,
                               onlyDate: false,
                               onChange: (String value) {
-                                // state.model.keyHandOverDue =
-                                //     Utils().formatTime(value);
-                                //
-                                // BlocProvider.of<
-                                //             KeyManagementIssuanceDetailsCubit>(
-                                //         context)
-                                //     .onModelValueChange(state.model);
-                                // //},
+                                state.model.keyHandOverDue =
+                                    Utils().formatTime(value);
+
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                                //},
                               },
                               context: context,
                             ),
