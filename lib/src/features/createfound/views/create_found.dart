@@ -1031,6 +1031,11 @@ class _CreateFoundState extends State<CreateFound> {
                               BaseDate().datePickerWidgetLoading(
                                 showFutureDate: false,
                                 textController: foundDateTextController,
+                                isDisabled: (widget.model?.status ==
+                                    1 ||
+                                    widget.model?.status == -1)
+                                    ? true
+                                    : false,
                                 onChange: (String value) {
                                   widget.model?.foundDate =
                                       Utils().formatTime(value);
@@ -1777,7 +1782,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
       onTap: () {
-        //if (widget.listuser == null || locationselectedText.isEmpty)
+        if (widget.model?.status == null || widget.model?.status == 0)
         {
           showDialog(
             context: context,
