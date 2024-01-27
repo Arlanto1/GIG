@@ -255,8 +255,8 @@ class Constants {
 
   // Law enforcement
   static const String createlawenforcement =
-      'Create LawEnforcement Official Visit';
-  static const String editlawenforcement = 'Edit LawEnforcement Official Visit';
+      'Create Law Enforcement Official Visit';
+  static const String editlawenforcement = 'Edit Law Enforcement Official Visit';
   static const String addcompanytype = 'Add Company Type';
   static const String addentitytype = 'Add Entity';
   static const String addpurposeofvisittype = 'Add Puropose Of Visit';
