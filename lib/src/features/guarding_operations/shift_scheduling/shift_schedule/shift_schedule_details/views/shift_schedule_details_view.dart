@@ -44,7 +44,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         log('-state.status---${state.status}----');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Duty Post Master',
+            title: 'Message',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -112,6 +112,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            onTapSubmit: (){
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
+            }
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
