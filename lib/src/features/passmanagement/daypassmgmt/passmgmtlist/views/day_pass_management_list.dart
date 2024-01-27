@@ -159,6 +159,43 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           icon: const Icon(Icons.arrow_back_ios_new_outlined,
               color: Colors.white),
         ),
+        // action: [
+        //   CustomPopmenu(
+        //     //itemList :[],
+        //     itemList: const [
+        //       PopMenuItems("Export Excel", AppIcon.exportexcel),
+        //       PopMenuItems("Export PDF", AppIcon.exportpdf),
+        //       //PopMenuItems("Export XML", AppIcon.exportxml),
+        //       //PopMenuItems("Close", AppIcon.close),
+        //     ],
+        //     itemTap: (value) async {
+        //       String userid = await SharedPrefs.getUserId();
+        //       log(value);
+        //       if (value == 0) {
+        //         DownloadImage().exportExcel(context, int.parse(userid),
+        //             'export.xslx', 0, pageNumber, '/exportPassMgmtExcel');
+        //         DownloadImage().passexportExcel(
+        //             context,
+        //             int.parse(userid),
+        //             'export.xslx',
+        //             int.parse(widget.passId ?? '0'),
+        //             1,
+        //             '/exportPassMgmtExcel');
+        //       } else if (value == 1) {
+        //         // DownloadImage().exportPdf(context, int.parse(userid),
+        //         //     'export.pdf', 0, pageNumber, '/exportPassMgmtPDF');
+        //         DownloadImage().passexportExcel(
+        //             context,
+        //             int.parse(userid),
+        //             'export.pdf',
+        //             int.parse(widget.passId ?? '0'),
+        //             1,
+        //             '/exportPassMgmtPDF');
+        //       }
+        //     },
+        //     popupimagename: AppIcon.morewhiteicon,
+        //   ),
+        // ],
         action: [
           CustomPopmenu(
             //itemList :[],
@@ -166,31 +203,16 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
               //PopMenuItems("Export XML", AppIcon.exportxml),
-              //PopMenuItems("Close", AppIcon.close),
+              // PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              log(value);
               if (value == 0) {
-                // DownloadImage().exportExcel(context, int.parse(userid),
-                //     'export.xslx', 0, pageNumber, '/exportPassMgmtExcel');
-                DownloadImage().passexportExcel(
-                    context,
-                    int.parse(userid),
-                    'export.xslx',
-                    int.parse(widget.passId ?? '0'),
-                    1,
-                    '/exportPassMgmtExcel');
+                DownloadImage().exportExcel(context, int.parse(userid),
+                    'export.xslx', 0, pageNumber, '/exportPassMgmtExcel');
               } else if (value == 1) {
-                // DownloadImage().exportPdf(context, int.parse(userid),
-                //     'export.pdf', 0, pageNumber, '/exportPassMgmtPDF');
-                DownloadImage().passexportExcel(
-                    context,
-                    int.parse(userid),
-                    'export.pdf',
-                    int.parse(widget.passId ?? '0'),
-                    1,
-                    '/exportPassMgmtPDF');
+                DownloadImage().exportPdf(context, int.parse(userid),
+                    'export.pdf', 0, pageNumber, '/exportPassMgmtPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
