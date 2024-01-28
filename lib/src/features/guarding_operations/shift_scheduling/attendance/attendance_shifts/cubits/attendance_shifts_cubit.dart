@@ -47,7 +47,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
 
     log('--model----${model.name}--');
-    model = DutyPostModel.fromJson(json.decode(jsonStringold));
+    // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
     try {
