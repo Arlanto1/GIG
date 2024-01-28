@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_multiselect.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
@@ -73,7 +74,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: getBody(height, state.model),
+                children: getBody(state, height, state.model),
               ),
             ),
           ),
@@ -89,7 +90,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     //     .submitDutyPost(model: widget.model, isSaveOnly: isSaveOnly);
   }
 
-  List<Widget> getBody(double height, DutyPostModel model) {
+  List<Widget> getBody(
+      AttendanceShiftsState state, double height, DutyPostModel model) {
     log('--model.name-${model.name}-');
     log('--model.ranks-${model.ranks?.length}-');
     return [
@@ -111,7 +113,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: buildDutyPostSelectionWidget(
-                        rank.attendanceShift ?? [], height),
+                        state, rank.attendanceShift ?? [], height),
                   ),
                 ),
               ),
@@ -121,13 +123,24 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     ];
   }
 
-  List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts, double height) {
+  List<Widget> buildDutyPostSelectionWidget(
+      AttendanceShiftsState state, List<Shift> shifts, double height) {
     log('--shifts--length--${shifts.length}-');
     return [
       for (Shift shift in shifts) ...[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Problem here I have 3 lists now and i want to move elements between all three lists
+            // Movement of element can be from:
+            // first to second list
+            // second to third list
+            // second to first list
+            // Movement of element can't be from
+            // first to third list
+            // third to first list
+            // Please modify code accordingly
+
             buildShiftColumn(shift, isSourceList: true),
             buildShiftColumn(shift, isSourceList: false),
           ],
@@ -137,9 +150,24 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         if (!shift.attended.isEmptyOrNull) ...[
           buildReplacementColumn(shift),
         ],
+
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.01),
+        CommonWidgets.textDisplay(
+          'Briefing Points:',
+          isMandatory: false,
+          Styles.textStyleBlack14,
+        ),
+        MultiSelectDropdown(
+            briefingPoints: state.briefingPoints ?? [],
+            selectedPoints: shift.briefingPoints?.split(';') ?? []),
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.01),
       ],
     ];
   }
+
+  String selectedValue = '';
 
   Column buildShiftColumn(Shift shift, {required bool isSourceList}) {
     return Column(
@@ -153,29 +181,32 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
-        buildUserList(
-          availableGuards: isSourceList
-              ? shift.selectForAttendance ?? []
-              : shift.attended ?? [],
-          isSourceList: isSourceList,
-          selectedGuards: shift.selectedGuards ?? [],
-          maxAllowed: shift.allowed ?? 0,
-          onAdd: (BaseUser guard) {
-            setState(() {
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
-            });
-          },
-          onRemove: (BaseUser guard) {
-            setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
-                ..add(guard);
-            });
-          },
+        AbsorbPointer(
+          absorbing: !shift.activeShift,
+          child: buildUserList(
+            availableGuards: isSourceList
+                ? shift.selectForAttendance ?? []
+                : shift.attended ?? [],
+            isSourceList: isSourceList,
+            selectedGuards: shift.selectedGuards ?? [],
+            maxAllowed: shift.allowed ?? 0,
+            onAdd: (BaseUser guard) {
+              setState(() {
+                shift.availableGuards = List.from(shift.availableGuards!)
+                  ..remove(guard);
+                shift.selectedGuards = List.from(shift.selectedGuards!)
+                  ..add(guard);
+              });
+            },
+            onRemove: (BaseUser guard) {
+              setState(() {
+                shift.selectedGuards = List.from(shift.selectedGuards!)
+                  ..remove(guard);
+                shift.availableGuards = List.from(shift.availableGuards!)
+                  ..add(guard);
+              });
+            },
+          ),
         ),
       ],
     );

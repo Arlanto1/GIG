@@ -50,9 +50,7 @@ class SLAViolationPenaltyDetailsView extends StatefulWidget {
 
 class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
-  TextEditingController guardingAgencyPOCController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isReadOnly = false;
 

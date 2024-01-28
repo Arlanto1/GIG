@@ -31,6 +31,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         );
 
   Future<void> initializeValues() async {
+    log('--initializeValues--');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -59,7 +60,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.attendanceModule), // 6
         SharedPrefs.getDefaultLocation(), // 7
-        // services.getDutyPostsById(id: model.id), // 8
+        services.getBriefingPoints(), // 8
       ]);
 
       Locations getLocationsData = futures[0];
@@ -70,7 +71,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       Vendors vendors = futures[5];
       dynamic responseLabels = futures[6];
       Organisation? defaultLocation = futures[7];
-      // List<DutyPostModel> dutyPosts = futures[8];
+      List<String> briefingPoints = futures[8];
+      briefingPoints.add('');
 
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
@@ -90,7 +92,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           users: users.t1Analyst,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
-          // dutyPosts: dutyPosts,
+          briefingPoints: briefingPoints,
           labels: labels,
         ),
       );

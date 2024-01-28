@@ -11,7 +11,7 @@ class AttendanceShiftsState extends Equatable {
   final String? message;
   final List<String>? locationNames;
   final List<User>? entrySecurities;
-  final List<DutyPostModel>? dutyPosts;
+  final List<String>? briefingPoints;
   final GmUiLabels? labels;
 
   factory AttendanceShiftsState.initial({
@@ -59,7 +59,7 @@ class AttendanceShiftsState extends Equatable {
     this.emailUsers,
     this.locationNames,
     this.message,
-    this.dutyPosts,
+    this.briefingPoints,
     this.entrySecurities,
     this.labels,
     required this.departments,
@@ -75,7 +75,7 @@ class AttendanceShiftsState extends Equatable {
     List<String>? locationNames,
     List<Organisation>? vendors,
     String? message,
-    List<DutyPostModel>? dutyPosts,
+    List<String>? briefingPoints,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
   }) {
@@ -89,7 +89,7 @@ class AttendanceShiftsState extends Equatable {
       locationNames: locationNames ?? this.locationNames,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
-      dutyPosts: dutyPosts ?? this.dutyPosts,
+      briefingPoints: briefingPoints ?? this.briefingPoints,
       labels: labels ?? this.labels,
       departments: vendors ?? departments,
     );
