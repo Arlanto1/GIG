@@ -153,6 +153,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
+
+        /// Briefing Points
         CommonWidgets.textDisplay(
           'Briefing Points:',
           isMandatory: false,
@@ -163,6 +165,17 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             selectedPoints: shift.briefingPoints?.split(';') ?? []),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
+
+        /// SLA Violation List
+        // CommonWidgets.textDisplay(
+        //   'SLA Violation List',
+        //   isMandatory: false,
+        //   Styles.textStyleBlack14,
+        // ),
+
+        if (!state.slaList.isEmptyOrNull) ...[
+          buildSlaListColumn(state.slaList ?? [])
+        ],
       ],
     ];
   }
@@ -209,6 +222,91 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           ),
         ),
       ],
+    );
+  }
+
+  Column buildSlaListColumn(List<SLAViolationPenaltyModel> slaList) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () {
+            // showReplacementPopUp(
+            //   context: context,
+            //   model: Replacement(),
+            //   availableGuards: shift.availableGuards ?? [],
+            //   selectedGuards: shift.selectedGuards ?? [],
+            // );
+          },
+          child: Row(
+            children: <Widget>[
+              const SizedBox(width: 14),
+              SvgPicture.asset(AppIcon.pluscircle),
+              const SizedBox(width: 10),
+              const Text(
+                'Add SLA',
+                style: TextStyle(
+                  color: AppColors.navigationSkybluecolor,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              CommonWidgets.verticalSpacerWidget(
+                  MediaQuery.of(context).size.height * 0.01),
+              CommonWidgets.verticalSpacerWidget(
+                  MediaQuery.of(context).size.height * 0.01),
+            ],
+          ),
+        ),
+        if (!slaList.isEmptyOrNull) ...[
+          // Problem: make this column list with horizontal scroll
+          SizedBox(
+            height: MediaQuery.of(context).size.height *
+                0.09, // Set the desired height
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: slaList.length,
+              itemBuilder: (context, index) {
+                return buildSlaCard(slaList[index]);
+              },
+            ),
+          ),
+          CommonWidgets.verticalSpacerWidget(
+              MediaQuery.of(context).size.height * 0.01),
+        ],
+      ],
+    );
+  }
+
+  Widget buildSlaCard(SLAViolationPenaltyModel model) {
+    return InkWell(
+      onTap: () async {
+        var nav = Navigator.of(context);
+        // SLAViolationPenaltyModel model =
+        //     await SLAViolationPenaltyServices().getGvpById(model.id??0);
+        nav.pushNamed(
+          slaViolationPenaltyDetailsRoute,
+          arguments: {
+            "model": model,
+            "title": Constants.slaViolationPenalty,
+          },
+        );
+      },
+      child: IntrinsicHeight(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildTextWithLabel('Id:', model.id.toString()),
+                buildTextWithLabel('Region:', model.locationRegion?.name),
+                buildTextWithLabel('Location:', model.location?.name),
+                buildTextWithLabel('Created By:', model.entrySecurity?.name),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -13,11 +14,13 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   final AttendanceServices services;
   final String id;
   final CommonServices commonServices;
+  final SLAViolationPenaltyServices slaServices;
 
   AttendanceShiftsCubit({
     required this.services,
     required this.commonServices,
     required this.id,
+    required this.slaServices,
   }) : super(
           AttendanceShiftsState.initial(
             model: DutyPostModel(),
@@ -44,7 +47,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
 
     log('--model----${model.name}--');
-     model = DutyPostModel.fromJson(json.decode(jsonStringold));
+    model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -61,6 +64,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             moduleCode: Constants.attendanceModule), // 6
         SharedPrefs.getDefaultLocation(), // 7
         services.getBriefingPoints(), // 8
+        slaServices.getGSvp(startPosition: '0', maximumRecords: '100', aShiftInfoId: id), // 9
       ]);
 
       Locations getLocationsData = futures[0];
@@ -73,6 +77,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       Organisation? defaultLocation = futures[7];
       List<String> briefingPoints = futures[8];
       briefingPoints.add('');
+      SLAViolationPenaltyResponseModel slaResponse = futures[9];
 
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
@@ -93,6 +98,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           briefingPoints: briefingPoints,
+          slaList: slaResponse.items,
           labels: labels,
         ),
       );
@@ -129,7 +135,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     // Create/Update API Call
-    AttendanceRequest request = AttendanceRequest(requestModel: AttendanceModel());
+    AttendanceRequest request =
+        AttendanceRequest(requestModel: AttendanceModel());
 
     GenericResponse response = GenericResponse();
     try {

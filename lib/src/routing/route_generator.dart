@@ -1169,12 +1169,15 @@ class RouteGenerator {
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
+        SLAViolationPenaltyServices slaServices = SLAViolationPenaltyServices();
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AttendanceShiftsCubit>(
             create: (_) => AttendanceShiftsCubit(
               id: id,
               services: services,
               commonServices: commonServices,
+              slaServices: slaServices,
             ),
             child: const AttendanceShiftsView(),
           ),
