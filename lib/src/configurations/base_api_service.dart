@@ -27,7 +27,7 @@ class BaseApiService {
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");
-      if(token.isEmptyOrNull) {
+      if (token.isEmptyOrNull) {
         throw TokenExpiredException(message: 'Session has Expired');
       }
       headers.addAll({"Authorization": 'Bearer $token'});
@@ -149,10 +149,15 @@ class BaseApiService {
       log("HTTP Status Code: ${response.statusCode}");
       log("Response: ${response.body}");
 
-      final responseBody = json.decode(response.body);
+      var responseBody;
+      if (!response.body.isEmptyOrNull) {
+        responseBody = json.decode(response.body);
+      }
+
+      // responseBody = json.decode(response.body);
 
       if (response.statusCode == HttpStatus.ok) {
-        return responseBody;
+        return responseBody??'';
       } else if (response.statusCode == 449) {
         // Token Expired
         return await _refreshTokenAndRetry(

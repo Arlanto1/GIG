@@ -29,8 +29,6 @@ class Apis {
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
-  static final String _getQuantityUnits =
-      '$baseUrl$v2/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
   static final String _getQualification =
       '$baseUrl$v2/getOrganisation?name=GUARD_QUALIFICATIONS';
   static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
@@ -214,14 +212,6 @@ class CommonServices {
     return GetDepositor.fromJson(response);
   }
 
-  Future<QuantityUnits> getQuantityUnits() async {
-    String url = Apis._getQuantityUnits;
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return QuantityUnits.fromJson(response);
-  }
-
   Future<AddEntities> getEntities({
     required String name,
   }) async {
@@ -253,10 +243,11 @@ class CommonServices {
 
   Future<Organisation> createOrganisation({
     required String name,
+    String? keyname,
     required String orgName,
     BuildContext? context,
   }) async {
-    final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
+    final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName&keyname=$keyname";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return Organisation.fromJson(response);

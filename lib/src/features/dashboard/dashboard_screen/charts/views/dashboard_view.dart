@@ -54,26 +54,26 @@ class DashboardViewState extends State<DashboardView>
             isTitleCenter: false,
             title: Constants.dashboard,
             action: [
-              GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const ArticleDialog(
-                        labels: languagesDropDownValues,
-                        title: 'Choose Language',
-                      );
-                    },
-                  );
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Icon(
-                    Icons.translate,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     showDialog(
+              //       context: context,
+              //       builder: (BuildContext context) {
+              //         return const ArticleDialog(
+              //           labels: languagesDropDownValues,
+              //           title: 'Choose Language',
+              //         );
+              //       },
+              //     );
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.all(5.0),
+              //     child: Icon(
+              //       Icons.translate,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
               NotificationBell(notificationCount: state.notificationCount ?? 0),
               GestureDetector(
                 onTap: () {
