@@ -79,7 +79,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton: widget.isInternal?Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
@@ -94,7 +94,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               },
             )
           },
-        ),
+        ):null ,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInternal
