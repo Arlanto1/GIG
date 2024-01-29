@@ -24,7 +24,7 @@ class Constants {
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
-  static const String dutyPostNameMasterModule = 'SSDPN';
+  static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
 
 
