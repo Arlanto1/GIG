@@ -662,7 +662,7 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               initialValue: state.model.requestorEmployeeId,
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
