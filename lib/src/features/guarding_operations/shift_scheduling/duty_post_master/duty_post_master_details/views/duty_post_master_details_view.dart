@@ -98,6 +98,11 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
               BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
+            }
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
