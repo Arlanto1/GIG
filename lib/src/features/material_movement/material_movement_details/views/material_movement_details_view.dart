@@ -27,6 +27,7 @@ class _MaterialMovementDetailsViewState
   User? userDetails;
   List<ImageContent> getFiles = [];
   TextEditingController takenOutOnDateController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
@@ -295,15 +296,36 @@ class _MaterialMovementDetailsViewState
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            isEnable: false,
-                            isDisableColor: true,
-                            textFormKey: Keys.statusTextController,
-                            hintText: '',
-                            initialValue:
-                                getStatusString(state.model.status ?? 0),
-                            onChange: (String value) {},
-                            validateTextField: (String? user) {},
+                          BaseDropDown().getDropDown(
+                            isDisabled: true,
+                            textController: statusController,
+                            items: materialMovementStatusValues,
+                            initialValue: '${state.model.status ?? 0}',
+                            onTap: () {
+                              if (widget.materialMovement != null) {
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: materialMovementStatusValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        materialMovementStatusValues.firstWhere(
+                                              (label) => label.key == value,
+                                          orElse: () =>
+                                          const Label(key: '', value: ''),
+                                        );
+                                    BlocProvider.of<
+                                        MaterialMovementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        status: int.tryParse(
+                                            selectedLabel.value));
+                                  },
+                                );
+                              }
+                            },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -2096,37 +2118,6 @@ class _MaterialMovementDetailsViewState
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
       ],
     );
-  }
-
-  String getStatusString(int status) {
-    switch (status) {
-      case 0:
-        return 'Draft';
-      case 1:
-        return 'Business User Review';
-      case 2:
-        return 'Submitted';
-      case 3:
-        return 'LSM Review';
-      case 4:
-        return 'LSM Approved';
-      case 5:
-        return 'LSM Rejected';
-      case 6:
-        return 'Approved';
-      case 7:
-        return 'Rejected';
-      case 8:
-        return 'Outward Waiting';
-      case 9:
-        return 'Inward Waiting';
-      case 10:
-        return 'Closed/Finalized';
-      case -1:
-        return 'Cancelled';
-      default:
-        return 'Unknown Status';
-    }
   }
 
   Widget quantityUnitPopUp(MaterialMovementDetailsState state) {

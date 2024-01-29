@@ -173,6 +173,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? receiverDepartment,
     Organisation? quantityUnit,
     bool? isReturnable,
+    int? status,
   }) async {
     emit(
       state.copyWith(
@@ -197,7 +198,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-
+    state.model.status = status ?? state.model.status;
     if (location != null &&
         isInward == false &&
         state.model.returnable == false) {
