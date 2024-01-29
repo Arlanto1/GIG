@@ -81,9 +81,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
+        if (state.model.status == -1 ||
+            state.model.status == 1 ||
+            state.model.status == 2 ||
+            state.model.status == 3 ||
+            state.model.status == 4) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -311,27 +315,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            widget.model?.status == 6
-                                ? FlutterInputField(
-                                    initialValue: "${state.model.department}",
-                                    textFormKey: Keys.receiverDepartmentKey,
-                                    hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
-                                    onChange: (Organisation value) {
-                                      state.model.department = value;
-                                      context
-                                          .read<
-                                              KeyManagementIssuanceDetailsCubit>()
-                                          .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
-                                : TextfieldAddButton(
+                          TextfieldAddButton(
                                     title: state.model.department?.name,
                                     height: 70,
                                     isDisableColor:
-                                        state.model.status != 6 ? false : true,
+                                    state.model.status==null||state.model.status==0?false:true,
                                     onTap: () {
                                       // if (widget.materialMovement != null) {
                                       BaseOrganisationDialog().departmentDialog(
@@ -480,13 +468,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               initialValue: state.model.employeeID,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              isEnable: widget.model == null
-                                  ? true
-                                  : (widget.model != null &&
-                                          (widget.model?.employeeID == null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
+                              isEnable:state.model.status != null ||state.model.status!=0?false:true,
+                              isDisableColor: state.model.status == null ||state.model.status==0?false:true,
                               onChange: (String value) {
                                 state.model.employeeID = value;
                                 context
@@ -592,7 +575,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     ConstantsArgument.title:
                                         Constants.keyIssuanceProcess,
                                     ConstantsArgument.parentId: state.model.id,
-                                    ConstantsArgument.parentStatus: state.model.status,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
                                     ConstantsArgument.locationId:
                                         state.model.location?.id,
                                   },
@@ -714,23 +698,25 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   Widget locationWidgetdislay(KeyManagementIssuanceDetailsState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if(state.model.status == 0 || state.model.status == null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return CustomExpansionListTexts(
+                locationList: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
+                  BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
+                      .updateDropdownValues(location: location);
+                },
+              );
+            },
+          );
+        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
