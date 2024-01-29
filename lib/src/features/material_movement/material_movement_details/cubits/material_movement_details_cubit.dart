@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/models/image_content.dart';
@@ -60,6 +59,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           ),
         );
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation> quantityUnits = await commonServices.getOrganisations(
+        name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        quantityUnits: quantityUnits,
+      ),
+    );
+  }
+
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -68,9 +80,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
     emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
+      state.copyWith(status: FormStatus.loading),
     );
 
     var userId = await SharedPrefs.getUserId();
@@ -82,10 +92,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.materialMovementModuleCode),
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getQuantityUnits(),
+        commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
       Locations locations = futures[0];
@@ -95,7 +106,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
       GetDepositor emailUsers = futures[6];
-      QuantityUnits quantityUnits = futures[7];
+      List<Organisation> quantityUnits = futures[7];
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
@@ -143,7 +154,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           approver1Users: emailUsers.atomStaticUser,
           approver2Users: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
-          quantityUnits: quantityUnits.units,
+          quantityUnits: quantityUnits,
           labels: labels,
         ),
       );

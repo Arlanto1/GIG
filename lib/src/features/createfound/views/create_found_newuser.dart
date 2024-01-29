@@ -74,6 +74,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
               child: SvgPicture.asset(
                   AppIcon.closeicon) //Icon(Icons.cancel) //Icon(Icons.cancel)
               )),
+      surfaceTintColor: Colors.white,
       title: Text(
         Constants.newuser,
         style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
