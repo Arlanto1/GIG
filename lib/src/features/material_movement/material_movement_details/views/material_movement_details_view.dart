@@ -388,12 +388,12 @@ class _MaterialMovementDetailsViewState
                             hintText: '',
                             isEnable: state.model.status == 10 ||
                                     state.model.status == -1 ||
-                                    state.model.status == 6
+                                    state.model.status == 6||state.model.status == 2
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 10 ||
                                 state.model.status == -1 ||
-                                state.model.status == 6,
+                                state.model.status == 6||state.model.status == 2,
                             onChange: (String value) {
                               state.model.challanNo = value;
                               context
@@ -455,12 +455,12 @@ class _MaterialMovementDetailsViewState
                             hintText: Constants.informationhere,
                             isEnable: state.model.status == 10 ||
                                     state.model.status == -1 ||
-                                    state.model.status == 6
+                                    state.model.status == 6||state.model.status == 2
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 10 ||
                                 state.model.status == -1 ||
-                                state.model.status == 6,
+                                state.model.status == 6||state.model.status == 2,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
                               state.model?.materialDescription = value;
@@ -494,12 +494,12 @@ class _MaterialMovementDetailsViewState
                                   hintText: '',
                                   isEnable: state.model.status == 10 ||
                                           state.model.status == -1 ||
-                                          state.model.status == 6
+                                          state.model.status == 6||state.model.status == 2
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6,
+                                      state.model.status == 6||state.model.status == 2,
                                   onChange: (String? value) {
                                     if (value != null) {
                                       state.model.quantity = int.parse(value);
@@ -528,10 +528,9 @@ class _MaterialMovementDetailsViewState
                                   child: AddButtonWidget(
                                     height: 50,
                                     isDisableColor:
-                                        (widget.materialMovement?.status == 6 ||
-                                                widget.materialMovement
-                                                        ?.status ==
-                                                    1)
+                                    state.model.status == 10 ||
+                                        state.model.status == -1 ||
+                                        state.model.status == 6||state.model.status == 2
                                             ? true
                                             : false,
                                   ),
@@ -562,12 +561,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.modelInfo = value;
                                 context
@@ -595,12 +596,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.address = value;
                                 context
@@ -630,11 +633,13 @@ class _MaterialMovementDetailsViewState
                                         isDisableColor:
                                             state.model.status == 10 ||
                                                 state.model.status == -1 ||
-                                                state.model.status == 6,
+                                                state.model.status == 6||
+                                                state.model.status == 2,
                                         onTap: () {
                                           if (state.model.status == 10 ||
                                                   state.model.status == -1 ||
-                                                  state.model.status == 6
+                                                  state.model.status == 6||
+                                              state.model.status == 2
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -658,13 +663,15 @@ class _MaterialMovementDetailsViewState
                                         hintText: '',
                                         isEnable: state.model.status == 10 ||
                                                 state.model.status == -1 ||
-                                                state.model.status == 6
+                                                state.model.status == 6||
+                                            state.model.status == 2
                                             ? false
                                             : true,
                                         isDisableColor:
                                             state.model.status == 10 ||
                                                 state.model.status == -1 ||
-                                                state.model.status == 6,
+                                                state.model.status == 6||
+                                                state.model.status == 2,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -690,12 +697,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.requestorEmployeeId = value;
                                 context
@@ -723,10 +732,12 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: state.model.status != 6 ||
                                         state.model.status != -1 ||
-                                        state.model.status != 10,
+                                        state.model.status != 10||
+                                        state.model.status == 2,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == -1 ||
-                                        state.model.status == 10,
+                                        state.model.status == 10||
+                                        state.model.status == 2,
                                     onChange: (String value) {
                                       state.model.requestorDepartment?.name =
                                           value;
@@ -742,13 +753,15 @@ class _MaterialMovementDetailsViewState
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
                                             state.model.status == -1 ||
-                                            state.model.status == 10)
+                                            state.model.status == 10||
+                                        state.model.status == 2)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if (state.model.status == 6 ||
                                               state.model.status == 10 ||
-                                              state.model.status == -1
+                                              state.model.status == -1||
+                                          state.model.status == 2
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -792,12 +805,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.sentTo = value;
                                 context
@@ -825,12 +840,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.purpose = value;
                                 context
@@ -858,12 +875,14 @@ class _MaterialMovementDetailsViewState
                               hintText: '',
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
-                                      state.model.status == 6
+                                      state.model.status == 6||
+                                  state.model.status == 2
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
                                   state.model.status == -1 ||
-                                  state.model.status == 6,
+                                  state.model.status == 6||
+                                  state.model.status == 2,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
                                 BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -891,12 +910,14 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: state.model.status == 10 ||
                                             state.model.status == -1 ||
-                                            state.model.status == 6
+                                            state.model.status == 6||
+                                        state.model.status == 2
                                         ? false
                                         : true,
                                     isDisableColor: state.model.status == 10 ||
                                         state.model.status == -1 ||
-                                        state.model.status == 6,
+                                        state.model.status == 6||
+                                        state.model.status == 2,
                                     onChange: (String value) {
                                       state.model.preparedByDepartment?.name =
                                           value;
@@ -912,11 +933,13 @@ class _MaterialMovementDetailsViewState
                                     height: 70,
                                     isDisableColor: state.model.status == 10 ||
                                         state.model.status == -1 ||
-                                        state.model.status == 6,
+                                        state.model.status == 6||
+                                        state.model.status == 2,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
                                               state.model.status == -1 ||
-                                              state.model.status == 10)
+                                              state.model.status == 10||
+                                          state.model.status == 2)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -959,13 +982,15 @@ class _MaterialMovementDetailsViewState
                                         isDisableColor:
                                             (state.model.status == 6 ||
                                                     state.model.status == -1 ||
-                                                    state.model.status == 10)
+                                                    state.model.status == 10||
+                                                state.model.status == 2)
                                                 ? true
                                                 : false,
                                         onTap: () {
                                           if ((state.model.status == 6 ||
                                                   state.model.status == -1 ||
-                                                  state.model.status == 10)
+                                                  state.model.status == 10||
+                                              state.model.status == 2)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -989,11 +1014,13 @@ class _MaterialMovementDetailsViewState
                                         hintText: '',
                                         isEnable: state.model.status != 6 ||
                                             state.model.status != -1 ||
-                                            state.model.status != 10,
+                                            state.model.status != 10||
+                                            state.model.status != 2,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
-                                                state.model.status == -1,
+                                                state.model.status == -1||
+                                                state.model.status == 2,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1018,7 +1045,8 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: state.model.status != 6 ||
                                         state.model.status != 10 ||
-                                        state.model.status != -1,
+                                        state.model.status != -1||
+                                        state.model.status != 2,
                                     isDisableColor: state.model.status == 6,
                                     onChange: (String value) {
                                       state.model.approver1Department?.name =
@@ -1035,13 +1063,15 @@ class _MaterialMovementDetailsViewState
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
                                             state.model.status == -1 ||
-                                            state.model.status == 10)
+                                            state.model.status == 10||
+                                        state.model.status == 2)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
                                               state.model.status == -1 ||
-                                              state.model.status == 10)
+                                              state.model.status == 10||
+                                          state.model.status == 2)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1084,13 +1114,15 @@ class _MaterialMovementDetailsViewState
                                         isDisableColor:
                                             (state.model.status == 6 ||
                                                     state.model.status == 10 ||
-                                                    state.model.status == -1)
+                                                    state.model.status == -1||
+                                                state.model.status == 2)
                                                 ? true
                                                 : false,
                                         onTap: () {
                                           if ((state.model.status == 6 ||
                                                   state.model.status == -1 ||
-                                                  state.model.status == 10)
+                                                  state.model.status == 10||
+                                              state.model.status == 2)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1114,11 +1146,13 @@ class _MaterialMovementDetailsViewState
                                         hintText: '',
                                         isEnable: state.model.status != 6 ||
                                             state.model.status != 10 ||
-                                            state.model.status != -1,
+                                            state.model.status != -1||
+                                            state.model.status != 2,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
-                                                state.model.status == -1,
+                                                state.model.status == -1||
+                                                state.model.status == 2,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1144,10 +1178,12 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: state.model.status != 6 ||
                                         state.model.status != 10 ||
-                                        state.model.status != 1,
+                                        state.model.status != 1||
+                                        state.model.status != 2,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == 10 ||
-                                        state.model.status == -1,
+                                        state.model.status == -1||
+                                        state.model.status == 2,
                                     onChange: (String value) {
                                       state.model.approver2Department?.name =
                                           value;
@@ -1163,13 +1199,15 @@ class _MaterialMovementDetailsViewState
                                     height: 70,
                                     isDisableColor: (state.model.status == 6 ||
                                             state.model.status == 10 ||
-                                            state.model.status == -1)
+                                            state.model.status == -1||
+                                        state.model.status == 2)
                                         ? true
                                         : false,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
                                               state.model.status == 10 ||
-                                              state.model.status == -1)
+                                              state.model.status == -1||
+                                          state.model.status == 2)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
