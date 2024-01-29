@@ -125,7 +125,7 @@ class _AnnualPowerShutdownListViewState
                       key: 'Date of Creation',
                       value: state.items[index].inputDate != null
                           ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
+                              int.tryParse(state.items[index].inputDate ?? '0'),
                               Constants.dateFormat)
                           : ''));
                   labels.add(Label(

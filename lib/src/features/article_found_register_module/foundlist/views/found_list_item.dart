@@ -99,7 +99,7 @@ class _FoundListItemState extends State<FoundListItem> {
                                 'Date of Creation : ',
                                 widget.userItem.inputDate != null
                                     ? Utils.timestamptoDateConversion(
-                                        int.parse(
+                                        int.tryParse(
                                             widget.userItem.inputDate ?? '0'),
                                         Constants.dateFormat)
                                     : ''),
@@ -114,7 +114,7 @@ class _FoundListItemState extends State<FoundListItem> {
                                 'Found Date : ',
                                 widget.userItem.foundDate != null
                                     ? Utils.timestamptoDateConversion(
-                                        int.parse(
+                                        int.tryParse(
                                             widget.userItem.foundDate ?? '0'),
                                         Constants.dateFormat)
                                     : ''),

@@ -107,7 +107,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   'Found Date : ',
                   widget.userItem?.foundDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.foundDate ?? '0'),
+                          int.tryParse(widget.userItem?.foundDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
@@ -171,7 +171,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   'Handed Over Date : ',
                   widget.userItem?.handoverDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.handoverDate ?? '0'),
+                          int.tryParse(widget.userItem?.handoverDate ?? '0'),
                           Constants.fulldateFormat)
                       : ''),
             ],
