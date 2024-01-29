@@ -56,7 +56,7 @@ const shiftSchedulingDataItems = [
   MenuItem(Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 0),
+  MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0),
 ];
 
 const passTileDrawerItems = [
