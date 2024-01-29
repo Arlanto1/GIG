@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="improvements">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="Add Quantity in MM">
+      <change afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_user_dialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,26 +73,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
-    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
-    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "shift-schedule",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/guarding_operations/shift_scheduling",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pathVariables",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
+    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;shift-schedule&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/guarding_operations/shift_scheduling&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling" />
@@ -489,7 +494,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="188" />
+    <option name="localTasksCounter" value="191" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -526,8 +531,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refresh notification count" />
-    <MESSAGE value="git ignore updated" />
     <MESSAGE value="device token pass" />
     <MESSAGE value="g files" />
     <MESSAGE value="minor issue fixed" />
@@ -551,7 +554,9 @@
     <MESSAGE value="WIP: Attendance" />
     <MESSAGE value="WIP: icon change" />
     <MESSAGE value="improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvements" />
+    <MESSAGE value="sla with attendance_shifts_view.dart" />
+    <MESSAGE value="Add Quantity in MM" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Quantity in MM" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

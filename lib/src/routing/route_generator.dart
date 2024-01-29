@@ -779,7 +779,7 @@ class RouteGenerator {
               model: model,
               commonServices: commonServices,
             ),
-            child: GuardingMasterDataDetails(
+            child: GuardingMasterDataDetailsView(
               guardingMasterData: model,
               title: title,
             ),

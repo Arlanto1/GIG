@@ -5,22 +5,22 @@ import 'package:intl/intl.dart';
 
 import 'add_date_pop_up.dart';
 
-class GuardingMasterDataDetails extends StatefulWidget {
+class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
 
-  const GuardingMasterDataDetails({
+  const GuardingMasterDataDetailsView({
     super.key,
     this.guardingMasterData,
     required this.title,
   });
 
   @override
-  State<GuardingMasterDataDetails> createState() =>
-      _GuardingMasterDataDetailsState();
+  State<GuardingMasterDataDetailsView> createState() =>
+      _GuardingMasterDataDetailsViewState();
 }
 
-class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
+class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   List<ImageContent>? getFiles;
