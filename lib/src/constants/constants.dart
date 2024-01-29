@@ -24,7 +24,7 @@ class Constants {
   static const String keyManagementMasterModule = 'KeyMM';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
-  static const String dutyPostNameMasterModule = 'SSDPN';
+  static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
 
 
@@ -138,7 +138,7 @@ class Constants {
   static const String administration = "Administration";
   static const String profile = 'Profile';
   static const String articlefoundregister = 'Article Found Register';
-  static const String lawenforcementvisitslist = 'Law Enforcement Visits';
+  static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
   static const String eventprotectionlist = 'Event Protection List';
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
@@ -255,8 +255,8 @@ class Constants {
 
   // Law enforcement
   static const String createlawenforcement =
-      'Create LawEnforcement Official Visit';
-  static const String editlawenforcement = 'Edit LawEnforcement Official Visit';
+      'Create Law Enforcement Official Visit';
+  static const String editlawenforcement = 'Edit Law Enforcement Official Visit';
   static const String addcompanytype = 'Add Company Type';
   static const String addentitytype = 'Add Entity';
   static const String addpurposeofvisittype = 'Add Puropose Of Visit';

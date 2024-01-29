@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../lawenforcement/models/addentities.dart';
@@ -16,11 +16,13 @@ class SLAViolationPenaltyDetailsCubit
   final SLAViolationPenaltyServices services;
   final SLAViolationPenaltyModel? model;
   final CommonServices commonServices;
+  final String? attdInfoId;
 
   SLAViolationPenaltyDetailsCubit({
     required this.services,
     required this.commonServices,
     this.model,
+    this.attdInfoId,
   }) : super(
           SLAViolationPenaltyDetailsState.initial(
             model: model ?? SLAViolationPenaltyModel(),
@@ -100,7 +102,8 @@ class SLAViolationPenaltyDetailsCubit
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       if (state.model.location == null) {
@@ -225,6 +228,9 @@ class SLAViolationPenaltyDetailsCubit
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    if (!attdInfoId.isEmptyOrNull) {
+      state.model.attdInfoId = attdInfoId;
+    }
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);
@@ -277,9 +283,11 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: navigateToNextScreen
-              ? FormStatus.navigateToNextScreen
-              : FormStatus.success,
+          status: attdInfoId != null
+              ? FormStatus.popOnly
+              : navigateToNextScreen
+                  ? FormStatus.navigateToNextScreen
+                  : FormStatus.success,
         ),
       );
       state.model.inputDate =

@@ -12,6 +12,7 @@ enum FormStatus {
   addArticleFound,
   navigateToNextScreen,
   sessionExpired,
+  popOnly,
 }
 
 enum NavPop {

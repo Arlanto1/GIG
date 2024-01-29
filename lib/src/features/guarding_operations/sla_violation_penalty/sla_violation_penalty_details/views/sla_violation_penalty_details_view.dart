@@ -50,9 +50,7 @@ class SLAViolationPenaltyDetailsView extends StatefulWidget {
 
 class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
-  TextEditingController guardingAgencyPOCController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isReadOnly = false;
 
@@ -79,6 +77,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        if (state.status == FormStatus.popOnly) {
+          Navigator.pop(context);
+          return;
+        }
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',

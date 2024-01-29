@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
@@ -97,7 +98,7 @@ class _LnPageState extends State<LnPage> {
       ),
       appBar: AppHeader(
         isTitleCenter: false,
-        title: 'LawEnforcement List',
+        title: Constants.lawenforcementvisitslist,
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -116,7 +117,6 @@ class _LnPageState extends State<LnPage> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              log(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, 20, '/exportLEOExcel');

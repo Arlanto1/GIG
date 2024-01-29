@@ -26,7 +26,7 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
       shift: json['shift'] as String?,
       allowed: json['allowed'] as int?,
       attdStatus: json['attdStatus'] as int?,
-      activeShift: json['activeShift'] as bool?,
+      activeShift: json['activeShift'] as bool? ?? false,
       selectedGuards: (json['selectedGuards'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -754,6 +754,39 @@ class Utils {
       case 0:
         statusText = 'Created';
         break;
+      case 1:
+        statusText = 'Lock Changed';
+        break;
+      case 2:
+        statusText = 'Lost';
+        break;
+      case 3:
+        statusText = 'Damaged';
+        break;
+      case 4:
+        statusText = 'Lost Approved';
+        break;
+      case 5:
+        statusText = 'Damaged Approved';
+        break;
+      case 6:
+        statusText = 'Investigation';
+        break;
+      case 7:
+        statusText = 'Destroyed';
+        break;
+      case 8:
+        statusText = 'Destroy Rejected';
+        break;
+      case 9:
+        statusText = 'Destroy Approved';
+        break;
+      case 10:
+        statusText = 'Closed';
+        break;
+      case 11:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }

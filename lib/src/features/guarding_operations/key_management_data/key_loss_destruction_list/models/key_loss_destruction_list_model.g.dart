@@ -17,8 +17,12 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
       hasLockChanged: json['hasLockChanged'] as bool?,
       keyDestructionProcess: json['keyDestructionProcess'],
       hasKeyLost: json['hasKeyLost'],
-      srh: json['srh'],
-      securityManager: json['securityManager'],
+      srh: json['srh'] == null
+          ? null
+          : User.fromJson(json['srh'] as Map<String, dynamic>),
+      securityManager: json['securityManager'] == null
+          ? null
+          : User.fromJson(json['securityManager'] as Map<String, dynamic>),
       investigationRequired: json['investigationRequired'] as bool?,
       lostKeyDetails: json['lostKeyDetails'] as String?,
       additionalInformation: json['additionalInformation'] as String?,

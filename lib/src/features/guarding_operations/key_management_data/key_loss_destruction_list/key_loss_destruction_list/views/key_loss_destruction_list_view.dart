@@ -81,12 +81,6 @@ class _KeyLossDestructionListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  // labels.add(Label(
-                  //     key:
-                  //     // state.labels?.locale.location ??
-                  //     //state.labels?.defaultLocale.location ??
-                  //     'Status',
-                  //     value: state.list[index].status?.name ?? ''));
                   labels.add(Label(
                       key: 'Date of Creation',
                       value: DateFormat('dd-MM-yyyy').format(
@@ -116,6 +110,8 @@ class _KeyLossDestructionListViewState
                                 slNo: state.list[selectedIndex].slNo,
                                 labels: labels,
                                 isKeyLossStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                                 status: state.list[selectedIndex].status,
                                 keyType: state.list[selectedIndex].keyType,
                                 type: state.list[selectedIndex].type,
@@ -138,6 +134,8 @@ class _KeyLossDestructionListViewState
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isKeyLossStatus: true,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
                                 keyType: state.list[selectedIndex].keyType,
                                 type: state.list[selectedIndex].type,
                                 srh: state.list[selectedIndex].srh,

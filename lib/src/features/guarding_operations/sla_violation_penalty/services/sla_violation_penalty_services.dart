@@ -54,9 +54,10 @@ class SLAViolationPenaltyServices {
   Future<SLAViolationPenaltyResponseModel> getGSvp({
     required String startPosition,
     required String maximumRecords,
+     String? aShiftInfoId,
   }) async {
     String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

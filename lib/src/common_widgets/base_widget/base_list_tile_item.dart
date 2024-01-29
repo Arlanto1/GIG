@@ -340,11 +340,14 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 (widget.status == -1 || widget.status == 2)) ||
                             (widget.isKeyManagementIssuanceStatus &&
                                 widget.status == 2) ||
+                            (widget.isEventProtectionStatus  &&
+                                (widget.status != 0)) ||
                             (widget.isDutyPostNameMasterStatus &&
                                 widget.status == -1) ||
                             (widget.isShiftScheduleStatus &&
-                                widget.status == -1)
-                        ? const Icon(Icons.auto_stories)
+                                widget.status == -1)||
+                              (widget.isIncident && widget.status!=0)
+                        ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
                 ],

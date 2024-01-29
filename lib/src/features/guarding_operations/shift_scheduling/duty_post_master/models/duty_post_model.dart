@@ -85,7 +85,7 @@ class Shift {
   String? shift;
   int? allowed;
   int? attdStatus;
-  bool? activeShift;
+  bool activeShift;
   List<BaseUser>? selectedGuards;
   List<BaseUser>? availableGuards;
   List<Replacement>? replacements;
@@ -99,7 +99,7 @@ class Shift {
     this.shift,
     this.allowed,
     this.attdStatus,
-    this.activeShift,
+    this.activeShift = false,
     this.selectedGuards,
     this.availableGuards,
     this.selectForAttendance,

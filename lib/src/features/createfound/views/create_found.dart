@@ -175,13 +175,13 @@ class _CreateFoundState extends State<CreateFound> {
       foundDateTextController.text =
           widget.model?.foundDate != null && widget.model?.foundDate != '0'
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.foundDate ?? '0'),
+                  int.tryParse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.inputDate ?? '0'),
+                  int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
       assettypeTextController.text = widget.model?.typeOfAsset != null
@@ -393,6 +393,7 @@ class _CreateFoundState extends State<CreateFound> {
       );
     }
 
+    log('--claimantEmpIdTextController.text--${claimantEmpIdTextController.text}---');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -403,9 +404,7 @@ class _CreateFoundState extends State<CreateFound> {
         // Passing signature
         claimantSign: widget.model?.claimantSign,
         handoverDate: handoverDate,
-        claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
-            ? 0
-            : int.parse(claimantEmpIdTextController.text),
+        claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
         typeOfAsset: !assettypeTextController.text.isEmptyOrNull
@@ -1031,6 +1030,10 @@ class _CreateFoundState extends State<CreateFound> {
                               BaseDate().datePickerWidgetLoading(
                                 showFutureDate: false,
                                 textController: foundDateTextController,
+                                isDisabled: (widget.model?.status == 1 ||
+                                        widget.model?.status == -1)
+                                    ? true
+                                    : false,
                                 onChange: (String value) {
                                   widget.model?.foundDate =
                                       Utils().formatTime(value);
@@ -1373,7 +1376,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? FlutterInputField(
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.text,
                                         textFieldController:
                                             claimantEmpIdTextController,
                                         textFormKey:
@@ -1777,8 +1780,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
       onTap: () {
-        //if (widget.listuser == null || locationselectedText.isEmpty)
-        {
+        if (widget.model?.status == null || widget.model?.status == 0) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

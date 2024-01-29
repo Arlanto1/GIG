@@ -8,6 +8,7 @@ class Apis {
 
   static final String _getDutyPostsById = '$baseUrl/getAttdDpList';
   static final String _getDutyPostById = '$baseUrl/getAttdDpById';
+  static final String _getBriefingPoints = '$baseUrl/getBriefingPoints';
 
   static final String _create = '$baseUrl/UpdateAttendanceGi?';
 }
@@ -52,6 +53,17 @@ class AttendanceServices {
 
     return List<DutyPostModel>.from(
         response.map((x) => DutyPostModel.fromJson(x)));
+  }
+
+  Future<List<String>> getBriefingPoints({
+    BuildContext? context,
+  }) async {
+    final String url = Apis._getBriefingPoints;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<String>.from(response.map((x) => x));
   }
 
   Future<DutyPostModel> getDutyPostById({
