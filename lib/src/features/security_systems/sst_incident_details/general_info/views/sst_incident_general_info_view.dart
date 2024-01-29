@@ -339,62 +339,6 @@ class _SstIncidentGeneralInfoViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// System Manager
-                            CommonWidgets.textDisplay(
-                              Constants.systemManager,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.systemManager?.name,
-                              height: 70,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      systemManager: user,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Security Lead
-                            CommonWidgets.textDisplay(
-                              Constants.securityLead,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.asl?.name,
-                              height: 70,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      asl: user,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             /// Escalation 1 Poc
                             CommonWidgets.textDisplay(
                                 Constants.escalation1Poc,
@@ -461,6 +405,90 @@ class _SstIncidentGeneralInfoViewState
                                     .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// System Manager
+                            CommonWidgets.textDisplay(
+                              Constants.systemManager,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.systemManager?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                  context: context,
+                                  enabled: !disableForm,
+                                  users: state.emailUsers!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                      systemManager: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Security Manager
+                            CommonWidgets.textDisplay(
+                              Constants.securityManager,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.lsm?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                  context: context,
+                                  enabled: !disableForm,
+                                  users: state.emailUsers!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                      lsm: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Security Lead
+                            CommonWidgets.textDisplay(
+                              Constants.securityLead,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.asl?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                  context: context,
+                                  enabled: !disableForm,
+                                  users: state.emailUsers!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                        SstIncidentGeneralInfoCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      asl: user,
+                                    );
+                                  },
+                                );
+                              },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

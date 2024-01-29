@@ -100,6 +100,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
+      Analyst securityManagerUser =
+      await commonServices.getUsersByRole(roleName: 'ATOM_Security_System_Manager');
+
+
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -139,6 +143,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
+          systemManager:securityManagerUser.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           // departments: departments.employeeDepartments,
           vendors: vendors.items,
@@ -164,7 +169,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? lt,
     Organisation? vendor,
     Organisation? location,
-    // BaseUser? user,
+    BaseUser? lsm,
     Organisation? entity,
     int? status,
     int? incidentType,
@@ -198,17 +203,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           systemManager: state.emailUsers,
         ),
       );
-      state.lt?.remove(systemManager);
-      state.asl?.remove(systemManager);
 
-      emit(
-        state.copyWith(
-          model: state.model,
-          asl: state.asl,
-          lt: state.lt,
-          status: FormStatus.initial,
-        ),
-      );
     }
 
     if (lt != null) {
@@ -224,18 +219,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           lt: state.emailUsers,
         ),
       );
-
-      state.systemManager?.remove(lt);
-      state.asl?.remove(lt);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          systemManager: state.systemManager,
-          asl: state.asl,
-          status: FormStatus.initial,
-        ),
-      );
     }
     if (asl != null) {
       User userDetails = User(
@@ -248,18 +231,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       emit(
         state.copyWith(
           asl: state.emailUsers,
-        ),
-      );
-
-      state.systemManager?.remove(asl);
-      state.lt?.remove(asl);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          systemManager: state.systemManager,
-          lt: state.lt,
-          status: FormStatus.initial,
         ),
       );
     }
