@@ -425,9 +425,11 @@ class RouteGenerator {
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
+        String attdInfoId;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
+        attdInfoId = arguments['attdInfoId'];
         SLAViolationPenaltyModel? model = arguments["model"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
@@ -435,6 +437,7 @@ class RouteGenerator {
               services: services,
               model: model,
               commonServices: commonServices,
+              attdInfoId: attdInfoId,
             ),
             child: SLAViolationPenaltyDetailsView(
               model: model,

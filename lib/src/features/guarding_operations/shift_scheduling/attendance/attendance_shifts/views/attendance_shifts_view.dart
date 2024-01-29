@@ -174,7 +174,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         // ),
 
         if (!state.slaList.isEmptyOrNull) ...[
-          buildSlaListColumn(state.slaList ?? [])
+          buildSlaListColumn(state: state, slaList: state.slaList ?? [])
         ],
       ],
     ];
@@ -225,18 +225,23 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
-  Column buildSlaListColumn(List<SLAViolationPenaltyModel> slaList) {
+  Column buildSlaListColumn({
+    required AttendanceShiftsState state,
+    required List<SLAViolationPenaltyModel> slaList,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
-            // showReplacementPopUp(
-            //   context: context,
-            //   model: Replacement(),
-            //   availableGuards: shift.availableGuards ?? [],
-            //   selectedGuards: shift.selectedGuards ?? [],
-            // );
+            Navigator.pushNamed(
+              context,
+              slaViolationPenaltyDetailsRoute,
+              arguments: {
+                "title": Constants.slaViolationPenalty,
+                "attdInfoId": state.model.id.toString(),
+              },
+            );
           },
           child: Row(
             children: <Widget>[
