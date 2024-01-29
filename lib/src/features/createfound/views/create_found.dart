@@ -175,13 +175,13 @@ class _CreateFoundState extends State<CreateFound> {
       foundDateTextController.text =
           widget.model?.foundDate != null && widget.model?.foundDate != '0'
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.foundDate ?? '0'),
+                  int.tryParse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.inputDate ?? '0'),
+                  int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
       assettypeTextController.text = widget.model?.typeOfAsset != null
@@ -393,6 +393,7 @@ class _CreateFoundState extends State<CreateFound> {
       );
     }
 
+    log('--claimantEmpIdTextController.text--${claimantEmpIdTextController.text}---');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -403,7 +404,7 @@ class _CreateFoundState extends State<CreateFound> {
         // Passing signature
         claimantSign: widget.model?.claimantSign,
         handoverDate: handoverDate,
-        claimantEmployeeId: int.parse(claimantEmpIdTextController.text),
+        claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
         typeOfAsset: !assettypeTextController.text.isEmptyOrNull

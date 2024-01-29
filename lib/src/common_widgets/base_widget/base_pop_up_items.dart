@@ -351,7 +351,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 'DateOfCreation : ',
                 widget.inputDate != null
                     ? Utils.timestamptoDateConversion(
-                        int.parse(widget.inputDate ?? '0'),
+                        int.tryParse(widget.inputDate ?? '0'),
                         Constants.dateFormat)
                     : ''),
           ],

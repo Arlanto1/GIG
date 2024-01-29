@@ -135,7 +135,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     key: 'Date of Creation',
                     value: state.items[index].createdDate != null
                         ? Utils.timestamptoDateConversion(
-                            int.parse(state.items[index].createdDate ?? '0'),
+                            int.tryParse(state.items[index].createdDate ?? '0'),
                             Constants.dateFormat)
                         : '',
                   ));
