@@ -1207,15 +1207,15 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// If Status is Approved(status=2), Inward Pending(status=5), Submitted(status=1)
-                            if (state.model.status == 2 ||
-                                state.model.status == 5 ||
-                                state.model.status == 1 ||
-                                state.model.status == 6) ...[
-                              /// If Status is Approved(status=2) and Inward Pending(status=5)
-                              if (state.model.status == 2 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 6) ...[
+                            /// If Status is Approved(status=6), Inward Pending(status=9), Submitted(status=2)
+                            if (state.model.status == 6 ||
+                                state.model.status == 9 ||
+                                state.model.status == 2 ||
+                                state.model.status == 10) ...[
+                              /// If Status is Approved(status=6) and Inward Pending(status=9)
+                              if (state.model.status == 6 ||
+                                  state.model.status == 9 ||
+                                  state.model.status == 10) ...[
                                 ///Expected Date of Return
 
                                 /// Approved By
@@ -1504,26 +1504,24 @@ class _MaterialMovementDetailsViewState
                                   isMandatory: true,
                                 ),
                                 TextfieldAddButton(
-                                        title: state.model.receiverEmail,
-                                        height: 70,
-                                        isDisableColor:isReadOnly,
-                                        onTap: () {
-                                          if (!isReadOnly) {
-                                            BaseOrganisationDialog().userDialog(
-                                              context: context,
-                                              users: state.emailUsers!,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        receiverEmailUser:
-                                                            user);
-                                              },
-                                            );
-                                          }
-                                        }),
-
+                                    title: state.model.receiverEmail,
+                                    height: 70,
+                                    isDisableColor: isReadOnly,
+                                    onTap: () {
+                                      if (!isReadOnly) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    receiverEmailUser: user);
+                                          },
+                                        );
+                                      }
+                                    }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
@@ -1693,9 +1691,8 @@ class _MaterialMovementDetailsViewState
                             // CommonWidgets.verticalSpacerWidget(
                             //     height * 0.01),
                           ],
-                          if ((state.model.status == 2 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 6) &&
+                          if ((state.model.status == 5 ||
+                                      state.model.status == 10) &&
                                   (!widget.isInward) ||
                               widget.isInward) ...[
                             /// Is Material Physically Checked
