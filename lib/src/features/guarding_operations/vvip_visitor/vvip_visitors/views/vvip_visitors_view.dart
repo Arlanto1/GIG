@@ -61,8 +61,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
-          excelAPIName: 'exportSvpExcel',
-          pdfAPIName: 'exportSvpPDF',
+          excelAPIName: 'exportVipExcel',
+          pdfAPIName: 'exportVipPDF',
         ),
         body: BlocBuilder<VVIPVisitorsBloc, VVIPVisitorsState>(
             builder: (context, state) {
