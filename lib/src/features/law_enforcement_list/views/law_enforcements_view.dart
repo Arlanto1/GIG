@@ -117,7 +117,6 @@ class _LnPageState extends State<LnPage> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              log(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, 20, '/exportLEOExcel');
