@@ -127,7 +127,7 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                       widget.userItem.status == 1 ||
                                       widget.userItem.status == 3
                                   ? const Icon(Icons.edit)
-                                  : const Icon(Icons.auto_stories),
+                                  : const Icon(Icons.edit_off_outlined),
                             ),
                             IconButton(
                               onPressed: () {

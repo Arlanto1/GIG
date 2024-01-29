@@ -344,7 +344,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 widget.status == -1) ||
                             (widget.isShiftScheduleStatus &&
                                 widget.status == -1)
-                        ? const Icon(Icons.auto_stories)
+                        ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
                 ],
