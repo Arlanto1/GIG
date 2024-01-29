@@ -1,33 +1,9 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
-import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../constants/constants.dart';
-import '../../../../enums/form_status.dart';
-import '../../../../models/base_user.dart';
-import '../../../../models/organisation.dart';
-import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_response.dart';
-import '../../../createfound/models/emplyee_departments_model.dart';
-import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'material_movement_details_state.dart';
 
@@ -64,9 +40,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
 
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
     emit(
       state.copyWith(
         status: FormStatus.initial,
+        users: users.t1Analyst,
+        loadAttachments: state.model.images,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
     );

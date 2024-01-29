@@ -97,7 +97,7 @@ export 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/fema
 export 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
-export 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
@@ -197,3 +197,9 @@ export 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 export 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
 export 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/duty_post_name_master_request.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_duty_post_list.dart';
+export 'package:db_atom/src/common_widgets/base_widget/base_add_user_dialog.dart';
+export 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+export 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+export 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
+export 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
+

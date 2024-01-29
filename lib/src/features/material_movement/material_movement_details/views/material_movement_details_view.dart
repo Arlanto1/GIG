@@ -660,6 +660,13 @@ class _MaterialMovementDetailsViewState
                                                         requesterEmailUser:
                                                             user);
                                               },
+                                              functionToCall: () {
+                                                // refresh the list
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .refreshList();
+                                              },
                                             );
                                           }
                                         })
@@ -1011,6 +1018,13 @@ class _MaterialMovementDetailsViewState
                                                         approver1EmailUser:
                                                             user);
                                               },
+                                              functionToCall: () {
+                                                // refresh the list
+                                                BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                    context)
+                                                    .refreshList();
+                                              },
                                             );
                                           }
                                         })
@@ -1142,6 +1156,13 @@ class _MaterialMovementDetailsViewState
                                                     .updateApproverEmailsValue(
                                                         approver2EmailUser:
                                                             user);
+                                              },
+                                              functionToCall: () {
+                                                // refresh the list
+                                                BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                    context)
+                                                    .refreshList();
                                               },
                                             );
                                           }
@@ -1586,6 +1607,13 @@ class _MaterialMovementDetailsViewState
                                                 .updateDropdownValues(
                                                     receiverEmailUser: user);
                                           },
+                                          functionToCall: () {
+                                            // refresh the list
+                                            BlocProvider.of<
+                                                MaterialMovementDetailsCubit>(
+                                                context)
+                                                .refreshList();
+                                          },
                                         );
                                       }
                                     }),
@@ -1905,6 +1933,13 @@ class _MaterialMovementDetailsViewState
                                                       .updateDropdownValues(
                                                           returnReceiverMailId:
                                                               user);
+                                                },
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                      context)
+                                                      .refreshList();
                                                 },
                                               );
                                             }

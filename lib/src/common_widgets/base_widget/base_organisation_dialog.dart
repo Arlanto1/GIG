@@ -1,14 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../features/createfound/views/add_employee_deparment.dart';
-import '../../features/createfound/views/create_found_newuser.dart';
-import '../../models/base_user.dart';
-import '../../models/organisation.dart';
-import '../custom_pop_list_texts.dart';
+import 'package:db_atom/index.dart';
 
 class BaseOrganisationDialog {
   departmentDialog({
@@ -45,6 +37,7 @@ class BaseOrganisationDialog {
     List<BaseUser>? users,
     List<Organisation>? entities,
     required Function onTap,
+    Function? functionToCall,
     bool enabled = true,
   }) {
     showDialog(
@@ -61,8 +54,9 @@ class BaseOrganisationDialog {
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return CreateFoundNewUser(
+                  return BaseAddUserDialog(
                     title: Constants.createnewuser,
+                    functionToCall: functionToCall ?? () {},
                   );
                 });
           },
