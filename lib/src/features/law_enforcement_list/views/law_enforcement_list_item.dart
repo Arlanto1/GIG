@@ -121,7 +121,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                               },
                               icon: widget.userItem.status == 3 ||
                                       widget.userItem.status == -1
-                                  ? const Icon(Icons.auto_stories)
+                                  ? const Icon(Icons.edit_off_outlined)
                                   : const Icon(Icons.edit),
                             ),
                             IconButton(
