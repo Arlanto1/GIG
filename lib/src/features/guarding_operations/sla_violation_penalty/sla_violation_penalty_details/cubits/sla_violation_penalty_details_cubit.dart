@@ -283,7 +283,7 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: attdInfoId != null
+          status: !attdInfoId.isEmptyOrNull
               ? FormStatus.popOnly
               : navigateToNextScreen
                   ? FormStatus.navigateToNextScreen
