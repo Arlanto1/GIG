@@ -9,8 +9,10 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<BaseUser>? asl;
   final List<BaseUser>? systemManager;
   final List<BaseUser>? lt;
+  final List<BaseUser>? lsm;
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
+
   //final List<Organisation> departments;
   final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
@@ -25,9 +27,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-     List<BaseUser>? asl,
-     List<BaseUser>? systemManager,
-     List<BaseUser>? lt,
+    List<BaseUser>? asl,
+    List<BaseUser>? systemManager,
+    List<BaseUser>? lt,
+    List<BaseUser>? lsm,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     //required final List<Organisation> departments,
@@ -43,9 +46,10 @@ class SstIncidentGeneralInfoState extends Equatable {
       model: model,
       locations: locations,
       listOfEntities: listOfEntities,
-      asl:asl,
-      systemManager:systemManager,
-      lt:lt,
+      asl: asl,
+      systemManager: systemManager,
+      lt: lt,
+      lsm: lsm,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
@@ -75,7 +79,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.users,
     this.emailUsers,
     this.listOfEntities,
-   // required this.departments,
+    // required this.departments,
     required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
@@ -86,6 +90,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.systemManager,
     this.asl,
     this.lt,
+    this.lsm,
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -94,9 +99,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-     List<BaseUser>? asl,
-     List<BaseUser>? systemManager,
-     List<BaseUser>? lt,
+    List<BaseUser>? asl,
+    List<BaseUser>? systemManager,
+    List<BaseUser>? lt,
+    List<BaseUser>? lsm,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
@@ -115,7 +121,8 @@ class SstIncidentGeneralInfoState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-     lt: lt ?? this.lt,
+      lt: lt ?? this.lt,
+      lsm: lsm ?? this.lsm,
       systemManager: systemManager ?? this.systemManager,
       asl: asl ?? this.asl,
       vendors: vendors ?? this.vendors,
