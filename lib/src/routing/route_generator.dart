@@ -425,11 +425,11 @@ class RouteGenerator {
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
-        String attdInfoId;
+        String? attdInfoId = '';
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        attdInfoId = arguments['attdInfoId'];
+        attdInfoId = arguments['attdInfoId'] ?? '';
         SLAViolationPenaltyModel? model = arguments["model"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
