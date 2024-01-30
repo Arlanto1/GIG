@@ -193,21 +193,21 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
-                            items: statusDropDownValues,
-                            initialValue: '${state.model.status ?? 1}',
+                            items: shiftScheduleStatusDropDownValues,
+                            initialValue: '${state.model.status ?? 0}',
                             onTap: () {
                               if (state.model.id != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: statusDropDownValues
+                                  dropDownValues: shiftScheduleStatusDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        shiftScheduleStatusDropDownValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
