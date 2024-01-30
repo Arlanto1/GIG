@@ -9,5 +9,6 @@ class ConstantsArgument {
   static const String rankType = "rankType";
   static const String ranks = "ranks";
   static const String violationDescription = "violationDescription";
+  static const String violationDescriptions = "violationDescriptions";
 
 }

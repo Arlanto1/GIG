@@ -14,6 +14,7 @@ import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -463,7 +464,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> violationDescriptions =
+                                await CommonServices().getOrganisations(name: Constants.slaViolation);
                                 nav.pushNamed(
                                   slaViolationPenaltyRecordsRoute,
                                   arguments: {
@@ -472,6 +474,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.violationDescription:
                                         Constants.slaViolation,
+                                    ConstantsArgument.violationDescriptions:
+                                    violationDescriptions,
                                   },
                                 );
                               },

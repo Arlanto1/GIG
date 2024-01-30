@@ -92,7 +92,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Violation
+                      /// Violation
                       Column(
                         children: [
                           CommonWidgets.textDisplay(

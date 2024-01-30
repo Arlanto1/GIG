@@ -473,6 +473,7 @@ class RouteGenerator {
       case slaViolationPenaltyRecordsRoute:
         String title = '';
         int id = 0;
+        List<Organisation> violationDescriptions = [];
         String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -481,11 +482,14 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           violationDescription =
               arguments[ConstantsArgument.violationDescription] ?? '';
+          violationDescriptions =
+              arguments[ConstantsArgument.violationDescriptions] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
             create: (_) => vp.ViolationPenaltyRecordBloc(
               violationDescription: violationDescription,
+                violationDescriptions:violationDescriptions,
             )..add(vp.FetchData(
                 id: id,
                 startPos: 0,
