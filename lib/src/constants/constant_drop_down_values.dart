@@ -218,6 +218,20 @@ const List<Label> keyManagementStatus = [
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
 ];
+const List<Label> keyManagementHistoryStatus = [
+  Label(key: 'Cancelled', value: '11'),
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Lock Changed', value: '1'),
+  Label(key: 'Lost', value: '2'),
+  Label(key: 'Damaged', value: '3'),
+  Label(key: 'Lost Approved', value: '4'),
+  Label(key: 'Damaged Approved', value: '5'),
+  Label(key: 'Investigation', value: '6'),
+  Label(key: 'Destroy', value: '7'),
+  Label(key: 'Destroy Rejected', value: '8'),
+  Label(key: 'Destroy Approved', value: '9'),
+  Label(key: 'Closed', value: '10'),
+];
 
 const List<Label> sstIncidentsStatusItems = [
   Label(key: 'Cancelled', value: '-1'),
