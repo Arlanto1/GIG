@@ -126,8 +126,8 @@ class KeyManagementIssuanceDetailsCubit
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
-    User? handedOverTo,
-    User? dbSponsorCwrT2,
+    BaseUser? handedOverTo,
+    BaseUser? dbSponsorCwrT2,
     int? employeeType,
     int? keyHandingOverDuration,
   }) async {
@@ -175,19 +175,19 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy = userDetails;
     }
 
-    if (user != null) {
+    if (handedOverTo != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: handedOverTo.name,
+        userId: handedOverTo.id,
+        userName: handedOverTo.name,
       );
       state.model.handedOverTo = userDetails;
     }
-    if (user != null) {
+    if (dbSponsorCwrT2 != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: dbSponsorCwrT2.name,
+        userId: dbSponsorCwrT2.id,
+        userName: dbSponsorCwrT2.name,
       );
       state.model.dbSponsorCwrT2 = userDetails;
     }
