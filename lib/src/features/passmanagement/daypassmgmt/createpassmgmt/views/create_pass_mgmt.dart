@@ -37,6 +37,7 @@ import 'package:intl/intl.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/image_content.dart';
 import '../../../../../models/organisation.dart';
+import '../../../../../routing/router.dart';
 import '../../../../createfound/models/user.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
@@ -106,6 +107,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.popAndPushNamed(
+              context,
+              daypassmanagementListRoute,
+            );
           },
           icon: const Icon(Icons.arrow_back_ios_new_outlined,
               color: Colors.white),

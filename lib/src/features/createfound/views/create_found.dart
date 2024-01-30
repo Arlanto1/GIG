@@ -44,6 +44,7 @@ import '../../../common_widgets/app_button.dart';
 import '../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
+import '../../../routing/router.dart';
 import '../models/user.dart';
 
 class CreateFound extends StatefulWidget {
@@ -772,6 +773,11 @@ class _CreateFoundState extends State<CreateFound> {
           backBtn: IconButton(
             onPressed: () {
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                articleFoundListRoute,
+              );
             },
             icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 color: Colors.white),
