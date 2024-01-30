@@ -275,30 +275,34 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
 
                             GestureDetector(
                               onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
+                                  NavigatorState nav = Navigator.of(context);
+                                  if(state.model.status == 0 ||state.model.status == null) {
+                                    bool isSaveSuccess = await BlocProvider.of<
                                         VVIPVisitorDetailsCubit>(context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      navigateToNextScreen: true,
+                                    );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
 
-                                nav.pushNamed(
-                                  vipVisitorsRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
+                                    if (!isSaveSuccess) {
+                                      return;
+                                    }
+                                    log('--state.model.id---${state.model
+                                        .id}--');
+
+                                    nav.pushNamed(
+                                      vipVisitorsRecordsRoute,
+                                      arguments: {
+                                        ConstantsArgument.title:
                                         Constants.vvipVisitors,
-                                    ConstantsArgument.id: state.model.id,
-                                    // ConstantsArgument.violationDescription:
-                                    //     Constants.slaViolation,
+                                        ConstantsArgument.id: state.model.id,
+                                        // ConstantsArgument.violationDescription:
+                                        //     Constants.slaViolation,
+                                      },
+                                    );
+                                  }
                                   },
-                                );
-                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[

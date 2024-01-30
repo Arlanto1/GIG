@@ -205,7 +205,21 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
 
     }
+    if (lsm != null) {
+      User userDetails = User(
+        name: lsm.name,
+        userId: lsm.id,
+        email: lsm.email,
+      );
+      state.model.lsm = userDetails;
 
+      emit(
+        state.copyWith(
+          lsm: state.emailUsers,
+        ),
+      );
+
+    }
     if (lt != null) {
       User userDetails = User(
         name: lt.name,
