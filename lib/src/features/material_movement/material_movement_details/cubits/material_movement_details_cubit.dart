@@ -342,8 +342,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
-      for (var image in data) {
-        image.type = 1;
+      for (ImageContent image in data) {
+        image.type = 0;
       }
       log('--data----${data?.length}----');
 
