@@ -326,12 +326,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         }
       }
     } else if (widget.duplicateQuantityUnitList != null) {
-      activePassInfoList.clear();
+      quantityUnitList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
-
       for (var quantity in widget.duplicateQuantityUnitList!) {
         if (quantity.name!.toLowerCase().contains(text.toLowerCase())) {
           quantityUnitList.add(quantity);
@@ -397,7 +396,6 @@ class CustomListTextsState extends State<CustomListTexts> {
         ),
       );
     } else {
-      log('---widget.duplicateatomCompanyTypes------${widget.duplicateatomCompanyTypes?.length}---');
       return SizedBox(
         //padding: const EdgeInsets.all(0),
         // height: height, // Change as per your requirement

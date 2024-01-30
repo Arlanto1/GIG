@@ -195,7 +195,7 @@ class _MaterialMovementDetailsViewState
       getFiles = state.loadAttachments ?? [];
     }
     bool isQuantityDisabled =
-    (state.model.status == 10 ||
+        (state.model.status == 10 ||
             state.model.status == -1 ||
             state.model.status == 6 ||
             state.model.status == 2);
@@ -456,7 +456,7 @@ class _MaterialMovementDetailsViewState
                           FlutterInputField(
                             showBorder: true,
                             lineHeight: 6,
-                            initialValue: state.model.materialDescription,
+                            initialValue: state.model?.materialDescription,
                             textFormKey: Keys.materialBreifDescKey,
                             hintText: Constants.informationhere,
                             isEnable: state.model.status == 10 ||
@@ -473,6 +473,8 @@ class _MaterialMovementDetailsViewState
                             onChange: (String value) {
                               state.model?.materialDescription = value;
                             },
+                            textInputAction: TextInputAction.newline,
+                            keyboardType: TextInputType.multiline,// Add this line
                           ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -528,7 +530,8 @@ class _MaterialMovementDetailsViewState
                               if (!isReadOnly) ...[
                                 InkWell(
                                   onTap: () {
-                                    if (!isQuantityDisabled) {
+                                    if (!isQuantityDisabled
+                                        ) {
                                       quantityUnitDialog(
                                         context: context,
                                         quantityUnits: state.quantityUnits,
@@ -585,6 +588,8 @@ class _MaterialMovementDetailsViewState
                                     .read<MaterialMovementDetailsCubit>()
                                     .onModelValueChange(state.model);
                               },
+                              textInputAction: TextInputAction.newline,
+                              keyboardType: TextInputType.multiline,
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -620,6 +625,8 @@ class _MaterialMovementDetailsViewState
                                     .read<MaterialMovementDetailsCubit>()
                                     .onModelValueChange(state.model);
                               },
+                              textInputAction: TextInputAction.newline,
+                              keyboardType: TextInputType.multiline,//
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
