@@ -69,6 +69,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     }
   }
 
+  bool isPopUpShown = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
@@ -107,7 +109,15 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items!.isEmptyOrNull) {
+
+    if (state.items!.isEmptyOrNull&& !isPopUpShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isPopUpShown = true;
+        showAddVVIPVisitorsPopUp(
+          context: context,
+          contact: VIVPVisitorRecordModel(),
+        );
+      });
       return const NoRecordFoundWidget();
     }
     return Container(
