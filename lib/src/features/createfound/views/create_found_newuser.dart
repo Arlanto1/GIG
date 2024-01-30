@@ -189,7 +189,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
 
   Widget createNewuserButton(double width) {
     return PopButton(
-      width: width / 2,
+      width: width / 1,
       key: const Key(Keys.createnewuserButton),
       buttonText: Constants.createnewuser,
       buttonTextKey: Keys.createnewuserButtonText,
@@ -216,6 +216,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           }
         }
       },
+
     );
   }
 }
