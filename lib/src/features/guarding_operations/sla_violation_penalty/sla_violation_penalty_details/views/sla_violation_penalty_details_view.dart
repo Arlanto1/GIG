@@ -226,44 +226,15 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // FlutterInputField(
-                            //   isEnable: false,
-                            //   isDisableColor: true,
-                            //   textFormKey: Keys.statusTextController,
-                            //   hintText: '',
-                            //   initialValue:
-                            //       getStatusString(state.model.status ?? 0),
-                            //   onChange: (String value) {},
-                            //   validateTextField: (String? user) {},
-                            // ),
-                            BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
-                              textController: statusController,
-                              items: slaStatusDropDownValues,
-                              initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: slaStatusDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          slaStatusDropDownValues.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
-                                            const Label(key: '', value: ''),
-                                          );
-                                      BlocProvider.of<
-                                          SLAViolationPenaltyDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          status: int.tryParse(
-                                              selectedLabel.value));
-                                    },
-                                  );
-                              },
+                            FlutterInputField(
+                              isEnable: false,
+                              isDisableColor: true,
+                              textFormKey: Keys.statusTextController,
+                              hintText: '',
+                              initialValue:
+                                  getStatusString(state.model.status ?? 0),
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -575,6 +546,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         return 'Draft';
       case 1:
         return 'Active';
+      case 2:
+        return 'Finalize';
+      case -1:
+        return 'Cancelled';
       default:
         return '';
     }
