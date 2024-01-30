@@ -169,6 +169,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 return BasePopUpItems(
                                   id: state.items[selectedIndex].id.toString(),
                                   labels: labels,
+                                  isMasterGuard: false,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
                                   epManager1Name:
