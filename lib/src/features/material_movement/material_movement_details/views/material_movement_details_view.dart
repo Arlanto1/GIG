@@ -195,7 +195,10 @@ class _MaterialMovementDetailsViewState
       getFiles = state.loadAttachments ?? [];
     }
     bool isQuantityDisabled =
-        (state.model.status == 6 || state.model.status == 1);
+    (state.model.status == 10 ||
+            state.model.status == -1 ||
+            state.model.status == 6 ||
+            state.model.status == 2);
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -268,7 +271,7 @@ class _MaterialMovementDetailsViewState
                             textController: returnableTextController,
                             onTap: () {
                               if ((!isReadOnly & !widget.isInward) &&
-                                  state.model.status != 1) {
+                                  state.model.status != 2) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: returnableDropDownValues,
@@ -303,7 +306,7 @@ class _MaterialMovementDetailsViewState
                             items: materialMovementStatusValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (widget.materialMovement != null) {
+                              if (state.model.status == 0 ||state.model.status==null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: materialMovementStatusValues
@@ -1284,11 +1287,11 @@ class _MaterialMovementDetailsViewState
                                 textController: expectedDateOfReturnController,
                                 onlyDate: true,
                                 onChange: (String value) {
-                                  state.model.expectedDateOfReturn =
-                                      Utils().formatTime(value);
-                                  BlocProvider.of<MaterialMovementDetailsCubit>(
-                                          context)
-                                      .onModelValueChange(state.model);
+                                  // state.model.expectedDateOfReturn =
+                                  //     Utils().formatTime(value);
+                                  // BlocProvider.of<MaterialMovementDetailsCubit>(
+                                  //         context)
+                                  //     .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
