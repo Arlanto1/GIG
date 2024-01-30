@@ -509,7 +509,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                 KeyManagementIssuanceDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      user: user,
+                                      handedOverTo: user,
                                     );
                                   },
                                 );
@@ -538,7 +538,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                   KeyManagementIssuanceDetailsCubit>(
                                               context)
                                           .updateDropdownValues(
-                                        user: user,
+                                        dbSponsorCwrT2: user,
                                       );
                                     },
                                   );
