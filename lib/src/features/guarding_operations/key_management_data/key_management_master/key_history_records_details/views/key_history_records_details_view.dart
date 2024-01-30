@@ -173,12 +173,12 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         BaseDropDown().getDropDown(
-                          isDisabled: state.model.status != 6,
+                          isDisabled:true,
                           textController: statusController,
                           items: keyManagementHistoryStatus,
                           initialValue: '${state.model.status ?? 0}',
                           onTap: () {
-                            if (widget.model != null) {
+                            if (state.model.status ==null) {
                               BaseDropDown().assetTypeDialog(
                                 context: context,
                                 dropDownValues: keyManagementHistoryStatus
