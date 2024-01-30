@@ -201,6 +201,22 @@ class CommonServices {
     return Analyst.fromJson(response);
   }
 
+  Future<List<BaseUser>> getBaseUsers({
+    required String roleName,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getUsersByRole}$roleName&noRole=true';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    if (response == null || response[roleName] == null) {
+      return [];
+    }
+    return List<BaseUser>.from(
+        response[roleName].map((x) => Organisation.fromJson(x)));
+  }
+
   Future<GetDepositor> getAtomStaticUsers({
     required String roleName,
     BuildContext? context,

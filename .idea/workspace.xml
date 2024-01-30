@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="duty post name master: while creating a record,when we click on submit icon at top is not working.[qa]">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="notification count api call">
+      <change beforePath="$PROJECT_DIR$/lib/src/services/common_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/common_services.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -487,7 +487,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="194" />
+    <option name="localTasksCounter" value="195" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -524,7 +524,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created drawer for shift scheduling" />
     <MESSAGE value="WIP: listing page" />
     <MESSAGE value="WIP: Details GI" />
     <MESSAGE value="WIP: shift schedule Details duty posts" />
@@ -549,7 +548,8 @@
     <MESSAGE value="add user on pop up" />
     <MESSAGE value="MM images.type from 1 to 0&#10;sla violation add fixed" />
     <MESSAGE value="duty post name master: while creating a record,when we click on submit icon at top is not working.[qa]" />
-    <option name="LAST_COMMIT_MESSAGE" value="duty post name master: while creating a record,when we click on submit icon at top is not working.[qa]" />
+    <MESSAGE value="notification count api call" />
+    <option name="LAST_COMMIT_MESSAGE" value="notification count api call" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
