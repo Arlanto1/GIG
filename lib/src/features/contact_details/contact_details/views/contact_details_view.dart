@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -115,8 +116,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                 ? true
                 : false,
             showSubmitButton: state.model.status != 6 &&
-                // state.model.status != 1 &&
-                !isReadOnly
+                    // state.model.status != 1 &&
+                    !isReadOnly
                 ? true
                 : false,
             popAndReplace: () {
@@ -295,6 +296,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactGeneralRank);
 
                                 nav.pushNamed(
                                   contactRecordsRoute,
@@ -305,6 +309,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactGeneralRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -356,7 +361,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants
+                                            .contactGuardingAgencyEscalationRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -366,6 +374,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType: Constants
                                         .contactGuardingAgencyEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -416,7 +425,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants
+                                            .contactSystemEscalationRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -426,6 +438,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactSystemEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -476,7 +489,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactSupervisorRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -486,6 +501,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactSupervisorRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -537,16 +553,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactZone);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.guardingAgencyZonalManagerContact,
+                                    ConstantsArgument.title: Constants
+                                        .guardingAgencyZonalManagerContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactZone,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },

@@ -534,6 +534,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String rankType = '';
+        List<Organisation> ranks =[];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -541,11 +542,13 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type] ?? 0;
           rankType = arguments[ConstantsArgument.rankType] ?? '';
+          ranks = arguments[ConstantsArgument.ranks] ?? [];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
             create: (_) => cr.ContactRecordBloc(
               rankType: rankType,
+              ranks: ranks
             )..add(cr.FetchData(
                 id: id,
                 type: type,
