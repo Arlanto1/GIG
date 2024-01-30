@@ -103,6 +103,11 @@ class _DutyPostNameMasterDetailsViewState
               BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
+            },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
