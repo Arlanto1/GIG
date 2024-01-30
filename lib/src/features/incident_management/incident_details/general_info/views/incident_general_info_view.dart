@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:intl/intl.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
@@ -118,11 +119,16 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           int.tryParse(state.model.incidentDate ?? '0'),
           Constants.fulldateFormat);
     }
-    if (state.model.closureTargetDate != null) {
-      closureTargetDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.fulldateFormat);
-    }
+
+// Calculate the date 14 days from the current date and time
+    DateTime currentDate = DateTime.now();
+    DateTime futureDate = currentDate.add(const Duration(days: 14));
+
+// Format the future date into the format
+    String formattedDate = DateFormat(Constants.fulldateFormat).format(futureDate);
+
+    closureTargetDateController.text = formattedDate;
+
   }
 
   getBodybuilder(IncidentGeneralInfoState state, height) {
