@@ -174,7 +174,7 @@ class _DutyPostNameMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
                             items: dutyPostNameMasterStatusValues,
                             initialValue: '${state.model.status ?? 0}',
