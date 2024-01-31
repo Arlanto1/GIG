@@ -4,8 +4,11 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/v
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart';
 
 class VVIPVisitorsView extends StatefulWidget {
+  final VIVPVisitorModel? model;
+
   const VVIPVisitorsView({
     super.key,
+    this.model,
   });
 
   @override
@@ -46,15 +49,19 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, vipVisitorsDetailsRoute, arguments: {
-              "title": Constants.vvipVisitors,
-            })
-          },
-        ),
+        floatingActionButton:
+            widget.model?.status != 0 || widget.model?.status != null
+                ? Flutterfloatingbutton(
+                    backgroundColor: AppColors.navigationSkybluecolor,
+                    foregroundColor: AppColors.backgroundWhitecolor,
+                    onPressed: () => {
+                      Navigator.pushNamed(context, vipVisitorsDetailsRoute,
+                          arguments: {
+                            "title": Constants.vvipVisitors,
+                          })
+                    },
+                  )
+                : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.vvipVisitors,
