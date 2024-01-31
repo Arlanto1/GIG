@@ -773,11 +773,11 @@ class _CreateFoundState extends State<CreateFound> {
           backBtn: IconButton(
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                articleFoundListRoute,
-              );
+              //Navigator.pop(context);
+              // Navigator.popAndPushNamed(
+              //   context,
+              //   articleFoundListRoute,
+              // );
             },
             icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 color: Colors.white),
