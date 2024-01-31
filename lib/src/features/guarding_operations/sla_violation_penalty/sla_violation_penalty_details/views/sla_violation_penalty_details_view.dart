@@ -110,7 +110,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
@@ -122,13 +122,13 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
+            showSaveButton:
+                    state.model.status != 2 &&
                     !isReadOnly
                 ? true
                 : false,
-            showSubmitButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
+            showSubmitButton:
+                    state.model.status != 2 &&
                     !isReadOnly
                 ? true
                 : false,
@@ -290,7 +290,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 all: state.vendors,
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
-                                  log('--selectedEntities----${selectedVendors.length}');
                                   BlocProvider.of<
                                               SLAViolationPenaltyDetailsCubit>(
                                           context)
@@ -503,7 +502,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
+                      if ((state.model.status == 2 )
                           ? false
                           : true) ...[
                         Row(
@@ -520,7 +519,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
+            if (state.model.status == 2 ) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -590,23 +589,25 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   Widget locationWidgetdislay(SLAViolationPenaltyDetailsState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if(state.model.status == 0) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return CustomExpansionListTexts(
+                locationList: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
+                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                      .updateDropdownValues(location: location);
+                },
+              );
+            },
+          );
+        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
