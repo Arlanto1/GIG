@@ -120,15 +120,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           Constants.fulldateFormat);
     }
 
-// Calculate the date 14 days from the current date and time
-    DateTime currentDate = DateTime.now();
-    DateTime futureDate = currentDate.add(const Duration(days: 14));
-
-// Format the future date into the format
-    String formattedDate = DateFormat(Constants.fulldateFormat).format(futureDate);
-
-    closureTargetDateController.text = formattedDate;
-
+    if (state.model.closureTargetDate != null) {
+      closureTargetDateController.text = Utils.timestamptoDateConversion(
+          int.tryParse(state.model.closureTargetDate ?? '0'),Constants.fulldateFormat);
+    } else {
+      DateTime currentDate = DateTime.now();
+      DateTime futureDate = currentDate.add(const Duration(days: 14));
+      String formattedDate = DateFormat(Constants.fulldateFormat).format(futureDate);
+      closureTargetDateController.text = formattedDate;
+    }
   }
 
   getBodybuilder(IncidentGeneralInfoState state, height) {
@@ -699,10 +699,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
-                                log('---value-$value------');
                                 state.model.closureTargetDate =
                                     Utils().formatTime(value);
-                                log('---value11-${state.model.incidentDate}------');
+                                log('---value11-${state.model.closureTargetDate}------');
                                 BlocProvider.of<IncidentGeneralInfoCubit>(
                                         context)
                                     .onModelValueChange(state.model);
