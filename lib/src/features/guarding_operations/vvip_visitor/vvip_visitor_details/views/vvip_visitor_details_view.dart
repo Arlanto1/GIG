@@ -276,7 +276,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                   NavigatorState nav = Navigator.of(context);
-                                  if(state.model.status == 0 ||state.model.status == null) {
+                                  //if(state.model.status == 0 ||state.model.status == null) {
                                     bool isSaveSuccess = await BlocProvider.of<
                                         VVIPVisitorDetailsCubit>(context)
                                         .submitForm(
@@ -301,7 +301,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                         //     Constants.slaViolation,
                                       },
                                     );
-                                  }
+                                 // }
                                   },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -412,26 +412,29 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   Widget locationWidgetdislay(VVIPVisitorDetailsState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if (state.model.status ==0 ||state.model.status ==null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return CustomExpansionListTexts(
+                locationList: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<VVIPVisitorDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-      },
+                  BlocProvider.of<VVIPVisitorDetailsCubit>(context)
+                      .updateDropdownValues(location: location);
+                },
+              );
+            },
+          );
+        }
+        },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
+
   }
 
   Widget submitButton({
