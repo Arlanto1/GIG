@@ -100,9 +100,17 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      Analyst securityManagerUser =
-      await commonServices.getUsersByRole(roleName: 'ATOM_Security_System_Manager');
-
+      // List<BaseUser> asl =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
+      //
+      // List<BaseUser> lsm =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
+      //
+      // List<BaseUser> lt =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+      //
+      // List<BaseUser> systemManagerUser =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -143,7 +151,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-          systemManager:securityManagerUser.t1Analyst,
+          // systemManager:systemManagerUser,
+          // asl: asl,
+          // lsm: lsm,
+          // lt: lt,
           emailUsers: emailUsers.atomStaticUser,
           // departments: departments.employeeDepartments,
           vendors: vendors.items,
@@ -221,12 +232,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     }
     if (lt != null) {
-      User userDetails = User(
+      BaseUser userDetails = BaseUser(
         name: lt.name,
-        userId: lt.id,
+        id: lt.id,
         email: lt.email,
       );
-      state.model.lt = userDetails;
+      state.model.lt = userDetails as User?;
 
       emit(
         state.copyWith(
