@@ -1692,19 +1692,15 @@ class _MaterialMovementDetailsViewState
                                     },
                             ),
 
+                            if(state.model.originalReceiver == false)...[
                             /// Received For
                             Column(
                               children: [
                                 CommonWidgets.textDisplay(
-                                  !state.model.originalReceiver
-                                      ? state.labels?.locale.otherReceiverName ??
+                                   state.labels?.locale.otherReceiverName ??
                                           state.labels?.defaultLocale
                                               .otherReceiverName ??
-                                          Constants.receivedFor
-                                      : state.labels?.locale.receiverName ??
-                                          state.labels?.defaultLocale
-                                              .receiverName ??
-                                          Constants.receivedBy,
+                                          Constants.receivedFor,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1771,7 +1767,7 @@ class _MaterialMovementDetailsViewState
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+],
                             /// Receiver Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.receiverDepartment ??
@@ -1807,7 +1803,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (!state.model.originalReceiver) ...[
+                            if (state.model.originalReceiver) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.receiverName ??
@@ -1816,21 +1812,46 @@ class _MaterialMovementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
-
-                              FlutterInputField(
-                                initialValue: state.model.otherReceiverName,
-                                textFormKey: Keys.receivedByKey,
-                                isEnable: !isReadOnly,
-                                isDisableColor: isReadOnly,
-                                hintText: '',
-                                onChange: (String value) {
-                                  state.model.otherReceiverName = value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
+                              TextfieldAddButton(
+                                  title: state.model.otherReceiverName,
+                                  height: 70,
+                                  isDisableColor: isReadOnly,
+                                  onTap: () {
+                                    if (!isReadOnly) {
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                              MaterialMovementDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              otherReceiverName: user);
+                                        },
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<
+                                              MaterialMovementDetailsCubit>(
+                                              context)
+                                              .refreshList();
+                                        },
+                                      );
+                                    }
+                                  }),
+                              // FlutterInputField(
+                              //   initialValue: state.model.otherReceiverName,
+                              //   textFormKey: Keys.receivedByKey,
+                              //   isEnable: !isReadOnly,
+                              //   isDisableColor: isReadOnly,
+                              //   hintText: '',
+                              //   onChange: (String value) {
+                              //     state.model.otherReceiverName = value;
+                              //     context
+                              //         .read<MaterialMovementDetailsCubit>()
+                              //         .onModelValueChange(state.model);
+                              //   },
+                              //   validateTextField: (String? user) {},
+                              // ),
 
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 

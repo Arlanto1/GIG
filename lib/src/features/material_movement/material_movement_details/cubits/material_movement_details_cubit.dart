@@ -161,6 +161,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
+    BaseUser? otherReceiverName,
     BaseUser? requesterEmailUser,
     BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
@@ -215,8 +216,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.receiverEmail = receiverEmailUser.email;
     }
 
-    if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
+    if (otherReceiverName != null) {
+      state.model.otherReceiverName = otherReceiverName.email;
     }
 
     if (requesterEmailUser != null) {
