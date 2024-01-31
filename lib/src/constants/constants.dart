@@ -143,7 +143,7 @@ class Constants {
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
-
+  static const String sCRI = 'SCRI';
   static const String incidentManagement = 'Incident Management';
   static const String occurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
