@@ -12,7 +12,7 @@ import '../models/requestModel/annual_power_shutdown_list_request.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getAnnualPowerShutdownList = '$baseUrl/getEPLists?';
+  static final String _getAnnualPowerShutdownList = '$baseUrl/getEPLists?aps=1&';
 
   static final String _getGI = '$baseUrl/getEPGIById';
 
@@ -29,10 +29,9 @@ class AnnualPowerShutdownListServices {
     required String startPosition,
     required String maximumRecords,
     required String userId,
-    int aps=1,
   }) async {
     String url =
-        '${Apis._getAnnualPowerShutdownList}startPos=$startPosition&maxResults=$maximumRecords&aps=$aps';
+        '${Apis._getAnnualPowerShutdownList}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );

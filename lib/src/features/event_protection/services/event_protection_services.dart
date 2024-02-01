@@ -17,7 +17,7 @@ import '../event_protection_details/general_info/models/general_info_model.dart'
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getEventProtections = '$baseUrl/getEPLists?';
+  static final String _getEventProtections = '$baseUrl/getEPLists?aps=0&';
 
   static final String _getGI = '$baseUrl/getEPGIById';
 
@@ -42,10 +42,9 @@ class EventProtectionServices {
     required String startPosition,
     required String maximumRecords,
     required String userId,
-    int aps =0,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&aps=$aps';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );
