@@ -601,22 +601,28 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   Future<void> addAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
-
-    emit(state.copyWith(
-        eventId: eventIds,
-        loadAttachments: data,
-        stateType: CreatePassMgmtStateType.addattachment));
+    if (data != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      emit(state.copyWith(
+          eventId: eventIds,
+          loadAttachments: data,
+          stateType: CreatePassMgmtStateType.addattachment));
+    }
   }
-
   Future<void> photoAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
-
-    emit(state.copyWith(
-        eventId: eventIds,
-        photoAttachments: data,
-        stateType: CreatePassMgmtStateType.photoattachment));
+    if (data != null) {
+      for (var image in data) {
+        image.type = 2;
+      }
+      emit(state.copyWith(
+          eventId: eventIds,
+          photoAttachments: data,
+          stateType: CreatePassMgmtStateType.photoattachment));
+    }
   }
-
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
