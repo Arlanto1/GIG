@@ -22,6 +22,7 @@ class FlutterInputField extends StatelessWidget {
   final String textFormKey;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
+  final TextCapitalization textCapitalization;
   final FocusNode? focusnode;
   final String? initialValue;
   final String? labelText;
@@ -48,6 +49,7 @@ class FlutterInputField extends StatelessWidget {
     this.onTap,
     this.isDisableColor,
     this.textInputAction,
+    this.textCapitalization = TextCapitalization.words,
     this.onfieldSubmitted,
     this.focusnode,
     this.initialValue,
@@ -62,6 +64,7 @@ class FlutterInputField extends StatelessWidget {
       key: Key(textFormKey),
       controller: textFieldController,
       textInputAction: textInputAction,
+      textCapitalization: textCapitalization,
       obscureText: isSecure,
       initialValue: initialValue,
       enabled: isEnable,
