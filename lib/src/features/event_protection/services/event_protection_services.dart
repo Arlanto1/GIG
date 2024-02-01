@@ -45,7 +45,7 @@ class EventProtectionServices {
     int aps =0,
   }) async {
     String url =
-        '${Apis._getEventProtections}&startPos=$startPosition&maxResults=$maximumRecords&aps=$aps';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&aps=$aps';
     final response = await BaseApiService().getRequest(
       url: url,
     );

@@ -37,10 +37,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
     }
-    if (displayMenu.aps ?? false) {
+  //  if (displayMenu.aps ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
-    }
+   // }
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.incidentManagement, AppIcon.materialMovement, 0));
@@ -722,9 +722,9 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
       log('Index 3 -$index--- ');
-      Navigator.pushNamed(context, incidentManagementsRoute);
-    } else if (index == 4) {
       Navigator.pushNamed(context, annualPowerShutdownListRoute);
+    } else if (index == 4) {
+      Navigator.pushNamed(context, incidentManagementsRoute);
     } else if (index == 5) {
     } else if (index == 6) {
     } else if (index == 7) {
