@@ -172,8 +172,7 @@ class _LoginState extends State<Login> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
 
-                                  // Password field
-
+                                  /// Password
                                   Column(
                                     children: [
                                       Container(
