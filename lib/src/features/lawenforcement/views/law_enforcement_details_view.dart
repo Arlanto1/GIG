@@ -566,6 +566,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
                                   // SubmitButton
                                   if (widget.model?.status != 3) ...[
                                     Row(
@@ -1190,7 +1192,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
+        lastDate: DateTime.now());
 
     log('pickedDate---$pickedDate'); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
