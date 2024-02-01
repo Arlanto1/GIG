@@ -721,7 +721,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         CommonWidgets.textDisplay(
           Constants.officeAddress,
           Styles.textStyleBlack14,
-          isMandatory: true,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
@@ -739,7 +738,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         CommonWidgets.textDisplay(
           Constants.emailid,
           Styles.textStyleBlack14,
-          isMandatory: state.getVisitsCount != 1 ? false : true,
+          //isMandatory: state.getVisitsCount != 1 ? false : true,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
@@ -757,7 +756,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         CommonWidgets.textDisplay(
           Constants.contactno,
           Styles.textStyleBlack14,
-          isMandatory: true,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
