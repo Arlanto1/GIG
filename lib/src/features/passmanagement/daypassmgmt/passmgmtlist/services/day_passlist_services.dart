@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../configurations/base_api_service.dart';
 import '../../../../../configurations/environment_config.dart';
-import '../../../../../utils/shared_preferences.dart';
 import '../models/day_passlist_model.dart';
 
 class Apis {
@@ -21,7 +20,7 @@ class DayPassListServices {
     required String passType,
   }) async {
     String url =
-        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}&passType=$passType';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&passType=$passType';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

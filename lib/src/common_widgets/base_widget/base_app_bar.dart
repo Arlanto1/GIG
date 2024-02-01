@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import '../../../index.dart';
 
 class BaseAppBar {
@@ -44,10 +43,10 @@ class BaseAppBar {
               log('value--$value');
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', 0, 20, '/$excelAPIName');
+                    'export.xslx', '/$excelAPIName');
               } else if (value == 1) {
-                DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', 0, 20, '/$pdfAPIName');
+                DownloadImage().exportPdf(
+                    context, int.parse(userid), 'export.pdf', '/$pdfAPIName');
               }
               // else if(value == 2){
               //   Navigator.pop(context);

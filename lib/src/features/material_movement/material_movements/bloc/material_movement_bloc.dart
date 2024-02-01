@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'material_movement_event.dart';
-
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -55,8 +53,6 @@ class MaterialMovementBloc
         MaterialMovementsModel response = await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId:
-          '${state.loggedInUser?.userId}',
           mmType: isInward ? 1 : 0,
         );
         return emit(
@@ -71,7 +67,6 @@ class MaterialMovementBloc
       MaterialMovementsModel response = await services.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77', //TODO: make it dynamic
         mmType: isInward ? 1 : 0,
       );
 

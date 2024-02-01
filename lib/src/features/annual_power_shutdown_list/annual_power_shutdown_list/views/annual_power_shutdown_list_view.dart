@@ -93,8 +93,8 @@ class _AnnualPowerShutdownListViewState
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
-        excelAPIName: 'exportEPExcel',
-        pdfAPIName: 'exportEPPDF',
+        excelAPIName: 'exportEPExcel?aps=1',
+        pdfAPIName: 'exportEPPDF?aps=1',
       ),
       body: BlocBuilder<AnnualPowerShutdownListBloc,
           AnnualPowerShutdownListState>(

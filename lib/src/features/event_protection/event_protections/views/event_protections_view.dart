@@ -91,8 +91,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
-        excelAPIName: 'exportEPExcel',
-        pdfAPIName: 'exportEPPDF',
+        excelAPIName: 'exportEPExcel?aps=0',
+        pdfAPIName: 'exportEPPDF?aps=0',
       ),
       body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
         builder: (context, state) {
