@@ -275,12 +275,12 @@ class _MaterialMovementDetailsViewState
                             isDisabled: state.model.status != 6,
                             textController: returnableTextController,
                             onTap: () {
-                              if ((!isReadOnly & !widget.isInward) &&
-                                      state.model.status != 2 ||
+                              if ((!isReadOnly && !widget.isInward) &&
+                                  ( state.model.status != 2 ||
                                   state.model.status != 3 ||
                                   state.model.status != 5 ||
                                   state.model.status != 10 ||
-                                  state.model.status != -1) {
+                                  state.model.status != -1)) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: returnableDropDownValues,
