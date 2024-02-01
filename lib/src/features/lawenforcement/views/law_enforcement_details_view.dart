@@ -1146,7 +1146,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status != 3) {
+        if (widget.model?.status ==0) {
           datePickerDialog(textfiled);
         }
       },
