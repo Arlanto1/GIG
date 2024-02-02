@@ -103,22 +103,6 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                       ],
                     ),
                   ],
-                  // if (widget.userItem.foundDate != null) ...[
-                  //   CommonWidgets.verticalSpacerWidget(5),
-                  //   Row(
-                  //     children: [
-                  //       Utils().textHandling(
-                  //           'Found Date : ',
-                  //           widget.userItem.foundDate != null
-                  //               ? Utils.timestamptoDateConversion(
-                  //                   int.tryParse(
-                  //                       widget.userItem.foundDate ?? '0'),
-                  //                   Constants.dateFormat)
-                  //               : ''),
-                  //     ],
-                  //   ),
-                  // ],
-                  // ],
                 ],
               ),
             ),
