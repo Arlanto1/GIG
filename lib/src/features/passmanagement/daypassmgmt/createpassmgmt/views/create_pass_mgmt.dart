@@ -1139,7 +1139,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 //     passvaliduntilTextController),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
+                                  isDisabled: false,
+                                  showPastDate: false,
                                   textController: passvaliduntilTextController,
                                   onlyDate: (widget.passId == '3' &&
                                           widget.model?.category == 1)
@@ -1148,7 +1149,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   onChange: (String value) {
                                     log('--fr-value-${passvaliduntilTextController.text}------');
                                     passvaliduntilTextController.text =
-                                        Utils().formatTime(value);
+                                        Utils.timestamptoDateConversion(
+                                            int.parse(
+                                                widget.model?.endTime ?? '0'),
+                                            Constants.dateFormat);
                                   },
                                   context: context,
                                 ),
@@ -1266,7 +1270,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ///upload
                                 widget.model == null
                                     ? CommonWidgets.textDisplay(
-                                        Constants.upload,
+                                        Constants.evidenceDocuments,
                                         Styles.textStyleBlack14)
                                     : Container(),
                                 widget.model == null
@@ -2081,12 +2085,36 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         : Container();
   }
 
+  // Widget photogetAttachement(double height) {
+  //   return (photogetAttachments.isEmpty || widget.model == null)
+  //       ? photogetFiles.isEmpty
+  //           ? Container()
+  //           : attachmentListviews(photogetFiles, photogetAttachments)
+  //       : attachmentListviews(photogetFiles, photogetAttachments);
+  // }
   Widget photogetAttachement(double height) {
-    return (photogetAttachments.isEmpty || widget.model == null)
-        ? photogetFiles.isEmpty
-            ? Container()
-            : attachmentListviews(photogetFiles, photogetAttachments)
-        : attachmentListviews(photogetFiles, photogetAttachments);
+    // Check if there are existing attachments or if the model is not available
+    if (photogetAttachments.isEmpty || widget.model == null) {
+      // If no existing attachments or model not available, check if there are files
+      if (photogetFiles.isNotEmpty) {
+        // If files exist, display the attachments
+        return attachmentListviews(photogetFiles, photogetAttachments);
+      } else {
+        // If no files exist, return an empty container
+        return Container();
+      }
+    } else {
+      // If there are existing attachments and the model is available,
+      // only one photo is allowed, so replace the existing attachment
+      // with a new one. You can customize this logic as needed.
+      if (photogetFiles.isNotEmpty) {
+        // If there are new files, replace the existing attachment with the new one
+        return attachmentListviews(photogetFiles, photogetAttachments);
+      } else {
+        // If there are no new files, display the existing attachment
+        return attachmentListviews([], photogetAttachments);
+      }
+    }
   }
 
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
