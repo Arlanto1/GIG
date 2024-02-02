@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
+import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
 
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
@@ -11,8 +11,8 @@ class LawEnforcementsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LawEnforcementBloc>(
-      create: (_) => LawEnforcementBloc()
+    return BlocProvider<LawEnforcementListBloc>(
+      create: (_) => LawEnforcementListBloc()
         ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
       child: const LnPage(),
     );
@@ -50,14 +50,14 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<LawEnforcementBloc>().add(
+      context.read<LawEnforcementListBloc>().add(
           LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<LawEnforcementBloc>(context);
+    final bloc = BlocProvider.of<LawEnforcementListBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
@@ -110,7 +110,7 @@ class _LnPageState extends State<LnPage> {
           ),
         ],
       ),
-      body: BlocBuilder<LawEnforcementBloc, LawEnforcementState>(
+      body: BlocBuilder<LawEnforcementListBloc, LawEnforcementListState>(
           builder: (context, state) {
         if (state.status == FormStatus.initial) {
           return const BaseLoader();

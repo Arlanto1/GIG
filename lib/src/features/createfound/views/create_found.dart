@@ -61,6 +61,7 @@ class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
   String serialNumber = '';
+  int pageNumber = 0;
 
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 1;
@@ -458,6 +459,9 @@ class _CreateFoundState extends State<CreateFound> {
       username,
       widget.model != null ? Constants.editfound : Constants.createfound,
     );
+    var userid = await SharedPrefs.getUserId();
+    await foundListArticleCubit.getFoundList(
+        pageNumber.toString(), '20', userid, context);
   }
 
   void _getFoundArticleList() async {
@@ -1040,6 +1044,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         widget.model?.status == -1)
                                     ? true
                                     : false,
+                                //initialDate: DateTime.now().subtract(Duration(days: 1)),
                                 onChange: (String value) {
                                   widget.model?.foundDate =
                                       Utils().formatTime(value);

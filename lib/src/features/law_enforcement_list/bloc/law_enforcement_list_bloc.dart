@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 import '../../../enums/form_status.dart';
 import '../models/law_enforcement_list_response.dart';
 
-part 'law_enforcement_event.dart';
-part 'law_enforcement_state.dart';
+part 'law_enforcement_list_event.dart';
+part 'law_enforcement_list_state.dart';
 
-class LawEnforcementBloc
-    extends Bloc<LawEnforcementEvent, LawEnforcementState> {
-  LawEnforcementBloc() : super(const LawEnforcementState()) {
+class LawEnforcementListBloc
+    extends Bloc<LawEnforcementListEvent, LawEnforcementListState> {
+  LawEnforcementListBloc() : super(const LawEnforcementListState()) {
     // Initial Event
     on<LawEnforcementFetch>(
       _onTodoFetch,
@@ -32,7 +32,7 @@ class LawEnforcementBloc
   final LawEnforcementServices services = LawEnforcementServices();
 
   FutureOr<void> _onTodoFetch(
-      LawEnforcementFetch event, Emitter<LawEnforcementState> emit) async {
+      LawEnforcementFetch event, Emitter<LawEnforcementListState> emit) async {
     String userid = await SharedPrefs.getUserId();
     try {
       if (event.startPos == 0) {
@@ -86,6 +86,6 @@ class LawEnforcementBloc
   }
 
   FutureOr<void> _onTodoRefresh(
-      LawEnforcementRefresh event, Emitter<LawEnforcementState> emit) async {
+      LawEnforcementRefresh event, Emitter<LawEnforcementListState> emit) async {
   }
 }
