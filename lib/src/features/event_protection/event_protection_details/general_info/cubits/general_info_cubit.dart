@@ -138,10 +138,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? location,
-    // BaseUser? user,
+    BaseUser? user,
     Organisation? entity,
     int? status,
-    //GetUserDetails? user,
     Organisation? requesterDepartment,
     BaseUser? bu1,
     BaseUser? bu2,
@@ -161,33 +160,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-
-    if (epManager1 != null) {
-      User userDetails = User(
-        name: epManager1.name,
-        userId: epManager1.id,
-        userName: epManager1.name,
-      );
-      state.model.epManager1 = userDetails;
-    }
-
-    if (epManager2 != null) {
-      User userDetails = User(
-        name: epManager2.name,
-        userId: epManager2.id,
-        userName: epManager2.name,
-      );
-      state.model.epManager2 = userDetails;
-    }
-    // if (epOfficers != null) {
-    //   User userDetails = User(
-    //     name: epOfficers.name,
-    //     userId: epOfficers.id,
-    //     userName: epOfficers.name,
-    //   );
-    //   state.epOfficers.add(userDetails.email??'');
-    // }
-
     if (vendors != null) {
       state.model.proposedVendors = vendors;
     }
@@ -212,7 +184,27 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     state.model.requesterDepartment =
         requesterDepartment ?? state.model.requesterDepartment;
 
+    if (epManager1 != null) {
+      state.emailUsers?.remove(epManager1);
+      User userDetails = User(
+        name: epManager1.name,
+        userId: epManager1.id,
+        userName: epManager1.name,
+      );
+      state.model.epManager1 = userDetails;
+    }
+
+    if (epManager2 != null) {
+      state.emailUsers?.remove(epManager2);
+      User userDetails = User(
+        name: epManager2.name,
+        userId: epManager2.id,
+        userName: epManager2.name,
+      );
+      state.model.epManager2 = userDetails;
+    }
     if (bu1 != null) {
+      state.emailUsers?.remove(bu1);
       User userDetails = User(
         name: bu1.name,
         userId: bu1.id,
@@ -222,6 +214,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     if (bu2 != null) {
+      state.emailUsers?.remove(bu2);
       User userDetails = User(
         name: bu2.name,
         userId: bu2.id,
@@ -229,12 +222,12 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
       state.model.bu2 = userDetails;
     }
-    // state.model.bu1 = bu1 ?? state.model.bu1;
-    // state.model.bu2 = bu2 ?? state.model.bu2;
+
     state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
+      state.emailUsers?.remove(subRegionalHead1);
       User userDetails = User(
           name: subRegionalHead1.name,
           userId: subRegionalHead1.id,
@@ -242,6 +235,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
+      state.emailUsers?.remove(subRegionalHead2);
       User userDetails = User(
           name: subRegionalHead2.name,
           userId: subRegionalHead2.id,
@@ -249,6 +243,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
+      state.emailUsers?.remove(locationSecurityManager1);
       User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
@@ -256,6 +251,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
+      state.emailUsers?.remove(locationSecurityManager2);
       User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,
@@ -263,7 +259,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.lsm2 = userDetails;
     }
 
-    log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -377,7 +372,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         ),
       );
       return;
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),
