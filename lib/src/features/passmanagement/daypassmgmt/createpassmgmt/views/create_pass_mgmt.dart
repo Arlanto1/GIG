@@ -107,11 +107,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.popAndPushNamed(
-              context,
-              daypassmanagementListRoute,
-            );
           },
           icon: const Icon(Icons.arrow_back_ios_new_outlined,
               color: Colors.white),
