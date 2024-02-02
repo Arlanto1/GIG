@@ -2281,7 +2281,7 @@ class _MaterialMovementDetailsViewState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CommonWidgets.textDisplay(label, Styles.textStyleBlack14,
-                isMandatory: true),
+                ),
             Row(
               children: [
                 IconButton(
