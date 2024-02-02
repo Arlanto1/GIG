@@ -1,15 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../utils/app_themes/colors/app_color.dart';
-import '../../utils/helpers/keys/keys.dart';
-import '../new_search_textfield.dart';
 
 class BaseDate {
   /// Display Create Time
@@ -87,12 +80,23 @@ class BaseDate {
     bool onlyDate = false,
   }) async {
     DateTime? pickedDate;
+
+    // log('--textController.text---${textController.text}--');
+    DateTime initialTime = DateTime.now();
+    // initialTime = textController.text.isNotEmpty
+    //     ? DateTime.parse(Utils().formatTime( textController.text))
+    //     : DateTime.now();
+
+    // initialTime = DateTime(2024,2,2,15,42);
+
+    // log('--initialTime---${initialTime.toString()}--');
+
     if (onlyDate) {
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
-        minTime: DateTime(1900),
-        maxTime: DateTime(2101),
+        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
+        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
@@ -101,22 +105,13 @@ class BaseDate {
           pickedDate = date;
           log('confirm $date');
           if (pickedDate != null) {
-            return setDateTime(pickedDate, onlyDate, textController, onChange);
+            return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: DateTime.now(),
+        currentTime: initialTime,
         locale: LocaleType.en,
       );
-
-      // pickedDate = await showDatePicker(
-      //   context: context,
-      //   initialDate: DateTime.now(),
-      //   firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
-      //   lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
-      // );
     } else {
-      log('--DateTime.now()---${DateTime.now()}----');
-
       DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,
@@ -132,24 +127,16 @@ class BaseDate {
           log('--pickedDate--confirm---$pickedDate--');
 
           if (pickedDate != null) {
-            return setDateTime(pickedDate, onlyDate, textController, onChange);
+            return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: DateTime.now(),
+        currentTime: initialTime,
         locale: LocaleType.en,
       );
-
-      // pickedDate = await showDateTimePicker(
-      //   context: context,
-      //   initialDate: DateTime.now(),
-      //   firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
-      //   lastDate: showFutureDate ? DateTime(2101) : DateTime.now(), // Problem: it is allowing time picker to pick future time
-      // );
     }
 
     if (pickedDate != null) {
-      return setDateTime(pickedDate, onlyDate, textController, onChange);
-
+      return setDateTime(pickedDate!, onlyDate, textController, onChange);
     } else {
       // Handle the case where the user cancels the picker
       return ''; // You can modify the return value accordingly
@@ -166,5 +153,23 @@ class BaseDate {
     textController.text = formattedDate;
     onChange(formattedDate);
     return formattedDate;
+  }
+
+  String formatTime(String dateTimeString) {
+    // if the dateTimeString is already a Unix timestamp
+    if (dateTimeString.length == 10 &&
+        dateTimeString.contains(RegExp(r'^\d+$'))) {
+      return dateTimeString;
+    }
+
+    try {
+      final dateTime =
+          DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
+      final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      return unixTimestamp.toString();
+    } catch (_) {
+      // If the format does not match, handle the error or return a default value
+      throw FormatException('Unable to parse date-time: $dateTimeString');
+    }
   }
 }
