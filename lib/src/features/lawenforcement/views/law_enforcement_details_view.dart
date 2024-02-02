@@ -1579,7 +1579,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     log('---submitForm----');
     int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int inputDate = (DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000);
     int statusValue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
       statusValue = 0;
@@ -1591,28 +1593,28 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       statusValue = 2;
     }
     bool isDocumentifanySelected =
-        state.isDocumentifanySelected == 1 ? true : false;
+    state.isDocumentifanySelected == 1 ? true : false;
     bool isIncaseofpoliceSelected =
-        state.isIncaseofpoliceSelected == 1 ? true : false;
+    state.isIncaseofpoliceSelected == 1 ? true : false;
     bool isOfficialIdcardSelected =
-        state.isOfficialIdcardSelected == 1 ? true : false;
+    state.isOfficialIdcardSelected == 1 ? true : false;
 
     DbOfficialEmailDepartment? dbOfficialEmailDepartment =
-        DbOfficialEmailDepartment(
-            id: state.selectedemployeeDepartmentResponse?.id ?? 1);
+    DbOfficialEmailDepartment(
+        id: state.selectedemployeeDepartmentResponse?.id ?? 1);
     DbOfficialEmailDepartment? visitPurpose =
-        DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id ?? 1);
+    DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id ?? 1);
     List<DbOfficialEmailDepartment>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
         Organisation entity = state.listOfEntities![i];
         DbOfficialEmailDepartment addentiity =
-            DbOfficialEmailDepartment(id: entity.id ?? 1);
+        DbOfficialEmailDepartment(id: entity.id ?? 1);
         entities.add(addentiity);
       }
     }
     LawEntrySecurity? entrySecurtity =
-        LawEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
+    LawEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
     LawLocation? location = LawLocation(
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
@@ -1622,7 +1624,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       for (int i = 0; i < state.getVisits!.length; i++) {
         VisitingOfficialsModel model = state.getVisits![i];
         DbOfficialEmailDepartment dept =
-            DbOfficialEmailDepartment(id: model.department?.id ?? 1);
+        DbOfficialEmailDepartment(id: model.department?.id ?? 1);
         VisitingOfficial obj = VisitingOfficial(
             address: model.officialaddress ?? '',
             name: model.name ?? '',
@@ -1655,7 +1657,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     //   loadGroups.add(entity);
     // }
     List<ImageContent>? images =
-        getFiles.isEmpty ? widget.model?.images : getFiles;
+    getFiles.isEmpty ? widget.model?.images : getFiles;
     LawEnforcement? lawEnforcement;
     if (widget.model != null) {
       lawEnforcement = LawEnforcement(
@@ -1675,7 +1677,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse
+              ?.email ?? ''})')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1697,7 +1700,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse
+              ?.email ?? ''})')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1705,8 +1709,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     }
     showLoadingDialog(context);
     LawEnforcementRequestBody body =
-        LawEnforcementRequestBody(lawEnforcement: lawEnforcement);
-    BlocProvider.of<LawEnforcementCubit>(context).submitForm(
+    LawEnforcementRequestBody(lawEnforcement: lawEnforcement);
+    await BlocProvider.of<LawEnforcementCubit>(context).submitForm(
       body,
       isSubmit,
       context,

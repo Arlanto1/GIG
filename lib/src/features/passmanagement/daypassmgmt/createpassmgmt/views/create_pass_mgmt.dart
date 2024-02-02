@@ -91,6 +91,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   bool isEditable = true;
   bool isFTECompanyNameEditable = true;
   bool isDisabled = false;
+  int pageNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -434,9 +435,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 GestureDetector(
                                   onTap: () {
-                                    if (widget.passId == "0" ||
-                                        widget.passId == "1" ||
-                                        widget.passId == "2") {
+                                    if (widget.model?.status == 0 ||
+                                        widget.model?.status == null||
+                                        widget.model?.status != 1) {
                                       passTypeDialog();
                                     }
                                   },
@@ -458,9 +459,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         setState(() {});
                                       },
                                       onTap: () {
-                                        if (widget.passId == "0" ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2") {
+                                        if (widget.model?.status == 0 ||
+                                            widget.model?.status == null||
+                                            widget.model?.status != 1) {
                                           passTypeDialog();
                                         }
                                       },
@@ -472,9 +473,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               AppIcon.dropdownicon,
                                               key: const Key('closed_eye')),
                                           onPressed: () {
-                                            if (widget.passId == "0" ||
-                                                widget.passId == "1" ||
-                                                widget.passId == "2") {
+                                            if (widget.model?.status == 0 ||
+                                                widget.model?.status == null||
+                                                widget.model?.status != 1) {
                                               passTypeDialog();
                                             }
                                           })),
@@ -798,7 +799,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 widget.passId == "1"
                                     ? GestureDetector(
                                         onTap: () {
-                                          photoIdentityTypeDialog();
+                                          if (widget.model?.status == 0 ||
+                                              widget.model?.status == null) {
+                                            photoIdentityTypeDialog();
+                                          }
                                         },
                                         child: FlutterInputField(
                                             isEnable: false,
@@ -819,7 +823,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               setState(() {});
                                             },
                                             onTap: () {
-                                              photoIdentityTypeDialog();
+                                              if (widget.model?.status == 0 ||
+                                                  widget.model?.status ==
+                                                      null) {
+                                                photoIdentityTypeDialog();
+                                              }
                                             },
                                             validateTextField:
                                                 (String? user) {},
@@ -832,8 +840,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         'closed_eye')),
                                                 onPressed: () {
                                                   log('suffixIcon pressed');
-
-                                                  photoIdentityTypeDialog();
+                                                  if (widget.model?.status ==
+                                                          0 ||
+                                                      widget.model?.status ==
+                                                          null) {
+                                                    photoIdentityTypeDialog();
+                                                  }
                                                 })),
                                       )
                                     : Container(),
@@ -1355,44 +1367,47 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget radioButtonHandling(int selectedValue, String name) {
+    bool isEditable = (widget.model?.status == null || widget.model?.status == 0);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status == 7
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+          activeColor: isEditable
+              ? AppColors.navigationSkybluecolor
+              : AppColors.disabletextfieldBackground,
           focusColor: AppColors.navigationSkybluecolor,
           value: 1,
           groupValue: selectedValue,
-          onChanged: (val) {
+          onChanged: isEditable
+              ? (val) {
             selectedValue = 1;
-
             createPassMgmtCubit.getRadioButtonSelected(
                 name, selectedValue, "Yes");
-          },
+          }
+              : null,
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status == 7
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+          activeColor: isEditable
+              ? AppColors.navigationSkybluecolor
+              : AppColors.disabletextfieldBackground,
           value: 0,
           groupValue: selectedValue,
-          onChanged: (val) {
+          onChanged: isEditable
+              ? (val) {
             log(name);
-            //radioButtonItem = 'No';
             selectedValue = 0;
-
             createPassMgmtCubit.getRadioButtonSelected(
                 name, selectedValue, "No");
-          },
+          }
+              : null,
         ),
         const Text(Constants.no),
       ],
     );
-    //return Container();
   }
+
 
   @override
   void initState() {
@@ -2381,10 +2396,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 || widget.model != null ? false : true,
+      isDisableColor: widget.model?.status == 0 || widget.model?.status == null
+          ? false
+          : true,
       onTap: () {
-        if (widget.model == null || widget.model?.status == 0) {
+        if (widget.model?.status == 0 || widget.model?.status == null) {
           hostTypeDialog(state);
         }
       },
@@ -2543,27 +2559,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget locationWidgetdislay(CreatePassMgmtState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // log(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.getLocationsResponse,
-              //GetLocations(),
-              onTap: (Organisation? org) async {
-                await createPassMgmtCubit.getSerialnumberDetails(
-                  org?.id.toString() ?? '',
-                  widget.passId ?? '',
-                  context,
-                );
+        if (widget.model?.status == 0 || widget.model?.status == null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              // log(state.getLocationsResponse);
+              return CustomExpansionListTexts(
+                locationList: state.getLocationsResponse,
+                //GetLocations(),
+                onTap: (Organisation? org) async {
+                  await createPassMgmtCubit.getSerialnumberDetails(
+                    org?.id.toString() ?? '',
+                    widget.passId ?? '',
+                    context,
+                  );
 
-                createPassMgmtCubit.getPassNumber(
-                    widget.passId ?? '0', org?.id.toString() ?? '', context);
-                createPassMgmtCubit.getlocationsResponseData(org);
-              },
-            );
-          },
-        );
+                  createPassMgmtCubit.getPassNumber(
+                      widget.passId ?? '0', org?.id.toString() ?? '', context);
+                  createPassMgmtCubit.getlocationsResponseData(org);
+                },
+              );
+            },
+          );
+        }
       },
       child: Container(
         height: 60,
@@ -3013,6 +3031,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     CreatePassMgmtBody body = CreatePassMgmtBody(passManagement: passmgmtbody);
     createPassMgmtCubit.createPass(body, isSubmit, context, username,
         widget.model != null ? widget.title ?? '' : widget.title ?? '');
+    String userid = await SharedPrefs.getUserId();
+    await dayPassListCubit.getFoundList(
+        pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
   passValidations(BuildContext context, CreatePassMgmtState state) {
@@ -3444,18 +3465,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int index,
     CreatePassMgmtState state,
   ) {
+    bool isEditable = (widget.model?.status == null || widget.model?.status == 0);
     return FlutterInputField(
+
       //lineHeight: textController == employeeidTextController ? 1 : 1,
       onTap: () {},
       textFieldController: textController,
-      textFormKey: Keys.colorTextController,
+    textFormKey: Keys.colorTextController,
       keyboardType: textController == contactnoTextController ||
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
-      isEnable: textController == companynameTextController
+      isEnable: (textController == companynameTextController
           ? isFTECompanyNameEditable
-          : isEditable,
+          : isEditable)|| isEditable,
+      isDisableColor: isEditable ,
       hintText: '',
       onChange: (String value) {
         //this.username = username;
@@ -3478,21 +3502,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
-      // isEnable:
-      //     widget.listuser == null
-      //     ? true
-      //     : (widget.listuser != null &&
-      //             (textController.text ?? '')
-      //                 .isEmpty) ?
-      //     true
-      //     : false,
-      //     isDisableColor: (widget.listuser != null &&
-      //                 (textController.text ?? '')
-      //                     .isEmpty) ||issue
-      //             widget.listuser == null
-      //         ? false
-      //         :
-      //     true,
+      isEnable:
+          widget.model?.status == null|| widget.model?.status == 0
+          ? true
+          : false,
+          isDisableColor:  widget.model?.status == null|| widget.model?.status == 0
+              ? false
+          :true,
       hintText: 'no empty',
       onChange: (String username) {
         //this.username = username;

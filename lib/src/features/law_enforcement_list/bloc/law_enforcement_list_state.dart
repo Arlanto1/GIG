@@ -1,21 +1,21 @@
-part of 'law_enforcement_bloc.dart';
+part of 'law_enforcement_list_bloc.dart';
 
-class LawEnforcementState extends Equatable {
+class LawEnforcementListState extends Equatable {
   final List<LawEnforcementListElement> items;
   final bool hasReachedMax;
   final FormStatus status;
 
-  const LawEnforcementState(
+  const LawEnforcementListState(
       {this.items = const <LawEnforcementListElement>[],
       this.hasReachedMax = false,
       this.status = FormStatus.initial});
 
-  LawEnforcementState copyWith({
+  LawEnforcementListState copyWith({
     List<LawEnforcementListElement>? todos,
     bool? hasReachedMax,
     FormStatus? status,
   }) {
-    return LawEnforcementState(
+    return LawEnforcementListState(
       items: todos ?? items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
