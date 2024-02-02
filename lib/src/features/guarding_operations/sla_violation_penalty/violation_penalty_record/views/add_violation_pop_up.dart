@@ -237,7 +237,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textFieldController: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable:  staffCategoryController.text == "Guarding Agency" ? false : true,
+                        isEnable:  true,
                         isDisableColor: false,
                         onChange: (String value) {
                           widget.model.totalViolations = num.parse(value);
