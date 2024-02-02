@@ -315,8 +315,7 @@ class _MaterialMovementDetailsViewState
                             items: materialMovementStatusValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (state.model.status == 0 ||
-                                  state.model.status == null) {
+                              if (isReadOnly) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: materialMovementStatusValues
