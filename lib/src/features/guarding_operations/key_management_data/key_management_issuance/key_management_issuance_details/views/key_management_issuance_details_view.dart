@@ -512,6 +512,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       handedOverTo: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
                                 );
                               },
                             ),
@@ -540,6 +547,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           .updateDropdownValues(
                                         dbSponsorCwrT2: user,
                                       );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                          context)
+                                          .refreshList();
                                     },
                                   );
                                 },

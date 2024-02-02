@@ -402,6 +402,13 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                           guard: user,
                                         );
                                       },
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            GuardingMasterDataDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      },
                                     );
                                   },
                                 ),

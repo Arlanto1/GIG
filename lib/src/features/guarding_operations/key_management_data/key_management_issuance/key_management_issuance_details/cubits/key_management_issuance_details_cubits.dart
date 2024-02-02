@@ -35,7 +35,21 @@ class KeyManagementIssuanceDetailsCubit
             errorMessage: '',
           ),
         );
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        // vendors: vendors.items,
+      ),
+    );
+  }
   void onModelValueChange(KeyManagementIssuanceModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }

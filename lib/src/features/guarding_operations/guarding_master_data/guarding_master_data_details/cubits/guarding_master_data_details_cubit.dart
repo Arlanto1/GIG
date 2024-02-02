@@ -41,6 +41,26 @@ class GuardingMasterDataDetailsCubit
               getQualificationsResponse: null),
         );
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation> quantityUnits = await commonServices.getOrganisations(
+        name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors vendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: vendors.items,
+      ),
+    );
+  }
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
