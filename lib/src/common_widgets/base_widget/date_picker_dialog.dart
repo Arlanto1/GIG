@@ -82,8 +82,8 @@ class BaseDate {
     required TextEditingController textController,
     required Function(String) onChange,
     required BuildContext context,
-    bool? showPastDate = true,
-    bool? showFutureDate = true,
+    bool showPastDate = true,
+    bool showFutureDate = true,
     bool onlyDate = false,
   }) async {
     DateTime? pickedDate;
@@ -91,15 +91,15 @@ class BaseDate {
       pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+        firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
+        lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
       );
     } else {
       pickedDate = await showDateTimePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+        firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
+        lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
       );
     }
 
