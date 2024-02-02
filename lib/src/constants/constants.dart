@@ -282,6 +282,7 @@ class Constants {
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
+  static const String evidenceDocuments = 'Evidence Documents Name';
   static const String uploadPhoto = 'Upload Photo';
   static const String addvisitingofficialdetails =
       "Add Another Visiting Official Details";
