@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
@@ -8,7 +9,6 @@ import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/helpers/keys/keys.dart';
-import '../date_time_picker.dart';
 import '../new_search_textfield.dart';
 
 class BaseDate {
@@ -88,32 +88,83 @@ class BaseDate {
   }) async {
     DateTime? pickedDate;
     if (onlyDate) {
-      pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
+      DatePicker.showDatePicker(
+        context,
+        showTitleActions: true,
+        minTime: DateTime(1900),
+        maxTime: DateTime(2101),
+        onChanged: (date) {
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          pickedDate = date;
+          log('confirm $date');
+          if (pickedDate != null) {
+            return setDateTime(pickedDate, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: DateTime.now(),
+        locale: LocaleType.en,
       );
+
+      // pickedDate = await showDatePicker(
+      //   context: context,
+      //   initialDate: DateTime.now(),
+      //   firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
+      //   lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
+      // );
     } else {
-      pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate ? DateTime(2101) : DateTime.now(),
+      log('--DateTime.now()---${DateTime.now()}----');
+
+      DatePicker.showDateTimePicker(
+        context,
+        showTitleActions: true,
+        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
+        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        onChanged: (date) {
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          pickedDate = date;
+          log('confirm $date');
+          log('--pickedDate--confirm---$pickedDate--');
+
+          if (pickedDate != null) {
+            return setDateTime(pickedDate, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: DateTime.now(),
+        locale: LocaleType.en,
       );
+
+      // pickedDate = await showDateTimePicker(
+      //   context: context,
+      //   initialDate: DateTime.now(),
+      //   firstDate: showPastDate ? DateTime(1900) : DateTime.now(),
+      //   lastDate: showFutureDate ? DateTime(2101) : DateTime.now(), // Problem: it is allowing time picker to pick future time
+      // );
     }
 
     if (pickedDate != null) {
-      String formattedDate = DateFormat(
-        onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
-      ).format(pickedDate);
+      return setDateTime(pickedDate, onlyDate, textController, onChange);
 
-      textController.text = formattedDate;
-      onChange(formattedDate);
-      return formattedDate;
     } else {
       // Handle the case where the user cancels the picker
       return ''; // You can modify the return value accordingly
     }
+  }
+
+  String setDateTime(DateTime? pickedDate, bool onlyDate,
+      TextEditingController textController, Function(String) onChange) {
+    log('--pickedDate--$pickedDate--');
+    String formattedDate = DateFormat(
+      onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
+    ).format(pickedDate!);
+
+    textController.text = formattedDate;
+    onChange(formattedDate);
+    return formattedDate;
   }
 }
