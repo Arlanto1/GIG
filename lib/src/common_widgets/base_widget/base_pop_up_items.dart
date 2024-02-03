@@ -135,7 +135,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
-    this.isAttendance= false,
+    this.isAttendance = false,
     this.isIncident = false,
     this.eventType,
     this.isEventProtectionStatus = true,
@@ -431,8 +431,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
-
-
 
       if (widget.status != null &&
           widget.isKeyManagementIssuanceStatus == true) ...[
@@ -756,8 +754,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.status != null && widget.isSLAViolationStatus == true) ...[
-        CommonWidgets.horizontalSpacerWidget(5),
-        Utils().buildSLAViolationStatus(widget.status ?? 0),
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildSLAViolationStatus(widget.status ?? 0),
+          ],
+        ),
       ],
       if (widget.firstAidNotCertified != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
