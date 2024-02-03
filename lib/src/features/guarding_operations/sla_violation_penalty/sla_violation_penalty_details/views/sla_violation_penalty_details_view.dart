@@ -215,7 +215,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model?.entrySecurity?.firstName ?? ''} ${state.model?.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status

@@ -723,6 +723,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         CommonWidgets.textDisplay(
           Constants.officeAddress,
           Styles.textStyleBlack14,
+          isMandatory: true,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
@@ -1146,7 +1147,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status ==0) {
+        if (widget.model?.status ==0||(widget.model?.status == null)){
           datePickerDialog(textfiled);
         }
       },
@@ -1801,10 +1802,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             (model.name ?? '').isEmpty ||
             model.officialaddress == null ||
             (model.officialaddress ?? '').isEmpty ||
-            model.conatctno == null ||
-            (model.conatctno ?? '').isEmpty ||
-            model.email == null ||
-            (model.email ?? '').isEmpty ||
             model.department == null ||
             (model.department?.name ?? '').isEmpty ||
             model.designation == null ||
@@ -1814,14 +1811,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             "Please enter visiting official details",
           );
           break;
-        } else if (!Validator.isValidEmail(model.email?.trim())) {
-          log('-model.email---${model.email}---');
-          Validator().showToast(
-            context,
-            "Please enter visiting official  details valid email",
-          );
-          break;
-        } else {
+        }
+        // else if (!Validator.isValidEmail(model.email?.trim())) {
+        //   log('-model.email---${model.email}---');
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter visiting official  details valid email",
+        //   );
+        //   break;
+        // }
+        else {
           if (widget.model?.status != 0 &&
               (widget.model != null &&
                   distributiongroupsTextController.text.isNotEmpty)) {
