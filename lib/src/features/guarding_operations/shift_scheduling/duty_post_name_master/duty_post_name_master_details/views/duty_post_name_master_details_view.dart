@@ -329,21 +329,6 @@ class _DutyPostNameMasterDetailsViewState
     );
   }
 
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
-  }
-
   List<Widget> getDutyPostLocationName(
       List<String> list, double height, DutyPostNameMasterDetailsState state) {
     List<Widget> widgets = [];
@@ -434,4 +419,5 @@ class _DutyPostNameMasterDetailsViewState
       },
     );
   }
+
 }

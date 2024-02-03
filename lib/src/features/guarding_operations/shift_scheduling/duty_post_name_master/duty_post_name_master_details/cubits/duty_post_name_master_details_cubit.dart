@@ -162,8 +162,8 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.loading,
       ),
     );
-
-    state.model.status ??= 0;
+    state.model.status = !isSaveOnly ? 1 : (state.model.status ?? 0);
+    //state.model.status ??= 0;
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
