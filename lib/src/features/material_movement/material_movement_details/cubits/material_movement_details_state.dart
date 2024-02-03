@@ -95,7 +95,7 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Sender\'s Name');
       }
 
-      if (model.otherReceiverEmployeeId.isEmptyOrNull) {
+      if (model.otherReceiverEmployeeId.isEmptyOrNull && model.originalReceiver) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }

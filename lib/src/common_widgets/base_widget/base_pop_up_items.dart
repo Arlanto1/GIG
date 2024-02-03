@@ -861,7 +861,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.dbSponsorCWRT2 != null) ...[
+      if (widget.dbSponsorCWRT2 != null && !widget.dbSponsorCWRT2!.name.isEmptyOrNull) ...[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
