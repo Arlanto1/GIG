@@ -264,6 +264,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby, isMandatory: true,
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.slNo ??
