@@ -98,6 +98,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
+      state.model?.createdBy ??= loggedInUserDetails;
+
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),

@@ -101,7 +101,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       model.inputDate = _getCurrentDate();
 

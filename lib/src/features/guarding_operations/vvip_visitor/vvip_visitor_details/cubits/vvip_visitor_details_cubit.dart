@@ -80,8 +80,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
         }
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
-
+      state.model.entrySecurity ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,

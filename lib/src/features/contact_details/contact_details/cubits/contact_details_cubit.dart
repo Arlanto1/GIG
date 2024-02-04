@@ -74,7 +74,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
 
       emit(
         state.copyWith(

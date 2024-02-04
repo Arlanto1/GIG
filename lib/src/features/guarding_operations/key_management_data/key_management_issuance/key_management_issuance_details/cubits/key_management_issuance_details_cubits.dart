@@ -102,7 +102,7 @@ class KeyManagementIssuanceDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
       state.model.keyHandOverDate=Utils().getCurrentDate();

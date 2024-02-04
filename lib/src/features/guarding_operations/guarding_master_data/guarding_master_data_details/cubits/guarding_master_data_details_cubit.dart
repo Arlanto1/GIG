@@ -137,7 +137,7 @@ class GuardingMasterDataDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 

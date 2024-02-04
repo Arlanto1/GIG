@@ -124,7 +124,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       state.model.unit = model?.unit;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
