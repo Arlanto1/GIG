@@ -53,7 +53,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await dayPassListCubit.getFoundList(
+    await dayPassListCubit.getList(
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 

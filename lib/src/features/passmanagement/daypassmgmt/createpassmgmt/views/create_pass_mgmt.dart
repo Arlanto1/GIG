@@ -3055,7 +3055,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     createPassMgmtCubit.createPass(body, isSubmit, context, username,
         widget.model != null ? widget.title ?? '' : widget.title ?? '');
     String userid = await SharedPrefs.getUserId();
-    await dayPassListCubit.getFoundList(
+    await dayPassListCubit.getList(
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
