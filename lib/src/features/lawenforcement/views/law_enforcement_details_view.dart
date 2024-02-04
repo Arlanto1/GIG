@@ -646,12 +646,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Widget loadData(double height, double width, BuildContext context,
       LawEnforcementState state, int visitingOfficialDetailsArray, int index) {
-    // TextEditingController name = TextEditingController();
-    // TextEditingController address = TextEditingController();
-    // TextEditingController conatctno = TextEditingController();
-    // TextEditingController emailid = TextEditingController();
-    // TextEditingController designation = TextEditingController();
-
     return Column(
       children: [
         if (state.getVisitsCount != 1) ...[
@@ -1016,28 +1010,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         'ATOM_STATIC_USER', context);
     await lawEnforcementCubit.getUserDetails(userid, context);
   }
-
-  //
-  // Widget submitButtonDisplay() {
-  //   return AppButton(
-  //     //height: 50,
-  //     disableColor: isDistrbuted,
-  //     width: 150,
-  //     key: const Key(Keys.submitButton),
-  //     buttonText: Constants.submit,
-  //     buttonTextKey: Keys.submitButton,
-  //     onTap: () async {
-  //       FocusScope.of(context).unfocus();
-  //       if (isDistrbuted == false) {
-  //         try {
-  //           validateForm(context, globalState);
-  //         } catch (e) {
-  //           // present userwith error message
-  //         }
-  //       }
-  //     },
-  //   );
-  // }
   Widget submitButtonDisplay() {
     return // Login button
         AppButton(
@@ -1643,22 +1615,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       log('---organisation.name--createLawEnforcement---${organisation.name}');
     }
     List<Organisation>? loadGroups = widget.model?.mailList ?? [];
-    // if (state.listIndividualdept != null) {
-    //   //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-    //
-    //   if (widget.model?.status != 0) {}
-    //   Organisation entity = state.listIndividualdept != null
-    //       ? Organisation(
-    //           groupId: state.listIndividualdept?.id ?? 0,
-    //           name: state.listIndividualdept?.name ?? "")
-    //       : Organisation();
-    //   // AtomEntity entity = state.listOfEntities![i];
-    //   //   DbOfficialEmailDepartment addentiity =
-    //   // DbOfficialEmailDepartment(id: entity.id ?? 1);
-    //   //distributionGroups.add(entity);
-    //   //lawenforcementCubit.geDistributonData(entity);
-    //   loadGroups.add(entity);
-    // }
     List<ImageContent>? images =
     getFiles.isEmpty ? widget.model?.images : getFiles;
     LawEnforcement? lawEnforcement;
