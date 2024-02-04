@@ -44,7 +44,6 @@ import '../../../common_widgets/app_button.dart';
 import '../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
-import '../../../routing/router.dart';
 import '../models/user.dart';
 
 class CreateFound extends StatefulWidget {
@@ -1496,7 +1495,11 @@ class _CreateFoundState extends State<CreateFound> {
                                     ? radioButtonHandling(
                                         isClaimantAcceptedByemail,
                                         Constants.isclaimantacceptedbyemail,
-                                        isDisableColor: !isDisabled,
+                                        isDisableColor:
+                                            widget.model?.status != 2 ||
+                                                    widget.model?.status != -1
+                                                ? isDisabled
+                                                : !isDisabled,
                                       )
                                     : Container(),
                               ],
@@ -1881,12 +1884,11 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            }
-            // else if (name == Constants.isclaimantacceptedbyemail &&
-            //     widget.model?.status != 2) {
-            //   isClaimantAcceptedByemail = selectedValue;
-            // }
-            else if (name == Constants.isclaimantdbemployee &&
+            } else if (name == Constants.isclaimantacceptedbyemail &&
+                    widget.model?.status != 2 ||
+                widget.model?.status != -1) {
+              isClaimantAcceptedByemail = selectedValue;
+            } else if (name == Constants.isclaimantdbemployee &&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
@@ -1911,7 +1913,8 @@ class _CreateFoundState extends State<CreateFound> {
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
             } else if (name == Constants.isclaimantacceptedbyemail &&
-                widget.model?.status != 2) {
+                    widget.model?.status != 2 ||
+                widget.model?.status != -1) {
               isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isclaimantdbemployee &&
                 widget.model?.status != 2) {
