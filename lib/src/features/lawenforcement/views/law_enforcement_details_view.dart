@@ -1524,23 +1524,25 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // log(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.getLocationsResponse,
-              //GetLocations(),
-              onTap: (Organisation? org) async {
-                await lawEnforcementCubit.getSerialnumberDetails(
-                    org?.id.toString() ?? '', 'LEO', context);
-                // locationselectedText = list?.name ?? '';
-                // locationSelectedlist = list;
-                lawEnforcementCubit.getlocationsResponseData(org);
-              },
-            );
-          },
-        );
+        if(widget.model?.status == 0 || widget.model?.status == null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              // log(state.getLocationsResponse);
+              return CustomExpansionListTexts(
+                locationList: state.getLocationsResponse,
+                //GetLocations(),
+                onTap: (Organisation? org) async {
+                  await lawEnforcementCubit.getSerialnumberDetails(
+                      org?.id.toString() ?? '', 'LEO', context);
+                  // locationselectedText = list?.name ?? '';
+                  // locationSelectedlist = list;
+                  lawEnforcementCubit.getlocationsResponseData(org);
+                },
+              );
+            },
+          );
+        }
       },
       child: Container(
           height: 60,
