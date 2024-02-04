@@ -141,7 +141,7 @@ class ObscuringTextEditingController extends TextEditingController {
       return TextSpan(style: style, text: displayValue);
     }
     final TextStyle? composingStyle = style?.merge(
-      const TextStyle(decoration: TextDecoration.underline),
+      const TextStyle(decoration: TextDecoration.none),
     );
     return TextSpan(
       style: style,
