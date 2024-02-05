@@ -51,6 +51,28 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     log('--eventProtectionGi---${eventProtectionGi.epOfficers}-');
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    EmployeeDepartments departments =
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -86,7 +108,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       dynamic responseLabels = results[3];
       Analyst users = results[4];
       GetDepositor emailUsers = results[5];
-      AddEntities entities = results[6];
+      List<Organisation>? entities = results[6];
       Vendors vendors = results[7];
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
@@ -118,7 +140,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         departments: departments.employeeDepartments,
         vendors: vendors.items,
         entrySecurities: entrySecurities,
-        listOfEntities: entities.atomEntities,
+        listOfEntities: entities,
         getEntitiesResponse: entities,
         labels: EpUiLabels.fromJson(responseLabels),
       ));

@@ -185,7 +185,8 @@ class _SstIncidentGeneralInfoViewState
                               items: sstIncidentsStatusItems,
                               initialValue: '${state.model.status}',
                               onTap: () {
-                                if (state.model.status == 0||state.model.status == null) {
+                                if (state.model.status == 0 ||
+                                    state.model.status == null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: sstIncidentsStatusItems
@@ -312,18 +313,27 @@ class _SstIncidentGeneralInfoViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  //enabled: !disableForm,
-                                  organisations: state.vendors,
-                                  onTap: (Organisation user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      vendor: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    //enabled: !disableForm,
+                                    organisations: state.vendors,
+                                    onTap: (Organisation user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        vendor: user,
+                                      );
+                                    },
+                                    orgName: 'ATOM_VENDORS',
+                                    createEntity: false,
+                                    title: 'Add Vendor',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -431,18 +441,24 @@ class _SstIncidentGeneralInfoViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      systemManager: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        systemManager: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -459,18 +475,24 @@ class _SstIncidentGeneralInfoViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      lsm: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        lsm: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -487,18 +509,24 @@ class _SstIncidentGeneralInfoViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      asl: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        asl: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -515,18 +543,24 @@ class _SstIncidentGeneralInfoViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      lt: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        lt: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

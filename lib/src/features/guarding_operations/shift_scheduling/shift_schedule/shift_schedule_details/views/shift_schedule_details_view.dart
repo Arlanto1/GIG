@@ -296,6 +296,16 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                           context)
                                       .updateDropdownValues(vendor: department);
                                 },
+                                  orgName: 'ATOM_VENDORS',
+                                  createEntity: false,
+                                  title: 'Add Vendors',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        ShiftScheduleDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  }
                               );
                             },
                           ),

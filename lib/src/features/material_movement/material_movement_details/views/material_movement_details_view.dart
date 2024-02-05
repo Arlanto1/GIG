@@ -276,11 +276,11 @@ class _MaterialMovementDetailsViewState
                             textController: returnableTextController,
                             onTap: () {
                               if ((!isReadOnly && !widget.isInward) &&
-                                  ( state.model.status != 2 ||
-                                  state.model.status != 3 ||
-                                  state.model.status != 5 ||
-                                  state.model.status != 10 ||
-                                  state.model.status != -1)) {
+                                  (state.model.status != 2 ||
+                                      state.model.status != 3 ||
+                                      state.model.status != 5 ||
+                                      state.model.status != 10 ||
+                                      state.model.status != -1)) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: returnableDropDownValues,
@@ -846,20 +846,33 @@ class _MaterialMovementDetailsViewState
                                           : true) {
                                         BaseOrganisationDialog()
                                             .departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.requestorDepartment
-                                                ?.name = department.name;
+                                                context: context,
+                                                organisations:
+                                                    state.departments,
+                                                onTap:
+                                                    (Organisation department) {
+                                                  state
+                                                      .model
+                                                      .requestorDepartment
+                                                      ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    requesterDepartment:
-                                                        department);
-                                          },
-                                        );
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .updateDropdownValues(
+                                                          requesterDepartment:
+                                                              department);
+                                                },
+                                                orgName: 'EMPLOYEE_DEPARTMENTS',
+                                                createEntity: false,
+                                                title: 'Add Key Type',
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .refreshList();
+                                                });
                                         // leodepartmentsDialog(state);
                                       }
                                     },
@@ -1044,20 +1057,33 @@ class _MaterialMovementDetailsViewState
                                           : true) {
                                         BaseOrganisationDialog()
                                             .departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.preparedByDepartment
-                                                ?.name = department.name;
+                                                context: context,
+                                                organisations:
+                                                    state.departments,
+                                                onTap:
+                                                    (Organisation department) {
+                                                  state
+                                                      .model
+                                                      .preparedByDepartment
+                                                      ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    preparedByDepartment:
-                                                        department);
-                                          },
-                                        );
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .updateDropdownValues(
+                                                          preparedByDepartment:
+                                                              department);
+                                                },
+                                                orgName: 'EMPLOYEE_DEPARTMENTS',
+                                                createEntity: false,
+                                                title: 'Add Department',
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .refreshList();
+                                                });
                                         // leodepartmentsDialog(state);
                                       }
                                     },
@@ -1197,20 +1223,33 @@ class _MaterialMovementDetailsViewState
                                           : true) {
                                         BaseOrganisationDialog()
                                             .departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.approver1Department
-                                                ?.name = department.name;
+                                                context: context,
+                                                organisations:
+                                                    state.departments,
+                                                onTap:
+                                                    (Organisation department) {
+                                                  state
+                                                      .model
+                                                      .approver1Department
+                                                      ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    approver1Department:
-                                                        department);
-                                          },
-                                        );
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .updateDropdownValues(
+                                                          approver1Department:
+                                                              department);
+                                                },
+                                                orgName: 'EMPLOYEE_DEPARTMENTS',
+                                                createEntity: false,
+                                                title: 'Add Department',
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .refreshList();
+                                                });
                                         // leodepartmentsDialog(state);
                                       }
                                     },
@@ -1356,20 +1395,33 @@ class _MaterialMovementDetailsViewState
                                           : true) {
                                         BaseOrganisationDialog()
                                             .departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.approver2Department
-                                                ?.name = department.name;
+                                                context: context,
+                                                organisations:
+                                                    state.departments,
+                                                onTap:
+                                                    (Organisation department) {
+                                                  state
+                                                      .model
+                                                      .approver2Department
+                                                      ?.name = department.name;
 
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    approver2Department:
-                                                        department);
-                                          },
-                                        );
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .updateDropdownValues(
+                                                          approver2Department:
+                                                              department);
+                                                },
+                                                orgName: 'EMPLOYEE_DEPARTMENTS',
+                                                createEntity: false,
+                                                title: 'Add Department',
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .refreshList();
+                                                });
                                         // leodepartmentsDialog(state);
                                       }
                                     },
@@ -1691,82 +1743,83 @@ class _MaterialMovementDetailsViewState
                                     },
                             ),
 
-                            if(state.model.originalReceiver == false)...[
-                            /// Received For
-                            Column(
-                              children: [
-                                CommonWidgets.textDisplay(
-                                   state.labels?.locale.otherReceiverName ??
-                                          state.labels?.defaultLocale
-                                              .otherReceiverName ??
-                                          Constants.receivedFor,
-                                  Styles.textStyleBlack14,
-                                  isMandatory: true,
-                                ),
-                                TextfieldAddButton(
-                                    title: state.model.receiverEmail,
-                                    height: 70,
-                                    isDisableColor: isReadOnly,
-                                    onTap: () {
-                                      if (!isReadOnly) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.emailUsers!,
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    receiverEmailUser: user);
-                                          },
-                                          functionToCall: () {
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .refreshList();
-                                          },
-                                        );
-                                      }
-                                    }),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-                            ),
-                            if (!state.model.originalReceiver) ...[],
+                            if (state.model.originalReceiver == false) ...[
+                              /// Received For
+                              Column(
+                                children: [
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.otherReceiverName ??
+                                        state.labels?.defaultLocale
+                                            .otherReceiverName ??
+                                        Constants.receivedFor,
+                                    Styles.textStyleBlack14,
+                                    isMandatory: true,
+                                  ),
+                                  TextfieldAddButton(
+                                      title: state.model.receiverEmail,
+                                      height: 70,
+                                      isDisableColor: isReadOnly,
+                                      onTap: () {
+                                        if (!isReadOnly) {
+                                          BaseOrganisationDialog().userDialog(
+                                            context: context,
+                                            users: state.emailUsers!,
+                                            onTap: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      receiverEmailUser: user);
+                                            },
+                                            functionToCall: () {
+                                              // refresh the list
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .refreshList();
+                                            },
+                                          );
+                                        }
+                                      }),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+                              ),
+                              if (!state.model.originalReceiver) ...[],
 
-                            /// Received for Employee Id
-                            CommonWidgets.textDisplay(
-                              !state.model.originalReceiver
-                                  ? state.labels?.locale.receiverEmployeeId ??
-                                      state.labels?.defaultLocale
-                                          .receiverEmployeeId ??
-                                      Constants.receivedForEmployeeId
-                                  : state.labels?.locale
-                                          .otherReceiverEmployeeId ??
-                                      state.labels?.defaultLocale
-                                          .otherReceiverEmployeeId ??
-                                      Constants.receiverEmployeeId,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: state.model.receiverEmployeeId,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.receiverEmployeeId = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-],
+                              /// Received for Employee Id
+                              CommonWidgets.textDisplay(
+                                !state.model.originalReceiver
+                                    ? state.labels?.locale.receiverEmployeeId ??
+                                        state.labels?.defaultLocale
+                                            .receiverEmployeeId ??
+                                        Constants.receivedForEmployeeId
+                                    : state.labels?.locale
+                                            .otherReceiverEmployeeId ??
+                                        state.labels?.defaultLocale
+                                            .otherReceiverEmployeeId ??
+                                        Constants.receiverEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              FlutterInputField(
+                                initialValue: state.model.receiverEmployeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.receiverEmployeeId = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
                             /// Receiver Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.receiverDepartment ??
@@ -1783,19 +1836,28 @@ class _MaterialMovementDetailsViewState
                               onTap: () {
                                 if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.departments,
-                                    onTap: (Organisation department) {
-                                      state.model.receiverDepartmenttName =
-                                          department.name;
+                                      context: context,
+                                      organisations: state.departments,
+                                      onTap: (Organisation department) {
+                                        state.model.receiverDepartmenttName =
+                                            department.name;
 
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              receiverDepartment: department);
-                                    },
-                                  );
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                receiverDepartment: department);
+                                      },
+                                      orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      createEntity: false,
+                                      title: 'Add Department',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      });
                                   // leodepartmentsDialog(state);
                                 }
                               },
@@ -1822,16 +1884,16 @@ class _MaterialMovementDetailsViewState
                                         users: state.emailUsers!,
                                         onTap: (BaseUser user) {
                                           BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
                                               .updateDropdownValues(
-                                              otherReceiverName: user);
+                                                  otherReceiverName: user);
                                         },
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
                                               .refreshList();
                                         },
                                       );
@@ -2279,8 +2341,10 @@ class _MaterialMovementDetailsViewState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CommonWidgets.textDisplay(label, Styles.textStyleBlack14,
-                ),
+            CommonWidgets.textDisplay(
+              label,
+              Styles.textStyleBlack14,
+            ),
             Row(
               children: [
                 IconButton(

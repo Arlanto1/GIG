@@ -1011,6 +1011,16 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                             requesterDepartment: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          GeneralInfoCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),

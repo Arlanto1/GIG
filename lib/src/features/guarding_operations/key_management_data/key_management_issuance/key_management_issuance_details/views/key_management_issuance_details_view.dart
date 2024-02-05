@@ -303,7 +303,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           entities: selectedEntities);
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
-                                }),
+                                },
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
+                                    context)
+                                    .refreshList();
+                              },),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Department
@@ -337,6 +344,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         .updateDropdownValues(
                                             department: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                                 // leodepartmentsDialog(state);
                                 // }

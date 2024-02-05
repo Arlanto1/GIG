@@ -38,6 +38,20 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Organisation? location;
+        List<Organisation> dutyPostName =
+    await services.getDutyPostsByLocation(locationId: location!.id.toString());
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        dutyPosts: dutyPostName,
+      ),
+    );
+  }
+
   Future<void> initializeValues() async {
     emit(
       state.copyWith(

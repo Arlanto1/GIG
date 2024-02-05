@@ -616,6 +616,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             bu1Dept: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -642,6 +652,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             bu2Dept: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -897,6 +917,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             requesterDepartment: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),

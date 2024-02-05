@@ -349,9 +349,9 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 height: 70,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseOrganisationDialog().userDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    entities: state.listOfEntities,
+                                    organisations: state.listOfEntities??[],
                                     onTap: (Organisation entity) {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
@@ -359,6 +359,14 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                           .updateDropdownValues(
                                         entity: entity,
                                       );
+                                    },
+                                    title: 'Add Entity',
+                                    orgName: 'ATOM_ENTITIES',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .refreshList();
                                     },
                                   );
                                 }),
@@ -479,6 +487,16 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                         .updateDropdownValues(
                                             vendor: department);
                                   },
+                                    orgName: 'ATOM_VENDORS',
+                                    createEntity: false,
+                                    title: 'Add Vendor',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),

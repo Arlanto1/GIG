@@ -448,6 +448,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         complainant: user,
                                       );
                                     },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          IncidentGeneralInfoCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -549,6 +556,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       complainantHR: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
                                 );
                               },
                             ),
@@ -631,6 +645,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       incidentManager: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
                                 );
                               },
                             ),
@@ -657,6 +678,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         .updateDropdownValues(
                                       incidentOwner: user,
                                     );
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
                                   },
                                 );
                               },

@@ -158,7 +158,16 @@ class _RatesInfoState extends State<RatesInfo> {
                                   .updateDropdownValues(
                                       entities: selectedEntities);
                               Navigator.of(context).pop(); // Close the dialog
-                            }),
+                            },
+                          addTitle:'Add Entity',
+                          orgName: 'ATOM_ENTITIES',
+                          functionToCall: () {
+                            // refresh the list
+                            BlocProvider.of<PayRateCubit>(
+                                context)
+                                .refreshList();
+                          },
+                            ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Vendor
@@ -190,6 +199,16 @@ class _RatesInfoState extends State<RatesInfo> {
                                           .updateDropdownValues(
                                               vendor: department);
                                     },
+                                      orgName: 'ATOM_VENDORS',
+                                      createEntity: false,
+                                      title: 'Add Vendor',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            PayRateCubit>(
+                                            context)
+                                            .refreshList();
+                                      }
                                   );
                                 },
                               ),

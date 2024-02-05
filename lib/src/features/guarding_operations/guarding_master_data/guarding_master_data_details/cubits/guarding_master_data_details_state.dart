@@ -15,7 +15,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
-  final AddEntities? getEntitiesResponse;
+  final List<Organisation>? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
@@ -36,7 +36,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? listOfQualifications,
-    required final AddEntities? getEntitiesResponse,
+    required final List<Organisation>? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
     required String errorMessage,
@@ -293,7 +293,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<Organisation>? listOfQualifications,
     List<Organisation>? vendors,
     AddQualifications? getQualificationsResponse,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,

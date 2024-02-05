@@ -40,13 +40,15 @@ class KeyManagementIssuanceDetailsCubit
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     GetDepositor emailUsers =
     await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    EmployeeDepartments departments =
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
-        // vendors: vendors.items,
+        departments: departments.employeeDepartments,
       ),
     );
   }

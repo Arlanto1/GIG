@@ -21,8 +21,6 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../index.dart';
 import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
@@ -123,15 +121,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton:
-                    state.model.status != 2 &&
-                    !isReadOnly
-                ? true
-                : false,
+                state.model.status != 2 && !isReadOnly ? true : false,
             showSubmitButton:
-                    state.model.status != 2 &&
-                    !isReadOnly
-                ? true
-                : false,
+                state.model.status != 2 && !isReadOnly ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
@@ -285,19 +277,29 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.vendor ?? [],
-                                all: state.vendors,
-                                enabled: !isReadOnly,
-                                onTap: (List<Organisation> selectedVendors) {
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          vendors: selectedVendors);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                }),
+                              context: context,
+                              selectedValues: state.model.vendor ?? [],
+                              all: state.vendors,
+                              enabled: !isReadOnly,
+                              onTap: (List<Organisation> selectedVendors) {
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        vendors: selectedVendors);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              addTitle: 'ADD Vendor',
+                              createEntity: false,
+                              orgName: 'ATOM_VENDORS',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .refreshList();
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Entity
@@ -310,20 +312,28 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entity ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: !isReadOnly,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                }),
+                              context: context,
+                              selectedValues: state.model.entity ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: !isReadOnly,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .refreshList();
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Type Of Service
@@ -349,6 +359,16 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     .updateDropdownValues(
                                         typeOfServices: selectedTypeOfVendors);
                                 Navigator.of(context).pop(); // Close the dialog
+                              },
+                              addTitle: 'ADD Type of Service',
+                              createEntity: false,
+                              orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .refreshList();
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -376,6 +396,13 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         .updateDropdownValues(
                                       user: user,
                                     );
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                            context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -464,7 +491,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 }
                                 log('--state.model.id---${state.model.id}--');
                                 List<Organisation> violationDescriptions =
-                                await CommonServices().getOrganisations(name: Constants.slaViolation);
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.slaViolation);
                                 nav.pushNamed(
                                   slaViolationPenaltyRecordsRoute,
                                   arguments: {
@@ -474,7 +502,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     ConstantsArgument.violationDescription:
                                         Constants.slaViolation,
                                     ConstantsArgument.violationDescriptions:
-                                    violationDescriptions,
+                                        violationDescriptions,
                                   },
                                 );
                               },
@@ -502,9 +530,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 2 )
-                          ? false
-                          : true) ...[
+                      if ((state.model.status == 2) ? false : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -519,7 +545,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 2 ) ...[
+            if (state.model.status == 2) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -589,7 +615,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   Widget locationWidgetdislay(SLAViolationPenaltyDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if(state.model.status == 0||state.model.status == null) {
+        if (state.model.status == 0 || state.model.status == null) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
