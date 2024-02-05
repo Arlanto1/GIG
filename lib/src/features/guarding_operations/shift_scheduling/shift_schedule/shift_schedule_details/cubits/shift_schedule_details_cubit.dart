@@ -53,6 +53,19 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Vendors vendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        vendors: vendors.items,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -101,7 +114,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       model.inputDate = _getCurrentDate();
 

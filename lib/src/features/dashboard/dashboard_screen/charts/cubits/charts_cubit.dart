@@ -31,6 +31,8 @@ class ChartsCubit extends Cubit<ChartsState> {
     );
 
     try {
+      int count = await notificationServices.getNotificationCount();
+      log('-count---$count--');
       final futures = [
         commonServices.getDashboardChart(module: 'LEVE'),
         commonServices.getDashboardChart(module: 'LEVR'),
@@ -42,8 +44,7 @@ class ChartsCubit extends Cubit<ChartsState> {
       List<PieChartData> lawEnforcementVisitByEntity = results[0];
       List<PieChartData> lawEnforcementVisitByRegion = results[1];
       List<PieChartData> eventProtectionByRegion = results[2];
-      int count = await notificationServices.getNotificationCount();
-      log('-count---$count--');
+
 
       emit(
         state.copyWith(

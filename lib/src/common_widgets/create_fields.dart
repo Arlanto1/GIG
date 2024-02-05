@@ -133,9 +133,11 @@ class AddNewFieldsState extends State<AddNewFields> {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.topLeft,
-                          child: const Text(
-                            Constants.name,
-                            style: Styles.textStyleBlack16,
+                          child:
+                          CommonWidgets.textDisplay(
+                                Constants.name,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -293,27 +295,30 @@ class AddNewFieldsState extends State<AddNewFields> {
             context,
             "Please enter the name",
           );
-        } else if (keyTextController.text.isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter the key",
-          );
-        } else if (descriptionTextController.text.isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter the description",
-          );
-        } else if (optionsTextController.text.isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter the options",
-          );
-        } else if (weightTextController.text.isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter the weight",
-          );
-        } else {
+        }
+        // else if (keyTextController.text.isEmpty) {
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter the key",
+        //   );
+        // }
+        // else if (descriptionTextController.text.isEmpty) {
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter the description",
+        //   );
+        // } else if (optionsTextController.text.isEmpty) {
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter the options",
+        //   );
+        // } else if (weightTextController.text.isEmpty) {
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter the weight",
+        //   );
+        // }
+        else {
           try {
             if (Constants.addcompanytype == widget.title ||
                 Constants.addreasonfordaypass == widget.title ||

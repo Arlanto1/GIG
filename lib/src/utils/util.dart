@@ -1236,13 +1236,13 @@ class Utils {
     String employeeTypeText;
 
     switch (employeeType) {
-      case 0:
+      case 1:
         employeeTypeText = 'FTE';
         break;
-      case 1:
+      case 2:
         employeeTypeText = 'CWR T1';
         break;
-      case 2:
+      case 3:
         employeeTypeText = 'CWR T2';
         break;
       default:

@@ -11,6 +11,7 @@ part 'general_info_model.g.dart';
 class EventProtectionGi  extends BaseObject{
   int? id;
   String? slNo;
+  User? createdBy;
   String? inputDate;
   Organisation? location;
   Organisation? locationRegion;
@@ -61,6 +62,7 @@ class EventProtectionGi  extends BaseObject{
   EventProtectionGi({
     this.id,
     this.slNo,
+    this.createdBy,
     this.inputDate,
     this.location,
     this.locationRegion,

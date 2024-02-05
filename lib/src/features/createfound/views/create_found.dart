@@ -60,12 +60,13 @@ class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
   String serialNumber = '';
+  int pageNumber = 0;
 
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 1;
-  int isClaimantDBEmployeeSelected = 1;
-  int isClaimantAcceptedtoSignSelected = 0;
-  int isClaimantAcceptedByemail = 1;
+  int isClaimantDBEmployeeSelected = 0;
+  int isClaimantAcceptedtoSignSelected = 1;
+  int isClaimantAcceptedByemail = 0;
   final GlobalKey<FormState> createfoundFormKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
   TextEditingController colorTextController = TextEditingController();
@@ -346,6 +347,7 @@ class _CreateFoundState extends State<CreateFound> {
     int isFoundId, {
     CreateFoundState? state,
   }) async {
+
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
@@ -384,7 +386,7 @@ class _CreateFoundState extends State<CreateFound> {
 
     await pushSignature(controller: claimantSignatureController);
 
-    isClaimantDBEmployeeSelected;
+    // isClaimantDBEmployeeSelected;
     User? claimant = widget.model?.claimant;
     if (selectedClaimList != null) {
       claimant = User(
@@ -457,6 +459,9 @@ class _CreateFoundState extends State<CreateFound> {
       username,
       widget.model != null ? Constants.editfound : Constants.createfound,
     );
+    var userid = await SharedPrefs.getUserId();
+    await foundListArticleCubit.getFoundList(
+        pageNumber.toString(), '20', userid, context);
   }
 
   void _getFoundArticleList() async {
@@ -569,7 +574,9 @@ class _CreateFoundState extends State<CreateFound> {
           context,
           "Please enter depositor",
         );
-      } else if (depositorEmpIdTextController.text.isEmpty) {
+      } else if (isClaimantAcceptedtoSignSelected == 0) {
+        Validator().showToast(context, "Please Save instead of initiate Claimant confirmation process");
+      }else if (depositorEmpIdTextController.text.isEmpty) {
         Validator().showToast(
           context,
           "Please enter depositor employee id",
@@ -772,6 +779,11 @@ class _CreateFoundState extends State<CreateFound> {
           backBtn: IconButton(
             onPressed: () {
               Navigator.pop(context);
+              //Navigator.pop(context);
+              // Navigator.popAndPushNamed(
+              //   context,
+              //   articleFoundListRoute,
+              // );
             },
             icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 color: Colors.white),
@@ -810,6 +822,28 @@ class _CreateFoundState extends State<CreateFound> {
                     children: [
                       Icon(
                         Icons.send,
+                        color: AppColors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: widget.model?.status == 1,
+              child: GestureDetector(
+                onTap: () async {
+                  //loginFormKey.currentState!.validate();
+                  FocusScope.of(context).unfocus();
+                  // createFoundValidations(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.block_flipped,
                         color: AppColors.white,
                       ),
                     ],
@@ -1021,7 +1055,7 @@ class _CreateFoundState extends State<CreateFound> {
                               articleaddButtonwidgetLoading(state),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// found date
+                              /// Found date
                               CommonWidgets.textDisplay(
                                   Constants.founddate, Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -1034,6 +1068,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         widget.model?.status == -1)
                                     ? true
                                     : false,
+                                //initialDate: DateTime.now().subtract(Duration(days: 1)),
                                 onChange: (String value) {
                                   widget.model?.foundDate =
                                       Utils().formatTime(value);
@@ -1042,8 +1077,7 @@ class _CreateFoundState extends State<CreateFound> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// found location
-
+                              /// Found location
                               CommonWidgets.textDisplay(Constants.foundlocation,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -1096,7 +1130,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   setState(() {});
                                 },
                                 validateTextField: (String? user) {},
-                                onfieldSubmitted: (String value) {
+                                onFieldSubmitted: (String value) {
                                   additionalinformationTextController.value =
                                       TextEditingValue(
                                     text:
@@ -1118,7 +1152,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 textFieldController: quantityTextController,
                                 textFormKey: Keys.quantityTextController,
                                 hintText: '',
@@ -1298,14 +1332,14 @@ class _CreateFoundState extends State<CreateFound> {
                               if (widget.model?.status == 1 ||
                                   widget.model?.status == 2) ...[
                                 /// is claimant db employee
-                                widget.model != null
+                                widget.model?.status != null
                                     ? CommonWidgets.textDisplay(
                                         Constants.isclaimantdbemployee,
                                         Styles.textStyleBlack14,
                                         isMandatory: true)
-                                    : Container(),
+                                   : Container(),
                                 widget.model != null
-                                    ? radioButtonHandling(
+                                     ?radioButtonHandling(
                                         isClaimantDBEmployeeSelected,
                                         isDisableColor:
                                             (widget.model?.status == 2)
@@ -1359,7 +1393,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       ),
 
                                 /// Claimant employee id
-
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? CommonWidgets.textDisplay(
@@ -1376,7 +1409,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? FlutterInputField(
-                                        keyboardType: TextInputType.text,
+                                        textInputType: TextInputType.text,
                                         textFieldController:
                                             claimantEmpIdTextController,
                                         textFormKey:
@@ -1410,7 +1443,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 /// claimant department
-
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? CommonWidgets.textDisplay(
@@ -1446,6 +1478,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         height * 0.01)
                                     : Container(),
 
+                                if (isClaimantDBEmployeeSelected == 1) ...[
                                 /// is claimant accepted to sign
                                 widget.model != null
                                     ? CommonWidgets.textDisplay(
@@ -1462,7 +1495,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 ///TODO: Need to work on signature
-                                if (isClaimantAcceptedtoSignSelected == 1) ...[
+                                if(isClaimantAcceptedtoSignSelected == 1)...[
                                   /// Claimant Signature
                                   buildSignature(
                                     controller: claimantSignatureController,
@@ -1470,9 +1503,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     spaceHeight: height,
                                     state: state,
                                   ),
-                                ],
-
-                                /// is claimant accepted by email
+],
+                                /// is claimant confirmed by email
 
                                 widget.model != null &&
                                         isClaimantAcceptedtoSignSelected == 0
@@ -1486,9 +1518,14 @@ class _CreateFoundState extends State<CreateFound> {
                                     ? radioButtonHandling(
                                         isClaimantAcceptedByemail,
                                         Constants.isclaimantacceptedbyemail,
-                                        isDisableColor: !isDisabled,
+                                        isDisableColor:
+                                            widget.model?.status != 2 ||
+                                                    widget.model?.status != -1
+                                                ? isDisabled
+                                                : !isDisabled,
                                       )
                                     : Container(),
+                              ],
                               ],
 
                               /// Item Handover By
@@ -1872,13 +1909,14 @@ class _CreateFoundState extends State<CreateFound> {
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
             }
-            // else if (name == Constants.isclaimantacceptedbyemail &&
-            //     widget.model?.status != 2) {
-            //   isClaimantAcceptedByemail = selectedValue;
-            // }
-            else if (name == Constants.isclaimantdbemployee &&
+            else if (name == Constants.isclaimantdbemployee&&
+                widget.model?.status == 1&&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
+            }else if (name == Constants.isclaimantacceptedbyemail &&
+                    widget.model?.status != 2 ||
+                widget.model?.status != -1) {
+              isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {
@@ -1900,12 +1938,14 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail &&
-                widget.model?.status != 2) {
-              isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee &&
+            } else if (name == Constants.isclaimantdbemployee&&
+                widget.model?.status == 1&&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
+            }else if (name == Constants.isclaimantacceptedbyemail &&
+                    widget.model?.status != 2 ||
+                widget.model?.status != -1) {
+              isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {

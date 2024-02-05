@@ -303,7 +303,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           entities: selectedEntities);
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
-                                }),
+                                },
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
+                                    context)
+                                    .refreshList();
+                              },),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Department
@@ -315,31 +322,43 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                          TextfieldAddButton(
-                                    title: state.model.department?.name,
-                                    height: 70,
-                                    isDisableColor:
-                                    state.model.status==null||state.model.status==0?false:true,
-                                    onTap: () {
-                                      // if (widget.materialMovement != null) {
-                                      BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: state.departments,
-                                        onTap: (Organisation department) {
-                                          state.model.department?.name =
-                                              department.name;
+                            TextfieldAddButton(
+                              title: state.model.department?.name,
+                              height: 70,
+                              isDisableColor: state.model.status == null ||
+                                      state.model.status == 0
+                                  ? false
+                                  : true,
+                              onTap: () {
+                                // if (widget.materialMovement != null) {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.departments,
+                                  onTap: (Organisation department) {
+                                    state.model.department?.name =
+                                        department.name;
 
-                                          BlocProvider.of<
-                                                      KeyManagementIssuanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  department: department);
-                                        },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                      // }
-                                    },
-                                  ),
+                                    BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            department: department);
+                                  },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
+                                );
+                                // leodepartmentsDialog(state);
+                                // }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Key Handing Over Duration
@@ -464,12 +483,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.employeeID,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              isEnable:state.model.status != null ||state.model.status!=0?false:true,
-                              isDisableColor: state.model.status == null ||state.model.status==0?false:true,
+                              isEnable: state.model.status == 0 ||
+                                      state.model.status == null
+                                  ? true
+                                  : false,
+                              isDisableColor: state.model.status != 0 ||
+                                      state.model.status != null
+                                  ? true
+                                  : false,
                               onChange: (String value) {
                                 state.model.employeeID = value;
                                 context
@@ -501,8 +526,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                 KeyManagementIssuanceDetailsCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      user: user,
+                                      handedOverTo: user,
                                     );
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -530,8 +562,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                   KeyManagementIssuanceDetailsCubit>(
                                               context)
                                           .updateDropdownValues(
-                                        user: user,
+                                        dbSponsorCwrT2: user,
                                       );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                          context)
+                                          .refreshList();
                                     },
                                   );
                                 },
@@ -698,7 +737,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   Widget locationWidgetdislay(KeyManagementIssuanceDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if(state.model.status == 0 || state.model.status == null) {
+        if (state.model.status == 0 || state.model.status == null) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

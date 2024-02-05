@@ -286,7 +286,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
                             initialValue: '${state.model.shiftA ?? ''}',
                             hintText: '',
@@ -320,7 +320,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
                             initialValue: '${state.model.shiftB ?? ''}',
                             hintText: '',
@@ -354,7 +354,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
                             initialValue: '${state.model.shiftC ?? ''}',
                             hintText: '',
@@ -388,7 +388,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
                             initialValue: '${state.model.shiftG ?? ''}',
                             hintText: '',
@@ -422,7 +422,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.guardingPOCKey,
                             //           initialValue: (((state.model.shiftA ?? 0) +
                             //           (state.model.shiftB ?? 0))

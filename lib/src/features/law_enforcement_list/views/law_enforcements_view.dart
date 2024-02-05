@@ -1,27 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
 
-import '../../../common_widgets/app_bar.dart';
-import '../../../common_widgets/cubits.dart';
-import '../../../common_widgets/custom_pop_menu.dart';
-import '../../../common_widgets/floating_button.dart';
-import '../../../common_widgets/image_download.dart';
-import '../../../common_widgets/spinnerdialog.dart';
-import '../../../constants/app_icon.dart';
-import '../../../constants/ui_geometry_constants.dart';
-import '../../../enums/form_status.dart';
-import '../../../routing/router.dart';
-import '../../../utils/app_themes/colors/app_color.dart';
-import '../../../utils/shared_preferences.dart';
-import '../models/law_enforcement_details.dart';
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
 
@@ -30,8 +11,8 @@ class LawEnforcementsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LawEnforcementBloc>(
-      create: (_) => LawEnforcementBloc()
+    return BlocProvider<LawEnforcementListBloc>(
+      create: (_) => LawEnforcementListBloc()
         ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
       child: const LnPage(),
     );
@@ -69,14 +50,14 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<LawEnforcementBloc>().add(
+      context.read<LawEnforcementListBloc>().add(
           LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<LawEnforcementBloc>(context);
+    final bloc = BlocProvider.of<LawEnforcementListBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
@@ -119,17 +100,17 @@ class _LnPageState extends State<LnPage> {
               String userid = await SharedPrefs.getUserId();
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', 0, 20, '/exportLEOExcel');
+                    'export.xslx', '/exportLEOExcel');
               } else if (value == 1) {
-                DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', 0, 20, '/exportLEOPDF');
+                DownloadImage().exportPdf(
+                    context, int.parse(userid), 'export.pdf', '/exportLEOPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
           ),
         ],
       ),
-      body: BlocBuilder<LawEnforcementBloc, LawEnforcementState>(
+      body: BlocBuilder<LawEnforcementListBloc, LawEnforcementListState>(
           builder: (context, state) {
         if (state.status == FormStatus.initial) {
           return const BaseLoader();

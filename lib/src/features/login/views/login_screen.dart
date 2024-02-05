@@ -126,8 +126,7 @@ class _LoginState extends State<Login> {
 
                               CommonWidgets.verticalSpacerWidget(height * 0.03),
 
-                              // Username input field
-
+                              /// Username
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 //mainAxisAlignment: MainAxisAlignment.end,
@@ -146,8 +145,10 @@ class _LoginState extends State<Login> {
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
                                     textInputAction: TextInputAction.next,
-                                    focusnode: _usernameFocus,
-                                    onfieldSubmitted: (term) {
+                                    focusNode: _usernameFocus,
+                                    textInputType:
+                                        TextInputType.text,
+                                    onFieldSubmitted: (term) {
                                       _usernameFocus.unfocus();
                                       FocusScope.of(context)
                                           .requestFocus(_passwordFocus);
@@ -172,8 +173,7 @@ class _LoginState extends State<Login> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
 
-                                  // Password field
-
+                                  /// Password
                                   Column(
                                     children: [
                                       Container(

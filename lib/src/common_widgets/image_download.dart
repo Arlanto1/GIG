@@ -28,13 +28,11 @@ class DownloadImage {
     BuildContext context,
     int id,
     String name,
-    int start,
-    int max,
     String path, {
     String? customParameter,
   }) async {
     final endpoint = Environment().config.apiHost;
-    String url = '$endpoint$path?startPos=$start&maxResults=$max&userId=$id';
+    String url = '$endpoint$path';
     if (!customParameter.isEmptyOrNull) {
       url = '$url&${customParameter!}';
     }
@@ -48,13 +46,11 @@ class DownloadImage {
     BuildContext context,
     int id,
     String name,
-    int start,
-    int max,
     String path, {
     String? customParameter,
   }) async {
     final endpoint = Environment().config.apiHost;
-    String url = '$endpoint$path?startPos=$start&maxResults=$max&userId=$id';
+    String url = '$endpoint$path';
     if (!customParameter.isEmptyOrNull) {
       url = '$url&${customParameter!}';
     }

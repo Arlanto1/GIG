@@ -77,7 +77,7 @@ class DutyPostNameMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
@@ -162,10 +162,8 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.loading,
       ),
     );
-
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    state.model.status = !isSaveOnly ? 1 : (state.model.status ?? 0);
+    //state.model.status ??= 0;
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();

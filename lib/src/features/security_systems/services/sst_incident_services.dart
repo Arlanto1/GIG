@@ -27,7 +27,7 @@ class SstIncidentServices {
     String? occId,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}'
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords'
         '&ticketType=$ticketType&staffType=$staffType';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId';

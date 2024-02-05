@@ -1,34 +1,9 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../constants/constants.dart';
-import '../../../../enums/form_status.dart';
-import '../../../../models/base_user.dart';
-import '../../../../models/organisation.dart';
-import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_response.dart';
-import '../../../createfound/models/emplyee_departments_model.dart';
-import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'material_movement_details_state.dart';
 
@@ -60,6 +35,29 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           ),
         );
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation> quantityUnits = await commonServices.getOrganisations(
+        name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        loadAttachments: state.model.images,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+        quantityUnits: quantityUnits,
+      ),
+    );
+  }
+
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -68,9 +66,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
     emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
+      state.copyWith(status: FormStatus.loading),
     );
 
     var userId = await SharedPrefs.getUserId();
@@ -82,10 +78,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.materialMovementModuleCode),
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getQuantityUnits(),
+        commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
       Locations locations = futures[0];
@@ -95,7 +92,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
       GetDepositor emailUsers = futures[6];
-      QuantityUnits quantityUnits = futures[7];
+      List<Organisation> quantityUnits = futures[7];
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
@@ -127,7 +124,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       state.model.unit = model?.unit;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
@@ -143,7 +140,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           approver1Users: emailUsers.atomStaticUser,
           approver2Users: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
-          quantityUnits: quantityUnits.units,
+          quantityUnits: quantityUnits,
           labels: labels,
         ),
       );
@@ -164,6 +161,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
+    BaseUser? otherReceiverName,
     BaseUser? requesterEmailUser,
     BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
@@ -173,6 +171,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? receiverDepartment,
     Organisation? quantityUnit,
     bool? isReturnable,
+    int? status,
   }) async {
     emit(
       state.copyWith(
@@ -197,7 +196,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-
+    state.model.status = status ?? state.model.status;
     if (location != null &&
         isInward == false &&
         state.model.returnable == false) {
@@ -217,8 +216,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.receiverEmail = receiverEmailUser.email;
     }
 
-    if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
+    if (otherReceiverName != null) {
+      state.model.otherReceiverName = otherReceiverName.email;
     }
 
     if (requesterEmailUser != null) {
@@ -344,8 +343,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
-      for (var image in data) {
-        image.type = 1;
+      for (ImageContent image in data) {
+        image.type = 0;
       }
       log('--data----${data?.length}----');
 

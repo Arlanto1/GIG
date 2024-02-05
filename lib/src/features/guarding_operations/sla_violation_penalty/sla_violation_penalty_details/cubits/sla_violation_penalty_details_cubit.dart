@@ -34,6 +34,7 @@ class SLAViolationPenaltyDetailsCubit
             vendors: const [],
             typeOfServices: const [],
             errorMessage: '',
+            getEntitiesResponse: const [],
           ),
         );
 
@@ -69,6 +70,32 @@ class SLAViolationPenaltyDetailsCubit
       model: model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    TypeOfServices typeOfService = await commonServices.getTypeOfService(
+        name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: vendors.items,
+        typeOfServices: typeOfService.items,
+      ),
+    );
   }
 
   Future<void> initializeValues() async {
@@ -121,8 +148,7 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity = loggedInUserDetails;
-
+      state.model.entrySecurity ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -283,7 +309,7 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: attdInfoId != null
+          status: !attdInfoId.isEmptyOrNull
               ? FormStatus.popOnly
               : navigateToNextScreen
                   ? FormStatus.navigateToNextScreen

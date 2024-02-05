@@ -1,13 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../models/contacts_list_response_model.dart';
 import '../../models/requestModels/contacts_request.dart';
@@ -18,9 +12,9 @@ part 'contact_record_state.dart';
 
 class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
   final String rankType;
-
-  ContactRecordBloc({required this.rankType})
-      : super(const ContactRecordState(ranks: [])) {
+  List<Organisation> ranks;
+  ContactRecordBloc({required this.rankType, required this.ranks})
+      : super( ContactRecordState(ranks: ranks)) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),

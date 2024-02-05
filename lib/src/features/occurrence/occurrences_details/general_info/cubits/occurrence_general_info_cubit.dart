@@ -64,6 +64,20 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -112,7 +126,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           model.slNo = slNo.serialNo;
         }
       }
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.model.status ?? 0;

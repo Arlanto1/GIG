@@ -238,6 +238,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                               .updateDropdownValues(
                                                   shiftTakenOverBy: user);
                                         },
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                              context)
+                                              .refreshList();
+                                        },
                                       );
                                     }
                                   }),

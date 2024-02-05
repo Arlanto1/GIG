@@ -35,7 +35,23 @@ class KeyManagementIssuanceDetailsCubit
             errorMessage: '',
           ),
         );
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    EmployeeDepartments departments =
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+      ),
+    );
+  }
   void onModelValueChange(KeyManagementIssuanceModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -88,7 +104,7 @@ class KeyManagementIssuanceDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
       state.model.keyHandOverDate=Utils().getCurrentDate();
@@ -126,8 +142,8 @@ class KeyManagementIssuanceDetailsCubit
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
-    User? handedOverTo,
-    User? dbSponsorCwrT2,
+    BaseUser? handedOverTo,
+    BaseUser? dbSponsorCwrT2,
     int? employeeType,
     int? keyHandingOverDuration,
   }) async {
@@ -175,19 +191,19 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy = userDetails;
     }
 
-    if (user != null) {
+    if (handedOverTo != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: handedOverTo.name,
+        userId: handedOverTo.id,
+        userName: handedOverTo.name,
       );
       state.model.handedOverTo = userDetails;
     }
-    if (user != null) {
+    if (dbSponsorCwrT2 != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: dbSponsorCwrT2.name,
+        userId: dbSponsorCwrT2.id,
+        userName: dbSponsorCwrT2.name,
       );
       state.model.dbSponsorCwrT2 = userDetails;
     }

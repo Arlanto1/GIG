@@ -264,6 +264,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby, isMandatory: true,
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.slNo ??
@@ -524,7 +532,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.lsm1ContactNo,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
@@ -576,7 +584,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               // labelText: Constants.lsm2ContactNo,
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
                               hintText: '',
@@ -627,7 +635,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.bu1ContactNo,
                               textFormKey: Keys.bu1ContactNOKey,
                               hintText: '',
@@ -679,7 +687,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.bu2ContactNo,
                               textFormKey: Keys.bu2ContactNOKey,
                               hintText: '',
@@ -757,7 +765,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor1,
                                 textFormKey: Keys.systemVendor1EmailKey,
                                 hintText: '',
@@ -784,7 +792,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue:
                                     state.model.systemVendor1ContactNo,
                                 textFormKey: Keys.vendor1Contact1Key,
@@ -836,7 +844,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor2,
                                 textFormKey: Keys.systemVendor2EmailKey,
                                 hintText: '',
@@ -863,7 +871,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
@@ -914,7 +922,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor3,
                                 textFormKey: Keys.systemVendor2EmailKey,
                                 hintText: '',
@@ -940,7 +948,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue:
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
@@ -1003,6 +1011,16 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                             requesterDepartment: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          GeneralInfoCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -1107,7 +1125,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue: state.model.vendorId,
                                 textFormKey: Keys.vendorIdKey,
                                 hintText: '',
@@ -1134,7 +1152,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 initialValue: state.model.guardingVendorPoc,
                                 textFormKey: Keys.vendorAgencyPOCKey,
                                 hintText: '',
@@ -1433,7 +1451,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue: ((state
                                                 .model.securityGuardCountHrs
                                                 ?.toDouble() ??

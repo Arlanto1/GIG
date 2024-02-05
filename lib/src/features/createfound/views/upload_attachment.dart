@@ -196,7 +196,12 @@ class UploadAttachmentState extends State<UploadAttachment>
       widget.getFiles?.add(data);
       if (widget.isPhotoType ?? false) {
         createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
-      } else {
+      }
+      else if (widget.isPhotoType == true && widget.getFiles != null && widget.getFiles!.isNotEmpty) {
+        widget.getFiles!.clear();
+        widget.getFiles?.add(data);
+      }
+    else {
         createPassMgmtCubit.addAttchment(widget.getFiles ?? []);
       }
     }

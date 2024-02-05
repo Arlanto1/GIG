@@ -1,15 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:db_atom/index.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../utils/app_themes/colors/app_color.dart';
-import '../../utils/helpers/keys/keys.dart';
-import '../date_time_picker.dart';
-import '../new_search_textfield.dart';
 
 class BaseDate {
   /// Display Create Time
@@ -82,38 +75,101 @@ class BaseDate {
     required TextEditingController textController,
     required Function(String) onChange,
     required BuildContext context,
-    bool? showPastDate = true,
-    bool? showFutureDate = true,
+    bool showPastDate = true,
+    bool showFutureDate = true,
     bool onlyDate = false,
   }) async {
     DateTime? pickedDate;
+
+    // log('--textController.text---${textController.text}--');
+    DateTime initialTime = DateTime.now();
+    // initialTime = textController.text.isNotEmpty
+    //     ? DateTime.parse(Utils().formatTime( textController.text))
+    //     : DateTime.now();
+
+    // initialTime = DateTime(2024,2,2,15,42);
+
+    // log('--initialTime---${initialTime.toString()}--');
+
     if (onlyDate) {
-      pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+      DatePicker.showDatePicker(
+        context,
+        showTitleActions: true,
+        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
+        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        onChanged: (date) {
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          pickedDate = date;
+          log('confirm $date');
+          if (pickedDate != null) {
+            return setDateTime(pickedDate!, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: initialTime,
+        locale: LocaleType.en,
       );
     } else {
-      pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
-        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+      DatePicker.showDateTimePicker(
+        context,
+        showTitleActions: true,
+        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
+        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        onChanged: (date) {
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          pickedDate = date;
+          log('confirm $date');
+          log('--pickedDate--confirm---$pickedDate--');
+
+          if (pickedDate != null) {
+            return setDateTime(pickedDate!, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: initialTime,
+        locale: LocaleType.en,
       );
     }
 
     if (pickedDate != null) {
-      String formattedDate = DateFormat(
-        onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
-      ).format(pickedDate);
-
-      textController.text = formattedDate;
-      onChange(formattedDate);
-      return formattedDate;
+      return setDateTime(pickedDate!, onlyDate, textController, onChange);
     } else {
       // Handle the case where the user cancels the picker
       return ''; // You can modify the return value accordingly
+    }
+  }
+
+  String setDateTime(DateTime? pickedDate, bool onlyDate,
+      TextEditingController textController, Function(String) onChange) {
+    log('--pickedDate--$pickedDate--');
+    String formattedDate = DateFormat(
+      onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
+    ).format(pickedDate!);
+
+    textController.text = formattedDate;
+    onChange(formattedDate);
+    return formattedDate;
+  }
+
+  String formatTime(String dateTimeString) {
+    // if the dateTimeString is already a Unix timestamp
+    if (dateTimeString.length == 10 &&
+        dateTimeString.contains(RegExp(r'^\d+$'))) {
+      return dateTimeString;
+    }
+
+    try {
+      final dateTime =
+          DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
+      final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      return unixTimestamp.toString();
+    } catch (_) {
+      // If the format does not match, handle the error or return a default value
+      throw FormatException('Unable to parse date-time: $dateTimeString');
     }
   }
 }

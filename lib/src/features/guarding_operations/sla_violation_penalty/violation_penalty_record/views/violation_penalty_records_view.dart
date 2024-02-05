@@ -69,6 +69,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     }
   }
 
+  bool isPopUpShown = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ViolationPenaltyRecordBloc,
@@ -114,7 +116,18 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull) {
+    if (state.items.isEmptyOrNull && !isPopUpShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isPopUpShown = true;
+        showAddContactPopUp(
+          context: context,
+          contact: ViolationPenaltyRecord(
+            svpId: widget.id,
+          ),
+          users: state.violationDescriptions ?? [],
+          staffCategoriesValues: state.staffCategoriesValues ?? <String, int>{},
+        );
+      });
       return const NoRecordFoundWidget();
     }
     return Container(
@@ -177,7 +190,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         contact: contactsModel,
                         users: state.violationDescriptions ?? [],
                         staffCategoriesValues:
-                        state.staffCategoriesValues ?? <String, int>{},
+                            state.staffCategoriesValues ?? <String, int>{},
                       );
                     },
                     onViewTap: (selectedIndex) {

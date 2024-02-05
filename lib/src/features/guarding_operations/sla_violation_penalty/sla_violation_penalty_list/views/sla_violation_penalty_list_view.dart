@@ -140,8 +140,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                     ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.items[index].id,
-                        labels: labels,
                         status: state.items[index].status,
+                        labels: labels,
                         isEventProtectionStatus: false,
                         isSLAViolationStatus: true,
                         onTap: (selectedIndex) {
@@ -150,10 +150,11 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isSLAViolationStatus: true,
                                 isEventProtectionStatus: false,
+                                isMasterGuard: false,
+                                labels: labels,
                               );
                             },
                           );
@@ -167,10 +168,11 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
                                 status: state.items[selectedIndex].status,
                                 isSLAViolationStatus: true,
                                 isEventProtectionStatus: false,
+                                isMasterGuard: false,
+                                labels: labels,
                               );
                             },
                           );

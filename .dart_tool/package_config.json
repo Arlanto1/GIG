@@ -374,6 +374,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_datetime_picker_plus",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_datetime_picker_plus-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter_file_dialog",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_file_dialog-3.0.2",
       "packageUri": "lib/",
@@ -1292,7 +1298,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-01-28T07:43:30.950713Z",
+  "generated": "2024-02-02T05:57:06.179189Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

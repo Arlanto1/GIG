@@ -72,6 +72,26 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors vendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: vendors.items,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     log('initializeValues--sst-incidentGeneralCubit-occId---$occId--');
     //Show Loader and emit loading state
@@ -99,6 +119,18 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       model.createdBy = loggedInUserDetails;
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+
+      // List<BaseUser> asl =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
+      //
+      // List<BaseUser> lsm =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
+      //
+      // List<BaseUser> lt =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+      //
+      // List<BaseUser> systemManagerUser =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -139,6 +171,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
+          // systemManager:systemManagerUser,
+          // asl: asl,
+          // lsm: lsm,
+          // lt: lt,
           emailUsers: emailUsers.atomStaticUser,
           // departments: departments.employeeDepartments,
           vendors: vendors.items,
@@ -164,7 +200,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? lt,
     Organisation? vendor,
     Organisation? location,
-    // BaseUser? user,
+    BaseUser? lsm,
     Organisation? entity,
     int? status,
     int? incidentType,
@@ -198,42 +234,34 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           systemManager: state.emailUsers,
         ),
       );
-      state.lt?.remove(systemManager);
-      state.asl?.remove(systemManager);
+
+    }
+    if (lsm != null) {
+      User userDetails = User(
+        name: lsm.name,
+        userId: lsm.id,
+        email: lsm.email,
+      );
+      state.model.lsm = userDetails;
 
       emit(
         state.copyWith(
-          model: state.model,
-          asl: state.asl,
-          lt: state.lt,
-          status: FormStatus.initial,
+          lsm: state.emailUsers,
         ),
       );
-    }
 
+    }
     if (lt != null) {
-      User userDetails = User(
+      BaseUser userDetails = BaseUser(
         name: lt.name,
-        userId: lt.id,
+        id: lt.id,
         email: lt.email,
       );
-      state.model.lt = userDetails;
+      state.model.lt = userDetails as User?;
 
       emit(
         state.copyWith(
           lt: state.emailUsers,
-        ),
-      );
-
-      state.systemManager?.remove(lt);
-      state.asl?.remove(lt);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          systemManager: state.systemManager,
-          asl: state.asl,
-          status: FormStatus.initial,
         ),
       );
     }
@@ -248,18 +276,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       emit(
         state.copyWith(
           asl: state.emailUsers,
-        ),
-      );
-
-      state.systemManager?.remove(asl);
-      state.lt?.remove(asl);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          systemManager: state.systemManager,
-          lt: state.lt,
-          status: FormStatus.initial,
         ),
       );
     }

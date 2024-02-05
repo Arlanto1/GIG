@@ -87,7 +87,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       FlutterInputField(
                         initialValue: widget.model.name,
                         textFieldController: nameController,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
                         isEnable: true,
@@ -111,7 +111,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       FlutterInputField(
                         initialValue: widget.model.email,
                         textFieldController: emailIdController,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
                         hintText: '',
                         isEnable: true,
@@ -133,7 +133,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       FlutterInputField(
                         initialValue: widget.model.designation,
                         textFieldController: designationController,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
                         hintText: '',
                         isEnable: true,
@@ -155,7 +155,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       FlutterInputField(
                         initialValue: widget.model.purpose,
                         textFieldController: purposeOfVisitController,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.purposeOfVisitKey,
                         hintText: '',
                         isEnable: true,
@@ -177,7 +177,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       FlutterInputField(
                         initialValue: widget.model.baseLocation,
                         textFieldController: baseLocationOfVisitorsController,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.baseLocationOfVisitorKey,
                         hintText: '',
                         isEnable: true,

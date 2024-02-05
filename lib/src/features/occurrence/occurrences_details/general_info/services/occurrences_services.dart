@@ -28,7 +28,7 @@ class OccurrenceDetailsServices {
     required String userId,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );

@@ -40,7 +40,28 @@ class GuardingMasterDataDetailsCubit
               listOfQualifications: const [],
               getQualificationsResponse: null),
         );
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors getVendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: getVendors.items,
+      ),
+    );
+  }
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -86,7 +107,7 @@ class GuardingMasterDataDetailsCubit
         commonServices.getLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
@@ -101,7 +122,7 @@ class GuardingMasterDataDetailsCubit
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
-      AddEntities entities = futures[3];
+      List<Organisation>? entities = futures[3];
       List<User> entrySecurities = futures[4];
       AddQualifications qualifications = futures[5];
       GetDepositor emailUsers = futures[6];
@@ -117,7 +138,7 @@ class GuardingMasterDataDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
@@ -140,7 +161,7 @@ class GuardingMasterDataDetailsCubit
           vendors: vendors.items,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
+          listOfEntities: entities,
           getEntitiesResponse: entities,
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,

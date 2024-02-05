@@ -74,6 +74,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
               child: SvgPicture.asset(
                   AppIcon.closeicon) //Icon(Icons.cancel) //Icon(Icons.cancel)
               )),
+      surfaceTintColor: Colors.white,
       title: Text(
         Constants.newuser,
         style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
@@ -188,7 +189,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
 
   Widget createNewuserButton(double width) {
     return PopButton(
-      width: width / 2,
+      width: width / 1,
       key: const Key(Keys.createnewuserButton),
       buttonText: Constants.createnewuser,
       buttonTextKey: Keys.createnewuserButtonText,
@@ -215,6 +216,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           }
         }
       },
+
     );
   }
 }

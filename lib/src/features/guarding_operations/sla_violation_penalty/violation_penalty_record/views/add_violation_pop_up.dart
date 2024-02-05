@@ -92,7 +92,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Violation
+                      /// Violation
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
@@ -137,6 +137,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                         org.keyName ?? '';
                                   });
                                 },
+
                               );
                             },
                           )
@@ -153,7 +154,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.penaltyAmount}',
                         textFieldController: penaltyAmountController,
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: false,
@@ -233,11 +234,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFieldController: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable:  staffCategoryController.text == "Guarding Agency" ? false : true,
+                        isEnable:  true,
                         isDisableColor: false,
                         onChange: (String value) {
                           widget.model.totalViolations = num.parse(value);
@@ -267,7 +268,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: totalPenaltyAmountController,
                         hintText: '',

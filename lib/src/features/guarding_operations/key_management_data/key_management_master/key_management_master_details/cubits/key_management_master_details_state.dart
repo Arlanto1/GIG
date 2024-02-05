@@ -11,7 +11,7 @@ class KeyManagementMasterDetailsState extends Equatable {
   final List<Organisation>? listOfQualifications;
    final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
-  final AddEntities? getEntitiesResponse;
+  final List<Organisation>? getEntitiesResponse;
   final List<String>? participationDates;
   final String? message;
   final User? createdBy;
@@ -24,7 +24,7 @@ class KeyManagementMasterDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
-    required final AddEntities? getEntitiesResponse,
+    required final List<Organisation>? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
      required final List<Organisation> departments,
     required String errorMessage,
@@ -104,7 +104,7 @@ class KeyManagementMasterDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? getEntitiesResponse,
     List<String>? participationDates,
     String? message,
     User? createdBy,

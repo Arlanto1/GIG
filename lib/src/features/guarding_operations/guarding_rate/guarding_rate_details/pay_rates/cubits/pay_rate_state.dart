@@ -10,7 +10,7 @@ class PayRateState extends Equatable {
   final Locations? locations;
   final List<Organisation> departments;
   final List<Organisation>? listOfEntities;
-  final AddEntities? getEntitiesResponse;
+  final  List<Organisation>? getEntitiesResponse;
   final int? eventId;
 
   factory PayRateState.initial({
@@ -93,7 +93,7 @@ class PayRateState extends Equatable {
     Locations? locations,
     List<Organisation>? departments,
     List<Organisation>? listOfEntities,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? getEntitiesResponse,
     int? eventId,
   }) {
     return PayRateState(

@@ -5,8 +5,6 @@ import 'package:db_atom/src/features/contact_details/services/contact_details_se
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
-import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-
 part 'contact_details_state.dart';
 
 class ContactDetailsCubit extends Cubit<ContactDetailsState> {
@@ -74,7 +72,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
 
       emit(
         state.copyWith(

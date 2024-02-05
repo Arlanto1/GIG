@@ -91,8 +91,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
-        excelAPIName: 'exportEPExcel',
-        pdfAPIName: 'exportEPPDF',
+        excelAPIName: 'exportEPExcel?aps=0',
+        pdfAPIName: 'exportEPPDF?aps=0',
       ),
       body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
         builder: (context, state) {
@@ -169,6 +169,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 return BasePopUpItems(
                                   id: state.items[selectedIndex].id.toString(),
                                   labels: labels,
+                                  isMasterGuard: false,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
                                   epManager1Name:

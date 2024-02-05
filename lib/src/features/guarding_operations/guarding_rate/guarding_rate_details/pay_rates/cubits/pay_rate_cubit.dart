@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/gm_rate_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/pay_rate_request.dart';
@@ -47,6 +48,23 @@ class PayRateCubit extends Cubit<PayRateState> {
 
   CommonServices commonServices = CommonServices();
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    Vendors getVendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        // emailUsers: emailUsers.atomStaticUser,
+        vendors: getVendors.items,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     //Show Loader and emit loading state
     emit(
@@ -71,11 +89,10 @@ class PayRateCubit extends Cubit<PayRateState> {
     state.model.inputDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-    AddEntities entities =
-        await commonServices.getEntities(name: 'ATOM_ENTITIES');
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
-    log('--entities---${entities.atomEntities?.length}--');
-    for (Organisation entity in entities.atomEntities ?? []) {
+    for (Organisation entity in entities ?? []) {
       log('--entity.name---${entity.name}--');
     }
     if (state.model.location == null) {
@@ -99,7 +116,7 @@ class PayRateCubit extends Cubit<PayRateState> {
           departments: departments.employeeDepartments,
           items: payRates,
           vendors: vendors.items,
-          listOfEntities: entities.atomEntities,
+          listOfEntities: entities,
           getEntitiesResponse: entities,
           status: FormStatus.initial,
         ),

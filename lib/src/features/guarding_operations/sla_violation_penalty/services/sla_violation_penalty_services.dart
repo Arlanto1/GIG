@@ -56,8 +56,14 @@ class SLAViolationPenaltyServices {
     required String maximumRecords,
      String? aShiftInfoId,
   }) async {
-    String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
+    String url = '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+
+    // Append the 'aShiftInfoId' parameter in url if it's not null
+    if (aShiftInfoId != null) {
+      url += '&aShiftInfoId=$aShiftInfoId';
+    }
+    // String url =
+    //     '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

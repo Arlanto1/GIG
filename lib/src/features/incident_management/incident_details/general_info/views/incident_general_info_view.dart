@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:intl/intl.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
@@ -118,10 +119,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           int.tryParse(state.model.incidentDate ?? '0'),
           Constants.fulldateFormat);
     }
+
     if (state.model.closureTargetDate != null) {
       closureTargetDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.fulldateFormat);
+          int.tryParse(state.model.closureTargetDate ?? '0'),Constants.fulldateFormat);
+    } else {
+      DateTime currentDate = DateTime.now();
+      DateTime futureDate = currentDate.add(const Duration(days: 14));
+      String formattedDate = DateFormat(Constants.fulldateFormat).format(futureDate);
+      closureTargetDateController.text = formattedDate;
     }
   }
 
@@ -442,6 +448,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         complainant: user,
                                       );
                                     },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          IncidentGeneralInfoCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -543,6 +556,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       complainantHR: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
                                 );
                               },
                             ),
@@ -587,7 +607,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.incidentLocation,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
@@ -625,6 +645,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       incidentManager: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
                                 );
                               },
                             ),
@@ -651,6 +678,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         .updateDropdownValues(
                                       incidentOwner: user,
                                     );
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        IncidentGeneralInfoCubit>(
+                                        context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -693,10 +727,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
-                                log('---value-$value------');
                                 state.model.closureTargetDate =
                                     Utils().formatTime(value);
-                                log('---value11-${state.model.incidentDate}------');
+                                log('---value11-${state.model.closureTargetDate}------');
                                 BlocProvider.of<IncidentGeneralInfoCubit>(
                                         context)
                                     .onModelValueChange(state.model);

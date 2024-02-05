@@ -418,7 +418,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.lsm1ContactNo,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
@@ -472,7 +472,7 @@ class _AnnualPowerShutdownListDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               // labelText: Constants.lsm2ContactNo,
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
                               hintText: '',
@@ -525,7 +525,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.bu1ContactNo,
                               textFormKey: Keys.bu1ContactNOKey,
                               hintText: '',
@@ -578,7 +578,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.bu2ContactNo,
                               textFormKey: Keys.bu2ContactNOKey,
                               hintText: '',
@@ -616,6 +616,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             bu1Dept: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -642,6 +652,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             bu2Dept: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -658,7 +678,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.systemVendor1,
                               textFormKey: Keys.systemVendor1EmailKey,
                               hintText: '',
@@ -684,7 +704,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.systemVendor1ContactNo,
                               textFormKey: Keys.vendor1Contact1Key,
                               hintText: '',
@@ -734,7 +754,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.systemVendor2,
                               textFormKey: Keys.systemVendor2EmailKey,
                               hintText: '',
@@ -760,7 +780,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.systemVendor2ContactNo,
                               textFormKey: Keys.vendor2ContactKey,
                               hintText: '',
@@ -809,7 +829,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.systemVendor3,
                               textFormKey: Keys.systemVendor2EmailKey,
                               hintText: '',
@@ -834,7 +854,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.systemVendor3ContactNo,
                               textFormKey: Keys.vendor3ContactKey,
                               hintText: '',
@@ -897,6 +917,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         .updateDropdownValues(
                                             requesterDepartment: department);
                                   },
+                                    orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    createEntity: false,
+                                    title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -935,7 +965,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue: state.model.vendorId,
                                 textFormKey: Keys.vendorIdKey,
                                 hintText: '',
@@ -963,7 +993,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 initialValue: state.model.guardingVendorPoc,
                                 textFormKey: Keys.vendorAgencyPOCKey,
                                 hintText: '',
@@ -1252,7 +1282,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 initialValue: ((state
                                                 .model.securityGuardCountHrs
                                                 ?.toDouble() ??

@@ -78,7 +78,7 @@ class _FoundListState extends State<FoundList> {
     //     await foundListArticleCubit.getArticleById(articleId, context);
     final FoundListServices foundListServices = FoundListServices();
     FoundListArticleDetails foundArticleDetailsResponse =
-    await foundListServices.getArticleById(articleId, context);
+        await foundListServices.getArticleById(articleId, context);
     editDataLoading(foundArticleDetailsResponse);
   }
 
@@ -144,10 +144,10 @@ class _FoundListState extends State<FoundList> {
               String userid = await SharedPrefs.getUserId();
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', 0, pageNumber, '/exportFoundExcel');
+                    'export.xslx', '/exportFoundExcel');
               } else if (value == 1) {
                 DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', 0, pageNumber, '/exportFoundPDF');
+                    'export.pdf', '/exportFoundPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
@@ -235,14 +235,14 @@ class _FoundListState extends State<FoundList> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Column(
                 children: [
                   // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
-                      foundList, context, scrollController, state)
+                          foundList, context, scrollController, state)
                       : const SizedBox()
                 ],
               ),
@@ -289,15 +289,14 @@ class _FoundListState extends State<FoundList> {
       decoration: const ShapeDecoration(
           color: AppColors.backgroundWhitecolor,
           shape: RoundedRectangleBorder(
-            borderRadius:
-            BorderRadius.vertical(top: Radius.circular(20.0)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
           itemCount:
-          isPaginationLoading ? userList.length + 1 : userList.length,
+              isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {

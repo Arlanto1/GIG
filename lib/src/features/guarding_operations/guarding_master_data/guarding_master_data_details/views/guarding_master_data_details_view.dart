@@ -5,22 +5,22 @@ import 'package:intl/intl.dart';
 
 import 'add_date_pop_up.dart';
 
-class GuardingMasterDataDetails extends StatefulWidget {
+class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
 
-  const GuardingMasterDataDetails({
+  const GuardingMasterDataDetailsView({
     super.key,
     this.guardingMasterData,
     required this.title,
   });
 
   @override
-  State<GuardingMasterDataDetails> createState() =>
-      _GuardingMasterDataDetailsState();
+  State<GuardingMasterDataDetailsView> createState() =>
+      _GuardingMasterDataDetailsViewState();
 }
 
-class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
+class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   List<ImageContent>? getFiles;
@@ -349,10 +349,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 height: 70,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseOrganisationDialog().userDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    entities: state.listOfEntities,
-                                    // TODO: Need to change EntrySecurity to BaseUser
+                                    organisations: state.listOfEntities??[],
                                     onTap: (Organisation entity) {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
@@ -360,6 +359,14 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                           .updateDropdownValues(
                                         entity: entity,
                                       );
+                                    },
+                                    title: 'Add Entity',
+                                    orgName: 'ATOM_ENTITIES',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .refreshList();
                                     },
                                   );
                                 }),
@@ -401,6 +408,13 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                             .updateDropdownValues(
                                           guard: user,
                                         );
+                                      },
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            GuardingMasterDataDetailsCubit>(
+                                            context)
+                                            .refreshList();
                                       },
                                     );
                                   },
@@ -473,6 +487,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                         .updateDropdownValues(
                                             vendor: department);
                                   },
+                                    orgName: 'ATOM_VENDORS',
+                                    createEntity: false,
+                                    title: 'Add Vendor',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    }
                                 );
                               },
                             ),
@@ -488,7 +512,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.guardingPOC,
                               textFormKey: Keys.guardingPOCKey,
                               hintText: '',
@@ -513,7 +537,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.employeeCode,
                               textFormKey: Keys.guardingAgencyKey,
                               hintText: '',
@@ -585,7 +609,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.dbEmployeeId,
                               textFormKey: Keys.dbEmployeeIDKey,
                               hintText: '',
@@ -742,7 +766,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.contactNo,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
@@ -774,7 +798,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
@@ -979,7 +1003,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.height ?? ''}',
                               textFormKey: Keys.heightKey,
                               hintText: '',
@@ -1003,7 +1027,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
@@ -1027,7 +1051,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
@@ -1052,7 +1076,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.localLanguage,
                               textFormKey: Keys.languageKey,
                               hintText: '',
@@ -1749,7 +1773,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.esicNo,
                               textFormKey: Keys.esicKey,
                               hintText: '',
@@ -1784,7 +1808,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.uanNo,
                               textFormKey: Keys.uanNoKey,
                               hintText: '',

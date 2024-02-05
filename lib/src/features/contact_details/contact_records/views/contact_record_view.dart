@@ -72,6 +72,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }
   }
 
+  bool isPopUpShown = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ContactRecordBloc, ContactRecordState>(
@@ -117,7 +119,21 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull) {
+    if (state.items.isEmptyOrNull && !isPopUpShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isPopUpShown = true;
+        showAddContactPopUp(
+            context: context,
+            contact: ContactRecord(
+              contactId: widget.id,
+              email: '',
+              contactNo: '',
+              rank: Organisation(),
+              type: widget.type,
+            ),
+            users: state.ranks,
+            rankType: widget.rankType);
+      });
       return const NoRecordFoundWidget();
     }
     return Container(

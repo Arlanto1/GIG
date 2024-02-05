@@ -23,7 +23,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
         );
 
   // Found Article list API call
-  Future<void> getFoundList(
+  Future<void> getList(
     String startPosition,
     String maximumRecords,
     String userId,

@@ -425,11 +425,11 @@ class RouteGenerator {
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
-        String attdInfoId;
+        String? attdInfoId = '';
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        attdInfoId = arguments['attdInfoId'];
+        attdInfoId = arguments['attdInfoId'] ?? '';
         SLAViolationPenaltyModel? model = arguments["model"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
@@ -473,6 +473,7 @@ class RouteGenerator {
       case slaViolationPenaltyRecordsRoute:
         String title = '';
         int id = 0;
+        List<Organisation> violationDescriptions = [];
         String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -481,11 +482,14 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           violationDescription =
               arguments[ConstantsArgument.violationDescription] ?? '';
+          violationDescriptions =
+              arguments[ConstantsArgument.violationDescriptions] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
             create: (_) => vp.ViolationPenaltyRecordBloc(
               violationDescription: violationDescription,
+                violationDescriptions:violationDescriptions,
             )..add(vp.FetchData(
                 id: id,
                 startPos: 0,
@@ -534,6 +538,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String rankType = '';
+        List<Organisation> ranks =[];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -541,11 +546,13 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type] ?? 0;
           rankType = arguments[ConstantsArgument.rankType] ?? '';
+          ranks = arguments[ConstantsArgument.ranks] ?? [];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
             create: (_) => cr.ContactRecordBloc(
               rankType: rankType,
+              ranks: ranks
             )..add(cr.FetchData(
                 id: id,
                 type: type,
@@ -779,7 +786,7 @@ class RouteGenerator {
               model: model,
               commonServices: commonServices,
             ),
-            child: GuardingMasterDataDetails(
+            child: GuardingMasterDataDetailsView(
               guardingMasterData: model,
               title: title,
             ),

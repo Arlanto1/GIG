@@ -21,11 +21,10 @@ class MaterialMovementServices {
   Future<MaterialMovementsModel> getMaterialMovements({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
     required int mmType,
   }) async {
     String url =
-        '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+        '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

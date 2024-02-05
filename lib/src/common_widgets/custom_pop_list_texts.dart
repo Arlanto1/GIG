@@ -326,13 +326,13 @@ class CustomListTextsState extends State<CustomListTexts> {
         }
       }
     } else if (widget.duplicateQuantityUnitList != null) {
-      activePassInfoList.clear();
+      quantityUnitList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
-
       for (var quantity in widget.duplicateQuantityUnitList!) {
+        log('-text---$text--');
         if (quantity.name!.toLowerCase().contains(text.toLowerCase())) {
           quantityUnitList.add(quantity);
         }
@@ -355,7 +355,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         ((widget.duplicateQuantityUnitList != null && widget.duplicateQuantityUnitList!.isEmpty) ||
             (widget.duplicateQuantityUnitList != null &&
                 _searchCtrl.text.isNotEmpty &&
-                employeeDepartments.isEmpty)) ||
+                quantityUnitList.isEmpty)) ||
         ((widget.duplicateDepostorList != null && widget.duplicateDepostorList!.isEmpty) ||
             (widget.duplicateDepostorList != null &&
                 _searchCtrl.text.isNotEmpty &&
@@ -397,7 +397,6 @@ class CustomListTextsState extends State<CustomListTexts> {
         ),
       );
     } else {
-      log('---widget.duplicateatomCompanyTypes------${widget.duplicateatomCompanyTypes?.length}---');
       return SizedBox(
         //padding: const EdgeInsets.all(0),
         // height: height, // Change as per your requirement
@@ -422,7 +421,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                       : widget.duplicateQuantityUnitList != null
                           ? (_searchCtrl.text.isNotEmpty &&
                                   quantityUnitList.isNotEmpty)
-                              ? t1analysts.length
+                              ? quantityUnitList.length
                               : widget.duplicateQuantityUnitList?.length
                           : widget.duplicatedayPassReason != null
                               ? (_searchCtrl.text.isNotEmpty &&
