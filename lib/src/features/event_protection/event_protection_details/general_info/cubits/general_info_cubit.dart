@@ -1,13 +1,9 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -98,7 +94,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      state.model?.createdBy ??= loggedInUserDetails;
+      log('-loggedInUserDetails-${loggedInUserDetails.name}----');
+      model.createdBy ??= loggedInUserDetails;
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
