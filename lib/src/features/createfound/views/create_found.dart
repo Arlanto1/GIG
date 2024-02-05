@@ -64,9 +64,9 @@ class _CreateFoundState extends State<CreateFound> {
 
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 1;
-  int isClaimantDBEmployeeSelected = 1;
-  int isClaimantAcceptedtoSignSelected = 0;
-  int isClaimantAcceptedByemail = 1;
+  int isClaimantDBEmployeeSelected = 0;
+  int isClaimantAcceptedtoSignSelected = 1;
+  int isClaimantAcceptedByemail = 0;
   final GlobalKey<FormState> createfoundFormKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
   TextEditingController colorTextController = TextEditingController();
@@ -347,6 +347,7 @@ class _CreateFoundState extends State<CreateFound> {
     int isFoundId, {
     CreateFoundState? state,
   }) async {
+
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
@@ -385,7 +386,7 @@ class _CreateFoundState extends State<CreateFound> {
 
     await pushSignature(controller: claimantSignatureController);
 
-    isClaimantDBEmployeeSelected;
+    // isClaimantDBEmployeeSelected;
     User? claimant = widget.model?.claimant;
     if (selectedClaimList != null) {
       claimant = User(
@@ -573,7 +574,9 @@ class _CreateFoundState extends State<CreateFound> {
           context,
           "Please enter depositor",
         );
-      } else if (depositorEmpIdTextController.text.isEmpty) {
+      } else if (isClaimantAcceptedtoSignSelected == 0) {
+        Validator().showToast(context, "Please Save instead of initiate Claimant confirmation process");
+      }else if (depositorEmpIdTextController.text.isEmpty) {
         Validator().showToast(
           context,
           "Please enter depositor employee id",
@@ -819,6 +822,50 @@ class _CreateFoundState extends State<CreateFound> {
                     children: [
                       Icon(
                         Icons.send,
+                        color: AppColors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+      //       Visibility(
+      //         visible: widget.model?.status == 1,
+      //         child: GestureDetector(
+      //           onTap: () async {
+      //             //loginFormKey.currentState!.validate();
+      //             FocusScope.of(context).unfocus();
+      //             // createFoundValidations(context);
+      //           },
+      //           child: const Padding(
+      //             padding: EdgeInsets.only(right: 20.0),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: [
+      //                 Icon(
+      //                   Icons.file_copy_outlined,
+      //                   color: AppColors.white,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+            Visibility(
+              visible: widget.model?.status == 1,
+              child: GestureDetector(
+                onTap: () async {
+                  //loginFormKey.currentState!.validate();
+                  FocusScope.of(context).unfocus();
+                  // createFoundValidations(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.block_flipped,
                         color: AppColors.white,
                       ),
                     ],
@@ -1307,14 +1354,14 @@ class _CreateFoundState extends State<CreateFound> {
                               if (widget.model?.status == 1 ||
                                   widget.model?.status == 2) ...[
                                 /// is claimant db employee
-                                widget.model != null
+                                widget.model?.status != null
                                     ? CommonWidgets.textDisplay(
                                         Constants.isclaimantdbemployee,
                                         Styles.textStyleBlack14,
                                         isMandatory: true)
-                                    : Container(),
+                                   : Container(),
                                 widget.model != null
-                                    ? radioButtonHandling(
+                                     ?radioButtonHandling(
                                         isClaimantDBEmployeeSelected,
                                         isDisableColor:
                                             (widget.model?.status == 2)
@@ -1368,7 +1415,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       ),
 
                                 /// Claimant employee id
-
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? CommonWidgets.textDisplay(
@@ -1419,7 +1465,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 /// claimant department
-
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? CommonWidgets.textDisplay(
@@ -1455,6 +1500,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         height * 0.01)
                                     : Container(),
 
+                                if (isClaimantDBEmployeeSelected == 1) ...[
                                 /// is claimant accepted to sign
                                 widget.model != null
                                     ? CommonWidgets.textDisplay(
@@ -1471,7 +1517,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 ///TODO: Need to work on signature
-                                if (isClaimantAcceptedtoSignSelected == 1) ...[
+                                if(isClaimantAcceptedtoSignSelected == 1)...[
                                   /// Claimant Signature
                                   buildSignature(
                                     controller: claimantSignatureController,
@@ -1479,9 +1525,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     spaceHeight: height,
                                     state: state,
                                   ),
-                                ],
-
-                                /// is claimant accepted by email
+],
+                                /// is claimant confirmed by email
 
                                 widget.model != null &&
                                         isClaimantAcceptedtoSignSelected == 0
@@ -1502,6 +1547,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 : !isDisabled,
                                       )
                                     : Container(),
+                              ],
                               ],
 
                               /// Item Handover By
@@ -1884,13 +1930,15 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail &&
+            }
+            else if (name == Constants.isclaimantdbemployee&&
+                widget.model?.status == 1&&
+                widget.model?.status != 2) {
+              isClaimantDBEmployeeSelected = selectedValue;
+            }else if (name == Constants.isclaimantacceptedbyemail &&
                     widget.model?.status != 2 ||
                 widget.model?.status != -1) {
               isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee &&
-                widget.model?.status != 2) {
-              isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {
@@ -1912,13 +1960,14 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail &&
+            } else if (name == Constants.isclaimantdbemployee&&
+                widget.model?.status == 1&&
+                widget.model?.status != 2) {
+              isClaimantDBEmployeeSelected = selectedValue;
+            }else if (name == Constants.isclaimantacceptedbyemail &&
                     widget.model?.status != 2 ||
                 widget.model?.status != -1) {
               isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee &&
-                widget.model?.status != 2) {
-              isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {

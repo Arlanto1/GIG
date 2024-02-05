@@ -207,7 +207,7 @@ class Constants {
   static const String founddate = 'Found Date';
   static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
-  static const String isdepositordbemployee = 'Is Depositor DBEmployee';
+  static const String isdepositordbemployee = 'Is Depositor DB Employee';
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
@@ -251,7 +251,7 @@ class Constants {
   static const String ok = 'Ok';
   static const String isclaimantdbemployee = 'Is Claimant DB Employee';
   static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
-  static const String isclaimantacceptedbyemail = 'Claimant accepted by email';
+  static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
 
   // Law enforcement
   static const String createlawenforcement =
