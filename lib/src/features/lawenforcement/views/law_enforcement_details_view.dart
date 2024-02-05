@@ -1497,7 +1497,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status == 0 || widget.model?.status == null) {
+        if (widget.model?.status == null || widget.model?.status == 0) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
