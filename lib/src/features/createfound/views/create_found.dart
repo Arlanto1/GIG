@@ -851,49 +851,6 @@ class _CreateFoundState extends State<CreateFound> {
                 ),
               ),
             ),
-            Visibility(
-              child: GestureDetector(
-                onTap: () async {
-                  //loginFormKey.currentState!.validate();
-                  Navigator.pop(context);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.close_outlined,
-                        color: AppColors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-      //       Visibility(
-      //         visible: widget.model?.status == 1,
-      //         child: GestureDetector(
-      //           onTap: () async {
-      //             //loginFormKey.currentState!.validate();
-      //             FocusScope.of(context).unfocus();
-      //             // createFoundValidations(context);
-      //           },
-      //           child: const Padding(
-      //             padding: EdgeInsets.only(right: 20.0),
-      //             child: Row(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               children: [
-      //                 Icon(
-      //                   Icons.file_copy_outlined,
-      //                   color: AppColors.white,
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-
           ],
 
           //backgroundColor: AppColors.navigationSkybluecolor,

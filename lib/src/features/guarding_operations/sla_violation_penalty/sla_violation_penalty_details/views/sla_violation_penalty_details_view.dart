@@ -589,7 +589,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   Widget locationWidgetdislay(SLAViolationPenaltyDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if(state.model.status == 0) {
+        if(state.model.status == 0||state.model.status == null) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
