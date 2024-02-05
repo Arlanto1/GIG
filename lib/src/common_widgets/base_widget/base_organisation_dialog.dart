@@ -1,12 +1,17 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
 
 class BaseOrganisationDialog {
   departmentDialog({
     required BuildContext context,
     required List<Organisation> organisations,
     required Function onTap,
+    String? title, // Ex: 'Add Key Type'
+    String? orgName, // TODO: Need to make it required and non nullable
+    bool? createEntity, // Ex: false
+    Function? functionToCall,
   }) {
     return showDialog(
       context: context,
@@ -20,8 +25,11 @@ class BaseOrganisationDialog {
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return const AddEmployeeDepartment(
-                    title: '',
+                  return BaseAddOrganisationDialog(
+                    title: title ?? '',
+                    orgName: orgName ?? '',
+                    createEntity: createEntity,
+                    functionToCall: functionToCall ?? () {},
                   );
                 });
           },

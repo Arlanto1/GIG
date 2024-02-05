@@ -352,7 +352,6 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     entities: state.listOfEntities,
-                                    // TODO: Need to change EntrySecurity to BaseUser
                                     onTap: (Organisation entity) {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(

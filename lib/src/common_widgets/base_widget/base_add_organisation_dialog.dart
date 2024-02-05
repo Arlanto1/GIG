@@ -6,12 +6,16 @@ import 'package:db_atom/src/services/common_services.dart';
 class BaseAddOrganisationDialog extends StatefulWidget {
   const BaseAddOrganisationDialog({
     super.key,
-    required this.title, required this.orgName, required this.functionToCall,
+    required this.title,
+    required this.orgName,
+    required this.functionToCall,
+    this.createEntity,
   });
 
   final String title;
   final String orgName;
   final Function functionToCall;
+  final bool? createEntity;
 
   @override
   State<BaseAddOrganisationDialog> createState() =>
@@ -22,6 +26,9 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameTextController = TextEditingController();
   TextEditingController keyTextController = TextEditingController();
+  TextEditingController descriptionTextController = TextEditingController();
+  TextEditingController optionsTextController = TextEditingController();
+  TextEditingController weightTextController = TextEditingController();
 
   @override
   void initState() {
@@ -48,58 +55,120 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 2.92,
+          height: height / 1.82,
           width: width,
           child: Scaffold(
-            body: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.name,
-                          style: Styles.textStyleBlack16,
+            body: SingleChildScrollView(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.name,
+                            style: Styles.textStyleBlack16,
+                          ),
                         ),
-                      ),
-                      FlutterInputField(
-                        textFieldController: nameTextController,
-                        textFormKey: Keys.nameTextController,
-                        hintText: '',
-                        onChange: (String username) {
-                          //this.username = username;
-                          setState(() {});
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.key,
-                          style: Styles.textStyleBlack16,
+                        FlutterInputField(
+                          textFieldController: nameTextController,
+                          textFormKey: Keys.nameTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
                         ),
-                      ),
-                      FlutterInputField(
-                        textFieldController: keyTextController,
-                        textFormKey: Keys.keyTextController,
-                        hintText: '',
-                        onChange: (String username) {
-                          //this.username = username;
-                          setState(() {});
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.03),
-                      buttonViews(context, width),
-                    ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.key,
+                            style: Styles.textStyleBlack16,
+                          ),
+                        ),
+                        FlutterInputField(
+                          textFieldController: keyTextController,
+                          textFormKey: Keys.keyTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.03),
+                        if (widget.createEntity ?? true) ...[
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Description',
+                              style: Styles.textStyleBlack16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          FlutterInputField(
+                            textFieldController: descriptionTextController,
+                            textFormKey: Keys.keyTextController,
+                            hintText: '',
+                            onChange: (String username) {
+                              //this.username = username;
+                              setState(() {});
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Options (<key>=<value>)',
+                              style: Styles.textStyleBlack16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          FlutterInputField(
+                            textFieldController: optionsTextController,
+                            textFormKey: Keys.keyTextController,
+                            hintText: '',
+                            onChange: (String username) {
+                              //this.username = username;
+                              setState(() {});
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              'Weight',
+                              style: Styles.textStyleBlack16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          FlutterInputField(
+                            textFieldController: weightTextController,
+                            textFormKey: Keys.keyTextController,
+                            hintText: '',
+                            onChange: (String username) {
+                              //this.username = username;
+                              setState(() {});
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.03),
+                        ],
+                        buttonViews(context, width),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -166,7 +235,9 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
             var nav = Navigator.of(context);
             var sca = ScaffoldMessenger.of(context);
             var createOrganisation = await CommonServices().createOrganisation(
-                name: nameTextController.text,keyname: keyTextController.text, orgName: widget.orgName);
+                name: nameTextController.text,
+                keyname: keyTextController.text,
+                orgName: widget.orgName);
 
             log('-createOrganisation---$createOrganisation--');
             nav.pop();

@@ -246,19 +246,26 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                           BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
-                              }),
+                            context: context,
+                            selectedValues: state.model.entities ?? [],
+                            all: state.listOfEntities ?? [],
+                            enabled: !isReadOnly,
+                            onTap: (List<Organisation> selectedEntities) {
+                              log('--selectedEntities----${selectedEntities.length}');
+                              BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                      context)
+                                  .updateDropdownValues(
+                                      entities: selectedEntities);
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            orgName: 'ATOM_ENTITIES',
+                            functionToCall: () {
+                              // refresh the list
+                              BlocProvider.of<KeyManagementMasterDetailsCubit>(
+                                      context)
+                                  .refreshList();
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -311,18 +318,29 @@ class _KeyManagementMasterDetailsViewState
                                 state.model.status == 2 ? true : false,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: state.departments,
-                                onTap: (Organisation department) {
-                                  state.model.doorType?.name = department.name;
+                                  context: context,
+                                  organisations: state.departments,
+                                  onTap: (Organisation department) {
+                                    state.model.doorType?.name =
+                                        department.name;
 
-                                  BlocProvider.of<
-                                              KeyManagementMasterDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          doorType: department);
-                                },
-                              );
+                                    BlocProvider.of<
+                                                KeyManagementMasterDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            doorType: department);
+                                  },
+                                  orgName: 'EMPLOYEE_DEPARTMENTS',
+                                  createEntity: false,
+                                  title: 'Add Key Type',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                                KeyManagementMasterDetailsCubit>(
+                                            context)
+                                        .refreshList();
+                                  });
+
                               // leodepartmentsDialog(state);
                             },
                           ),
