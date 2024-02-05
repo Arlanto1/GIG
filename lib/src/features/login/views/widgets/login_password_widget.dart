@@ -47,8 +47,8 @@ class _LoginPasswordState extends State<LoginPassword> {
       isSecure: false,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
-      focusnode: widget.passFocusNode,
-      onfieldSubmitted: (value) {
+      focusNode: widget.passFocusNode,
+      onFieldSubmitted: (value) {
         widget.onFieldSubmitted != null
             ? widget.onFieldSubmitted!(value)
             : null;

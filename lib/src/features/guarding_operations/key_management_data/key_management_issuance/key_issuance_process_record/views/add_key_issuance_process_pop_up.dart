@@ -259,7 +259,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: noOfKeysIssuedController,
                         hintText: '',
@@ -278,7 +278,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: alreadyIssuedKeysController,
                         hintText: '',
@@ -297,7 +297,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.aprrover1DepartmentKey,
                         textFieldController: availableKeysController,
                         hintText: '',
@@ -317,7 +317,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFieldController: numberOfKeysController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -352,7 +352,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
                         textFieldController: returnedKeysController,
                         hintText: '',
@@ -373,7 +373,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.addressKey,
                         textFieldController: notReturnedKeysController,
                         hintText: '',
@@ -395,7 +395,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: lostKeysController,
                         hintText: '',
@@ -417,7 +417,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: damagedKeysController,
                         hintText: '',

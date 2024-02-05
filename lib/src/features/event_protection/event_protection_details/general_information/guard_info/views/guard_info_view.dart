@@ -203,7 +203,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.guardInfoModel.vendorId,
                             textFormKey: Keys.vendorIdKey,
                             hintText: '',
@@ -233,7 +233,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 state.guardInfoModel.guardingVendorPoc,
                             textFormKey: Keys.vendorAgencyPOCKey,
@@ -267,7 +267,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securityOfficerCount ?? ''}',
                             textFormKey: Keys.noOfSecurityOfficersKey,
@@ -301,7 +301,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securityOfficerCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecurityOfficersHrsKey,
@@ -337,7 +337,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securitySupervisorCount ?? ''}',
                             textFormKey: Keys.noOfSecuritySupervisorsKey,
@@ -372,7 +372,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securitySupervisorCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecuritySupervisorsHrsKey,
@@ -408,7 +408,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securityGuardCount ?? ''}',
                             textFormKey: Keys.noOfSecurityGuardsKey,
@@ -442,7 +442,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                             '${state.guardInfoModel.securityGuardCountHrs??''}',
                             textFormKey: Keys.noOfSecurityGuardsHrsKey,
@@ -478,7 +478,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.securityFacilitatorCount ?? ''}',
                             textFormKey: Keys.noOfSecurityGuardsKey,
@@ -514,7 +514,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                             '${state.guardInfoModel.securityFacilitatorCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
@@ -574,7 +574,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Constants.budget, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue:
                                 '${state.guardInfoModel.budget ?? ''}',
                             textFormKey: Keys.budgetKey,
@@ -604,7 +604,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               Constants.pONumber, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.guardInfoModel.poNumber,
                             textFormKey: Keys.pONumberKey,
                             hintText: '',

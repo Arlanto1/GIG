@@ -122,7 +122,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                     textFieldController: emailTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
-                                    keyboardType: TextInputType.text,
+                                    textInputType: TextInputType.text,
                                     onChange: (String text) {
                                       email = text;
                                       setState(() {});

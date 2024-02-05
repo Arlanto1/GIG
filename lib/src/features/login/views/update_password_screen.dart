@@ -133,8 +133,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       setState(() {});
                                     },
                                     textInputAction: TextInputAction.next,
-                                    focusnode: _usernameFocus,
-                                    onfieldSubmitted: (term) {
+                                    focusNode: _usernameFocus,
+                                    onFieldSubmitted: (term) {
                                       _usernameFocus.unfocus();
                                       FocusScope.of(context)
                                           .requestFocus(_oldpasswordFocus);

@@ -427,7 +427,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     setState(() {});
                                   },
                                   validateTextField: (String? user) {},
-                                  onfieldSubmitted: (String value) {
+                                  onFieldSubmitted: (String value) {
                                     additionalInformationTextController.value =
                                         TextEditingValue(
                                       text:

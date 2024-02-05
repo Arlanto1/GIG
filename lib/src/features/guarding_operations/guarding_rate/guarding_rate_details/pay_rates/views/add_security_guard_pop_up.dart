@@ -1,21 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../../utils/util.dart';
-import '../../../../../../utils/validators/validator.dart';
+import 'package:db_atom/index.dart';
 
 class AddSecurityGuardPopUp extends StatefulWidget {
   const AddSecurityGuardPopUp({
@@ -96,7 +81,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         initialValue: '${widget.payRate.total ?? ''}',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.totalKey,
                         hintText: '',
                         onChange: (String value) {
@@ -127,7 +112,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       FlutterInputField(
                         initialValue: Utils()
                             .removeDecimalAndValuesAfterIt(widget.payRate.days),
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.daysKey,
                         hintText: '',
                         onChange: (String value) {
@@ -157,7 +142,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textFieldController: perHourController,
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.perHourKey,
                         hintText: '',
                         isEnable: false,
