@@ -495,7 +495,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.guardingPOC,
                               textFormKey: Keys.guardingPOCKey,
                               hintText: '',
@@ -520,7 +520,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.employeeCode,
                               textFormKey: Keys.guardingAgencyKey,
                               hintText: '',
@@ -592,7 +592,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.dbEmployeeId,
                               textFormKey: Keys.dbEmployeeIDKey,
                               hintText: '',
@@ -749,7 +749,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.contactNo,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
@@ -781,7 +781,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
@@ -986,7 +986,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.height ?? ''}',
                               textFormKey: Keys.heightKey,
                               hintText: '',
@@ -1010,7 +1010,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
@@ -1034,7 +1034,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
@@ -1059,7 +1059,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.localLanguage,
                               textFormKey: Keys.languageKey,
                               hintText: '',
@@ -1756,7 +1756,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.esicNo,
                               textFormKey: Keys.esicKey,
                               hintText: '',
@@ -1791,7 +1791,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.uanNo,
                               textFormKey: Keys.uanNoKey,
                               hintText: '',

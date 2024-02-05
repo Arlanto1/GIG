@@ -280,7 +280,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.floor,
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
@@ -337,7 +337,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -423,7 +423,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -488,7 +488,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -520,7 +520,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
@@ -552,7 +552,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             textFieldController: totalKeyController,
                             // initialValue: (((state.model.noKeys ?? 0) +
                             //         (state.model.noMasterKey ?? 0))
@@ -580,7 +580,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.keysStored,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',

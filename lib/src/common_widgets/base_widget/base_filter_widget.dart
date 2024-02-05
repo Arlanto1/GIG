@@ -85,7 +85,7 @@ class BaseFilterWidget {
                         SizedBox(
                           width: textFieldWidth,
                           child: FlutterInputField(
-                            keyboardType: TextInputType.name,
+                            textInputType: TextInputType.text,
                             textFormKey: Keys.idKey,
                             // initialValue: state.model.challanNo,
                             textFieldController: idController,
@@ -112,7 +112,7 @@ class BaseFilterWidget {
                         SizedBox(
                           width: textFieldWidth,
                           child: FlutterInputField(
-                            keyboardType: TextInputType.name,
+                            textInputType: TextInputType.text,
                             textFormKey: Keys.slNoKey,
                             // initialValue: state.model.challanNo,
                             textFieldController: idController,
@@ -258,7 +258,7 @@ class BaseFilterWidget {
                     log('Applying Filters---onPressed---');
                     applyFilters(idController.text);
                   },
-                  child: const Text('Apply Filters'),
+                  child: const Text('Search'),
                 ),
               ],
             ),

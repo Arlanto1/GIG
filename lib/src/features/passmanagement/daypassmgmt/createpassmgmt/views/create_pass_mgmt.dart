@@ -3495,7 +3495,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      keyboardType: textController == contactnoTextController ||
+      textInputType: textController == contactnoTextController ||
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
@@ -3522,7 +3522,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      keyboardType: textController == contactnoTextController ||
+      textInputType: textController == contactnoTextController ||
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,

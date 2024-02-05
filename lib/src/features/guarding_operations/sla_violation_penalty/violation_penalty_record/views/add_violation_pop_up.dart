@@ -153,7 +153,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.penaltyAmount}',
                         textFieldController: penaltyAmountController,
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: false,
@@ -233,7 +233,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFieldController: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -267,7 +267,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         textFieldController: totalPenaltyAmountController,
                         hintText: '',

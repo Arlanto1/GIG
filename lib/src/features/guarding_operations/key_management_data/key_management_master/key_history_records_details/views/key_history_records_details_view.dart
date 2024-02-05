@@ -447,7 +447,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',

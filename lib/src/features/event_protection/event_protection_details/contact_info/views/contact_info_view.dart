@@ -297,7 +297,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.lsm1ContactNo, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.model.lsm1ContactNo,
                             textFormKey: Keys.lsm1ContactNOKey,
                             hintText: '',
@@ -350,7 +350,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.lsm2ContactNo, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.model.lsm2ContactNo,
                             textFormKey: Keys.lsm2ContactNOKey,
                             hintText: '',
@@ -404,7 +404,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.model.bu1ContactNo,
                             textFormKey: Keys.bu1ContactNOKey,
                             hintText: '',
@@ -459,7 +459,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: state.model.bu2ContactNo,
                             textFormKey: Keys.bu2ContactNOKey,
                             hintText: '',
@@ -537,7 +537,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor1,
                             textFormKey: Keys.systemVendor1EmailKey,
                             hintText: '',
@@ -567,7 +567,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor1,
                             textFormKey: Keys.systemVendor1EmailKey,
                             hintText: '',
@@ -596,7 +596,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor1ContactNo,
                             textFormKey: Keys.vendor1Contact1Key,
                             hintText: '',
@@ -652,7 +652,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor2,
                             textFormKey: Keys.systemVendor2EmailKey,
                             hintText: '',
@@ -681,7 +681,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
@@ -737,7 +737,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor3,
                             textFormKey: Keys.systemVendor2EmailKey,
                             hintText: '',
@@ -766,7 +766,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.text,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',

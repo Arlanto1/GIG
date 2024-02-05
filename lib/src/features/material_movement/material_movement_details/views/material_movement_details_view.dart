@@ -395,7 +395,7 @@ class _MaterialMovementDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.name,
+                            textInputType: TextInputType.text,
                             textFormKey: Keys.challanKey,
                             initialValue: state.model.challanNo,
                             hintText: '',
@@ -433,7 +433,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.poNumber,
                               textFormKey: Keys.poNumberKey,
                               hintText: '',
@@ -495,7 +495,7 @@ class _MaterialMovementDetailsViewState
                               state.model?.materialDescription = value;
                             },
                             textInputAction: TextInputAction.newline,
-                            keyboardType:
+                            textInputType:
                                 TextInputType.multiline, // Add this line
                           ),
 
@@ -517,7 +517,7 @@ class _MaterialMovementDetailsViewState
                               SizedBox(
                                 width: 220,
                                 child: FlutterInputField(
-                                  keyboardType:
+                                  textInputType:
                                       const TextInputType.numberWithOptions(
                                     decimal: true,
                                   ),
@@ -620,7 +620,7 @@ class _MaterialMovementDetailsViewState
                                     .onModelValueChange(state.model);
                               },
                               textInputAction: TextInputAction.newline,
-                              keyboardType: TextInputType.multiline,
+                              textInputType: TextInputType.multiline,
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -661,7 +661,7 @@ class _MaterialMovementDetailsViewState
                                     .onModelValueChange(state.model);
                               },
                               textInputAction: TextInputAction.newline,
-                              keyboardType: TextInputType.multiline,
+                              textInputType: TextInputType.multiline,
                               //
                               validateTextField: (String? user) {},
                             ),
@@ -759,7 +759,7 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.requestorEmployeeId,
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
@@ -879,7 +879,7 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.sentTo,
                               textFormKey: Keys.sentToKey,
                               hintText: '',
@@ -918,7 +918,7 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.purpose,
                               textFormKey: Keys.purposeKey,
                               hintText: '',
@@ -1604,7 +1604,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.name,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.materialComingFrom,
                               textFormKey: Keys.sendersKey,
                               hintText: '',
@@ -2013,7 +2013,7 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.text,
+                                textInputType: TextInputType.text,
                                 textFormKey: Keys.returnChallanKey,
                                 initialValue:
                                     state.model.materialReturnedChallanNo,

@@ -1152,7 +1152,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   setState(() {});
                                 },
                                 validateTextField: (String? user) {},
-                                onfieldSubmitted: (String value) {
+                                onFieldSubmitted: (String value) {
                                   additionalinformationTextController.value =
                                       TextEditingValue(
                                     text:
@@ -1174,7 +1174,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                textInputType: TextInputType.number,
                                 textFieldController: quantityTextController,
                                 textFormKey: Keys.quantityTextController,
                                 hintText: '',
@@ -1431,7 +1431,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? FlutterInputField(
-                                        keyboardType: TextInputType.text,
+                                        textInputType: TextInputType.text,
                                         textFieldController:
                                             claimantEmpIdTextController,
                                         textFormKey:

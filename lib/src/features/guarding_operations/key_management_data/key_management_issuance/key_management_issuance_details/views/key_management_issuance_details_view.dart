@@ -466,7 +466,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.text,
+                              textInputType: TextInputType.text,
                               initialValue: state.model.employeeID,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',

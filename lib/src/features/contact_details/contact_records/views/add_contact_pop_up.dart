@@ -129,7 +129,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
                           initialValue: stateController.text,
-                          keyboardType: TextInputType.text,
+                          textInputType: TextInputType.text,
                           textFormKey: Keys.nameKey,
                           hintText: '',
                           isEnable: true,
@@ -188,7 +188,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         initialValue: nameController.text,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: true,
@@ -214,7 +214,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         initialValue: widget.model.contactNo ?? '',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
