@@ -16,7 +16,7 @@ class Apis {
 
   static final String _getGI = '$baseUrl/getEPGIById';
 
-  static final String _createAnnualPowerShutdownList = '$baseUrl/createEPGI?';
+  static final String _createAnnualPowerShutdownList = '$baseUrl/createEPGI';
 }
 
 class AnnualPowerShutdownListServices {

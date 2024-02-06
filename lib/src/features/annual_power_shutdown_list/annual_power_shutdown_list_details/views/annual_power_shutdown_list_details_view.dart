@@ -225,7 +225,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               // state.labels?.locale.entrySecurity ??
                               //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby, isMandatory: true,
-                                '${widget.model?.createdBy?.firstName ?? ''} ${widget.model?.createdBy?.firstName ?? ''}'),
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -1339,13 +1339,13 @@ class _AnnualPowerShutdownListDetailsViewState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            if (!disableForm) ...[
+                            //if (!disableForm) ...[
                               submitButtonDisplay(onTap: () {
                                 FocusScope.of(context).unfocus();
-                                BlocProvider.of<GeneralInfoCubit>(context)
+                                BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
                                     .submitForm(isSaveOnly: false);
                               })
-                            ],
+                           // ],
                           ],
                         ),
                       ],

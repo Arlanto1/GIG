@@ -698,6 +698,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
+                              showBorder: true,
                               lineHeight: 6,
                               initialValue: state.model.description,
                               textFormKey: Keys.incidentDescription,
@@ -710,6 +711,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     .read<IncidentGeneralInfoCubit>()
                                     .onModelValueChange(state.model);
                               },
+                              textInputAction: TextInputAction.newline,
+                              textInputType:
+                              TextInputType.multiline,
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

@@ -66,17 +66,14 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    // if (model.handOverSecurity == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Shift Taken Over By.');
-    // }
-    // if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Medical Emergency Comments');
-    // }
+    if (model.createdBy == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Created By.');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
+
 
   ErrorResponse get isValid {
     if (model.status == null) {

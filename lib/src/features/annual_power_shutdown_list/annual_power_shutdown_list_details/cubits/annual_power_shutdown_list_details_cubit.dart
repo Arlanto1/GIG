@@ -129,7 +129,7 @@ class AnnualPowerShutdownListDetailsCubit
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-      state.model.createdBy ??= loggedInUserDetails;
+      model.createdBy ??= loggedInUserDetails;
 
       // Update the model and emit the updated state
       emit(state.copyWith(
