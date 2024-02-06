@@ -65,7 +65,7 @@ class _CreateFoundState extends State<CreateFound> {
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 1;
   int isClaimantDBEmployeeSelected = 0;
-  int isClaimantAcceptedtoSignSelected = 1;
+  int isClaimantAcceptedtoSignSelected = 0;
   int isClaimantAcceptedByemail = 0;
   final GlobalKey<FormState> createfoundFormKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
@@ -1519,10 +1519,10 @@ class _CreateFoundState extends State<CreateFound> {
                                         isClaimantAcceptedByemail,
                                         Constants.isclaimantacceptedbyemail,
                                         isDisableColor:
-                                            widget.model?.status != 2 ||
+                                            widget.model?.status != 2 ||widget.model?.status != 1||
                                                     widget.model?.status != -1
-                                                ? isDisabled
-                                                : !isDisabled,
+                                                ? !isDisabled
+                                                : isDisabled,
                                       )
                                     : Container(),
                               ],
@@ -1909,14 +1909,16 @@ class _CreateFoundState extends State<CreateFound> {
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
             }
+            else if ((name == Constants.isclaimantacceptedbyemail)&&
+                widget.model?.status != 2 &&
+                widget.model?.status != 1 &&
+                widget.model?.status != -1) {
+              isClaimantAcceptedByemail = selectedValue;
+            }
             else if (name == Constants.isclaimantdbemployee&&
                 widget.model?.status == 1&&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
-            }else if (name == Constants.isclaimantacceptedbyemail &&
-                    widget.model?.status != 2 ||
-                widget.model?.status != -1) {
-              isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {
@@ -1938,21 +1940,22 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee&&
+            }   else if ((name == Constants.isclaimantacceptedbyemail)&&
+                widget.model?.status != 2 &&
+                widget.model?.status != 1 &&
+                widget.model?.status != -1) {
+              isClaimantAcceptedByemail = selectedValue;
+            }else if (name == Constants.isclaimantdbemployee&&
                 widget.model?.status == 1&&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
-            }else if (name == Constants.isclaimantacceptedbyemail &&
-                    widget.model?.status != 2 ||
-                widget.model?.status != -1) {
-              isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2) {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
-          },
+          }
         ),
         const Text(Constants.no),
       ],
