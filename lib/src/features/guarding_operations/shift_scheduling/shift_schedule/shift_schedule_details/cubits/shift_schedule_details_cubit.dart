@@ -171,7 +171,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         moduleCode: Constants.shiftScheduleModule,
       );
 
-      // state.model.location = location;
+      state.model.location = location;
       state.model.slNo = slNo.serialNo;
 
       // TODO: uncomment

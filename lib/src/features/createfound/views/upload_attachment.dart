@@ -194,9 +194,9 @@ class UploadAttachmentState extends State<UploadAttachment>
       createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createpassmgmtstate != null) {
       widget.getFiles?.add(data);
-      // if (widget.isPhotoType ?? false) {
-      //   createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
-      // }
+      if (widget.isPhotoType ?? false) {
+        createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
+      }
        if (widget.isPhotoType == true && widget.getFiles != null && widget.getFiles!.isNotEmpty) {
         widget.getFiles!.clear();
         widget.getFiles?.add(data);
