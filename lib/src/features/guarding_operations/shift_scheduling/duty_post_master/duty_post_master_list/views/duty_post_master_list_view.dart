@@ -156,6 +156,9 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
+                                labels: labels,
+                                guardRank: state.list[selectedIndex].rankId,
+                                isMasterGuard: true,
                               );
                             },
                           );
