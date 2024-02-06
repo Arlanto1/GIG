@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
+import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -269,7 +270,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     isMandatory: true,
                                     '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}'),
 
-                                // / Location
+                                /// Location
                                 CommonWidgets.textDisplay(
                                     Constants.location, Styles.textStyleBlack14,
                                     isMandatory: true),
@@ -316,8 +317,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                datepickerWidgetLoading(
-                                    actualDateTextController),
+                                // datepickerWidgetLoading(
+                                //     actualDateTextController),
+                                BaseDate().datePickerWidgetLoading(
+                                  showFutureDate: false,
+                                  textController: actualDateTextController,
+                                  isDisabled: (widget.model?.status == 1 ||
+                                      widget.model?.status == -1)
+                                      ? true
+                                      : false,
+                                  //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                                  onChange: (String value) {
+                                    widget.model?.timeOfVisit =
+                                        Utils().formatTime(value);
+                                  },
+                                  context: context,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
