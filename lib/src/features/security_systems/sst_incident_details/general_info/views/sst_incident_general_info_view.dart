@@ -185,8 +185,6 @@ class _SstIncidentGeneralInfoViewState
                               items: sstIncidentsStatusItems,
                               initialValue: '${state.model.status}',
                               onTap: () {
-                                if (state.model.status == 0 ||
-                                    state.model.status == null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: sstIncidentsStatusItems
@@ -208,7 +206,6 @@ class _SstIncidentGeneralInfoViewState
                                                   selectedLabel.value));
                                     },
                                   );
-                                }
                               },
                             ),
                             // FlutterInputField(
