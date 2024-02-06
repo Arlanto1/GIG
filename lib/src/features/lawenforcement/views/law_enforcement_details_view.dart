@@ -98,6 +98,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   String? serialnumber;
   bool isDistrbuted = false;
 
+ int isOfficialIdcardSelected = 0;
+ int isDocumentifanySelected=0;
+  int isIncaseofpoliceSelected = 0;
+
   // int get index => 0;
 
   @override
@@ -322,7 +326,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 BaseDate().datePickerWidgetLoading(
                                   showFutureDate: false,
                                   textController: actualDateTextController,
-                                  isDisabled: (widget.model?.status == 1 ||
+                                  isDisabled: (
                                       widget.model?.status == -1)
                                       ? true
                                       : false,
@@ -342,7 +346,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isOfficialIdcardSelected ?? 0,
+                                    isOfficialIdcardSelected,
                                     Constants.officialsidcardverified),
 
                                 /// Purpose of visit
@@ -363,7 +367,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isDocumentifanySelected ?? 0,
+                                    isDocumentifanySelected,
                                     Constants.documentifanytoconfirmpurpose),
 
                                 /// In case of Police, was official in uniform?
@@ -373,7 +377,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isIncaseofpoliceSelected ?? 0,
+                                    isIncaseofpoliceSelected,
+                                    // state.isIncaseofpoliceSelected ?? 0,
                                     Constants
                                         .incaseofpolicewasofficialinuniform),
 
@@ -384,10 +389,32 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                textfieldWidgetLoad(
-                                    dbOfficailWanttimeetTextController,
-                                    0,
-                                    state),
+                                // textfieldWidgetLoad(
+                                //     dbOfficailWanttimeetTextController,
+                                //     0,
+                                //     state),
+                                FlutterInputField(
+                                  showBorder: false,
+                                  lineHeight: 1,
+                                  textFieldController:
+                                  dbOfficailWanttimeetTextController,
+                                  textFormKey:
+                                  Keys.additionalinformationTextController,
+                                  hintText: Constants.informationhere,
+                                  isEnable: widget.model?.status == 0 ||widget.model?.status == 1 ||
+                                      widget.model == null
+                                      ? true
+                                      : false,
+                                  isDisableColor: widget.model?.status == 0 ||widget.model?.status == 1 ||
+                                      widget.model == null
+                                      ? false
+                                      : true,
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                    setState(() {});
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
 
                                 /// DB official department
                                 CommonWidgets.textDisplay(
@@ -396,7 +423,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-
                                 dbwanttodepartmentaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -409,7 +435,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-
                                 dbofficialemailidaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -428,11 +453,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   textFormKey:
                                       Keys.additionalinformationTextController,
                                   hintText: Constants.informationhere,
-                                  isEnable: widget.model?.status == 0 ||
+                                  isEnable: widget.model?.status == 0 ||widget.model?.status == 1 ||
                                           widget.model == null
                                       ? true
                                       : false,
-                                  isDisableColor: widget.model?.status == 0 ||
+                                  isDisableColor: widget.model?.status == 0 ||widget.model?.status == 1 ||
                                           widget.model == null
                                       ? false
                                       : true,
@@ -665,11 +690,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         if (state.getVisitsCount != 1) ...[
           GestureDetector(
             onTap: () {
-              int value = (state.getVisitsCount) - 1;
-              List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
-              getVisits1.removeAt(index);
-              lawEnforcementCubit.addingVisits(
-                  visitCount: value, getVisits: getVisits1);
+              if(widget.model?.status== 1 ||widget.model?.status== 0 ||widget.model?.status== null) {
+                int value = (state.getVisitsCount) - 1;
+                List<VisitingOfficialsModel>? getVisits1 = state.getVisits ??
+                    [];
+                getVisits1.removeAt(index);
+                lawEnforcementCubit.addingVisits(
+                    visitCount: value, getVisits: getVisits1);
+              }
             },
             child: Align(
               alignment: Alignment.centerRight,
@@ -1059,13 +1087,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           groupValue: selectedValue,
           onChanged: (val) {
             selectedValue = 1;
-            // if (name == Constants.officialsidcardverified) {
-            //   isOfficialIdcardSelected = selectedValue;
-            // } else if (name == Constants.documentifanytoconfirmpurpose) {
-            //   isDocumentifanySelected = selectedValue;
-            // } else if (name == Constants.incaseofpolicewasofficialinuniform) {
-            //   isIncaseofpoliceSelected = selectedValue;
-            // setState(() {});
+            if (name == Constants.officialsidcardverified && (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isOfficialIdcardSelected = selectedValue;
+            } else if (name == Constants.documentifanytoconfirmpurpose&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isDocumentifanySelected = selectedValue;
+            } else if (name == Constants.incaseofpolicewasofficialinuniform&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isIncaseofpoliceSelected = selectedValue;
+            }
+            setState(() {});
             lawEnforcementCubit.getRadioButtonSelected(
                 name, selectedValue, "Yes");
           },
@@ -1079,12 +1108,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           groupValue: selectedValue,
           onChanged: (val) {
             selectedValue = 0;
-            // if (name == Constants.officialsidcardverified) {
-            //   isOfficialIdcardSelected = selectedValue;
-            // } else if (name == Constants.documentifanytoconfirmpurpose) {
-            //   isDocumentifanySelected = selectedValue;
-            // } else if (name == Constants.incaseofpolicewasofficialinuniform) {
-            //   isIncaseofpoliceSelected = selectedValue;
+            if (name == Constants.officialsidcardverified&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isOfficialIdcardSelected = selectedValue;
+            } else if (name == Constants.documentifanytoconfirmpurpose&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isDocumentifanySelected = selectedValue;
+            } else if (name == Constants.incaseofpolicewasofficialinuniform&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+              isIncaseofpoliceSelected = selectedValue;
+            }
 
             //setState(() {});
             lawEnforcementCubit.getRadioButtonSelected(
@@ -1288,9 +1318,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               : 100
           : 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+          widget.model?.status != 0 && widget.model != null && widget.model?.status != 1 ? true : false,
       onTap: () {
-        if (widget.model?.status == 0 || widget.model == null) {
+        if (widget.model?.status == 0 || widget.model == null || widget.model?.status == 1) {
           entityTypeDialog(state);
         }
       },
@@ -1414,12 +1444,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+          widget.model?.status != 0 && widget.model != null && widget.model?.status != 1 ? true : false,
       onTap: () {
-        // if (widget.listUser == null ||
-        //     (state.leoPurposeVisitResponse != null &&
-        //         ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))) {
-        if (widget.model?.status == 0 || widget.model == null) {
+        if (widget.model?.status == 0 ||widget.model?.status == 1|| widget.model == null) {
           leopurposeDialog(state);
         }
         //  }
@@ -1437,14 +1464,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: dept?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+          widget.model?.status != 0 &&widget.model?.status != 1 && widget.model != null ? true : false,
       onTap: () {
-        // if (widget.listUser?.status==3) {
-        //   //   articleTypeDialog(state);
-        //   //lawenforcementCubit.getleoDepartmentsResponseData(list);
-        //   // }
-        //   //leodepartmentsDialog(state);
-        if (widget.model?.status == 0 || widget.model == null) {
+        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
           departmentsDialog(state, index);
         }
       },
@@ -1456,14 +1478,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+          widget.model?.status != 0 &&widget.model?.status != 1 && widget.model != null ? true : false,
       onTap: () {
-        // if (widget.listUser == null ||
-        //     (state.selectedemployeeDepartmentResponse != null &&
-        //         ((state.selectedemployeeDepartmentResponse?.name ?? '')
-        //             .isEmpty))) {
-        //   articleTypeDialog(state);
-        if (widget.model?.status == 0 || widget.model == null) {
+        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
           leodepartmentsDialog(state);
         }
       },
@@ -1477,10 +1494,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
-        // if (widget.listUser == null ||
-        //     (state.createEmployeeDepartments != null &&
-        //         ((state.createEmployeeDepartments?.name ?? '').isEmpty))) {
-        //   articleTypeDialog(state);
         if (widget.model?.status == 0 || widget.model == null) {
           leodepartmentsDialog(state);
         }
@@ -1496,12 +1509,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           : '',
       height: 70,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+          widget.model?.status != 0 && widget.model?.status != 1&& widget.model != null ? true : false,
       onTap: () {
-        // if (widget.listUser == null ||
-        //     (state.getuserResponse != null &&
-        //         ((state.getuserResponse?.name ?? '').isEmpty))) {
-        if (widget.model?.status == 0 || widget.model == null) {
+        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
           dbOfficialDialog(state);
         }
       },
@@ -1511,7 +1521,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status == null || widget.model?.status == 0) {
+        if (widget.model?.status == null || widget.model?.status == 0|| widget.model?.status == 1) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -1781,7 +1791,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           );
           break;
         }
-        // else if (!Validator.isValidEmail(model.email?.trim())) {
+        // else if (model.email != null && !Validator.isValidEmail(model.email?.trim())) {
         //   log('-model.email---${model.email}---');
         //   Validator().showToast(
         //     context,
@@ -1818,7 +1828,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       }
     }
   }
-
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
       textFieldController: dateofcreationTextController,
@@ -1946,7 +1955,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       },
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      isEnable: widget.model?.status == 0 || widget.model == null,
+      isEnable: widget.model?.status == 0 ||  widget.model?.status == 1 ||widget.model == null,
       hintText: '',
       onChange: (String username) {
         //this.username = username;
