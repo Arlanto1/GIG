@@ -306,7 +306,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
   void addAttachment({
     List<ImageContent>? data,
-    List<ImageContent>? guardImages,
+    List<ImageContent>? images,
   }) async {
     emit(
       state.copyWith(
@@ -315,12 +315,27 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     );
     int eventIds = math.Random.secure().nextInt(5);
 
-    log('--guardImages---${guardImages?.length}----');
-    if (guardImages != null) {
+    // log('--guardImages---${guardImages?.length}----');
+    // if (guardImages != null) {
+    //   emit(
+    //     state.copyWith(
+    //       eventId: eventIds,
+    //       model: state.model,
+    //       status: FormStatus.initial,
+    //     ),
+    //   );
+    // }
+
+    if (data != null && images != null) {
+      for (var image in data) {
+        image.type = 1;
+      }
+      state.model.attachments = images;
       emit(
         state.copyWith(
           eventId: eventIds,
           model: state.model,
+          uploadAttachments: images,
           status: FormStatus.initial,
         ),
       );

@@ -1,15 +1,18 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
   final bool viaOccurrence;
+  final SstIncident? model;
 
   const SstIncidentGeneralInfoView({
     super.key,
     required this.isInternal,
     required this.viaOccurrence,
+    this.model
   });
 
   @override
@@ -28,6 +31,7 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController systemController = TextEditingController();
   bool isDisabled = true;
   bool disableForm = false;
+  List<ImageContent>? uploadFiles;
 
   @override
   void initState() {
@@ -636,6 +640,46 @@ class _SstIncidentGeneralInfoViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
+                            ),
+                            ///Upload File
+                            CommonWidgets.textDisplay(
+                                Constants.upload,
+                                Styles.textStyleBlack14),
+                            widget.model == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                              state.loggedInUserDetails ?? User(),
+                              getFiles: uploadFiles,
+                              onImageSelected: (ImageContent data) {
+                                log('-------function---onImageSelected---------');
+                                List<ImageContent>? files = [];
+                                files.add(data);
+                                for (ImageContent image
+                                in uploadFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<
+                                    SstIncidentGeneralInfoCubit>(
+                                    context)
+                                    .addAttachment(
+                                  data: files,
+                                  images: files,
+                                );
+                              },
+                            ),
+                            // Attachments
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.uploadAttachments,
+                              files: uploadFiles,
+                              showDownloadIcon:
+                              widget.model != null
+                                  ? true
+                                  : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

@@ -209,6 +209,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentManager != null) {
+      state.emailUsers?.remove(incidentManager);
       User userDetails = User(
         name: incidentManager.name,
         userId: incidentManager.id,
@@ -218,6 +219,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentOwner != null) {
+      state.emailUsers?.remove(incidentOwner);
       User userDetails = User(
         name: incidentOwner.name,
         userId: incidentOwner.id,

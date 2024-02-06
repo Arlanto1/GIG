@@ -12,7 +12,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<BaseUser>? lsm;
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
-
+  final List<ImageContent>? uploadAttachments;
   //final List<Organisation> departments;
   final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
@@ -33,7 +33,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<BaseUser>? lsm,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
-    //required final List<Organisation> departments,
+     List<ImageContent>? uploadAttachments,
     required final List<Organisation> vendors,
     required String errorMessage,
     required List<ImageContent> loadAttachments,
@@ -52,6 +52,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       lsm: lsm,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
+      uploadAttachments:uploadAttachments,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -79,7 +80,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.users,
     this.emailUsers,
     this.listOfEntities,
-    // required this.departments,
+    this.uploadAttachments,
     required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
@@ -109,6 +110,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<Organisation>? vendors,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
+    List<ImageContent>? uploadAttachments,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
@@ -124,6 +126,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       lt: lt ?? this.lt,
       lsm: lsm ?? this.lsm,
       systemManager: systemManager ?? this.systemManager,
+      uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       asl: asl ?? this.asl,
       vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
