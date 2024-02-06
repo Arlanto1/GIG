@@ -592,7 +592,7 @@ class _KeyHistoryRecordsDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+        BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
     );
