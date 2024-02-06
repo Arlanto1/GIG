@@ -264,11 +264,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     height * 0.01),
 
                                 ///created by
-
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.createdby,
                                     isMandatory: true,
-                                    '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                    '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}'),
 
                                 // / Location
                                 CommonWidgets.textDisplay(
@@ -328,7 +327,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isOfficialIdcardSelected ?? 1,
+                                    state.isOfficialIdcardSelected ?? 0,
                                     Constants.officialsidcardverified),
 
                                 /// Purpose of visit
@@ -349,7 +348,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isDocumentifanySelected ?? 1,
+                                    state.isDocumentifanySelected ?? 0,
                                     Constants.documentifanytoconfirmpurpose),
 
                                 /// In case of Police, was official in uniform?
@@ -359,7 +358,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 radioButtonHandling(
-                                    state.isIncaseofpoliceSelected ?? 1,
+                                    state.isIncaseofpoliceSelected ?? 0,
                                     Constants
                                         .incaseofpolicewasofficialinuniform),
 
