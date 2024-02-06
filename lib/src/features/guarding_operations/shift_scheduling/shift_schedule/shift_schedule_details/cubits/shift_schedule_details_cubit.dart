@@ -166,6 +166,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     );
     ////Get Sl No from API
     if (location != null) {
+      log('--location--${location.name}--');
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.shiftScheduleModule,
@@ -173,6 +174,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       // state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      state.model.location = location;
 
       // TODO: uncomment
       if (state.model.vendor != null) {
@@ -183,6 +185,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(
+          model: state.model,
           dutyPosts: dutyPosts,
           status: FormStatus.initial,
         ));

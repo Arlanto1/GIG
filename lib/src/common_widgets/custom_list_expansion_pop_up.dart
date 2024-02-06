@@ -81,8 +81,6 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
     final height = size.height;
     final width = size.width;
 
-    log('-----items----lenthg---${widget.locationList?.south?.length}');
-
     return Center(
       child: SizedBox(
         height: height / 1.5,

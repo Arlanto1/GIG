@@ -245,7 +245,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               .creationDateDisplay(state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Location
+                          /// Location
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.location ??
                               //  state.labels?.defaultLocale.location ??
