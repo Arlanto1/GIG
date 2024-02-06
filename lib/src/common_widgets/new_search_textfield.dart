@@ -1,3 +1,4 @@
+import 'package:db_atom/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/app_themes/colors/app_color.dart';
@@ -27,6 +28,7 @@ class FlutterInputField extends StatelessWidget {
   final String? labelText;
   final IconData? suffixIcon;
   final bool? showBorder;
+  final int? characterLimit;
 
   const FlutterInputField({
     super.key,
@@ -44,7 +46,7 @@ class FlutterInputField extends StatelessWidget {
     this.hintFontSize = 16,
     this.autoFocus = false,
     required this.textFormKey,
-    this.textInputType =TextInputType.text,
+    this.textInputType = TextInputType.text,
     this.onTap,
     this.isDisableColor,
     this.textInputAction,
@@ -54,6 +56,7 @@ class FlutterInputField extends StatelessWidget {
     this.labelText,
     this.suffixIcon,
     this.showBorder,
+    this.characterLimit= Constants.characterLimitIdTextFormField,
   });
 
   @override
@@ -99,6 +102,7 @@ class FlutterInputField extends StatelessWidget {
               hintText: hintText,
               prefixIcon: prefixWidget,
               suffixIcon: suffixWidget,
+              // suffixText: '${textFieldController?.text.length}/$characterLimit',
               hintStyle: TextStyle(
                 fontSize: hintFontSize,
               ),
@@ -115,9 +119,11 @@ class FlutterInputField extends StatelessWidget {
               ),
               suffixIcon: Icon(suffixIcon),
             ),
+
       onChanged: (String str) {
         onChange(str);
       },
+      maxLength: characterLimit,
       validator: (String? value) {
         if (validateTextField != null) {
           return validateTextField!(value);

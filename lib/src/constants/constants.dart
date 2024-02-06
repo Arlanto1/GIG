@@ -4,6 +4,10 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  /// Text Form Field Character Limit
+  static const int characterLimitIdTextFormField = 250;
+  static const int characterLimitDescTextFormField = 4000;
+
   /// Module Codes
   static const String materialMovementInwardReturnableModule = 'MMINN';
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';

@@ -523,4 +523,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
     }
   }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.materialMovementModuleCode);
+  }
 }

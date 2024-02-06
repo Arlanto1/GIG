@@ -1,19 +1,14 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_type_model.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 
 import '../features/createfound/models/create_user_model.dart';
-import '../features/createfound/models/get_depositor_model.dart';
-import '../features/createfound/models/vendors_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
 import '../features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 
@@ -36,6 +31,8 @@ class Apis {
   static final String _createOrganisation = '$baseUrl/createOrganisation?';
   static final String _createUser = '$baseUrl/createUser?';
   static final String _getDashboardChart = '$baseUrl/getDashboard?module=';
+
+  static final String _updateRecordStatus = '$baseUrl/updateStatus/';
 }
 
 class CommonServices {
@@ -263,7 +260,8 @@ class CommonServices {
     required String orgName,
     BuildContext? context,
   }) async {
-    final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName&keyname=$keyname";
+    final String url =
+        "${Apis._createOrganisation}name=$name&orgName=$orgName&keyname=$keyname";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return Organisation.fromJson(response);
@@ -300,5 +298,18 @@ class CommonServices {
     });
 
     return pieChartDataList;
+  }
+
+  Future<void> updateRecordStatus({
+    required String id,
+    required String module,
+    int? status = -1,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._updateRecordStatus}$id?module=$module&status=$status';
+    await BaseApiService().patchRequest(
+      url: url,
+    );
+    return;
   }
 }

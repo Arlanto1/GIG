@@ -398,6 +398,7 @@ class _MaterialMovementDetailsViewState
                             textInputType: TextInputType.text,
                             textFormKey: Keys.challanKey,
                             initialValue: state.model.challanNo,
+                            characterLimit: Constants.characterLimitIdTextFormField,
                             hintText: '',
                             isEnable: state.model.status == 10 ||
                                     state.model.status == -1 ||
@@ -1686,6 +1687,7 @@ class _MaterialMovementDetailsViewState
                               showBorder: true,
                               lineHeight: 6,
                               initialValue: state.model.materialFromAddress,
+                              characterLimit: Constants.characterLimitDescTextFormField,
                               textFormKey: Keys.materialComingFromKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6 ||
@@ -2278,7 +2280,7 @@ class _MaterialMovementDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay(state)
                           ],
                         ),
@@ -2306,7 +2308,7 @@ class _MaterialMovementDetailsViewState
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -2454,7 +2456,7 @@ class _MaterialMovementDetailsViewState
         });
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -2463,9 +2465,19 @@ class _MaterialMovementDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
-      },
+        updateRecordStatus(state);
+        Navigator.popAndPushNamed(
+            context, materialMovementInwardsOutwardsRoute,
+            arguments: {"isInward": widget.isInward});
+        },
     );
+  }
+
+  void updateRecordStatus(MaterialMovementDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<MaterialMovementDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+    }
   }
 
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {
