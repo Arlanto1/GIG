@@ -91,7 +91,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: true,
+            showSaveButton: false,
             showSubmitButton: true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
@@ -221,7 +221,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
                                 organisations: state.dutyPosts ?? [],
-                                onTap: (Organisation org) {
+                                onTap: (Organisation? org) {
                                   // state.model.dutyPostLocation?.name =
                                   //     org.name;
 
