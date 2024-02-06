@@ -24,6 +24,12 @@ class _AnnualPowerShutdownListDetailsViewState
   TextEditingController eventStartDateController = TextEditingController();
   TextEditingController eventEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController budgetController = TextEditingController();
+  TextEditingController securityGuardCountHrsController = TextEditingController();
+  TextEditingController securitySupervisorCountHrsController = TextEditingController();
+  TextEditingController securityOfficerCountHrsController = TextEditingController();
+  TextEditingController securityFacilitatorCountHrsController = TextEditingController();
+
   bool disableForm = false;
 
   @override
@@ -213,6 +219,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                     );
                                   }
                                 }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.createdby, isMandatory: true,
+                                '${widget.model?.createdBy?.firstName ?? ''} ${widget.model?.createdBy?.firstName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -1146,12 +1159,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   if (value != null) {
                                     state.model.securityGuardCount =
                                         int.parse(value);
+                                    context
+                                        .read<
+                                        AnnualPowerShutdownListDetailsCubit>()
+                                        .onModelValueChange(state.model);
                                   }
-                                  context
-                                      .read<
-                                          AnnualPowerShutdownListDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
+                                }
                                 // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1283,21 +1296,22 @@ class _AnnualPowerShutdownListDetailsViewState
                                   height * 0.001),
                               FlutterInputField(
                                 textInputType: TextInputType.number,
-                                initialValue: ((state
-                                                .model.securityGuardCountHrs
-                                                ?.toDouble() ??
-                                            0.0) +
-                                        (state.model.securitySupervisorCountHrs
-                                                ?.toDouble() ??
-                                            0.0) +
-                                        (state.model.securityOfficerCountHrs
-                                                ?.toDouble() ??
-                                            0.0) +
-                                        (state.model.securityFacilitatorCountHrs
-                                                    ?.toDouble() ??
-                                                0.0) /
-                                            24)
-                                    .toStringAsFixed(2),
+                                textFieldController: budgetController,
+                                // initialValue: ((state
+                                //                 .model.securityGuardCountHrs
+                                //                 ?.toDouble() ??
+                                //             0.0) +
+                                //         (state.model.securitySupervisorCountHrs
+                                //                 ?.toDouble() ??
+                                //             0.0) +
+                                //         (state.model.securityOfficerCountHrs
+                                //                 ?.toDouble() ??
+                                //             0.0) +
+                                //         (state.model.securityFacilitatorCountHrs
+                                //                     ?.toDouble() ??
+                                //                 0.0) /
+                                //             24)
+                                //     .toStringAsFixed(2),
                                 textFormKey: Keys.budgetKey,
                                 hintText: '',
                                 isEnable: !disableForm,

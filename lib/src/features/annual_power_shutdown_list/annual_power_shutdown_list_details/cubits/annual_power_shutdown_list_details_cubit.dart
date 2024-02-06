@@ -100,7 +100,7 @@ class AnnualPowerShutdownListDetailsCubit
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
@@ -129,6 +129,7 @@ class AnnualPowerShutdownListDetailsCubit
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
+      state.model.createdBy ??= loggedInUserDetails;
 
       // Update the model and emit the updated state
       emit(state.copyWith(
@@ -258,6 +259,7 @@ class AnnualPowerShutdownListDetailsCubit
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
+      state.emailUsers?.remove(subRegionalHead1);
       User userDetails = User(
           name: subRegionalHead1.name,
           userId: subRegionalHead1.id,
@@ -265,6 +267,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
+      state.emailUsers?.remove(subRegionalHead2);
       User userDetails = User(
           name: subRegionalHead2.name,
           userId: subRegionalHead2.id,
@@ -272,6 +275,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
+      state.emailUsers?.remove(locationSecurityManager1);
       User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
@@ -279,6 +283,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
+      state.emailUsers?.remove(locationSecurityManager2);
       User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,

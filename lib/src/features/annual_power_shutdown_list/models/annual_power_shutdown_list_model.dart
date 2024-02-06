@@ -41,6 +41,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   Organisation? locationRegion;
   List<Organisation>? entities;
   int? status;
+  User? createdBy;
   String? modifiedBy;
   bool annualPowerShutdown;
   String? eventStartDate;
@@ -88,6 +89,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
     this.slNo,
     this.inputDate,
     this.location,
+    this.createdBy,
     this.locationRegion,
     this.entities,
     this.status,
