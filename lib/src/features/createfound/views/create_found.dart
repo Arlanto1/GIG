@@ -968,9 +968,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.horizentaltextHandling(
                                   Constants.createdby,
                                   isMandatory: true,
-                                  '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'),
-
-                              // ),
+                                  '${widget.model?.entrySecurity?.firstName} ${widget.model?.entrySecurity?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Location
@@ -1529,7 +1527,7 @@ class _CreateFoundState extends State<CreateFound> {
                               ],
 
                               /// Item Handover By
-                              if (widget.model?.status == 2) ...[
+                              if (widget.model?.status == 2 ||widget.model?.status == 1) ...[
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.itemhandoverby,
                                     // widget.model?.handoverSecurity?.name ?? '',
