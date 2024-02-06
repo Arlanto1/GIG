@@ -10,7 +10,7 @@ class Apis {
   static final String _getDutyPostById = '$baseUrl/getAttdDpById';
   static final String _getBriefingPoints = '$baseUrl/getBriefingPoints';
 
-  static final String _create = '$baseUrl/UpdateAttendanceGi?';
+  static final String _create = '$baseUrl/updateAttendance?';
 }
 
 class AttendanceServices {

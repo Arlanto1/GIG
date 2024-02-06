@@ -211,33 +211,33 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0,
+                              isDisabled: false,
                                 textController: statusController,
                                 items: eventProtectionGiStatus,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                  if (state.model.id != null) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: eventProtectionGiStatus
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            eventProtectionGiStatus.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
-                                      },
-                                    );
-                                  }
+                                if(disableForm) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: eventProtectionGiStatus
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          eventProtectionGiStatus.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<GeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          status: int.tryParse(
+                                              selectedLabel.value));
+                                    },
+                                  );
+                                }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -553,7 +553,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             /// Location Security  Manager 2
                             CommonWidgets.textDisplay(
@@ -579,7 +579,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///LSM 2 Contact No
                             CommonWidgets.textDisplay(
@@ -605,7 +605,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Business POC 1
                             CommonWidgets.textDisplay(
@@ -656,7 +655,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             ///Business POC 2
 
@@ -683,7 +682,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Business POC 2 Contact No
                             CommonWidgets.textDisplay(
@@ -708,7 +707,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             if (state.model.annualPowerShutdown) ...[
                               ///Business POC 1Department
@@ -865,7 +864,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -970,7 +969,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                               // ///Primary Service Engineer Contact
                               // CommonWidgets.horizentaltextHandling(
@@ -1091,7 +1090,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ),
                             ],
                             BasicWidgetFunctions().getStringText(
-                                strings: state.model.epOfficers ?? []),
+                                strings: state.model.epOfficers ?? [],
+                                ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

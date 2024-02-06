@@ -271,7 +271,6 @@ const List<Label> slaStatusDropDownValues = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 const List<Label> attendanceTypeDropDownValues = [
-  Label(key: 'Regular', value: '0'),
   Label(key: 'Regular', value: '1'),
   Label(key: 'AD HOC', value: '2'),
 ];
