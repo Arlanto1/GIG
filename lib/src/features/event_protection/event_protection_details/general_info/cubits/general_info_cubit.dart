@@ -95,7 +95,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
