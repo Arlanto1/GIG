@@ -2102,7 +2102,6 @@ class _CreateFoundState extends State<CreateFound> {
                           // Implement delete functionality for attachmentListviews1
                           setState(() {
                             attachmentListviews1!.removeAt(index);
-                            attachmentListviews!.removeAt(index);
                           });
                         }
                         if (imageData != null) {
