@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
@@ -19,7 +18,6 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -1168,7 +1166,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 //     passvaliduntilTextController),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  isDisabled: false,
+                                  isDisabled: widget.model?.status == 0 ? false:true,
                                   showPastDate: false,
                                   textController: passvaliduntilTextController,
                                   onlyDate: (widget.passId == '3' &&
@@ -2125,30 +2123,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //       : attachmentListviews(photogetFiles, photogetAttachments);
   // }
   Widget photogetAttachement(double height) {
-    // Check if there are existing attachments or if the model is not available
-    if (photogetAttachments.isEmpty || widget.model == null) {
-      // If no existing attachments or model not available, check if there are files
-      if (photogetFiles.isNotEmpty) {
-        // If files exist, display the attachments
-        return attachmentListviews(photogetFiles, photogetAttachments);
-      } else {
-        // If no files exist, return an empty container
-        return Container();
-      }
-    } else {
-      // If there are existing attachments and the model is available,
-      // only one photo is allowed, so replace the existing attachment
-      // with a new one. You can customize this logic as needed.
-      if (photogetFiles.isNotEmpty) {
-        // If there are new files, replace the existing attachment with the new one
-        return attachmentListviews(photogetFiles, photogetAttachments);
-      } else {
-        // If there are no new files, display the existing attachment
-        return attachmentListviews([], photogetAttachments);
-      }
-    }
+    return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
+        ? attachmentListviews(photogetFiles, photogetAttachments)
+        : Container();
   }
-
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
     String title = '';
     if ((state.selectedEntities?.length ?? 0) > 0) {
@@ -3449,6 +3427,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             if (widget.model != null) {
               imageData1 = attachmentListviews1?[index];
             } else {
+
               imageData = attachmentListviews?[index];
             }
             log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
@@ -3457,13 +3436,35 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.model != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
+                  trailing: widget.model == null || widget.model?.status == 0
+                      ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          // Delete logic here
+                          if (imageData1 != null) {
+                            // Implement delete functionality for attachmentListviews1
+                            setState(() {
+                              attachmentListviews1!.removeAt(index);
+                              attachmentListviews!.removeAt(index);
+                            });
+                          }
+                          if (imageData != null) {
+                            // Implement delete functionality for attachmentListviews1
+                            setState(() {
+                              attachmentListviews!.removeAt(index);
+                            });
+                          }
+                        },
+                      ),
+                      SvgPicture.asset(AppIcon.download,
+                          color: AppColors.boldgreyBackground),
+                    ],
+                  )
+                      : SvgPicture.asset(AppIcon.download,
+                      color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imageData1?.id ?? 0, imageData1?.title ?? '');
