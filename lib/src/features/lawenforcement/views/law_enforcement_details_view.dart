@@ -1888,13 +1888,37 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.model != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
+                  trailing: widget.model == null
+            ? Row(
+            mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    // Delete logic here
+                    if (imageData1 != null) {
+                      // Implement delete functionality for attachmentListviews1
+                      setState(() {
+                        attachmentListviews1!.removeAt(index);
+                        attachmentListviews!.removeAt(index);
+
+                      });
+                    }
+                    if (imageData != null) {
+                      // Implement delete functionality for attachmentListviews1
+                      setState(() {
+                        attachmentListviews!.removeAt(index);
+                      });
+                    }
+                  },
+                ),
+                SvgPicture.asset(AppIcon.download,
+                    color: AppColors.boldgreyBackground),
+              ],
+            ): const SizedBox(
+            height: 0,
+            width: 0,
+            ),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imageData1?.id ?? 0, imageData1?.title ?? '');

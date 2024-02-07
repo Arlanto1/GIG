@@ -346,7 +346,8 @@ class _MaterialMovementDetailsViewState
                           CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,isMandatory: true,
+                                  Constants.createdby,
+                              isMandatory: true,
                               '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -406,7 +407,8 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 6 ||
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
-                                    state.model.status == 5
+                                    state.model.status == 5 ||
+                                    state.model.status == 1
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 10 ||
@@ -414,7 +416,8 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 6 ||
                                 state.model.status == 2 ||
                                 state.model.status == 3 ||
-                                state.model.status == 5,
+                                state.model.status == 5 ||
+                                state.model.status == 1,
                             onChange: (String value) {
                               state.model.challanNo = value;
                               context
@@ -469,7 +472,8 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-
+                            isMandatory:
+                                widget.materialMovement == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -509,6 +513,8 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
+                            isMandatory:
+                                widget.materialMovement == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -591,7 +597,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.modelInfo ??
                                   Constants.equipmentNo,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -632,7 +640,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.address ??
                                   Constants.address,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -680,7 +690,7 @@ class _MaterialMovementDetailsViewState
                                   isMandatory: true,
                                 ),
                                 widget.materialMovement?.status != 6 ||
-                                        state.model.status != 1
+                                        state.model.status == 1
                                     ? TextfieldAddButton(
                                         title: state.model.requestorEmail,
                                         height: 70,
@@ -690,14 +700,16 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 5,
+                                                state.model.status == 5 ||
+                                                state.model.status == 1,
                                         onTap: () {
                                           if (state.model.status == 10 ||
                                                   state.model.status == -1 ||
                                                   state.model.status == 6 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
-                                                  state.model.status == 5
+                                                  state.model.status == 5 ||
+                                                  state.model.status == 1
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -731,7 +743,8 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 5
+                                                state.model.status == 5 ||
+                                                state.model.status == 1
                                             ? false
                                             : true,
                                         isDisableColor:
@@ -740,7 +753,8 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 5,
+                                                state.model.status == 5 ||
+                                                state.model.status == 1,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -769,7 +783,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                      state.model.status == 5
+                                      state.model.status == 5 ||
+                                      state.model.status == 1
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -777,7 +792,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5 ||
+                                  state.model.status == 1,
                               onChange: (String value) {
                                 state.model.requestorEmployeeId = value;
                                 context
@@ -795,7 +811,9 @@ class _MaterialMovementDetailsViewState
                                       .requestorDepartment ??
                                   Constants.requestorDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
@@ -888,7 +906,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.sentTo ??
                                   Constants.sentTo,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -927,7 +947,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.purpose ??
                                   Constants.purpose,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -1006,7 +1028,9 @@ class _MaterialMovementDetailsViewState
                                       .preparedByDepartment ??
                                   Constants.preparedByDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
                             ),
                             widget.materialMovement?.status == 6
                                 ? FlutterInputField(
@@ -1112,7 +1136,8 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 10 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
-                                                    state.model.status == 5)
+                                                    state.model.status == 5 ||
+                                                    state.model.status == 1)
                                                 ? true
                                                 : false,
                                         onTap: () {
@@ -1121,7 +1146,8 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
-                                                  state.model.status == 5)
+                                                  state.model.status == 5 ||
+                                                  state.model.status == 1)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1155,14 +1181,16 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != 10 ||
                                             state.model.status != 2 ||
                                             state.model.status != 3 ||
-                                            state.model.status != 5,
+                                            state.model.status != 5 ||
+                                            state.model.status != 1,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
                                                 state.model.status == -1 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 5,
+                                                state.model.status == 5 ||
+                                                state.model.status == 1,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1190,8 +1218,10 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != -1 ||
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
-                                        state.model.status != 5,
-                                    isDisableColor: state.model.status == 6,
+                                        state.model.status != 5 ||
+                                        state.model.status != 1,
+                                    isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 1,
                                     onChange: (String value) {
                                       state.model.approver1Department?.name =
                                           value;
@@ -1210,7 +1240,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 10 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                            state.model.status == 5)
+                                            state.model.status == 5 ||
+                                            state.model.status == 1)
                                         ? true
                                         : false,
                                     onTap: () {
@@ -1219,7 +1250,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 10 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                              state.model.status == 5)
+                                              state.model.status == 5 ||
+                                              state.model.status == 1)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1278,7 +1310,8 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == -1 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
-                                                    state.model.status == 5)
+                                                    state.model.status == 5 ||
+                                                    state.model.status == 1)
                                                 ? true
                                                 : false,
                                         onTap: () {
@@ -1287,7 +1320,8 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
-                                                  state.model.status == 5)
+                                                  state.model.status == 5 ||
+                                                  state.model.status == 1)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1321,14 +1355,16 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != -1 ||
                                             state.model.status != 2 ||
                                             state.model.status != 3 ||
-                                            state.model.status != 5,
+                                            state.model.status != 5 ||
+                                            state.model.status != 1,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
                                                 state.model.status == -1 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 5,
+                                                state.model.status == 5 ||
+                                                state.model.status == 1,
                                         onChange: (String username) {},
                                         validateTextField: (String? user) {},
                                       ),
@@ -1357,13 +1393,15 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 1 ||
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
-                                        state.model.status != 5,
+                                        state.model.status != 5 ||
+                                        state.model.status != 1,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == 10 ||
                                         state.model.status == -1 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 5,
+                                        state.model.status == 5 ||
+                                        state.model.status == 1,
                                     onChange: (String value) {
                                       state.model.approver2Department?.name =
                                           value;
@@ -1382,7 +1420,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == -1 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                            state.model.status == 5)
+                                            state.model.status == 5 ||
+                                            state.model.status == 1)
                                         ? true
                                         : false,
                                     onTap: () {
@@ -1391,7 +1430,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == -1 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                              state.model.status == 5)
+                                              state.model.status == 5 ||
+                                              state.model.status == 1)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1868,84 +1908,83 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             // if (state.model.originalReceiver) ...[
-                              /// Received by
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.receiverName ??
-                                    state.labels?.defaultLocale.receiverName ??
-                                    Constants.receivedBy,
-                                Styles.textStyleBlack14,
-                                isMandatory: true,
-                              ),
-                              TextfieldAddButton(
-                                  title: state.model.otherReceiverName,
-                                  height: 70,
-                                  isDisableColor: isReadOnly,
-                                  onTap: () {
-                                    if (!isReadOnly) {
-                                      BaseOrganisationDialog().userDialog(
-                                        context: context,
-                                        users: state.emailUsers!,
-                                        onTap: (BaseUser user) {
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  otherReceiverName: user);
-                                        },
-                                        functionToCall: () {
-                                          // refresh the list
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .refreshList();
-                                        },
-                                      );
-                                    }
-                                  }),
-                              // FlutterInputField(
-                              //   initialValue: state.model.otherReceiverName,
-                              //   textFormKey: Keys.receivedByKey,
-                              //   isEnable: !isReadOnly,
-                              //   isDisableColor: isReadOnly,
-                              //   hintText: '',
-                              //   onChange: (String value) {
-                              //     state.model.otherReceiverName = value;
-                              //     context
-                              //         .read<MaterialMovementDetailsCubit>()
-                              //         .onModelValueChange(state.model);
-                              //   },
-                              //   validateTextField: (String? user) {},
-                              // ),
-
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Received by Employee Id
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.otherReceiverEmployeeId ??
-                                    state.labels?.defaultLocale
-                                        .otherReceiverEmployeeId ??
-                                    Constants.receiverEmployeeId,
-                                Styles.textStyleBlack14,
-                                isMandatory: true,
-                              ),
-
-                              FlutterInputField(
-                                initialValue:
-                                    state.model.otherReceiverEmployeeId,
-                                textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: !isReadOnly,
+                            /// Received by
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.receiverName ??
+                                  state.labels?.defaultLocale.receiverName ??
+                                  Constants.receivedBy,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            TextfieldAddButton(
+                                title: state.model.otherReceiverName,
+                                height: 70,
                                 isDisableColor: isReadOnly,
-                                hintText: '',
-                                onChange: (String value) {
-                                  state.model.otherReceiverEmployeeId = value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().userDialog(
+                                      context: context,
+                                      users: state.emailUsers!,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                otherReceiverName: user);
+                                      },
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                }),
+                            // FlutterInputField(
+                            //   initialValue: state.model.otherReceiverName,
+                            //   textFormKey: Keys.receivedByKey,
+                            //   isEnable: !isReadOnly,
+                            //   isDisableColor: isReadOnly,
+                            //   hintText: '',
+                            //   onChange: (String value) {
+                            //     state.model.otherReceiverName = value;
+                            //     context
+                            //         .read<MaterialMovementDetailsCubit>()
+                            //         .onModelValueChange(state.model);
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            // ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Received by Employee Id
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.otherReceiverEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .otherReceiverEmployeeId ??
+                                  Constants.receiverEmployeeId,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+
+                            FlutterInputField(
+                              initialValue: state.model.otherReceiverEmployeeId,
+                              textFormKey: Keys.claimantEmpIdTextController,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              hintText: '',
+                              onChange: (String value) {
+                                state.model.otherReceiverEmployeeId = value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             //],
 
                             /// Receiver Signature test
@@ -2241,15 +2280,21 @@ class _MaterialMovementDetailsViewState
                           ],
 
                           /// upload
-                          widget.materialMovement == null
+                          widget.materialMovement?.status == null ||
+                                  widget.materialMovement?.status == 0 ||
+                                  widget.materialMovement?.status == 1
                               ? CommonWidgets.textDisplay(
                                   Constants.upload, Styles.textStyleBlack14)
                               : Container(),
-                          widget.materialMovement == null
+                          widget.materialMovement?.status == null ||
+                                  widget.materialMovement?.status == 0 ||
+                                  widget.materialMovement?.status == 1
                               ? CommonWidgets.verticalSpacerWidget(
                                   height * 0.001)
                               : Container(),
-                          widget.materialMovement == null
+                          widget.materialMovement?.status == null ||
+                                  widget.materialMovement?.status == 0 ||
+                                  widget.materialMovement?.status == 1
                               ? uploadWidget(state)
                               : Container(),
 
@@ -2500,7 +2545,9 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget uploadWidget(MaterialMovementDetailsState state) {
-    return widget.materialMovement == null
+    return widget.materialMovement?.status == null ||
+            widget.materialMovement?.status == 0 ||
+            widget.materialMovement?.status == 1
         ? Container(
             height: 60,
             decoration: BoxDecoration(
@@ -2563,7 +2610,7 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.materialMovement?.status == 10 ||
+        if ((widget.materialMovement?.status != 0 ||
                 widget.materialMovement?.status == -1)
             ? false
             : true) {
