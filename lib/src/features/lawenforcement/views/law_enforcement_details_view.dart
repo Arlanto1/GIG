@@ -98,8 +98,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   String? serialnumber;
   bool isDistrbuted = false;
 
- int isOfficialIdcardSelected = 0;
- int isDocumentifanySelected=0;
+  int isOfficialIdcardSelected = 0;
+  int isDocumentifanySelected = 0;
   int isIncaseofpoliceSelected = 0;
 
   // int get index => 0;
@@ -273,6 +273,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Constants.createdby,
                                     isMandatory: true,
                                     '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+
                                 /// Location
                                 CommonWidgets.textDisplay(
                                     Constants.location, Styles.textStyleBlack14,
@@ -325,8 +326,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 BaseDate().datePickerWidgetLoading(
                                   showFutureDate: false,
                                   textController: actualDateTextController,
-                                  isDisabled: (
-                                      widget.model?.status == -1)
+                                  isDisabled: (widget.model?.status == -1)
                                       ? true
                                       : false,
                                   //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -344,8 +344,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Constants.officialsidcardverified,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
-                                radioButtonHandling(
-                                    isOfficialIdcardSelected,
+                                radioButtonHandling(isOfficialIdcardSelected,
                                     Constants.officialsidcardverified),
 
                                 /// Purpose of visit
@@ -365,8 +364,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Constants.documentifanytoconfirmpurpose,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
-                                radioButtonHandling(
-                                    isDocumentifanySelected,
+                                radioButtonHandling(isDocumentifanySelected,
                                     Constants.documentifanytoconfirmpurpose),
 
                                 /// In case of Police, was official in uniform?
@@ -396,16 +394,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   showBorder: false,
                                   lineHeight: 1,
                                   textFieldController:
-                                  dbOfficailWanttimeetTextController,
+                                      dbOfficailWanttimeetTextController,
                                   textFormKey:
-                                  Keys.additionalinformationTextController,
+                                      Keys.additionalinformationTextController,
                                   hintText: Constants.informationhere,
-                                  isEnable: widget.model?.status == 0 ||widget.model?.status == 1 ||
-                                      widget.model == null
+                                  isEnable: widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model == null
                                       ? true
                                       : false,
-                                  isDisableColor: widget.model?.status == 0 ||widget.model?.status == 1 ||
-                                      widget.model == null
+                                  isDisableColor: widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model == null
                                       ? false
                                       : true,
                                   onChange: (String username) {
@@ -452,11 +452,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   textFormKey:
                                       Keys.additionalinformationTextController,
                                   hintText: Constants.informationhere,
-                                  isEnable: widget.model?.status == 0 ||widget.model?.status == 1 ||
+                                  isEnable: widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
                                           widget.model == null
                                       ? true
                                       : false,
-                                  isDisableColor: widget.model?.status == 0 ||widget.model?.status == 1 ||
+                                  isDisableColor: widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
                                           widget.model == null
                                       ? false
                                       : true,
@@ -689,10 +691,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         if (state.getVisitsCount != 1) ...[
           GestureDetector(
             onTap: () {
-              if(widget.model?.status== 1 ||widget.model?.status== 0 ||widget.model?.status== null) {
+              if (widget.model?.status == 1 ||
+                  widget.model?.status == 0 ||
+                  widget.model?.status == null) {
                 int value = (state.getVisitsCount) - 1;
-                List<VisitingOfficialsModel>? getVisits1 = state.getVisits ??
-                    [];
+                List<VisitingOfficialsModel>? getVisits1 =
+                    state.getVisits ?? [];
                 getVisits1.removeAt(index);
                 lawEnforcementCubit.addingVisits(
                     visitCount: value, getVisits: getVisits1);
@@ -1086,11 +1090,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           groupValue: selectedValue,
           onChanged: (val) {
             selectedValue = 1;
-            if (name == Constants.officialsidcardverified && (widget.model?.status ==0 ||widget.model?.status == null)) {
+            if (name == Constants.officialsidcardverified &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isOfficialIdcardSelected = selectedValue;
-            } else if (name == Constants.documentifanytoconfirmpurpose&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+            } else if (name == Constants.documentifanytoconfirmpurpose &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isDocumentifanySelected = selectedValue;
-            } else if (name == Constants.incaseofpolicewasofficialinuniform&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+            } else if (name == Constants.incaseofpolicewasofficialinuniform &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isIncaseofpoliceSelected = selectedValue;
             }
             setState(() {});
@@ -1107,11 +1114,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           groupValue: selectedValue,
           onChanged: (val) {
             selectedValue = 0;
-            if (name == Constants.officialsidcardverified&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+            if (name == Constants.officialsidcardverified &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isOfficialIdcardSelected = selectedValue;
-            } else if (name == Constants.documentifanytoconfirmpurpose&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+            } else if (name == Constants.documentifanytoconfirmpurpose &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isDocumentifanySelected = selectedValue;
-            } else if (name == Constants.incaseofpolicewasofficialinuniform&& (widget.model?.status ==0 ||widget.model?.status == null)) {
+            } else if (name == Constants.incaseofpolicewasofficialinuniform &&
+                (widget.model?.status == 0 || widget.model?.status == null)) {
               isIncaseofpoliceSelected = selectedValue;
             }
 
@@ -1316,10 +1326,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? 140
               : 100
           : 60,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model != null && widget.model?.status != 1 ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model != null &&
+              widget.model?.status != 1
+          ? true
+          : false,
       onTap: () {
-        if (widget.model?.status == 0 || widget.model == null || widget.model?.status == 1) {
+        if (widget.model?.status == 0 ||
+            widget.model == null ||
+            widget.model?.status == 1) {
           entityTypeDialog(state);
         }
       },
@@ -1442,10 +1457,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model != null && widget.model?.status != 1 ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model != null &&
+              widget.model?.status != 1
+          ? true
+          : false,
       onTap: () {
-        if (widget.model?.status == 0 ||widget.model?.status == 1|| widget.model == null) {
+        if (widget.model?.status == 0 ||
+            widget.model?.status == 1 ||
+            widget.model == null) {
           leopurposeDialog(state);
         }
         //  }
@@ -1462,10 +1482,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: dept?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 &&widget.model?.status != 1 && widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model?.status != 1 &&
+              widget.model != null
+          ? true
+          : false,
       onTap: () {
-        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
+        if (widget.model?.status == 0 ||
+            widget.model?.status == 1 ||
+            widget.model == null) {
           departmentsDialog(state, index);
         }
       },
@@ -1476,10 +1501,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 &&widget.model?.status != 1 && widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model?.status != 1 &&
+              widget.model != null
+          ? true
+          : false,
       onTap: () {
-        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
+        if (widget.model?.status == 0 ||
+            widget.model?.status == 1 ||
+            widget.model == null) {
           leodepartmentsDialog(state);
         }
       },
@@ -1507,10 +1537,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
           : '',
       height: 70,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model?.status != 1&& widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model?.status != 1 &&
+              widget.model != null
+          ? true
+          : false,
       onTap: () {
-        if (widget.model?.status == 0 ||widget.model?.status == 1 || widget.model == null) {
+        if (widget.model?.status == 0 ||
+            widget.model?.status == 1 ||
+            widget.model == null) {
           dbOfficialDialog(state);
         }
       },
@@ -1520,7 +1555,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status == null || widget.model?.status == 0|| widget.model?.status == 1) {
+        if (widget.model?.status == null ||
+            widget.model?.status == 0 ||
+            widget.model?.status == 1) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -1827,6 +1864,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       }
     }
   }
+
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
       textFieldController: dateofcreationTextController,
@@ -1888,37 +1926,35 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.model == null
-            ? Row(
-            mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    // Delete logic here
-                    if (imageData1 != null) {
-                      // Implement delete functionality for attachmentListviews1
-                      setState(() {
-                        attachmentListviews1!.removeAt(index);
-                        attachmentListviews!.removeAt(index);
-
-                      });
-                    }
-                    if (imageData != null) {
-                      // Implement delete functionality for attachmentListviews1
-                      setState(() {
-                        attachmentListviews!.removeAt(index);
-                      });
-                    }
-                  },
-                ),
-                SvgPicture.asset(AppIcon.download,
-                    color: AppColors.boldgreyBackground),
-              ],
-            ): const SizedBox(
-            height: 0,
-            width: 0,
-            ),
+                  trailing: widget.model == null || widget.model?.status == 0
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                // Delete logic here
+                                if (imageData1 != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews1!.removeAt(index);
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                                if (imageData != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                            ),
+                            SvgPicture.asset(AppIcon.download,
+                                color: AppColors.boldgreyBackground),
+                          ],
+                        )
+                      : SvgPicture.asset(AppIcon.download,
+                          color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imageData1?.id ?? 0, imageData1?.title ?? '');
@@ -1978,7 +2014,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       },
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      isEnable: widget.model?.status == 0 ||  widget.model?.status == 1 ||widget.model == null,
+      isEnable: widget.model?.status == 0 ||
+          widget.model?.status == 1 ||
+          widget.model == null,
       hintText: '',
       onChange: (String username) {
         //this.username = username;
