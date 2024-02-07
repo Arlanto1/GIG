@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
@@ -2128,58 +2129,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         : Container();
   }
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
-    String title = '';
-    if ((state.selectedEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.selectedEntities!.length; i++) {
-        Organisation entity = state.selectedEntities![i];
-        String value = entity.name ?? '';
-        title = '$title  $value';
-      }
-    }
-    return TextfieldAddButton(
-      title: title,
-      height: (state.selectedEntities?.length ?? 0) > 4
-          ? (state.selectedEntities?.length ?? 0) > 9
-              ? 140
-              : 100
-          : 60,
-      isDisableColor: widget.model?.status != 0 && widget.model != null
-          // widget.dayPassItem == null ||
-          //         ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
-          ? true
-          : false,
-      onTap: () {
-        if (widget.model == null || widget.model?.status == 0) {
-          entityTypeDialog(state);
-        }
+    return BaseEntitiesSelection().entityDropDownSelection(
+      context: context,
+      selectedValues: state.selectedEntities ?? [],
+      all: state.getEntitiesResponse?.atomEntities ?? [],
+      onTap: (List<Organisation> list) {
+        createPassMgmtCubit.getEntityData(list);
+        Navigator.pop(context);
       },
+      enabled: widget.model == null || widget.model?.status == 0,
+      addTitle: Constants.addentitytype,
+      orgName: 'ATOM_ENTITIES',
+      createEntity: widget.model == null || widget.model?.status == 0,
     );
-  }
-
-  entityTypeDialog(CreatePassMgmtState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomMultipleSelectionListTexts(
-            duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            leftimagename: AppIcon.addicon,
-            mainselectedentityList: state.selectedEntities ?? [],
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddNewFields(
-                      title: Constants.addentitytype,
-                      createpassmgmtstate: state,
-                    );
-                  });
-            },
-            onTap: (List<Organisation> list) {
-              createPassMgmtCubit.getEntityData(list);
-            },
-          );
-        });
   }
 
   departmentsDialog(CreatePassMgmtState state) {

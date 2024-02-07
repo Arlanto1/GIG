@@ -1311,63 +1311,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget entityaddButtonwidgetLoading(LawEnforcementState state) {
-    String title = '';
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Organisation entity = state.listOfEntities![i];
-        String value = entity.name ?? '';
-        title = '$title  $value';
-      }
-    }
-    return TextfieldAddButton(
-      title: title,
-      height: (state.listOfEntities?.length ?? 0) > 4
-          ? (state.listOfEntities?.length ?? 0) > 9
-              ? 140
-              : 100
-          : 60,
-      isDisableColor: widget.model?.status != 0 &&
-              widget.model != null &&
-              widget.model?.status != 1
-          ? true
-          : false,
-      onTap: () {
-        if (widget.model?.status == 0 ||
-            widget.model == null ||
-            widget.model?.status == 1) {
-          entityTypeDialog(state);
-        }
+    return BaseEntitiesSelection().entityDropDownSelection(
+      context: context,
+      selectedValues: state.listOfEntities ?? [],
+      all: state.getEntitiesResponse?.atomEntities ?? [],
+      onTap: (List<Organisation> list) {
+        lawEnforcementCubit.getEntityData(list);
+        setState(() {});
+        Navigator.pop(context);
       },
+      enabled: widget.model?.status == 0 ||
+          widget.model == null ||
+          widget.model?.status == 1,
+      addTitle: Constants.addentitytype,
+      orgName: 'ATOM_ENTITIES',
+      createEntity: widget.model?.status == 0 || widget.model?.status == 1,
     );
   }
-
-  entityTypeDialog(LawEnforcementState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomMultipleSelectionListTexts(
-            duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            mainselectedentityList: state.listOfEntities ?? [],
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddNewFields(
-                      title: Constants.addentitytype,
-                      lawstate: state,
-                    );
-                  });
-            },
-            onTap: (List<Organisation> list) {
-              lawEnforcementCubit.getEntityData(list);
-              setState(() {});
-            },
-          );
-        });
-  }
-
   leopurposeDialog(LawEnforcementState state) {
     showDialog(
         context: context,
