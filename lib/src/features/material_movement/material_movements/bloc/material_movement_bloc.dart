@@ -49,10 +49,17 @@ class MaterialMovementBloc
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
     log('-_fetchMaterialMovements--');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
     try {
       // if (state.hasReachedMax) return;
 
-      if (state.status == FormStatus.initial) {
+      if (state.status == FormStatus.initial || event.newSearch) {
         log('-_fetchMaterialMovements--initial--');
         MaterialMovementsModel response;
         // response = await services.getMaterialMovements(

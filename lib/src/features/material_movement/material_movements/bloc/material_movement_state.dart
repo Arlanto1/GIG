@@ -4,8 +4,8 @@ class MaterialMovementState extends Equatable {
   final List<MaterialMovementModel> items;
   final bool hasReachedMax;
   final FormStatus status;
- final Locations? locations;
- final User? loggedInUser;
+  final Locations? locations;
+  final User? loggedInUser;
   final String? message;
 
   const MaterialMovementState({
@@ -31,7 +31,7 @@ class MaterialMovementState extends Equatable {
       status: status ?? this.status,
       message: message ?? this.message,
       locations: locations ?? this.locations,
-        loggedInUser:loggedInUser??this.loggedInUser,
+      loggedInUser: loggedInUser ?? this.loggedInUser,
     );
   }
 

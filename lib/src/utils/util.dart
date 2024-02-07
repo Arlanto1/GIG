@@ -131,6 +131,7 @@ class Utils {
   }
 
   String formatTime(String dateTimeString) {
+    log('Formatting Date: $dateTimeString');
     // if the dateTimeString is already unixTimestamp
     if (dateTimeString.length == 10 &&
         dateTimeString.contains(RegExp(r'^\d+$'))) {

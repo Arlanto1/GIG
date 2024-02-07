@@ -43,9 +43,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<MaterialMovementBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20, filters: filters));
+      context.read<MaterialMovementBloc>().add(FetchData(
+          startPos: pageNumber,
+          maxPos: 20,
+          newSearch: false,
+          filters: filters));
     }
   }
 
@@ -90,12 +92,10 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
           }
         },
         builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -107,12 +107,21 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                BaseFilterWidget().buildBaseSearchWidget(
-                  context: context,
-                  filterCriteria: applySearchFilters,
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
+                if (state.items.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
@@ -255,11 +264,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<MaterialMovementBloc>(context).add(
-      FetchData(startPos: pageNumber, maxPos: 20, filters: filters),
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
-    // _scrollController = ScrollController()..addListener(_onScroll);
-
-    // Navigator.pop(context);
   }
 
   void applyFilters(
@@ -271,10 +277,10 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<MaterialMovementBloc>(context).add(
-      FetchData(startPos: pageNumber, maxPos: 20, filters: filters),
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 
-    // Navigator.pop(context);
+    Navigator.pop(context);
   }
 }

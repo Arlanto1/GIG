@@ -145,31 +145,32 @@ class BaseDate {
 
   String setDateTime(DateTime? pickedDate, bool onlyDate,
       TextEditingController textController, Function(String) onChange) {
-    log('--pickedDate--$pickedDate--');
+    log('--pickedDate-sss-$pickedDate--');
     String formattedDate = DateFormat(
       onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
     ).format(pickedDate!);
 
     textController.text = formattedDate;
     onChange(formattedDate);
+    log('--formattedDate-sss-$formattedDate--');
     return formattedDate;
   }
 
-  String formatTime(String dateTimeString) {
-    // if the dateTimeString is already a Unix timestamp
-    if (dateTimeString.length == 10 &&
-        dateTimeString.contains(RegExp(r'^\d+$'))) {
-      return dateTimeString;
-    }
-
-    try {
-      final dateTime =
-          DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
-      final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      return unixTimestamp.toString();
-    } catch (_) {
-      // If the format does not match, handle the error or return a default value
-      throw FormatException('Unable to parse date-time: $dateTimeString');
-    }
-  }
+  // String formatTime(String dateTimeString) {
+  //   // if the dateTimeString is already a Unix timestamp
+  //   if (dateTimeString.length == 10 &&
+  //       dateTimeString.contains(RegExp(r'^\d+$'))) {
+  //     return dateTimeString;
+  //   }
+  //
+  //   try {
+  //     final dateTime =
+  //         DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
+  //     final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+  //     return unixTimestamp.toString();
+  //   } catch (_) {
+  //     // If the format does not match, handle the error or return a default value
+  //     throw FormatException('Unable to parse date-time: $dateTimeString');
+  //   }
+  // }
 }

@@ -696,7 +696,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
                   create: (_) => mm.MaterialMovementBloc(isInward: isInward)
                     ..add(mm.FetchData(
-                        startPos: 0, maxPos: 20, filters: BaseFilterModel())),
+                        startPos: 0, maxPos: 20,newSearch: true, filters: BaseFilterModel())),
                   child: MaterialMovementsView(
                     isInward: isInward,
                   ),
@@ -941,14 +941,14 @@ class RouteGenerator {
         );
 
       case keyHistoryRecordsViewRoute:
-        String title = '';
+        // String title = '';
         int id = 0;
         int type = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
-          title = arguments[ConstantsArgument.title];
+          // title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type];
         }
         log('route----type--$type--');
@@ -1218,8 +1218,6 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id] ?? '';
         }
-        ShiftScheduleServices services = ShiftScheduleServices();
-        CommonServices commonServices = CommonServices();
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(
