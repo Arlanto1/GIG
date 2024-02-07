@@ -120,20 +120,22 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      List<BaseUser> asl1 =
-      await commonServices.getBaseUsers(roleName: 'ATOM_ROLE_Security_Lead');
-      List<BaseUser> asl2 =
-      await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
-      List<BaseUser> lsm1 =
-      await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
-      List<BaseUser> lsm2 =
-      await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
+      // List<BaseUser> asl1 =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_ROLE_Security_Lead');
+      // List<BaseUser> asl2 =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
+      // List<BaseUser> comlete = [...asl1, ...asl2];
+      //
+      // List<BaseUser> lsm1 =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
+      // List<BaseUser> lsm2 =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
+      //
+      // List<BaseUser> lt =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
 
-      List<BaseUser> lt =
-      await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
-
-      List<BaseUser> systemManagerUser =
-      await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
+      // List<BaseUser> systemManagerUser =
+      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -187,7 +189,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'General Information Cubit');
+      log('initialization issue', error: e, name: 'SstIncidentGeneralInfoCubit');
       emit(
         state.copyWith(
           message: e.toString(),
