@@ -3,10 +3,84 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 
 class BaseFilterWidget {
+  Widget buildBaseSearchWidget({
+    required BuildContext context,
+    required final Function(FilterCriteria) filterCriteria,
+    required final Function(Filters) applyFilters,
+  }) {
+    TextEditingController searchController = TextEditingController();
+    return Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 30,
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                suffixIcon: InkWell(
+                  onTap: () {
+                    FilterCriteria filterCriteriaModel = FilterCriteria();
+                    filterCriteriaModel.all = searchController.text;
+                    filterCriteria(filterCriteriaModel);
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.navigationSkybluecolor),
+                        // Example border
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: const Icon(
+                        Icons.search,
+                        color: AppColors.navigationSkybluecolor,
+                      )),
+                ),
+                contentPadding: const EdgeInsets.all(5),
+                hintText: 'Search...',
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: AppColors.navigationSkybluecolor,
+                      style: BorderStyle.solid),
+                ),
+                disabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.navigationSkybluecolor,
+                    width: 1,
+                  ),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.navigationSkybluecolor,
+                    width: 1,
+                  ),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.navigationSkybluecolor,
+                    width: 1,
+                  ),
+                ),
+              ),
+              onChanged: (value) {
+                // Implement search logic here
+              },
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        showFiltersWidget(
+          context: context,
+          locations: Locations(),
+          applyFilters: applyFilters,
+        ),
+      ],
+    );
+  }
+
   Container showFiltersWidget({
     required BuildContext context,
     required final Locations locations,
-    required final Function(String) applyFilters,
+    required final Function(Filters) applyFilters,
   }) {
     return Container(
       margin: const EdgeInsets.only(right: 9),
@@ -45,7 +119,7 @@ class BaseFilterWidget {
   void showFilters({
     required BuildContext context,
     required final Locations locations,
-    required final Function(String) applyFilters,
+    required final Function(Filters) applyFilters,
   }) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
@@ -85,7 +159,7 @@ class BaseFilterWidget {
                         SizedBox(
                           width: textFieldWidth,
                           child: FlutterInputField(
-                            textInputType: TextInputType.text,
+                            textInputType: TextInputType.number,
                             textFormKey: Keys.idKey,
                             // initialValue: state.model.challanNo,
                             textFieldController: idController,
@@ -256,10 +330,13 @@ class BaseFilterWidget {
                 ElevatedButton(
                   onPressed: () {
                     log('Applying Filters---onPressed---');
-                    applyFilters(idController.text);
+                    Filters filtersModel = Filters();
+                    filtersModel.id = int.tryParse(idController.text);
+                    applyFilters(filtersModel);
                   },
                   child: const Text('Search'),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
@@ -44,17 +45,29 @@ class MaterialMovementBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
+    log('-_fetchMaterialMovements--');
     try {
-      if (state.hasReachedMax) return;
+      // if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        MaterialMovementsModel response = await services.getMaterialMovements(
+        log('-_fetchMaterialMovements--initial--');
+        MaterialMovementsModel response;
+        // response = await services.getMaterialMovements(
+        //   startPosition: '${event.startPos}',
+        //   maximumRecords: '${event.maxPos}',
+        //   mmType: isInward ? 1 : 0,
+        // );
+
+        response = await services.getMaterialMovementsWithFilters(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           mmType: isInward ? 1 : 0,
+          filters: event.filters,
         );
+
         return emit(
           state.copyWith(
             items: response.items,
@@ -64,10 +77,19 @@ class MaterialMovementBloc
         );
       }
 
-      MaterialMovementsModel response = await services.getMaterialMovements(
+      log('-_fetchMaterialMovements------##--');
+      MaterialMovementsModel response;
+      // response = await services.getMaterialMovements(
+      //   startPosition: '${event.startPos}',
+      //   maximumRecords: '${event.maxPos}',
+      //   mmType: isInward ? 1 : 0,
+      // );
+
+      response = await services.getMaterialMovementsWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         mmType: isInward ? 1 : 0,
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {

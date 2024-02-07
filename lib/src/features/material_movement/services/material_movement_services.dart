@@ -3,6 +3,7 @@ import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_response.dart';
@@ -26,6 +27,22 @@ class MaterialMovementServices {
     String url =
         '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return MaterialMovementsModel.fromJson(response);
+  }
+
+  Future<MaterialMovementsModel> getMaterialMovementsWithFilters({
+    required String startPosition,
+    required String maximumRecords,
+    required int mmType,
+    required BaseFilterModel filters,
+  }) async {
+    String url =
+        '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
     );

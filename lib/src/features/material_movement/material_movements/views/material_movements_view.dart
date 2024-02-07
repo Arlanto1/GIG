@@ -18,6 +18,7 @@ class MaterialMovementsView extends StatefulWidget {
 class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
       pageNumber = pageNumber + 20;
       context
           .read<MaterialMovementBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20, filters: filters));
     }
   }
 
@@ -104,11 +105,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
               ),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // BaseFilterWidget().showFiltersWidget(
+                // BaseFilterWidget().buildBaseSearchWidget(
                 //   context: context,
-                //   locations: Locations(),
+                //   filterCriteria: applySearchFilters,
                 //   applyFilters: applyFilters,
                 // ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -149,7 +150,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                 labels: labels,
                                 status: state.items[index].status,
                                 isMasterGuard: false,
-                               isMaterialMovementStatus: true,
+                                isMaterialMovementStatus: true,
                                 isEventProtectionStatus: false,
                                 onTap: (selectedIndex) {
                                   showDialog(
@@ -246,10 +247,34 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
-  void applyFilters(
-    String name,
+  void applySearchFilters(
+    FilterCriteria model,
   ) {
-    log('Applying Filters'); // this log is not getting printed
-    log('name-------$name'); // this log is not getting printed
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<MaterialMovementBloc>(context).add(
+      FetchData(startPos: pageNumber, maxPos: 20, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    // Navigator.pop(context);
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<MaterialMovementBloc>(context).add(
+      FetchData(startPos: pageNumber, maxPos: 20, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    // Navigator.pop(context);
   }
 }
