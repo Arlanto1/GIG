@@ -107,11 +107,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // BaseFilterWidget().buildBaseSearchWidget(
-                //   context: context,
-                //   filterCriteria: applySearchFilters,
-                //   applyFilters: applyFilters,
-                // ),
+                BaseFilterWidget().buildBaseSearchWidget(
+                  context: context,
+                  filterCriteria: applySearchFilters,
+                  applyFilters: applyFilters,
+                ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                 Expanded(
                   child: ListView.builder(

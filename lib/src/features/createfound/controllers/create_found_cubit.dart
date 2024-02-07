@@ -1,29 +1,15 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
-import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../models/organisation.dart';
-import '../../../utils/shared_preferences.dart';
-import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
@@ -35,7 +21,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }) : super(
           CreateFoundState(
             createFoundResponse: SubmitCreateFoundModel(),
-            stateType: CreateFoundStateType.initial,
+            status: FormStatus.initial,
           ),
         );
   CommonServices commonServices = CommonServices();
@@ -48,6 +34,13 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     String username,
     String title,
   ) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    log('---createNewFoundArticle--1111--');
+
     try {
       SubmitCreateFoundModel createFoundResponse =
           await createFoundServices.createFoundArticle(
@@ -55,38 +48,45 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         isSubmit: isSubmit,
         username: username,
         context: context,
-      ); //replace empty model with bodyRequest
+      );
+
+      log('--createFoundResponse--${createFoundResponse.message}--');
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,
-          stateType: CreateFoundStateType.success,
+          message: createFoundResponse.message,
+          status: FormStatus.success,
         ),
       );
 
-      if (createFoundResponse.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(
-            context,
-            createFoundResponse.message ?? '',
-            title,
-            '',
-          );
-        });
-      }
-    } catch (e) {
+      // if (createFoundResponse.message != null) {
+      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //     dismissLoadingDialog(context);
+      //     Utils.dynamicAlert(
+      //       context,
+      //       createFoundResponse.message ?? '',
+      //       title,
+      //       '',
+      //     );
+      //   });
+      // }
+    } on GenericResponse catch (e) {
+      log('--e.message--${e.message}--');
       emit(
         state.copyWith(
-          message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          message: e.message,
+          status: FormStatus.error,
         ),
       );
-
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
+      return;
+    } on Exception catch (e) {
+      log('--e.eeee--${e.toString()}--');
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     }
   }
 
@@ -97,6 +97,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       BuildContext context,
       String username,
       String title) async {
+    log('---createFoundArticleHandle--2222--');
     try {
       SubmitCreateFoundModel createFoundResponse =
           await createFoundServices.createFoundArticleHandle(
@@ -107,7 +108,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.success,
         ),
       );
 
@@ -118,11 +119,26 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
               context, createFoundResponse.message ?? '', title, '');
         });
       }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
 
@@ -145,7 +161,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       state.copyWith(
           eventId: eventIds,
           loadAttachments: data,
-          stateType: CreateFoundStateType.addattachment),
+          status: FormStatus.addAttachment),
     );
   }
 
@@ -162,14 +178,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -186,14 +202,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -210,14 +226,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           getEmployeeDepartmentsResponse: getEmployeeDepartments,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -235,14 +251,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           getArticleTypeResponse: getArticleTypeData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -263,7 +279,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.success,
         ),
       );
       await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
@@ -276,7 +292,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -302,7 +318,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           createEmployeeDepartments: createOrganisationData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
       await createFoundArticleCubit.getEmployeeDepartments(
@@ -316,7 +332,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -344,7 +360,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           createUserResponse: createUserData,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
       dismissLoadingDialog(context);
@@ -357,7 +373,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -368,7 +384,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     //Show Loader and emit loading state
     emit(
       state.copyWith(
-        stateType: CreateFoundStateType.loading,
+        status: FormStatus.loading,
       ),
     );
 
@@ -387,7 +403,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         state.copyWith(
           message: Constants.errorText,
           // TODO: error message should be dynamic
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -402,14 +418,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           loggedInUser: user,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
@@ -424,14 +440,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           getSerialnumberResponse: response,
-          stateType: CreateFoundStateType.success,
+          status: FormStatus.initial,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          stateType: CreateFoundStateType.failure,
+          status: FormStatus.failure,
         ),
       );
     }
