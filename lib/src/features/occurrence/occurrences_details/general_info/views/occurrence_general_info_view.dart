@@ -175,7 +175,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                isDisabled: disableForm,
+                                isDisabled: true,
                                 textController: statusController,
                                 items: occurrenceStatusDropDownValues,
                                 initialValue: '${state.model.status ??= 0}',
@@ -1350,7 +1350,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    cancelButtonDisplay(),
+                                    cancelButtonDisplay(state),
                                     submitButtonDisplay()
                                   ],
                                 ),
@@ -1414,7 +1414,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -1423,9 +1423,18 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+  void updateRecordStatus(OccurrenceGeneralInfoState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, occurrenceRoute,);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Future<void> navigateToCreateIncident({

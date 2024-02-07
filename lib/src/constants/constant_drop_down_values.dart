@@ -14,6 +14,7 @@ const List<Label> statusDropDownValues = [
 const List<Label> occurrenceStatusDropDownValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Submitted', value: '1'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> sstIncidentType = [

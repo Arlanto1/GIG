@@ -267,4 +267,8 @@ class KeyManagementMasterDetailsCubit
     );
     return true;
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyManagementMasterModule);
+  }
 }

@@ -729,11 +729,14 @@ class Utils {
       String statusText;
 
       switch (status) {
-        case 1:
+        case 0:
           statusText = 'Created';
           break;
-        case 2:
+        case 1:
           statusText = 'Submitted';
+          break;
+        case -1:
+          statusText = 'Cancelled';
           break;
         default:
           statusText = ''; // Handle the default case if needed

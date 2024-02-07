@@ -97,8 +97,18 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: false,
-            showSaveButton: false,
+            showSubmitButton: true,
+            showSaveButton: true,
+            onTapSave: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<AttendanceDetailsCubit>(context)
+                  .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<AttendanceDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
+            },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
@@ -368,8 +378,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
-                              // submitButtonDisplay()
+                              cancelButtonDisplay(state),
+                               submitButtonDisplay()
                             ],
                           ),
 
@@ -465,7 +475,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     });
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(AttendanceDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -474,11 +484,19 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
-
+  void updateRecordStatus(AttendanceDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<AttendanceDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, attendanceListRoute,);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

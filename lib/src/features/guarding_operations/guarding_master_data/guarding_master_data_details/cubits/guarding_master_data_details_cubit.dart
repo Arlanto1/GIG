@@ -25,21 +25,22 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-          GuardingMasterDataDetailsState.initial(
-              model: model ?? GuardingMastersDataModel(),
-              locations: Locations(),
-              loggedInUserDetails: User(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null,
-              listOfEntities: const [],
-              getEntitiesResponse: null,
-              departments: const [],
-              listOfQualifications: const [],
-              getQualificationsResponse: null),
-        );
+    GuardingMasterDataDetailsState.initial(
+        model: model ?? GuardingMastersDataModel(),
+        locations: Locations(),
+        loggedInUserDetails: User(),
+        users: const [],
+        emailUsers: const [],
+        errorMessage: '',
+        loadAttachments: const [],
+        eventId: null,
+        listOfEntities: const [],
+        getEntitiesResponse: null,
+        departments: const [],
+        listOfQualifications: const [],
+        getQualificationsResponse: null),
+  );
+
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
@@ -62,6 +63,7 @@ class GuardingMasterDataDetailsCubit
       ),
     );
   }
+
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -98,7 +100,8 @@ class GuardingMasterDataDetailsCubit
     );
 
     log('-guardingMastersDataModel--cubit-model--id---${model?.id}---');
-    log('-guardingMastersDataModel--cubit-state.model--id---${state.model.id}---');
+    log('-guardingMastersDataModel--cubit-state.model--id---${state.model
+        .id}---');
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -246,7 +249,7 @@ class GuardingMasterDataDetailsCubit
     // TODO: Object issue
     if (guard != null) {
       User userDetails =
-          User(name: guard.name, userId: guard.id, userName: guard.name);
+      User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -290,7 +293,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && deploymentFiles != null) {
       for (var image in data) {
@@ -305,7 +308,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && bioDataFiles != null) {
       for (var image in data) {
         image.type = 6;
@@ -319,7 +322,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && permanentAddressFiles != null) {
       for (var image in data) {
         image.type = 7;
@@ -333,7 +336,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && localAddressFiles != null) {
       for (var image in data) {
         image.type = 5;
@@ -347,7 +350,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && pVCFiles != null) {
       for (var image in data) {
@@ -362,7 +365,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && trainingFiles != null) {
       for (var image in data) {
@@ -378,7 +381,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && mSGBExemptionFiles != null) {
       for (var image in data) {
         image.type = 1;
@@ -391,7 +394,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && medicalFiles != null) {
       for (var image in data) {
         image.type = 4;
@@ -415,7 +418,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     log('--state.status--3--${state.status}----');
   }
@@ -465,11 +468,13 @@ class GuardingMasterDataDetailsCubit
     }
     // Setting time in milliseconds
     state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime
+            .now()
+            .millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-        GuardingMasterDataRequest(guardingMasterData: state.model);
+    GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -522,5 +527,10 @@ class GuardingMasterDataDetailsCubit
         status: FormStatus.success,
       ),
     );
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.guardingMasterDataModule);
   }
 }

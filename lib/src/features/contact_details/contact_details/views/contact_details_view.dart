@@ -596,7 +596,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             // if ((state.model.status != 1
                             // || state.model.status == 1
                             // )) ...[
@@ -628,7 +628,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(ContactDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -637,9 +637,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(ContactDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<ContactDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, contactDetailsListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

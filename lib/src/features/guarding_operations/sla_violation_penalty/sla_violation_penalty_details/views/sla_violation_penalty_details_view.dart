@@ -534,7 +534,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay()
                           ],
                         ),
@@ -558,7 +558,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -584,7 +584,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -593,9 +593,22 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(SLAViolationPenaltyDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        slaViolationRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

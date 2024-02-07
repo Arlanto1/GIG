@@ -423,4 +423,8 @@ class AnnualPowerShutdownListDetailsCubit
       ),
     );
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.eventProtectionModule);
+  }
 }

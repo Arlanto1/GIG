@@ -310,7 +310,7 @@ class _DutyPostNameMasterDetailsViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -392,7 +392,7 @@ class _DutyPostNameMasterDetailsViewState
     });
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(DutyPostNameMasterDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -401,9 +401,19 @@ class _DutyPostNameMasterDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(DutyPostNameMasterDetailsState state) {
+    if (state.model.id != null && widget.model?.status != 1) {
+      BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, dutyPostNameMasterListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {
@@ -419,5 +429,4 @@ class _DutyPostNameMasterDetailsViewState
       },
     );
   }
-
 }

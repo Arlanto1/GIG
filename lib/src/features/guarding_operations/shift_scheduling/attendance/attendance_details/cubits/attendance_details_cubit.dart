@@ -232,4 +232,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.attendanceModule);
+  }
 }

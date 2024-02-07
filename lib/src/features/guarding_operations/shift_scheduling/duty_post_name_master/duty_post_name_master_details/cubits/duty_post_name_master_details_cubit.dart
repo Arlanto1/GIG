@@ -61,21 +61,21 @@ class DutyPostNameMasterDetailsCubit
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
-        SharedPrefs.getDefaultLocation(),
+        //SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       dynamic responseLabels = futures[2];
-      Organisation? defaultLocation = futures[3];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.dutyPostNameMasterModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+      //Organisation? defaultLocation = futures[3];
+      // if (state.model.location == null && defaultLocation != null) {
+      //   SerialNumberModel slNo = await commonServices.getSlNo(
+      //     locationId: defaultLocation.id.toString(),
+      //     moduleCode: Constants.dutyPostNameMasterModule,
+      //   );
+      //   state.model.location = defaultLocation;
+      //   state.model.slNo = slNo.serialNo;
+      // }
 
       state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
@@ -225,5 +225,9 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.success,
       ),
     );
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.dutyPostNameMasterModule);
   }
 }

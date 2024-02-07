@@ -1338,7 +1338,7 @@ class _AnnualPowerShutdownListDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             //if (!disableForm) ...[
                               submitButtonDisplay(onTap: () {
                                 FocusScope.of(context).unfocus();
@@ -1353,7 +1353,7 @@ class _AnnualPowerShutdownListDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                           ],
                         ),
                       ],
@@ -1367,7 +1367,7 @@ class _AnnualPowerShutdownListDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -1376,11 +1376,19 @@ class _AnnualPowerShutdownListDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
-
+  void updateRecordStatus(AnnualPowerShutdownListDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, annualPowerShutdownListRoute);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {
     return AppButton(

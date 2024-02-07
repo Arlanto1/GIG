@@ -290,27 +290,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entities ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: !isReadOnly,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<
-                                              KeyManagementIssuanceDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: !isReadOnly,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
-                                BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
-                                    context)
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
                                     .refreshList();
-                              },),
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Department
@@ -332,29 +333,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               onTap: () {
                                 // if (widget.materialMovement != null) {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    state.model.department?.name =
-                                        department.name;
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.department?.name =
+                                          department.name;
 
-                                    BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            department: department);
-                                  },
+                                      BlocProvider.of<
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              department: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          KeyManagementIssuanceDetailsCubit>(
-                                          context)
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                                 // leodepartmentsDialog(state);
                                 // }
                               },
@@ -532,8 +532,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
-                                        KeyManagementIssuanceDetailsCubit>(
-                                        context)
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -568,8 +568,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          KeyManagementIssuanceDetailsCubit>(
-                                          context)
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
@@ -651,7 +651,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay()
                           ],
                         ),
@@ -675,7 +675,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -705,7 +705,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -714,9 +714,19 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(KeyManagementIssuanceDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, keyManagementIssuanceListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

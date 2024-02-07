@@ -845,7 +845,7 @@ class _KeyManagementMasterDetailsViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -864,7 +864,7 @@ class _KeyManagementMasterDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -873,9 +873,19 @@ class _KeyManagementMasterDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(KeyManagementMasterDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, keyManagementMasterListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

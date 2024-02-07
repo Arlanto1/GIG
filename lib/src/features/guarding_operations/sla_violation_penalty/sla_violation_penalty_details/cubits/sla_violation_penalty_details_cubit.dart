@@ -339,4 +339,8 @@ class SLAViolationPenaltyDetailsCubit
       return false;
     }
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.slaViolationPenaltyDetailsModule);
+  }
 }

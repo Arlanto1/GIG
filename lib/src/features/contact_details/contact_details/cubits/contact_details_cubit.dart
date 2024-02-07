@@ -230,4 +230,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       return false;
     }
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.contactDetailsModule);
+  }
 }

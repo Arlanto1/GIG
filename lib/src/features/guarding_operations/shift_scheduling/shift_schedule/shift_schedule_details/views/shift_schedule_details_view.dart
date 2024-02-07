@@ -418,7 +418,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -452,7 +452,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(ShiftScheduleDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -461,11 +461,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
-
+  void updateRecordStatus(ShiftScheduleDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, shiftScheduleListRoute,);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

@@ -333,7 +333,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay()
                           ],
                         ),
@@ -357,7 +357,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -381,7 +381,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(VVIPVisitorDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -390,11 +390,19 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
-
+  void updateRecordStatus(VVIPVisitorDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<VVIPVisitorDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, vipVisitorsListRoute,);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

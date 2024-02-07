@@ -2264,7 +2264,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay()
                           ],
                         ),
@@ -2428,7 +2428,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(GuardingMasterDataDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -2437,11 +2437,21 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+          updateRecordStatus(state);
       },
     );
   }
 
+  void updateRecordStatus(GuardingMasterDataDetailsState state) {
+    if (state.model.id != null && widget.guardingMasterData?.status !=null) {
+      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, guardingMasterDataRoute,
+         );
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

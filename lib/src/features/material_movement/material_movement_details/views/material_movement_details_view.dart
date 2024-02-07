@@ -343,10 +343,10 @@ class _MaterialMovementDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Created By
-                          CommonWidgets.verticalTextHandling(
+                          CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
+                                  Constants.createdby,isMandatory: true,
                               '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
