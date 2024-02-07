@@ -63,7 +63,7 @@ class _CreateFoundState extends State<CreateFound> {
   int pageNumber = 0;
 
   // Group Value for Radio Button.
-  int isDepositorDBEmployeeSelected = 1;
+  int isDepositorDBEmployeeSelected = 0;
   int isClaimantDBEmployeeSelected = 0;
   int isClaimantAcceptedtoSignSelected = 0;
   int isClaimantAcceptedByemail = 0;
