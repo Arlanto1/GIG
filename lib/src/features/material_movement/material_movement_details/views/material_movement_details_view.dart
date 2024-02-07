@@ -469,7 +469,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
+
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -509,7 +509,6 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -1868,7 +1867,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (state.model.originalReceiver) ...[
+                            // if (state.model.originalReceiver) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.receiverName ??
@@ -1947,7 +1946,7 @@ class _MaterialMovementDetailsViewState
                               ),
 
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
+                            //],
 
                             /// Receiver Signature test
                             buildSignature(

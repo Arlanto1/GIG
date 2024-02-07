@@ -187,8 +187,7 @@ class _SstIncidentGeneralInfoViewState
                               isDisabled: true,
                               textController: statusController,
                               items: sstIncidentsStatusItems,
-                              initialValue: '${state.model.status}',
-                              onTap: () {
+                              initialValue: '${widget.model?.status ?? 1}',                              onTap: () {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: sstIncidentsStatusItems

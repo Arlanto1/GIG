@@ -346,7 +346,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 widget.status == -1) ||
                             (widget.isShiftScheduleStatus &&
                                 widget.status == -1) ||
-                            (widget.isIncident && widget.status != 0) ||
+                            (widget.isIncident &&
+                                widget.status !=0 && widget.status !=1) ||
                             (widget.isMasterGuard &&
                                 (widget.status != 1 ||
                                     widget.status != 2 ||
