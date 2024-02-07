@@ -1938,7 +1938,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   // Implement delete functionality for attachmentListviews1
                                   setState(() {
                                     attachmentListviews1!.removeAt(index);
-                                    attachmentListviews!.removeAt(index);
                                   });
                                 }
                                 if (imageData != null) {
