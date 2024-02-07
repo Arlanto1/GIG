@@ -49,6 +49,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                incidentManagementsRoute,
+              );
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
@@ -60,10 +64,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
                 return;
               }
-              Navigator.popAndPushNamed(
-                context,
-                incidentManagementsRoute,
-              );
             },
           );
           showDialog(
@@ -84,7 +84,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.status! > 0) {
+        if (state.model.status! > 1) {
           disableForm = true;
         }
         return Scaffold(
@@ -122,11 +122,13 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
     if (state.model.closureTargetDate != null) {
       closureTargetDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.closureTargetDate ?? '0'),Constants.fulldateFormat);
+          int.tryParse(state.model.closureTargetDate ?? '0'),
+          Constants.fulldateFormat);
     } else {
       DateTime currentDate = DateTime.now();
       DateTime futureDate = currentDate.add(const Duration(days: 14));
-      String formattedDate = DateFormat(Constants.fulldateFormat).format(futureDate);
+      String formattedDate =
+          DateFormat(Constants.fulldateFormat).format(futureDate);
       closureTargetDateController.text = formattedDate;
     }
   }
@@ -409,22 +411,22 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.complainantDbEmp ? 1 : 0,
-                              onChangedYes: state.model.status == 39
-                                  ? null
-                                  : (val) {
+                              onChangedYes: state.model.status == 0
+                                  ? (val) {
                                       state.model.complainantDbEmp = true;
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: state.model.status == 39
-                                  ? null
-                                  : (val) {
+                                    }
+                                  : null,
+                              onChangedNo: state.model.status == 0
+                                  ? (val) {
                                       state.model.complainantDbEmp = false;
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
-                                    },
+                                    }
+                                  : null,
                             ),
 
                             /// Complainant
@@ -450,9 +452,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     },
                                     functionToCall: () {
                                       // refresh the list
-                                      BlocProvider.of<
-                                          IncidentGeneralInfoCubit>(
-                                          context)
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
@@ -464,8 +465,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             if (state.model.complainantDbEmp == false) ...[
                               /// Complainant
                               CommonWidgets.textDisplay(
-                                  Constants.complaint, Styles.textStyleBlack14,
-                                  isMandatory: true),
+                                  Constants.complaint, Styles.textStyleBlack14, isMandatory: true
+                                 ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -473,8 +474,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 initialValue: state.model.complainantName,
                                 textFormKey: Keys.claimantTextController,
                                 hintText: Constants.informationhere,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: state.model.status == 0,
+                                isDisableColor: state.model.status != 0,
                                 onChange: (String value) {
                                   state.model.complainantName = value;
                                   context
@@ -514,7 +515,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   Constants.complaintDepartment,
                                   Styles.textStyleBlack14,
-                                  isMandatory: true),
+                                 ),
                               TextfieldAddButton(
                                 title: state.model.complainantDepartment?.name,
                                 height: 70,
@@ -527,8 +528,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .updateDropdownValues(
-                                              complainantDepartment:
-                                                  org);
+                                              complainantDepartment: org);
                                     },
                                   );
                                 },
@@ -558,9 +558,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   },
                                   functionToCall: () {
                                     // refresh the list
-                                    BlocProvider.of<
-                                        IncidentGeneralInfoCubit>(
-                                        context)
+                                    BlocProvider.of<IncidentGeneralInfoCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -632,27 +631,31 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             TextfieldAddButton(
                               title: state.model.incidentManager?.name,
                               height: 70,
-                              isDisableColor: disableForm,
+                              isDisableColor: state.model.status == 0 ||
+                                      state.model.status == null
+                                  ? false
+                                  : true,
                               onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<IncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      incidentManager: user,
-                                    );
-                                  },
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<
-                                        IncidentGeneralInfoCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
+                                if (state.model?.status ==0) {
+                                  BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        incidentManager: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
+                                  );
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -666,27 +669,31 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             TextfieldAddButton(
                               title: state.model.incidentOwner?.name,
                               height: 70,
-                              isDisableColor: disableForm,
+                              isDisableColor: state.model.status == 0 ||
+                                      state.model.status == null
+                                  ? false
+                                  : true,
                               onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<IncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      incidentOwner: user,
-                                    );
-                                  },
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<
-                                        IncidentGeneralInfoCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
+                                if (state.model?.status ==0) {
+                                  BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        incidentOwner: user,
+                                      );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
+                                  );
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -712,8 +719,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     .onModelValueChange(state.model);
                               },
                               textInputAction: TextInputAction.newline,
-                              textInputType:
-                              TextInputType.multiline,
+                              textInputType: TextInputType.multiline,
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -728,6 +734,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
+                              isDisabled: state.model?.status !=0,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
