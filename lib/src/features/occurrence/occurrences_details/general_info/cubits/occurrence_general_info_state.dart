@@ -129,10 +129,10 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Notify SCRI is Mandatory');
     }
 
-    if (model.powerFailure && model.powerFailureStartDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Power Failure Start Date is Mandatory');
-    }
+    // if (model.powerFailure && model.powerFailureStartDate == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Power Failure Start Date is Mandatory');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
