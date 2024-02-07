@@ -32,11 +32,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   final OccurrenceDetailsServices services;
   final String id;
   final CommonServices commonServices;
+  final OccurrenceModel? model;
 
   OccurrenceGeneralInfoCubit({
     required this.services,
     required this.commonServices,
     required this.id,
+    this.model,
   }) : super(
           OccurrenceGeneralInfoState.initial(
             model: OccurrenceModel(),
@@ -78,6 +80,32 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       ),
     );
   }
+
+  void onAddPowerFailureDate(PowerFailures powerFailureDate) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    List<PowerFailures>? dates = List<PowerFailures>.from(state.participationDates ?? []);
+    dates.add(powerFailureDate);
+
+    state.copyWith(
+      participationDates: dates,
+    );
+
+    // Extract power failure start dates and filter out null values
+    List<String> startDateStrings = dates
+        .map((pf) => pf.powerFailureStartDate)
+        .where((date) => date != null)
+        .map((date) => date!)
+        .toList();
+
+    // Assuming Utils().joinListWithComma(dates) returns a comma-separated string of dates
+    // String formattedDates = Utils().joinListWithComma(startDateStrings); // Convert to string if needed
+
+    state.model.powerFailures = dates; // Assign the list of PowerFailures objects
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_popUp.dart';
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;
@@ -27,6 +29,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   bool showPowerFailureDates = false;
 
   get guardingMasterData => null;
+
+  get model => null;
 
   @override
   void initState() {
@@ -1234,6 +1238,57 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               //   ),
                               // ],
 
+                              if (state.model.powerFailure == true) ...[
+                                CommonWidgets.textDisplay(
+                                    // state.labels?.locale.csrParticipationDates ??
+                                    //     state.labels?.defaultLocale
+                                    //         .csrParticipationDates ??
+                                        Constants.powerFailuresDate,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return AddDatePopUp(
+                                            model:
+                                            model,
+                                            mainContext: context,
+                                            onSubmit: (OccurrenceModel
+                                            model) {
+                                              //loginFormKey.currentState!.validate();
+                                              FocusScope.of(context).unfocus();
+                                              BlocProvider.of<
+                                                  OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                                  .submitForm(isSaveOnly: true);
+                                            },
+                                          );
+                                        });
+                                  },
+                                  child: Row(
+                                    children: <Widget>[
+                                      // Expanded(
+                                      //child:
+                                      const SizedBox(width: 14),
+                                      SvgPicture.asset(
+                                        AppIcon.pluscircle,
+                                        //color: AppColors.navigationSkybluecolor,
+                                      ),
+                                      // ),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        Constants.addPowerFailuresDates,
+                                        style: TextStyle(
+                                          color: AppColors.navigationSkybluecolor,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                               ///ATM Vendor Visit
                               CommonWidgets.textDisplay(
                                   Constants.aTMVendorVisit,

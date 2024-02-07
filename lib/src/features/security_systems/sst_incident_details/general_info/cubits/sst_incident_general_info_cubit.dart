@@ -75,12 +75,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    Vendors vendors =
-    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -92,6 +91,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       ),
     );
   }
+
   Future<void> initializeValues() async {
     log('initializeValues--sst-incidentGeneralCubit-occId---$occId--');
     //Show Loader and emit loading state
@@ -120,33 +120,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      // List<BaseUser> asl1 =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_ROLE_Security_Lead');
-      // List<BaseUser> asl2 =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
-      // List<BaseUser> comlete = [...asl1, ...asl2];
-      //
-      // List<BaseUser> lsm1 =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
-      // List<BaseUser> lsm2 =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
-      //
-      // List<BaseUser> lt =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
-
-      // List<BaseUser> systemManagerUser =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
       List<User> entrySecurities = await commonServices.getUsers();
-      //
-      // EmployeeDepartments departments =
-      //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-
       Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       if (state.model.location == null) {
@@ -160,6 +136,26 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           model.slNo = slNo.serialNo;
         }
       }
+      // List<BaseUser> asl1 = await commonServices.getBaseUsers(
+      //     roleName: 'ATOM_ROLE_Security_Lead');
+      //List<BaseUser> asl2 = await commonServices.getBaseUsers(
+       //   roleName: 'ATOM_Assistant_Security_Lead');
+      // List<BaseUser> asl = [...asl1, ...asl2];
+
+      // List<BaseUser> lsm1 =
+      //     await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
+      // List<BaseUser> lsm2 = await commonServices.getBaseUsers(
+      //     roleName: 'ATOM_Senior_Security_Manager');
+      // List<BaseUser> lsm = [...lsm1, ...lsm2];
+
+      // List<BaseUser> lt =
+      //     await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+      //
+      // List<BaseUser> systemManagerUser = await commonServices.getBaseUsers(
+      //     roleName: 'ATOM_Security_System_Manager');
+
+      GetDepositor emailUsers =
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       if (isInternal == true) {
         state.model.staffType = 1;
@@ -176,12 +172,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-          // systemManager:systemManagerUser,
-          // asl: asl,
-          // lsm: lsm,
-          // lt: lt,
+         // systemManager: systemManagerUser,
+         // asl: asl,
+         // lsm: lsm,
+         // lt: lt,
           emailUsers: emailUsers.atomStaticUser,
-          // departments: departments.employeeDepartments,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
@@ -189,7 +184,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'SstIncidentGeneralInfoCubit');
+      log('initialization issue',
+          error: e, name: 'SstIncidentGeneralInfoCubit');
       emit(
         state.copyWith(
           message: e.toString(),
@@ -239,23 +235,22 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           systemManager: state.emailUsers,
         ),
       );
-
     }
-    if (lsm != null) {
-      User userDetails = User(
-        name: lsm.name,
-        userId: lsm.id,
-        email: lsm.email,
-      );
-      state.model.lsm = userDetails;
-
-      emit(
-        state.copyWith(
-          lsm: state.emailUsers,
-        ),
-      );
-
-    }
+    // if (lsm != null) {
+    //   User userDetails = User(
+    //     name: lsm.name,
+    //     userId: lsm.id,
+    //     email: lsm.email,
+    //   );
+    //   state.model.lsm = userDetails;
+    //
+    //   emit(
+    //     state.copyWith(
+    //       lsm: state.emailUsers,
+    //     ),
+    //   );
+    //
+    // }
     if (lt != null) {
       BaseUser userDetails = BaseUser(
         name: lt.name,
@@ -270,20 +265,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     }
-    if (asl != null) {
-      User userDetails = User(
-        name: asl.name,
-        userId: asl.id,
-        email: asl.email,
-      );
-      state.model.asl = userDetails;
-
-      emit(
-        state.copyWith(
-          asl: state.emailUsers,
-        ),
-      );
-    }
+    // if (asl != null) {
+    //   User userDetails = User(
+    //     name: asl.name,
+    //     userId: asl.id,
+    //     email: asl.email,
+    //   );
+    //   state.model.asl = userDetails;
+    //
+    //   emit(
+    //     state.copyWith(
+    //       asl: state.emailUsers,
+    //     ),
+    //   );
+    // }
 
     ////Get Sl No from API
     if (location != null) {
@@ -307,7 +302,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       status: FormStatus.initial,
     ));
   }
-
 
   void addAttachment({
     List<ImageContent>? data,

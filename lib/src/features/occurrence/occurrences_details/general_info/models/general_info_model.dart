@@ -75,7 +75,7 @@ class OccurrenceModel {
   bool dgWrking;
   // String? modifiedDate;
   String? modifiedBy;
-  final List<PowerFailures>? powerFailures;
+  List<PowerFailures>? powerFailures;
   List<IncidentModel>? incidentItems;
   List<dynamic>? secSysFailureIncident;
   bool followedUp;

@@ -603,6 +603,7 @@ class Constants {
   static const String securitySystemSLAList = 'Security System SLA List';
   static const String socialEngineeringIncidents =
       'Social Engineering Incidents?';
+  static const String addPowerFailuresDates = 'Add Power Failure Date';
   static const String foundArticleTransaction = 'Found Article Transaction?';
   static const String processBreachIncident = 'Process Breach Incident?';
   static const String anyInfrastructuralIssue = 'Any Infrastructural Issue? ';
@@ -622,6 +623,7 @@ class Constants {
   static const String dgWrking = 'DG Working';
   static const String followUp = 'Follow Up Actions For Next Shift';
   static const String followedUp = 'Followed Up ';
+  static const String powerFailuresDate = 'Power Failure Start & End Date';
   static const String powerFailureDate = 'Power Failure Start Date & Time';
   static const String powerFailureEndDate = 'Power Failure End Date & Time';
   static const String systemManager = 'System Manager';
