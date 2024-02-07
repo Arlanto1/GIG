@@ -968,8 +968,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.horizentaltextHandling(
                                   Constants.createdby,
                                   isMandatory: true,
-                                  '${widget.model?.entrySecurity?.firstName} ${widget.model?.entrySecurity?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'),                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Location
 
