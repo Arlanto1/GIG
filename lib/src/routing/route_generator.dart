@@ -489,7 +489,7 @@ class RouteGenerator {
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
             create: (_) => vp.ViolationPenaltyRecordBloc(
               violationDescription: violationDescription,
-                violationDescriptions:violationDescriptions,
+              violationDescriptions: violationDescriptions,
             )..add(vp.FetchData(
                 id: id,
                 startPos: 0,
@@ -538,7 +538,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String rankType = '';
-        List<Organisation> ranks =[];
+        List<Organisation> ranks = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -550,15 +550,14 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
-            create: (_) => cr.ContactRecordBloc(
-              rankType: rankType,
-              ranks: ranks
-            )..add(cr.FetchData(
-                id: id,
-                type: type,
-                startPos: 0,
-                maxPos: 100,
-              )),
+            create: (_) =>
+                cr.ContactRecordBloc(rankType: rankType, ranks: ranks)
+                  ..add(cr.FetchData(
+                    id: id,
+                    type: type,
+                    startPos: 0,
+                    maxPos: 100,
+                  )),
             child: ContactRecordView(
               id: id,
               type: type,
@@ -696,7 +695,8 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
                   create: (_) => mm.MaterialMovementBloc(isInward: isInward)
-                    ..add(const mm.FetchData(startPos: 0, maxPos: 20)),
+                    ..add(mm.FetchData(
+                        startPos: 0, maxPos: 20, filters: BaseFilterModel())),
                   child: MaterialMovementsView(
                     isInward: isInward,
                   ),
