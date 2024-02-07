@@ -120,17 +120,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      // List<BaseUser> asl =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
-      //
-      // List<BaseUser> lsm =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
-      //
-      // List<BaseUser> lt =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
-      //
-      // List<BaseUser> systemManagerUser =
-      // await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
+      List<BaseUser> asl1 =
+      await commonServices.getBaseUsers(roleName: 'ATOM_ROLE_Security_Lead');
+      List<BaseUser> asl2 =
+      await commonServices.getBaseUsers(roleName: 'ATOM_Assistant_Security_Lead');
+      List<BaseUser> lsm1 =
+      await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
+      List<BaseUser> lsm2 =
+      await commonServices.getBaseUsers(roleName: 'ATOM_Senior_Security_Manager');
+
+      List<BaseUser> lt =
+      await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+
+      List<BaseUser> systemManagerUser =
+      await commonServices.getBaseUsers(roleName: 'ATOM_Security_System_Manager');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
