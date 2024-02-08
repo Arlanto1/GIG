@@ -1,4 +1,3 @@
-
 import '../../../../index.dart';
 import '../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
@@ -59,7 +58,7 @@ class SstIncident {
   String? emailList;
   String? poNo;
   List<dynamic>? entities;
-  List<dynamic>? attachments;
+  List<ImageContent>? attachments;
   List<dynamic>? dataLossDocs;
   List<dynamic>? quotes;
   List<dynamic>? additionalDocs;
@@ -101,7 +100,7 @@ class SstIncident {
     this.emailList,
     this.poNo,
     this.entities,
-    this.attachments,
+    this.attachments = const [],
     this.dataLossDocs,
     this.quotes,
     this.additionalDocs,
@@ -157,7 +156,11 @@ class SstIncident {
         emailList = json['emailList'] as String?,
         poNo = json['poNo'] as String?,
         entities = json['entities'] as List?,
-        attachments = json['attachments'] as List?,
+        // attachments = json['attachments'] as List?,
+        attachments = (json['attachments'] as List<dynamic>?)
+                ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            const [],
         dataLossDocs = json['dataLossDocs'] as List?,
         quotes = json['quotes'] as List?,
         additionalDocs = json['additionalDocs'] as List?,

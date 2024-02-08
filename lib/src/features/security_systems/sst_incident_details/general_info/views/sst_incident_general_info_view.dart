@@ -133,7 +133,9 @@ class _SstIncidentGeneralInfoViewState
     }
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      uploadFiles = state.uploadAttachments;
+      // uploadFiles = state.uploadAttachments;
+      uploadFiles = state.uploadAttachments ?? [];
+
     }
 
     return Container(
@@ -651,11 +653,10 @@ class _SstIncidentGeneralInfoViewState
                               state.loggedInUserDetails ?? User(),
                               getFiles: uploadFiles,
                               onImageSelected: (ImageContent data) {
-                                log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
                                 files.add(data);
                                 for (ImageContent image
-                                in uploadFiles ?? []) {
+                                in uploadFiles??[]) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<

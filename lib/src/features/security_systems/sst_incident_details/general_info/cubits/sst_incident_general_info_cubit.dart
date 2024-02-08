@@ -86,6 +86,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
+        uploadAttachments: state.model.attachments,
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
       ),
@@ -181,6 +182,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+            uploadAttachments: state.model.attachments,
         ),
       );
     } catch (e) {
@@ -312,28 +314,18 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       ),
     );
     int eventIds = math.Random.secure().nextInt(5);
-
-    // log('--guardImages---${guardImages?.length}----');
-    // if (guardImages != null) {
-    //   emit(
-    //     state.copyWith(
-    //       eventId: eventIds,
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-
-    if (data != null && images != null) {
-      for (var image in data) {
+    if (data != null) {
+      for (ImageContent image in data) {
         image.type = 1;
       }
-      state.model.attachments = images;
+      log('--data----${data?.length}----');
+
+      state.model.attachments = data;
       emit(
         state.copyWith(
           eventId: eventIds,
           model: state.model,
-          uploadAttachments: images,
+          uploadAttachments: data,
           status: FormStatus.initial,
         ),
       );
