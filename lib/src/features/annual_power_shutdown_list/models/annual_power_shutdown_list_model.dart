@@ -94,7 +94,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
     this.entities,
     this.status,
     this.modifiedBy,
-    this.annualPowerShutdown = false,
+    this.annualPowerShutdown = true,
     this.eventStartDate,
     this.eventEndDate,
     this.epManager1,
