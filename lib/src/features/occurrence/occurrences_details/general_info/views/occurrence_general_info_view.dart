@@ -86,6 +86,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
             showPopUp: false,
             showSaveButton: state.model.status != 1 ? true : false,
             showSubmitButton: state.model.status != 1 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)

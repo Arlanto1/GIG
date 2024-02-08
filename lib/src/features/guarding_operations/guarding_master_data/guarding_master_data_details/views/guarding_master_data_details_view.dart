@@ -127,6 +127,8 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
             showSubmitButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardingMasterDataDetailsCubit>(context)

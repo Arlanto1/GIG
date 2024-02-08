@@ -99,6 +99,8 @@ class _EventInfoViewState extends State<EventInfoView> {
             showPopUp: false,
             showSaveButton: state.model.status != 4 ? true : false,
             showSubmitButton: state.model.status != 4 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<EventInfoCubit>(context)

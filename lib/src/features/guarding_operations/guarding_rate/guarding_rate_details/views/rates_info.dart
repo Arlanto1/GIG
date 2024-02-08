@@ -53,6 +53,8 @@ class _RatesInfoState extends State<RatesInfo> {
             showPopUp: false,
             showSaveButton: false,
             showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBody(context, state, height),

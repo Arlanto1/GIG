@@ -49,6 +49,8 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'gmReportExcel',
           pdfAPIName: 'gmReportPDF',
         ),

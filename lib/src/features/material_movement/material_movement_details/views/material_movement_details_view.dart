@@ -131,7 +131,6 @@ class _MaterialMovementDetailsViewState
             showSaveButton: (state.model.status == 0 ||
                     state.model.status == 8 ||
                     state.model.status == 1 ||
-                    state.model.status == 4 ||
                     state.model.status == 6 ||
                     state.model.status == 7 ||
                     state.model.status == 9 ||
@@ -141,13 +140,14 @@ class _MaterialMovementDetailsViewState
             showSubmitButton: (state.model.status == 0 ||
                     state.model.status == 8 ||
                     state.model.status == 1 ||
-                    state.model.status == 4 ||
                     state.model.status == 6 ||
                     state.model.status == 7 ||
                     state.model.status == 9 ||
                     state.model.status == null)
                 ? true
                 : false,
+            showDisLikeButton: state.model.status == 3 ?true:false,
+            showLikeButton: state.model.status == 3 ?true:false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -160,6 +160,22 @@ class _MaterialMovementDetailsViewState
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
+                receiverSignatureController: receiverSignatureController,
+                securitySignatureController: securitySignatureController,
+              );
+            },
+            onTapApprove: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isRejectOnly: false,
+                receiverSignatureController: receiverSignatureController,
+                securitySignatureController: securitySignatureController,
+              );
+            },
+            onTapReject: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isRejectOnly: true,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -1373,7 +1389,6 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Approver2 By Department
-                            /// Approver1 By Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.approver2Department ??
                                   state.labels?.defaultLocale
@@ -1468,8 +1483,36 @@ class _MaterialMovementDetailsViewState
                                     },
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (widget.materialMovement?.status == 3||widget.materialMovement?.status == 5) ...[
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.rejectionComment ??
+                                    state.labels?.defaultLocale
+                                        .rejectionComment ??
+                                    Constants.rejectionComment,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              FlutterInputField(
+                                initialValue:
+                                state.model.rejectionComment,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                hintText: '',
+                                isEnable:
+                                    true,
+                                isDisableColor:
+                                     false,
+                                onChange: (String value) {
+                                  state.model.rejectionComment = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
-                            if (state.model.returnable == true) ...[
+                            if (state.model.returnable == true || widget.materialMovement?.status == 3) ...[
                               /// Expected Date Of Return
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.expectedDateOfReturn ??
@@ -1484,20 +1527,15 @@ class _MaterialMovementDetailsViewState
 
                               BaseDate().datePickerWidgetLoading(
                                 showPastDate: false,
-                                isDisabled: (widget.materialMovement?.status ==
-                                            6 ||
-                                        widget.materialMovement?.status == 10 ||
-                                        widget.materialMovement?.status == -1)
-                                    ? true
-                                    : false,
+                                isDisabled: false,
                                 textController: expectedDateOfReturnController,
                                 onlyDate: true,
                                 onChange: (String value) {
-                                  // state.model.expectedDateOfReturn =
-                                  //     Utils().formatTime(value);
-                                  // BlocProvider.of<MaterialMovementDetailsCubit>(
-                                  //         context)
-                                  //     .onModelValueChange(state.model);
+                                  state.model.expectedDateOfReturn =
+                                      Utils().formatTime(value);
+                                  BlocProvider.of<MaterialMovementDetailsCubit>(
+                                          context)
+                                      .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
@@ -2243,7 +2281,7 @@ class _MaterialMovementDetailsViewState
                             ],
 
                             /// Comment
-                            if (!state.model.materialPhysicallyChecked) ...[
+                            if (!state.model.materialPhysicallyChecked ) ...[
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.materialNotCheckedComment ??
                                     state.labels?.defaultLocale
@@ -2601,12 +2639,11 @@ class _MaterialMovementDetailsViewState
       onTap: () {
         if ((widget.materialMovement?.status == null ||
                 widget.materialMovement?.status == 0)
-            ? false
-            : true) {
+            ? true
+            : false) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
-              log('--locations.central?.length--${state.locations?.central?.length}--');
 
               return CustomExpansionListTexts(
                 locationList: state.locations,

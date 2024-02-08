@@ -66,6 +66,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () => submitDutyPost(context, isSaveOnly: true),
             onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
           ),

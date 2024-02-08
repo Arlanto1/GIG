@@ -72,6 +72,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             showSubmitButton: false,
             onTapSave: () {},
             showCustomIcon: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),

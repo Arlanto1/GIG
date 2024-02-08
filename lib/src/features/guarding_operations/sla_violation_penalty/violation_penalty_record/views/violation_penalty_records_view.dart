@@ -102,6 +102,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),

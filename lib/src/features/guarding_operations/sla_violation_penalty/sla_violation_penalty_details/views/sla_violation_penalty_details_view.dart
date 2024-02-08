@@ -124,6 +124,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 state.model.status != 2 && !isReadOnly ? true : false,
             showSubmitButton:
                 state.model.status != 2 && !isReadOnly ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)

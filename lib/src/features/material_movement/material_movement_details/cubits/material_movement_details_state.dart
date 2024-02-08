@@ -105,7 +105,7 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Material coming from (Brief address)');
       }
 
-      if (model.receiverEmployeeId.isEmptyOrNull) {
+      if (!model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received for Employee Id');
       }

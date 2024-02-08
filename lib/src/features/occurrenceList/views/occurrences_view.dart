@@ -73,6 +73,8 @@ class _OccurrencesViewState extends State<OccurrencesView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportOCCExcel',
           pdfAPIName: 'exportOCCPDF',
         ),

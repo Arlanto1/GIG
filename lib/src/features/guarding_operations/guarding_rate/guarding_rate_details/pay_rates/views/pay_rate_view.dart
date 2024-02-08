@@ -109,6 +109,8 @@ class _PayRateViewState extends State<PayRateView> {
             showSaveButton: false,
             showCustomIcon: true,
             showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapCustomIcon: () {
               addSecurityGuardPopUp(context: context, payRate: PayRate());
             }),

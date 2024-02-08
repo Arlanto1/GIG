@@ -9,8 +9,12 @@ class BaseAppBar {
     required bool showPopUp,
     required bool showSaveButton,
     required bool showSubmitButton,
+    required bool showLikeButton,
+    required bool showDisLikeButton,
     Function? onTapSubmit,
     Function? onTapSave,
+    Function? onTapApprove,
+    Function? onTapReject,
     void Function()? popAndReplace,
     bool? showCustomIcon,
     Function? onTapCustomIcon,
@@ -77,6 +81,34 @@ class BaseAppBar {
               padding: EdgeInsets.only(right: 20.0),
               child: Icon(
                 Icons.send,
+                color: AppColors.white,
+              ),
+            ),
+          )
+        ],
+        if (showLikeButton) ...[
+          GestureDetector(
+            onTap: () {
+              onTapApprove!();
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(
+                Icons.thumb_up,
+                color: AppColors.white,
+              ),
+            ),
+          )
+        ],
+        if (showDisLikeButton) ...[
+          GestureDetector(
+            onTap: () {
+              onTapReject!();
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(
+                Icons.thumb_down,
                 color: AppColors.white,
               ),
             ),

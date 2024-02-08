@@ -93,6 +93,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             showPopUp: false,
             showSaveButton: false,
             showSubmitButton: true,
+              showDisLikeButton: false,
+              showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostMasterDetailsCubit>(context)

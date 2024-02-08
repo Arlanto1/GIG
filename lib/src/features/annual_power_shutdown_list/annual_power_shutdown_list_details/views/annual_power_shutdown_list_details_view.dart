@@ -99,6 +99,8 @@ class _AnnualPowerShutdownListDetailsViewState
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)

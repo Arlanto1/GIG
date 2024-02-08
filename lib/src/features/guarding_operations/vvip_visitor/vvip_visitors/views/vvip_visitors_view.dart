@@ -68,6 +68,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportVipExcel',
           pdfAPIName: 'exportVipPDF',
         ),

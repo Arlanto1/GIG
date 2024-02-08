@@ -91,6 +91,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
         excelAPIName: 'exportEPExcel?aps=0',
         pdfAPIName: 'exportEPPDF?aps=0',
       ),

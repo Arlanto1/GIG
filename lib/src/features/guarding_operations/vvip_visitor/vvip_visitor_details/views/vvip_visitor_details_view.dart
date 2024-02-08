@@ -122,6 +122,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VVIPVisitorDetailsCubit>(context).submitForm(

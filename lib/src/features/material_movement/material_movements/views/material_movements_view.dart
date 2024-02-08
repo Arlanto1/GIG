@@ -79,6 +79,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
         excelAPIName: 'exportMMExcel',
         pdfAPIName: 'exportMMPDF',
       ),

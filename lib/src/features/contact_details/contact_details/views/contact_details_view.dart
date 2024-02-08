@@ -120,6 +120,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);

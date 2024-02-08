@@ -119,6 +119,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GeneralInfoCubit>(context)

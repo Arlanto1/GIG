@@ -102,6 +102,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
         excelAPIName: 'exportGcdExcel',
         pdfAPIName: 'exportGcdPDF',
       ),

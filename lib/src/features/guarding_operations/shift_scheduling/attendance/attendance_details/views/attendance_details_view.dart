@@ -99,6 +99,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             showPopUp: false,
             showSubmitButton: true,
             showSaveButton: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AttendanceDetailsCubit>(context)

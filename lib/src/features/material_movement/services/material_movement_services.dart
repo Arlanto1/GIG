@@ -60,11 +60,11 @@ class MaterialMovementServices {
   /// Create Services
   Future<GenericResponse> createMaterialMovement({
     required MaterialMovementRequest body,
-    required bool isSubmit,
+    required int flow,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createMaterialMovement}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createMaterialMovement}?flow=$flow";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

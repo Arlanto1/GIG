@@ -93,6 +93,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
               excelAPIName: 'exportIMExcel',
               pdfAPIName: 'exportIMPdf',
             ),

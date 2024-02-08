@@ -103,6 +103,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportSSSLAExcel',
           pdfAPIName: 'exportSSSLAPDF',
         ),

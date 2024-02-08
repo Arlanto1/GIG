@@ -107,6 +107,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             // showSaveButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();

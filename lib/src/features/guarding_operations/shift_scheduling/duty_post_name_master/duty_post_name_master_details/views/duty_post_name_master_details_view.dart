@@ -98,6 +98,8 @@ class _DutyPostNameMasterDetailsViewState
             showPopUp: false,
             showSubmitButton: state.model.status != 5 ? true : false,
             showSaveButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)

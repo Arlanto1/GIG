@@ -93,6 +93,8 @@ class _AnnualPowerShutdownListViewState
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
         excelAPIName: 'exportEPExcel?aps=1',
         pdfAPIName: 'exportEPPDF?aps=1',
       ),

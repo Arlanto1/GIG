@@ -94,6 +94,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),

@@ -98,6 +98,8 @@ class _KeyHistoryRecordsDetailsViewState
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
             showSubmitButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
@@ -245,12 +247,12 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              //  if (isDisabled) {
+                                if (!isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: keyTypeDropDownValues
@@ -271,7 +273,7 @@ class _KeyHistoryRecordsDetailsViewState
                                             keyType: int.tryParse(
                                                 selectedLabel.value));
                                   });
-                              //}
+                              }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 

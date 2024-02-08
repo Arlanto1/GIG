@@ -102,6 +102,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)

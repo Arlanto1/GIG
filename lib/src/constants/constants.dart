@@ -383,6 +383,8 @@ class Constants {
   static const String addQuantity = 'Add Unit';
   static const String isPhysicallyChecked = 'Is Material Physically Checked';
   static const String comment = 'Comment';
+  static const String rejectionComment = 'Rejection Comment';
+
   static const String isMaterialPhysicallyChecked =
       'Is Material Physically Checked';
   static const String actualDateOfReturn = 'Actual Date Of Return';

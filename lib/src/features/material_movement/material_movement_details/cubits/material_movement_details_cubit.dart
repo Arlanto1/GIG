@@ -433,6 +433,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> submitForm({
     bool isSaveOnly = false,
+    bool isRejectOnly = false,
     required SignatureController receiverSignatureController,
     required SignatureController securitySignatureController,
   }) async {
@@ -478,7 +479,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           return;
         }
         response = await materialMovementServices.createMaterialMovement(
-            body: request, isSubmit: false);
+            body: request, flow: 1);
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -492,9 +493,44 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           );
           return;
         }
+        int flow = 2;
         response = await materialMovementServices.createMaterialMovement(
-            body: request, isSubmit: true);
+            body: request, flow: flow);
       }
+      if (isRejectOnly) {
+        //Validating Fields
+        if (!state.isValidDraft.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 4);
+      }
+      else {
+        //Validating Fields
+        if (!state.isValid.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return;
+        }
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 3);
+      }
+
+
 
       log('---response--msg--${response.message}---');
 
