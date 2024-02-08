@@ -1,27 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'dart:developer';
+import 'package:flutter/material.dart';
 
 class AddDatePopUp extends StatefulWidget {
   const AddDatePopUp({
     super.key,
     required this.onSubmit,
     required this.mainContext,
-    required this.model,
   });
 
   final Function onSubmit;
   final BuildContext mainContext;
-  final OccurrenceModel? model;
 
   @override
   State<AddDatePopUp> createState() => AddDatePopUpState();
@@ -29,7 +26,8 @@ class AddDatePopUp extends StatefulWidget {
 
 class AddDatePopUpState extends State<AddDatePopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController powerFailureStartDateController = TextEditingController();
+  TextEditingController powerFailureStartDateController =
+      TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
 
   @override
@@ -135,22 +133,41 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
+        PowerFailure powerFailure = PowerFailure();
         String powerFailureStartDate = powerFailureStartDateController.text;
         String powerFailureEndDate = powerFailureEndDateController.text;
-        if (powerFailureStartDate.isNotEmpty) {
-          // Create a PowerFailures object from the text field value
-          PowerFailures powerFailure = PowerFailures(powerFailureStartDate: powerFailureStartDate);
-
-          BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
-              .onAddPowerFailureDate(powerFailure);
-          Navigator.pop(context);
-        } else if (powerFailureEndDate.isNotEmpty) {
-          PowerFailures powerFailure = PowerFailures(powerFailureEndDate: powerFailureEndDate);
-          BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
-              .onAddPowerFailureDate(powerFailure);
-          Navigator.pop(context);
-        }
+        powerFailure.powerFailureStartDate = powerFailureStartDate;
+        powerFailure.powerFailureEndDate = powerFailureEndDate;
+        widget.onSubmit(powerFailure);
+        Navigator.pop(context);
       },
+      // onTap: () {
+      //   PowerFailure powerFailure = PowerFailure();
+      //
+      //
+      //   String powerFailureStartDate = powerFailureStartDateController.text;
+      //   String powerFailureEndDate = powerFailureEndDateController.text;
+      //
+      //   powerFailure.powerFailureStartDate = powerFailureStartDate;
+      //   powerFailure.powerFailureEndDate = powerFailureEndDate;
+      //
+      //
+      //   if (powerFailureStartDate.isNotEmpty) {
+      //     // Create a PowerFailures object from the text field value
+      //     powerFailure =
+      //         PowerFailure(powerFailureStartDate: powerFailureStartDate);
+      //
+      //     BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
+      //         .onAddPowerFailureDate(powerFailure);
+      //     Navigator.pop(context);
+      //   } else if (powerFailureEndDate.isNotEmpty) {
+      //     PowerFailure powerFailure =
+      //         PowerFailure(powerFailureEndDate: powerFailureEndDate);
+      //     BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
+      //         .onAddPowerFailureDate(powerFailure);
+      //     Navigator.pop(context);
+      //   }
+      // },
     );
   }
 }

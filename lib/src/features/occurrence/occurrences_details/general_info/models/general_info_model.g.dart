@@ -62,7 +62,7 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       followedUp: json['followedUp'] as bool? ?? false,
       status: json['status'] as int?,
       powerFailures: (json['powerFailures'] as List<dynamic>?)
-          ?.map((e) => PowerFailures.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => PowerFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

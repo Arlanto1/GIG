@@ -13,17 +13,14 @@ class OccurrenceDetails extends StatefulWidget {
   });
 
   @override
-  State<OccurrenceDetails> createState() => _GuardingMasterDataDetailsState();
+  State<OccurrenceDetails> createState() => _OccurrenceDetailsState();
 }
 
-class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
+class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   List<ImageContent>? getFiles;
   List<ImageContent>? getAttachments;
-  TextEditingController powerFailureStartDateController =
-      TextEditingController();
-  TextEditingController powerFailureEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool disableForm = true;
   bool showPowerFailureDates = false;
@@ -1132,7 +1129,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     height * 0.01),
                               ],
 
-                              ///Power Failure
+                              /// Power Failure
                               CommonWidgets.textDisplay(
                                   Constants.powerFailure,
                                   isMandatory: true,
@@ -1245,29 +1242,35 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     // state.labels?.locale.csrParticipationDates ??
                                     //     state.labels?.defaultLocale
                                     //         .csrParticipationDates ??
-                                        Constants.powerFailuresDate,
+                                    Constants.powerFailuresDate,
                                     Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
                                 GestureDetector(
                                   onTap: () {
                                     showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return AddDatePopUp(
-                                            model:
-                                            model,
-                                            mainContext: context,
-                                            onSubmit: (OccurrenceModel
-                                            model) {
-                                              //loginFormKey.currentState!.validate();
-                                              FocusScope.of(context).unfocus();
-                                              BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                                  .submitForm(isSaveOnly: true);
-                                            },
-                                          );
-                                        });
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return AddDatePopUp(
+                                          mainContext: context,
+                                          onSubmit:
+                                              (PowerFailure powerFailure) {
+                                            log('----powerFailure----${powerFailure.powerFailureStartDate}----');
+                                            if (state.model.powerFailures
+                                                .isEmptyOrNull) {
+                                              state.model.powerFailures = [];
+                                            }
+                                            state.model.powerFailures
+                                                ?.add(powerFailure);
+
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .onCheckBoxChange(state.model);
+                                          },
+                                        );
+                                      },
+                                    );
                                   },
                                   child: Row(
                                     children: <Widget>[
@@ -1283,7 +1286,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       const Text(
                                         Constants.addPowerFailuresDates,
                                         style: TextStyle(
-                                          color: AppColors.navigationSkybluecolor,
+                                          color:
+                                              AppColors.navigationSkybluecolor,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
@@ -1291,6 +1295,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   ),
                                 ),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              Column(
+                                children: getPowerFailures(state, height),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               ///ATM Vendor Visit
                               CommonWidgets.textDisplay(
                                   Constants.aTMVendorVisit,
@@ -1664,5 +1674,77 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         );
       },
     );
+  }
+
+  List<Widget> getPowerFailures(OccurrenceGeneralInfoState state, height) {
+    List<Widget> widgets = [];
+
+    for (PowerFailure powerFailure in state.model.powerFailures ?? []) {
+      TextEditingController startDateController = TextEditingController();
+      TextEditingController endDateController = TextEditingController();
+      // startDateController.text = Utils.timestamptoDateConversion(
+      //     int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
+      //     Constants.dateFormat);
+      startDateController.text = powerFailure.powerFailureStartDate ?? '';
+      endDateController.text = powerFailure.powerFailureEndDate ?? '';
+      widgets.add(
+        Row(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Start Date'),
+                  BaseDate().datePickerWidgetLoading(
+                    textController: startDateController,
+                    onlyDate: true,
+                    onChange: (String value) {
+                      log('--fr-value-${startDateController.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                      //     .onModelValueChange(state.model);
+                    },
+                    context: context,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('End Date'),
+                  BaseDate().datePickerWidgetLoading(
+                    textController: endDateController,
+                    onlyDate: true,
+                    onChange: (String value) {
+                      log('--fr-value-${endDateController.text}------');
+                      powerFailure.powerFailureEndDate = value;
+                      // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                      //     .onModelValueChange(state.model);
+                    },
+                    context: context,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+                    .deletePowerFailure(powerFailure);
+              },
+              icon: const Icon(Icons.close),
+              color: AppColors.gerylightBackground,
+            ),
+          ],
+        ),
+      );
+      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
+    }
+    return widgets;
   }
 }

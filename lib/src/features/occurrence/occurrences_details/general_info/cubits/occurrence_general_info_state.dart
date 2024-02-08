@@ -10,7 +10,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
-  final List<PowerFailures>? participationDates;
+  final List<PowerFailure>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
@@ -28,7 +28,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
-    List<PowerFailures>? participationDate,
+    List<PowerFailure>? participationDate,
   }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
@@ -166,7 +166,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
-    List<PowerFailures>? participationDates,
+    List<PowerFailure>? participationDates,
     int? eventId,
     String? message,
     List<User>? entrySecurities,

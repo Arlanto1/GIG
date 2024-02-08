@@ -20,7 +20,8 @@ class GuardingMasterDataDetailsView extends StatefulWidget {
       _GuardingMasterDataDetailsViewState();
 }
 
-class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetailsView> {
+class _GuardingMasterDataDetailsViewState
+    extends State<GuardingMasterDataDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   List<ImageContent>? getFiles;
@@ -353,7 +354,7 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    organisations: state.listOfEntities??[],
+                                    organisations: state.listOfEntities ?? [],
                                     onTap: (Organisation entity) {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
@@ -366,8 +367,9 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                     orgName: 'ATOM_ENTITIES',
                                     functionToCall: () {
                                       // refresh the list
-                                      BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                          context)
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
@@ -414,8 +416,8 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit>(
-                                            context)
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
                                             .refreshList();
                                       },
                                     );
@@ -480,26 +482,25 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
                               isDisableColor: false,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            vendor: department);
-                                  },
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              vendor: department);
+                                    },
                                     orgName: 'ATOM_VENDORS',
                                     createEntity: false,
                                     title: 'Add Vendor',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit>(
-                                          context)
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                               },
                             ),
 
@@ -2391,7 +2392,6 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
       GuardingMasterDataDetailsState state, height) {
     List<Widget> widgets = [];
 
-    log('-state.participationDates---${state.participationDates?.length}---');
     for (String date in state.participationDates ?? []) {
       TextEditingController dateController = TextEditingController();
       // dateController.text = Utils.timestamptoDateConversion(
@@ -2399,15 +2399,31 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
       //     Constants.dateFormat);
       dateController.text = date;
       widgets.add(
-        BaseDate().datePickerWidgetLoading(
-          textController: dateController,
-          onChange: (String value) {
-            log('--fr-value-${dateController.text}------');
-            // widget.guardingMasterData?.inputDate = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onModelValueChange(state.model);
-          },
-          context: context,
+        Row(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.27,
+              child: BaseDate().datePickerWidgetLoading(
+                textController: dateController,
+                onlyDate: true,
+                onChange: (String value) {
+                  log('--fr-value-${dateController.text}------');
+                  // widget.guardingMasterData?.inputDate = value;
+                  BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                      .onModelValueChange(state.model);
+                },
+                context: context,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                // TODO: Delete function
+                // state.model.csrParticipationDates.remove(date);
+              },
+              icon: const Icon(Icons.close),
+              color: AppColors.gerylightBackground,
+            ),
+          ],
         ),
       );
       widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
@@ -2439,21 +2455,24 @@ class _GuardingMasterDataDetailsViewState extends State<GuardingMasterDataDetail
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-          updateRecordStatus(state);
+        updateRecordStatus(state);
       },
     );
   }
 
   void updateRecordStatus(GuardingMasterDataDetailsState state) {
-    if (state.model.id != null && widget.guardingMasterData?.status !=null) {
+    if (state.model.id != null && widget.guardingMasterData?.status != null) {
       BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, guardingMasterDataRoute,
-         );
+      Navigator.popAndPushNamed(
+        context,
+        guardingMasterDataRoute,
+      );
     } else {
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

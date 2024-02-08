@@ -6,10 +6,10 @@ import 'package:json_annotation/json_annotation.dart';
 part 'general_info_model.g.dart';
 
 class OccurrenceResponse {
-  final List<OccurrenceModel>? items;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<OccurrenceModel>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   OccurrenceResponse({
     this.items,
@@ -75,7 +75,7 @@ class OccurrenceModel {
   bool dgWrking;
   // String? modifiedDate;
   String? modifiedBy;
-  List<PowerFailures>? powerFailures;
+  List<PowerFailure>? powerFailures;
   List<IncidentModel>? incidentItems;
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
@@ -135,18 +135,18 @@ class OccurrenceModel {
 
 }
 
-class PowerFailures {
-  final int? id;
-  final String? powerFailureStartDate;
-  final String? powerFailureEndDate;
+class PowerFailure {
+  int? id;
+  String? powerFailureStartDate;
+  String? powerFailureEndDate;
 
-  PowerFailures({
+  PowerFailure({
     this.id,
     this.powerFailureStartDate,
     this.powerFailureEndDate,
   });
 
-  PowerFailures.fromJson(Map<String, dynamic> json)
+  PowerFailure.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         powerFailureStartDate = json['powerFailureStartDate'] as String?,
         powerFailureEndDate = json['powerFailureEndDate'] as String?;

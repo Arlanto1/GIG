@@ -81,10 +81,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
   }
 
-  void onAddPowerFailureDate(PowerFailures powerFailureDate) {
+  void onAddPowerFailureDate(PowerFailure powerFailureDate) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
-    List<PowerFailures>? dates = List<PowerFailures>.from(state.participationDates ?? []);
+    List<PowerFailure>? dates = List<PowerFailure>.from(state.participationDates ?? []);
     dates.add(powerFailureDate);
 
     state.copyWith(
@@ -442,5 +442,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.occurrenceModule);
+  }
+
+  void deletePowerFailure(PowerFailure powerFailure) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    state.model.powerFailures?.remove(powerFailure);
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 }
