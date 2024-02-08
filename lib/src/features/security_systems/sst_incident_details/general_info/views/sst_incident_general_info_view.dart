@@ -186,43 +186,34 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: true,
+                              isDisabled: !isDisabled,
                               textController: statusController,
                               items: sstIncidentsStatusItems,
                               initialValue: '${widget.model?.status ?? 1}',                              onTap: () {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: sstIncidentsStatusItems
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          sstIncidentsStatusItems.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<
-                                                  SstIncidentGeneralInfoCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
+                                  // BaseDropDown().assetTypeDialog(
+                                  //   context: context,
+                                  //   dropDownValues: sstIncidentsStatusItems
+                                  //       .map((label) => label.key)
+                                  //       .toList(),
+                                  //   onTap: (String value) {
+                                  //     if(state.model.status == null) {
+                                  //       Label? selectedLabel;
+                                  //       selectedLabel =
+                                  //           sstIncidentsStatusItems.firstWhere(
+                                  //                 (label) => label.key == value,
+                                  //             orElse: () =>
+                                  //             const Label(key: '', value: ''),
+                                  //           );
+                                  //       BlocProvider.of<
+                                  //           SstIncidentGeneralInfoCubit>(
+                                  //           context)
+                                  //           .updateDropdownValues(
+                                  //           status: int.tryParse(
+                                  //               selectedLabel.value));
+                                  //     } },
+                                  // );
                               },
                             ),
-                            // FlutterInputField(
-                            //   isEnable: false,
-                            //   isDisableColor: true,
-                            //   textFormKey: Keys.statusTextController,
-                            //   hintText: '',
-                            //   initialValue:
-                            //   getStatusString(state.model.status ?? 1),
-                            //   onChange: (String value) {},
-                            //   validateTextField: (String? user) {},
-                            // ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
