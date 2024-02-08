@@ -878,9 +878,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 /// Host
-                                ((state.selectedCompanyType?.name ?? '')
+                                (((state.selectedCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'exceptions' && widget.passId == "0") ||
+                                                'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0") ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         // widget.passId == '3' ||
@@ -893,10 +897,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         Styles.textStyleBlack14)
                                     : Container(),
 
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         //   widget.passId == '3' ||
@@ -907,10 +914,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001)
                                     : Container(),
                                 // articleaddButtonwidgetLoading(state),
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         // widget.passId == '3' ||
@@ -919,10 +929,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         //     widget.passId == "0")
                                     ? hostaddButtonwidgetLoading(state)
                                     : Container(),
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         // widget.passId == '3' ||
@@ -934,10 +947,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 /// Host Employee Id
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         // widget.passId == '3' ||
@@ -949,10 +965,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         isMandatory: true,
                                         Styles.textStyleBlack14)
                                     : Container(),
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         // widget.passId == '3' ||
@@ -963,10 +982,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001)
                                     : Container(),
 
-                                ((state.selectedCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                (((state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'exceptions'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'developer'||(state.selectedCompanyType?.name ?? '')
+                                    .toLowerCase() ==
+                                    'tester' ) && widget.passId == "0")  ||
                                         widget.passId == "1" ||
                                         widget.passId == "2"
                                         //  widget.passId == '3' ||
