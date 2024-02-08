@@ -131,6 +131,10 @@ class _SstIncidentGeneralInfoViewState
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      uploadFiles = state.uploadAttachments;
+    }
 
     return Container(
       color: AppColors.navigationSkybluecolor,
@@ -673,7 +677,6 @@ class _SstIncidentGeneralInfoViewState
                                   ? true
                                   : false,
                             ),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
                         ),
