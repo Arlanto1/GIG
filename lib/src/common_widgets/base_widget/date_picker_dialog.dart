@@ -18,6 +18,15 @@ class BaseDate {
     );
   }
 
+  bool isTimestamp(String str) {
+    try {
+      DateTime.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
@@ -27,6 +36,13 @@ class BaseDate {
     required Function(String) onChange,
     required BuildContext context,
   }) {
+    // Convert Date Time if String
+    if (isTimestamp(textController.text)) {
+      textController.text = Utils.timestamptoDateConversion(
+          int.tryParse(textController.text),
+          onlyDate ? Constants.dateFormat : Constants.fulldateFormat);
+    }
+
     return GestureDetector(
       onTap: () async {
         if (!isDisabled) {
@@ -38,7 +54,6 @@ class BaseDate {
             context: context,
             onlyDate: onlyDate,
           );
-          log('--textController.text-2--1--${textController.text}----');
         }
       },
       child: FlutterInputField(
@@ -81,15 +96,7 @@ class BaseDate {
   }) async {
     DateTime? pickedDate;
 
-    // log('--textController.text---${textController.text}--');
     DateTime initialTime = DateTime.now();
-    // initialTime = textController.text.isNotEmpty
-    //     ? DateTime.parse(Utils().formatTime( textController.text))
-    //     : DateTime.now();
-
-    // initialTime = DateTime(2024,2,2,15,42);
-
-    // log('--initialTime---${initialTime.toString()}--');
 
     if (onlyDate) {
       DatePicker.showDatePicker(
@@ -123,7 +130,6 @@ class BaseDate {
         },
         onConfirm: (date) {
           pickedDate = date;
-          log('confirm $date');
           log('--pickedDate--confirm---$pickedDate--');
 
           if (pickedDate != null) {
@@ -155,22 +161,4 @@ class BaseDate {
     log('--formattedDate-sss-$formattedDate--');
     return formattedDate;
   }
-
-  // String formatTime(String dateTimeString) {
-  //   // if the dateTimeString is already a Unix timestamp
-  //   if (dateTimeString.length == 10 &&
-  //       dateTimeString.contains(RegExp(r'^\d+$'))) {
-  //     return dateTimeString;
-  //   }
-  //
-  //   try {
-  //     final dateTime =
-  //         DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
-  //     final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-  //     return unixTimestamp.toString();
-  //   } catch (_) {
-  //     // If the format does not match, handle the error or return a default value
-  //     throw FormatException('Unable to parse date-time: $dateTimeString');
-  //   }
-  // }
 }
