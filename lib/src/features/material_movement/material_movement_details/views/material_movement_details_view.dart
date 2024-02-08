@@ -2610,8 +2610,8 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.materialMovement?.status != 0 ||
-                widget.materialMovement?.status == -1)
+        if ((widget.materialMovement?.status == null ||
+                widget.materialMovement?.status == 0)
             ? false
             : true) {
           showDialog(
