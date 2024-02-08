@@ -102,10 +102,10 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.name,
-                          style: Styles.textStyleBlack16,
-                        ),
+                        child: CommonWidgets.textDisplay(
+                                Constants.name,
+                            Styles.textStyleBlack14,
+                            isMandatory: true),
                       ),
                       FlutterInputField(
                         textFieldController: nameTextController,
