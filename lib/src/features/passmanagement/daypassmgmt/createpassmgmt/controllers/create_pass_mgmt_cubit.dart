@@ -18,6 +18,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -835,5 +836,21 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
     }
+  }
+
+  Future<void> updateStatus({required String id}) async {
+ String module='';
+ PassMngArguments? passMngArguments;
+ if (passMngArguments?.passType == '0') {
+      module = Constants.passManagementModule;
+    } else if (passMngArguments?.passType == '1') {
+      module = Constants.visitorManagementModule;
+    } else if(passMngArguments?.passType == '2'){
+      module = Constants.vendorPassManagementModule;
+    }
+    else if(passMngArguments?.passType == '3'){
+      module = Constants.passManagementSEZModule;
+    }
+    await commonServices.updateRecordStatus(id: id, module: module);
   }
 }

@@ -139,7 +139,9 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
-
+    if (model.returnable==true &&model.rejectionComment == null && model.status == 3) {
+      return const ErrorResponse(status: false, message: 'Please enter Rejection Comment');
+    }
     if (!model.materialPhysicallyChecked &&
         isInward &&
         model.materialNotCheckedComment.isEmptyOrNull) {

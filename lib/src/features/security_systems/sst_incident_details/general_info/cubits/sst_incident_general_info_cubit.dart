@@ -139,7 +139,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       List<BaseUser> asl1 = await commonServices.getBaseUsers(
           roleName: 'ATOM_ROLE_Security_Lead');
       List<BaseUser> asl2 = await commonServices.getBaseUsers(
-         roleName: 'ATOM_Assistant_Security_Lead');
+          roleName: 'ATOM_Assistant_Security_Lead');
       List<BaseUser> asl = [...asl1, ...asl2];
 
       List<BaseUser> lsm1 =
@@ -172,10 +172,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-         // systemManager: systemManagerUser,
-         // asl: asl,
-         // lsm: lsm,
-         // lt: lt,
+          systemManager: systemManagerUser,
+          asl: asl,
+          lsm: lsm,
+          lt: lt,
           emailUsers: emailUsers.atomStaticUser,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
@@ -223,12 +223,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     }
 
     if (systemManager != null) {
-      User userDetails = User(
-        name: systemManager.name,
-        userId: systemManager.id,
-        email: systemManager.email,
-      );
-      state.model.systemManager = userDetails;
+      // User userDetails = User(
+      //   name: systemManager.name,
+      //   userId: systemManager.id,
+      //   email: systemManager.email,
+      // );
+      //state.model.systemManager = systemManager;
 
       emit(
         state.copyWith(
@@ -236,21 +236,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     }
-    // if (lsm != null) {
-    //   User userDetails = User(
-    //     name: lsm.name,
-    //     userId: lsm.id,
-    //     email: lsm.email,
-    //   );
-    //   state.model.lsm = userDetails;
-    //
-    //   emit(
-    //     state.copyWith(
-    //       lsm: state.emailUsers,
-    //     ),
-    //   );
-    //
-    // }
+    if (lsm != null) {
+      User userDetails = User(
+        name: lsm.name,
+        userId: lsm.id,
+        email: lsm.email,
+      );
+      state.model.lsm = userDetails;
+
+      emit(
+        state.copyWith(
+          lsm: state.emailUsers,
+        ),
+      );
+    }
     if (lt != null) {
       BaseUser userDetails = BaseUser(
         name: lt.name,
@@ -265,20 +264,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     }
-    // if (asl != null) {
-    //   User userDetails = User(
-    //     name: asl.name,
-    //     userId: asl.id,
-    //     email: asl.email,
-    //   );
-    //   state.model.asl = userDetails;
-    //
-    //   emit(
-    //     state.copyWith(
-    //       asl: state.emailUsers,
-    //     ),
-    //   );
-    // }
+    if (asl != null) {
+      User userDetails = User(
+        name: asl.name,
+        userId: asl.id,
+        email: asl.email,
+      );
+      state.model.asl = userDetails;
+
+      emit(
+        state.copyWith(
+          asl: state.emailUsers,
+        ),
+      );
+    }
 
     ////Get Sl No from API
     if (location != null) {

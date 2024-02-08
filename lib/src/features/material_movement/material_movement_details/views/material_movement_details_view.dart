@@ -114,7 +114,7 @@ class _MaterialMovementDetailsViewState
           isReadOnly = true;
         }
         if (state.model.status == 3 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
+          isReadOnly = false;
         }
         if (state.model.status == 5 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -152,6 +152,8 @@ class _MaterialMovementDetailsViewState
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
+                isRejectOnly: false,
+                isApprovedOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -160,6 +162,8 @@ class _MaterialMovementDetailsViewState
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
+                isRejectOnly: false,
+                isApprovedOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -167,6 +171,8 @@ class _MaterialMovementDetailsViewState
             onTapApprove: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isApprovedOnly: true,
+                isSaveOnly: false,
                 isRejectOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
@@ -176,6 +182,8 @@ class _MaterialMovementDetailsViewState
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isRejectOnly: true,
+                isSaveOnly: false,
+                isApprovedOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -1500,7 +1508,7 @@ class _MaterialMovementDetailsViewState
                                 isEnable:
                                     true,
                                 isDisableColor:
-                                     false,
+                                     true,
                                 onChange: (String value) {
                                   state.model.rejectionComment = value;
                                   context
@@ -1510,9 +1518,25 @@ class _MaterialMovementDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Rejected By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.rejectedBy ??
+                                      state.labels?.defaultLocale.rejectedBy ??
+                                      Constants.rejectedBy, isMandatory: true,
+                                  state.model.rejectedBy ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Rejected Date
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.rejectedDate ??
+                                      state
+                                          .labels?.defaultLocale.rejectedDate ??
+                                      Constants.rejectedDate,isMandatory: true,
+                                  state.model.rejectedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            if (state.model.returnable == true || widget.materialMovement?.status == 3) ...[
+                            if (state.model.returnable == true && widget.materialMovement?.status == 3) ...[
                               /// Expected Date Of Return
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.expectedDateOfReturn ??
@@ -1527,7 +1551,6 @@ class _MaterialMovementDetailsViewState
 
                               BaseDate().datePickerWidgetLoading(
                                 showPastDate: false,
-                                isDisabled: false,
                                 textController: expectedDateOfReturnController,
                                 onlyDate: true,
                                 onChange: (String value) {
@@ -2067,7 +2090,6 @@ class _MaterialMovementDetailsViewState
                           ],
                           if ((state.model.status == 5 ||
                                       state.model.status == 10) &&
-                                  (!widget.isInward) ||
                               widget.isInward) ...[
                             /// Is Material Physically Checked
                             CommonWidgets.textDisplay(

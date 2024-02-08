@@ -35,9 +35,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../index.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/image_content.dart';
 import '../../../../../models/organisation.dart';
+import '../../../../../routing/router.dart';
 import '../../../../createfound/models/user.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
@@ -1167,7 +1169,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 //     passvaliduntilTextController),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  isDisabled: widget.model?.status == 0 ? false:true,
+                                  isDisabled:
+                                      widget.model?.status == 0 ? false : true,
                                   showPastDate: false,
                                   textController: passvaliduntilTextController,
                                   onlyDate: (widget.passId == '3' &&
@@ -1723,9 +1726,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus();
       },
     );
+  }
+
+  void updateRecordStatus() {
+    if (widget.model?.id != null ) {
+      BlocProvider.of<CreatePassMgmtCubit>(context)
+          .updateStatus(id: widget.model!.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        daypassmanagementListRoute,
+      );
+    }  else {
+      Navigator.pop(context);
+    }
   }
 
   daypassNoDialog() {
@@ -2128,6 +2144,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ? attachmentListviews(photogetFiles, photogetAttachments)
         : Container();
   }
+
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
     return BaseEntitiesSelection().entityDropDownSelection(
       context: context,
@@ -3389,7 +3406,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             if (widget.model != null) {
               imageData1 = attachmentListviews1?[index];
             } else {
-
               imageData = attachmentListviews?[index];
             }
             log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
@@ -3400,32 +3416,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ListTile(
                   trailing: widget.model == null || widget.model?.status == 0
                       ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Delete logic here
-                          if (imageData1 != null) {
-                            // Implement delete functionality for attachmentListviews1
-                            setState(() {
-                              attachmentListviews1!.removeAt(index);
-                            });
-                          }
-                          if (imageData != null) {
-                            // Implement delete functionality for attachmentListviews1
-                            setState(() {
-                              attachmentListviews!.removeAt(index);
-                            });
-                          }
-                        },
-                      ),
-                      SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
-                    ],
-                  )
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                // Delete logic here
+                                if (imageData1 != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews1!.removeAt(index);
+                                  });
+                                }
+                                if (imageData != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                            ),
+                            SvgPicture.asset(AppIcon.download,
+                                color: AppColors.boldgreyBackground),
+                          ],
+                        )
                       : SvgPicture.asset(AppIcon.download,
-                      color: AppColors.boldgreyBackground),
+                          color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imageData1?.id ?? 0, imageData1?.title ?? '');

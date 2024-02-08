@@ -434,6 +434,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   Future<void> submitForm({
     bool isSaveOnly = false,
     bool isRejectOnly = false,
+    bool isApprovedOnly = false,
     required SignatureController receiverSignatureController,
     required SignatureController securitySignatureController,
   }) async {
@@ -480,7 +481,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         }
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 1);
-      } else {
+      } else{
         //Validating Fields
         if (!state.isValid.status) {
           state.model.inputDate =
@@ -497,7 +498,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: flow);
       }
-      if (isRejectOnly) {
+       if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
           state.model.inputDate =
@@ -513,7 +514,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 4);
       }
-      else {
+       if(isApprovedOnly){
         //Validating Fields
         if (!state.isValid.status) {
           state.model.inputDate =
