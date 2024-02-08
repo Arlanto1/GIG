@@ -211,7 +211,7 @@ class CommonServices {
       return [];
     }
     return List<BaseUser>.from(
-        response[roleName].map((x) => Organisation.fromJson(x)));
+        response[roleName].map((x) => BaseUser.fromJson(x)));
   }
 
   Future<GetDepositor> getAtomStaticUsers({
