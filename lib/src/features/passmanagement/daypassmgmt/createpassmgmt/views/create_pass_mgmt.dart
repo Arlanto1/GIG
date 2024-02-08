@@ -880,14 +880,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 /// Host
                                 ((state.selectedCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'exceptions' &&
-                                            widget.passId == "0") ||
+                                                'exceptions' && widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         // widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? CommonWidgets.textDisplay(
                                         Constants.host,
                                         isMandatory: true,
@@ -899,11 +898,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         //   widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
@@ -913,11 +912,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         // widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? hostaddButtonwidgetLoading(state)
                                     : Container(),
                                 ((state.selectedCompanyType?.name ?? '')
@@ -925,11 +924,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         // widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.01)
                                     : Container(),
@@ -940,11 +939,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         // widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? CommonWidgets.textDisplay(
                                         Constants.hostemployeeid,
                                         isMandatory: true,
@@ -955,11 +954,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         // widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
@@ -969,11 +968,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'exceptions' &&
                                             widget.passId == "0") ||
                                         widget.passId == "1" ||
-                                        widget.passId == "2" ||
+                                        widget.passId == "2"
                                         //  widget.passId == '3' ||
-                                        (state.selectedCompanyType?.name ==
-                                                null &&
-                                            widget.passId == "0")
+                                        // (state.selectedCompanyType?.name ==
+                                        //         null &&
+                                        //     widget.passId == "0")
                                     ? textfieldWidgetLoad1(
                                         hostemployeeidTextController,
                                         0,
