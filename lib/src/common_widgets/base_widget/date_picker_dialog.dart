@@ -18,6 +18,15 @@ class BaseDate {
     );
   }
 
+  bool isTimestamp(String str) {
+    try {
+      DateTime.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
@@ -27,6 +36,16 @@ class BaseDate {
     required Function(String) onChange,
     required BuildContext context,
   }) {
+
+    log('-textController.text)---${textController.text}--');
+    log('-isTimestamp(textController.text)---${isTimestamp(textController.text)}--');
+
+    // Convert Date Time if String
+    if (isTimestamp(textController.text)) {
+      textController.text = Utils.timestamptoDateConversion(int.tryParse(textController.text),
+          onlyDate ? Constants.dateFormat : Constants.fulldateFormat);
+    }
+
     return GestureDetector(
       onTap: () async {
         if (!isDisabled) {
@@ -156,21 +175,21 @@ class BaseDate {
     return formattedDate;
   }
 
-  // String formatTime(String dateTimeString) {
-  //   // if the dateTimeString is already a Unix timestamp
-  //   if (dateTimeString.length == 10 &&
-  //       dateTimeString.contains(RegExp(r'^\d+$'))) {
-  //     return dateTimeString;
-  //   }
-  //
-  //   try {
-  //     final dateTime =
-  //         DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
-  //     final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-  //     return unixTimestamp.toString();
-  //   } catch (_) {
-  //     // If the format does not match, handle the error or return a default value
-  //     throw FormatException('Unable to parse date-time: $dateTimeString');
-  //   }
-  // }
+// String formatTime(String dateTimeString) {
+//   // if the dateTimeString is already a Unix timestamp
+//   if (dateTimeString.length == 10 &&
+//       dateTimeString.contains(RegExp(r'^\d+$'))) {
+//     return dateTimeString;
+//   }
+//
+//   try {
+//     final dateTime =
+//         DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
+//     final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+//     return unixTimestamp.toString();
+//   } catch (_) {
+//     // If the format does not match, handle the error or return a default value
+//     throw FormatException('Unable to parse date-time: $dateTimeString');
+//   }
+// }
 }
