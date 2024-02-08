@@ -84,7 +84,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.status! > 1) {
+        if (state.model.status! > 0) {
           disableForm = true;
         }
         return Scaffold(
@@ -92,8 +92,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: disableForm ? false : true,
-            showSubmitButton: disableForm ? false : true,
+            showSaveButton: state.model.status !=0 ? false : true,
+            showSubmitButton: state.model.status !=0 ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -761,7 +761,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(),
-                          if (!disableForm) ...[
+                          if (state.model.status == 0) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<IncidentGeneralInfoCubit>(context)
