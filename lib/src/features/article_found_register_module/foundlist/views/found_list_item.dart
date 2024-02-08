@@ -73,27 +73,27 @@ class _FoundListItemState extends State<FoundListItem> {
               child: Wrap(
                 children: [
                   Utils().textHandling('ID : ', widget.userItem.id.toString()),
-                  CommonWidgets.horizontalSpacerWidget(8),
+                  CommonWidgets.horizontalSpacerWidget(5),
                   Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
                       Utils().textHandling(
                           'Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
-                      if (widget.userItem.foundLocation != null) ...[
-                        CommonWidgets.horizontalSpacerWidget(8),
-                        Utils().textHandling(
-                            'Location : ',
-                            widget.userItem.location?.name ?? ''),
-                      ],
                     ],
                   ),
                   if (widget.userItem.inputDate != null) ...[
                     CommonWidgets.verticalSpacerWidget(5),
                     Row(
                       children: [
+                        if (widget.userItem.foundLocation != null) ...[
+                          Utils().textHandling(
+                              'Location : ',
+                              widget.userItem.location?.name ?? ''),
+                        ],
+                        CommonWidgets.horizontalSpacerWidget(5),
                         Utils().textHandling(
-                            'Date of Creation : ',
+                            'Date : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestamptoDateConversion(
                                     int.tryParse(

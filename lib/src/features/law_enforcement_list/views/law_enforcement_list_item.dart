@@ -80,20 +80,20 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                       Utils().textHandling(
                           'Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
-                      if (widget.userItem.location != null) ...[
-                        CommonWidgets.horizontalSpacerWidget(8),
-                        Utils().textHandling(
-                            'Location : ',
-                            widget.userItem.location?.name ?? ''),
-                      ],
                     ],
                   ),
                   if (widget.userItem.inputDate != null) ...[
                     CommonWidgets.verticalSpacerWidget(5),
                     Row(
                       children: [
+                        if (widget.userItem.location != null) ...[
+                          Utils().textHandling(
+                              'Location : ',
+                              widget.userItem.location?.name ?? ''),
+                        ],
+                        CommonWidgets.horizontalSpacerWidget(5),
                         Utils().textHandling(
-                            'Date of Creation : ',
+                            'Date : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestamptoDateConversion(
                                 int.tryParse(
