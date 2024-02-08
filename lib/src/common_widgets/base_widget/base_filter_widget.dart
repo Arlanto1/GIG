@@ -171,154 +171,154 @@ class ShowFiltersWidget extends StatelessWidget {
     showModalBottomSheet(
       isScrollControlled: true, // Make the bottom sheet scrollable
       context: context,
+
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Filters',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    /// ID
-                    Column(
-                      children: [
-                        CommonWidgets.textDisplay(
-                          Constants.id,
-                          Styles.textStyleBlack14,
-                          isMandatory: false,
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Filters',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  /// ID
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.id,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      SizedBox(
+                        width: textFieldWidth,
+                        child: FlutterInputField(
+                          textInputType: TextInputType.number,
+                          textFormKey: Keys.idKey,
+                          // initialValue: state.model.challanNo,
+                          textFieldController: idController,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String? user) {},
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        SizedBox(
-                          width: textFieldWidth,
-                          child: FlutterInputField(
-                            textInputType: TextInputType.number,
-                            textFormKey: Keys.idKey,
-                            // initialValue: state.model.challanNo,
-                            textFieldController: idController,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
-                            onChange: (String value) {},
-                            validateTextField: (String? user) {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    CommonWidgets.horizontalSpacerWidget(height * 0.01),
-
-                    /// Created By
-                    Column(
-                      children: [
-                        CommonWidgets.textDisplay(
-                          Constants.createdby,
-                          Styles.textStyleBlack14,
-                          isMandatory: false,
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        SizedBox(
-                          width: textFieldWidth,
-                          child: FlutterInputField(
-                            textInputType: TextInputType.text,
-                            textFormKey: Keys.slNoKey,
-                            textFieldController: createdByController,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
-                            onChange: (String value) {},
-                            validateTextField: (String? user) {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.01),
-                Row(
-                  children: [
-                    /// From Date
-                    Column(
-                      children: [
-                        CommonWidgets.textDisplay(
-                          Constants.fromDate,
-                          Styles.textStyleBlack14,
-                          isMandatory: false,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: SizedBox(
-                            width: textFieldWidth,
-                            child: BaseDate().datePickerWidgetLoading(
-                              textController: fromDateController,
-                              onlyDate: true,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    /// To Date
-                    Column(
-                      children: [
-                        CommonWidgets.textDisplay(
-                          Constants.toDate,
-                          Styles.textStyleBlack14,
-                          isMandatory: false,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: SizedBox(
-                            width: textFieldWidth,
-                            child: BaseDate().datePickerWidgetLoading(
-                              textController: toDateController,
-                              onlyDate: true,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // Add more filter fields as needed
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    log('Applying Filters---onPressed---');
-                    Filters filtersModel = Filters();
-                    filtersModel.id = int.tryParse(idController.text);
-                    filtersModel.createdBy = createdByController.text;
-                    // filtersModel.slNo = int.tryParse(slNoController.text);
-                    if (!fromDateController.text.isEmptyOrNull) {
-                      filtersModel.fromDate =
-                          Utils().formatTime(fromDateController.text);
-                    }
-                    if (!toDateController.text.isEmptyOrNull) {
-                      filtersModel.toDate =
-                          Utils().formatTime(toDateController.text);
-                    }
-                    applyFilters(filtersModel);
-                  },
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        AppColors.navigationSkybluecolor),
-                    // Change the text color here
+                      ),
+                    ],
                   ),
-                  child: const Text('Search'),
+                  CommonWidgets.horizontalSpacerWidget(height * 0.01),
+
+                  /// Created By
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.createdby,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      SizedBox(
+                        width: textFieldWidth,
+                        child: FlutterInputField(
+                          textInputType: TextInputType.text,
+                          textFormKey: Keys.slNoKey,
+                          textFieldController: createdByController,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String? user) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              Row(
+                children: [
+                  /// From Date
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.fromDate,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: textFieldWidth,
+                          child: BaseDate().datePickerWidgetLoading(
+                            textController: fromDateController,
+                            onlyDate: true,
+                            onChange: (String value) {},
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  /// To Date
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.toDate,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: textFieldWidth,
+                          child: BaseDate().datePickerWidgetLoading(
+                            textController: toDateController,
+                            onlyDate: true,
+                            onChange: (String value) {},
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              // Add more filter fields as needed
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  log('Applying Filters---onPressed---');
+                  Filters filtersModel = Filters();
+                  filtersModel.id = int.tryParse(idController.text);
+                  filtersModel.createdBy = createdByController.text;
+                  // filtersModel.slNo = int.tryParse(slNoController.text);
+                  if (!fromDateController.text.isEmptyOrNull) {
+                    filtersModel.fromDate =
+                        Utils().formatTime(fromDateController.text);
+                  }
+                  if (!toDateController.text.isEmptyOrNull) {
+                    filtersModel.toDate =
+                        Utils().formatTime(toDateController.text);
+                  }
+                  applyFilters(filtersModel);
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      AppColors.navigationSkybluecolor),
+                  // Change the text color here
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+                child: const Text('Search'),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
         );
       },
