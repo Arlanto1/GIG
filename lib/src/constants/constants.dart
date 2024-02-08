@@ -33,6 +33,8 @@ class Constants {
 
 
   /// UI Labels Module Code
+  static const String articleFoundModuleCode = 'AF';
+  static const String leoModuleCode = 'LEO';
   static const String materialMovementModuleCode = 'MM';
   static const String contactDetailsModuleCode = 'CD';
   static const String guardingMasterModuleCode = 'GM';

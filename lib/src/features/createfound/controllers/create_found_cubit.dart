@@ -452,4 +452,9 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
     }
   }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.articleFoundModuleCode);
+  }
 }

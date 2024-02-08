@@ -1680,7 +1680,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        cancelButtonDisplay(),
+                                        cancelButtonDisplay(state),
                                         submitButtonDisplay(state)
                                       ],
                                     ),
@@ -1705,7 +1705,7 @@ class _CreateFoundState extends State<CreateFound> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                cancelButtonDisplay(),
+                                cancelButtonDisplay(state),
                               ],
                             ),
                           ),
@@ -1839,7 +1839,7 @@ class _CreateFoundState extends State<CreateFound> {
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(CreateFoundState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -1848,9 +1848,22 @@ class _CreateFoundState extends State<CreateFound> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(CreateFoundState state) {
+    if (widget.model?.id != null) {
+      BlocProvider.of<CreateFoundArticleCubit>(context)
+          .updateStatus(id: widget.model!.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        articleFoundListRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget locationWidgetdislay(CreateFoundState state) {
@@ -2092,32 +2105,32 @@ class _CreateFoundState extends State<CreateFound> {
               ListTile(
                 trailing: widget.model == null || widget.model?.status == 0
                     ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        // Delete logic here
-                        if (imageData1 != null) {
-                          // Implement delete functionality for attachmentListviews1
-                          setState(() {
-                            attachmentListviews1!.removeAt(index);
-                          });
-                        }
-                        if (imageData != null) {
-                          // Implement delete functionality for attachmentListviews1
-                          setState(() {
-                            attachmentListviews!.removeAt(index);
-                          });
-                        }
-                      },
-                    ),
-                    SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground),
-                  ],
-                )
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              // Delete logic here
+                              if (imageData1 != null) {
+                                // Implement delete functionality for attachmentListviews1
+                                setState(() {
+                                  attachmentListviews1!.removeAt(index);
+                                });
+                              }
+                              if (imageData != null) {
+                                // Implement delete functionality for attachmentListviews1
+                                setState(() {
+                                  attachmentListviews!.removeAt(index);
+                                });
+                              }
+                            },
+                          ),
+                          SvgPicture.asset(AppIcon.download,
+                              color: AppColors.boldgreyBackground),
+                        ],
+                      )
                     : SvgPicture.asset(AppIcon.download,
-                    color: AppColors.boldgreyBackground),
+                        color: AppColors.boldgreyBackground),
                 onTap: () {
                   DownloadImage().saveImage(
                       context, imageData1?.id ?? 0, imageData1?.title ?? '');

@@ -205,7 +205,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log('url--delete---$url');
+      log('url--patch---$url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
