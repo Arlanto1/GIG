@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="notification count api call">
-      <change beforePath="$PROJECT_DIR$/lib/src/services/common_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/common_services.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="article found cancel button working">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="test-case" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -130,6 +137,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
@@ -487,7 +495,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <option name="localTasksCounter" value="222" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -511,7 +519,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/charts" />
+                        <option value="origin/shift-schedule" />
                       </list>
                     </value>
                   </entry>
@@ -524,32 +532,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: listing page" />
-    <MESSAGE value="WIP: Details GI" />
-    <MESSAGE value="WIP: shift schedule Details duty posts" />
-    <MESSAGE value="WIP: create GI API implemented" />
-    <MESSAGE value="WIP: create Duty API implemented" />
-    <MESSAGE value="WIP: shift schedule" />
-    <MESSAGE value="Duty post master list page fixed according to API changes" />
-    <MESSAGE value="Duty post master detail page issue fixed" />
-    <MESSAGE value="minor fixes" />
-    <MESSAGE value="improvement as per API changes" />
-    <MESSAGE value="mm issue fixed" />
-    <MESSAGE value="attendance_view loader issue fixed" />
-    <MESSAGE value="WIP: attendance detail page" />
-    <MESSAGE value="WIP: attendance report and billing" />
-    <MESSAGE value="WIP: attendance duty posts" />
-    <MESSAGE value="WIP: Attendance briefing points" />
-    <MESSAGE value="WIP: Attendance" />
-    <MESSAGE value="WIP: icon change" />
-    <MESSAGE value="improvements" />
-    <MESSAGE value="sla with attendance_shifts_view.dart" />
-    <MESSAGE value="Add Quantity in MM" />
-    <MESSAGE value="add user on pop up" />
-    <MESSAGE value="MM images.type from 1 to 0&#10;sla violation add fixed" />
     <MESSAGE value="duty post name master: while creating a record,when we click on submit icon at top is not working.[qa]" />
     <MESSAGE value="notification count api call" />
-    <option name="LAST_COMMIT_MESSAGE" value="notification count api call" />
+    <MESSAGE value="get users by role api" />
+    <MESSAGE value="escalation matrix dropdown issue fixed" />
+    <MESSAGE value="sla violation issue fixed" />
+    <MESSAGE value="sla violation, contact details show po-up if list is empty" />
+    <MESSAGE value="/getEPLists, /exportEPPDF &amp; /exportEPExcel&#10;Added aps as parameter (0 for EP or 1 for Annual Power Shutdown (aps))&#10;&#10;Not required to pass userId in the endpoint of any API, removed it from backend&#10;&#10;For all export PDF or Excel not required to pass startPos &amp; maxResults" />
+    <MESSAGE value="sst incident menu fixed" />
+    <MESSAGE value="ep url issue" />
+    <MESSAGE value="hide password" />
+    <MESSAGE value="future time issue fixed" />
+    <MESSAGE value="sla disable field issue fixed" />
+    <MESSAGE value="day pass no set empty on location selection" />
+    <MESSAGE value="password underline" />
+    <MESSAGE value="username underline" />
+    <MESSAGE value="Add Entity, Department" />
+    <MESSAGE value="event protection issue fixed" />
+    <MESSAGE value="location update issue fixed" />
+    <MESSAGE value="DONE: cancel API, charcter limit" />
+    <MESSAGE value="DONE: cancel API" />
+    <MESSAGE value="model" />
+    <MESSAGE value="WIP: search filter" />
+    <MESSAGE value="DONE: Article Found Show Error" />
+    <MESSAGE value="WIP: Base Setup For Filters Done" />
+    <MESSAGE value="article found cancel button working" />
+    <option name="LAST_COMMIT_MESSAGE" value="article found cancel button working" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

@@ -1680,7 +1680,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        cancelButtonDisplay(state),
+                                        cancelButtonDisplay(),
                                         submitButtonDisplay(state)
                                       ],
                                     ),
@@ -1705,7 +1705,7 @@ class _CreateFoundState extends State<CreateFound> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                cancelButtonDisplay(state),
+                                cancelButtonDisplay(),
                               ],
                             ),
                           ),
@@ -1839,7 +1839,7 @@ class _CreateFoundState extends State<CreateFound> {
     );
   }
 
-  Widget cancelButtonDisplay(CreateFoundState state) {
+  Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -1848,12 +1848,12 @@ class _CreateFoundState extends State<CreateFound> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        updateRecordStatus();
       },
     );
   }
 
-  void updateRecordStatus(CreateFoundState state) {
+  void updateRecordStatus() {
     if (widget.model?.id != null) {
       BlocProvider.of<CreateFoundArticleCubit>(context)
           .updateStatus(id: widget.model!.id.toString());

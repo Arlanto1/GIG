@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
@@ -8,7 +9,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_multiple_selection_popup.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
 import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
@@ -1848,11 +1848,24 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus();
       },
     );
   }
 
+
+  void updateRecordStatus() {
+    if (widget.model?.id != null) {
+      BlocProvider.of<LawEnforcementCubit>(context)
+          .updateStatus(id: widget.model!.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        lawEnforcementListRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget attachmentListviews(
     List<ImageContent>? attachmentListviews,
     List<ImageContent>? attachmentListviews1,

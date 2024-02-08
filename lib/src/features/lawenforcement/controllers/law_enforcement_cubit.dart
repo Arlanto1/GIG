@@ -19,6 +19,7 @@ import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart'
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -625,6 +626,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
+  Future<void> updateStatus({required String id}) async {
+    await CommonServices().updateRecordStatus(
+        id: id, module: Constants.leoModuleCode);
+  }
 // void onModelValueChange(LawEnforcementDetails model) {
 //   log('-onModelValueChange---');
 //   emit(state.copyWith(model: model, status: FormStatus.initial));

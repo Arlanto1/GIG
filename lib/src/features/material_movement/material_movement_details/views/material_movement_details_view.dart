@@ -2511,20 +2511,9 @@ class _MaterialMovementDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        Navigator.pop(context);
       },
     );
-  }
-
-  void updateRecordStatus(MaterialMovementDetailsState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": widget.isInward});
-    } else {
-      Navigator.pop(context);
-    }
   }
 
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {

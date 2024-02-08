@@ -453,8 +453,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
-  void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(
+  Future<void> updateStatus({required String id}) async {
+    await commonServices.updateRecordStatus(
         id: id, module: Constants.articleFoundModuleCode);
   }
 }
