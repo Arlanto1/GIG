@@ -10,6 +10,8 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../index.dart';
+
 class AddDatePopUp extends StatefulWidget {
   const AddDatePopUp({
     super.key,
@@ -136,8 +138,9 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         PowerFailure powerFailure = PowerFailure();
         String powerFailureStartDate = powerFailureStartDateController.text;
         String powerFailureEndDate = powerFailureEndDateController.text;
-        powerFailure.powerFailureStartDate = powerFailureStartDate;
-        powerFailure.powerFailureEndDate = powerFailureEndDate;
+        powerFailure.powerFailureStartDate = Utils().formatTime(powerFailureStartDate);
+        powerFailure.powerFailureEndDate = Utils().formatTime(powerFailureEndDate);
+        // powerFailure.powerFailureEndDate = powerFailureEndDate;
         widget.onSubmit(powerFailure);
         Navigator.pop(context);
       },
