@@ -126,6 +126,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       state.model.entrySecurity ??= loggedInUserDetails;
       state.model.unit = model?.unit;
+      // state.model.rejectedBy ??= loggedInUserDetails;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
@@ -446,6 +447,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     // Setting time in milliseconds
     state.model.inputDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body

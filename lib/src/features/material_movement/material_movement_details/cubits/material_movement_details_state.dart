@@ -86,8 +86,6 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Quantity');
     }
 
-    log('--model.inwardMovement--${model.inwardMovement}--');
-
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
       if (model.materialComingFrom.isEmptyOrNull) {

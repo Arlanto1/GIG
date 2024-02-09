@@ -1505,10 +1505,11 @@ class _MaterialMovementDetailsViewState
                                 state.model.rejectionComment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
-                                isEnable:
-                                    true,
+                                isEnable: state.model?.status ==3 ?
+                                    true : false,
                                 isDisableColor:
-                                     true,
+                                state.model?.status ==3 ?
+                                false : true,
                                 onChange: (String value) {
                                   state.model.rejectionComment = value;
                                   context
@@ -1523,16 +1524,20 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.locale.rejectedBy ??
                                       state.labels?.defaultLocale.rejectedBy ??
                                       Constants.rejectedBy, isMandatory: true,
-                                  state.model.rejectedBy ?? ''),
+                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Rejected Date
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.rejectedDate ??
-                                      state
-                                          .labels?.defaultLocale.rejectedDate ??
-                                      Constants.rejectedDate,isMandatory: true,
-                                  state.model.rejectedDate ?? ''),
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.rejectedDate ??
+                                    state.labels?.defaultLocale.rejectedDate ??
+                                    Constants.rejectedDate,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              datecreateWidgetdisplay(state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
