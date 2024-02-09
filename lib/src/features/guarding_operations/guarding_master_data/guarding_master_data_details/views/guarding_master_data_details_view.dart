@@ -168,11 +168,15 @@ class _GuardingMasterDataDetailsViewState
     //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
     //     Constants.dateFormat);
 
-    pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
-      DateFormat("dd/MM/yyyy")
-          .parse(pvcIssuedDateController.text)
-          .add(const Duration(days: 1096, hours: 0, minutes: 0)),
-    );
+    final issuedDate = DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text);
+    final expiryDate = issuedDate.add(const Duration(days: 3 * 365));
+
+    pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(expiryDate);
+    // pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
+    //   DateFormat("dd/MM/yyyy")
+    //       .parse(pvcIssuedDateController.text)
+    //       .add(const Duration(3 * 365)),
+    // );
     medicalCertificateValidUntilController.text =
         Utils.timestamptoDateConversion(
             int.parse(
@@ -531,38 +535,6 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Guarding Agency Employee Code
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.employeeCode ??
-                                    state.labels?.defaultLocale.employeeCode ??
-                                    Constants.guardingAgencyEmpCode,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              initialValue: state.model.employeeCode,
-                              textFormKey: Keys.guardingAgencyKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.employeeCode ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.employeeCode = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             /// Rank
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.guardRank ??
@@ -602,6 +574,38 @@ class _GuardingMasterDataDetailsViewState
                                         });
                                   }
                                 }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Guarding Agency Employee Code
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.employeeCode ??
+                                    state.labels?.defaultLocale.employeeCode ??
+                                    Constants.guardingAgencyEmpCode,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              textInputType: TextInputType.number,
+                              initialValue: state.model.employeeCode,
+                              textFormKey: Keys.guardingAgencyKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData
+                                                  ?.employeeCode ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor: false,
+                              onChange: (String value) {
+                                state.model.employeeCode = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// DB Employee ID
@@ -883,10 +887,9 @@ class _GuardingMasterDataDetailsViewState
                               isDisabled: state.model.status != 6,
                               textController: deploymentTypeController,
                               items: deploymentTypeDropDownValues,
-                              initialValue:
-                                  state.model.typeOfDeployment.toString(),
+                              initialValue:'${state.model.typeOfDeployment ?? 1}',
                               onTap: () {
-                                if (isDisabled) {
+                                if (state.model.id !=null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: deploymentTypeDropDownValues
@@ -1046,28 +1049,32 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Chest
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.chest ??
-                                    state.labels?.defaultLocale.chest ??
-                                    Constants.chest,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              initialValue: '${state.model.chest ?? ''}',
-                              textFormKey: Keys.chestKey,
-                              hintText: '',
-                              isEnable: isDisabled,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.chest = int.tryParse(value);
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
+                            if (genderController.text.toLowerCase() !=
+                                'female') ...[
+                              ///Chest
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.chest ??
+                                      state.labels?.defaultLocale.chest ??
+                                      Constants.chest,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                initialValue: '${state.model.chest ?? ''}',
+                                textFormKey: Keys.chestKey,
+                                hintText: '',
+                                isEnable: isDisabled,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.chest = int.tryParse(value);
+                                  context
+                                      .read<GuardingMasterDataDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Local Language
@@ -1148,8 +1155,26 @@ class _GuardingMasterDataDetailsViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.physicallyFit ? 1 : 0,
+                                selectedValue: (genderController.text
+                                                    .toLowerCase() ==
+                                                'Female' &&
+                                            state.model.height != null &&
+                                            state.model.weight != null &&
+                                            state.model.height! >= 150 &&
+                                            state.model.weight! >= 50) ||
+                                        ((genderController.text.toLowerCase() ==
+                                                    'male' ||
+                                                genderController.text
+                                                        .toLowerCase() ==
+                                                    'transgender') &&
+                                            state.model.height != null &&
+                                            state.model.weight != null &&
+                                            state.model.chest != null &&
+                                            state.model.height! >= 165 &&
+                                            state.model.weight! >= 50 &&
+                                            state.model.chest! >= 80)
+                                    ? 0
+                                    : 1,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null

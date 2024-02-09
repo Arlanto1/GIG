@@ -106,15 +106,15 @@ class GuardingMasterDataDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    // if (model.entity == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Entity');
-    // }
-    // if (model.vendor == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
-    // if (model.guard == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Name');
-    // }
+    if (model.entity == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
+    }
+    if (model.vendor == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.guard == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Name');
+    }
     if (model.guardRank == null) {
       return const ErrorResponse(status: false, message: 'Please enter Rank');
     }
@@ -147,33 +147,38 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Mobile Number ');
     }
-    if (model.dateOfBirth == null) {
+    bool isUnder18YearsOld(DateTime dateOfBirth) {
+      DateTime currentDate = DateTime.now();
+      DateTime minimumDate = currentDate.subtract(const Duration(days: 365 * 18));
+      return dateOfBirth.isAfter(minimumDate);
+    }
+    if (model.dateOfBirth == null || (model.dateOfBirth !=null && isUnder18YearsOld(DateTime.parse(model.dateOfBirth!)) )) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Date of Birth');
+          status: false, message: 'Date of Birth should be more than or equal to 18 years');
     }
     if (model.dateOfJoining == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Date of Joining');
     }
-    // if (model.dependentsNo == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Dependents');
-    // }
+    if (model.dependentsNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Dependents');
+    }
     if (model.typeOfDeployment == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Deployment Type');
     }
-    // if (guardingMasterData.deploymentOrderSubmitted == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please Select Deployment Order Submitted? ');
-    // }
-    // if (model.height == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Height');
-    // }
-    // if (guardingMasterData.physicallyFit == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter PhysicallyFit?');
-    // }
+    if (model.deploymentOrderSubmitted == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please Select Deployment Order Submitted? ');
+    }
+    if (model.height == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Height');
+    }
+    if (model.physicallyFit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter PhysicallyFit?');
+    }
     if (model.localLanguage == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Local language');
@@ -198,10 +203,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter PVC Issued Date');
     }
-    // if (guardingMasterData.trainingCertificateProvided == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Training Certificate');
-    // }
+    if (model.trainingCertificateProvided == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Training Certificate');
+    }
     if (model.medicalCertificateValidUntil == null) {
       return const ErrorResponse(
           status: false,
@@ -211,14 +216,14 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter System Access');
     }
-    // if (model.covidFirstDoseDate == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Date of First Covid Dose');
-    // }
-    // if (model.covidSecondDoseDate == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Date of Second Covid Dose');
-    // }
+    if (model.covidFirstDoseDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Date of First Covid Dose');
+    }
+    if (model.covidSecondDoseDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Date of Second Covid Dose');
+    }
     if (model.additionalInitiatives == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Additional Initiatives');
