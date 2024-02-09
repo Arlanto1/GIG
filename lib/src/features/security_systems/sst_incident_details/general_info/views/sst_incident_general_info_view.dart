@@ -191,34 +191,15 @@ class _SstIncidentGeneralInfoViewState
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: !isDisabled,
-                              textController: statusController,
-                              items: sstIncidentsStatusItems,
-                              initialValue: '${widget.model?.status ?? 1}',                              onTap: () {
-                                  // BaseDropDown().assetTypeDialog(
-                                  //   context: context,
-                                  //   dropDownValues: sstIncidentsStatusItems
-                                  //       .map((label) => label.key)
-                                  //       .toList(),
-                                  //   onTap: (String value) {
-                                  //     if(state.model.status == null) {
-                                  //       Label? selectedLabel;
-                                  //       selectedLabel =
-                                  //           sstIncidentsStatusItems.firstWhere(
-                                  //                 (label) => label.key == value,
-                                  //             orElse: () =>
-                                  //             const Label(key: '', value: ''),
-                                  //           );
-                                  //       BlocProvider.of<
-                                  //           SstIncidentGeneralInfoCubit>(
-                                  //           context)
-                                  //           .updateDropdownValues(
-                                  //           status: int.tryParse(
-                                  //               selectedLabel.value));
-                                  //     } },
-                                  // );
-                              },
+                            FlutterInputField(
+                              isEnable: false,
+                              isDisableColor: true,
+                              textFormKey: Keys.statusTextController,
+                              hintText: '',
+                              initialValue:
+                              getStatusString(state.model.status ?? 1),
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -348,8 +329,8 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.vendorPoc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.vendorPoc = value;
                                 context
@@ -371,8 +352,8 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.escalation1Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation1Poc = value;
                                 context
@@ -394,8 +375,8 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.escalation2Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation2Poc = value;
                                 context
@@ -417,7 +398,8 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.escalation3Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation3Poc = value;
                                 context
@@ -576,8 +558,8 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.shortDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.shortDescription = value;
                                 context
@@ -600,8 +582,8 @@ class _SstIncidentGeneralInfoViewState
                               showBorder: true,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.detailDescription = value;
                                 context
@@ -629,7 +611,7 @@ class _SstIncidentGeneralInfoViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: state.model.status == 39
+                              onChangedNo: disableForm
                                   ? null
                                   : (val) {
                                       state.model.ipbArea = false;
@@ -687,7 +669,7 @@ class _SstIncidentGeneralInfoViewState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(),
+                          cancelButtonDisplay(state),
                           if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
@@ -745,7 +727,7 @@ class _SstIncidentGeneralInfoViewState
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -754,11 +736,20 @@ class _SstIncidentGeneralInfoViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
 
+  void updateRecordStatus(SstIncidentGeneralInfoState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, sstIncidentListRoute);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {
     return AppButton(
