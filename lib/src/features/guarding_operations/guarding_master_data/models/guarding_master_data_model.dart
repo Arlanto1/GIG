@@ -40,7 +40,9 @@ class GuardingMastersDataModel extends BaseObject {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? vendor;
   User? entrySecurity;
+  User? guard;
   String? inputDate;
   int? status;
   int? guardRank;
@@ -101,6 +103,8 @@ class GuardingMastersDataModel extends BaseObject {
     this.slNo,
     this.location,
     this.locationRegion,
+    this.vendor,
+    this.guard,
     this.entrySecurity,
     this.inputDate,
     this.status,
