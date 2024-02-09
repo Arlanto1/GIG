@@ -43,9 +43,9 @@ class AddDatePopUpState extends State<AddDatePopUp> {
   @override
   Widget build(BuildContext context) {
 
-    dateController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.csrParticipationDates ?? '0'),
-        Constants.dateFormat);
+    // dateController.text = Utils.timestamptoDateConversion(
+    //     int.parse(widget.guardingMasterData?.csrParticipationDates ?? '0'),
+    //     Constants.dateFormat);
 
     return AlertDialog(
       backgroundColor: AppColors.backgroundWhitecolor,
@@ -141,10 +141,10 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
 
-        widget.guardingMasterData?.csrParticipationDates = dateController.text;
-        BlocProvider.of<GuardingMasterDataDetailsCubit>(widget.mainContext)
-            .onAddParticipationDate(dateController.text);
-        Navigator.pop(context);
+        // widget.guardingMasterData?.csrParticipationDates = dateController.text;
+        // BlocProvider.of<GuardingMasterDataDetailsCubit>(widget.mainContext)
+        //     .onAddParticipationDate(dateController.text);
+        // Navigator.pop(context);
 
         // if (!isParticipationDateValid.status) {
         //   Validator().showToast(
