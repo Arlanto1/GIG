@@ -2088,8 +2088,7 @@ class _MaterialMovementDetailsViewState
                             // CommonWidgets.verticalSpacerWidget(
                             //     height * 0.01),
                           ],
-                          if ((state.model.status == 5 ||
-                                      state.model.status == 10) &&
+                          if (
                               widget.isInward) ...[
                             /// Is Material Physically Checked
                             CommonWidgets.textDisplay(
