@@ -18,12 +18,35 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      vendor: json['vendor'] == null
+          ? null
+          : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
+      guard: json['guard'] == null
+          ? null
+          : User.fromJson(json['guard'] as Map<String, dynamic>),
+      entity: json['entity'] == null
+          ? null
+          : Organisation.fromJson(json['entity'] as Map<String, dynamic>),
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       inputDate: json['inputDate'] as String?,
       status: json['status'] as int?,
       guardRank: json['guardRank'] as int?,
+      localAddressProof: json['localAddressProof'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['localAddressProof'] as Map<String, dynamic>),
+      permanentAddressProof: json['permanentAddressProof'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['permanentAddressProof'] as Map<String, dynamic>),
+      bioData: json['bioData'] == null
+          ? null
+          : ImageContent.fromJson(json['bioData'] as Map<String, dynamic>),
+      photoGraph: json['photoGraph'] == null
+          ? null
+          : ImageContent.fromJson(json['photoGraph'] as Map<String, dynamic>),
       employeeCode: json['employeeCode'] as String?,
       dbEmployeeId: json['dbEmployeeId'] as String?,
       dutyType: json['dutyType'] as int?,
@@ -85,6 +108,17 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       specialAchievements: json['specialAchievements'] as List<dynamic>?,
       entrySecurityName: json['entrySecurityName'] as String?,
       guardName: json['guardName'] as String?,
+      covidFirstDoseDate: json['covidFirstDoseDate'] as String?,
+      covidSecondDoseDate: json['covidSecondDoseDate'] as String?,
+      covidPrecautionaryDoseDate: json['covidPrecautionaryDoseDate'] as String?,
+      ertCertificationDate: json['ertCertificationDate'] as String?,
+      firstAidTrainingCompletionDate:
+          json['firstAidTrainingCompletionDate'] as String?,
+      height: json['height'] as num?,
+      weight: json['weight'] as num?,
+      chest: json['chest'] as num?,
+      dependentsNo: json['dependentsNo'] as int?,
+      msgbExemptionDate: json['msgbExemptionDate'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$GuardingMastersDataModelToJson(
@@ -95,14 +129,24 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'slNo': instance.slNo,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'vendor': instance.vendor,
       'entrySecurity': instance.entrySecurity,
+      'guard': instance.guard,
+      'entity': instance.entity,
       'inputDate': instance.inputDate,
       'status': instance.status,
       'guardRank': instance.guardRank,
+      'localAddressProof': instance.localAddressProof,
+      'permanentAddressProof': instance.permanentAddressProof,
+      'bioData': instance.bioData,
+      'photoGraph': instance.photoGraph,
       'employeeCode': instance.employeeCode,
       'dbEmployeeId': instance.dbEmployeeId,
       'dutyType': instance.dutyType,
       'gender': instance.gender,
+      'height': instance.height,
+      'weight': instance.weight,
+      'chest': instance.chest,
       'contactNo': instance.contactNo,
       'dateOfBirth': instance.dateOfBirth,
       'maritalStatus': instance.maritalStatus,
@@ -132,6 +176,11 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'trainingCertificates': instance.trainingCertificates,
       'medicalCertificateValidUntil': instance.medicalCertificateValidUntil,
       'medicalCertificates': instance.medicalCertificates,
+      'covidFirstDoseDate': instance.covidFirstDoseDate,
+      'covidSecondDoseDate': instance.covidSecondDoseDate,
+      'covidPrecautionaryDoseDate': instance.covidPrecautionaryDoseDate,
+      'ertCertificationDate': instance.ertCertificationDate,
+      'firstAidTrainingCompletionDate': instance.firstAidTrainingCompletionDate,
       'systemAccess': instance.systemAccess,
       'onboarded': instance.onboarded,
       'esicNo': instance.esicNo,
@@ -146,4 +195,6 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'specialAchievements': instance.specialAchievements,
       'entrySecurityName': instance.entrySecurityName,
       'guardName': instance.guardName,
+      'dependentsNo': instance.dependentsNo,
+      'msgbExemptionDate': instance.msgbExemptionDate,
     };
