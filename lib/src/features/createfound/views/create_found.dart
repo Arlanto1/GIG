@@ -157,8 +157,10 @@ class _CreateFoundState extends State<CreateFound> {
       statusTextController.text = widget.model?.status == 0
           ? "Found"
           : widget.model?.status == 1
-              ? "Under Security Custody"
-              : "Handover";
+          ? "Under Security Custody"
+          : widget.model?.status == -1
+          ? "Cancelled"
+          : "Handover";
       depositorTextController.text = widget.model?.depositorName != null
           ? widget.model?.depositorName ?? ""
           : '';
@@ -791,7 +793,7 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible: widget.model?.status != 2,
+                  visible: widget.model?.status != 2 && widget.model?.status != -1,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -808,7 +810,7 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.model?.status != 2,
+                  visible: widget.model?.status != -1 && widget.model?.status != 2,
                   child: GestureDetector(
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
@@ -1225,7 +1227,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           height: 70,
                                           isDisableColor:
                                               widget.model?.status == 1 ||
-                                                      widget.model?.status == 2
+                                                      widget.model?.status == 2 ||widget.model?.status == -1
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1317,7 +1319,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           height: 60,
                                           isDisableColor:
                                               widget.model?.status == 1 ||
-                                                      widget.model?.status == 2
+                                                      widget.model?.status == 2|| widget.model?.status == -1
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1675,7 +1677,7 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-                                  if (widget.model?.status != 2) ...[
+                                  if (widget.model?.status != 2 && widget.model?.status != -1) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -1692,7 +1694,7 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                           ),
                         ),
-                        if (widget.model?.status == 2) ...[
+                        if (widget.model?.status == 2 || widget.model?.status == -1) ...[
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
@@ -1971,7 +1973,7 @@ class _CreateFoundState extends State<CreateFound> {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
-                widget.model?.status != 2) {
+                widget.model?.status != 2&& widget.model?.status != -1) {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
@@ -2001,7 +2003,7 @@ class _CreateFoundState extends State<CreateFound> {
                 isClaimantDBEmployeeSelected = selectedValue;
               } else if (name == Constants.isdepositordbemployee &&
                   widget.model?.status != 1 &&
-                  widget.model?.status != 2) {
+                  widget.model?.status != 2 && widget.model?.status != -1) {
                 isDepositorDBEmployeeSelected = selectedValue;
               }
               setState(() {});
@@ -2016,8 +2018,8 @@ class _CreateFoundState extends State<CreateFound> {
     return TextfieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status == 1 || widget.model?.status == 2
-          // widget.model != null
+      isDisableColor: widget.model?.status == 1 || widget.model?.status == 2 ||
+      widget.model?.status == -1
           ? true
           : false,
       onTap: () {
