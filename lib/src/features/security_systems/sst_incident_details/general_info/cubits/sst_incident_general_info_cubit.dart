@@ -149,9 +149,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           roleName: 'ATOM_Senior_Security_Manager');
       List<BaseUser> lsms = [...lsm1, ...lsm2];
 
-      for (BaseUser user in lsms) {
-        log('-user---${user.name}--');
-      }
       List<BaseUser> locationTeamUsers =
           await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
 
