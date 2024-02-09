@@ -1,27 +1,10 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_response.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../../createfound/models/vendors_model.dart';
 import '../../../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';
@@ -137,17 +120,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           model.slNo = slNo.serialNo;
         }
       }
-      List<BaseUser> asl1 = await commonServices.getBaseUsers(
-          roleName: 'ATOM_ROLE_Security_Lead');
-      List<BaseUser> asl2 = await commonServices.getBaseUsers(
-          roleName: 'ATOM_Assistant_Security_Lead');
-      List<BaseUser> asl = [...asl1, ...asl2];
 
-      List<BaseUser> lsm1 =
-          await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
-      List<BaseUser> lsm2 = await commonServices.getBaseUsers(
-          roleName: 'ATOM_Senior_Security_Manager');
-      List<BaseUser> lsms = [...lsm1, ...lsm2];
+      List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
+
+      List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
 
       List<BaseUser> locationTeamUsers =
           await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
@@ -174,8 +152,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           status: FormStatus.initial,
           users: users,
           systemManagers: systemManagers,
-          asl: asl,
-          lsms: lsms,
+          securityLeads: securityLeads,
+          securityManagers: securityManagers,
           locationTeamUsers: locationTeamUsers,
           emailUsers: emailUsers,
           vendors: vendors,
@@ -248,7 +226,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       emit(
         state.copyWith(
-          lsms: state.emailUsers,
+          securityManagers: state.emailUsers,
         ),
       );
     }
@@ -276,7 +254,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       emit(
         state.copyWith(
-          asl: state.emailUsers,
+          securityLeads: state.emailUsers,
         ),
       );
     }
@@ -438,8 +416,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       ),
     );
   }
+
   void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(
-        id: id, module: Constants.securitySystem);
+    commonServices.updateRecordStatus(id: id, module: Constants.securitySystem);
   }
 }

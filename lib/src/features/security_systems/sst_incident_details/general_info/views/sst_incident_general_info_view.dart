@@ -458,7 +458,7 @@ class _SstIncidentGeneralInfoViewState
                                 BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
-                                    users: state.lsms!,
+                                    users: state.securityManagers!,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   SstIncidentGeneralInfoCubit>(
@@ -492,7 +492,7 @@ class _SstIncidentGeneralInfoViewState
                                 BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
-                                    users: state.asl!,
+                                    users: state.securityLeads!,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   SstIncidentGeneralInfoCubit>(

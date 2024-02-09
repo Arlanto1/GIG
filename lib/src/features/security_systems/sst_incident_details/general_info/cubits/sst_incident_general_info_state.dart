@@ -6,10 +6,10 @@ class SstIncidentGeneralInfoState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? asl;
+  final List<BaseUser>? securityLeads;
   final List<BaseUser>? systemManagers;
   final List<BaseUser>? locationTeamUsers;
-  final List<BaseUser>? lsms;
+  final List<BaseUser>? securityManagers;
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<ImageContent>? uploadAttachments;
@@ -46,10 +46,10 @@ class SstIncidentGeneralInfoState extends Equatable {
       model: model,
       locations: locations,
       listOfEntities: listOfEntities,
-      asl: asl,
+      securityLeads: asl,
       systemManagers: systemManager,
       locationTeamUsers: lt,
-      lsms: lsm,
+      securityManagers: lsm,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       uploadAttachments:uploadAttachments,
@@ -89,9 +89,9 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.systemManagers,
-    this.asl,
+    this.securityLeads,
     this.locationTeamUsers,
-    this.lsms,
+    this.securityManagers,
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -100,10 +100,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? asl,
+    List<BaseUser>? securityLeads,
     List<BaseUser>? systemManagers,
     List<BaseUser>? locationTeamUsers,
-    List<BaseUser>? lsms,
+    List<BaseUser>? securityManagers,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
@@ -124,10 +124,10 @@ class SstIncidentGeneralInfoState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       locationTeamUsers: locationTeamUsers ?? this.locationTeamUsers,
-      lsms: lsms ?? this.lsms,
+      securityManagers: securityManagers ?? this.securityManagers,
       systemManagers: systemManagers ?? this.systemManagers,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
-      asl: asl ?? this.asl,
+      securityLeads: securityLeads ?? this.securityLeads,
       vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,

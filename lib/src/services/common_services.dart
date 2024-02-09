@@ -24,6 +24,7 @@ class Apis {
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
+  static final String _getUsersByRoles = '$baseUrl/getUsersByRoles?roleNames=';
   static final String _getQualification =
       '$baseUrl$v2/getOrganisation?name=GUARD_QUALIFICATIONS';
   static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
@@ -212,6 +213,19 @@ class CommonServices {
     }
     return List<BaseUser>.from(
         response[roleName].map((x) => BaseUser.fromJson(x)));
+  }
+
+  Future<List<BaseUser>> getBaseUsersByRoles({
+    required String roleNames,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getUsersByRoles}$roleNames';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<BaseUser>.from(
+        response['users'].map((x) => BaseUser.fromJson(x)));
   }
 
   Future<GetDepositor> getAtomStaticUsers({
