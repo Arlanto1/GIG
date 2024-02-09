@@ -225,12 +225,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     }
 
     if (systemManager != null) {
-      // User userDetails = User(
-      //   name: systemManager.name,
-      //   userId: systemManager.id,
-      //   email: systemManager.email,
-      // );
-      //state.model.systemManager = systemManager;
+      User userDetails = User(
+        name: systemManager.name,
+        userId: systemManager.id,
+        email: systemManager.email,
+      );
+      state.model.systemManager = userDetails;
 
       emit(
         state.copyWith(
@@ -253,12 +253,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
     }
     if (lt != null) {
-      BaseUser userDetails = BaseUser(
+      User userDetails = User(
         name: lt.name,
-        id: lt.id,
+        userId: lt.id,
         email: lt.email,
       );
-      state.model.lt = userDetails as User?;
+      state.model.lt = userDetails;
 
       emit(
         state.copyWith(

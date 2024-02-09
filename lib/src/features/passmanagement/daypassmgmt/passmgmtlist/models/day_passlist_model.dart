@@ -76,6 +76,7 @@ class DayPassListElement {
   String? endTime;
   String? returnedTime;
   List<ImageContent>? evidenceDocuments;
+  List<ImageContent>? visitorImage;
   String? contactNo;
   bool? escortedByHost;
   String? escortedBy;
@@ -141,6 +142,7 @@ class DayPassListElement {
     this.mifareNo,
     this.passIssuedOn,
     this.employee,
+    this.visitorImage,
   });
 
   factory DayPassListElement.fromJson(Map<String, dynamic> json) =>
@@ -201,6 +203,10 @@ class DayPassListElement {
             ? []
             : List<ImageContent>.from(
             json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
+        visitorImage: json["visitorImage"] == null
+            ? []
+            : List<ImageContent>.from(
+            json["visitorImage"]!.map((x) => ImageContent.fromJson(x))),
         contactNo: json["contactNo"],
         escortedByHost: json["escortedByHost"],
         escortedBy: json["escortedBy"],
