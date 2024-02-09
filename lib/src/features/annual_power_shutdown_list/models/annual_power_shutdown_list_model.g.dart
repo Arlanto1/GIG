@@ -27,7 +27,7 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
           .toList(),
       status: json['status'] as int?,
       modifiedBy: json['modifiedBy'] as String?,
-      annualPowerShutdown: json['annualPowerShutdown'] as bool? ?? false,
+      annualPowerShutdown: json['annualPowerShutdown'] as bool? ?? true,
       eventStartDate: json['eventStartDate'] as String?,
       eventEndDate: json['eventEndDate'] as String?,
       epManager1: json['epManager1'] == null
