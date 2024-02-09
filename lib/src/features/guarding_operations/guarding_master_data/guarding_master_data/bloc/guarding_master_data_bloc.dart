@@ -48,7 +48,7 @@ class GuardingMasterDataBloc
             await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
+          //userId: '7',
           locationId: '56',
         );
         return emit(
@@ -64,7 +64,7 @@ class GuardingMasterDataBloc
           await _services.getGuardingMasterData(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
+        //userId: '7',
         locationId: '56',
       );
 

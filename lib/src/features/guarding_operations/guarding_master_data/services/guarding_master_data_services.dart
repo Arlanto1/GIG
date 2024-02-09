@@ -28,11 +28,11 @@ class GuardingMasterDataServices {
   Future<GuardingMasterDataResponse> getGuardingMasterData({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    // required String userId,
     required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

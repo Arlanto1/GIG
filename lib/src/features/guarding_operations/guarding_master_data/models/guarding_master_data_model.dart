@@ -40,42 +40,21 @@ class GuardingMastersDataModel extends BaseObject {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
-  Organisation? vendor;
   User? entrySecurity;
-  User? guard;
-  ImageContent? localAddressProof;
-  ImageContent? permanentAddressProof;
-  ImageContent? bioData;
-  ImageContent? photoGraph;
-  Organisation? entity;
   String? inputDate;
-  String? msgbExemptionDate;
-  String? csrParticipationDates;
-  String? medicalCertificateValidUntil;
-  String? covidFirstDoseDate;
-  String? covidSecondDoseDate;
-  String? covidPrecautionaryDoseDate;
-  String? ertCertificationDate;
-  String? firstAidTrainingCompletionDate;
-  String? pvcIssuedDate;
-  String? pvcExpiryDate;
-  String? dateOfBirth;
-  String? dateOfJoining;
   int? status;
-  num? height;
-  num? weight;
-  num? chest;
   int? guardRank;
   String? employeeCode;
   String? dbEmployeeId;
   int? dutyType;
   int? gender;
   String? contactNo;
-  int? dependentsNo;
+  String? dateOfBirth;
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
   List<ImageContent>? deploymentOrders;
+  String? dateOfJoining;
   bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
@@ -91,9 +70,12 @@ class GuardingMastersDataModel extends BaseObject {
   String? permanentAddress;
   String? localAddress;
   List<Organisation>? qualifications;
+  String? pvcIssuedDate;
+  String? pvcExpiryDate;
   List<ImageContent>? pvc;
   bool trainingCertificateProvided;
   List<ImageContent>? trainingCertificates;
+  String? medicalCertificateValidUntil;
   List<ImageContent>? medicalCertificates;
   int? systemAccess;
   bool onboarded;
@@ -102,12 +84,13 @@ class GuardingMastersDataModel extends BaseObject {
   bool msgbExempted;
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
-  bool csrParticipation;
-  bool specialAchievement;
-  String? specialAchievementText;
-  String? additionalInitiatives;
-  List<dynamic>? history;
   String? guardingPOC;
+  List<dynamic>? csrParticipations;
+  List<dynamic>? additionalInitiatives;
+  List<dynamic>? additionalQualifications;
+  List<dynamic>? specialAchievements;
+  String? entrySecurityName;
+  String? guardName;
 
   GuardingMastersDataModel({
     this.id,
@@ -115,42 +98,21 @@ class GuardingMastersDataModel extends BaseObject {
     this.location,
     this.locationRegion,
     this.entrySecurity,
-    this.guard,
-    this.localAddressProof,
-    this.permanentAddressProof,
-    this.bioData,
-    this.photoGraph,
-    this.entity,
     this.inputDate,
-    this.msgbExemptionDate,
-    this.csrParticipationDates,
-    this.medicalCertificateValidUntil,
-    this.covidFirstDoseDate,
-    this.covidSecondDoseDate,
-    this.covidPrecautionaryDoseDate,
-    this.ertCertificationDate,
-    this.firstAidTrainingCompletionDate,
-    this.pvcExpiryDate,
-    this.pvcIssuedDate,
-    this.dateOfBirth,
-    this.dateOfJoining,
     this.status,
-    this.height,
-    this.weight,
-    this.chest,
     this.guardRank,
     this.employeeCode,
     this.dbEmployeeId,
-    this.vendor,
     this.dutyType,
     this.gender,
     this.contactNo,
-    this.dependentsNo,
+    this.dateOfBirth,
     this.maritalStatus,
     this.typeOfDeployment,
-    this.deploymentOrderSubmitted = false,
+    this.deploymentOrderSubmitted= false,
     this.deploymentOrders,
-    this.physicallyFit = false,
+    this.dateOfJoining,
+    this.physicallyFit= false,
     this.localLanguage,
     this.localLangProficiencyR,
     this.hindiLangProficiencyR,
@@ -165,23 +127,27 @@ class GuardingMastersDataModel extends BaseObject {
     this.permanentAddress,
     this.localAddress,
     this.qualifications,
+    this.pvcIssuedDate,
+    this.pvcExpiryDate,
     this.pvc,
-    this.trainingCertificateProvided = false,
+    this.trainingCertificateProvided= false,
     this.trainingCertificates,
+    this.medicalCertificateValidUntil,
     this.medicalCertificates,
     this.systemAccess,
-    this.onboarded = false,
+    this.onboarded= false,
     this.esicNo,
     this.uanNo,
-    this.msgbExempted = false,
+    this.msgbExempted= false,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
-    this.csrParticipation = false,
-    this.specialAchievement = false,
-    this.specialAchievementText,
-    this.additionalInitiatives,
-    this.history,
     this.guardingPOC,
+    this.csrParticipations,
+    this.additionalInitiatives,
+    this.additionalQualifications,
+    this.specialAchievements,
+    this.entrySecurityName,
+    this.guardName,
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
