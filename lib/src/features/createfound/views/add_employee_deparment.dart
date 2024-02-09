@@ -196,7 +196,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         //loginFormKey.currentState!.validate();
-        FocusScope.of(context).unfocus();
+       // FocusScope.of(context).unfocus();
         if (nameTextController.text.isEmpty) {
           Validator().showToast(
             context,
@@ -211,9 +211,9 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                   nameTextController.text, keyTextController.text);
             }
           } catch (e) {
-            // present userwith error message
           }
         }
+        Navigator.of(context).pop();
       },
     );
   }
