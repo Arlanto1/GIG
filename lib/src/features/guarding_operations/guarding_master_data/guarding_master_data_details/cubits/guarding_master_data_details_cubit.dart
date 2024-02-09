@@ -75,18 +75,18 @@ class GuardingMasterDataDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onAddParticipationDate(String participationDate) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    List<String>? dates = state.participationDates ?? [];
-    dates.add(participationDate);
-
-    state.copyWith(
-      participationDates: dates,
-    );
-
-    state.model.csrParticipationDates = Utils().joinListWithComma(dates);
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
+  // void onAddParticipationDate(String participationDate) {
+  //   emit(state.copyWith(model: model, status: FormStatus.loading));
+  //   List<String>? dates = state.participationDates ?? [];
+  //   dates.add(participationDate);
+  //
+  //   state.copyWith(
+  //     participationDates: dates,
+  //   );
+  //
+  //   state.model.csrParticipations = Utils().joinListWithComma(dates);
+  //   emit(state.copyWith(model: model, status: FormStatus.initial));
+  // }
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -145,12 +145,8 @@ class GuardingMasterDataDetailsCubit
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
-      dynamic participationDates = Utils()
-          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      log('-state.model.id---${state.model.id}---');
-      log('-state.model.bopData---${state.model.bioData}---');
-      log('--guardImages---${state.model.photoGraph}----');
+      // dynamic participationDates = Utils()
+      //     .splitStringAfterComma(state.model.csrParticipations ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -168,7 +164,7 @@ class GuardingMasterDataDetailsCubit
           getEntitiesResponse: entities,
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,
-          participationDates: participationDates,
+          // participationDates: participationDates,
           localAddressAttachments: state.model.localAddressProof != null
               ? [state.model.localAddressProof ?? ImageContent()]
               : null,
@@ -441,12 +437,12 @@ class GuardingMasterDataDetailsCubit
     if (trainingCertificateProvided != null) {
       state.model.trainingCertificateProvided = trainingCertificateProvided;
     }
-    if (csrParticipation != null) {
-      state.model.csrParticipation = csrParticipation;
-    }
-    if (specialAchievement != null) {
-      state.model.specialAchievement = specialAchievement;
-    }
+    // if (csrParticipation != null) {
+    //   state.model.csrParticipation = csrParticipation;
+    // }
+    // if (specialAchievement != null) {
+    //   state.model.specialAchievement = specialAchievement;
+    // }
     if (msgbExempted != null) {
       state.model.msgbExempted = msgbExempted;
     }

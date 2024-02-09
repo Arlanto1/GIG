@@ -106,15 +106,15 @@ class GuardingMasterDataDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.entity == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Entity');
-    }
-    if (model.vendor == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    }
-    if (model.guard == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Name');
-    }
+    // if (model.entity == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Entity');
+    // }
+    // if (model.vendor == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    // }
+    // if (model.guard == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Name');
+    // }
     if (model.guardRank == null) {
       return const ErrorResponse(status: false, message: 'Please enter Rank');
     }
@@ -155,10 +155,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Date of Joining');
     }
-    if (model.dependentsNo == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Dependents');
-    }
+    // if (model.dependentsNo == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Dependents');
+    // }
     if (model.typeOfDeployment == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Deployment Type');
@@ -167,9 +167,9 @@ class GuardingMasterDataDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please Select Deployment Order Submitted? ');
     // }
-    if (model.height == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Height');
-    }
+    // if (model.height == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Height');
+    // }
     // if (guardingMasterData.physicallyFit == null) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter PhysicallyFit?');
@@ -211,14 +211,14 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter System Access');
     }
-    if (model.covidFirstDoseDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of First Covid Dose');
-    }
-    if (model.covidSecondDoseDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of Second Covid Dose');
-    }
+    // if (model.covidFirstDoseDate == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Date of First Covid Dose');
+    // }
+    // if (model.covidSecondDoseDate == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Date of Second Covid Dose');
+    // }
     if (model.additionalInitiatives == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Additional Initiatives');

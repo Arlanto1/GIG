@@ -2080,184 +2080,184 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// CSR Participation
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.csrParticipation ??
-                                    state.labels?.defaultLocale
-                                        .csrParticipation ??
-                                    Constants.csrParticipation,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.csrParticipation ? 1 : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.csrParticipation = true;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                                    csrParticipation: true);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 4
-                                        ? null
-                                        : (val) {
-                                            state.model.csrParticipation =
-                                                false;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                                    csrParticipation: false);
-                                          }),
+                            // /// CSR Participation
+                            // CommonWidgets.textDisplay(
+                            //     state.labels?.locale.csrParticipation ??
+                            //         state.labels?.defaultLocale
+                            //             .csrParticipation ??
+                            //         Constants.csrParticipation,
+                            //     Styles.textStyleBlack14),
+                            // RadioButtonsYesNo(
+                            //     status: state.model.status ?? 0,
+                            //     selectedValue:
+                            //         state.model.csrParticipation ? 1 : 0,
+                            //     onChangedYes:
+                            //         widget.guardingMasterData?.status == 6
+                            //             ? null
+                            //             : (val) {
+                            //                 state.model.csrParticipation = true;
+                            //                 BlocProvider.of<
+                            //                             GuardingMasterDataDetailsCubit>(
+                            //                         context)
+                            //                     .showFields(
+                            //                         csrParticipation: true);
+                            //               },
+                            //     onChangedNo:
+                            //         widget.guardingMasterData?.status == 4
+                            //             ? null
+                            //             : (val) {
+                            //                 state.model.csrParticipation =
+                            //                     false;
+                            //                 BlocProvider.of<
+                            //                             GuardingMasterDataDetailsCubit>(
+                            //                         context)
+                            //                     .showFields(
+                            //                         csrParticipation: false);
+                            //               }),
 
-                            if (state.model.csrParticipation) ...[
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.csrParticipationDates ??
-                                      state.labels?.defaultLocale
-                                          .csrParticipationDates ??
-                                      Constants.csrParticipationDate,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return AddDatePopUp(
-                                          guardingMasterData:
-                                              guardingMasterData,
-                                          mainContext: context,
-                                          onSubmit: (GuardingMastersDataModel
-                                              guardingMasterData) {
-                                            //loginFormKey.currentState!.validate();
-                                            FocusScope.of(context).unfocus();
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .submitForm(isSaveOnly: true);
-                                          },
-                                        );
-                                      });
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    // Expanded(
-                                    //child:
-                                    const SizedBox(width: 14),
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
-                                      //color: AppColors.navigationSkybluecolor,
-                                    ),
-                                    // ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      Constants.addParticipationDates,
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            Column(
-                              children: getParticipationDates(state, height),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Special Achivements
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.specialAchievement ??
-                                    state.labels?.defaultLocale
-                                        .specialAchievement ??
-                                    Constants.specialAchievements,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.specialAchievement ? 1 : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.specialAchievement =
-                                                true;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                                    specialAchievement: true);
-                                            // .onModelValueChange(state.guardingMasterData
-                                            // );
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.specialAchievement =
-                                                false;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                                    specialAchievement: false);
-                                          }),
-
-                            if (state.model.specialAchievement) ...[
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                lineHeight: 6,
-                                initialValue:
-                                    state.model.specialAchievementText,
-                                textFormKey: Keys.specialAchievementsKey,
-                                hintText: Constants.informationhere,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
-                                onChange: (String value) {
-                                  state.model.specialAchievementText = value;
-                                  context
-                                      .read<GuardingMasterDataDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-
-                            /// Additional Initiatives Info
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.additionalInitiatives ??
-                                    state.labels?.defaultLocale
-                                        .additionalInitiatives ??
-                                    Constants.additionalInitiativesInfo,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue: state.model.additionalInitiatives,
-                              textFormKey: Keys.additionInitiativesKey,
-                              hintText: Constants.informationhere,
-                              showBorder: true,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
-                              onChange: (String value) {
-                                state.model.additionalInitiatives = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
+                            // if (state.model.csrParticipation) ...[
+                            //   CommonWidgets.textDisplay(
+                            //       state.labels?.locale.csrParticipationDates ??
+                            //           state.labels?.defaultLocale
+                            //               .csrParticipationDates ??
+                            //           Constants.csrParticipationDate,
+                            //       Styles.textStyleBlack14),
+                            //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       showDialog(
+                            //           context: context,
+                            //           builder: (BuildContext dialogContext) {
+                            //             return AddDatePopUp(
+                            //               guardingMasterData:
+                            //                   guardingMasterData,
+                            //               mainContext: context,
+                            //               onSubmit: (GuardingMastersDataModel
+                            //                   guardingMasterData) {
+                            //                 //loginFormKey.currentState!.validate();
+                            //                 FocusScope.of(context).unfocus();
+                            //                 BlocProvider.of<
+                            //                             GuardingMasterDataDetailsCubit>(
+                            //                         context)
+                            //                     .submitForm(isSaveOnly: true);
+                            //               },
+                            //             );
+                            //           });
+                            //     },
+                            //     child: Row(
+                            //       children: <Widget>[
+                            //         // Expanded(
+                            //         //child:
+                            //         const SizedBox(width: 14),
+                            //         SvgPicture.asset(
+                            //           AppIcon.pluscircle,
+                            //           //color: AppColors.navigationSkybluecolor,
+                            //         ),
+                            //         // ),
+                            //         const SizedBox(width: 10),
+                            //         const Text(
+                            //           Constants.addParticipationDates,
+                            //           style: TextStyle(
+                            //             color: AppColors.navigationSkybluecolor,
+                            //             decoration: TextDecoration.underline,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ],
+                            //
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // Column(
+                            //   children: getParticipationDates(state, height),
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            //
+                            // /// Special Achivements
+                            // CommonWidgets.textDisplay(
+                            //     state.labels?.locale.specialAchievement ??
+                            //         state.labels?.defaultLocale
+                            //             .specialAchievement ??
+                            //         Constants.specialAchievements,
+                            //     Styles.textStyleBlack14),
+                            // RadioButtonsYesNo(
+                            //     status: state.model.status ?? 0,
+                            //     selectedValue:
+                            //         state.model.specialAchievement ? 1 : 0,
+                            //     onChangedYes:
+                            //         widget.guardingMasterData?.status == 6
+                            //             ? null
+                            //             : (val) {
+                            //                 state.model.specialAchievement =
+                            //                     true;
+                            //                 BlocProvider.of<
+                            //                             GuardingMasterDataDetailsCubit>(
+                            //                         context)
+                            //                     .showFields(
+                            //                         specialAchievement: true);
+                            //                 // .onModelValueChange(state.guardingMasterData
+                            //                 // );
+                            //               },
+                            //     onChangedNo:
+                            //         widget.guardingMasterData?.status == 6
+                            //             ? null
+                            //             : (val) {
+                            //                 state.model.specialAchievement =
+                            //                     false;
+                            //                 BlocProvider.of<
+                            //                             GuardingMasterDataDetailsCubit>(
+                            //                         context)
+                            //                     .showFields(
+                            //                         specialAchievement: false);
+                            //               }),
+                            //
+                            // if (state.model.specialAchievement) ...[
+                            //   CommonWidgets.verticalSpacerWidget(
+                            //       height * 0.001),
+                            //   FlutterInputField(
+                            //     lineHeight: 6,
+                            //     initialValue:
+                            //         state.model.specialAchievementText,
+                            //     textFormKey: Keys.specialAchievementsKey,
+                            //     hintText: Constants.informationhere,
+                            //     isEnable: state.model.status != 6,
+                            //     isDisableColor: state.model.status == 6,
+                            //     onChange: (String value) {
+                            //       state.model.specialAchievementText = value;
+                            //       context
+                            //           .read<GuardingMasterDataDetailsCubit>()
+                            //           .onModelValueChange(state.model);
+                            //     },
+                            //     validateTextField: (String? user) {},
+                            //   ),
+                            //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // ],
+                            //
+                            // /// Additional Initiatives Info
+                            // CommonWidgets.textDisplay(
+                            //     state.labels?.locale.additionalInitiatives ??
+                            //         state.labels?.defaultLocale
+                            //             .additionalInitiatives ??
+                            //         Constants.additionalInitiativesInfo,
+                            //     isMandatory: true,
+                            //     Styles.textStyleBlack14),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            // FlutterInputField(
+                            //   lineHeight: 6,
+                            //   initialValue: state.model.additionalInitiatives,
+                            //   textFormKey: Keys.additionInitiativesKey,
+                            //   hintText: Constants.informationhere,
+                            //   showBorder: true,
+                            //   isEnable: state.model.status != 6,
+                            //   isDisableColor: state.model.status == 6,
+                            //   onChange: (String value) {
+                            //     state.model.additionalInitiatives = value;
+                            //     context
+                            //         .read<GuardingMasterDataDetailsCubit>()
+                            //         .onModelValueChange(state.model);
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            // ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
                         ),
