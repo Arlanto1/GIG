@@ -55,6 +55,9 @@ class GuardingMastersDataModel extends BaseObject {
   String? dbEmployeeId;
   int? dutyType;
   int? gender;
+  num? height;
+  num? weight;
+  num? chest;
   String? contactNo;
   String? dateOfBirth;
   int? maritalStatus;
@@ -84,6 +87,11 @@ class GuardingMastersDataModel extends BaseObject {
   List<ImageContent>? trainingCertificates;
   String? medicalCertificateValidUntil;
   List<ImageContent>? medicalCertificates;
+  String? covidFirstDoseDate;
+  String? covidSecondDoseDate;
+  String? covidPrecautionaryDoseDate;
+  String? ertCertificationDate;
+  String? firstAidTrainingCompletionDate;
   int? systemAccess;
   bool onboarded;
   String? esicNo;
@@ -98,6 +106,9 @@ class GuardingMastersDataModel extends BaseObject {
   List<dynamic>? specialAchievements;
   String? entrySecurityName;
   String? guardName;
+  int? dependentsNo;
+  String? msgbExemptionDate;
+
 
   GuardingMastersDataModel({
     this.id,
@@ -162,6 +173,17 @@ class GuardingMastersDataModel extends BaseObject {
     this.specialAchievements,
     this.entrySecurityName,
     this.guardName,
+    this.covidFirstDoseDate,
+    this.covidSecondDoseDate,
+    this.covidPrecautionaryDoseDate,
+    this.ertCertificationDate,
+    this.firstAidTrainingCompletionDate,
+    this.height,
+    this.weight,
+    this.chest,
+    this.dependentsNo,
+    this.msgbExemptionDate,
+
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
