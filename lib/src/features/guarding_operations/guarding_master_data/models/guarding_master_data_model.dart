@@ -19,19 +19,19 @@ class GuardingMasterDataResponse {
 
   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      ?.map((dynamic e) =>
+      GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-        'data': items?.map((e) => e.toJson()).toList(),
-        'totalCount': totalCount,
-        'currentPageNo': currentPageNo,
-        'totalPageCount': totalPageCount
-      };
+    'data': items?.map((e) => e.toJson()).toList(),
+    'totalCount': totalCount,
+    'currentPageNo': currentPageNo,
+    'totalPageCount': totalPageCount
+  };
 }
 
 @JsonSerializable()
@@ -44,6 +44,10 @@ class GuardingMastersDataModel extends BaseObject {
   String? inputDate;
   int? status;
   int? guardRank;
+  ImageContent? localAddressProof;
+  ImageContent? permanentAddressProof;
+  ImageContent? bioData;
+  ImageContent? photoGraph;
   String? employeeCode;
   String? dbEmployeeId;
   int? dutyType;
@@ -101,6 +105,10 @@ class GuardingMastersDataModel extends BaseObject {
     this.inputDate,
     this.status,
     this.guardRank,
+    this.localAddressProof,
+    this.permanentAddressProof,
+    this.bioData,
+    this.photoGraph,
     this.employeeCode,
     this.dbEmployeeId,
     this.dutyType,
