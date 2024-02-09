@@ -204,9 +204,12 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       body: BlocBuilder<DayPassListCubit, DayPassListState>(
           bloc: dayPassListCubit,
           builder: (context, state) {
+            if(state.stateType == FormStatus.loading) {
+              return const BaseLoader();
+            }
             log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
             log('--state.stateType--${state.stateType}---');
-            if (state.stateType == DayPassListStateType.success) {
+            if (state.stateType == FormStatus.success) {
               if (state.foundListModel?.items == null &&
                   state.foundListModel!.items!.isEmpty) {
                 if (pageNumber == 0) {
@@ -236,11 +239,11 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                     height, state, scrollController, localfoundlist);
               }
             }
-            if (state.stateType == DayPassListStateType.loading) {
+            if (state.stateType == FormStatus.loading) {
               return const Center(
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
-            } else if (state.stateType == DayPassListStateType.failure &&
+            } else if (state.stateType == FormStatus.failure &&
                 (localfoundlist ?? []).isEmpty) {
               return Center(
                 child: Padding(
