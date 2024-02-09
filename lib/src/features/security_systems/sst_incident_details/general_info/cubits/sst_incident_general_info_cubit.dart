@@ -6,7 +6,6 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_user.dart';
@@ -118,13 +117,14 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           await commonServices.getUserDetails(userId: userId);
 
       model.createdBy = loggedInUserDetails;
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      List<BaseUser> users =
+          await commonServices.getBaseUsers(roleName: 'T1_Analyst');
 
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
+      List<Organisation> entities =
+          await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
       List<User> entrySecurities = await commonServices.getUsers();
-      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+      List<Organisation> vendors =
+          await commonServices.getOrganisations(name: 'ATOM_VENDORS');
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -147,16 +147,19 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           await commonServices.getBaseUsers(roleName: 'ATOM_Security_Manager');
       List<BaseUser> lsm2 = await commonServices.getBaseUsers(
           roleName: 'ATOM_Senior_Security_Manager');
-      List<BaseUser> lsm = [...lsm1, ...lsm2];
+      List<BaseUser> lsms = [...lsm1, ...lsm2];
 
-      List<BaseUser> lt =
+      for (BaseUser user in lsms) {
+        log('-user---${user.name}--');
+      }
+      List<BaseUser> locationTeamUsers =
           await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
 
-      List<BaseUser> systemManagerUser = await commonServices.getBaseUsers(
+      List<BaseUser> systemManagers = await commonServices.getBaseUsers(
           roleName: 'ATOM_Security_System_Manager');
 
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      List<BaseUser>? emailUsers =
+          await commonServices.getBaseUsers(roleName: 'ATOM_STATIC_USER');
 
       if (isInternal == true) {
         state.model.staffType = 1;
@@ -172,17 +175,17 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users.t1Analyst,
-          systemManager: systemManagerUser,
+          users: users,
+          systemManagers: systemManagers,
           asl: asl,
-          lsm: lsm,
-          lt: lt,
-          emailUsers: emailUsers.atomStaticUser,
-          vendors: vendors.items,
+          lsms: lsms,
+          locationTeamUsers: locationTeamUsers,
+          emailUsers: emailUsers,
+          vendors: vendors,
           entrySecurities: entrySecurities,
-          listOfEntities: entities.atomEntities,
+          listOfEntities: entities,
           getEntitiesResponse: entities,
-            uploadAttachments: state.model.attachments,
+          uploadAttachments: state.model.attachments,
         ),
       );
     } catch (e) {
@@ -234,7 +237,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       emit(
         state.copyWith(
-          systemManager: state.emailUsers,
+          systemManagers: state.emailUsers,
         ),
       );
     }
@@ -248,7 +251,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       emit(
         state.copyWith(
-          lsm: state.emailUsers,
+          lsms: state.emailUsers,
         ),
       );
     }
@@ -262,7 +265,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       emit(
         state.copyWith(
-          lt: state.emailUsers,
+          locationTeamUsers: state.emailUsers,
         ),
       );
     }

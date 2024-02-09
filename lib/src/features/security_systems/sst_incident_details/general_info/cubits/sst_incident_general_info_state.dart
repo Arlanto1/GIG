@@ -7,15 +7,15 @@ class SstIncidentGeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? asl;
-  final List<BaseUser>? systemManager;
-  final List<BaseUser>? lt;
-  final List<BaseUser>? lsm;
+  final List<BaseUser>? systemManagers;
+  final List<BaseUser>? locationTeamUsers;
+  final List<BaseUser>? lsms;
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<ImageContent>? uploadAttachments;
   //final List<Organisation> departments;
   final List<Organisation> vendors;
-  final AddEntities? getEntitiesResponse;
+  final List<Organisation>? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
@@ -32,7 +32,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<BaseUser>? lt,
     List<BaseUser>? lsm,
     required final List<Organisation>? listOfEntities,
-    required final AddEntities? getEntitiesResponse,
+    required final List<Organisation>? getEntitiesResponse,
      List<ImageContent>? uploadAttachments,
     required final List<Organisation> vendors,
     required String errorMessage,
@@ -47,9 +47,9 @@ class SstIncidentGeneralInfoState extends Equatable {
       locations: locations,
       listOfEntities: listOfEntities,
       asl: asl,
-      systemManager: systemManager,
-      lt: lt,
-      lsm: lsm,
+      systemManagers: systemManager,
+      locationTeamUsers: lt,
+      lsms: lsm,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       uploadAttachments:uploadAttachments,
@@ -88,10 +88,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
-    this.systemManager,
+    this.systemManagers,
     this.asl,
-    this.lt,
-    this.lsm,
+    this.locationTeamUsers,
+    this.lsms,
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -101,14 +101,14 @@ class SstIncidentGeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? asl,
-    List<BaseUser>? systemManager,
-    List<BaseUser>? lt,
-    List<BaseUser>? lsm,
+    List<BaseUser>? systemManagers,
+    List<BaseUser>? locationTeamUsers,
+    List<BaseUser>? lsms,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? getEntitiesResponse,
     List<String>? participationDates,
     List<ImageContent>? uploadAttachments,
     int? eventId,
@@ -123,9 +123,9 @@ class SstIncidentGeneralInfoState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      lt: lt ?? this.lt,
-      lsm: lsm ?? this.lsm,
-      systemManager: systemManager ?? this.systemManager,
+      locationTeamUsers: locationTeamUsers ?? this.locationTeamUsers,
+      lsms: lsms ?? this.lsms,
+      systemManagers: systemManagers ?? this.systemManagers,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       asl: asl ?? this.asl,
       vendors: vendors ?? this.vendors,
