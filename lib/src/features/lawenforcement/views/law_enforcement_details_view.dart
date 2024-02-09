@@ -123,7 +123,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               color: Colors.white),
         ),
         action: [
-          GestureDetector(
+      Visibility(
+      visible: widget.model?.status != -1,
+        child: GestureDetector(
             onTap: () {
               if (!isDistrbuted) {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -142,7 +144,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ),
             ),
           ),
-          GestureDetector(
+      ),
+          //GestureDetector(
+          Visibility(
+          visible: widget.model?.status != -1,
+          child: GestureDetector(
             onTap: () async {
               //loginFormKey.currentState!.validate();
               FocusScope.of(context).unfocus();
@@ -166,6 +172,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 ],
               ),
             ),
+          ),
           ),
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
@@ -523,14 +530,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
-                                      if ((state.getVisitsCount) < 10) {
-                                        manageAddVisitOfficialDetailWidget(
-                                            state);
-                                      } else {
-                                        Validator().showToast(
-                                          context,
-                                          "You have reached maximum visiting official details adding",
-                                        );
+                                      if(widget.model?.status !=-1) {
+                                        if ((state.getVisitsCount) < 10) {
+                                          manageAddVisitOfficialDetailWidget(
+                                              state);
+                                        } else {
+                                          Validator().showToast(
+                                            context,
+                                            "You have reached maximum visiting official details adding",
+                                          );
+                                        }
                                       }
                                     },
                                     child: Row(
@@ -546,14 +555,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         const Text(
                                           Constants.addvisitingofficialdetails,
                                           style: TextStyle(
-                                            color: AppColors
-                                                .navigationSkybluecolor,
+                                            color: AppColors.navigationSkybluecolor,
                                             decoration:
                                                 TextDecoration.underline,
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    ) ,
                                   ),
 
                                   // Upload
@@ -609,7 +617,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   // SubmitButton
-                                  if (widget.model?.status != 3) ...[
+                                  if (widget.model?.status != 3 && widget.model?.status != -1) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -629,7 +637,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                       ),
                     ),
                   ),
-                  if (widget.model?.status == 3) ...[
+                  if (widget.model?.status == 3||widget.model?.status == -1) ...[
                     Container(
                       padding: const EdgeInsets.all(5.0),
                       decoration: const ShapeDecoration(
