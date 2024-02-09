@@ -94,7 +94,7 @@ class _SstIncidentGeneralInfoViewState
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.id != null && state.model.status! > 0) {
+        if (state.model.id != null && state.model.status!> 1) {
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
