@@ -362,7 +362,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(Constants.articleType,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.typeOfArticle?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
@@ -436,7 +436,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   Constants.complaint, Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.complainant?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
@@ -518,7 +518,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   Constants.complaintDepartment,
                                   Styles.textStyleBlack14,
                                  ),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.complainantDepartment?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
@@ -542,7 +542,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 Constants.complaintHR, Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.complainantHr?.name,
                               height: 70,
                               isDisableColor: disableForm,
@@ -630,7 +630,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.incidentManager?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
@@ -668,7 +668,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.incidentOwner?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||

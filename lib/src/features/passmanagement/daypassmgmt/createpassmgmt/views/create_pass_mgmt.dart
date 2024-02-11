@@ -1875,7 +1875,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget departmentaddButtonwidgetLoading(CreatePassMgmtState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.selectedDepartment?.name ?? '',
       height: 60,
       isDisableColor:
@@ -1933,7 +1933,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason?.name}--');
     return Column(
       children: [
-        TextfieldAddButton(
+        TextFieldAddButton(
           title: widget.passId == '0'
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
@@ -2179,7 +2179,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget companytypeaddButtonwidgetLoading(CreatePassMgmtState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: passCategoryTextController.text == 'Permanent'
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
@@ -2313,7 +2313,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget nameaddButtonwidgetLoading(CreatePassMgmtState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
       isDisableColor:
@@ -2361,7 +2361,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status == 0 || widget.model?.status == null
@@ -2406,7 +2406,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget dbsponsoraddButtonwidgetLoading(CreatePassMgmtState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
       isDisableColor:

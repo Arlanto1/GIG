@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../../constants/app_icon.dart';
-import '../../utils/app_themes/colors/app_color.dart';
-import '../../utils/helpers/keys/keys.dart';
-import '../basic_reusable_widgets.dart';
+import 'package:db_atom/index.dart';
 
 class AddButtonWidget extends StatelessWidget {
   const AddButtonWidget({
@@ -30,15 +25,20 @@ class AddButtonWidget extends StatelessWidget {
                 : AppColors.navigationSkybluecolor,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(8))),
-      child: Center(
-        child: SvgPicture.asset(
-          AppIcon.addicon,
-          width: 20,
-          height: 20,
-          key: const Key(
-            Keys.userIcon,
-          ),
-        ), //Icon(Icons.add,color: AppColors.backgroundWhitecolor,size: 60,)
+      child: const Center(
+        child: Icon(
+          Icons.keyboard_arrow_down_rounded,
+          color: AppColors.white,
+        ),
+
+        // SvgPicture.asset(
+        //   AppIcon.addicon,
+        //   width: 20,
+        //   height: 20,
+        //   key: const Key(
+        //     Keys.userIcon,
+        //   ),
+        // ), //Icon(Icons.add,color: AppColors.backgroundWhitecolor,size: 60,)
       ),
     );
   }

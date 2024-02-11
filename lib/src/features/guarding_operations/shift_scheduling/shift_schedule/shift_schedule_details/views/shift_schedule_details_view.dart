@@ -285,7 +285,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
                             isDisableColor: false,

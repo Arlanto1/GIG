@@ -325,7 +325,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Constants.srh,
                               Styles.textStyleBlack14,
                               isMandatory: true),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.srh?.name,
                             height: 60,
                             isDisableColor: isReadOnly,
@@ -357,7 +357,7 @@ class _KeyHistoryRecordsDetailsViewState
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.securityManager?.name,
                             height: 60,
                             isDisableColor: isReadOnly,
@@ -387,7 +387,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
                             isDisableColor: false,

@@ -100,7 +100,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: widget.model.violation?.name ?? '',
                             height: 70,
                             isDisableColor: false,

@@ -188,7 +188,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 onChange: (String value) {},
                                 validateTextField: (String? user) {},
                               )
-                            : TextfieldAddButton(
+                            : TextFieldAddButton(
                                 title: state.model.vendor?.name,
                                 height: 60,
                                 isDisableColor: false,

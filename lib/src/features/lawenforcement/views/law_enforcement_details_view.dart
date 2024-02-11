@@ -1422,7 +1422,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget purposeofvisitaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
@@ -1447,7 +1447,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     if ((state.getVisits?.length ?? 0) > 0) {
       dept = state.getVisits![index].department;
     }
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: dept?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
@@ -1466,7 +1466,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget dbwanttodepartmentaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
@@ -1485,7 +1485,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget employeeDepartmentAddButtonWidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.createEmployeeDepartments?.name ?? '',
       height: 60,
       isDisableColor:
@@ -1499,7 +1499,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.getuserResponse != null &&
               (state.getuserResponse?.name ?? '').isNotEmpty
           ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')

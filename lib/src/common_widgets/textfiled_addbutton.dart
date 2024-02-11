@@ -3,17 +3,21 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 
-class TextfieldAddButton extends StatelessWidget {
+class TextFieldAddButton extends StatelessWidget {
   final Function? onTap;
   final String? title;
   final double? height;
   final bool? isDisableColor;
 
-  const TextfieldAddButton(
-      {super.key, this.onTap, this.title, this.height, this.isDisableColor
+  const TextFieldAddButton({
+    super.key,
+    this.onTap,
+    this.title,
+    this.height,
+    this.isDisableColor,
 
-      // required this.textfield,
-      });
+    // required this.textfield,
+  });
 
   @override
   Widget build(BuildContext context) {

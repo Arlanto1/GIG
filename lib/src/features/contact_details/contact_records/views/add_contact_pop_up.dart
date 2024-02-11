@@ -90,7 +90,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
                             isDisableColor: false,

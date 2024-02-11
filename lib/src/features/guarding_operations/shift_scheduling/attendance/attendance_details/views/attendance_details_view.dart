@@ -266,7 +266,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
                             isDisableColor: false,

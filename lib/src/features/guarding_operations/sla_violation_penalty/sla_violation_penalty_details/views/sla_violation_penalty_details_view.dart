@@ -209,7 +209,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
-                                '${state.model?.entrySecurity?.firstName ?? ''} ${state.model?.entrySecurity?.lastName ?? ''}'),
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -382,7 +382,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     Constants.aSL,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.approver?.name,
                               height: 60,
                               isDisableColor: isReadOnly,

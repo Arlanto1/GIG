@@ -552,7 +552,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                             Constants.proposedVendors,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title:'${state.guardInfoModel.proposedVendors??''}',
                             height: 60,
                             isDisableColor: false,

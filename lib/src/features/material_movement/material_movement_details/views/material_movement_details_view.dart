@@ -715,7 +715,7 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 widget.materialMovement?.status != 6 ||
                                         state.model.status == 1
-                                    ? TextfieldAddButton(
+                                    ? TextFieldAddButton(
                                         title: state.model.requestorEmail,
                                         height: 70,
                                         isDisableColor:
@@ -866,7 +866,7 @@ class _MaterialMovementDetailsViewState
                                     },
                                     validateTextField: (String? user) {},
                                   )
-                                : TextfieldAddButton(
+                                : TextFieldAddButton(
                                     title:
                                         state.model.requestorDepartment?.name,
                                     height: 70,
@@ -1085,7 +1085,7 @@ class _MaterialMovementDetailsViewState
                                     },
                                     validateTextField: (String? user) {},
                                   )
-                                : TextfieldAddButton(
+                                : TextFieldAddButton(
                                     title:
                                         state.model.preparedByDepartment?.name,
                                     height: 70,
@@ -1151,7 +1151,7 @@ class _MaterialMovementDetailsViewState
                                   isMandatory: true,
                                 ),
                                 widget.materialMovement?.status != 6
-                                    ? TextfieldAddButton(
+                                    ? TextFieldAddButton(
                                         title: state.model.approver1Email,
                                         height: 70,
                                         isDisableColor:
@@ -1255,7 +1255,7 @@ class _MaterialMovementDetailsViewState
                                     },
                                     validateTextField: (String? user) {},
                                   )
-                                : TextfieldAddButton(
+                                : TextFieldAddButton(
                                     title:
                                         state.model.approver1Department?.name,
                                     height: 70,
@@ -1325,7 +1325,7 @@ class _MaterialMovementDetailsViewState
                                   isMandatory: true,
                                 ),
                                 widget.materialMovement?.status != 6
-                                    ? TextfieldAddButton(
+                                    ? TextFieldAddButton(
                                         title: state.model.approver2Email,
                                         height: 70,
                                         isDisableColor:
@@ -1434,7 +1434,7 @@ class _MaterialMovementDetailsViewState
                                     },
                                     validateTextField: (String? user) {},
                                   )
-                                : TextfieldAddButton(
+                                : TextFieldAddButton(
                                     title:
                                         state.model.approver2Department?.name,
                                     height: 70,
@@ -1864,7 +1864,7 @@ class _MaterialMovementDetailsViewState
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
-                                  TextfieldAddButton(
+                                  TextFieldAddButton(
                                       title: state.model.receiverEmail,
                                       height: 70,
                                       isDisableColor: isReadOnly,
@@ -1938,7 +1938,7 @@ class _MaterialMovementDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.receiverDepartmenttName,
                               height: 70,
                               isDisableColor: isReadOnly,
@@ -1982,7 +1982,7 @@ class _MaterialMovementDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                                 title: state.model.otherReceiverName,
                                 height: 70,
                                 isDisableColor: isReadOnly,
@@ -2213,7 +2213,7 @@ class _MaterialMovementDetailsViewState
                                     isMandatory: true,
                                   ),
                                   widget.materialMovement?.status != 6
-                                      ? TextfieldAddButton(
+                                      ? TextFieldAddButton(
                                           title:
                                               state.model.returnReceiverMailId,
                                           height: 70,
@@ -2514,7 +2514,7 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: state.labels?.locale.quantity ??
           state.labels?.locale.quantity ??
           Constants.quantity,
