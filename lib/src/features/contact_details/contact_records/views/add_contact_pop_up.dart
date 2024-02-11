@@ -56,7 +56,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     }
 
     if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
-      name = Constants.guardingAgencyRank;
+      name = Constants.name;
+      rank= Constants.guardingAgencyRank;
     }
 
     if (widget.rankType == Constants.contactSupervisorRank) {
