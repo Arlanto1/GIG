@@ -33,12 +33,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController escalationLevelController = TextEditingController();
 
   String name = Constants.name;
+  String rank = Constants.rank;
 
   @override
   void initState() {
     super.initState();
 
-    log('---widget.contact.state---${widget.model.state}-----');
+    log('---widget.rankType---${widget.rankType}-----');
     rankController.text = widget.model.rank?.name ?? '';
     nameController.text = widget.model.email ?? '';
     stateController.text = widget.model.state ?? '';
@@ -56,6 +57,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
       name = Constants.guardingAgencyRank;
+    }
+
+    if (widget.rankType == Constants.contactSupervisorRank) {
+      rank = Constants.supervisorRank;
+    }
+    if (widget.rankType == Constants.contactZone) {
+      rank = Constants.zone;
     }
   }
 
@@ -92,9 +100,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         children: [
                           /// Rank
                           CommonWidgets.textDisplay(
-                            widget.rankType == Constants.contactZone
-                                ? Constants.zone
-                                : Constants.rank,
+                            rank,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -315,7 +321,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       return ErrorResponse(
           status: false,
           message: widget.rankType == Constants.contactZone
-              ? 'Please enter Area Name Manager.'
+              ? 'Please enter Area  Manager Name.'
               : 'Please enter Name.');
     }
     if (widget.rankType == Constants.contactZone) {

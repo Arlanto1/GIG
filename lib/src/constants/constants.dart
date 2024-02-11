@@ -456,7 +456,7 @@ class Constants {
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
   static const String zone = 'Zone';
-  static const String areaNameManager = 'Area Name Manager';
+  static const String areaNameManager = 'Area  Manager Name';
   static const String guardName = 'Name';
   static const String typeOfDuty = 'Type of Duty';
   static const String gender = 'Gender';
@@ -665,6 +665,7 @@ class Constants {
 
   static const String guardingAgencyRank =
       'Guarding Agency Escalation Rank';
+  static const String supervisorRank = 'Supervisor Rank';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
