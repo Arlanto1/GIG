@@ -8,12 +8,11 @@ class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool viaOccurrence;
   final SstIncident? model;
 
-  const SstIncidentGeneralInfoView({
-    super.key,
-    required this.isInternal,
-    required this.viaOccurrence,
-    this.model
-  });
+  const SstIncidentGeneralInfoView(
+      {super.key,
+      required this.isInternal,
+      required this.viaOccurrence,
+      this.model});
 
   @override
   State<SstIncidentGeneralInfoView> createState() =>
@@ -94,7 +93,7 @@ class _SstIncidentGeneralInfoViewState
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.id != null && state.model.status!> 1) {
+        if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
@@ -135,7 +134,6 @@ class _SstIncidentGeneralInfoViewState
         state.status == FormStatus.initial) {
       // uploadFiles = state.uploadAttachments;
       uploadFiles = state.uploadAttachments ?? [];
-
     }
 
     return Container(
@@ -197,7 +195,7 @@ class _SstIncidentGeneralInfoViewState
                               textFormKey: Keys.statusTextController,
                               hintText: '',
                               initialValue:
-                              getStatusString(state.model.status ?? 1),
+                                  getStatusString(state.model.status ?? 1),
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
@@ -535,6 +533,7 @@ class _SstIncidentGeneralInfoViewState
                                         lt: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Security_Team',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -621,29 +620,27 @@ class _SstIncidentGeneralInfoViewState
                                           .onCheckBoxChange(state.model);
                                     },
                             ),
+
                             ///Upload File
                             CommonWidgets.textDisplay(
-                                Constants.upload,
-                                Styles.textStyleBlack14),
+                                Constants.upload, Styles.textStyleBlack14),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ?? User(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: uploadFiles,
                               onImageSelected: (ImageContent data) {
                                 List<ImageContent>? files = [];
                                 files.add(data);
-                                for (ImageContent image
-                                in uploadFiles??[]) {
+                                for (ImageContent image in uploadFiles ?? []) {
                                   files.add(image);
                                 }
-                                BlocProvider.of<
-                                    SstIncidentGeneralInfoCubit>(
-                                    context)
+                                BlocProvider.of<SstIncidentGeneralInfoCubit>(
+                                        context)
                                     .addAttachment(
                                   data: files,
                                   images: files,
@@ -656,9 +653,7 @@ class _SstIncidentGeneralInfoViewState
                               attachments: state.uploadAttachments,
                               files: uploadFiles,
                               showDownloadIcon:
-                              widget.model != null
-                                  ? true
-                                  : false,
+                                  widget.model != null ? true : false,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
@@ -750,6 +745,7 @@ class _SstIncidentGeneralInfoViewState
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {
     return AppButton(

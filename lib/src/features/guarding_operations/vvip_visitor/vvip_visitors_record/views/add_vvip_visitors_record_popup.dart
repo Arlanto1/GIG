@@ -293,8 +293,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   }
 
   ErrorResponse get isFormValid {
-
-    if(widget.model.email != null && !Validator.isValidEmail(widget.model.email)){
+    if (widget.model.email != null &&
+        !Validator.isValidEmail(widget.model.email)) {
       return const ErrorResponse(
           status: false, message: 'Invalid Email Address');
     }
@@ -304,7 +304,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
           status: false, message: 'Please enter Visitor Name.');
     }
     if (widget.model.email == null) {
-
       return const ErrorResponse(
           status: false, message: 'Please enter Visitor Email ID.');
     }

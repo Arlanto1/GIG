@@ -666,6 +666,7 @@ class Constants {
   static const String guardingAgencyRank =
       'Guarding Agency Escalation Rank';
   static const String supervisorRank = 'Supervisor Rank';
+  static const String systemSiEscalationMatrixRank = 'System (SI) Escalation Matrix';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';

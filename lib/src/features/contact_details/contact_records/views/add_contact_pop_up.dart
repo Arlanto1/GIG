@@ -65,6 +65,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     if (widget.rankType == Constants.contactZone) {
       rank = Constants.zone;
     }
+
+    if (widget.rankType == Constants.contactSystemEscalationRank) {
+      rank = Constants.systemSiEscalationMatrixRank;
+    }
   }
 
   @override

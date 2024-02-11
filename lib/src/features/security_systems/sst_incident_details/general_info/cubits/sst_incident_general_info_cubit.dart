@@ -63,6 +63,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
+    List<BaseUser> locationTeamUsers =
+    await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+
     emit(
       state.copyWith(
         listOfEntities: entities,
@@ -71,6 +74,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         uploadAttachments: state.model.attachments,
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
+          locationTeamUsers:locationTeamUsers,
       ),
     );
   }
@@ -160,7 +164,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities,
           getEntitiesResponse: entities,
-          uploadAttachments: state.model.attachments,
+          uploadAttachments: model.attachments,
         ),
       );
     } catch (e) {

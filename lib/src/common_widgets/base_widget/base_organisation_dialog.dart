@@ -47,6 +47,7 @@ class BaseOrganisationDialog {
     required Function onTap,
     Function? functionToCall,
     bool enabled = true,
+    String roleName = 'ATOM_STATIC_USER',
   }) {
     showDialog(
       context: context,
@@ -64,6 +65,7 @@ class BaseOrganisationDialog {
                 builder: (BuildContext dialogContext) {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
+                    roleName: roleName,
                     functionToCall: functionToCall ?? () {},
                   );
                 });
