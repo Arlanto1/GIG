@@ -23,6 +23,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   User? userDetails;
   TextEditingController totalController = TextEditingController();
   TextEditingController rankController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
 
   bool isDisabled = true;
   bool isReadOnly = false;
@@ -91,7 +92,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: false,
+            showSaveButton: true,
             showSubmitButton: true,
               showDisLikeButton: false,
               showLikeButton: false,
@@ -181,6 +182,49 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           BaseDate().creationDateDisplay(
                               state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Status
+                          // CommonWidgets.textDisplay(
+                          //     state.labels?.locale.status ??
+                          //         state.labels?.defaultLocale.status ??
+                          //         Constants.status,
+                          //     Styles.textStyleBlack14,
+                          //     isMandatory: true),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          // BaseDropDown().getDropDown(
+                          //   isDisabled: true,
+                          //   textController: statusController,
+                          //   items: dutyPostNameMasterStatusValues,
+                          //   initialValue: '${state.model.status ?? 0}',
+                          //   onTap: () {
+                          //     if (widget.model != null) {
+                          //       BaseDropDown().assetTypeDialog(
+                          //         context: context,
+                          //         dropDownValues: dutyPostNameMasterStatusValues
+                          //             .map((label) => label.key)
+                          //             .toList(),
+                          //         onTap: (String value) {
+                          //           Label? selectedLabel;
+                          //           selectedLabel =
+                          //               dutyPostNameMasterStatusValues
+                          //                   .firstWhere(
+                          //                     (label) => label.key == value,
+                          //                 orElse: () =>
+                          //                 const Label(key: '', value: ''),
+                          //               );
+                          //           BlocProvider.of<
+                          //               DutyPostNameMasterDetailsCubit>(
+                          //               context)
+                          //               .updateDropdownValues(
+                          //               status: int.tryParse(
+                          //                   selectedLabel.value));
+                          //         },
+                          //       );
+                          //     }
+                          //   },
+                          // ),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
                           CommonWidgets.textDisplay(

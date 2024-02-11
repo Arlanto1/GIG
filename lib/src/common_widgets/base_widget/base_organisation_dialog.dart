@@ -18,7 +18,7 @@ class BaseOrganisationDialog {
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
-          leftImageName: AppIcon.addicon,
+          leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(

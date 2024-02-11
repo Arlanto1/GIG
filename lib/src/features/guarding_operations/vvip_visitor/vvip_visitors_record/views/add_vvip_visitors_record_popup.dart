@@ -85,7 +85,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.name,
                         textFieldController: nameController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
@@ -109,7 +108,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.email,
                         textFieldController: emailIdController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
@@ -131,7 +129,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.designation,
                         textFieldController: designationController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
@@ -153,7 +150,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.purpose,
                         textFieldController: purposeOfVisitController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.purposeOfVisitKey,
@@ -175,7 +171,6 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.baseLocation,
                         textFieldController: baseLocationOfVisitorsController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.baseLocationOfVisitorKey,
@@ -298,18 +293,46 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    // if (widget.model.violation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Violation.');
-    // }
-    // if (widget.model.staffCategory == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Staff Category.');
-    // }
-    // if (widget.model.totalViolations == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Total No of Violations');
-    // }
+
+    if(widget.model.email != null && !Validator.isValidEmail(widget.model.email)){
+      return const ErrorResponse(
+          status: false, message: 'Invalid Email Address');
+    }
+
+    if (widget.model.name == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Name.');
+    }
+    if (widget.model.email == null) {
+
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Email ID.');
+    }
+
+    if (widget.model.designation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Designation.');
+    }
+
+    if (widget.model.purpose == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Purpose of Visit.');
+    }
+
+    if (widget.model.baseLocation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Base Location of Visitors.');
+    }
+    if (widget.model.startDateVisit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Start Date of Visit.');
+    }
+
+    if (widget.model.endDateVisit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter End Date of Visit.');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
