@@ -32,6 +32,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController contactNoController = TextEditingController();
   TextEditingController escalationLevelController = TextEditingController();
 
+  String name = Constants.name;
+
   @override
   void initState() {
     super.initState();
@@ -42,12 +44,18 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     stateController.text = widget.model.state ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
 
-    if(widget.model.escalationLevel != null) {
+    if (widget.model.escalationLevel != null) {
       Label matchingLabel = escalationLevelDropDownValues.firstWhere(
-              (label) =>
-          label.value == widget.model.escalationLevel.toString());
+          (label) => label.value == widget.model.escalationLevel.toString());
 
       escalationLevelController.text = matchingLabel.key;
+    }
+    if (widget.rankType == Constants.contactZone) {
+      name = Constants.areaNameManager;
+    }
+
+    if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
+      name = Constants.guardingAgencyRank;
     }
   }
 
@@ -112,7 +120,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   //     .updateApproverEmailsValue(
                                   //         approver1EmailUser: user);
                                 },
-
                               );
                             },
                           )
@@ -180,9 +187,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Name
                       CommonWidgets.textDisplay(
-                        widget.rankType == Constants.contactZone
-                            ? Constants.areaNameManager
-                            : Constants.name,
+                        name,
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),

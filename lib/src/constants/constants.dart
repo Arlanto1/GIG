@@ -662,6 +662,10 @@ class Constants {
   static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
 
+
+  static const String guardingAgencyRank =
+      'Guarding Agency Escalation Rank';
+
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
   static const String aSL = 'ASL';

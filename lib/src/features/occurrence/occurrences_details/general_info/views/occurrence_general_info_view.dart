@@ -1301,6 +1301,37 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                              /// DG Working
+                              CommonWidgets.textDisplay(
+                                  Constants.dgWrking,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                  state.model.dgWrking ? 1 : 0,
+                                  onChangedYes: state.model.status == 6
+                                      ? null
+                                      : (val) {
+                                    state.model.dgWrking = true;
+                                    BlocProvider.of<
+                                        OccurrenceGeneralInfoCubit>(
+                                        context)
+                                        .showFields(dgWrking: true);
+                                    //.onModelValueChange(state.guardingMasterData
+                                    //);
+                                  },
+                                  onChangedNo: state.model.status == 4
+                                      ? null
+                                      : (val) {
+                                    state.model.dgWrking = false;
+                                    BlocProvider.of<
+                                        OccurrenceGeneralInfoCubit>(
+                                        context)
+                                        .showFields(
+                                        dgWrking: false);
+                                  }),
+
                               ///ATM Vendor Visit
                               CommonWidgets.textDisplay(
                                   Constants.aTMVendorVisit,
