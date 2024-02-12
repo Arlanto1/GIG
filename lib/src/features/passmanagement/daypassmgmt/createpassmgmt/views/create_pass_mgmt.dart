@@ -1433,7 +1433,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     if (widget.passId == '0') {
       passtypeTextController.text = 'DAY_PASS';
-    } else if (widget.passId == '3') {
+    } else if (widget.passId == '1') {
+      passtypeTextController.text = 'VISITOR_PASS';
+    }
+    else if (widget.passId == '2') {
+      passtypeTextController.text = 'VENDOR_PASS';
+    }
+    else if (widget.passId == '3') {
       passtypeTextController.text = 'SEZ_PASS';
     }
     getPassmanagmentList();
@@ -1753,12 +1759,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: widget.passId == "1"
-                ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                : widget.passId == "2"
-                    ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                    : ["DAY_PASS", "DWS_DAY_PASS"],
-            onTap: (String value) {
+              texts: widget.passId == "1" && (widget.model?.status == 0 || widget.model?.status == null)
+                  ? ["VISITOR_PASS"]
+                  : widget.passId == "1"
+                  ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
+                  : widget.passId == "2" && (widget.model?.status == 0 || widget.model?.status == null)
+                  ? ["VENDOR_PASS"]
+                  : widget.passId == "2"
+                  ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+                  : widget.passId == "0" && (widget.model?.status == 0 || widget.model?.status == null)
+                  ? ["DAY_PASS"]
+                  : widget.passId == "0"
+                  ? ["DAY_PASS", "DWS_DAY_PASS"]
+                  : widget.passId == "3" && (widget.model?.status == 0 || widget.model?.status == null)
+                  ? ["SEZ_PASS"]
+                  : ["SEZ_PASS", "DWS_SEZ_PASS"],
+              onTap: (String value) {
               log(value);
               passtypeTextController.text = value;
             },
