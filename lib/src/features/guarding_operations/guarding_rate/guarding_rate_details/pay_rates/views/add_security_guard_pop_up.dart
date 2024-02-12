@@ -166,6 +166,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       BaseDate().datePickerWidgetLoading(
                         textController: fromDateController,
                         isDisabled: false,
+                        onlyDate: true,
                         onChange: (String value) {
                           log('--fr-value-${fromDateController.text}------');
                           widget.payRate.fromDate = value;
@@ -185,6 +186,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
+                        onlyDate: true,
                         showPastDate: false,
                         onChange: (String value) {
                           widget.payRate.toDate = value;

@@ -652,7 +652,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               },
                             ),
 
-                            ///Business POC Escalation Department
+                            /// Business POC Escalation Department
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.bu2Dept ??
                                 //     state.labels?.defaultLocale.bu2Dept ??
@@ -689,7 +689,7 @@ class _AnnualPowerShutdownListDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///System Vendor 1 Email
+                            /// System Vendor 1 Email
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.systemVendor1 ??
                                 //     state.labels?.defaultLocale
@@ -715,7 +715,7 @@ class _AnnualPowerShutdownListDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Vendor 1 Contact No
+                            /// Vendor 1 Contact No
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.systemVendor1ContactNo ??
                                 //     state.labels?.defaultLocale
@@ -952,6 +952,7 @@ class _AnnualPowerShutdownListDetailsViewState
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             ///Event Protection Officer
                             CommonWidgets.textDisplay(
                               Constants.eventProtectionOfficers,
@@ -962,42 +963,54 @@ class _AnnualPowerShutdownListDetailsViewState
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ...state.model.epOfficers?.asMap()?.entries?.map((entry) {
-                                    final index = entry.key;
-                                    final officer = entry.value;
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Row(
+                                  ...state.model.epOfficers
+                                          ?.asMap()
+                                          ?.entries
+                                          ?.map((entry) {
+                                        final index = entry.key;
+                                        final officer = entry.value;
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            const SizedBox(width: 10),
-                                            BasicWidgetFunctions().getStringText(
-                                              strings: [officer],
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(width: 10),
+                                                BasicWidgetFunctions()
+                                                    .getStringText(
+                                                  strings: [officer],
+                                                ),
+                                              ],
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                // Remove the officer from the list
+                                                state.model.epOfficers
+                                                    ?.removeAt(index);
+                                                // Trigger UI update
+                                                BlocProvider.of<
+                                                            AnnualPowerShutdownListDetailsCubit>(
+                                                        context)
+                                                    .onCheckBoxChange(
+                                                        state.model);
+                                              },
+                                              child: Row(
+                                                children: <Widget>[
+                                                  const SizedBox(width: 10),
+                                                  SvgPicture.asset(
+                                                    AppIcon.close,
+                                                    // Add your close icon asset here
+                                                    color: Colors
+                                                        .black, // Set color as per your design
+                                                  ),
+                                                  const SizedBox(width: 14),
+                                                ],
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // Remove the officer from the list
-                                            state.model.epOfficers?.removeAt(index);
-                                            // Trigger UI update
-                                            BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
-                                                .onCheckBoxChange(state.model);
-                                          },
-                                          child: Row(
-                                            children: <Widget>[
-                                              const SizedBox(width: 10),
-                                              SvgPicture.asset(
-                                                AppIcon.close, // Add your close icon asset here
-                                                color: Colors.black, // Set color as per your design
-                                              ),
-                                              const SizedBox(width: 14),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  })?.toList() ?? [],
+                                        );
+                                      })?.toList() ??
+                                      [],
                                   GestureDetector(
                                     onTap: () {
                                       BaseOrganisationDialog().userDialog(
@@ -1007,8 +1020,10 @@ class _AnnualPowerShutdownListDetailsViewState
                                         onTap: (BaseUser user) {
                                           state.model.epOfficers ??= [];
 
-                                          if (state.model.epOfficers!.contains(user.email!)) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
+                                          if (state.model.epOfficers!
+                                              .contains(user.email!)) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
                                                     'Officer already added! Please add another officer.'),
@@ -1017,10 +1032,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                             return;
                                           }
 
-                                          state.model.epOfficers?.add(user.email ?? '');
+                                          state.model.epOfficers
+                                              ?.add(user.email ?? '');
                                           log('--eventProtectionGi--22-${state.model.epOfficers}-');
 
-                                          BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+                                          BlocProvider.of<
+                                                      AnnualPowerShutdownListDetailsCubit>(
+                                                  context)
                                               .onCheckBoxChange(state.model);
                                         },
                                       );
@@ -1035,8 +1053,10 @@ class _AnnualPowerShutdownListDetailsViewState
                                         const Text(
                                           'Add Officer',
                                           style: TextStyle(
-                                            color: AppColors.navigationSkybluecolor,
-                                            decoration: TextDecoration.underline,
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ],
@@ -1386,33 +1406,26 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
+
                               TextFieldAddButton(
                                 title: state.model.proposedVendors?.name,
                                 height: 60,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.vendors,
-                                      onTap: (Organisation vendor) {
-                                        BlocProvider.of<
-                                            AnnualPowerShutdownListDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            vendors: vendor);
-                                      },
-                                      orgName: 'ATOM_VENDORS',
-                                      createEntity: false,
-                                      title: 'Add Vendor',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                            AnnualPowerShutdownListDetailsCubit>(
-                                            context)
-                                            .refreshList();
-                                      });
+                                  BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    entities: state.vendors,
+                                    onTap: (Organisation org) {
+                                      budgetCostModel.vendorId = org.id;
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(vendors: org);
+                                    },
+                                  );
                                 },
                               ),
+
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Budget Costs
@@ -1426,7 +1439,8 @@ class _AnnualPowerShutdownListDetailsViewState
                               FlutterInputField(
                                 textInputType: TextInputType.number,
                                 // textFieldController: budgetController,
-                                initialValue: '${state.budgetCost?.budgetCost??0}',
+                                initialValue:
+                                    '${state.budgetCost?.budgetCost ?? 0}',
                                 // initialValue: ((state
                                 //                 .model.securityGuardCountHrs
                                 //                 ?.toDouble() ??

@@ -58,7 +58,7 @@ class AnnualPowerShutdownListServices {
   }
 
   Future<BudgetCostModel> getEpGuardBudgetCost({
-    required BudgetCostModel body,
+    required BudgetCostRequest body,
   }) async {
     final String url = Apis._getEpGuardBudgetCost;
     log("API URL------2-2-2-2-2-: $url");

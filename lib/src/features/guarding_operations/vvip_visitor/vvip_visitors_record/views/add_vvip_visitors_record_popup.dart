@@ -197,6 +197,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textController: startDateVisitController,
                         isDisabled: false,
                         showPastDate: false,
+                        // onlyDate: false,
                         onChange: (String value) {
                           // widget.model.startDateVisit = value;
                           widget.model.startDateVisit =

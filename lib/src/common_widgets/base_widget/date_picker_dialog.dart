@@ -96,14 +96,17 @@ class BaseDate {
   }) async {
     DateTime? pickedDate;
 
-    DateTime initialTime = DateTime.now();
+    DateTime currentTime = DateTime.now();
 
+    log('-onlyDate---$onlyDate-');
     if (onlyDate) {
+      DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
+      DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
-        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
-        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        minTime: minTime,
+        maxTime: maxTime,
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
@@ -115,15 +118,22 @@ class BaseDate {
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: initialTime,
+        currentTime: currentTime,
         locale: LocaleType.en,
       );
     } else {
+      // For DateTimePicker, adjust minTime and maxTime accordingly
+      DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
+      DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
+
+      // Ensure minTime is set to the current time if showPastDate is false
+      // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
+
       DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,
-        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
-        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        minTime: minTime,
+        maxTime: maxTime,
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
@@ -136,7 +146,7 @@ class BaseDate {
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: initialTime,
+        currentTime: currentTime,
         locale: LocaleType.en,
       );
     }
