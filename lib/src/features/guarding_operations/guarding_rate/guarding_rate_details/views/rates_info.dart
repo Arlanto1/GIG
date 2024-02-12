@@ -105,7 +105,7 @@ class _RatesInfoState extends State<RatesInfo> {
                             Row(
                               children: [
                                 CommonWidgets.verticalTextHandling(
-                                    Constants.createdby,
+                                    Constants.createdby, isMandatory: true,
                                     '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
