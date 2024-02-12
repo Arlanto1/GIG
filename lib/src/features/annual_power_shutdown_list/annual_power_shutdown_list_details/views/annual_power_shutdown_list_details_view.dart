@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 
 import '../../../../../index.dart';
+import '../../../../common_widgets/base_widget/basic_widget_functions.dart';
 
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
@@ -949,6 +950,101 @@ class _AnnualPowerShutdownListDetailsViewState
                                     });
                               },
                             ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ///Event Protection Officer
+                            CommonWidgets.textDisplay(
+                              Constants.eventProtectionOfficers,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            if (!disableForm) ...[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...state.model.epOfficers?.asMap()?.entries?.map((entry) {
+                                    final index = entry.key;
+                                    final officer = entry.value;
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(width: 10),
+                                            BasicWidgetFunctions().getStringText(
+                                              strings: [officer],
+                                            ),
+                                          ],
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // Remove the officer from the list
+                                            state.model.epOfficers?.removeAt(index);
+                                            // Trigger UI update
+                                            BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+                                                .onCheckBoxChange(state.model);
+                                          },
+                                          child: Row(
+                                            children: <Widget>[
+                                              const SizedBox(width: 10),
+                                              SvgPicture.asset(
+                                                AppIcon.close, // Add your close icon asset here
+                                                color: Colors.black, // Set color as per your design
+                                              ),
+                                              const SizedBox(width: 14),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  })?.toList() ?? [],
+                                  GestureDetector(
+                                    onTap: () {
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        enabled: !disableForm,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          state.model.epOfficers ??= [];
+
+                                          if (state.model.epOfficers!.contains(user.email!)) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Officer already added! Please add another officer.'),
+                                              ),
+                                            );
+                                            return;
+                                          }
+
+                                          state.model.epOfficers?.add(user.email ?? '');
+                                          log('--eventProtectionGi--22-${state.model.epOfficers}-');
+
+                                          BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                      );
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Officer',
+                                          style: TextStyle(
+                                            color: AppColors.navigationSkybluecolor,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

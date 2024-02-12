@@ -1043,57 +1043,93 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             if (!disableForm) ...[
-                              GestureDetector(
-                                onTap: () {
-                                  BaseOrganisationDialog().userDialog(
-                                    context: context,
-                                    enabled: !disableForm,
-                                    users: state.emailUsers!,
-                                    onTap: (BaseUser user) {
-                                      state.model.epOfficers ??= [];
-
-                                      if (state.model.epOfficers!
-                                          .contains(user.email!)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Officer already added! Please add other officer.'),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...state.model.epOfficers?.asMap()?.entries?.map((entry) {
+                                    final index = entry.key;
+                                    final officer = entry.value;
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(width: 10),
+                                            BasicWidgetFunctions().getStringText(
+                                              strings: [officer],
+                                            ),
+                                          ],
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // Remove the officer from the list
+                                            state.model.epOfficers?.removeAt(index);
+                                            // Trigger UI update
+                                            BlocProvider.of<GeneralInfoCubit>(context)
+                                                .onCheckBoxChange(state.model);
+                                          },
+                                          child: Row(
+                                            children: <Widget>[
+                                              const SizedBox(width: 10),
+                                              SvgPicture.asset(
+                                                AppIcon.close, // Add your close icon asset here
+                                                color: Colors.black, // Set color as per your design
+                                              ),
+                                              const SizedBox(width: 14),
+                                            ],
                                           ),
-                                        );
-                                        return;
-                                      }
+                                        ),
+                                      ],
+                                    );
+                                  })?.toList() ?? [],
+                                  GestureDetector(
+                                    onTap: () {
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        enabled: !disableForm,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          state.model.epOfficers ??= [];
 
-                                      state.model.epOfficers
-                                          ?.add(user.email ?? '');
-                                      log('--eventProtectionGi--22-${state.model.epOfficers}-');
+                                          if (state.model.epOfficers!.contains(user.email!)) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Officer already added! Please add another officer.'),
+                                              ),
+                                            );
+                                            return;
+                                          }
 
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
+                                          state.model.epOfficers?.add(user.email ?? '');
+                                          log('--eventProtectionGi--22-${state.model.epOfficers}-');
+
+                                          BlocProvider.of<GeneralInfoCubit>(context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    const SizedBox(width: 14),
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                    child: Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Officer',
+                                          style: TextStyle(
+                                            color: AppColors.navigationSkybluecolor,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      'Add Officer',
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
-                            BasicWidgetFunctions().getStringText(
-                                strings: state.model.epOfficers ?? [],
-                                ),
+
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
