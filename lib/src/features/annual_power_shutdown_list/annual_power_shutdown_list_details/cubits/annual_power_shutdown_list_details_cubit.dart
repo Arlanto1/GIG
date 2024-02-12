@@ -1,14 +1,7 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/annual_power_shutdown_list/models/annual_power_shutdown_list_model.dart';
-import 'package:db_atom/src/features/annual_power_shutdown_list/models/requestModel/annual_power_shutdown_list_request.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -58,13 +51,13 @@ class AnnualPowerShutdownListDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -77,6 +70,7 @@ class AnnualPowerShutdownListDetailsCubit
       ),
     );
   }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -423,8 +417,19 @@ class AnnualPowerShutdownListDetailsCubit
       ),
     );
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.eventProtectionModule);
+  }
+
+  Future<void> getEpGuardBudgetCost(BudgetCostModel budgetCost) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    BudgetCostModel budgetCostResponse =
+        await services.getEpGuardBudgetCost(body: budgetCost);
+
+    emit(state.copyWith(
+        budgetCost: budgetCostResponse, status: FormStatus.initial));
   }
 }

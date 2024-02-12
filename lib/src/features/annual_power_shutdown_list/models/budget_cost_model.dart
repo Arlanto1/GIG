@@ -1,15 +1,15 @@
 class BudgetCostModel {
-  final int? vendorId;
-  final int? soCount;
-  final int? soHours;
-  final int? ssCount;
-  final int? ssHours;
-  final int? sgCount;
-  final int? sgHours;
-  final int? sfCount;
-  final int? sfHours;
-  final double? budgetCost;
-  final int? locationId;
+  int? vendorId;
+  int? soCount;
+  int? soHours;
+  int? ssCount;
+  int? ssHours;
+  int? sgCount;
+  int? sgHours;
+  int? sfCount;
+  int? sfHours;
+  double? budgetCost;
+  int? locationId;
 
   BudgetCostModel({
     this.vendorId,

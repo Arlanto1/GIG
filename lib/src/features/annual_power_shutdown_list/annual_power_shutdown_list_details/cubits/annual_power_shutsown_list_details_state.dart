@@ -16,6 +16,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final BudgetCostModel? budgetCost;
 
   //final EpUiLabels? labels;
 
@@ -73,7 +74,6 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
-
 
   ErrorResponse get isValid {
     if (model.status == null) {
@@ -140,6 +140,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.budgetCost,
     //this.labels,
   });
 
@@ -159,6 +160,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    BudgetCostModel? budgetCost,
     // final EpUiLabels? labels,
   }) {
     return AnnualPowerShutdownListDetailsState(
@@ -177,6 +179,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      budgetCost: budgetCost ?? this.budgetCost,
       //labels: labels ?? this.labels,
     );
   }

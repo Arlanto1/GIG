@@ -58,13 +58,9 @@ class AnnualPowerShutdownListServices {
   }
 
   Future<BudgetCostModel> getEpGuardBudgetCost({
-    required AnnualPowerShutdownListRequest body,
-    required bool isSubmit,
-    // required int eventDuration,
+    required BudgetCostModel body,
   }) async {
-    var userId = await SharedPrefs.getUserId();
-    final String url =
-        "${Apis._getEpGuardBudgetCost}?userEmail=$userId&isSubmit=$isSubmit";
+    final String url = Apis._getEpGuardBudgetCost;
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

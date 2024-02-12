@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
-import 'package:db_atom/src/features/annual_power_shutdown_list/models/annual_power_shutdown_list_model.dart';
 
 import '../../../../../index.dart';
 
@@ -25,12 +24,18 @@ class _AnnualPowerShutdownListDetailsViewState
   TextEditingController eventEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController budgetController = TextEditingController();
-  TextEditingController securityGuardCountHrsController = TextEditingController();
-  TextEditingController securitySupervisorCountHrsController = TextEditingController();
-  TextEditingController securityOfficerCountHrsController = TextEditingController();
-  TextEditingController securityFacilitatorCountHrsController = TextEditingController();
+  TextEditingController securityGuardCountHrsController =
+      TextEditingController();
+  TextEditingController securitySupervisorCountHrsController =
+      TextEditingController();
+  TextEditingController securityOfficerCountHrsController =
+      TextEditingController();
+  TextEditingController securityFacilitatorCountHrsController =
+      TextEditingController();
 
   bool disableForm = false;
+
+  BudgetCostModel budgetCostModel = BudgetCostModel();
 
   @override
   void initState() {
@@ -222,11 +227,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                   }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.createdby, isMandatory: true,
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.createdby,
+                                isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -622,26 +629,25 @@ class _AnnualPowerShutdownListDetailsViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<
-                                                AnnualPowerShutdownListDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            bu1Dept: department);
-                                  },
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              bu1Dept: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                               },
                             ),
 
@@ -658,26 +664,25 @@ class _AnnualPowerShutdownListDetailsViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<
-                                                AnnualPowerShutdownListDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            bu2Dept: department);
-                                  },
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              bu2Dept: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                               },
                             ),
 
@@ -923,26 +928,25 @@ class _AnnualPowerShutdownListDetailsViewState
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<
-                                                AnnualPowerShutdownListDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            requesterDepartment: department);
-                                  },
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              requesterDepartment: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                               },
                             ),
 
@@ -1025,7 +1029,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///No. Of Security Officers
+                              /// No. Of Security Officers
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.securityOfficerCount ??
                                 //     state.labels?.defaultLocale
@@ -1043,7 +1047,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securityOfficerCount =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.soCount =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1072,7 +1078,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securityOfficerCountHrs =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.soHours =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1101,7 +1109,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securitySupervisorCount =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.ssCount =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1131,7 +1141,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securitySupervisorCountHrs =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.ssHours =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1142,7 +1154,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///No. Of Security Guards
+                              /// No. Of Security Guards
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.securityGuardCount ??
                                 //     state.labels?.defaultLocale
@@ -1151,27 +1163,29 @@ class _AnnualPowerShutdownListDetailsViewState
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
-                                initialValue:
-                                    '${state.model.securityGuardCount ?? ''}',
-                                textFormKey: Keys.noOfSecurityGuardsKey,
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
-                                hintText: '',
-                                onChange: (String? value) {
-                                  if (value != null) {
-                                    state.model.securityGuardCount =
-                                        int.parse(value);
-                                    context
-                                        .read<
-                                        AnnualPowerShutdownListDetailsCubit>()
-                                        .onModelValueChange(state.model);
+                                  initialValue:
+                                      '${state.model.securityGuardCount ?? ''}',
+                                  textFormKey: Keys.noOfSecurityGuardsKey,
+                                  isEnable: !disableForm,
+                                  isDisableColor: disableForm,
+                                  hintText: '',
+                                  onChange: (String? value) {
+                                    if (value != null) {
+                                      state.model.securityGuardCount =
+                                          int.parse(value);
+                                      budgetCostModel.sgCount =
+                                          int.tryParse(value);
+                                      context
+                                          .read<
+                                              AnnualPowerShutdownListDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    }
                                   }
-                                }
-                                // validateTextField: (String? user) {},
-                              ),
+                                  // validateTextField: (String? user) {},
+                                  ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///Total Duty Hours
+                              /// Total Duty Hours
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.securityGuardCountHrs ??
                                 //     state.labels?.defaultLocale
@@ -1189,7 +1203,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securityGuardCountHrs =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.sgHours =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1200,7 +1216,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///No. Of Security Facilitators
+                              /// No. Of Security Facilitators
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.securityFacilitatorCount ??
                                 //     state.labels?.defaultLocale
@@ -1218,7 +1234,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securityFacilitatorCount =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.sfCount =
+                                        int.tryParse(value);
                                   }
                                   context
                                       .read<
@@ -1229,7 +1247,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///Total Duty Hours
+                              /// Total Duty Hours
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale
                                 //     .securityFacilitatorCountHrs ??
@@ -1248,7 +1266,10 @@ class _AnnualPowerShutdownListDetailsViewState
                                 onChange: (String? value) {
                                   if (value != null) {
                                     state.model.securityFacilitatorCountHrs =
-                                        int.parse(value);
+                                        int.tryParse(value);
+                                    budgetCostModel.sfHours =
+                                        int.tryParse(value);
+                                    getBudgetCost(budgetCostModel, state);
                                   }
                                   context
                                       .read<
@@ -1277,6 +1298,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   all: state.vendors,
                                   enabled: !disableForm,
                                   onTap: (List<Organisation> selectedEntities) {
+                                    // budgetCostModel.vendorId =
+                                    //     int.tryParse(value);
                                     log('--selectedEntities----${selectedEntities.length}');
                                     BlocProvider.of<
                                                 AnnualPowerShutdownListDetailsCubit>(
@@ -1288,7 +1311,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///Budget Costs
+                              /// Budget Costs
                               CommonWidgets.textDisplay(
                                   // state.labels?.locale.budget ??
                                   //     state.labels?.defaultLocale.budget ??
@@ -1298,7 +1321,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   height * 0.001),
                               FlutterInputField(
                                 textInputType: TextInputType.number,
-                                textFieldController: budgetController,
+                                // textFieldController: budgetController,
+                                initialValue: '${state.budgetCost?.budgetCost}',
                                 // initialValue: ((state
                                 //                 .model.securityGuardCountHrs
                                 //                 ?.toDouble() ??
@@ -1342,12 +1366,14 @@ class _AnnualPowerShutdownListDetailsViewState
                           children: [
                             cancelButtonDisplay(state),
                             //if (!disableForm) ...[
-                              submitButtonDisplay(onTap: () {
-                                FocusScope.of(context).unfocus();
-                                BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
-                                    .submitForm(isSaveOnly: false);
-                              })
-                           // ],
+                            submitButtonDisplay(onTap: () {
+                              FocusScope.of(context).unfocus();
+                              BlocProvider.of<
+                                          AnnualPowerShutdownListDetailsCubit>(
+                                      context)
+                                  .submitForm(isSaveOnly: false);
+                            })
+                            // ],
                           ],
                         ),
                       ],
@@ -1382,6 +1408,7 @@ class _AnnualPowerShutdownListDetailsViewState
       },
     );
   }
+
   void updateRecordStatus(AnnualPowerShutdownListDetailsState state) {
     if (state.model.id != null) {
       BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
@@ -1391,6 +1418,7 @@ class _AnnualPowerShutdownListDetailsViewState
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {
     return AppButton(
@@ -1413,13 +1441,9 @@ class _AnnualPowerShutdownListDetailsViewState
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
               locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
+              onTap: (Organisation? location) async {
                 state.model.location = location;
+                budgetCostModel.vendorId = location?.id;
 
                 BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
                     .updateDropdownValues(location: location);
@@ -1431,5 +1455,16 @@ class _AnnualPowerShutdownListDetailsViewState
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
+  }
+
+  void getBudgetCost(BudgetCostModel budgetCostModel,
+      AnnualPowerShutdownListDetailsState state) {
+    log('---getBudgetCost---');
+    if (budgetCostModel.sfHours == null) {
+      return;
+    }
+    // Call API
+    BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+        .getEpGuardBudgetCost(budgetCostModel);
   }
 }
