@@ -1426,7 +1426,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               FlutterInputField(
                                 textInputType: TextInputType.number,
                                 // textFieldController: budgetController,
-                                initialValue: '${state.budgetCost?.budgetCost}',
+                                initialValue: '${state.budgetCost?.budgetCost??0}',
                                 // initialValue: ((state
                                 //                 .model.securityGuardCountHrs
                                 //                 ?.toDouble() ??
