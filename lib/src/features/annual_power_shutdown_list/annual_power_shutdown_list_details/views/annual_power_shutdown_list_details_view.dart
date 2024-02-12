@@ -1340,7 +1340,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 //     .toStringAsFixed(2),
                                 textFormKey: Keys.budgetKey,
                                 hintText: '',
-                                isEnable: !disableForm,
+                                isEnable: false,
                                 isDisableColor: disableForm,
                                 onChange: (double value) {
                                   state.model.budget = value;
