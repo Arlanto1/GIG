@@ -45,6 +45,7 @@ class CreatePassMgmtState extends Equatable {
   List<ImageContent>? loadAttachments = [];
   List<ImageContent>? photoAttachments = [];
   User? getUserDetailsResponse;
+  User? getHandOverDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
@@ -89,6 +90,7 @@ class CreatePassMgmtState extends Equatable {
     this.selectedDepartment,
     this.loadAttachments,
     this.getUserDetailsResponse,
+    this.getHandOverDetailsResponse,
     this.lawcreateFoundresponse,
     this.createEmployeeDepartments,
     this.createOrganisationResponse,
@@ -134,6 +136,7 @@ class CreatePassMgmtState extends Equatable {
     Organisation? selectedEmployeeDepartment,
     List<ImageContent>? loadAttachments,
     User? getUserDetailsResponse,
+    User? getHandOverDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
@@ -179,6 +182,7 @@ class CreatePassMgmtState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
+      getHandOverDetailsResponse:getHandOverDetailsResponse??this.getHandOverDetailsResponse,
       lawcreateFoundresponse:
           lawcreateFoundresponse ?? this.lawcreateFoundresponse,
       createEmployeeDepartments:
@@ -230,6 +234,7 @@ class CreatePassMgmtState extends Equatable {
         selectedDepartment,
         loadAttachments,
         getUserDetailsResponse,
+    getHandOverDetailsResponse,
         lawcreateFoundresponse,
         createEmployeeDepartments,
         createOrganisationResponse,

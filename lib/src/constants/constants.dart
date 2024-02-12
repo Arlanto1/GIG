@@ -300,6 +300,9 @@ class Constants {
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';
+  static const String passCollectedBy = 'Pass Collected By';
+  static const String passReturnedOn = 'Pass Returned On';
+
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
   static const String exceptionalApproval =

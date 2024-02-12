@@ -50,6 +50,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController sezpassinfoTextController = TextEditingController();
   TextEditingController mtpApplicationNoTextController =
       TextEditingController();
+  TextEditingController passReturnedTextController = TextEditingController();
+
 
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
@@ -58,6 +60,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
+  String handOverBy = '';
   bool isEditable = true;
   bool isFTECompanyNameEditable = true;
   bool isDisabled = false;
@@ -1307,6 +1310,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
+                                if(widget.model?.status == 2 )...[
+                                /// Pass Collected By
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.passCollectedBy,
+                                    isMandatory: true,
+                                        '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
+                                       ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                  CommonWidgets.textDisplay(
+                                      Constants.passReturnedOn,
+                                      isMandatory: true,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datepickerWidgetLoading(
+                                      passReturnedTextController),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
 
                                 /// SubmitButton
                                 if (widget.model?.status == null ||
@@ -1548,6 +1571,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passvaliduntilTextController.text;
+
+      passReturnedTextController.text = widget.model?.returnedTime != null &&
+          widget.model?.returnedTime != '0'
+          ? Utils.timestamptoDateConversion(
+          int.parse(widget.model?.returnedTime ?? '0'), Constants.fulldateFormat)
+          : passReturnedTextController.text;
 
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
 
@@ -2056,6 +2085,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String nextformattedDate = DateFormat(Constants.fulldateFormat)
         .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
+    passReturnedTextController.text=formattedDate;
     passvalidfromTextController.text = formattedDate;
     passvaliduntilTextController.text = nextformattedDate;
     if (widget.model == null) {
@@ -2709,6 +2739,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     int passValidUntilDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
@@ -2871,7 +2902,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
-
+    User? handoverSecurity = widget.model?.handoverSecurity ??
+        User(userId: state.getUserDetailsResponse?.userId ?? 1);
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
@@ -2931,6 +2963,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? passValidUntilDatePermanent.toString()
             : passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
+        returnedTime: passReturnedOn.toString(),
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.name ?? ''
             : state.dbsponsorResponse?.name ?? '',
@@ -2954,6 +2987,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         category: category,
         dayPassReason: dayPass,
         entrySecurity: entrySecurity,
+        handoverSecurity: handoverSecurity,
+        handOverSecurityName: '${handoverSecurity.firstName ?? ''} ${handoverSecurity.lastName ?? ''}',
         entrySecurityName:
             '${entrySecurity.firstName ?? ''} ${entrySecurity.lastName ?? ''}',
       );
@@ -2987,6 +3022,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? passValidUntilDatePermanent.toString()
               : passValidUntilDate.toString(),
           startTime: passvalidfromdate.toString(),
+          returnedTime: passReturnedOn.toString(),
           hostName: dbsponsorTextController.text.isEmpty
               ? state.hostResponse?.name ?? ''
               : state.dbsponsorResponse?.name ?? '',
@@ -3009,7 +3045,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           category: category,
           dayPassReason: dayPass,
           email: emailTextController.text,
-          entrySecurity: entrySecurity);
+          entrySecurity: entrySecurity,
+      handoverSecurity: handoverSecurity);
     }
     showLoadingDialog(context);
     var username = await SharedPrefs.getUsername();

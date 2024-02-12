@@ -52,6 +52,7 @@ class PassManagement {
   bool? exceptionalApproval;
   PassInfo? passInfo;
   String? endTime;
+
   //List<ImageContent>? evidenceDocuments;
   String? contactNo;
   bool? escortedByHost;
@@ -77,6 +78,8 @@ class PassManagement {
   Organisation? visitingDepartment;
   String? startTime;
   User? entrySecurity;
+  User? handoverSecurity;
+  String? returnedTime;
 
   PassManagement({
     this.id,
@@ -124,6 +127,8 @@ class PassManagement {
     this.startTime,
     this.updatedStatus,
     this.entrySecurity,
+    this.handoverSecurity,
+    this.returnedTime,
   });
 
   factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
@@ -182,10 +187,10 @@ class PassManagement {
         passNo: json["passNo"],
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
-    evidenceDocuments: json["evidenceDocuments"] == null
+        evidenceDocuments: json["evidenceDocuments"] == null
             ? []
-            : List<ImageContent>.from(
-                json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
+            : List<ImageContent>.from(json["evidenceDocuments"]!
+                .map((x) => ImageContent.fromJson(x))),
         department: json["department"] == null
             ? null
             : Organisation.fromJson(json["department"]),
@@ -201,6 +206,10 @@ class PassManagement {
         entrySecurity: json["entrySecurity"] == null
             ? null
             : User.fromJson(json["entrySecurity"]),
+        handoverSecurity: json["handoverSecurity"] == null
+            ? null
+            : User.fromJson(json["handoverSecurity"]),
+        returnedTime: json["returnedTime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -258,6 +267,8 @@ class PassManagement {
         "startTime": startTime,
         "updatedStatus": updatedStatus,
         "entrySecurity": entrySecurity?.toJson(),
+        "handoverSecurity": handoverSecurity?.toJson(),
+        "returnedTime": returnedTime,
       };
 }
 
