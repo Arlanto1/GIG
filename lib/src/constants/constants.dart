@@ -571,7 +571,7 @@ class Constants {
   static const String businessPocEscalationDepartment =
       'Business POC Escalation Department';
   static const String eventProtectionOfficers = 'Event protection Officer(s)';
-  static const String proposedVendors = 'Proposed Vendors';
+  static const String proposedVendors = 'Proposed Event Management Vendors';
   static const String eventStartDate = 'Event Start Date';
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';

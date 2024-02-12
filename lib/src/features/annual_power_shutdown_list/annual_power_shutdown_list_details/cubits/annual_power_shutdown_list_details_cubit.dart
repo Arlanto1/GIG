@@ -172,7 +172,7 @@ class AnnualPowerShutdownListDetailsCubit
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    List<Organisation>? vendors,
+    Organisation? vendors,
   }) async {
     emit(
       state.copyWith(
@@ -206,9 +206,11 @@ class AnnualPowerShutdownListDetailsCubit
     //   state.epOfficers.add(userDetails.email??'');
     // }
 
-    if (vendors != null) {
-      state.model.proposedVendors = vendors;
-    }
+    // if (vendors != null) {
+    //   state.model.proposedVendors = ;
+    // }
+    state.model.proposedVendors = vendors ?? state.model.proposedVendors;
+
 
     /// Get Sl No from API
     if (location != null) {

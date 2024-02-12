@@ -1386,25 +1386,33 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-
-                              BaseEntitiesSelection().entityDropDownSelection(
-                                  context: context,
-                                  selectedValues:
-                                      state.model.proposedVendors ?? [],
-                                  all: state.vendors,
-                                  enabled: !disableForm,
-                                  onTap: (List<Organisation> selectedEntities) {
-                                    // budgetCostModel.vendorId =
-                                    //     int.tryParse(value);
-                                    log('--selectedEntities----${selectedEntities.length}');
-                                    BlocProvider.of<
-                                                AnnualPowerShutdownListDetailsCubit>(
+                              TextFieldAddButton(
+                                title: state.model.proposedVendors?.name,
+                                height: 60,
+                                isDisableColor: false,
+                                onTap: () {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.vendors,
+                                      onTap: (Organisation vendor) {
+                                        BlocProvider.of<
+                                            AnnualPowerShutdownListDetailsCubit>(
                                             context)
-                                        .updateDropdownValues(
-                                            vendors: selectedEntities);
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  }),
+                                            .updateDropdownValues(
+                                            vendors: vendor);
+                                      },
+                                      orgName: 'ATOM_VENDORS',
+                                      createEntity: false,
+                                      title: 'Add Vendor',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            AnnualPowerShutdownListDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      });
+                                },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Budget Costs
