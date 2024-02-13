@@ -263,7 +263,8 @@ class _DutyPostNameMasterDetailsViewState
                               //    state.labels?.defaultLocale.poc ??
                               Constants.dutyPostLocationName,
                               Styles.textStyleBlack14,
-                              isMandatory: true),
+                              //isMandatory: true
+                            ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           GestureDetector(
                             onTap: () {
