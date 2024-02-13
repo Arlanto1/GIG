@@ -66,6 +66,48 @@ class SstIncidentGeneralInfoState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.vendor == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.vendorPoc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor POC');
+    }
+    if (model.escalation1Poc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escalation 1 POC');
+    }
+    if (model.escalation1Poc != null &&  !Validator.isValidEmail(model.escalation1Poc)) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 2 POC email');
+    }
+    if (model.escalation2Poc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escalation 2 POC');
+    }
+    if (model.escalation2Poc != null &&  !Validator.isValidEmail(model.escalation2Poc)) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 2 POC email');
+    }
+    if (model.escalation3Poc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escalation 3 POC');
+    }
+    if (model.escalation3Poc != null &&  !Validator.isValidEmail(model.escalation3Poc)) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 3 POC email');
+    }
+    if (model.systemManager == null) {
+      return const ErrorResponse(status: false, message: 'Please enter System Manager');
+    }
+    if (model.lsm == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Security Manager');
+    }
+    if (model.asl == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Security Lead');
+    }
+    if (model.lt == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Location Team');
+    }
+    if (model.shortDescription == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Short Description of Incident');
+    }
+    if (model.detailDescription == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Detail Description');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
