@@ -1544,7 +1544,7 @@ class _MaterialMovementDetailsViewState
                             //],
                             ],
 
-                            if (state.model.returnable == true && widget.materialMovement?.status == 3) ...[
+                            if (state.model.returnable == true) ...[
                               /// Expected Date Of Return
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.expectedDateOfReturn ??
