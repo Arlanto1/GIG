@@ -125,7 +125,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Visitors Designation
                       CommonWidgets.textDisplay(
                         Constants.visitorsDesignation,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -146,7 +146,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Purpose Of Visit
                       CommonWidgets.textDisplay(
                         Constants.purposeOfVisit,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -295,41 +295,41 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.model.email != null && widget.model.id!=null &&
+    if (widget.model.email != null &&
         !Validator.isValidEmail(widget.model.email)) {
       return const ErrorResponse(
           status: false, message: 'Invalid Email Address');
     }
 
-    if (widget.model.name == null&& widget.model.id!=null) {
+    if (widget.model.name == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Visitor Name.');
     }
-    if (widget.model.email == null&& widget.model.id!=null) {
+    if (widget.model.email == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Visitor Email ID.');
     }
 
-    if (widget.model.designation == null&& widget.model.id!=null) {
+    if (widget.model.designation == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Visitor Designation.');
     }
 
-    if (widget.model.purpose == null&& widget.model.id!=null) {
+    if (widget.model.purpose == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Purpose of Visit.');
     }
 
-    if (widget.model.baseLocation == null&& widget.model.id!=null) {
+    if (widget.model.baseLocation == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Base Location of Visitors.');
     }
-    if (widget.model.startDateVisit == null&& widget.model.id!=null) {
+    if (widget.model.startDateVisit == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Start Date of Visit.');
     }
 
-    if (widget.model.endDateVisit == null&& widget.model.id!=null) {
+    if (widget.model.endDateVisit == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter End Date of Visit.');
     }

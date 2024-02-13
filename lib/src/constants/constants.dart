@@ -209,6 +209,7 @@ class Constants {
   static const String status = 'Status';
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
+  static const String createDate = 'Create Date';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
   static const String articlename = 'Article Name';

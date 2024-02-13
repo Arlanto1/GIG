@@ -203,7 +203,7 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                Constants.dateofcreation,
+                                Constants.createDate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
