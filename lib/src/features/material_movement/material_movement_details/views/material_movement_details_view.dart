@@ -1778,6 +1778,7 @@ class _MaterialMovementDetailsViewState
                                     .read<MaterialMovementDetailsCubit>()
                                     .onModelValueChange(state.model);
                               },
+
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1810,6 +1811,9 @@ class _MaterialMovementDetailsViewState
                               onChange: (String value) {
                                 state.model.materialFromAddress = value;
                               },
+                              textInputAction: TextInputAction.newline,
+                              textInputType:
+                              TextInputType.multiline, //
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
