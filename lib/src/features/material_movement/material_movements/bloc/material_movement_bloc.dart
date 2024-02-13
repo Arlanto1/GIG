@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'material_movement_event.dart';
+
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -28,6 +29,14 @@ class MaterialMovementBloc
   FutureOr<void> _initializeValues(
       InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
     try {
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.materialMovementModuleCode);
+
+      log('-statuses-bloc--${statuses.length}---');
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
       Locations locations =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -38,7 +47,10 @@ class MaterialMovementBloc
       return emit(
         state.copyWith(
           locations: locations,
+          regions: regions,
+          statuses: statuses,
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on Exception {
