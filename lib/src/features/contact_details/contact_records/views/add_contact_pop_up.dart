@@ -107,7 +107,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           CommonWidgets.textDisplay(
                             rank,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
+                            //  isMandatory: true,
                           ),
                           TextFieldAddButton(
                             title: rankController.text,
@@ -199,7 +199,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Name
                       CommonWidgets.textDisplay(
                         name,
-                        isMandatory: true,
+                        //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
