@@ -320,6 +320,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               BaseDate().datePickerWidgetLoading(
                                 textController: eventStartDateController,
                                 onlyDate: false,
+                                showPastDate: false,
                                 onChange: (String value) {
                                   log('---value-$value------');
                                   state.model.eventStartDate =
@@ -347,6 +348,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               BaseDate().datePickerWidgetLoading(
                                 textController: eventEndDateController,
                                 //onlyDate: false,
+                                showPastDate: false,
                                 onChange: (String value) {
                                   state.model.eventEndDate =
                                       Utils().formatTime(value);
