@@ -219,9 +219,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                                  Constants.date,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
