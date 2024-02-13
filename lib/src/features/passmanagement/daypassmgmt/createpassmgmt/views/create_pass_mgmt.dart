@@ -1887,7 +1887,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               passvaliduntilTextController.text = nextformattedDate;
               companynameTextController.text =
                   widget.model?.companyName.toString() ?? "";
-              isFTECompanyNameEditable = true;
+              widget.model?.status == 0 || widget.model?.status == null ?
+              isFTECompanyNameEditable = true :isFTECompanyNameEditable = false;
             }
             // }
 
@@ -3519,7 +3520,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
-      isEnable: (textController == companynameTextController
+      isEnable: (textController == companynameTextController && widget.model?.status==0
               ? isFTECompanyNameEditable
               : isEditable) ||
           isEditable,
