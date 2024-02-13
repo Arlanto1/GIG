@@ -1,15 +1,20 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class BaseSearchWidget extends StatefulWidget {
   final Function(FilterCriteria) applySearchFilters;
   final Function(Filters) applyFilters;
+  final List<Organisation> statuses;
+  final List<Organisation> regions;
 
   const BaseSearchWidget({
     super.key,
     required this.applySearchFilters,
     required this.applyFilters,
+    required this.statuses,
+    required this.regions,
   });
 
   @override
@@ -29,7 +34,6 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
             child: TextField(
               controller: searchController,
               decoration: InputDecoration(
-
                 suffixIcon: InkWell(
                   onTap: () {
                     FilterCriteria filterCriteriaModel = FilterCriteria();
@@ -92,6 +96,8 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
           context: context,
           locations: Locations(),
           applyFilters: widget.applyFilters,
+          statuses: widget.statuses,
+          regions: widget.regions,
           clearSearchController: () {
             searchController.clear();
           },
@@ -105,14 +111,18 @@ class ShowFiltersWidget extends StatelessWidget {
   final BuildContext context;
   final Locations locations;
   final Function(Filters) applyFilters;
-  final VoidCallback? clearSearchController;
+  final List<Organisation> statuses;
+  final List<Organisation> regions;
+  final VoidCallback clearSearchController;
 
   const ShowFiltersWidget({
     super.key,
     required this.context,
     required this.locations,
     required this.applyFilters,
-    this.clearSearchController,
+    required this.clearSearchController,
+    required this.statuses,
+    required this.regions,
   });
 
   @override
@@ -128,11 +138,14 @@ class ShowFiltersWidget extends StatelessWidget {
       child: IntrinsicWidth(
         child: InkWell(
           onTap: () {
-            clearSearchController?.call(); // Call the clearSearchController function if it's not null
+            clearSearchController
+                ?.call(); // Call the clearSearchController function if it's not null
             showFilters(
               context: context,
               locations: locations,
               applyFilters: applyFilters,
+              statuses: statuses,
+              regions: regions,
             );
           },
           child: const Row(
@@ -157,6 +170,8 @@ class ShowFiltersWidget extends StatelessWidget {
     required BuildContext context,
     required final Locations locations,
     required final Function(Filters) applyFilters,
+    required List<Organisation> statuses,
+    required List<Organisation> regions,
   }) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
@@ -166,6 +181,10 @@ class ShowFiltersWidget extends StatelessWidget {
     TextEditingController createdByController = TextEditingController();
     TextEditingController fromDateController = TextEditingController();
     TextEditingController toDateController = TextEditingController();
+    Organisation? selectedRegion = Organisation();
+    Organisation? selectedLocation = Organisation();
+    Organisation? selectedStatus = Organisation();
+    List<Organisation> locations = [];
 
     double textFieldWidth = width * 0.45;
     showModalBottomSheet(
@@ -176,7 +195,11 @@ class ShowFiltersWidget extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),          child: Column(
+            left: 8,
+            right: 8,
+            top: 5,
+          ),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -291,8 +314,51 @@ class ShowFiltersWidget extends StatelessWidget {
                 ],
               ),
               CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+              Row(
+                children: [
+                  DropdownWidget(
+                    label: 'Select Region',
+                    elements: regions,
+                    onChange: (value) async {
+                      selectedRegion = value;
+
+                      locations = await CommonServices().getRegionsOrLocationsByRegionId(
+                          id: selectedRegion?.id);
+                    },
+                  ),
+                  // const SizedBox(
+                  //   width: 5,
+                  // ),
+                  // DropdownWidget(
+                  //   label: 'Select Location',
+                  //   elements: locations,
+                  //   onChange: (value) {
+                  //     selectedLocation = value;
+                  //   },
+                  // )
+                ],
+              ),
+
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              Row(
+                children: [
+                  DropdownWidget(
+                    label: 'Select Status',
+                    elements: statuses,
+                    onChange: (value) {
+                      selectedStatus = value;
+                    },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                ],
+              ),
               // Add more filter fields as needed
               const SizedBox(height: 16),
+
+              /// Search
               ElevatedButton(
                 onPressed: () {
                   log('Applying Filters---onPressed---');
@@ -308,6 +374,8 @@ class ShowFiltersWidget extends StatelessWidget {
                     filtersModel.toDate =
                         Utils().formatTime(toDateController.text);
                   }
+                  filtersModel.status = selectedStatus?.id;
+                  filtersModel.regionId = selectedRegion?.id;
                   applyFilters(filtersModel);
                 },
                 style: ButtonStyle(
@@ -322,6 +390,43 @@ class ShowFiltersWidget extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class DropdownWidget extends StatefulWidget {
+  final List<Organisation> elements;
+  final void Function(Organisation?)? onChange;
+  final String label;
+
+  const DropdownWidget({
+    super.key,
+    required this.elements,
+    required this.onChange,
+    required this.label,
+  });
+
+  @override
+  DropdownWidgetState createState() => DropdownWidgetState();
+}
+
+class DropdownWidgetState extends State<DropdownWidget> {
+  Organisation? selectedRegion;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: DropdownButtonFormField<Organisation>(
+        value: selectedRegion,
+        hint: Text(widget.label),
+        onChanged: widget.onChange,
+        items: widget.elements.map((region) {
+          return DropdownMenuItem<Organisation>(
+            value: region,
+            child: Text(region.name ?? ''),
+          );
+        }).toList(),
+      ),
     );
   }
 }

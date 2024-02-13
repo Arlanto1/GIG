@@ -5,6 +5,8 @@ class MaterialMovementState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final Locations? locations;
+  final List<Organisation>? regions;
+  final List<Organisation>? statuses;
   final User? loggedInUser;
   final String? message;
 
@@ -14,6 +16,8 @@ class MaterialMovementState extends Equatable {
     this.status = FormStatus.initial,
     this.message,
     this.locations,
+    this.regions,
+    this.statuses,
     this.loggedInUser,
   });
 
@@ -23,6 +27,8 @@ class MaterialMovementState extends Equatable {
     FormStatus? status,
     String? message,
     Locations? locations,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
     User? loggedInUser,
   }) {
     return MaterialMovementState(
@@ -30,6 +36,8 @@ class MaterialMovementState extends Equatable {
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       message: message ?? this.message,
+      regions: regions ?? this.regions,
+      statuses: statuses ?? this.statuses,
       locations: locations ?? this.locations,
       loggedInUser: loggedInUser ?? this.loggedInUser,
     );

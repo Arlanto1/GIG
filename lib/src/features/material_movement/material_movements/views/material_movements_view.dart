@@ -44,10 +44,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<MaterialMovementBloc>().add(FetchData(
-          startPos: pageNumber,
-          maxPos: 20,
-          newSearch: false,
-          filters: filters));
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -112,18 +113,23 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
+                  statuses: state.statuses ?? [],
+                  regions: state.regions??[],
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
                 if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                 ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.items.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
+
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
