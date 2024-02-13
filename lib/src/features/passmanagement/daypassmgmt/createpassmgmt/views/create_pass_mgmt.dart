@@ -1162,8 +1162,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 BaseDate().datePickerWidgetLoading(
                                   isDisabled:
-                                      widget.model?.status == 0 ? false : true,
-                                  showPastDate: false,
+                                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' ,                                 showPastDate: false,
                                   textController: passvaliduntilTextController,
                                   onlyDate: (widget.passId == '3' &&
                                           widget.model?.category == 1)
@@ -2744,6 +2743,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int passValidUntilDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
+    //
+    // DateTime desiredDate = DateTime(2022, 5, 31);
+    // int passValidUntilDatePermanent = (desiredDate.millisecondsSinceEpoch ~/ 1000);
+
 
     int passValidUntilDatePermanent =
         ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
