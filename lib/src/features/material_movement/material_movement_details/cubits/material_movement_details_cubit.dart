@@ -61,7 +61,21 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
-
+  void onAddRejectionComment(String rejectionsComment) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+    String? rejectedComment = state.rejectionComment;
+    state.copyWith(
+      rejectionComment: rejectedComment,
+    );
+    state.model.rejectionComment = rejectedComment;
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.initial,
+    ));
+  }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state

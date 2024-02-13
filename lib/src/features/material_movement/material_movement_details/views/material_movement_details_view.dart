@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
 
+import 'addRejectionCommnetPopUp.dart';
+
 class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
   final bool isInward;
@@ -43,6 +45,8 @@ class _MaterialMovementDetailsViewState
   SignatureController securitySignatureController = SignatureController();
   TextEditingController materialComingFromBriefDescriptionController =
       TextEditingController();
+
+  get model => null;
 
   @override
   void initState() {
@@ -180,7 +184,16 @@ class _MaterialMovementDetailsViewState
             },
             onTapReject: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+              state.model.rejectionComment == null ? showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AddRejectionCommentPopUp(
+                    model: model,
+                    mainContext: context,
+                  );
+                },
+              )
+              :BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isRejectOnly: true,
                 isSaveOnly: false,
                 isApprovedOnly: false,
@@ -212,6 +225,7 @@ class _MaterialMovementDetailsViewState
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
     log('-state.materialMovement.status---${state.model.status}--');
+    log('-rejection Comment---${widget.materialMovement?.rejectionComment}--');
 
     returnableTextController.text =
         state.model.returnable! ? 'Returnable' : 'Non Returnable';
@@ -1491,7 +1505,8 @@ class _MaterialMovementDetailsViewState
                                     },
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (widget.materialMovement?.status == 3||widget.materialMovement?.status == 4) ...[
+                            if (widget.materialMovement?.status == 4) ...[
+                            ///Rejection Commnet
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.rejectionComment ??
                                     state.labels?.defaultLocale
@@ -1505,11 +1520,9 @@ class _MaterialMovementDetailsViewState
                                 state.model.rejectionComment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
-                                isEnable: state.model?.status ==3 ?
-                                    true : false,
+                                isEnable: false,
                                 isDisableColor:
-                                state.model?.status ==3 ?
-                                false : true,
+                                true,
                                 onChange: (String value) {
                                   state.model.rejectionComment = value;
                                   context
@@ -1520,7 +1533,41 @@ class _MaterialMovementDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                              ],
-                              if(state.model?.status == 5)...[
+
+                            if(state.model?.status == 5)...[
+                            /// Rejection Comment
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.rejectionComment ??
+                                  state.labels?.defaultLocale.rejectionComment ??
+                                  Constants.rejectionComment,
+                              Styles.textStyleBlack14,
+                              isMandatory: widget.materialMovement == null
+                                  ? false
+                                  : true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            FlutterInputField(
+                              textInputType: TextInputType.text,
+                              initialValue: state.model.rejectionComment,
+                              textFormKey: Keys.purposeKey,
+                              hintText: '',
+                              isEnable:
+                                  state.model.status == 5
+                                  ? true
+                                  : false,
+                              isDisableColor:
+                                  state.model.status == 5,
+                              onChange: (String value) {
+                                state.model.rejectionComment = value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               /// Rejected By
                               CommonWidgets.horizentaltextHandling(
                                   state.labels?.locale.rejectedBy ??
