@@ -184,47 +184,47 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Status
-                          // CommonWidgets.textDisplay(
-                          //     state.labels?.locale.status ??
-                          //         state.labels?.defaultLocale.status ??
-                          //         Constants.status,
-                          //     Styles.textStyleBlack14,
-                          //     isMandatory: true),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDropDown().getDropDown(
-                          //   isDisabled: true,
-                          //   textController: statusController,
-                          //   items: dutyPostNameMasterStatusValues,
-                          //   initialValue: '${state.model.status ?? 0}',
-                          //   onTap: () {
-                          //     if (widget.model != null) {
-                          //       BaseDropDown().assetTypeDialog(
-                          //         context: context,
-                          //         dropDownValues: dutyPostNameMasterStatusValues
-                          //             .map((label) => label.key)
-                          //             .toList(),
-                          //         onTap: (String value) {
-                          //           Label? selectedLabel;
-                          //           selectedLabel =
-                          //               dutyPostNameMasterStatusValues
-                          //                   .firstWhere(
-                          //                     (label) => label.key == value,
-                          //                 orElse: () =>
-                          //                 const Label(key: '', value: ''),
-                          //               );
-                          //           BlocProvider.of<
-                          //               DutyPostNameMasterDetailsCubit>(
-                          //               context)
-                          //               .updateDropdownValues(
-                          //               status: int.tryParse(
-                          //                   selectedLabel.value));
-                          //         },
-                          //       );
-                          //     }
-                          //   },
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.textDisplay(
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDropDown().getDropDown(
+                            isDisabled: true,
+                            textController: statusController,
+                            items: dutyPostMasterStatusValues,
+                            initialValue: '${state.model.status ?? 1}',
+                            onTap: () {
+                              if (widget.model != null) {
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: dutyPostMasterStatusValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        dutyPostMasterStatusValues
+                                            .firstWhere(
+                                              (label) => label.key == value,
+                                          orElse: () =>
+                                          const Label(key: '', value: ''),
+                                        );
+                                    BlocProvider.of<
+                                        DutyPostMasterDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        status: int.tryParse(
+                                            selectedLabel.value));
+                                  },
+                                );
+                              }
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
                           CommonWidgets.textDisplay(

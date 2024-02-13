@@ -1491,7 +1491,7 @@ class _MaterialMovementDetailsViewState
                                     },
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (widget.materialMovement?.status == 3||widget.materialMovement?.status == 5) ...[
+                            if (widget.materialMovement?.status == 3||widget.materialMovement?.status == 4) ...[
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.rejectionComment ??
                                     state.labels?.defaultLocale
@@ -1519,6 +1519,8 @@ class _MaterialMovementDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+                             ],
+                              if(state.model?.status == 5)...[
                               /// Rejected By
                               CommonWidgets.horizentaltextHandling(
                                   state.labels?.locale.rejectedBy ??
@@ -1539,6 +1541,7 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.001),
                               datecreateWidgetdisplay(state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            //],
                             ],
 
                             if (state.model.returnable == true && widget.materialMovement?.status == 3) ...[

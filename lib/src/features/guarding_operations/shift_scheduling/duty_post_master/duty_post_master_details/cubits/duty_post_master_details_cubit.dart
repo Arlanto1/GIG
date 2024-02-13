@@ -143,6 +143,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         locationId: location.id.toString(),
         moduleCode: Constants.guardingMasterDataModule,
       );
+      state.model.status = status ?? state.model.status;
       state.model.location = location;
       state.model.dutyPostLocation = dutyPostName;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
