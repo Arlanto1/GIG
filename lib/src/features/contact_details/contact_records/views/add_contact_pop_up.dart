@@ -142,7 +142,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       if (widget.rankType == Constants.contactZone) ...[
                         CommonWidgets.textDisplay(
                           Constants.state,
-                          isMandatory: true,
+                          //isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -165,7 +165,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         /// Escalation Level
                         CommonWidgets.textDisplay(
                             Constants.escalationLevel,
-                            isMandatory: true,
+                            //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
                           isDisabled: true,
