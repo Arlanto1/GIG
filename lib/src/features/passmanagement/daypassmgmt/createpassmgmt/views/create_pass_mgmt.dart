@@ -28,7 +28,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController passvalidfromTextController = TextEditingController();
   TextEditingController passvaliduntilTextController = TextEditingController();
-  TextEditingController companynameTextController = TextEditingController();
+  TextEditingController companyNameTextController = TextEditingController();
   TextEditingController employeeidTextController = TextEditingController();
   TextEditingController hostemployeeidTextController = TextEditingController();
   TextEditingController escortedbyTextController = TextEditingController();
@@ -496,7 +496,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
                                     ? textFieldWidgetLoad(
-                                        controller: companynameTextController,
+                                        controller: companyNameTextController,
                                         index: 0,
                                         state: state)
                                     : textFieldWidgetLoad(
@@ -513,7 +513,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textFieldWidgetLoad(
-                                      controller: companynameTextController,
+                                      controller: companyNameTextController,
                                       index: 0,
                                       state: state),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1568,7 +1568,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       sezpassinfoTextController.text = widget.model?.passInfo != null
           ? widget.model?.passInfo.toString() ?? ""
           : '';
-      companynameTextController.text = widget.model?.companyName != null
+      companyNameTextController.text = widget.model?.companyName != null
           ? widget.model?.companyName.toString() ?? ""
           : '';
       mtpApplicationNoTextController.text = widget.model?.mifareNo != null
@@ -1957,14 +1957,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               String nextFormattedDate = DateFormat(Constants.dateFormat)
                   .format(currentDate.add(const Duration(days: 1189)));
               passvaliduntilTextController.text = nextFormattedDate;
-              companynameTextController.text = "Deutsche Bank";
+              companyNameTextController.text = "Deutsche Bank";
               isFTECompanyNameEditable = false;
             } else {
               final currentDate = DateTime.now();
               String nextformattedDate = DateFormat(Constants.fulldateFormat)
                   .format(currentDate.add(const Duration(hours: 12)));
               passvaliduntilTextController.text = nextformattedDate;
-              companynameTextController.text =
+              companyNameTextController.text =
                   widget.model?.companyName.toString() ?? "";
               widget.model?.status == 0 || widget.model?.status == null
                   ? isFTECompanyNameEditable = true
@@ -2341,9 +2341,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (Organisation organisation) {
               //log(list.name);
               // isEditable = true;
-              companynameTextController.text = "";
+              companyNameTextController.text = "";
               if ((organisation.name ?? '').toLowerCase() == 'fte') {
-                companynameTextController.text = "Deutsche Bank";
+                companyNameTextController.text = "Deutsche Bank";
                 isFTECompanyNameEditable = false;
               }
               createPassMgmtCubit.selectedCompanyType(organisation);
@@ -2989,7 +2989,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         location: location,
         status: statusValue,
         locationRegion: widget.model?.locationRegion,
-        companyName: companynameTextController.text,
+        companyName: companyNameTextController.text,
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
@@ -3049,7 +3049,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           location: location,
           status: statusValue,
           locationRegion: locationRegion,
-          companyName: companynameTextController.text,
+          companyName: companyNameTextController.text,
           employeeName: state.nameResponse?.name == null
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
@@ -3161,7 +3161,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter company type",
       );
     } else if ((widget.passId == '0' || widget.passId == '3') &&
-        companynameTextController.text.isEmpty) {
+        companyNameTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter company name",
@@ -3568,7 +3568,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? TextInputType.number
           : TextInputType.text,
       isEnable:
-          (controller == companynameTextController && widget.model?.status == 0
+          (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable
                   : isEditable) ||
               isEditable,
