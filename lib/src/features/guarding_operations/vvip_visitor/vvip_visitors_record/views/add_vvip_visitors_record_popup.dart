@@ -81,7 +81,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Visitors Name
                       CommonWidgets.textDisplay(
                         Constants.visitorsName,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -104,7 +104,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Visitors Email Id
                       CommonWidgets.textDisplay(
                         Constants.visitorsEmailId,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -167,7 +167,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Base Location Of Visitors
                       CommonWidgets.textDisplay(
                         Constants.baseLocationOfVisitors,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -188,7 +188,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// Start Date of Visit
                       CommonWidgets.textDisplay(
                         Constants.startDateVisit,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -210,7 +210,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       /// End Date of Visit
                       CommonWidgets.textDisplay(
                         Constants.endDateVisit,
-                        //isMandatory: true,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -295,44 +295,44 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    // if (widget.model.email != null &&
-    //     !Validator.isValidEmail(widget.model.email)) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Invalid Email Address');
-    // }
-    //
-    // if (widget.model.name == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Visitor Name.');
-    // }
-    // if (widget.model.email == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Visitor Email ID.');
-    // }
-    //
-    // if (widget.model.designation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Visitor Designation.');
-    // }
-    //
-    // if (widget.model.purpose == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Purpose of Visit.');
-    // }
-    //
-    // if (widget.model.baseLocation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Base Location of Visitors.');
-    // }
-    // if (widget.model.startDateVisit == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Start Date of Visit.');
-    // }
-    //
-    // if (widget.model.endDateVisit == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter End Date of Visit.');
-    // }
+    if (widget.model.email != null && widget.model.id!=null &&
+        !Validator.isValidEmail(widget.model.email)) {
+      return const ErrorResponse(
+          status: false, message: 'Invalid Email Address');
+    }
+
+    if (widget.model.name == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Name.');
+    }
+    if (widget.model.email == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Email ID.');
+    }
+
+    if (widget.model.designation == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Designation.');
+    }
+
+    if (widget.model.purpose == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Purpose of Visit.');
+    }
+
+    if (widget.model.baseLocation == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Base Location of Visitors.');
+    }
+    if (widget.model.startDateVisit == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Start Date of Visit.');
+    }
+
+    if (widget.model.endDateVisit == null&& widget.model.id!=null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter End Date of Visit.');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
