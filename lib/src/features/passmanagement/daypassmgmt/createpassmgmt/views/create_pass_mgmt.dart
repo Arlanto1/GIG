@@ -496,8 +496,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
                                     ? textFieldWidgetLoad(
-                                        controller:
-                                            companynameTextController,
+                                        controller: companynameTextController,
                                         index: 0,
                                         state: state)
                                     : textFieldWidgetLoad(
@@ -1554,6 +1553,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
+
+      log('-edocu-${widget.model?.evidenceDocuments?.length}---');
+
       createPassMgmtCubit.initializeValues(widget.model!);
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
@@ -1744,7 +1746,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       Organisation dep = widget.model?.department ?? Organisation();
       createPassMgmtCubit.selectedEmployeeDepartment(dep);
+
+      log('-populate-getAttachments---${getAttachments.length}---getFiles---${getFiles.length}--');
+
       getAttachments = widget.model?.evidenceDocuments != null
+          ? widget.model?.evidenceDocuments ?? []
+          : [];
+      getFiles = widget.model?.evidenceDocuments != null
           ? widget.model?.evidenceDocuments ?? []
           : [];
       // photogetAttachments =
@@ -2191,9 +2199,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                             builder: (BuildContext dialogContext) {
                               return UploadAttachment(
                                 userdetails: state.getUserDetailsResponse,
-                                getFiles: isPhotoType
-                                    ? photogetFiles ?? []
-                                    : getFiles ?? [],
+                                getFiles:
+                                    isPhotoType ? photogetFiles : getFiles,
                                 createpassmgmtstate: state,
                                 isPhotoType: isPhotoType,
                               );
@@ -2781,23 +2788,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
-    // switch (passtypeTextController.text) {
-    //   case 'DAY_PASS':
-    //     passInfo.passType = 0;
-    //     break;
-    //   case 'VISITOR_PASS':
-    //     passInfo.passType = 1;
-    //     break;
-    //   case 'VENDOR_PASS':
-    //     passInfo.passType = 2;
-    //     break;
-    //   case 'SEZ_PASS':
-    //     passInfo.passType = 3;
-    //     break;
-    //   default:
-    //     passInfo.passType = 0;
-    //     break;
-    // }
     passInfo.passType = widget.passId.toIntOrNull();
 
     if (widget.passId == '3') {
@@ -2806,10 +2796,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passInfo.passNo = daypassnoTextController.text;
     }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
-    log('-passtypeTextController-----${passtypeTextController.text}----');
-    log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
-    log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
-    log('-passCategoryTextController111-----${passCategoryTextController.text}----');
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
@@ -2824,10 +2810,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
             24 * 3600 * 1227); //Adding 1227 days
 
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     String dateString = passvaliduntilTextController.text;
-    log('--dateString---$dateString----');
 
     //  DateTime dateTime = DateTime.parse(
     //      "${dateString.split("-")[0]}-${dateString.split("-")[1]}-${dateString.split("-")[2]}");
@@ -2859,25 +2844,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusValue = 1;
     }
 
-    int updatestatusvalue = 0;
+    int updateStatusValue = 0;
     if (updateStatusTextController.text.toLowerCase() == "returned") {
-      updatestatusvalue = 2;
+      updateStatusValue = 2;
     } else if (updateStatusTextController.text.toLowerCase() == "lost") {
-      updatestatusvalue = 4;
+      updateStatusValue = 4;
     } else if (updateStatusTextController.text.toLowerCase() == "damaged") {
-      updatestatusvalue = 5;
+      updateStatusValue = 5;
     } else if (updateStatusTextController.text.toLowerCase() == "defaced") {
-      updatestatusvalue = 6;
+      updateStatusValue = 6;
     } else if (updateStatusTextController.text.toLowerCase() == "cancelled") {
-      updatestatusvalue = 7;
+      updateStatusValue = 7;
     } else if (updateStatusTextController.text.toLowerCase() ==
         "returned damaged") {
-      updatestatusvalue = 8;
+      updateStatusValue = 8;
     } else if (updateStatusTextController.text.toLowerCase() ==
         "returned defaced") {
-      updatestatusvalue = 9;
+      updateStatusValue = 9;
     } else {
-      updatestatusvalue = 1;
+      updateStatusValue = 1;
     }
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
@@ -2938,23 +2923,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     Organisation? dayPass =
         state.dayPasselementReason ?? widget.model?.dayPassReason;
 
-    // int passTypeIdentify;
-    // if (passtypeTextController.text == "VISITOR_PASS") {
-    //   passTypeIdentify = 1;
-    // } else if (passtypeTextController.text == "DWS_VISITOR_PASS") {
-    //   passTypeIdentify = 5;
-    // } else if (passtypeTextController.text == "VENDOR_PASS") {
-    //   passTypeIdentify = 2;
-    // } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
-    //   passTypeIdentify = 6;
-    // } else if (passtypeTextController.text == "SEZ_PASS") {
-    //   passInfo.passType = 3;
-    // } else if (passtypeTextController.text == "DAY_PASS") {
-    //   passTypeIdentify = 0;
-    // } else if (passtypeTextController.text == "DWS_DAY_PASS") {
-    //   passTypeIdentify = 4;
-    // }
-
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {
       idValidationType = 0;
@@ -2974,7 +2942,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       category = 1;
     }
 
-    List<ImageContent>? evidenceDocuments = getFiles;
+    List<ImageContent>? evidenceDocuments =
+        !getFiles.isEmptyOrNull ? getFiles : getAttachments;
+
+    // return;
     List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
@@ -3011,9 +2982,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id: isFoundId,
         updatedStatus: (statusTextController.text.toLowerCase() == "created" ||
                 statusTextController.text.toLowerCase() == "handed over")
-            ? updatestatusvalue
+            ? updateStatusValue
             : null,
-        inputDate: inputdate.toString(),
+        inputDate: inputDate.toString(),
         slNo: serialnumber ?? '',
         location: location,
         status: statusValue,
@@ -3073,7 +3044,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       log('--passinfo type--333----${passInfo.passType}--------');
       passmgmtbody = PassManagement(
           // id: isFoundId ?? 0,
-          inputDate: inputdate.toString(),
+          inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
           status: statusValue,
