@@ -81,7 +81,7 @@ class MaterialMovementDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Challan No');
     // }
-    if (model.quantity == null) {
+    if (model.quantity == null&&model.status != 0) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
@@ -98,7 +98,7 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Received by Employee Id');
       }
 
-      if (model.materialFromAddress.isEmptyOrNull) {
+      if (model.materialFromAddress.isEmptyOrNull&&model.status != 0) {
         return const ErrorResponse(
             status: false, message: 'Please enter Material coming from (Brief address)');
       }
@@ -124,7 +124,7 @@ class MaterialMovementDetailsState extends Equatable {
       }
 
     }
-    if (model.unit == null) {
+    if (model.unit == null &&model.status != 0 ) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
@@ -133,7 +133,7 @@ class MaterialMovementDetailsState extends Equatable {
           message: 'Please Select Material Physically Checked as true');
     }
 
-    if (model.materialDescription.isEmptyOrNull) {
+    if (model.materialDescription.isEmptyOrNull &&model.status != 0 ) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
