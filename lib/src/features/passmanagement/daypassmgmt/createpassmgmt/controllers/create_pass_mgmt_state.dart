@@ -49,7 +49,7 @@ class CreatePassMgmtState extends Equatable {
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
-  CompanyTypes? companyTypes;
+    CompanyTypes? companyTypes;
   Organisation? selectedCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   Organisation? dayPasselementReason;
