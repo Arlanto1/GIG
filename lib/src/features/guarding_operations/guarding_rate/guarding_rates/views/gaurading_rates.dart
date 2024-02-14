@@ -115,13 +115,20 @@ class _GuardingRatesState extends State<GuardingRates> {
                         inputDate: state.items[index].inputDate,
                         location: state.items[index].location,
                         locationRegion: state.items[index].locationRegion,
-                        // status: state.items[index].status,
+                  vendors: state.items[index].vendor,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
+                                inputDate: state.items[selectedIndex].inputDate,
+                                location: state.items[selectedIndex].location,
+                                locationRegion:
+                                state.items[selectedIndex].locationRegion,
+                                slNo: state.items[selectedIndex].slNo,
+                                vendors: state.items[selectedIndex].vendor,
+
                               );
                             },
                           );
@@ -136,17 +143,12 @@ class _GuardingRatesState extends State<GuardingRates> {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
                                 inputDate: state.items[selectedIndex].inputDate,
-                                // location: state.items[selectedIndex].location,
-                                // returnable:
-                                // state.items[selectedIndex].returnable,
-                                // quantity: state.items[selectedIndex].quantity
-                                //     .toString(),
-                                // challanNo: state.items[selectedIndex].challanNo,
-                                // locationRegion:
-                                // state.items[selectedIndex].locationRegion,
-                                //  securityName: state
-                                //       .items[selectedIndex].entrySecurityName,
+                                location: state.items[selectedIndex].location,
+                                locationRegion:
+                                state.items[selectedIndex].locationRegion,
                                 slNo: state.items[selectedIndex].slNo,
+                                vendors: state.items[selectedIndex].vendor,
+
                                 // status: state.items[selectedIndex].status
                                 //     .toString(),
                                 // entrySecurityName: state

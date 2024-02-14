@@ -87,6 +87,8 @@ class BasePopUpItems extends StatefulWidget {
   final User? handedOver;
   final String? returnedByName;
   final Organisation? department;
+  final Organisation? vendors;
+
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -169,6 +171,7 @@ class BasePopUpItems extends StatefulWidget {
     this.handedOver,
     this.department,
     this.returnedByName,
+    this.vendors,
   });
 }
 
@@ -236,6 +239,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils()
                 .textHandling('Region : ', widget.locationRegion?.name ?? " "),
+          ],
+        ),
+      ],
+      if (widget.location != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils()
+                .textHandling('Location : ', widget.location?.name ?? " "),
           ],
         ),
       ],
@@ -354,6 +366,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                         int.tryParse(widget.inputDate ?? '0'),
                         Constants.dateFormat)
                     : ''),
+          ],
+        ),
+      ],
+      if (widget.vendors != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling(
+                'Vendor : ', widget.vendors?.name??''),
           ],
         ),
       ],
