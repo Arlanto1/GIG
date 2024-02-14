@@ -98,7 +98,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           CommonWidgets.textDisplay(
                             Constants.violation,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
+                            //isMandatory: true,
                           ),
                           TextFieldAddButton(
                             title: widget.model.violation?.name ?? '',
@@ -148,7 +148,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Penalty Amount
                       CommonWidgets.textDisplay(
                         Constants.penaltyAmount,
-                        isMandatory: true,
+                        //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
@@ -173,7 +173,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Staff Category
                       CommonWidgets.textDisplay(
                           Constants.staffCategory,
-                          isMandatory: true,
+                          //isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -229,7 +229,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.totalNoOfViolations,
                         Styles.textStyleBlack14,
-                        isMandatory: true,
+                        //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -264,7 +264,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.totalPenaltyAmount,
                         Styles.textStyleBlack14,
-                        isMandatory: true,
+                        //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -348,18 +348,18 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.model.violation == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Violation.');
-    }
-    if (widget.model.staffCategory == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Staff Category.');
-    }
-    if (widget.model.totalViolations == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Total No of Violations');
-    }
+    // if (widget.model.violation == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Violation.');
+    // }
+    // if (widget.model.staffCategory == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Staff Category.');
+    // }
+    // if (widget.model.totalViolations == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Total No of Violations');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
