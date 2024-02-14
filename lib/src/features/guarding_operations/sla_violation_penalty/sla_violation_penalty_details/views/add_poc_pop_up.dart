@@ -66,6 +66,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                         lineHeight: 1,
                         controller: pocController,
                         textFormKey: Keys.equipmentNoKey,
+                        textCapitalization : false,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
