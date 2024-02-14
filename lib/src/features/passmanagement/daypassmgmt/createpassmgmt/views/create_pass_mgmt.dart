@@ -1879,13 +1879,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomSimpleListTexts(
             texts: widget.passId == "1" &&
                     (widget.model?.status == 0 || widget.model?.status == null)
-                ? ["VISITOR_PASS"]
-                : widget.passId == "1"
                     ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                    : widget.passId == "2" &&
-                            (widget.model?.status == 0 ||
-                                widget.model?.status == null)
-                        ? ["VENDOR_PASS"]
                         : widget.passId == "2"
                             ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
                             : widget.passId == "0" &&
