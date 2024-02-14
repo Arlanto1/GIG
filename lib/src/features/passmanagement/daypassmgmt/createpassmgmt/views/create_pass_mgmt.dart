@@ -27,7 +27,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController statusTextController = TextEditingController();
   TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController passvalidfromTextController = TextEditingController();
-  TextEditingController passvaliduntilTextController = TextEditingController();
+  TextEditingController passValidUntilTextController = TextEditingController();
   TextEditingController companyNameTextController = TextEditingController();
   TextEditingController employeeidTextController = TextEditingController();
   TextEditingController hostemployeeidTextController = TextEditingController();
@@ -1234,14 +1234,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               .toLowerCase() !=
                                           'exceptions',
                                   showPastDate: false,
-                                  textController: passvaliduntilTextController,
+                                  textController: passValidUntilTextController,
                                   onlyDate: (widget.passId == '3' &&
                                           widget.model?.category == 1)
                                       ? true
                                       : false,
                                   onChange: (String value) {
-                                    log('--fr-value-${passvaliduntilTextController.text}------');
-                                    passvaliduntilTextController.text =
+                                    log('--fr-value-${passValidUntilTextController.text}------');
+                                    passValidUntilTextController.text =
                                         Utils.timestamptoDateConversion(
                                             int.parse(
                                                 widget.model?.endTime ?? '0'),
@@ -1641,11 +1641,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   int.parse(widget.model?.startTime ?? '0'),
                   Constants.fulldateFormat)
               : passvalidfromTextController.text;
-      passvaliduntilTextController.text = widget.model?.endTime != null &&
+      passValidUntilTextController.text = widget.model?.endTime != null &&
               widget.model?.endTime != '0'
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
-          : passvaliduntilTextController.text;
+          : passValidUntilTextController.text;
 
       passReturnedTextController.text = widget.model?.returnedTime != null &&
               widget.model?.returnedTime != '0'
@@ -1966,18 +1966,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             String passValidUntilDate =
                 await BlocProvider.of<CreatePassMgmtCubit>(context)
                     .getPassValidUntil(
-                        passCategory: value == 'Permanent' ? 1 : 2);
+                        passCategory: value == 'Permanent' ? 2 : 1);
 
             passValidUntilDate = Utils.timestamptoDateConversion(
                 int.tryParse(passValidUntilDate), Constants.dateFormat);
 
             if (value.equalsIgnoreCase('Permanent')) {
-              passvaliduntilTextController.text = passValidUntilDate;
+              passValidUntilTextController.text = passValidUntilDate;
               companyNameTextController.text = "Deutsche Bank";
               isFTECompanyNameEditable = false;
             } else {
-              final currentDate = DateTime.now();
-              passvaliduntilTextController.text = passValidUntilDate;
+              passValidUntilTextController.text = passValidUntilDate;
               companyNameTextController.text =
                   widget.model?.companyName.toString() ?? "";
               widget.model?.status == 0 || widget.model?.status == null
@@ -2182,7 +2181,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     dateofcreationTextController.text = formattedDate;
     passReturnedTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
-    passvaliduntilTextController.text = nextformattedDate;
+    passValidUntilTextController.text = nextformattedDate;
     if (widget.model == null) {
       statusTextController.text = 'created';
     }
@@ -2828,7 +2827,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
-    String dateString = passvaliduntilTextController.text;
+    String dateString = passValidUntilTextController.text;
 
     //  DateTime dateTime = DateTime.parse(
     //      "${dateString.split("-")[0]}-${dateString.split("-")[1]}-${dateString.split("-")[2]}");
@@ -3024,9 +3023,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: widget.passId == '3' && widget.model?.category == 0
-            ? passValidUntilDatePermanent.toString()
-            : passValidUntilDate.toString(),
+        endTime: Utils.timestamptoDateConversion(
+            int.tryParse(passValidUntilTextController.text),
+            Constants.dateFormat),
+        // endTime: widget.passId == '3' && widget.model?.category == 0
+        //     ? passValidUntilDatePermanent.toString()
+        //     : passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
         returnedTime: passReturnedOn.toString(),
         hostName: dbsponsorTextController.text.isEmpty
@@ -3132,7 +3134,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         serialnumber == null &&
         state.selectedEntities == null &&
         passvalidfromTextController.text.isEmpty &&
-        passvaliduntilTextController.text.isEmpty &&
+        passValidUntilTextController.text.isEmpty &&
         escortedemployeedidbyTextController.text.isEmpty &&
         mtpApplicationNoTextController.text.isEmpty &&
         escortedbyTextController.text.isEmpty &&
@@ -3385,7 +3387,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid from",
       );
-    } else if (passvaliduntilTextController.text.isEmpty) {
+    } else if (passValidUntilTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass valid until",

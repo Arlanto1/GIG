@@ -1713,9 +1713,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     for (PowerFailure powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
-      // startDateController.text = Utils.timestamptoDateConversion(
-      //     int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-      //     Constants.dateFormat);
       startDateController.text = powerFailure.powerFailureStartDate ?? '';
       endDateController.text = powerFailure.powerFailureEndDate ?? '';
       widgets.add(
@@ -1732,10 +1729,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     textController: startDateController,
                     onlyDate: true,
                     onChange: (String value) {
-                      log('--fr-value-${startDateController.text}------');
-                      // widget.guardingMasterData?.inputDate = value;
-                      // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                      //     .onModelValueChange(state.model);
+                      powerFailure.powerFailureEndDate = Utils.dateToTimestampConversion(
+                          value, Constants.dateFormat).toString();
                     },
                     context: context,
                   ),
@@ -1753,8 +1748,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     textController: endDateController,
                     onlyDate: true,
                     onChange: (String value) {
-                      log('--fr-value-${endDateController.text}------');
-                      powerFailure.powerFailureEndDate = value;
+                      powerFailure.powerFailureEndDate = Utils.dateToTimestampConversion(
+                          value, Constants.dateFormat).toString();
                       // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                       //     .onModelValueChange(state.model);
                     },
