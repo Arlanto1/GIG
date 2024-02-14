@@ -208,3 +208,4 @@ export 'package:db_atom/src/features/annual_power_shutdown_list/models/annual_po
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/requestModel/annual_power_shutdown_list_request.dart';
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/budget_cost_model.dart';
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/requestModel/budget_cost_request.dart';
+export 'package:db_atom/src/features/annual_power_shutdown_list/models/power_failure_model.dart';

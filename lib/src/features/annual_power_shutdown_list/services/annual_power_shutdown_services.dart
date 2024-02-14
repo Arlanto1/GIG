@@ -61,7 +61,6 @@ class AnnualPowerShutdownListServices {
     required BudgetCostRequest body,
   }) async {
     final String url = Apis._getEpGuardBudgetCost;
-    log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -127,6 +128,20 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           );
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
+
+          PowerFailureModel powerFailureModel = await services.getOccPowerFailure(
+              locationId: model.location?.id.toString() ?? '');
+
+          log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
+          if (powerFailureModel.powerFailureStartDate != null) {
+
+            PowerFailure powerFailure = PowerFailure();
+            powerFailure.powerFailureStartDate = Utils.timestamptoDateConversion(
+                int.tryParse(powerFailureModel.powerFailureStartDate),
+                Constants.fulldateFormat);
+
+            state.model.powerFailures??[].add(powerFailure);
+          }
         }
       }
       model.entrySecurity ??= loggedInUserDetails;
