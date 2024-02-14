@@ -1793,7 +1793,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else {
       createdBy = widget.model?.entrySecurity?.userName ?? '';
     }
-    await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+    await createPassMgmtCubit.companyTypes(
+        widget.passId == '3' ? 'ATOM_SEZ_COMPANY_TYPES' : 'ATOM_COMPANY_TYPES',
+        context);
     await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
     await createPassMgmtCubit.getVendorPassreasons(
         'VENDOR_PASS_REASON', context);
@@ -1962,12 +1964,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             log(value);
             passCategoryTextController.text = value;
 
-            String passValidUntilDate = await BlocProvider.of<CreatePassMgmtCubit>(context)
-                .getPassValidUntil(passCategory: value == 'Permanent' ? 1 : 2);
+            String passValidUntilDate =
+                await BlocProvider.of<CreatePassMgmtCubit>(context)
+                    .getPassValidUntil(
+                        passCategory: value == 'Permanent' ? 1 : 2);
 
             passValidUntilDate = Utils.timestamptoDateConversion(
                 int.tryParse(passValidUntilDate), Constants.dateFormat);
-
 
             if (value.equalsIgnoreCase('Permanent')) {
               passvaliduntilTextController.text = passValidUntilDate;
@@ -2338,7 +2341,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateatomCompanyTypes:
-                state.companyTypes?.atomCompanyTypes ?? [],
+                state.companyTypes?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);

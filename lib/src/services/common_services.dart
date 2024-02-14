@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 
 import '../features/createfound/models/create_user_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
-import '../features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -18,8 +17,7 @@ class Apis {
 
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
-  static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
-  static final String _getRegionsWithLocations =
+  static final String _getOrganisations =
       '$baseUrl/getOrganisation?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
@@ -74,29 +72,19 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return Locations.fromJson(response);
   }
 
-  Future<CompanyTypes> getCompanyTypes({
-    required String name,
-    BuildContext? context,
-  }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return CompanyTypes.fromJson(response);
-  }
 
   Future<DayPassReason> getDayPassreason({
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -107,7 +95,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -118,7 +106,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -128,7 +116,7 @@ class CommonServices {
   Future<Vendors> getVendors({
     required String name,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -138,7 +126,7 @@ class CommonServices {
   Future<KeyType> getKeyType({
     required String name,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -148,7 +136,7 @@ class CommonServices {
   Future<TypeOfServices> getTypeOfService({
     required String name,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -246,7 +234,7 @@ class CommonServices {
   Future<AddEntities> getEntities({
     required String name,
   }) async {
-    String url = '${Apis._getRegionsWithLocations}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );

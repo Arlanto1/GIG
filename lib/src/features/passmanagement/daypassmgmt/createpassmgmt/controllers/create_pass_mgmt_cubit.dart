@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
@@ -360,7 +359,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       // CompanyTypes companyTypes =
       //     await createpassmgmtServices.getCompanyTypes(companyStr, context);
 
-      CompanyTypes companyTypes = await commonServices.getCompanyTypes(
+      List<Organisation> companyTypes = await commonServices.getOrganisations(
           name: companyStr, context: context);
       emit(
         state.copyWith(
@@ -655,7 +654,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.showIdentifiedFields = false;
     state.selectedDepartment = null;
     state.employeeDepartment = null;
-    state.companyTypes = CompanyTypes();
+    state.companyTypes = [];
     state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
     state.selectedCompanyType = null;

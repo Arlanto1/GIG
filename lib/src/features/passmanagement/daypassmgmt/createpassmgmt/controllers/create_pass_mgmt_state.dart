@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
@@ -49,7 +48,7 @@ class CreatePassMgmtState extends Equatable {
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
-    CompanyTypes? companyTypes;
+  List<Organisation>? companyTypes;
   Organisation? selectedCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   Organisation? dayPasselementReason;
@@ -141,7 +140,7 @@ class CreatePassMgmtState extends Equatable {
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
-    CompanyTypes? companyTypes,
+    List<Organisation>? companyTypes,
     Organisation? selectedCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,
     Organisation? dayPasselementReason,
