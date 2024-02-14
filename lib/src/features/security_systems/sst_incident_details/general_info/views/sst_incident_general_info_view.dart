@@ -337,6 +337,7 @@ class _SstIncidentGeneralInfoViewState
                               // initialValue: state.model.vendorPoc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
+                              textCapitalization: false,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
                               onChange: (String value) {
@@ -360,6 +361,7 @@ class _SstIncidentGeneralInfoViewState
                               controller: escalation1PocController,
                               // initialValue: state.model.escalation1Poc,
                               textFormKey: Keys.claimantTextController,
+                              textCapitalization: false,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
@@ -385,6 +387,7 @@ class _SstIncidentGeneralInfoViewState
                               // initialValue: state.model.escalation2Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
+                              textCapitalization: false,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
                               onChange: (String value) {
@@ -408,6 +411,7 @@ class _SstIncidentGeneralInfoViewState
                               controller: escalation3PocController,
                               // initialValue: state.model.escalation3Poc,
                               textFormKey: Keys.claimantTextController,
+                              textCapitalization: false,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
