@@ -144,7 +144,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     height: 30,
                                   ),
                                   FlutterInputField(
-                                    textFieldController: otpTextController,
+                                    controller: otpTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintOtp,
                                     textInputType: TextInputType.number,

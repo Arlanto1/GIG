@@ -85,7 +85,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        textFieldController: nameController,
+                        controller: nameController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
@@ -108,7 +108,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        textFieldController: emailIdController,
+                        controller: emailIdController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
                         hintText: '',
@@ -129,7 +129,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        textFieldController: designationController,
+                        controller: designationController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
                         hintText: '',
@@ -150,7 +150,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        textFieldController: purposeOfVisitController,
+                        controller: purposeOfVisitController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.purposeOfVisitKey,
                         hintText: '',
@@ -171,7 +171,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        textFieldController: baseLocationOfVisitorsController,
+                        controller: baseLocationOfVisitorsController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.baseLocationOfVisitorKey,
                         hintText: '',

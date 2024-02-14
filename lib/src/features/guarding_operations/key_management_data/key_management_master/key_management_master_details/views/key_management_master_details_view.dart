@@ -573,7 +573,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            textFieldController: totalKeyController,
+                            controller: totalKeyController,
                             // initialValue: (((state.model.noKeys ?? 0) +
                             //         (state.model.noMasterKey ?? 0))
                             //     .toString()),

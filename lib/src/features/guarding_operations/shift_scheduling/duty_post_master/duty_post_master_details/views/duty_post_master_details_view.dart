@@ -473,7 +473,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             //           initialValue: (((state.model.shiftA ?? 0) +
                             //           (state.model.shiftB ?? 0))
                             // .toString()),
-                            textFieldController: totalController,
+                            controller: totalController,
                             hintText: '',
                             isEnable: false,
                             isDisableColor: true,

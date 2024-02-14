@@ -8,7 +8,7 @@ class FlutterInputField extends StatelessWidget {
   final Function onChange;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
-  final TextEditingController? textFieldController;
+  final TextEditingController? controller;
   final Function? suffixTap;
   final Function? onTap;
   final Function? validateTextField;
@@ -37,7 +37,7 @@ class FlutterInputField extends StatelessWidget {
     required this.onChange,
     this.prefixWidget,
     this.suffixWidget,
-    this.textFieldController,
+    this.controller,
     this.suffixTap,
     this.validateTextField,
     this.isSecure = false,
@@ -65,7 +65,7 @@ class FlutterInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       key: Key(textFormKey),
-      controller: textFieldController,
+      controller: controller,
       textInputAction: textInputAction,
       textCapitalization: textCapitalization ?? true
           ? TextCapitalization.words

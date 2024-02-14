@@ -108,7 +108,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                             isMandatory: true),
                       ),
                       FlutterInputField(
-                        textFieldController: nameTextController,
+                        controller: nameTextController,
                         textFormKey: Keys.nameTextController,
                         hintText: '',
                         onChange: (String username) {
@@ -126,7 +126,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                         ),
                       ),
                       FlutterInputField(
-                        textFieldController: keyTextController,
+                        controller: keyTextController,
                         textFormKey: Keys.keyTextController,
                         hintText: '',
                         onChange: (String username) {

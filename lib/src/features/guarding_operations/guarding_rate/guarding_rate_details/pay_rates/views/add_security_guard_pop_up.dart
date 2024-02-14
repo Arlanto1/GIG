@@ -141,7 +141,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        textFieldController: perHourController,
+                        controller: perHourController,
                         textInputType: TextInputType.number,
                         textFormKey: Keys.perHourKey,
                         hintText: '',

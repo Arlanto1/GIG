@@ -131,7 +131,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: depositorTextController,
+                          controller: depositorTextController,
                           textFormKey: Keys.depositorTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -149,7 +149,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                             )),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: depositorempidTextController,
+                          controller: depositorempidTextController,
                           textFormKey: Keys.depositorEmpIdTextController,
                           hintText: '',
                           isEnable: true,
@@ -169,7 +169,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: employeedepartmentTextController,
+                          controller: employeedepartmentTextController,
                           textFormKey: Keys.employeedepartmentTextController,
                           hintText: '',
                           onChange: (String username) {

@@ -463,7 +463,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              textFieldController: addEmailController,
+                              controller: addEmailController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: true,

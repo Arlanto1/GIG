@@ -1689,7 +1689,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              textFieldController: addEPOfficerController,
+                              controller: addEPOfficerController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: true,

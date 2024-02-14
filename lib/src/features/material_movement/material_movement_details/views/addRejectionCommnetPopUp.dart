@@ -57,7 +57,7 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         lineHeight: 1,
-                        textFieldController: rejectionCommnetController,
+                        controller: rejectionCommnetController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,

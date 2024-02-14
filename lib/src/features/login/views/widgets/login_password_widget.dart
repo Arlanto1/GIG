@@ -40,7 +40,7 @@ class _LoginPasswordState extends State<LoginPassword> {
   @override
   Widget build(BuildContext context) {
     return FlutterInputField(
-      textFieldController: passwordTextController,
+      controller: passwordTextController,
       textFormKey: Keys.passwordTextField,
       hintText: Constants.hintPassword,
       onChange: (String str) => widget.onChange(str),

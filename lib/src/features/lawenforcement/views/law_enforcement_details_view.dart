@@ -249,7 +249,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 FlutterInputField(
                                   isEnable: false,
                                   isDisableColor: true,
-                                  textFieldController: statusTextController,
+                                  controller: statusTextController,
                                   textFormKey: Keys.statusTextController,
                                   hintText: '',
                                   onChange: (String username) {
@@ -400,7 +400,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 FlutterInputField(
                                   showBorder: false,
                                   lineHeight: 1,
-                                  textFieldController:
+                                  controller:
                                       dbOfficailWanttimeetTextController,
                                   textFormKey:
                                       Keys.additionalinformationTextController,
@@ -454,7 +454,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 FlutterInputField(
                                   showBorder: true,
                                   lineHeight: 6,
-                                  textFieldController:
+                                  controller:
                                       additionalInformationTextController,
                                   textFormKey:
                                       Keys.additionalinformationTextController,
@@ -1186,7 +1186,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         }
       },
       child: FlutterInputField(
-        textFieldController: textfiled,
+        controller: textfiled,
         textFormKey: textfiled == actualDateTextController
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
@@ -1835,7 +1835,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
-      textFieldController: dateofcreationTextController,
+      controller: dateofcreationTextController,
       textFormKey: Keys.dateofcreationTextController,
       hintText: '',
       isEnable: false,
@@ -1992,7 +1992,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           distributiongroupsDailog(state);
         }
       },
-      textFieldController: textController,
+      controller: textController,
       textFormKey: Keys.colorTextController,
       isEnable: widget.model?.status == 0 ||
           widget.model?.status == 1 ||

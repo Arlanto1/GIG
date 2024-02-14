@@ -193,7 +193,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 FlutterInputField(
                                   isEnable: false,
                                   isDisableColor: true,
-                                  textFieldController: statusTextController,
+                                  controller: statusTextController,
                                   textFormKey: Keys.statusTextController,
                                   hintText: '',
                                   onChange: (String username) {
@@ -263,8 +263,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     child: FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: true,
-                                      textFieldController:
-                                          updateStatusTextController,
+                                      controller: updateStatusTextController,
                                       textFormKey:
                                           Keys.updateStatusTextControllerKey,
                                       hintText: '',
@@ -433,8 +432,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           //     ? false
                                           //     :
                                           true,
-                                      textFieldController:
-                                          passtypeTextController,
+                                      controller: passtypeTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
                                       onChange: (String username) {
@@ -494,15 +492,27 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                widget.passId == "0" || widget.passId == "3"
-                                    ? textFieldWidgetLoad(
-                                        controller: companyNameTextController,
-                                        index: 0,
-                                        state: state)
-                                    : textFieldWidgetLoad(
-                                        controller: nameTextController,
-                                        index: 0,
-                                        state: state),
+
+                                if (widget.passId == '0' ||
+                                    widget.passId == "3") ...[
+                                  FlutterInputField(
+                                    controller: companyNameTextController,
+                                    textInputType: TextInputType.text,
+                                    textFormKey: Keys.nameKey,
+                                    hintText: '',
+                                    isEnable: isFTECompanyNameEditable,
+                                    isDisableColor: false,
+                                    onChange: (String value) {
+                                      companyNameTextController.text = value;
+                                    },
+                                    validateTextField: (String? user) {},
+                                  )
+                                ] else ...[
+                                  textFieldWidgetLoad(
+                                      controller: nameTextController,
+                                      index: 0,
+                                      state: state),
+                                ],
 
                                 /// Vendor Company Name
                                 if (widget.passId == "2") ...[
@@ -815,7 +825,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 //     ? false
                                                 //     :
                                                 true,
-                                            textFieldController:
+                                            controller:
                                                 photofidentityextController,
                                             textFormKey:
                                                 Keys.statusTextController,
@@ -1134,7 +1144,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               widget.model?.status == 0
                                           ? false
                                           : true,
-                                      textFieldController: widget.passId == '3'
+                                      controller: widget.passId == '3'
                                           ? passCategoryTextController
                                           : daypassnoTextController,
                                       textFormKey: Keys.statusTextController,
@@ -1553,7 +1563,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
-
       log('-edocu-${widget.model?.evidenceDocuments?.length}---');
 
       createPassMgmtCubit.initializeValues(widget.model!);
@@ -2088,7 +2097,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         // }
       },
       child: FlutterInputField(
-        textFieldController: textfiled,
+        controller: textfiled,
         textFormKey: '',
         // textFormKey: textfiled != passvalidfromTextController ||
         //         textfiled != passvaliduntilTextController
@@ -2345,6 +2354,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               if ((organisation.name ?? '').toLowerCase() == 'fte') {
                 companyNameTextController.text = "Deutsche Bank";
                 isFTECompanyNameEditable = false;
+              } else {
+                isFTECompanyNameEditable = true;
               }
               createPassMgmtCubit.selectedCompanyType(organisation);
             },
@@ -3395,7 +3406,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
-      textFieldController: dateofcreationTextController,
+      controller: dateofcreationTextController,
       textFormKey: Keys.dateofcreationTextController,
       hintText: '',
       isEnable: false,
@@ -3561,7 +3572,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return FlutterInputField(
       //lineHeight: textController == employeeidTextController ? 1 : 1,
       onTap: () {},
-      textFieldController: controller,
+      controller: controller,
       textFormKey: Keys.colorTextController,
       textInputType: controller == contactnoTextController ||
               controller == sezpassinfoTextController
@@ -3589,7 +3600,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return FlutterInputField(
       //lineHeight: textController == employeeidTextController ? 1 : 1,
       onTap: () {},
-      textFieldController: textController,
+      controller: textController,
       textFormKey: Keys.colorTextController,
       textInputType: textController == contactnoTextController ||
               textController == sezpassinfoTextController

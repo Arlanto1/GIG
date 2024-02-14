@@ -225,7 +225,7 @@ class ShowFiltersWidget extends StatelessWidget {
                           textInputType: TextInputType.number,
                           textFormKey: Keys.idKey,
                           // initialValue: state.model.challanNo,
-                          textFieldController: idController,
+                          controller: idController,
                           hintText: '',
                           isEnable: true,
                           isDisableColor: false,
@@ -251,7 +251,7 @@ class ShowFiltersWidget extends StatelessWidget {
                         child: FlutterInputField(
                           textInputType: TextInputType.text,
                           textFormKey: Keys.slNoKey,
-                          textFieldController: createdByController,
+                          controller: createdByController,
                           hintText: '',
                           isEnable: true,
                           isDisableColor: false,

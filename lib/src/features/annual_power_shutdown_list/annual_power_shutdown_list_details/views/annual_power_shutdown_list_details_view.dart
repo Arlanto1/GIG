@@ -1504,7 +1504,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     height * 0.001),
                                 FlutterInputField(
                                   textInputType: TextInputType.number,
-                                  textFieldController: budgetController,
+                                  controller: budgetController,
                                   // initialValue:
                                   //     '${state.model.budget ?? 022}',
                                   textFormKey: Keys.budgetKey,

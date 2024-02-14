@@ -57,7 +57,7 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         lineHeight: 1,
-                        textFieldController: dutyPostLocationNameController,
+                        controller: dutyPostLocationNameController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,

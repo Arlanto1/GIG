@@ -64,7 +64,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         lineHeight: 1,
-                        textFieldController: pocController,
+                        controller: pocController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,

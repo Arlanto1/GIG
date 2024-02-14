@@ -25,7 +25,7 @@ class BaseDropDown {
     return GestureDetector(
       onTap: onTap,
       child: FlutterInputField(
-        textFieldController: textController,
+        controller: textController,
         textFormKey: Keys.returnableKey,
         hintText: '',
         isEnable: false,

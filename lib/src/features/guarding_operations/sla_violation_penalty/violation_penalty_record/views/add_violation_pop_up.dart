@@ -153,7 +153,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       FlutterInputField(
                         // initialValue: '${widget.model.penaltyAmount}',
-                        textFieldController: penaltyAmountController,
+                        controller: penaltyAmountController,
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -235,7 +235,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
                         textInputType: TextInputType.number,
-                        textFieldController: numberOfViolationsAmountController,
+                        controller: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable:  true,
@@ -270,7 +270,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        controller: totalPenaltyAmountController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,

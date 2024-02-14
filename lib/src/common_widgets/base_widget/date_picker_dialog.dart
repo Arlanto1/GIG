@@ -57,7 +57,7 @@ class BaseDate {
         }
       },
       child: FlutterInputField(
-        textFieldController: textController,
+        controller: textController,
         textFormKey: textController == textController
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,

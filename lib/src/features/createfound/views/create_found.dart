@@ -921,7 +921,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     isEnable: false,
                                     isDisableColor: true,
-                                    textFieldController: statusTextController,
+                                    controller: statusTextController,
                                     textFormKey: Keys.statusTextController,
                                     hintText: '',
                                     onChange: (String username) {
@@ -1007,7 +1007,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             widget.model?.status == 0
                                                 ? false
                                                 : true,
-                                        textFieldController:
+                                        controller:
                                             assettypeTextController,
                                         textFormKey: Keys.statusTextController,
                                         hintText: '',
@@ -1078,7 +1078,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    textFieldController:
+                                    controller:
                                         foundLocationTextController,
                                     textFormKey:
                                         Keys.foundLocationTextController,
@@ -1108,7 +1108,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     showBorder: true,
                                     lineHeight: 6,
-                                    textFieldController:
+                                    controller:
                                         additionalinformationTextController,
                                     textFormKey: Keys
                                         .additionalinformationTextController,
@@ -1149,7 +1149,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.001),
                                   FlutterInputField(
                                     textInputType: TextInputType.number,
-                                    textFieldController: quantityTextController,
+                                    controller: quantityTextController,
                                     textFormKey: Keys.quantityTextController,
                                     hintText: '',
                                     isEnable: widget.model?.status == 0 ||
@@ -1175,7 +1175,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    textFieldController: colorTextController,
+                                    controller: colorTextController,
                                     textFormKey: Keys.colorTextController,
                                     hintText: '',
                                     isEnable: widget.model?.status == 0 ||
@@ -1238,7 +1238,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             }
                                           })
                                       : FlutterInputField(
-                                          textFieldController:
+                                          controller:
                                               depositorTextController,
                                           textFormKey:
                                               Keys.depositorTextController,
@@ -1274,7 +1274,7 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   isDepositorDBEmployeeSelected == 1
                                       ? FlutterInputField(
-                                          textFieldController:
+                                          controller:
                                               depositorEmpIdTextController,
                                           textFormKey:
                                               Keys.depositorEmpIdTextController,
@@ -1382,7 +1382,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               }
                                             })
                                         : FlutterInputField(
-                                            textFieldController:
+                                            controller:
                                                 claimantTextController,
                                             textFormKey:
                                                 Keys.claimantTextController,
@@ -1422,7 +1422,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             isClaimantDBEmployeeSelected == 1
                                         ? FlutterInputField(
                                             textInputType: TextInputType.text,
-                                            textFieldController:
+                                            controller:
                                                 claimantEmpIdTextController,
                                             textFormKey: Keys
                                                 .claimantEmpIdTextController,
@@ -1924,7 +1924,7 @@ class _CreateFoundState extends State<CreateFound> {
 
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
-      textFieldController: dateofcreationTextController,
+      controller: dateofcreationTextController,
       textFormKey: Keys.dateofcreationTextController,
       hintText: '',
       isEnable: false,
@@ -2039,7 +2039,7 @@ class _CreateFoundState extends State<CreateFound> {
         }
       },
       child: FlutterInputField(
-        textFieldController: controller,
+        controller: controller,
         textFormKey: controller == foundDateTextController
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
