@@ -111,6 +111,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         controller: emailIdController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
+                        textCapitalization: false,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
