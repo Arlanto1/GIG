@@ -28,6 +28,10 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController assetTypeController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   TextEditingController systemController = TextEditingController();
+  TextEditingController vendorPocController = TextEditingController();
+  TextEditingController escalation1PocController = TextEditingController();
+  TextEditingController escalation2PocController = TextEditingController();
+  TextEditingController escalation3PocController = TextEditingController();
   bool isDisabled = true;
   bool disableForm = false;
   List<ImageContent>? uploadFiles;
@@ -92,6 +96,11 @@ class _SstIncidentGeneralInfoViewState
         }
       },
       builder: (context, state) {
+        vendorPocController.text = state.model.vendorPoc ?? '';
+        escalation1PocController.text = state.model.escalation1Poc ?? '';
+        escalation2PocController.text = state.model.escalation2Poc ?? '';
+        escalation3PocController.text = state.model.escalation3Poc ?? '';
+
         state.model.status ??= 0;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
@@ -324,7 +333,8 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.vendorPoc,
+                              controller: vendorPocController,
+                              // initialValue: state.model.vendorPoc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
@@ -347,7 +357,8 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation1Poc,
+                              controller: escalation1PocController,
+                              // initialValue: state.model.escalation1Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
@@ -370,7 +381,8 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation2Poc,
+                              controller: escalation2PocController,
+                              // initialValue: state.model.escalation2Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
@@ -393,7 +405,8 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation3Poc,
+                              controller: escalation3PocController,
+                              // initialValue: state.model.escalation3Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,

@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
@@ -64,7 +64,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     List<BaseUser> locationTeamUsers =
-    await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+        await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
 
     emit(
       state.copyWith(
@@ -74,7 +74,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         uploadAttachments: state.model.attachments,
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
-          locationTeamUsers:locationTeamUsers,
+        locationTeamUsers: locationTeamUsers,
       ),
     );
   }
@@ -128,8 +128,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
           roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
 
-      List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
+      List<BaseUser> securityManagers =
+          await commonServices.getBaseUsersByRoles(
+              roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
 
       List<BaseUser> locationTeamUsers =
           await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
@@ -204,6 +205,39 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     if (vendor != null) {
       state.model.vendor = vendor;
+
+      List<String>? emails = vendor.keyName?.split(',');
+      log('--emails.stringx-${emails.toString()}-');
+
+      state.model.vendorPoc = '';
+      state.model.escalation1Poc = '';
+      if (!emails.isEmptyOrNull) {
+        log('--emails?[0]-${emails?[0]}-');
+        state.model.vendorPoc = emails?[0];
+        if (!emails![1].isEmptyOrNull) {
+          state.model.escalation1Poc =
+              !emails[1].isEmptyOrNull ? emails[1] : '';
+        }
+
+        log('--emails.length-${emails.length}-');
+
+        if (emails.length >= 3) {
+          state.model.escalation2Poc =
+              !emails[2].isEmptyOrNull ? emails[2] : '';
+        }
+        if (emails.length >= 4) {
+          state.model.escalation3Poc =
+              !emails[3].isEmptyOrNull ? emails[3] : '';
+        }
+
+      }
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
     if (systemManager != null) {
