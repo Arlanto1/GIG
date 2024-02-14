@@ -61,7 +61,7 @@ class _MaterialMovementDetailsViewState
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
-    initializeDates();
+    //initializeDates(state);
   }
 
   @override
@@ -221,12 +221,13 @@ class _MaterialMovementDetailsViewState
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
+  void initializeDates(MaterialMovementDetailsState state) {
     log('-widget.materialMovement?.expectedDateOfReturn--${widget.materialMovement?.expectedDateOfReturn}--');
-
-    expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
-        Constants.dateFormat);
+    if (state.model.expectedDateOfReturn != null) {
+      expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
+          int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
+          Constants.dateFormat);
+    }
     actualDateOfReturnController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
         Constants.dateFormat);
