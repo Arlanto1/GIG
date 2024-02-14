@@ -112,7 +112,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                       key: state.labels?.locale.entrySecurity ??
                           state.labels?.defaultLocale.entrySecurity ??
                           'Created By',
-                      value: state.items[index].entrySecurity?.name ?? ''));
+                      value: '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                   labels.add(Label(
                       key: state.labels?.locale.locationRegion ??
                           state.labels?.defaultLocale.locationRegion ??

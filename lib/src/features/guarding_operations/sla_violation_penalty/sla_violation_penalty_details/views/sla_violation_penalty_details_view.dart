@@ -598,13 +598,13 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+          updateRecordStatus(state);
       },
     );
   }
 
   void updateRecordStatus(SLAViolationPenaltyDetailsState state) {
-    if (state.model.id != null) {
+    if (state.model.id != null && widget.model?.status != null) {
       BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
       Navigator.popAndPushNamed(
