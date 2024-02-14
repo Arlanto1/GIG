@@ -21,6 +21,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onDeleteTap;
   final int? incidentType;
   final bool isIncident;
+  final Organisation? vendors;
 
   // final Item userItem;
   final int? index;
@@ -82,6 +83,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isDutyPostNameMasterStatus = false,
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
+    this.vendors,
   });
 
   @override
@@ -146,6 +148,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
+                      if (widget.location != null) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().textHandling(
+                                'Location : ', widget.location?.name ?? ''),
+                          ],
+                        ),
+                      ],
                       if (widget.locationStr != null) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
@@ -153,6 +165,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           children: [
                             Utils().textHandling(
                                 'Location : ', widget.locationStr.toString()),
+                          ],
+                        ),
+                      ],
+                      if (widget.vendors != null) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().textHandling(
+                                'Vendor : ', widget.vendors?.name ?? ''),
                           ],
                         ),
                       ],

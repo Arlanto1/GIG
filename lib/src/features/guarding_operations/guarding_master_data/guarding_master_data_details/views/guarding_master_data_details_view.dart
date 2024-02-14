@@ -1155,7 +1155,7 @@ class _GuardingMasterDataDetailsViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue: (genderController.text
+                                selectedValue: ((genderController.text
                                                     .toLowerCase() ==
                                                 'Female' &&
                                             state.model.height != null &&
@@ -1172,7 +1172,7 @@ class _GuardingMasterDataDetailsViewState
                                             state.model.chest != null &&
                                             state.model.height! >= 165 &&
                                             state.model.weight! >= 50 &&
-                                            state.model.chest! >= 80)
+                                            state.model.chest! >= 80))
                                     ? 0
                                     : 1,
                                 onChangedYes:
