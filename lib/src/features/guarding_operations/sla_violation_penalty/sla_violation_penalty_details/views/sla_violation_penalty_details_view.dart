@@ -700,19 +700,38 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   List<Widget> getPOC(SLAViolationPenaltyDetailsState state, double height) {
     List<Widget> widgets = [];
     log('-state.poc.length---${state.pocs?.length}---');
-    for (String poc in state.pocs ?? []) {
+    for (int index = 0; index < (state.pocs?.length ?? 0); index++) {
+      String poc = state.pocs![index]; // Access the POC at the current index
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
-      widgets.add(Row(
-        children: [
-          Text(
-            poc,
-            textAlign: TextAlign.start,
-          ),
-        ],
-      ));
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
+    // for (String poc in state.pocs ?? []) {
+    //   TextEditingController pocController = TextEditingController();
+    //   pocController.text = poc;
+      widgets.add(
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                poc,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close), // Cancel icon
+              onPressed: () {
+                // Remove the POC from the state
+                state.pocs?.removeAt(index);
+                // Trigger UI update
+                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                    .onCheckBoxChange(state.model);
+              },
+            ),
+          ],
+        ),
+      );
+
+      widgets.add(const SizedBox(height: 1));
+      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.001));
     }
     if (widgets.isNotEmpty) {
       return [
