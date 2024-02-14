@@ -332,7 +332,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     if (widget.rankType == Constants.contactZone) {
       if (widget.model.state.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Name.');
+            status: false, message: 'Please enter State.');
       }
       if (widget.model.escalationLevel == null) {
         return const ErrorResponse(

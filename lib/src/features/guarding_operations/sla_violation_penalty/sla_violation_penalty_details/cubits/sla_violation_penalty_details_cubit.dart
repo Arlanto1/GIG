@@ -141,7 +141,7 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity == null ? loggedInUserDetails : '';
+      state.model.entrySecurity  ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
