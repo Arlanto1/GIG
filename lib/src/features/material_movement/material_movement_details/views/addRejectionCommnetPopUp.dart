@@ -1,5 +1,3 @@
-
-
 import '../../../../../index.dart';
 
 class AddRejectionCommentPopUp extends StatefulWidget {
@@ -7,21 +5,22 @@ class AddRejectionCommentPopUp extends StatefulWidget {
     super.key,
     required this.mainContext,
     required this.model,
+    required this.onSubmit,
   });
 
   final BuildContext mainContext;
   final MaterialMovementModel? model;
-
+  final Function(String)? onSubmit;
 
   @override
-  State<AddRejectionCommentPopUp> createState() => AddRejectionCommentPopUpState();
+  State<AddRejectionCommentPopUp> createState() =>
+      AddRejectionCommentPopUpState();
 }
 
 class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController rejectionCommnetController = TextEditingController();
-  SignatureController receiverSignatureController = SignatureController();
-  SignatureController securitySignatureController = SignatureController();
+  TextEditingController rejectionCommentController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -57,13 +56,13 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         lineHeight: 1,
-                        controller: rejectionCommnetController,
+                        controller: rejectionCommentController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
-                          rejectionCommnetController.text = value;
+                          rejectionCommentController.text = value;
                         },
                         validateTextField: (String value) {},
                       ),
@@ -113,12 +112,28 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
-        widget.model?.rejectionComment = rejectionCommnetController.text;
-        BlocProvider.of<MaterialMovementDetailsCubit>(widget.mainContext)
-            .onAddRejectionComment(rejectionCommnetController.text);
-        Navigator.pop(context);
+        if (!isFormValid.status) {
+          Validator().showToast(
+            context,
+            isFormValid.message,
+          );
+          return;
+        }
+        if(rejectionCommentController.text.isEmptyOrNull) {
+
+        }
+        return widget.onSubmit!(rejectionCommentController.text);
       },
     );
+  }
+  ErrorResponse get isFormValid {
+    if (rejectionCommentController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Rejection Comment');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
 }

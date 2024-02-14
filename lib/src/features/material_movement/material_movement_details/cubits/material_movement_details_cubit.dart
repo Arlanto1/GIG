@@ -61,21 +61,21 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
+
   void onAddRejectionComment(String rejectionsComment) {
     emit(state.copyWith(
       model: model,
       status: FormStatus.loading,
     ));
-    String? rejectedComment = state.rejectionComment;
-    state.copyWith(
-      rejectionComment: rejectedComment,
-    );
-    state.model.rejectionComment = rejectedComment;
+
+    state.model.rejectionComment = rejectionsComment;
     emit(state.copyWith(
       model: model,
+      rejectionComment: rejectionsComment,
       status: FormStatus.initial,
     ));
   }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -498,7 +498,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         }
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 1);
-      } else{
+      } else {
         //Validating Fields
         if (!state.isValid.status) {
           state.model.inputDate =
@@ -515,7 +515,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: flow);
       }
-       if (isRejectOnly) {
+      if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
           state.model.inputDate =
@@ -531,7 +531,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 4);
       }
-       if(isApprovedOnly){
+      if (isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
           state.model.inputDate =
@@ -547,8 +547,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 3);
       }
-
-
 
       log('---response--msg--${response.message}---');
 

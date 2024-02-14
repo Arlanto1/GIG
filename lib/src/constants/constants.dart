@@ -800,12 +800,6 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitors';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
-
-  /// INT values
-  static const int lockChangeHistoryInt = 0;
-  static const int keyLostHistoryInt = 1;
-  static const int keyDamageHistoryInt = 2;
-  static const int keyDestroyHistoryInt = 3;
 }
 
 //static const String height = 'Height(cm)';

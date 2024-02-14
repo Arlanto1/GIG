@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 
 import '../cubits/key_history_records_details_cubit.dart';
@@ -175,12 +176,12 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         BaseDropDown().getDropDown(
-                          isDisabled:true,
+                          isDisabled: true,
                           textController: statusController,
                           items: keyManagementHistoryStatus,
                           initialValue: '${state.model.status ?? 0}',
                           onTap: () {
-                            if (state.model.status ==null) {
+                            if (state.model.status == null) {
                               BaseDropDown().assetTypeDialog(
                                 context: context,
                                 dropDownValues: keyManagementHistoryStatus
@@ -252,27 +253,27 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                                if (!isDisabled) {
-                              BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: keyTypeDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        keyTypeDropDownValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            keyType: int.tryParse(
-                                                selectedLabel.value));
-                                  });
+                              if (!isDisabled) {
+                                BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: keyTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          keyTypeDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              keyType: int.tryParse(
+                                                  selectedLabel.value));
+                                    });
                               }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -316,8 +317,10 @@ class _KeyHistoryRecordsDetailsViewState
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           /// SRH
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.approver ??
@@ -348,7 +351,8 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
+                        if (widget.type ==
+                            ConstantsIntValue.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
                             //state.labels?.locale.approver ??
@@ -410,8 +414,10 @@ class _KeyHistoryRecordsDetailsViewState
                         ],
 
                         /// Details of Lost Keys
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.additionalinformation ??
                               //     state.labels?.defaultLocale
@@ -439,7 +445,8 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.lockChangeHistoryInt) ...[
+                        if (widget.type ==
+                            ConstantsIntValue.lockChangeHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
                               //  state.labels?.locale.guardingPOC ??
@@ -494,8 +501,10 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Investigation Required
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.deploymentOrderSubmitted ??
                               //   state.labels?.defaultLocale

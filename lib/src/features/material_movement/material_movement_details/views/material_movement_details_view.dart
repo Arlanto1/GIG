@@ -141,17 +141,6 @@ class _MaterialMovementDetailsViewState
                     state.model.status == null)
                 ? true
                 : false,
-            showSubmitButton: (state.model.status == 0 ||
-                    state.model.status == 8 ||
-                    state.model.status == 1 ||
-                    state.model.status == 6 ||
-                    state.model.status == 7 ||
-                    state.model.status == 9 ||
-                    state.model.status == null)
-                ? true
-                : false,
-            showDisLikeButton: state.model.status == 3 ?true:false,
-            showLikeButton: state.model.status == 3 ?true:false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -162,6 +151,15 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
+            showSubmitButton: (state.model.status == 0 ||
+                    state.model.status == 8 ||
+                    state.model.status == 1 ||
+                    state.model.status == 6 ||
+                    state.model.status == 7 ||
+                    state.model.status == 9 ||
+                    state.model.status == null)
+                ? true
+                : false,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -172,7 +170,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            onTapApprove: () {
+            showLikeButton: state.model.status == 3 ? true : false,
+            onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isApprovedOnly: true,
@@ -182,23 +181,36 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            onTapReject: () {
-              FocusScope.of(context).unfocus();
-              state.model.rejectionComment == null ? showDialog(
+            showDisLikeButton: state.model.status == 3 ? true : false,
+            onTapDislikeButton: () {
+              // FocusScope.of(context).unfocus();
+              showDialog(
                 context: context,
                 builder: (BuildContext dialogContext) {
                   return AddRejectionCommentPopUp(
                     model: model,
                     mainContext: context,
+                    onSubmit: (value) {
+                      log('--value--$value--');
+                      state.model.rejectionComment = value;
+                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                          .onAddRejectionComment(value);
+
+                      BlocProvider.of<MaterialMovementDetailsCubit>(
+                              context)
+                          .submitForm(
+                        isRejectOnly: true,
+                        isSaveOnly: false,
+                        isApprovedOnly: false,
+                        receiverSignatureController:
+                            receiverSignatureController,
+                        securitySignatureController:
+                            securitySignatureController,
+                      );
+                      Navigator.pop(context);
+                    },
                   );
                 },
-              )
-              :BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
-                isRejectOnly: true,
-                isSaveOnly: false,
-                isApprovedOnly: false,
-                receiverSignatureController: receiverSignatureController,
-                securitySignatureController: securitySignatureController,
               );
             },
           ),
@@ -1506,7 +1518,7 @@ class _MaterialMovementDetailsViewState
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (widget.materialMovement?.status == 4) ...[
-                            ///Rejection Commnet
+                              /// Rejection Comment
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.rejectionComment ??
                                     state.labels?.defaultLocale
@@ -1516,13 +1528,11 @@ class _MaterialMovementDetailsViewState
                                 isMandatory: true,
                               ),
                               FlutterInputField(
-                                initialValue:
-                                state.model.rejectionComment,
+                                initialValue: state.model.rejectionComment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
                                 isEnable: false,
-                                isDisableColor:
-                                true,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.rejectionComment = value;
                                   context
@@ -1532,49 +1542,48 @@ class _MaterialMovementDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                             ],
+                            ],
 
-                            if(state.model?.status == 5)...[
-                            /// Rejection Comment
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.rejectionComment ??
-                                  state.labels?.defaultLocale.rejectionComment ??
-                                  Constants.rejectionComment,
-                              Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
-                                  ? false
-                                  : true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            if (state.model?.status == 5) ...[
+                              /// Rejection Comment
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.rejectionComment ??
+                                    state.labels?.defaultLocale
+                                        .rejectionComment ??
+                                    Constants.rejectionComment,
+                                Styles.textStyleBlack14,
+                                isMandatory: widget.materialMovement == null
+                                    ? false
+                                    : true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
-                            FlutterInputField(
-                              textInputType: TextInputType.text,
-                              initialValue: state.model.rejectionComment,
-                              textFormKey: Keys.purposeKey,
-                              hintText: '',
-                              isEnable:
-                                  state.model.status == 5
-                                  ? true
-                                  : false,
-                              isDisableColor:
-                                  state.model.status == 5,
-                              onChange: (String value) {
-                                state.model.rejectionComment = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              FlutterInputField(
+                                textInputType: TextInputType.text,
+                                initialValue: state.model.rejectionComment,
+                                textFormKey: Keys.purposeKey,
+                                hintText: '',
+                                isEnable:
+                                    state.model.status == 5 ? true : false,
+                                isDisableColor: state.model.status == 5,
+                                onChange: (String value) {
+                                  state.model.rejectionComment = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Rejected By
                               CommonWidgets.horizentaltextHandling(
                                   state.labels?.locale.rejectedBy ??
                                       state.labels?.defaultLocale.rejectedBy ??
-                                      Constants.rejectedBy, isMandatory: true,
-                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'
-                              ),
+                                      Constants.rejectedBy,
+                                  isMandatory: true,
+                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Rejected Date
@@ -1585,10 +1594,12 @@ class _MaterialMovementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
-                              datecreateWidgetdisplay(state.model.rejectedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datecreateWidgetdisplay(
+                                  state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            //],
+                              //],
                             ],
 
                             if (state.model.returnable == true) ...[
@@ -1825,7 +1836,6 @@ class _MaterialMovementDetailsViewState
                                     .read<MaterialMovementDetailsCubit>()
                                     .onModelValueChange(state.model);
                               },
-
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1859,8 +1869,7 @@ class _MaterialMovementDetailsViewState
                                 state.model.materialFromAddress = value;
                               },
                               textInputAction: TextInputAction.newline,
-                              textInputType:
-                              TextInputType.multiline, //
+                              textInputType: TextInputType.multiline, //
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -2147,8 +2156,7 @@ class _MaterialMovementDetailsViewState
                             // CommonWidgets.verticalSpacerWidget(
                             //     height * 0.01),
                           ],
-                          if (
-                              widget.isInward) ...[
+                          if (widget.isInward) ...[
                             /// Is Material Physically Checked
                             CommonWidgets.textDisplay(
                               state.labels?.locale.materialPhysicallyChecked ??
@@ -2361,7 +2369,7 @@ class _MaterialMovementDetailsViewState
                             ],
 
                             /// Comment
-                            if (!state.model.materialPhysicallyChecked ) ...[
+                            if (!state.model.materialPhysicallyChecked) ...[
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.materialNotCheckedComment ??
                                     state.labels?.defaultLocale
@@ -2724,7 +2732,6 @@ class _MaterialMovementDetailsViewState
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
-
               return CustomExpansionListTexts(
                 locationList: state.locations,
                 onTap: (Organisation? list) async {

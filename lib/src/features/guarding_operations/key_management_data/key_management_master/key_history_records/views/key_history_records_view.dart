@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 
 import '../bloc/key_history_record_bloc.dart';
@@ -68,13 +69,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: widget.type == Constants.lockChangeHistoryInt
+          title: widget.type == ConstantsIntValue.lockChangeHistoryInt
               ? Constants.lockChangeHistory
-              : widget.type == Constants.keyLostHistoryInt
+              : widget.type == ConstantsIntValue.keyLostHistoryInt
                   ? Constants.keyLostHistory
-                  : widget.type == Constants.keyDamageHistoryInt
+                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
                       ? Constants.keyDamageHistory
-                      : widget.type == Constants.keyDestroyHistoryInt
+                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
                           ? Constants.keyDestroyHistory
                           : 'Default Title',
           showPopUp: true,
@@ -206,13 +207,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
         "keyMgmtGi": keyManagementMasterModel,
-        ConstantsArgument.title: widget.type == Constants.lockChangeHistoryInt
+        ConstantsArgument.title: widget.type == ConstantsIntValue.lockChangeHistoryInt
             ? Constants.editLockChangeHistory
-            : widget.type == Constants.keyLostHistoryInt
+            : widget.type == ConstantsIntValue.keyLostHistoryInt
                 ? Constants.editKeyLostHistory
-                : widget.type == Constants.keyDamageHistoryInt
+                : widget.type == ConstantsIntValue.keyDamageHistoryInt
                     ? Constants.editKeyDamageHistory
-                    : widget.type == Constants.keyDestroyHistoryInt
+                    : widget.type == ConstantsIntValue.keyDestroyHistoryInt
                         ? Constants.editKeyDestroyHistory
                         : 'Default Title',
         ConstantsArgument.id: widget.id,

@@ -13,8 +13,8 @@ class BaseAppBar {
     required bool showDisLikeButton,
     Function? onTapSubmit,
     Function? onTapSave,
-    Function? onTapApprove,
-    Function? onTapReject,
+    Function? onTapLikeButton,
+    Function? onTapDislikeButton,
     void Function()? popAndReplace,
     bool? showCustomIcon,
     Function? onTapCustomIcon,
@@ -89,7 +89,7 @@ class BaseAppBar {
         if (showLikeButton) ...[
           GestureDetector(
             onTap: () {
-              onTapApprove!();
+              onTapLikeButton!();
             },
             child: const Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -103,7 +103,7 @@ class BaseAppBar {
         if (showDisLikeButton) ...[
           GestureDetector(
             onTap: () {
-              onTapReject!();
+              onTapDislikeButton!();
             },
             child: const Padding(
               padding: EdgeInsets.only(right: 20.0),

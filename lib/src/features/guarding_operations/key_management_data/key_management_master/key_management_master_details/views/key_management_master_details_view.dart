@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 
 class KeyManagementMasterDetailsView extends StatefulWidget {
@@ -647,7 +648,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.lockChangeHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.lockChangeHistoryInt,
+                                        ConstantsIntValue.lockChangeHistoryInt,
                                   },
                                 );
                               },
@@ -704,7 +705,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyLostHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyLostHistoryInt,
+                                        ConstantsIntValue.keyLostHistoryInt,
                                   },
                                 );
                               },
@@ -762,7 +763,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyDamageHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyDamageHistoryInt,
+                                        ConstantsIntValue.keyDamageHistoryInt,
                                   },
                                 );
                               },
@@ -817,7 +818,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyDestroyHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyDestroyHistoryInt,
+                                        ConstantsIntValue.keyDestroyHistoryInt,
                                   },
                                 );
                               },
