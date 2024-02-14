@@ -19,6 +19,7 @@ class Apis {
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _createUser = '$baseUrl/createUser?';
+  static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
 }
 
 class CreatePassMgmtService {
@@ -88,11 +89,19 @@ class CreatePassMgmtService {
   }
 
   Future<DayPassNumberLists> getPassNo(
-      String passtype, String locatonid, BuildContext context) async {
-    String url = '${Apis._getPassNo}$passtype&locationId=$locatonid';
+      String passType, String locationId, BuildContext context) async {
+    String url = '${Apis._getPassNo}$passType&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return DayPassNumberLists.fromJson(response);
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    final String url = '${Apis._getPassValidUntil}category=$passCategory';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['date'];
   }
 }

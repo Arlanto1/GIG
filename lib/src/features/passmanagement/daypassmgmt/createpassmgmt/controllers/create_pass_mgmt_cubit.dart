@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
@@ -601,7 +602,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> addAttchment(List<ImageContent>? data) async {
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (var image in data) {
         image.type = 1;
@@ -612,8 +613,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.addattachment));
     }
   }
+
   Future<void> photoAttchment(List<ImageContent>? data) async {
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (var image in data) {
         image.type = 2;
@@ -624,6 +626,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.photoattachment));
     }
   }
+
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
@@ -708,7 +711,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   getEntityData(List<Organisation> selectedEntities) async {
     try {
-      int eventIds = Random.secure().nextInt(5);
+      int eventIds = math.Random.secure().nextInt(5);
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -760,6 +763,33 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
     }
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    String passValidUntilDate='';
+    try {
+
+      passValidUntilDate = await createpassmgmtServices.getPassValidUntil(passCategory: passCategory);
+      log('-111--getPassValidUntil---$passValidUntilDate---');
+
+
+
+      emit(
+        state.copyWith(
+          passValidUntilDate: passValidUntilDate,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+    return passValidUntilDate;
+
   }
 
   getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
@@ -839,16 +869,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> updateStatus({required String id}) async {
- String module='';
- PassMngArguments? passMngArguments;
- if (passMngArguments?.passType == '0') {
+    String module = '';
+    PassMngArguments? passMngArguments;
+    if (passMngArguments?.passType == '0') {
       module = Constants.passManagementModule;
     } else if (passMngArguments?.passType == '1') {
       module = Constants.visitorManagementModule;
-    } else if(passMngArguments?.passType == '2'){
+    } else if (passMngArguments?.passType == '2') {
       module = Constants.vendorPassManagementModule;
-    }
-    else if(passMngArguments?.passType == '3'){
+    } else if (passMngArguments?.passType == '3') {
       module = Constants.passManagementSEZModule;
     }
     await commonServices.updateRecordStatus(id: id, module: module);

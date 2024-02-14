@@ -1129,7 +1129,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         //daypassNoDialog();
                                         //passnumberaddButtonwidgetLoading(state);
                                         if (widget.passId == '3') {
-                                          passCategoryDialog();
+                                          passCategoryDialog(state: state);
                                         } else {
                                           passnumberTypeDialog(state);
                                         }
@@ -1160,7 +1160,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             widget.model?.status == 0) {
                                           //passnumberaddButtonwidgetLoading(state);
                                           if (widget.passId == '3') {
-                                            passCategoryDialog();
+                                            passCategoryDialog(state: state);
                                           } else {
                                             passnumberTypeDialog(state);
                                           }
@@ -1181,7 +1181,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.model?.status == 0) {
                                               //passnumberaddButtonwidgetLoading(state);
                                               if (widget.passId == '3') {
-                                                passCategoryDialog();
+                                                passCategoryDialog(
+                                                    state: state);
                                               } else {
                                                 passnumberTypeDialog(state);
                                               }
@@ -1925,7 +1926,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  passCategoryDialog() {
+  passCategoryDialog({required CreatePassMgmtState state}) {
     // BaseDropDown().getDropDown(
     //     isDisabled: false,
     //     textController: daypassnoTextController,
@@ -1957,22 +1958,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               // : widget.passId == "2"
               //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
               : [],
-          onTap: (String value) {
+          onTap: (String value) async {
             log(value);
             passCategoryTextController.text = value;
+
+            String passValidUntilDate = await BlocProvider.of<CreatePassMgmtCubit>(context)
+                .getPassValidUntil(passCategory: value == 'Permanent' ? 1 : 2);
+
+            log('-111--passValidUntilDate---$passValidUntilDate---');
+            // String passValidUntilDate = state.passValidUntilDate ?? '';
+            passValidUntilDate = Utils.timestamptoDateConversion(
+                int.tryParse(passValidUntilDate), Constants.dateFormat);
+
+            log('-222--passValidUntilDate---$passValidUntilDate---');
 
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
               String nextFormattedDate = DateFormat(Constants.dateFormat)
                   .format(currentDate.add(const Duration(days: 1189)));
-              passvaliduntilTextController.text = nextFormattedDate;
+              passvaliduntilTextController.text = passValidUntilDate;
               companyNameTextController.text = "Deutsche Bank";
               isFTECompanyNameEditable = false;
             } else {
               final currentDate = DateTime.now();
               String nextformattedDate = DateFormat(Constants.fulldateFormat)
                   .format(currentDate.add(const Duration(hours: 12)));
-              passvaliduntilTextController.text = nextformattedDate;
+              passvaliduntilTextController.text = passValidUntilDate;
               companyNameTextController.text =
                   widget.model?.companyName.toString() ?? "";
               widget.model?.status == 0 || widget.model?.status == null

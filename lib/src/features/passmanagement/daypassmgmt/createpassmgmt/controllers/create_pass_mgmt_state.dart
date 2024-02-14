@@ -65,7 +65,7 @@ class CreatePassMgmtState extends Equatable {
   String? radioButtonItem = '';
   int? escortedbyhost;
   int? exceptionalApproval;
-
+  String? passValidUntilDate = '';
 
   CreateUserModel? createUserResponse;
   User? hostResponse;
@@ -96,6 +96,7 @@ class CreatePassMgmtState extends Equatable {
     this.createOrganisationResponse,
     this.companyTypes,
     this.selectedCompanyType,
+    this.passValidUntilDate,
     this.showIdentifiedFields = false,
     this.createpassFoundresponse,
     this.dayPassReason,
@@ -161,6 +162,7 @@ class CreatePassMgmtState extends Equatable {
     User? hostResponse,
     User? dbsponsorResponse,
     BaseUser? nameResponse,
+    String? passValidUntilDate,
   }) {
     return CreatePassMgmtState(
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
@@ -182,7 +184,8 @@ class CreatePassMgmtState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
-      getHandOverDetailsResponse:getHandOverDetailsResponse??this.getHandOverDetailsResponse,
+      getHandOverDetailsResponse:
+          getHandOverDetailsResponse ?? this.getHandOverDetailsResponse,
       lawcreateFoundresponse:
           lawcreateFoundresponse ?? this.lawcreateFoundresponse,
       createEmployeeDepartments:
@@ -213,6 +216,7 @@ class CreatePassMgmtState extends Equatable {
       hostResponse: hostResponse ?? this.hostResponse,
       dbsponsorResponse: dbsponsorResponse ?? this.dbsponsorResponse,
       nameResponse: nameResponse ?? this.nameResponse,
+      passValidUntilDate: passValidUntilDate ?? this.passValidUntilDate,
     );
   }
 
@@ -234,7 +238,7 @@ class CreatePassMgmtState extends Equatable {
         selectedDepartment,
         loadAttachments,
         getUserDetailsResponse,
-    getHandOverDetailsResponse,
+        getHandOverDetailsResponse,
         lawcreateFoundresponse,
         createEmployeeDepartments,
         createOrganisationResponse,
