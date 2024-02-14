@@ -478,6 +478,8 @@ class _SstIncidentGeneralInfoViewState
                                         lsm: user,
                                       );
                                     },
+                                    roleName:
+                                        'ATOM_Security_Manager;ATOM_Senior_Security_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -512,6 +514,8 @@ class _SstIncidentGeneralInfoViewState
                                         asl: user,
                                       );
                                     },
+                                    roleName:
+                                        'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<

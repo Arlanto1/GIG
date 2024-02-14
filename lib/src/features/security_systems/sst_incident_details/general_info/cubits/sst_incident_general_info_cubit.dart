@@ -66,6 +66,14 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     List<BaseUser> locationTeamUsers =
         await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
 
+    List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
+
+    List<BaseUser> securityManagers =
+    await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
+
+
     emit(
       state.copyWith(
         listOfEntities: entities,
@@ -74,6 +82,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         uploadAttachments: state.model.attachments,
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
+        securityLeads: securityLeads,
+        securityManagers:securityManagers,
         locationTeamUsers: locationTeamUsers,
       ),
     );
