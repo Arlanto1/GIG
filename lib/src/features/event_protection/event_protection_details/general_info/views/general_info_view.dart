@@ -776,6 +776,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor1,
                                 textFormKey: Keys.systemVendor1EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -855,6 +856,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor2,
                                 textFormKey: Keys.systemVendor2EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -933,6 +935,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor3,
                                 textFormKey: Keys.systemVendor2EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -1103,7 +1106,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                                           state.model.epOfficers?.add(user.email ?? '');
                                           log('--eventProtectionGi--22-${state.model.epOfficers}-');
-
                                           BlocProvider.of<GeneralInfoCubit>(context)
                                               .onCheckBoxChange(state.model);
                                         },

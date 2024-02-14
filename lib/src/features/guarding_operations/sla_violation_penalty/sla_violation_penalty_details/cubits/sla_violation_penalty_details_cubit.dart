@@ -49,22 +49,15 @@ class SLAViolationPenaltyDetailsCubit
   }
 
   void onAddPOC(String poc) {
-    log('-poc---$poc-');
-
     emit(state.copyWith(
       model: model,
       status: FormStatus.loading,
     ));
-    log('-state.poc---before---${state.pocs}----');
-
     List<String>? pocs = state.pocs ?? [];
-    log('-pocs--$pocs----');
     pocs.add(poc);
-    log('-pocs-22-$pocs----');
     state.copyWith(
       pocs: pocs,
     );
-    log('-state.poc---after---${state.pocs}----');
     state.model.poc = Utils().joinListWithComma(pocs);
     emit(state.copyWith(
       model: model,

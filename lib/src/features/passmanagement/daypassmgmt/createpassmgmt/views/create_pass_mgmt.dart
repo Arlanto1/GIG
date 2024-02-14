@@ -1767,7 +1767,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : [];
       // photogetAttachments =
       //     widget.model?.visitorImage != null ? widget.model?.visitorImage ?? [] : [];
-
+      photogetAttachments = widget.model?.visitorImage != null
+          ? [widget.model!.visitorImage!]
+          : [];
+      photogetFiles = widget.model?.visitorImage != null
+          ? [widget.model!.visitorImage!]
+          : [];
       emailTextController.text = widget.model?.email ?? '';
       purposeofvisitTextController.text = widget.model?.visitingPurpose ?? '';
       mtpApplicationNoTextController.text = widget.model?.mifareNo ?? '';
@@ -2962,8 +2967,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     List<ImageContent>? evidenceDocuments =
         !getFiles.isEmptyOrNull ? getFiles : getAttachments;
 
+    List<ImageContent>? photoImages =
+    !photogetFiles.isEmptyOrNull ? photogetFiles : photogetAttachments;
     // return;
-    List<ImageContent>? photoImages = photogetFiles;
+    //List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
     User? handoverSecurity = widget.model?.handoverSecurity ??
