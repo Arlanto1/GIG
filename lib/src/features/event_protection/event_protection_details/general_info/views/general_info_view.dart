@@ -387,6 +387,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
                               //onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
@@ -1045,7 +1046,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.eventProtectionOfficers,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            if (!disableForm) ...[
+                            //if (!disableForm) ...[
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1130,7 +1131,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   ),
                                 ],
                               ),
-                            ],
+                            //],
 
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
