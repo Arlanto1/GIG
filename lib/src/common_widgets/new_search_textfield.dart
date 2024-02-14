@@ -29,6 +29,7 @@ class FlutterInputField extends StatelessWidget {
   final IconData? suffixIcon;
   final bool? showBorder;
   final int? characterLimit;
+  final bool? textCapitalization;
 
   const FlutterInputField({
     super.key,
@@ -56,7 +57,8 @@ class FlutterInputField extends StatelessWidget {
     this.labelText,
     this.suffixIcon,
     this.showBorder,
-    this.characterLimit= Constants.characterLimitIdTextFormField,
+    this.characterLimit = Constants.characterLimitIdTextFormField,
+    this.textCapitalization = true,
   });
 
   @override
@@ -65,7 +67,9 @@ class FlutterInputField extends StatelessWidget {
       key: Key(textFormKey),
       controller: textFieldController,
       textInputAction: textInputAction,
-      textCapitalization: TextCapitalization.words,
+      textCapitalization: textCapitalization ?? true
+          ? TextCapitalization.words
+          : TextCapitalization.none,
       obscureText: isSecure,
       initialValue: initialValue,
       enabled: isEnable,

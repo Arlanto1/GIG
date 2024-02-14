@@ -143,6 +143,7 @@ class _LoginState extends State<Login> {
                                   FlutterInputField(
                                     textFieldController: userNameTextController,
                                     textFormKey: Keys.userTextField,
+                                    textCapitalization: false,
                                     hintText: Constants.hintUserName,
                                     textInputAction: TextInputAction.next,
                                     focusNode: _usernameFocus,

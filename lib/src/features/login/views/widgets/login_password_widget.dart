@@ -44,6 +44,7 @@ class _LoginPasswordState extends State<LoginPassword> {
       textFormKey: Keys.passwordTextField,
       hintText: Constants.hintPassword,
       onChange: (String str) => widget.onChange(str),
+      textCapitalization: false,
       isSecure: false,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
