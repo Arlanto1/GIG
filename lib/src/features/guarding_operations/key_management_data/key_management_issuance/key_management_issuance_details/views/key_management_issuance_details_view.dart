@@ -82,7 +82,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       },
       builder: (context, state) {
         if (state.model.status == -1 ||
-            state.model.status == 1 ||
+        state.model.status == 1||
             state.model.status == 2 ||
             state.model.status == 3 ||
             state.model.status == 4) {
@@ -97,9 +97,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
+            showSaveButton: state.model.status != 4 &&
+                    state.model.status != -1
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -112,9 +111,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
+            showSubmitButton: state.model.status !=4  &&
+                    state.model.status != -1
                 ? true
                 : false,
             onTapSubmit: () {
@@ -647,7 +645,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
+                      if ((state.model.status == 4 || state.model.status == -1)
                           ? false
                           : true) ...[
                         Row(
@@ -664,7 +662,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
+            if (state.model.status == 4 || state.model.status == -1) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
