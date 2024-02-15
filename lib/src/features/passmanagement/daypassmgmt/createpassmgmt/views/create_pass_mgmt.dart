@@ -463,7 +463,80 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-
+                                if (widget.passId == '3') ...[
+                                  /// Day  pass no
+                                  CommonWidgets.textDisplay(
+                               Constants.passCategory,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (widget.model == null ||
+                                          widget.model?.status == 0) {
+                                        if (!isDisabled) {
+                                          //daypassNoDialog();
+                                          //passnumberaddButtonwidgetLoading(state);
+                                          // if (widget.passId == '3') {
+                                             passCategoryDialog(state: state);
+                                          // } else {
+                                          //passnumberTypeDialog(state);
+                                          // }
+                                        }
+                                      }
+                                    },
+                                    child: FlutterInputField(
+                                        isEnable: false,
+                                        isDisableColor: widget.model == null ||
+                                            passCategoryTextController
+                                                .text.isEmpty ||
+                                            widget.model?.status == 0
+                                            ? false
+                                            : true,
+                                        controller: passCategoryTextController,
+                                        textFormKey: Keys.statusTextController,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                          setState(() {});
+                                        },
+                                        onTap: () {
+                                          if (widget.model == null ||
+                                              daypassnoTextController
+                                                  .text.isEmpty ||
+                                              widget.model?.status == 0) {
+                                            //passnumberaddButtonwidgetLoading(state);
+                                            // if (widget.passId == '3') {
+                                               passCategoryDialog(state: state);
+                                            // } else {
+                                           // passnumberTypeDialog(state);
+                                            // }
+                                          }
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: IconButton(
+                                            icon: SvgPicture.asset(
+                                                width: 10,
+                                                height: 10,
+                                                AppIcon.dropdownicon,
+                                                key: const Key('closed_eye')),
+                                            onPressed: () {
+                                              log('suffixIcon pressed');
+                                              if (widget.model == null ||
+                                                  widget.model?.status == 0) {
+                                                //passnumberaddButtonwidgetLoading(state);
+                                                // if (widget.passId == '3') {
+                                                   passCategoryDialog(
+                                                       state: state);
+                                                // } else {
+                                                //passnumberTypeDialog(state);
+                                                //}
+                                              }
+                                            })),
+                                  ),
+                                ],
                                 /// Company Type
                                 if (widget.passId == "0" ||
                                     widget.passId == "3") ...[
@@ -794,8 +867,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           : purposeofvisitTextController,
                                       index: 0,
                                       state: state),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.0001),
                                 ],
                                 //Photo Identity Validation Type
                                 widget.passId == "1"
@@ -1107,88 +1180,84 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   ),
                                 ],
 
-                                /// Day  pass no
-                                CommonWidgets.textDisplay(
-                                  widget.passId == "1"
-                                      ? "Visitor Pass No"
-                                      : widget.passId == "2"
-                                          ? "Vendor Pass No"
-                                          : widget.passId == '3'
-                                              ? 'Pass Category'
-                                              : Constants.daypassno,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (widget.model == null ||
-                                        widget.model?.status == 0) {
-                                      if (!isDisabled) {
-                                        //daypassNoDialog();
-                                        //passnumberaddButtonwidgetLoading(state);
-                                        if (widget.passId == '3') {
-                                          passCategoryDialog(state: state);
-                                        } else {
+                                if (widget.passId != '3') ...[
+                                  /// Day  pass no
+                                  CommonWidgets.textDisplay(
+                                    widget.passId == "1"
+                                        ? "Visitor Pass No"
+                                        : widget.passId == "2"
+                                            ? "Vendor Pass No"
+                                            : Constants.daypassno,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (widget.model == null ||
+                                          widget.model?.status == 0) {
+                                        if (!isDisabled) {
+                                          //daypassNoDialog();
+                                          //passnumberaddButtonwidgetLoading(state);
+                                          // if (widget.passId == '3') {
+                                          //   passCategoryDialog(state: state);
+                                          // } else {
                                           passnumberTypeDialog(state);
+                                          // }
                                         }
                                       }
-                                    }
-                                  },
-                                  child: FlutterInputField(
-                                      isEnable: false,
-                                      isDisableColor: widget.model == null ||
-                                              passCategoryTextController
-                                                  .text.isEmpty ||
-                                              widget.model?.status == 0
-                                          ? false
-                                          : true,
-                                      controller: widget.passId == '3'
-                                          ? passCategoryTextController
-                                          : daypassnoTextController,
-                                      textFormKey: Keys.statusTextController,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      onTap: () {
-                                        if (widget.model == null ||
-                                            daypassnoTextController
-                                                .text.isEmpty ||
-                                            widget.model?.status == 0) {
-                                          //passnumberaddButtonwidgetLoading(state);
-                                          if (widget.passId == '3') {
-                                            passCategoryDialog(state: state);
-                                          } else {
-                                            passnumberTypeDialog(state);
-                                          }
-                                        }
-                                      },
-                                      validateTextField: (String? user) {},
-                                      suffixWidget: IconButton(
-                                          icon: SvgPicture.asset(
-                                              width: 10,
-                                              height: 10,
-                                              AppIcon.dropdownicon,
-                                              key: const Key('closed_eye')),
-                                          onPressed: () {
-                                            log('suffixIcon pressed');
-                                            if (widget.model == null ||
-                                                daypassnoTextController
+                                    },
+                                    child: FlutterInputField(
+                                        isEnable: false,
+                                        isDisableColor: widget.model == null ||
+                                                passCategoryTextController
                                                     .text.isEmpty ||
-                                                widget.model?.status == 0) {
-                                              //passnumberaddButtonwidgetLoading(state);
-                                              if (widget.passId == '3') {
-                                                passCategoryDialog(
-                                                    state: state);
-                                              } else {
+                                                widget.model?.status == 0
+                                            ? false
+                                            : true,
+                                        controller: daypassnoTextController,
+                                        textFormKey: Keys.statusTextController,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                          setState(() {});
+                                        },
+                                        onTap: () {
+                                          if (widget.model == null ||
+                                              daypassnoTextController
+                                                  .text.isEmpty ||
+                                              widget.model?.status == 0) {
+                                            //passnumberaddButtonwidgetLoading(state);
+                                            // if (widget.passId == '3') {
+                                            //   passCategoryDialog(state: state);
+                                            // } else {
+                                            passnumberTypeDialog(state);
+                                            // }
+                                          }
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: IconButton(
+                                            icon: SvgPicture.asset(
+                                                width: 10,
+                                                height: 10,
+                                                AppIcon.dropdownicon,
+                                                key: const Key('closed_eye')),
+                                            onPressed: () {
+                                              log('suffixIcon pressed');
+                                              if (widget.model == null ||
+                                                  widget.model?.status == 0) {
+                                                //passnumberaddButtonwidgetLoading(state);
+                                                // if (widget.passId == '3') {
+                                                //   passCategoryDialog(
+                                                //       state: state);
+                                                // } else {
                                                 passnumberTypeDialog(state);
+                                                //}
                                               }
-                                            }
-                                          })),
-                                ),
+                                            })),
+                                  ),
+                                ],
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1879,20 +1948,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomSimpleListTexts(
             texts: widget.passId == "1" &&
                     (widget.model?.status == 0 || widget.model?.status == null)
-                    ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                        : widget.passId == "2"
-                            ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                            : widget.passId == "0" &&
+                ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
+                : widget.passId == "2"
+                    ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+                    : widget.passId == "0" &&
+                            (widget.model?.status == 0 ||
+                                widget.model?.status == null)
+                        ? ["DAY_PASS"]
+                        : widget.passId == "0"
+                            ? ["DAY_PASS", "DWS_DAY_PASS"]
+                            : widget.passId == "3" &&
                                     (widget.model?.status == 0 ||
                                         widget.model?.status == null)
-                                ? ["DAY_PASS"]
-                                : widget.passId == "0"
-                                    ? ["DAY_PASS", "DWS_DAY_PASS"]
-                                    : widget.passId == "3" &&
-                                            (widget.model?.status == 0 ||
-                                                widget.model?.status == null)
-                                        ? ["SEZ_PASS"]
-                                        : ["SEZ_PASS", "DWS_SEZ_PASS"],
+                                ? ["SEZ_PASS"]
+                                : ["SEZ_PASS", "DWS_SEZ_PASS"],
             onTap: (String value) {
               log(value);
               passtypeTextController.text = value;
@@ -2338,8 +2407,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateatomCompanyTypes:
-                state.companyTypes?? [],
+            duplicateatomCompanyTypes: state.companyTypes ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -2961,7 +3029,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         !getFiles.isEmptyOrNull ? getFiles : getAttachments;
 
     List<ImageContent>? photoImages =
-    !photogetFiles.isEmptyOrNull ? photogetFiles : photogetAttachments;
+        !photogetFiles.isEmptyOrNull ? photogetFiles : photogetAttachments;
     // return;
     //List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
@@ -3583,6 +3651,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       controller: controller,
       textFormKey: Keys.colorTextController,
+      textCapitalization: controller ==emailTextController ? false :true,
       textInputType: controller == contactnoTextController ||
               controller == sezpassinfoTextController
           ? TextInputType.number

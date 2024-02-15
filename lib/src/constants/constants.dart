@@ -306,6 +306,8 @@ class Constants {
 
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
+  static const String passCategory = 'Pass Category';
+
   static const String exceptionalApproval =
       'Exceptional Approval for External Auditors/ External Regulators';
   static const String passvliduntil = 'Pass Valid Until';
