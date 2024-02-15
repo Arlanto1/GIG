@@ -527,7 +527,7 @@ class _MaterialMovementDetailsViewState
                           FlutterInputField(
                             showBorder: true,
                             lineHeight: 6,
-                            initialValue: state.model?.materialDescription,
+                            initialValue: state.model.materialDescription,
                             textFormKey: Keys.materialBreifDescKey,
                             hintText: Constants.informationhere,
                             isEnable: state.model.status == 10 ||
@@ -546,7 +546,7 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 5,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
-                              state.model?.materialDescription = value;
+                              state.model.materialDescription = value;
                             },
                             textInputAction: TextInputAction.newline,
                             textInputType:
@@ -1542,7 +1542,7 @@ class _MaterialMovementDetailsViewState
                             //   CommonWidgets.verticalSpacerWidget(height * 0.01),
                             // ],
 
-                            if (state.model?.status == 5) ...[
+                            if (state.model.status == 5) ...[
                               /// Rejection Comment
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.rejectionComment ??
