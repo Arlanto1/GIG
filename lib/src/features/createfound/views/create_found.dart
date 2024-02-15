@@ -45,7 +45,7 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController handedoverdatedateTextController =
       TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
-  TextEditingController assettypeTextController = TextEditingController();
+  TextEditingController assetTypeTextController = TextEditingController();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
@@ -78,9 +78,7 @@ class _CreateFoundState extends State<CreateFound> {
         penStrokeWidth: 2,
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
-    if (widget.model != null) {
-      populateData();
-    }
+    populateData();
     BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
     _getFoundArticleList();
     _getCurrentDate();
@@ -93,6 +91,8 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   populateData() async {
+    assetTypeTextController.text = "Personal";
+    widget.model?.typeOfAsset == 0;
     if (widget.model != null) {
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
       selecteddepositorList = widget.model?.depositor != null
@@ -151,16 +151,16 @@ class _CreateFoundState extends State<CreateFound> {
                   int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
-      assettypeTextController.text = widget.model?.typeOfAsset != null
+      assetTypeTextController.text = widget.model?.typeOfAsset != null
           ? (widget.model?.typeOfAsset == 0 ? "Personal" : "Company")
           : '';
       statusTextController.text = widget.model?.status == 0
           ? "Found"
           : widget.model?.status == 1
-          ? "Under Security Custody"
-          : widget.model?.status == -1
-          ? "Cancelled"
-          : "Handed Over/ Claimed";
+              ? "Under Security Custody"
+              : widget.model?.status == -1
+                  ? "Cancelled"
+                  : "Handed Over/ Claimed";
       depositorTextController.text = widget.model?.depositorName != null
           ? widget.model?.depositorName ?? ""
           : '';
@@ -260,8 +260,8 @@ class _CreateFoundState extends State<CreateFound> {
     };
     Map<String, dynamic> foundBody = {
       "status": widget.model?.status ?? 0,
-      "typeOfAsset": assettypeTextController.text.isEmptyOrNull
-          ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
+      "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
+          ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
           : null,
       "color":
           colorTextController.text.isNotEmpty ? colorTextController.text : '',
@@ -376,8 +376,8 @@ class _CreateFoundState extends State<CreateFound> {
         claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
-        typeOfAsset: !assettypeTextController.text.isEmptyOrNull
-            ? ((assettypeTextController.text.toLowerCase()) == 'company'
+        typeOfAsset: !assetTypeTextController.text.isEmptyOrNull
+            ? ((assetTypeTextController.text.toLowerCase()) == 'company'
                 ? 1
                 : 0)
             : null,
@@ -468,7 +468,7 @@ class _CreateFoundState extends State<CreateFound> {
         (locationSelectedlist?.name ?? "").isEmpty &&
         dateofcreationTextController.text.isEmpty &&
         serialNumber.isEmpty &&
-        assettypeTextController.text.isEmpty &&
+        assetTypeTextController.text.isEmpty &&
         (selectedArtclelist?.name ?? "").isEmpty &&
         foundDateTextController.text.isEmpty &&
         foundLocationTextController.text.isEmpty &&
@@ -499,7 +499,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter serial number",
       );
-    } else if (assettypeTextController.text.isEmpty) {
+    } else if (assetTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter asset type",
@@ -601,7 +601,7 @@ class _CreateFoundState extends State<CreateFound> {
         return CustomSimpleListTexts(
           texts: const ["Personal", "company"],
           onTap: (String value) {
-            assettypeTextController.text = value;
+            assetTypeTextController.text = value;
             setState(() {});
           },
         );
@@ -793,7 +793,8 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible: widget.model?.status != 2 && widget.model?.status != -1,
+                  visible:
+                      widget.model?.status != 2 && widget.model?.status != -1,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -810,7 +811,8 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.model?.status != -1 && widget.model?.status != 2,
+                  visible:
+                      widget.model?.status != -1 && widget.model?.status != 2,
                   child: GestureDetector(
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
@@ -994,6 +996,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
+                                  Text('-${assetTypeTextController.text}---'),
                                   GestureDetector(
                                     onTap: () {
                                       if (widget.model?.status == 0 ||
@@ -1007,9 +1010,9 @@ class _CreateFoundState extends State<CreateFound> {
                                             widget.model?.status == 0
                                                 ? false
                                                 : true,
-                                        controller:
-                                            assettypeTextController,
-                                        textFormKey: Keys.statusTextController,
+                                        controller: assetTypeTextController,
+                                        textFormKey:
+                                            Keys.assetTypeTextControllerKey,
                                         hintText: '',
                                         onChange: (String username) {
                                           //this.username = username;
@@ -1078,8 +1081,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    controller:
-                                        foundLocationTextController,
+                                    controller: foundLocationTextController,
                                     textFormKey:
                                         Keys.foundLocationTextController,
                                     hintText: '',
@@ -1227,7 +1229,9 @@ class _CreateFoundState extends State<CreateFound> {
                                           height: 70,
                                           isDisableColor:
                                               widget.model?.status == 1 ||
-                                                      widget.model?.status == 2 ||widget.model?.status == -1
+                                                      widget.model?.status ==
+                                                          2 ||
+                                                      widget.model?.status == -1
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1238,8 +1242,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             }
                                           })
                                       : FlutterInputField(
-                                          controller:
-                                              depositorTextController,
+                                          controller: depositorTextController,
                                           textFormKey:
                                               Keys.depositorTextController,
                                           hintText: '',
@@ -1319,7 +1322,9 @@ class _CreateFoundState extends State<CreateFound> {
                                           height: 60,
                                           isDisableColor:
                                               widget.model?.status == 1 ||
-                                                      widget.model?.status == 2|| widget.model?.status == -1
+                                                      widget.model?.status ==
+                                                          2 ||
+                                                      widget.model?.status == -1
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1382,8 +1387,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               }
                                             })
                                         : FlutterInputField(
-                                            controller:
-                                                claimantTextController,
+                                            controller: claimantTextController,
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: '',
@@ -1677,7 +1681,8 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-                                  if (widget.model?.status != 2 && widget.model?.status != -1) ...[
+                                  if (widget.model?.status != 2 &&
+                                      widget.model?.status != -1) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -1694,7 +1699,8 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                           ),
                         ),
-                        if (widget.model?.status == 2 || widget.model?.status == -1) ...[
+                        if (widget.model?.status == 2 ||
+                            widget.model?.status == -1) ...[
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
@@ -1973,7 +1979,8 @@ class _CreateFoundState extends State<CreateFound> {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
-                widget.model?.status != 2&& widget.model?.status != -1) {
+                widget.model?.status != 2 &&
+                widget.model?.status != -1) {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
@@ -2003,7 +2010,8 @@ class _CreateFoundState extends State<CreateFound> {
                 isClaimantDBEmployeeSelected = selectedValue;
               } else if (name == Constants.isdepositordbemployee &&
                   widget.model?.status != 1 &&
-                  widget.model?.status != 2 && widget.model?.status != -1) {
+                  widget.model?.status != 2 &&
+                  widget.model?.status != -1) {
                 isDepositorDBEmployeeSelected = selectedValue;
               }
               setState(() {});
@@ -2018,8 +2026,9 @@ class _CreateFoundState extends State<CreateFound> {
     return TextFieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status == 1 || widget.model?.status == 2 ||
-      widget.model?.status == -1
+      isDisableColor: widget.model?.status == 1 ||
+              widget.model?.status == 2 ||
+              widget.model?.status == -1
           ? true
           : false,
       onTap: () {
