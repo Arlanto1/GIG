@@ -777,6 +777,7 @@ class _GuardingMasterDataDetailsViewState
                               initialValue: state.model.contactNo,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
+                              characterLimit: 10,
                               isEnable: widget.guardingMasterData == null
                                   ? true
                                   : (widget.guardingMasterData != null &&

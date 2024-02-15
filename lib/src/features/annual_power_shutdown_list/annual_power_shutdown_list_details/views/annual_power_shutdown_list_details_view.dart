@@ -460,6 +460,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.lsm1ContactNo,
                                 textFormKey: Keys.lsm1ContactNOKey,
                                 hintText: '',
+                                characterLimit: 10,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -513,6 +514,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               FlutterInputField(
                                 // labelText: Constants.lsm2ContactNo,
                                 textInputType: TextInputType.number,
+                                characterLimit: 10,
                                 initialValue: state.model.lsm2ContactNo,
                                 textFormKey: Keys.lsm2ContactNOKey,
                                 hintText: '',
@@ -571,6 +573,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.bu1ContactNo,
                                 textFormKey: Keys.bu1ContactNOKey,
                                 hintText: '',
+                                characterLimit: 10,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -626,6 +629,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.bu2ContactNo,
                                 textFormKey: Keys.bu2ContactNOKey,
                                 hintText: '',
+                                characterLimit: 10,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -756,6 +760,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.model.systemVendor1ContactNo,
                                 textFormKey: Keys.vendor1Contact1Key,
                                 hintText: '',
+                                characterLimit: 10,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -918,6 +923,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
                                 hintText: '',
+                                characterLimit: 10,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {

@@ -82,7 +82,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       },
       builder: (context, state) {
         if (state.model.status == -1 ||
-        state.model.status == 1||
+            state.model.status == 1 ||
             state.model.status == 2 ||
             state.model.status == 3 ||
             state.model.status == 4) {
@@ -97,8 +97,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 &&
-                    state.model.status != -1
+            showSaveButton: state.model.status != 4 && state.model.status != -1
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -111,10 +110,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: state.model.status !=4  &&
-                    state.model.status != -1
-                ? true
-                : false,
+            showSubmitButton:
+                state.model.status != 4 && state.model.status != -1
+                    ? true
+                    : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
@@ -643,25 +642,37 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         ),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// SubmitButton
-                      if ((state.model.status == 4 || state.model.status == -1)
-                          ? false
-                          : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                            submitButtonDisplay()
-                          ],
-                        ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
               ),
             ),
+
+            /// SubmitButton
+            if ((state.model.status == 4 || state.model.status == -1)
+                ? false
+                : true) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      cancelButtonDisplay(state),
+                      submitButtonDisplay()
+                    ],
+                  ),
+                ),
+              ),
+            ],
             if (state.model.status == 4 || state.model.status == -1) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
@@ -723,7 +734,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     if (state.model.id != null) {
       BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, keyManagementIssuanceListRoute);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(
+        context,
+        keyManagementIssuanceListRoute,
+      );
     } else {
       Navigator.pop(context);
     }

@@ -303,6 +303,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm1ContactNo,
                             textFormKey: Keys.lsm1ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -356,6 +357,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm2ContactNo,
                             textFormKey: Keys.lsm2ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -410,6 +412,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu1ContactNo,
                             textFormKey: Keys.bu1ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -465,6 +468,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu2ContactNo,
                             textFormKey: Keys.bu2ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -687,6 +691,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -772,6 +777,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
