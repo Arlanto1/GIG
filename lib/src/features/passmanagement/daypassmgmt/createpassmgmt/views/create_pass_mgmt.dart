@@ -1879,20 +1879,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomSimpleListTexts(
             texts: widget.passId == "1" &&
                     (widget.model?.status == 0 || widget.model?.status == null)
-                    ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                        : widget.passId == "2"
-                            ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                            : widget.passId == "0" &&
+                ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
+                : widget.passId == "2"
+                    ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+                    : widget.passId == "0" &&
+                            (widget.model?.status == 0 ||
+                                widget.model?.status == null)
+                        ? ["DAY_PASS"]
+                        : widget.passId == "0"
+                            ? ["DAY_PASS", "DWS_DAY_PASS"]
+                            : widget.passId == "3" &&
                                     (widget.model?.status == 0 ||
                                         widget.model?.status == null)
-                                ? ["DAY_PASS"]
-                                : widget.passId == "0"
-                                    ? ["DAY_PASS", "DWS_DAY_PASS"]
-                                    : widget.passId == "3" &&
-                                            (widget.model?.status == 0 ||
-                                                widget.model?.status == null)
-                                        ? ["SEZ_PASS"]
-                                        : ["SEZ_PASS", "DWS_SEZ_PASS"],
+                                ? ["SEZ_PASS"]
+                                : ["SEZ_PASS", "DWS_SEZ_PASS"],
             onTap: (String value) {
               log(value);
               passtypeTextController.text = value;
@@ -2338,8 +2338,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateatomCompanyTypes:
-                state.companyTypes?? [],
+            duplicateatomCompanyTypes: state.companyTypes ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -2815,15 +2814,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
-    int passValidUntilDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
+    // int passValidUntilDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
     //
     // DateTime desiredDate = DateTime(2022, 5, 31);
     // int passValidUntilDatePermanent = (desiredDate.millisecondsSinceEpoch ~/ 1000);
 
-    int passValidUntilDatePermanent =
-        ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
-            24 * 3600 * 1227); //Adding 1227 days
+    // int passValidUntilDatePermanent =
+    //     ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+    //         24 * 3600 * 1227); //Adding 1227 days
 
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
@@ -2961,7 +2960,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         !getFiles.isEmptyOrNull ? getFiles : getAttachments;
 
     List<ImageContent>? photoImages =
-    !photogetFiles.isEmptyOrNull ? photogetFiles : photogetAttachments;
+        !photogetFiles.isEmptyOrNull ? photogetFiles : photogetAttachments;
     // return;
     //List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
@@ -2990,6 +2989,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
       return;
     }
+
+    log('-passValidUntilTextController.text--${passValidUntilTextController.text}--');
+    // String endTime = Utils.dateToTimestampConversion(
+    //     passValidUntilTextController.text, Constants.dateFormat).toString();
+
+    String endTime = Utils().formatTime(passValidUntilTextController.text);
+    log('-endTime--$endTime--');
+
     //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
     log('--pass info id--${passInfo.id}---');
@@ -3023,9 +3030,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: Utils.timestamptoDateConversion(
-            int.tryParse(passValidUntilTextController.text),
-            Constants.dateFormat),
+        endTime: endTime,
         // endTime: widget.passId == '3' && widget.model?.category == 0
         //     ? passValidUntilDatePermanent.toString()
         //     : passValidUntilDate.toString(),
@@ -3086,9 +3091,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? hostemployeeidTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
-          endTime: widget.passId == '3' && widget.model?.category == 0
-              ? passValidUntilDatePermanent.toString()
-              : passValidUntilDate.toString(),
+          endTime: endTime,
           startTime: passvalidfromdate.toString(),
           returnedTime: passReturnedOn.toString(),
           hostName: dbsponsorTextController.text.isEmpty
