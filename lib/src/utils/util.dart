@@ -168,7 +168,7 @@ class Utils {
         statusText = 'Under Security Custody';
         break;
       case 2:
-        statusText = 'Handed Over';
+        statusText = 'Handed Over/ Claimed';
         break;
       case -1:
         statusText = 'Cancelled';

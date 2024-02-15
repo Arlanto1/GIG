@@ -160,7 +160,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? "Under Security Custody"
           : widget.model?.status == -1
           ? "Cancelled"
-          : "Handover";
+          : "Handed Over/ Claimed";
       depositorTextController.text = widget.model?.depositorName != null
           ? widget.model?.depositorName ?? ""
           : '';
