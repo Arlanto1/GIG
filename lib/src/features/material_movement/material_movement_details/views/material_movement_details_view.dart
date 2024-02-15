@@ -196,8 +196,7 @@ class _MaterialMovementDetailsViewState
                       BlocProvider.of<MaterialMovementDetailsCubit>(context)
                           .onAddRejectionComment(value);
 
-                      BlocProvider.of<MaterialMovementDetailsCubit>(
-                              context)
+                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
                           .submitForm(
                         isRejectOnly: true,
                         isSaveOnly: false,
@@ -237,6 +236,7 @@ class _MaterialMovementDetailsViewState
   }
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
+    initializeDates(state);
     log('-state.materialMovement.status---${state.model.status}--');
     log('-rejection Comment---${widget.materialMovement?.rejectionComment}--');
 
