@@ -76,7 +76,8 @@ class SstIncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Escalation 1 POC');
     }
     if (model.escalation1Poc != null &&  !Validator.isValidEmail(model.escalation1Poc)) {
-      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 2 POC email');
+      log('-model.escalation1Poc--${model.escalation1Poc}-');
+      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 1 POC email');
     }
     if (model.escalation2Poc == null) {
       return const ErrorResponse(status: false, message: 'Please enter Escalation 2 POC');
