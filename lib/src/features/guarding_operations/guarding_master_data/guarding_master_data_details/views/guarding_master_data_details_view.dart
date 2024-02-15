@@ -80,7 +80,6 @@ class _GuardingMasterDataDetailsViewState
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Guarding Master Data',
@@ -120,7 +119,6 @@ class _GuardingMasterDataDetailsViewState
           isReadOnly = false;
         }
 
-        initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -888,7 +886,7 @@ class _GuardingMasterDataDetailsViewState
                               isDisabled: state.model.status != 6,
                               textController: deploymentTypeController,
                               items: deploymentTypeDropDownValues,
-                              initialValue:'${state.model.typeOfDeployment ?? 1}',
+                              initialValue:'${widget.guardingMasterData?.typeOfDeployment ?? 1}',
                               onTap: () {
                                 if (state.model.id !=null) {
                                   BaseDropDown().assetTypeDialog(

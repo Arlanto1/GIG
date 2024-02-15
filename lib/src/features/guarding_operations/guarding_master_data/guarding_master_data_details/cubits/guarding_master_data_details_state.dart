@@ -152,7 +152,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       DateTime minimumDate = currentDate.subtract(const Duration(days: 365 * 18));
       return dateOfBirth.isAfter(minimumDate);
     }
-    if (model.dateOfBirth == null || (model.dateOfBirth !=null && isUnder18YearsOld(DateTime.parse(model.dateOfBirth!)) )) {
+    if (model.dateOfBirth == null || (model.dateOfBirth !=null && !isUnder18YearsOld(DateTime.parse(model.dateOfBirth!)) )) {
       return const ErrorResponse(
           status: false, message: 'Date of Birth should be more than or equal to 18 years');
     }
