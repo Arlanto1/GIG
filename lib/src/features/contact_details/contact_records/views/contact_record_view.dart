@@ -160,14 +160,14 @@ class _ContactRecordViewState extends State<ContactRecordView> {
             );
             labels.add(
               Label(
-                key: 'Rank',
-                value: state.items![index].rank?.name ?? '',
+                key: 'Contact No',
+                value: state.items![index].contactNo ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Contact No',
-                value: state.items![index].contactNo ?? '',
+                key: 'Rank',
+                value: state.items![index].rank?.name ?? '',
               ),
             );
             return index >= state.items!.length
