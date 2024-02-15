@@ -31,7 +31,7 @@ class _CreateFoundState extends State<CreateFound> {
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 0;
   int isClaimantDBEmployeeSelected = 0;
-  int isClaimantAcceptedtoSignSelected = 0;
+  int isClaimantAcceptedtoSignSelected = 1;
   int isClaimantAcceptedByemail = 0;
   final GlobalKey<FormState> createfoundFormKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
@@ -996,7 +996,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  Text('-${assetTypeTextController.text}---'),
+                                  //Text('-${assetTypeTextController.text}---'),
                                   GestureDetector(
                                     onTap: () {
                                       if (widget.model?.status == 0 ||
@@ -1010,6 +1010,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             widget.model?.status == 0
                                                 ? false
                                                 : true,
+                                        // initialValue: assettypeTextController,
                                         controller: assetTypeTextController,
                                         textFormKey:
                                             Keys.assetTypeTextControllerKey,
@@ -1566,7 +1567,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.itemhandoverby,
                                         // widget.model?.handoverSecurity?.name ?? '',
-                                        '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}',
+                                        '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
                                         isMandatory: true),
 
                                     /// Handed over date
