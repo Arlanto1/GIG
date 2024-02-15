@@ -466,7 +466,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 if (widget.passId == '3') ...[
                                   /// Day  pass no
                                   CommonWidgets.textDisplay(
-                               Constants.passCategory,
+                                    Constants.passCategory,
                                     isMandatory: true,
                                     Styles.textStyleBlack14,
                                   ),
@@ -480,7 +480,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           //daypassNoDialog();
                                           //passnumberaddButtonwidgetLoading(state);
                                           // if (widget.passId == '3') {
-                                             passCategoryDialog(state: state);
+                                          passCategoryDialog(state: state);
                                           // } else {
                                           //passnumberTypeDialog(state);
                                           // }
@@ -490,9 +490,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     child: FlutterInputField(
                                         isEnable: false,
                                         isDisableColor: widget.model == null ||
-                                            passCategoryTextController
-                                                .text.isEmpty ||
-                                            widget.model?.status == 0
+                                                passCategoryTextController
+                                                    .text.isEmpty ||
+                                                widget.model?.status == 0
                                             ? false
                                             : true,
                                         controller: passCategoryTextController,
@@ -509,9 +509,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               widget.model?.status == 0) {
                                             //passnumberaddButtonwidgetLoading(state);
                                             // if (widget.passId == '3') {
-                                               passCategoryDialog(state: state);
+                                            passCategoryDialog(state: state);
                                             // } else {
-                                           // passnumberTypeDialog(state);
+                                            // passnumberTypeDialog(state);
                                             // }
                                           }
                                         },
@@ -528,8 +528,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   widget.model?.status == 0) {
                                                 //passnumberaddButtonwidgetLoading(state);
                                                 // if (widget.passId == '3') {
-                                                   passCategoryDialog(
-                                                       state: state);
+                                                passCategoryDialog(
+                                                    state: state);
                                                 // } else {
                                                 //passnumberTypeDialog(state);
                                                 //}
@@ -537,6 +537,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             })),
                                   ),
                                 ],
+
                                 /// Company Type
                                 if (widget.passId == "0" ||
                                     widget.passId == "3") ...[
@@ -2245,12 +2246,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(currentDate);
     log(formattedDate);
-    String nextformattedDate = DateFormat(Constants.fulldateFormat)
+    String nextFormattedDate = DateFormat(Constants.fulldateFormat)
         .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
     passReturnedTextController.text = formattedDate;
-    passvalidfromTextController.text = formattedDate;
-    passValidUntilTextController.text = nextformattedDate;
+    if (widget.passId != '3') {
+      passvalidfromTextController.text = formattedDate;
+      passValidUntilTextController.text = nextFormattedDate;
+    }
     if (widget.model == null) {
       statusTextController.text = 'created';
     }
@@ -3655,7 +3658,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       controller: controller,
       textFormKey: Keys.colorTextController,
-      textCapitalization: controller ==emailTextController ? false :true,
+      textCapitalization: controller == emailTextController ? false : true,
       textInputType: controller == contactnoTextController ||
               controller == sezpassinfoTextController
           ? TextInputType.number
