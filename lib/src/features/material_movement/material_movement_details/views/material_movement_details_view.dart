@@ -327,11 +327,8 @@ class _MaterialMovementDetailsViewState
                             textController: returnableTextController,
                             onTap: () {
                               if ((!isReadOnly && !widget.isInward) &&
-                                  (state.model.status != 2 ||
-                                      state.model.status != 3 ||
-                                      state.model.status != 5 ||
-                                      state.model.status != 10 ||
-                                      state.model.status != -1)) {
+                                  (state.model.status == 0 ||
+                                      state.model.status == null)) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: returnableDropDownValues,
@@ -1518,32 +1515,32 @@ class _MaterialMovementDetailsViewState
                                     },
                                   ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (widget.materialMovement?.status == 4) ...[
-                              /// Rejection Comment
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.rejectionComment ??
-                                    state.labels?.defaultLocale
-                                        .rejectionComment ??
-                                    Constants.rejectionComment,
-                                Styles.textStyleBlack14,
-                                isMandatory: true,
-                              ),
-                              FlutterInputField(
-                                initialValue: state.model.rejectionComment,
-                                textFormKey: Keys.claimantEmpIdTextController,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor: true,
-                                onChange: (String value) {
-                                  state.model.rejectionComment = value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
+                            // if (widget.materialMovement?.status == 5) ...[
+                            //   /// Rejection Comment
+                            //   CommonWidgets.textDisplay(
+                            //     state.labels?.locale.rejectionComment ??
+                            //         state.labels?.defaultLocale
+                            //             .rejectionComment ??
+                            //         Constants.rejectionComment,
+                            //     Styles.textStyleBlack14,
+                            //     isMandatory: true,
+                            //   ),
+                            //   FlutterInputField(
+                            //     initialValue: state.model.rejectionComment,
+                            //     textFormKey: Keys.claimantEmpIdTextController,
+                            //     hintText: '',
+                            //     isEnable: false,
+                            //     isDisableColor: true,
+                            //     onChange: (String value) {
+                            //       state.model.rejectionComment = value;
+                            //       context
+                            //           .read<MaterialMovementDetailsCubit>()
+                            //           .onModelValueChange(state.model);
+                            //     },
+                            //     validateTextField: (String? user) {},
+                            //   ),
+                            //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // ],
 
                             if (state.model?.status == 5) ...[
                               /// Rejection Comment
@@ -1802,14 +1799,14 @@ class _MaterialMovementDetailsViewState
                                   state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Rejected Comment
-                              CommonWidgets.verticalTextHandling(
-                                  state.labels?.locale.rejectionComment ??
-                                      state.labels?.defaultLocale
-                                          .rejectionComment ??
-                                      Constants.rejectedComment,
-                                  state.model.rejectionComment ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              // /// Rejected Comment
+                              // CommonWidgets.verticalTextHandling(
+                              //     state.labels?.locale.rejectionComment ??
+                              //         state.labels?.defaultLocale
+                              //             .rejectionComment ??
+                              //         Constants.rejectedComment,
+                              //     state.model.rejectionComment ?? ''),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                           ],
 
