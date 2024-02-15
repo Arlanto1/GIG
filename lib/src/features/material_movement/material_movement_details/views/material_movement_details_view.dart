@@ -225,7 +225,7 @@ class _MaterialMovementDetailsViewState
     log('-widget.materialMovement?.expectedDateOfReturn--${widget.materialMovement?.expectedDateOfReturn}--');
     if (state.model.expectedDateOfReturn != null) {
       expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
-          int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
+          int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
     actualDateOfReturnController.text = Utils.timestamptoDateConversion(
@@ -1612,7 +1612,8 @@ class _MaterialMovementDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-
+                              // datecreateWidgetdisplay(
+                              //     state.model.expectedDateOfReturn ?? ''),
                               BaseDate().datePickerWidgetLoading(
                                 showPastDate: false,
                                 textController: expectedDateOfReturnController,
