@@ -609,7 +609,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
           .updateStatus(id: state.model.id.toString());
       Navigator.popAndPushNamed(
         context,
-        slaViolationRoute,
+        slaViolationPenaltyListRoute,
       );
     } else {
       Navigator.pop(context);
