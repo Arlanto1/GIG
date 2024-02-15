@@ -2883,15 +2883,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
-    int passValidUntilDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
+    // int passValidUntilDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
     //
     // DateTime desiredDate = DateTime(2022, 5, 31);
     // int passValidUntilDatePermanent = (desiredDate.millisecondsSinceEpoch ~/ 1000);
 
-    int passValidUntilDatePermanent =
-        ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
-            24 * 3600 * 1227); //Adding 1227 days
+    // int passValidUntilDatePermanent =
+    //     ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+    //         24 * 3600 * 1227); //Adding 1227 days
 
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
@@ -3058,6 +3058,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
       return;
     }
+
+    log('-passValidUntilTextController.text--${passValidUntilTextController.text}--');
+    // String endTime = Utils.dateToTimestampConversion(
+    //     passValidUntilTextController.text, Constants.dateFormat).toString();
+
+    String endTime = Utils().formatTime(passValidUntilTextController.text);
+    log('-endTime--$endTime--');
+
     //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
     log('--pass info id--${passInfo.id}---');
@@ -3091,9 +3099,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: Utils.timestamptoDateConversion(
-            int.tryParse(passValidUntilTextController.text),
-            Constants.dateFormat),
+        endTime: endTime,
         // endTime: widget.passId == '3' && widget.model?.category == 0
         //     ? passValidUntilDatePermanent.toString()
         //     : passValidUntilDate.toString(),
@@ -3154,9 +3160,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? hostemployeeidTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
-          endTime: widget.passId == '3' && widget.model?.category == 0
-              ? passValidUntilDatePermanent.toString()
-              : passValidUntilDate.toString(),
+          endTime: endTime,
           startTime: passvalidfromdate.toString(),
           returnedTime: passReturnedOn.toString(),
           hostName: dbsponsorTextController.text.isEmpty

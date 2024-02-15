@@ -50,8 +50,6 @@ const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
 const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
-const String slaViolationRoute = '/slaViolationRoute';
-const String slaViolationDetailsRoute = '/slaViolationDetailsRoute';
 const String occurrenceRoute = '/occurrenceRoute';
 const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 
