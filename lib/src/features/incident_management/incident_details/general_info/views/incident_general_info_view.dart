@@ -539,6 +539,16 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                               complainantDepartment: org);
                                     },
+                                      orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      createEntity: false,
+                                      title: 'Add Claimant Department',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            IncidentGeneralInfoCubit>(
+                                            context)
+                                            .refreshList();
+                                      }
                                   );
                                 },
                               ),
