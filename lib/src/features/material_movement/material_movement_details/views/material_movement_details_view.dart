@@ -120,6 +120,9 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == 3 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
+        if (state.model.status == 4 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         if (state.model.status == 5 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -455,6 +458,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 6 ||
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
+                                state.model.status == 4 ||
                                     state.model.status == 5 ||
                                     state.model.status == 1
                                 ? false
@@ -494,6 +498,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == -1 ||
                                       state.model.status == 6 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -501,6 +506,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == -1 ||
                                   state.model.status == 6 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.poNumber = value;
@@ -535,6 +541,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 6 ||
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
+                                state.model.status == 4 ||
                                     state.model.status == 5
                                 ? false
                                 : true,
@@ -543,6 +550,7 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 6 ||
                                 state.model.status == 2 ||
                                 state.model.status == 3 ||
+                                state.model.status == 4 ||
                                 state.model.status == 5,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
@@ -584,6 +592,7 @@ class _MaterialMovementDetailsViewState
                                           state.model.status == 6 ||
                                           state.model.status == 2 ||
                                           state.model.status == 3 ||
+                                      state.model.status == 4 ||
                                           state.model.status == 5
                                       ? false
                                       : true,
@@ -592,6 +601,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5,
                                   onChange: (String? value) {
                                     if (value != null) {
@@ -625,6 +635,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 6 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                             state.model.status == 5
                                         ? true
                                         : false,
@@ -661,6 +672,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -669,6 +681,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.modelInfo = value;
@@ -704,6 +717,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -712,6 +726,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.address = value;
@@ -748,6 +763,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1,
                                         onTap: () {
@@ -757,6 +773,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
                                                   state.model.status == 5 ||
+                                              state.model.status == 4 ||
                                                   state.model.status == 1
                                               ? false
                                               : true) {
@@ -791,6 +808,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
+                                            state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1
                                             ? false
@@ -801,6 +819,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1,
                                         onChange: (String username) {},
@@ -831,6 +850,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5 ||
                                       state.model.status == 1
                                   ? false
@@ -840,6 +860,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5 ||
                                   state.model.status == 1,
                               onChange: (String value) {
@@ -874,6 +895,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 10 ||
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
+                                        state.model.status == 4 ||
                                         state.model.status != 5,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == -1 ||
@@ -899,6 +921,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 10 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                             state.model.status == 5)
                                         ? true
                                         : false,
@@ -908,6 +931,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == -1 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
+                                          state.model.status == 4 ||
                                               state.model.status == 5
                                           ? false
                                           : true) {
@@ -970,6 +994,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -978,6 +1003,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.sentTo = value;
@@ -1011,6 +1037,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -1019,6 +1046,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.purpose = value;
@@ -1050,6 +1078,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -1058,6 +1087,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
+                                  state.model.status == 4 ||
                                   state.model.status == 5,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
@@ -1091,6 +1121,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 6 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                             state.model.status == 5
                                         ? false
                                         : true,
@@ -1099,6 +1130,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                         state.model.status == 5,
                                     onChange: (String value) {
                                       state.model.preparedByDepartment?.name =
@@ -1118,6 +1150,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                         state.model.status == 5,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
@@ -1125,6 +1158,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 10 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
+                                          state.model.status == 4 ||
                                               state.model.status == 5)
                                           ? false
                                           : true) {
@@ -1184,6 +1218,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 10 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                     state.model.status == 5 ||
                                                     state.model.status == 1)
                                                 ? true
@@ -1194,6 +1229,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
+                                              state.model.status == 4 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 1)
                                               ? false
@@ -1229,6 +1265,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != 10 ||
                                             state.model.status != 2 ||
                                             state.model.status != 3 ||
+                                            state.model.status != 4 ||
                                             state.model.status != 5 ||
                                             state.model.status != 1,
                                         isDisableColor:
@@ -1237,6 +1274,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == -1 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1,
                                         onChange: (String username) {},
@@ -1266,6 +1304,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != -1 ||
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
+                                        state.model.status != 4 ||
                                         state.model.status != 5 ||
                                         state.model.status != 1,
                                     isDisableColor: state.model.status == 6 ||
@@ -1288,6 +1327,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 10 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                             state.model.status == 5 ||
                                             state.model.status == 1)
                                         ? true
@@ -1298,6 +1338,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 10 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
+                                          state.model.status == 4 ||
                                               state.model.status == 5 ||
                                               state.model.status == 1)
                                           ? false
@@ -1358,6 +1399,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == -1 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                     state.model.status == 5 ||
                                                     state.model.status == 1)
                                                 ? true
@@ -1368,6 +1410,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
+                                              state.model.status == 4 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 1)
                                               ? false
@@ -1403,6 +1446,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != -1 ||
                                             state.model.status != 2 ||
                                             state.model.status != 3 ||
+                                            state.model.status != 4 ||
                                             state.model.status != 5 ||
                                             state.model.status != 1,
                                         isDisableColor:
@@ -1411,6 +1455,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == -1 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
+                                                state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1,
                                         onChange: (String username) {},
@@ -1440,6 +1485,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 1 ||
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
+                                        state.model.status != 4 ||
                                         state.model.status != 5 ||
                                         state.model.status != 1,
                                     isDisableColor: state.model.status == 6 ||
@@ -1447,6 +1493,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == -1 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                         state.model.status == 5 ||
                                         state.model.status == 1,
                                     onChange: (String value) {
@@ -1467,6 +1514,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == -1 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
+                                        state.model.status == 4 ||
                                             state.model.status == 5 ||
                                             state.model.status == 1)
                                         ? true
@@ -1477,6 +1525,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == -1 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
+                                          state.model.status == 4 ||
                                               state.model.status == 5 ||
                                               state.model.status == 1)
                                           ? false
@@ -2441,7 +2490,6 @@ class _MaterialMovementDetailsViewState
                       if ((state.model.status == 0 ||
                               state.model.status == 8 ||
                               state.model.status == 1 ||
-                              state.model.status == 4 ||
                               state.model.status == 6 ||
                               state.model.status == 7 ||
                               state.model.status == 9 ||
@@ -2464,6 +2512,7 @@ class _MaterialMovementDetailsViewState
             ),
             if ((state.model.status == 2 ||
                 state.model.status == 3 ||
+                state.model.status == 4 ||
                 state.model.status == 5 ||
                 state.model.status == 10 ||
                 state.model.status == -1)) ...[
