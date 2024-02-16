@@ -709,9 +709,9 @@ class _SstIncidentGeneralInfoViewState
   String getStatusString(int status) {
     switch (status) {
       case 1:
-        return 'Created';
+        return 'Create';
       case 2:
-        return 'Submitted';
+        return 'Submit';
       case 3:
         return 'Acknowledge';
       case 4:
@@ -721,17 +721,17 @@ class _SstIncidentGeneralInfoViewState
       case 6:
         return 'Review';
       case 7:
-        return 'Solve Proposed';
+        return 'Solve Propose';
       case 8:
-        return 'Quotes Rejected';
+        return 'Quotes Reject';
       case 9:
-        return 'Quotes Approved';
+        return 'Quotes Approve';
       case 10:
         return 'Po Raised';
       case 11:
-        return 'Work Completed';
+        return 'Work Complete';
       case 12:
-        return 'Invoice Requested';
+        return 'Invoice Request';
       case 13:
         return 'Invoice Submit';
       case 14:
@@ -739,7 +739,7 @@ class _SstIncidentGeneralInfoViewState
       case -1:
         return 'Cancelled';
       default:
-        return 'Create';
+        return '';
     }
   }
 
