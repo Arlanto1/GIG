@@ -1154,26 +1154,7 @@ class _GuardingMasterDataDetailsViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue: ((genderController.text
-                                                    .toLowerCase() ==
-                                                'Female' &&
-                                            state.model.height != null &&
-                                            state.model.weight != null &&
-                                            state.model.height! >= 150 &&
-                                            state.model.weight! >= 50) ||
-                                        ((genderController.text.toLowerCase() ==
-                                                    'male' ||
-                                                genderController.text
-                                                        .toLowerCase() ==
-                                                    'transgender') &&
-                                            state.model.height != null &&
-                                            state.model.weight != null &&
-                                            state.model.chest != null &&
-                                            state.model.height! >= 165 &&
-                                            state.model.weight! >= 50 &&
-                                            state.model.chest! >= 80))
-                                    ? 0
-                                    : 1,
+                                selectedValue:  state.model.physicallyFit == true ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
