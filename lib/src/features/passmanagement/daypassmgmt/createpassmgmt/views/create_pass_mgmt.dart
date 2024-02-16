@@ -1282,8 +1282,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  datepickerWidgetLoading(
-                                      passvalidfromTextController),
+                                  // datepickerWidgetLoading(
+                                  //     passvalidfromTextController),
+                                  BaseDate().datePickerWidgetLoading(
+                                    showFutureDate: false,
+                                    textController: passvalidfromTextController,
+                                    onlyDate: false,
+                                    onChange: (String value) {
+                                      passvalidfromTextController.text =
+                                          Utils.timestamptoDateConversion(
+                                              int.parse(
+                                                  widget.model?.startTime ?? '0'),
+                                              Constants.dateFormat);
+                                    },
+                                    context: context,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ],
