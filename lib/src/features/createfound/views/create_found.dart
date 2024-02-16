@@ -53,6 +53,7 @@ class _CreateFoundState extends State<CreateFound> {
 
   // String slnoValue = "dfwe";
   String createdByValue = "";
+  String handOverByValue="";
   String locationselectedText = "";
   Organisation? selectedEmployeedepartment;
   Organisation? selectedClaimdepartment;
@@ -117,6 +118,7 @@ class _CreateFoundState extends State<CreateFound> {
               lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
       createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
+      handOverByValue = handOverSecurity?.name != null ? handOverSecurity?.name ?? '' : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       locationSelectedlist = widget.model?.location != null
           ? Organisation(
@@ -866,9 +868,14 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
+                  handOverSecurity = state.loggedInUser??User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
+                  }
+                  if (handOverSecurity != null) {
+                    handOverByValue =
+                    '${handOverSecurity?.firstName ?? ''} ${handOverSecurity?.lastName ?? ''}';
                   }
                   serialnumberResponse = state.getSerialnumberResponse;
                   if (serialnumberResponse != null) {
@@ -1566,8 +1573,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       widget.model?.status == 1) ...[
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.itemhandoverby,
-                                        // widget.model?.handoverSecurity?.name ?? '',
-                                        '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
+                                        widget.model?.status == 2 ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}' : '',
+                                        // '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
                                         isMandatory: true),
 
                                     /// Handed over date
@@ -2145,7 +2152,7 @@ class _CreateFoundState extends State<CreateFound> {
                         color: AppColors.boldgreyBackground),
                 onTap: () {
                   DownloadImage().saveImage(
-                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                      context, imageData1?.id ?? 1, imageData1?.title ?? '');
                 },
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')
