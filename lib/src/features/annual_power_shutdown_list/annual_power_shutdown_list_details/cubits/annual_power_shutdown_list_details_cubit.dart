@@ -349,10 +349,8 @@ class AnnualPowerShutdownListDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    state.model.status ??= 0;
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
