@@ -287,12 +287,17 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: typeController,
                             items: typesDropDownValues,
-                            initialValue: state.model.type.toString(),
+                            initialValue:
+                            '${widget.type== ConstantsIntValue.lockChangeHistoryInt ? state.model.type??0
+                                :widget.type== ConstantsIntValue.keyLostHistoryInt ? state.model.type??1
+                                : widget.type== ConstantsIntValue.keyDamageHistoryInt ? state.model.type??2
+                                :widget.type== ConstantsIntValue.keyDestroyHistoryInt? state.model.type??3
+                                :state.model.type.toString()}',
                             onTap: () {
-                              //  if (isDisabled) {
+                                if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: typesDropDownValues
@@ -313,7 +318,7 @@ class _KeyHistoryRecordsDetailsViewState
                                             type: int.tryParse(
                                                 selectedLabel.value));
                                   });
-                              //}
+                              }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
