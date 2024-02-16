@@ -43,7 +43,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     num? sum = (widget.model.totalPenaltyAmount ??
         (widget.model.penaltyAmount ?? 0) *
             (widget.model.totalViolations ?? 0));
-    totalPenaltyAmountController.text = sum.toString();
+    totalPenaltyAmountController.text = widget.model.penaltyAmount == null ? '' :sum.toString();
     numberOfViolationsAmountController.text = widget.model.totalViolations == null
         ? ''
         : widget.model.totalViolations.toString();
