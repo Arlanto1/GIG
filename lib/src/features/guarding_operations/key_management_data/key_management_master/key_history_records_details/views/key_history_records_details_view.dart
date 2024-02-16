@@ -248,12 +248,12 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: true,
+                            isDisabled: false,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (!isDisabled) {
+                             // if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues
@@ -274,7 +274,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               keyType: int.tryParse(
                                                   selectedLabel.value));
                                     });
-                              }
+                             // }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
