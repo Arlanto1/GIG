@@ -73,31 +73,34 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                 children: [
                   Utils().textHandling('ID : ', widget.userItem.id.toString()),
                   CommonWidgets.horizontalSpacerWidget(8),
-                  Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
+                  Utils().buildPassManagementStatusRow(
+                      widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling(
-                          'Region : ',
+                      Utils().textHandling('Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
-                      if (widget.userItem.location != null) ...[
-                        CommonWidgets.horizontalSpacerWidget(8),
-                        Utils().textHandling(
-                            'Location : ',
-                            widget.userItem.location?.name ?? ''),
-                      ],
                     ],
                   ),
+                  if (widget.userItem.location != null) ...[
+                    CommonWidgets.horizontalSpacerWidget(8),
+                    Row(
+                      children: [
+                        Utils().textHandling('Location : ',
+                            widget.userItem.location?.name ?? ''),
+                      ],
+                    ),
+                  ],
                   if (widget.userItem.inputDate != null) ...[
-                    CommonWidgets.verticalSpacerWidget(5),
+                    CommonWidgets.horizontalSpacerWidget(5),
                     Row(
                       children: [
                         Utils().textHandling(
                             'Date of Creation : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestamptoDateConversion(
-                                int.tryParse(
-                                    widget.userItem.inputDate ?? '0'),
-                                Constants.dateFormat)
+                                    int.tryParse(
+                                        widget.userItem.inputDate ?? '0'),
+                                    Constants.dateFormat)
                                 : ''),
                       ],
                     ),
@@ -120,8 +123,8 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                     : null;
               },
               icon: widget.userItem.status == 0 ||
-                  widget.userItem.status == 1 ||
-                  widget.userItem.status == 3
+                      widget.userItem.status == 1 ||
+                      widget.userItem.status == 3
                   ? const Icon(Icons.edit)
                   : const Icon(Icons.edit_off_outlined),
             ),
