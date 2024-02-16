@@ -621,7 +621,7 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
-                              selectedValue: state.model.ipbArea ? 1 : 0,
+                              selectedValue:state.model.ipbArea == null?null : state.model?.ipbArea== true ? 1: 0,
                               onChangedYes: disableForm
                                   ? null
                                   : (val) {

@@ -41,7 +41,7 @@ class SstIncident {
   String? vendorTicketNo;
   int? ticketType;
   int? staffType;
-  bool ipbArea;
+  bool? ipbArea;
   int? systemSLA;
   User? createdBy;
   String? createdDate;
@@ -83,7 +83,7 @@ class SstIncident {
     this.vendorTicketNo,
     this.ticketType,
     this.staffType,
-    this.ipbArea = false,
+    this.ipbArea,
     this.systemSLA,
     this.createdBy,
     this.createdDate,
