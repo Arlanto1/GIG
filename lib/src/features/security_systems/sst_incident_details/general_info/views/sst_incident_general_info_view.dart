@@ -60,6 +60,11 @@ class _SstIncidentGeneralInfoViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                sstIncidentListRoute,
+                arguments: {"isInternal": widget.isInternal},
+              );
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
@@ -71,11 +76,6 @@ class _SstIncidentGeneralInfoViewState
                 );
                 return;
               }
-              Navigator.popAndPushNamed(
-                context,
-                sstIncidentListRoute,
-                arguments: {"isInternal": widget.isInternal},
-              );
             },
           );
           showDialog(
