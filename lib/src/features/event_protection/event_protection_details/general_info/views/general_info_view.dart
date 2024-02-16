@@ -547,6 +547,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               isEnable: !disableForm,
+                              characterLimit: 10,
                               isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.lsm1ContactNo = value;

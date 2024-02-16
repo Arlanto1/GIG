@@ -11,8 +11,7 @@ import 'package:intl/intl.dart';
 
 class LawEnforcementDetailsView extends StatefulWidget {
   final LawEnforcementDetails? model;
-
-  const LawEnforcementDetailsView({super.key, this.model});
+  const LawEnforcementDetailsView({super.key, this.model,});
 
   @override
   State<LawEnforcementDetailsView> createState() =>
@@ -828,11 +827,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? widget.model?.dbOfficialEmail.toString() ?? ""
               : '';
       actualDateTextController.text =
-          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
+          (widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != ''
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.timeOfVisit ?? '0'),
+                  int.parse(widget.model?.timeOfVisit ??''),
                   Constants.fulldateFormat)
-              : '';
+              : null)!;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
@@ -869,8 +868,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      await lawEnforcementCubit.getSerialnumberDetails(
-          (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
+     widget?.model?.slNo == null ? await lawEnforcementCubit.getSerialnumberDetails(
+          (widget.model?.location?.id ?? 0).toString(), 'LEO', context) :widget?.model?.slNo;
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -909,27 +908,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         }
         lawEnforcementCubit.getEntityData(entities);
       }
-
-      // if ((widget.model?.mailList?.length ?? 0) > 0) {
-      //   //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-      //   Organisation entity = widget.model?.mailList != null &&
-      //       (widget.model?.mailList?.length ?? 0) > 0
-      //       ? Organisation(
-      //       id: widget.model?.mailList![0]["groupId"] ?? 0,
-      //       name: widget.model?.mailList![0]["name"] ?? "")
-      //       : Organisation();
-      //   // AtomEntity entity = state.listOfEntities![i];
-      //   //   DbOfficialEmailDepartment addentiity =
-      //   // DbOfficialEmailDepartment(id: entity.id ?? 1);
-      //   //distributionGroups.add(entity);
-      //   lawenforcementCubit.geDistributonData(entity);
-      //   distributiongroupsTextController.text =
-      //       widget.model?.mailList![0]["name"] ?? "";
-      // }
-
-      // state.groups?.distributionGroups
-      // }
-
       Organisation visit = widget.model?.visitPurpose != null
           ? Organisation(
               id: widget.model?.visitPurpose?.id ?? 0,
@@ -946,64 +924,62 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       lawEnforcementCubit.geDBOfficialyData(staticUser);
 
-      List<LawVisitingOfficial>? visiting =
-          widget.model?.visitingOfficials != null
-              ? widget.model?.visitingOfficials ?? []
-              : [];
+//       List<LawVisitingOfficial>? visiting =
+//           widget.model?.visitingOfficials ?? [];
+//
+//       List<VisitingOfficialsModel>? visitingOfficials = [];
+//       if (visiting.isNotEmpty) {
+//         for (int i = 0; i < visiting.length; i++) {
+//           LawVisitingOfficial model = visiting[i];
+//           Organisation dept = Organisation(
+//               id: model.department?.id ?? 1,
+//               name: model.department?.name ?? '');
+//           VisitingOfficialsModel obj = VisitingOfficialsModel(
+//               officialaddress: model.address ?? '',
+//               name: model.name ?? '',
+//               conatctno: model.contactNo ?? '',
+//               designation: model.designation ?? '',
+//               email: model.email ?? '',
+//               department: dept,
+//               id: model.id);
+//           visitingOfficials.add(obj);
+//           lawEnforcementCubit.getleoDepartmentsResponseData(dept);
+//
+//           //AtomLeoDepartment dept = AtomLeoDepartment();
+//
+//           // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
+//           //   VistingOfficialsModel model = state.getVisits![index];
+//           //for (int i = 0; i < visiting.length; i++) {
+//           if (i == 0) {
+//             nameTextController1.text = model.name ?? '';
+//             officeaddressTextController1.text = model.address ?? '';
+//             contactnoTextController1.text = model.contactNo ?? '';
+//             emailidTextController1.text = model.email ?? '';
+//             designationTextController1.text = model.designation ?? '';
+//           } else if (i == 1) {
+//             nameTextController2.text = model.name ?? '';
+//             officeaddressTextController2.text = model.address ?? '';
+//             contactnoTextController2.text = model.contactNo ?? '';
+//             emailidTextController2.text = model.email ?? '';
+//             designationTextController2.text = model.designation ?? '';
+//           } else if (i == 2) {
+//             nameTextController3.text = model.name ?? '';
+//             officeaddressTextController3.text = model.address ?? '';
+//             contactnoTextController3.text = model.contactNo ?? '';
+//             emailidTextController3.text = model.email ?? '';
+//             designationTextController3.text = model.designation ?? '';
+//           }
+//           // dept = model != null
+//           //     ? AtomLeoDepartment(
+//           //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
+//           //     : AtomLeoDepartment();
+//           // lawenforcementCubit.getleoDepartmentsResponseData(dept);
+// //}
+//         }
+//       }
 
-      List<VisitingOfficialsModel>? visitingOfficials = [];
-      if (visiting.isNotEmpty) {
-        for (int i = 0; i < visiting.length; i++) {
-          LawVisitingOfficial model = visiting[i];
-          Organisation dept = Organisation(
-              id: model.department?.id ?? 1,
-              name: model.department?.name ?? '');
-          VisitingOfficialsModel obj = VisitingOfficialsModel(
-              officialaddress: model.address ?? '',
-              name: model.name ?? '',
-              conatctno: model.contactNo ?? '',
-              designation: model.designation ?? '',
-              email: model.email ?? '',
-              department: dept,
-              id: model.id);
-          visitingOfficials.add(obj);
-          lawEnforcementCubit.getleoDepartmentsResponseData(dept);
-
-          //AtomLeoDepartment dept = AtomLeoDepartment();
-
-          // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
-          //   VistingOfficialsModel model = state.getVisits![index];
-          //for (int i = 0; i < visiting.length; i++) {
-          if (i == 0) {
-            nameTextController1.text = model.name ?? '';
-            officeaddressTextController1.text = model.address ?? '';
-            contactnoTextController1.text = model.contactNo ?? '';
-            emailidTextController1.text = model.email ?? '';
-            designationTextController1.text = model.designation ?? '';
-          } else if (i == 1) {
-            nameTextController2.text = model.name ?? '';
-            officeaddressTextController2.text = model.address ?? '';
-            contactnoTextController2.text = model.contactNo ?? '';
-            emailidTextController2.text = model.email ?? '';
-            designationTextController2.text = model.designation ?? '';
-          } else if (i == 2) {
-            nameTextController3.text = model.name ?? '';
-            officeaddressTextController3.text = model.address ?? '';
-            contactnoTextController3.text = model.contactNo ?? '';
-            emailidTextController3.text = model.email ?? '';
-            designationTextController3.text = model.designation ?? '';
-          }
-          // dept = model != null
-          //     ? AtomLeoDepartment(
-          //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
-          //     : AtomLeoDepartment();
-          // lawenforcementCubit.getleoDepartmentsResponseData(dept);
-//}
-        }
-      }
-
-      lawEnforcementCubit.addingVisits(
-          visitCount: visitingOfficials.length, getVisits: visitingOfficials);
+      // lawEnforcementCubit.addingVisits(
+      //     visitCount: visitingOfficials.length, getVisits: visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
       Organisation emp = widget.model?.dbOfficialEmailDepartment != null
@@ -1570,10 +1546,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.isOfficialIdcardSelected == 1 ? true : false;
 
     DbOfficialEmailDepartment? dbOfficialEmailDepartment =
+    widget.model?.dbOfficialEmailDepartment !=null ?
         DbOfficialEmailDepartment(
-            id: state.selectedemployeeDepartmentResponse?.id ?? 1);
-    DbOfficialEmailDepartment? visitPurpose =
-        DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id ?? 1);
+            id: state.selectedemployeeDepartmentResponse?.id ?? 1):null;
+    DbOfficialEmailDepartment? visitPurpose = widget.model?.visitPurpose !=null?
+    DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id):null;
     List<DbOfficialEmailDepartment>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
@@ -1588,14 +1565,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     LawLocation? location = LawLocation(
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
-    List<VisitingOfficial>? visitingOfficials = [];
-
-    if (state.getVisits != null) {
+    List<VisitingOfficial>? visitingOfficials ;
+    visitingOfficials ??= [];
+    if (state.getVisits != null ) {
       for (int i = 0; i < state.getVisits!.length; i++) {
         VisitingOfficialsModel model = state.getVisits![i];
-        DbOfficialEmailDepartment dept =
-            DbOfficialEmailDepartment(id: model.department?.id ?? 1);
-        VisitingOfficial obj = VisitingOfficial(
+        DbOfficialEmailDepartment? dept =
+        DbOfficialEmailDepartment(id: model.department?.id ??1);
+        VisitingOfficial? obj =
+        VisitingOfficial(
             address: model.officialaddress ?? '',
             name: model.name ?? '',
             contactNo: model.conatctno ?? '',
@@ -1605,6 +1583,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         visitingOfficials.add(obj);
       }
     }
+
 
     for (Organisation organisation in widget.model?.mailList ?? []) {
       log('---organisation.name--createLawEnforcement---${organisation.name}');
