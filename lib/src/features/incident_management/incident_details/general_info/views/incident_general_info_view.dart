@@ -275,7 +275,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           entities: selectedEntities);
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
-                                }),
+                                },
+                              orgName: 'ATOM_ENTITIES',
+                                functionToCall: () {
+                            // refresh the list
+                            BlocProvider.of<IncidentGeneralInfoCubit>(
+                            context)
+                            .refreshList();
+                      },),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
