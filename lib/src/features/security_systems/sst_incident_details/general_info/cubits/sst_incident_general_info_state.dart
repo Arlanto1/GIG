@@ -66,17 +66,22 @@ class SstIncidentGeneralInfoState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.systemSLA == null) {
+      return const ErrorResponse(status: false, message: 'Please enter System');
+    }
     if (model.vendor == null) {
       return const ErrorResponse(status: false, message: 'Please enter Vendor');
     }
     if (model.vendorPoc == null) {
       return const ErrorResponse(status: false, message: 'Please enter Vendor POC');
     }
+    if (model.vendorPoc != null &&  !Validator.isValidEmail(model.vendorPoc)) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Vendor POC email');
+    }
     if (model.escalation1Poc == null) {
       return const ErrorResponse(status: false, message: 'Please enter Escalation 1 POC');
     }
     if (model.escalation1Poc != null &&  !Validator.isValidEmail(model.escalation1Poc)) {
-      log('-model.escalation1Poc--${model.escalation1Poc}-');
       return const ErrorResponse(status: false, message: 'Please enter valid Escalation 1 POC email');
     }
     if (model.escalation2Poc == null) {
