@@ -230,7 +230,7 @@ class _SstIncidentGeneralInfoViewState
                                 selectedLocation:
                                     state.model.location?.name ?? '',
                                 enabled: state.model.id == null ||
-                                    (state.model.location?.name ?? '').isEmpty,
+                                    state.model.status == 1 ,
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
                                   log('location?.name-----${location?.name}');
