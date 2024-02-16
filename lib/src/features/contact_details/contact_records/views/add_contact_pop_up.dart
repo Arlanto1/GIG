@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
+import '../bloc/contact_record_bloc.dart';
+
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
     super.key,
@@ -57,7 +59,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
       name = Constants.name;
-      rank= Constants.guardingAgencyRank;
+      rank = Constants.guardingAgencyRank;
     }
 
     if (widget.rankType == Constants.contactSupervisorRank) {
@@ -114,24 +116,55 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseOrganisationDialog().userDialog(
-                                context: context,
-                                entities: widget.users,
-                                onTap: (Organisation user) {
-                                  log('-user.name----${user.name}-');
+                              BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: widget.users,
+                                  onTap: (Organisation user) {
+                                    log('-user.name----${user.name}-');
 
-                                  rankController.text = user.name ?? '';
+                                    rankController.text = user.name ?? '';
 
-                                  widget.model.rank ??= Organisation();
-                                  widget.model.rank = user;
-                                  log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
+                                    widget.model.rank ??= Organisation();
+                                    widget.model.rank = user;
+                                    log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
 
-                                  setState(() {});
-                                  // BlocProvider.of<ContactListingBloc>(context)
-                                  //     .updateApproverEmailsValue(
-                                  //         approver1EmailUser: user);
-                                },
-                              );
+                                    setState(() {});
+                                  },
+                                  orgName: widget.rankType ==
+                                          Constants.contactGeneralRank
+                                      ? 'CONTACT_GENERAL_RANK'
+                                      : widget.rankType ==
+                                              Constants
+                                                  .contactGuardingAgencyEscalationRank
+                                          ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                                          : widget.rankType ==
+                                                  Constants.contactZone
+                                              ? 'CONTACT_ZONE'
+                                              : widget.rankType ==
+                                                      Constants
+                                                          .contactSystemEscalationRank
+                                                  ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                                                  : 'CONTACT_SUPERVISOR_RANK',
+                                  createEntity: false,
+                                  title: widget.rankType ==
+                                          Constants.contactZone
+                                      ? 'Add Zone'
+                                      : widget.rankType ==
+                                              Constants.contactGeneralRank
+                                          ? 'Add Rank'
+                                          : widget.rankType ==
+                                                  Constants
+                                                      .contactSystemEscalationRank
+                                              ? 'Add System Escalation Matrix'
+                                              : widget.rankType ==
+                                                      Constants
+                                                          .contactSupervisorRank
+                                                  ? 'Add Supervisor Rank'
+                                                  : 'Add Guarding Agency Escalation Matrix',
+                                  functionToCall: () {
+                                    BlocProvider.of<ContactRecordBloc>(context)
+                                        .refreshList();
+                                  });
                             },
                           )
                         ],
