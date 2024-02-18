@@ -270,6 +270,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Modified Date
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.date ??
+                                  state.labels?.defaultLocale.date ??
+                                  Constants.dateofcreation,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// General Contact
                             Container(
                               alignment: Alignment.topLeft,

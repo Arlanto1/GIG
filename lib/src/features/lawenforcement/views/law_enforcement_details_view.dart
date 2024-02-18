@@ -924,25 +924,27 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       lawEnforcementCubit.geDBOfficialyData(staticUser);
 
-//       List<LawVisitingOfficial>? visiting =
-//           widget.model?.visitingOfficials ?? [];
-//
-//       List<VisitingOfficialsModel>? visitingOfficials = [];
-//       if (visiting.isNotEmpty) {
-//         for (int i = 0; i < visiting.length; i++) {
-//           LawVisitingOfficial model = visiting[i];
-//           Organisation dept = Organisation(
-//               id: model.department?.id ?? 1,
-//               name: model.department?.name ?? '');
-//           VisitingOfficialsModel obj = VisitingOfficialsModel(
-//               officialaddress: model.address ?? '',
-//               name: model.name ?? '',
-//               conatctno: model.contactNo ?? '',
-//               designation: model.designation ?? '',
-//               email: model.email ?? '',
-//               department: dept,
-//               id: model.id);
-//           visitingOfficials.add(obj);
+      List<LawVisitingOfficial>? visiting =
+          widget.model?.visitingOfficials ?? [];
+
+      List<VisitingOfficialsModel>? visitingOfficials = [];
+      if (visiting.isNotEmpty) {
+        for (int i = 0; i < visiting.length; i++) {
+          LawVisitingOfficial model = visiting[i];
+          Organisation dept = Organisation(
+              id: model.department?.id ?? 1,
+              name: model.department?.name ?? '');
+          VisitingOfficialsModel obj = VisitingOfficialsModel(
+              officialaddress: model.address ?? '',
+              name: model.name ?? '',
+              conatctno: model.contactNo ?? '',
+              designation: model.designation ?? '',
+              email: model.email ?? '',
+              department: dept,
+              id: model.id);
+          visitingOfficials.add(obj);
+        }
+      }
 //           lawEnforcementCubit.getleoDepartmentsResponseData(dept);
 //
 //           //AtomLeoDepartment dept = AtomLeoDepartment();
