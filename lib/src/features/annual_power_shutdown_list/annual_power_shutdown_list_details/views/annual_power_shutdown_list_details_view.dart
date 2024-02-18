@@ -842,6 +842,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
+                                characterLimit: 10,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
