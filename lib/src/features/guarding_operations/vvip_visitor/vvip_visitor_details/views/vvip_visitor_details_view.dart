@@ -300,7 +300,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                   NavigatorState nav = Navigator.of(context);
-                                  if(state.model.status == 0 ||state.model.status == null) {
+                                  //if(state.model.status == 0 ||state.model.status == null) {
                                     bool isSaveSuccess = await BlocProvider.of<
                                         VVIPVisitorDetailsCubit>(context)
                                         .submitForm(
@@ -325,7 +325,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                         //     Constants.slaViolation,
                                       },
                                     );
-                                  }
+                                  //}
                                   },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

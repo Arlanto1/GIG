@@ -479,6 +479,8 @@ class _SstIncidentGeneralInfoViewState
                                         systemManager: user,
                                       );
                                     },
+                                    roleName:
+                                    'ATOM_Security_System_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
