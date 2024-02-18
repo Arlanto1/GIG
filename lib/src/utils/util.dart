@@ -1266,13 +1266,13 @@ class Utils {
 
     switch (status) {
       case 1:
-        statusText = 'Create';
+        statusText = 'Created';
         break;
       case 2:
-        statusText = 'Submit';
+        statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'Acknowledge';
+        statusText = 'Acknowledged';
         break;
       case 4:
         statusText = 'Hold';

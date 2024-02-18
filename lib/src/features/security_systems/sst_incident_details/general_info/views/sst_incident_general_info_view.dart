@@ -198,15 +198,46 @@ class _SstIncidentGeneralInfoViewState
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 1),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
+                            // FlutterInputField(
+                            //   isEnable: true,
+                            //   isDisableColor: true,
+                            //   textFormKey: Keys.statusTextController,
+                            //   hintText: '',
+                            //   initialValue:
+                            //       getStatusString(state.model.status ?? 1),
+                            //   onChange: (String value) {},
+                            //   validateTextField: (String? user) {},
+                            // ),
+                            BaseDropDown().getDropDown(
+                              isDisabled: true,
+                              textController: statusController,
+                              items: sstIncidentsStatusItems,
+                              initialValue: '${state.model.status ?? 1}',
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: sstIncidentsStatusItems
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          sstIncidentsStatusItems.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<
+                                          SstIncidentGeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          status: int.tryParse(
+                                              selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
