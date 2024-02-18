@@ -161,7 +161,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
 
   Widget buttonViews(BuildContext context, double width) {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: Alignment.bottomCenter,
       child: Container(
           color: AppColors.backgroundWhitecolor,
           child: createNewUserButton(width)),
