@@ -264,7 +264,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if(state.model.status != 0||state.model.status != null)...[
+                            if(state.model.status != null)...[
                               /// Modified Date
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.date ??
