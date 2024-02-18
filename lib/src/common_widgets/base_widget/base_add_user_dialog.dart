@@ -127,6 +127,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         Container(
                           alignment: Alignment.topLeft,
+
                           child: const Text(
                             Constants.email,
                             style: Styles.textStyleRegularGrey16,
@@ -136,6 +137,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         FlutterInputField(
                           controller: emailTextController,
                           textFormKey: Keys.emailTextController,
+                          textCapitalization: false,
                           hintText: '',
                           onChange: (String username) {
                             //this.username = username;
