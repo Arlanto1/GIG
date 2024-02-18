@@ -289,6 +289,7 @@ class Constants {
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
+  static const String attachments = 'Attachments';
   static const String evidenceDocuments = 'Evidence Documents Name';
   static const String uploadPhoto = 'Upload Photo';
   static const String addvisitingofficialdetails =
@@ -667,6 +668,7 @@ class Constants {
   static const String cmsEscalationContact = 'CMS Escalation(IPB)';
   static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
+  static const String modifiedDate = 'Modified Date';
 
 
   static const String guardingAgencyRank =
@@ -778,8 +780,6 @@ class Constants {
   static const String editAttendance = 'Edit Attendance';
   static const String attendanceDetails = 'Attendance Details';
   static const String attendanceType = 'Attendance Type';
-
-  static const String attachments = 'Attachments';
 
   ///Shift Schedule
   static const String shiftScheduling = 'Shift Scheduling';

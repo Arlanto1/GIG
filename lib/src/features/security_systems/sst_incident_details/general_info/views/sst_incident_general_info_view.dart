@@ -675,13 +675,14 @@ class _SstIncidentGeneralInfoViewState
                                     },
                             ),
 
-                            ///Upload File
+                            ///Attachments
                             CommonWidgets.textDisplay(
-                                Constants.upload, Styles.textStyleBlack14),
+                                Constants.attachments, Styles.textStyleBlack14),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
+                            if(state.model.status ==1||state.model.status ==null)...[
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
@@ -701,6 +702,7 @@ class _SstIncidentGeneralInfoViewState
                                 );
                               },
                             ),
+                            ],
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
