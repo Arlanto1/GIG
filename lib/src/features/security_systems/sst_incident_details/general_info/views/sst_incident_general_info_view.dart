@@ -101,7 +101,7 @@ class _SstIncidentGeneralInfoViewState
         escalation2PocController.text = state.model.escalation2Poc ?? '';
         escalation3PocController.text = state.model.escalation3Poc ?? '';
 
-        state.model.status ??= 0;
+        state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
@@ -212,9 +212,9 @@ class _SstIncidentGeneralInfoViewState
                               isDisabled: true,
                               textController: statusController,
                               items: sstIncidentsStatusItems,
-                              initialValue: '${state.model.status ?? 1}',
+                              initialValue: '${state.model.status ?? -1}',
                               onTap: () {
-                                if (isDisabled) {
+                                if (!isDisabled) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: sstIncidentsStatusItems

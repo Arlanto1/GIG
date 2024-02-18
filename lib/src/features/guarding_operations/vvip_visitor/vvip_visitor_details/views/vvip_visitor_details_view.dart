@@ -204,8 +204,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             CommonWidgets.verticalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                    Constants.createdby, isMandatory: true,
+                                '${state.model?.entrySecurity?.firstName ?? ''} ${state.model?.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -278,7 +278,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                   NavigatorState nav = Navigator.of(context);
-                                  //if(state.model.status == 0 ||state.model.status == null) {
+                                  if(state.model.status == 0 ||state.model.status == null) {
                                     bool isSaveSuccess = await BlocProvider.of<
                                         VVIPVisitorDetailsCubit>(context)
                                         .submitForm(
@@ -303,7 +303,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                         //     Constants.slaViolation,
                                       },
                                     );
-                                 // }
+                                  }
                                   },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

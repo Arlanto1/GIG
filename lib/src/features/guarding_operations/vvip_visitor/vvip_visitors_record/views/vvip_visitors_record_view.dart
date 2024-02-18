@@ -82,10 +82,10 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
-            showAddVVIPVisitorsPopUp(
-              context: context,
-              contact: VIVPVisitorRecordModel(),
-            );
+              showAddVVIPVisitorsPopUp(
+                context: context,
+                contact: VIVPVisitorRecordModel(),
+              );
           },
         ),
         appBar: BaseAppBar().buildAppHeader(

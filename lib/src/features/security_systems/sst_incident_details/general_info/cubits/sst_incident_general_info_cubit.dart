@@ -158,6 +158,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         state.model.staffType = 2;
         state.model.ticketType = 1;
       }
+        state.model.status = 1;
 
       emit(
         state.copyWith(
@@ -317,7 +318,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
     }
-
     state.model.status = status ?? state.model.status;
 
     // if (entities != null) {
@@ -392,9 +392,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    state.model.status ??= 1;
+
     if (isInternal == true) {
       state.model.staffType = 1;
       state.model.ticketType = 1;

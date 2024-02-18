@@ -145,6 +145,10 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     key: 'Location',
                     value: state.items[index].location?.name ?? '',
                   ));
+                  labels.add(Label(
+                    key: 'Region',
+                    value: state.items[index].region?.name ?? '',
+                  ));
 
                   return index >= state.items.length
                       ? const BaseLoader()

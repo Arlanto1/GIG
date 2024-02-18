@@ -12,6 +12,7 @@ class CreateFoundState extends Equatable {
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
   User? loggedInUser;
+  User? handedOverUser;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
   final String? message;
@@ -28,6 +29,7 @@ class CreateFoundState extends Equatable {
       this.createEmployeeDepartments,
       this.createUserResponse,
       this.loggedInUser,
+        this.handedOverUser,
       this.createFoundResponse,
       this.getSerialnumberResponse,
       required this.status,
@@ -44,6 +46,7 @@ class CreateFoundState extends Equatable {
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
     User? loggedInUser,
+    User? handedOverUser,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
     String? message,
@@ -63,6 +66,7 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
+        handedOverUser:handedOverUser??this.handedOverUser,
         loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
@@ -83,6 +87,7 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments,
         createUserResponse,
         loggedInUser,
+    handedOverUser,
         createFoundResponse,
         getSerialnumberResponse,
         message,
