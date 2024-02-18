@@ -209,7 +209,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
+                                    Constants.createdby,isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -499,7 +499,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.cmsEscalationContact,
-                                    ConstantsArgument.type: 4,
+                                    ConstantsArgument.type: 3,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactSupervisorRank,
@@ -563,7 +563,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title: Constants
                                         .guardingAgencyZonalManagerContact,
-                                    ConstantsArgument.type: 3,
+                                    ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactZone,
