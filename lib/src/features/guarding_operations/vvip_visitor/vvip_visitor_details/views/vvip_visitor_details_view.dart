@@ -264,6 +264,28 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if(state.model.status != 0||state.model.status != null)...[
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.date ??
+                                //     state.labels?.defaultLocale.date ??
+                                Constants.modifiedDate,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              datecreateWidgetdisplay(
+                                  state.model.modifiedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.modifiedBy,isMandatory: true,
+                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ],
 
                             /// VVIP Visitors
                             Container(

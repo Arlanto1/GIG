@@ -61,6 +61,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
+
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
@@ -81,6 +83,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") + (loggedInUserDetails.lastName ?? "");
+
       emit(
         state.copyWith(
           locations: getLocationsData,
