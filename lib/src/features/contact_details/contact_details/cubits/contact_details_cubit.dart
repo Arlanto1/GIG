@@ -61,6 +61,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
 
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       if (state.model.location == null && defaultLocation != null) {
@@ -73,6 +74,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") + (loggedInUserDetails.lastName ?? "");
 
       emit(
         state.copyWith(
