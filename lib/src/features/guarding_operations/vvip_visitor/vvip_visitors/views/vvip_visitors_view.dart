@@ -101,12 +101,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                       key: state.labels?.locale.entrySecurity ??
                           state.labels?.defaultLocale.entrySecurity ??
                           'Created By',
-                      value: state.items[index].entrySecurity?.name ?? ''));
-                  labels.add(Label(
-                      key: state.labels?.locale.location ??
-                          state.labels?.defaultLocale.location ??
-                          'Location',
-                      value: state.items[index].location?.name ?? ''));
+                      value: (state.items[index].entrySecurity?.firstName ?? '') +
+                          (state.items[index].entrySecurity?.lastName ?? '')));
                   labels.add(Label(
                       key: state.labels?.locale.slNo ??
                           state.labels?.defaultLocale.slNo ??
@@ -121,6 +117,11 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                               int.parse(state.items[index].inputDate ?? '0'),
                               Constants.dateFormat)
                           : ''));
+                  labels.add(Label(
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??
+                          'Location',
+                      value: state.items[index].location?.name ?? ''));
                 }
                 return index >= state.items.length
                     ? const BaseLoader()
