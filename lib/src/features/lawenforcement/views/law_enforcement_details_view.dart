@@ -11,7 +11,11 @@ import 'package:intl/intl.dart';
 
 class LawEnforcementDetailsView extends StatefulWidget {
   final LawEnforcementDetails? model;
-  const LawEnforcementDetailsView({super.key, this.model,});
+
+  const LawEnforcementDetailsView({
+    super.key,
+    this.model,
+  });
 
   @override
   State<LawEnforcementDetailsView> createState() =>
@@ -90,56 +94,56 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               color: Colors.white),
         ),
         action: [
-      Visibility(
-      visible: widget.model?.status != -1,
-        child: GestureDetector(
-            onTap: () {
-              if (!isDistrbuted) {
-                submitForm(false, widget.model?.id ?? 0, globalState);
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (!isDistrbuted)
-                    SvgPicture.asset(
-                      AppIcon.createfoundsaveicon,
-                    )
-                ],
+          Visibility(
+            visible: widget.model?.status != -1,
+            child: GestureDetector(
+              onTap: () {
+                if (!isDistrbuted) {
+                  submitForm(false, widget.model?.id ?? 0, globalState);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (!isDistrbuted)
+                      SvgPicture.asset(
+                        AppIcon.createfoundsaveicon,
+                      )
+                  ],
+                ),
               ),
             ),
           ),
-      ),
           //GestureDetector(
           Visibility(
-          visible: widget.model?.status != -1,
-          child: GestureDetector(
-            onTap: () async {
-              //loginFormKey.currentState!.validate();
-              FocusScope.of(context).unfocus();
-              try {
-                // passSubmit(true, widget.listuser?.id ?? 0, globalState);
-                validateForm(context, globalState);
-              } catch (e) {
-                // present userwith error message
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (!isDistrbuted)
-                    const Icon(
-                      Icons.send,
-                      color: AppColors.white,
-                    )
-                ],
+            visible: widget.model?.status != -1,
+            child: GestureDetector(
+              onTap: () async {
+                //loginFormKey.currentState!.validate();
+                FocusScope.of(context).unfocus();
+                try {
+                  // passSubmit(true, widget.listuser?.id ?? 0, globalState);
+                  validateForm(context, globalState);
+                } catch (e) {
+                  // present userwith error message
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (!isDistrbuted)
+                      const Icon(
+                        Icons.send,
+                        color: AppColors.white,
+                      )
+                  ],
+                ),
               ),
             ),
-          ),
           ),
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
@@ -497,7 +501,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
-                                      if(widget.model?.status !=-1) {
+                                      if (widget.model?.status != -1) {
                                         if ((state.getVisitsCount) < 10) {
                                           manageAddVisitOfficialDetailWidget(
                                               state);
@@ -522,13 +526,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         const Text(
                                           Constants.addvisitingofficialdetails,
                                           style: TextStyle(
-                                            color: AppColors.navigationSkybluecolor,
+                                            color: AppColors
+                                                .navigationSkybluecolor,
                                             decoration:
                                                 TextDecoration.underline,
                                           ),
                                         ),
                                       ],
-                                    ) ,
+                                    ),
                                   ),
 
                                   // Upload
@@ -584,7 +589,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   // SubmitButton
-                                  if (widget.model?.status != 3 && widget.model?.status != -1) ...[
+                                  if (widget.model?.status != 3 &&
+                                      widget.model?.status != -1) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -604,7 +610,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                       ),
                     ),
                   ),
-                  if (widget.model?.status == 3||widget.model?.status == -1) ...[
+                  if (widget.model?.status == 3 ||
+                      widget.model?.status == -1) ...[
                     Container(
                       padding: const EdgeInsets.all(5.0),
                       decoration: const ShapeDecoration(
@@ -633,7 +640,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   void manageAddVisitOfficialDetailWidget(LawEnforcementState state) {
     int visitCount = (state.getVisitsCount) + 1;
-    List<VisitingOfficialsModel>? getVisits = state.getVisits ?? [];
+    List<VisitingOfficialsModel>? getVisits = state.visitingOfficials ?? [];
 
     getVisits.add(VisitingOfficialsModel());
     lawEnforcementCubit.addingVisits(
@@ -643,24 +650,37 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget listVisitingOfficialDetails(
-      double height,
-      double width,
-      BuildContext context,
-      LawEnforcementState state,
-      int visitingOfficialDetailsArray) {
+    double height,
+    double width,
+    BuildContext context,
+    LawEnforcementState state,
+    int visitingOfficialDetailsArray,
+  ) {
     return Column(
       children: <Widget>[
         for (int i = 0; i < visitingOfficialDetailsArray; i++)
 
           // Name
           loadData(
-              height, width, context, state, visitingOfficialDetailsArray, i),
+            height,
+            width,
+            context,
+            state,
+            visitingOfficialDetailsArray,
+            i,
+          ),
       ],
     );
   }
 
-  Widget loadData(double height, double width, BuildContext context,
-      LawEnforcementState state, int visitingOfficialDetailsArray, int index) {
+  Widget loadData(
+    double height,
+    double width,
+    BuildContext context,
+    LawEnforcementState state,
+    int visitingOfficialDetailsArray,
+    int index,
+  ) {
     return Column(
       children: [
         if (state.getVisitsCount != 1) ...[
@@ -671,7 +691,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   widget.model?.status == null) {
                 int value = (state.getVisitsCount) - 1;
                 List<VisitingOfficialsModel>? getVisits1 =
-                    state.getVisits ?? [];
+                    state.visitingOfficials ?? [];
                 getVisits1.removeAt(index);
                 lawEnforcementCubit.addingVisits(
                     visitCount: value, getVisits: getVisits1);
@@ -692,6 +712,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           Styles.textStyleBlack14,
           isMandatory: true,
         ),
+        Text('----'),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
           index == 0
@@ -829,7 +850,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       actualDateTextController.text =
           (widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != ''
               ? Utils.timestamptoDateConversion(
-                  int.parse(widget.model?.timeOfVisit ??''),
+                  int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
               : null)!;
       dateofcreationTextController.text =
@@ -868,8 +889,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-     widget?.model?.slNo == null ? await lawEnforcementCubit.getSerialnumberDetails(
-          (widget.model?.location?.id ?? 0).toString(), 'LEO', context) :widget?.model?.slNo;
+      widget?.model?.slNo == null
+          ? await lawEnforcementCubit.getSerialnumberDetails(
+              (widget.model?.location?.id ?? 0).toString(), 'LEO', context)
+          : widget?.model?.slNo;
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -935,9 +958,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               id: model.department?.id ?? 1,
               name: model.department?.name ?? '');
           VisitingOfficialsModel obj = VisitingOfficialsModel(
-              officialaddress: model.address ?? '',
+              address: model.address ?? '',
               name: model.name ?? '',
-              conatctno: model.contactNo ?? '',
+              contactNo: model.contactNo ?? '',
               designation: model.designation ?? '',
               email: model.email ?? '',
               department: dept,
@@ -945,43 +968,44 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials.add(obj);
         }
       }
-//           lawEnforcementCubit.getleoDepartmentsResponseData(dept);
-//
-//           //AtomLeoDepartment dept = AtomLeoDepartment();
-//
-//           // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
-//           //   VistingOfficialsModel model = state.getVisits![index];
-//           //for (int i = 0; i < visiting.length; i++) {
-//           if (i == 0) {
-//             nameTextController1.text = model.name ?? '';
-//             officeaddressTextController1.text = model.address ?? '';
-//             contactnoTextController1.text = model.contactNo ?? '';
-//             emailidTextController1.text = model.email ?? '';
-//             designationTextController1.text = model.designation ?? '';
-//           } else if (i == 1) {
-//             nameTextController2.text = model.name ?? '';
-//             officeaddressTextController2.text = model.address ?? '';
-//             contactnoTextController2.text = model.contactNo ?? '';
-//             emailidTextController2.text = model.email ?? '';
-//             designationTextController2.text = model.designation ?? '';
-//           } else if (i == 2) {
-//             nameTextController3.text = model.name ?? '';
-//             officeaddressTextController3.text = model.address ?? '';
-//             contactnoTextController3.text = model.contactNo ?? '';
-//             emailidTextController3.text = model.email ?? '';
-//             designationTextController3.text = model.designation ?? '';
-//           }
-//           // dept = model != null
-//           //     ? AtomLeoDepartment(
-//           //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
-//           //     : AtomLeoDepartment();
-//           // lawenforcementCubit.getleoDepartmentsResponseData(dept);
-// //}
-//         }
-//       }
+      // lawEnforcementCubit.getleoDepartmentsResponseData(dept);
 
-      // lawEnforcementCubit.addingVisits(
-      //     visitCount: visitingOfficials.length, getVisits: visitingOfficials);
+      //AtomLeoDepartment dept = AtomLeoDepartment();
+
+      // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
+      for (VisitingOfficialsModel model in visitingOfficials) {
+        for (int i = 0; i < visiting.length; i++) {
+          if (i == 0) {
+            nameTextController1.text = model.name ?? '';
+            officeaddressTextController1.text = model.address ?? '';
+            contactnoTextController1.text = model.contactNo ?? '';
+            emailidTextController1.text = model.email ?? '';
+            designationTextController1.text = model.designation ?? '';
+          } else if (i == 1) {
+            nameTextController2.text = model.name ?? '';
+            officeaddressTextController2.text = model.address ?? '';
+            contactnoTextController2.text = model.contactNo ?? '';
+            emailidTextController2.text = model.email ?? '';
+            designationTextController2.text = model.designation ?? '';
+          } else if (i == 2) {
+            nameTextController3.text = model.name ?? '';
+            officeaddressTextController3.text = model.address ?? '';
+            contactnoTextController3.text = model.contactNo ?? '';
+            emailidTextController3.text = model.email ?? '';
+            designationTextController3.text = model.designation ?? '';
+          }
+          // dept = model != null
+          //     ? AtomLeoDepartment(
+          //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
+          //     : AtomLeoDepartment();
+          // lawenforcementCubit.getleoDepartmentsResponseData(dept);
+//}
+//         }
+        }
+      }
+
+      lawEnforcementCubit.addingVisits(
+          visitCount: visitingOfficials.length, getVisits: visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
       Organisation emp = widget.model?.dbOfficialEmailDepartment != null
@@ -1282,6 +1306,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       createEntity: widget.model?.status == 0 || widget.model?.status == 1,
     );
   }
+
   leopurposeDialog(LawEnforcementState state) {
     showDialog(
         context: context,
@@ -1356,8 +1381,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             onTap: (Organisation list) {
               //log(list.name);
 
-              if (state.getVisits!.isNotEmpty) {
-                VisitingOfficialsModel model = state.getVisits![index];
+              if (state.visitingOfficials!.isNotEmpty) {
+                VisitingOfficialsModel model = state.visitingOfficials![index];
                 model.department = list;
               }
 
@@ -1390,8 +1415,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget departmentaddButtonwidgetLoading(
       LawEnforcementState state, int index) {
     Organisation? dept = Organisation();
-    if ((state.getVisits?.length ?? 0) > 0) {
-      dept = state.getVisits![index].department;
+    if ((state.visitingOfficials?.length ?? 0) > 0) {
+      dept = state.visitingOfficials![index].department;
     }
     return TextFieldAddButton(
       title: dept?.name ?? '',
@@ -1551,7 +1576,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         DbOfficialEmailDepartment(
             id: state.selectedemployeeDepartmentResponse?.id);
     DbOfficialEmailDepartment? visitPurpose =
-    DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id);
+        DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id);
     List<DbOfficialEmailDepartment>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
@@ -1567,24 +1592,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
     List<VisitingOfficial>? visitingOfficials;
-     visitingOfficials ??= [];
-    if (state.getVisits != null ) {
-      for (int i = 0; i < state.getVisits!.length; i++) {
-        VisitingOfficialsModel model = state.getVisits![i];
+    visitingOfficials ??= [];
+    if (state.visitingOfficials != null) {
+      for (int i = 0; i < state.visitingOfficials!.length; i++) {
+        VisitingOfficialsModel model = state.visitingOfficials![i];
         DbOfficialEmailDepartment? dept =
-        DbOfficialEmailDepartment(id: model.department?.id ??1);
-        VisitingOfficial? obj =
-        VisitingOfficial(
-            address: model.officialaddress ?? '',
+            DbOfficialEmailDepartment(id: model.department?.id ?? 1);
+        VisitingOfficial? obj = VisitingOfficial(
+            address: model.address ?? '',
             name: model.name ?? '',
-            contactNo: model.conatctno ?? '',
+            contactNo: model.contactNo ?? '',
             designation: model.designation ?? '',
             email: model.email ?? '',
             department: dept);
         visitingOfficials.add(obj);
       }
     }
-
 
     for (Organisation organisation in widget.model?.mailList ?? []) {
       log('---organisation.name--createLawEnforcement---${organisation.name}');
@@ -1726,13 +1749,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter additional information",
       );
-    } else if (state.getVisits != null && state.getVisits!.isNotEmpty) {
-      for (int i = 0; i < state.getVisits!.length;) {
-        VisitingOfficialsModel model = state.getVisits![i];
+    } else if (state.visitingOfficials != null &&
+        state.visitingOfficials!.isNotEmpty) {
+      for (int i = 0; i < state.visitingOfficials!.length;) {
+        VisitingOfficialsModel model = state.visitingOfficials![i];
         if (model.name == null ||
             (model.name ?? '').isEmpty ||
-            model.officialaddress == null ||
-            (model.officialaddress ?? '').isEmpty ||
+            model.address == null ||
+            (model.address ?? '').isEmpty ||
             model.department == null ||
             (model.department?.name ?? '').isEmpty ||
             model.designation == null ||
@@ -1809,7 +1833,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-
   void updateRecordStatus() {
     if (widget.model?.id != null) {
       BlocProvider.of<LawEnforcementCubit>(context)
@@ -1822,6 +1845,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       Navigator.pop(context);
     }
   }
+
   Widget attachmentListviews(
     List<ImageContent>? attachmentListviews,
     List<ImageContent>? attachmentListviews1,
@@ -1940,7 +1964,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           distributiongroupsDailog(state);
         }
       },
-      textCapitalization:textController == emailidTextController1 ?false :true,
+      textCapitalization:
+          textController == emailidTextController1 ? false : true,
       controller: textController,
       textFormKey: Keys.colorTextController,
       isEnable: widget.model?.status == 0 ||
@@ -1952,39 +1977,39 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         if (textController == nameTextController1 ||
             textController == nameTextController2 ||
             textController == nameTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VisitingOfficialsModel model = state.getVisits![index];
+          if (state.visitingOfficials!.isNotEmpty) {
+            VisitingOfficialsModel model = state.visitingOfficials![index];
             model.name = username;
           }
         } else if (textController == designationTextController1 ||
             textController == designationTextController2 ||
             textController == designationTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VisitingOfficialsModel model = state.getVisits![index];
+          if (state.visitingOfficials!.isNotEmpty) {
+            VisitingOfficialsModel model = state.visitingOfficials![index];
             model.designation = username;
           }
         } else if (textController == emailidTextController1 ||
             textController == emailidTextController2 ||
             textController == emailidTextController3) {
-          log('----state.getVisits-22-${state.getVisits}----');
-          if (state.getVisits!.isNotEmpty) {
+          log('----state.getVisits-22-${state.visitingOfficials}----');
+          if (state.visitingOfficials!.isNotEmpty) {
             log('----state.getVisits------');
-            VisitingOfficialsModel model = state.getVisits![index];
+            VisitingOfficialsModel model = state.visitingOfficials![index];
             model.email = username;
           }
         } else if (textController == officeaddressTextController1 ||
             textController == officeaddressTextController2 ||
             textController == officeaddressTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VisitingOfficialsModel model = state.getVisits![index];
-            model.officialaddress = username;
+          if (state.visitingOfficials!.isNotEmpty) {
+            VisitingOfficialsModel model = state.visitingOfficials![index];
+            model.address = username;
           }
         } else if (textController == contactnoTextController1 ||
             textController == contactnoTextController2 ||
             textController == contactnoTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VisitingOfficialsModel model = state.getVisits![index];
-            model.conatctno = username;
+          if (state.visitingOfficials!.isNotEmpty) {
+            VisitingOfficialsModel model = state.visitingOfficials![index];
+            model.contactNo = username;
           }
         }
       },

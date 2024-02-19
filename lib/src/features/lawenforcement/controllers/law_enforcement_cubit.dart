@@ -164,8 +164,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get locations api call
   Future<void> getLocations(String name, BuildContext context) async {
     try {
-      Locations getLocationsData =
-          await services.getLocations(name, context);
+      Locations getLocationsData = await services.getLocations(name, context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -298,13 +297,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         stateType: FormStatus.addAttachment));
   }
 
-  Future<void> addingVisits(
-      {required int visitCount,
-      List<VisitingOfficialsModel>? getVisits}) async {
+  Future<void> addingVisits({
+    required int visitCount,
+    List<VisitingOfficialsModel>? getVisits,
+  }) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
-        getVisits: getVisits,
+        visitingOfficials: getVisits,
         getVisitsCount: visitCount,
         stateType: FormStatus.success,
       ),
@@ -332,7 +332,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   initalization() {
-    lawEnforcementCubit.state.getVisits = [];
+    lawEnforcementCubit.state.visitingOfficials = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
     state.loadAttachments = [];
@@ -627,8 +627,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   Future<void> updateStatus({required String id}) async {
-    await CommonServices().updateRecordStatus(
-        id: id, module: Constants.leoModuleCode);
+    await CommonServices()
+        .updateRecordStatus(id: id, module: Constants.leoModuleCode);
   }
 // void onModelValueChange(LawEnforcementDetails model) {
 //   log('-onModelValueChange---');
