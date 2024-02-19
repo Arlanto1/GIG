@@ -917,7 +917,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       BaseUser staticUser = widget.model?.dbOfficialEmailDepartment != null
           ? BaseUser(
-              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              id: widget.model?.dbOfficialEmailDepartment?.id,
               name: widget.model?.dbOfficialEmailDepartment?.name ?? "",
               email: widget.model?.dbOfficialAccompaniedEmail ?? '')
           : BaseUser();
@@ -1548,11 +1548,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.isOfficialIdcardSelected == 1 ? true : false;
 
     DbOfficialEmailDepartment? dbOfficialEmailDepartment =
-    widget.model?.dbOfficialEmailDepartment !=null ?
         DbOfficialEmailDepartment(
-            id: state.selectedemployeeDepartmentResponse?.id ?? 1):null;
-    DbOfficialEmailDepartment? visitPurpose = widget.model?.visitPurpose !=null?
-    DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id):null;
+            id: state.selectedemployeeDepartmentResponse?.id);
+    DbOfficialEmailDepartment? visitPurpose =
+    DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id);
     List<DbOfficialEmailDepartment>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
@@ -1567,8 +1566,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     LawLocation? location = LawLocation(
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
-    List<VisitingOfficial>? visitingOfficials ;
-    visitingOfficials ??= [];
+    List<VisitingOfficial>? visitingOfficials;
+     visitingOfficials ??= [];
     if (state.getVisits != null ) {
       for (int i = 0; i < state.getVisits!.length; i++) {
         VisitingOfficialsModel model = state.getVisits![i];
