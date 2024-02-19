@@ -179,8 +179,8 @@ class LawEnforcementServices {
     BuildContext? context,
   ) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
-    final response = await BaseApiService().getRequest(
-      url: url,
+    final response = await BaseApiService().postRequest(
+      url: url, requestedData: {}
     );
     return Organisation.fromJson(response);
   }
@@ -195,8 +195,8 @@ class LawEnforcementServices {
   ) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().getRequest(
-      url: url,
+    final response = await BaseApiService().postRequest(
+      url: url,requestedData: {}
     );
     return CreateUserModel.fromJson(response);
   }
