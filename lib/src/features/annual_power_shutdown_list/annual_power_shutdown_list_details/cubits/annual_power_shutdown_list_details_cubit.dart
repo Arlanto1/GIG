@@ -197,18 +197,6 @@ class AnnualPowerShutdownListDetailsCubit
       );
       state.model.epManager2 = userDetails;
     }
-    // if (epOfficers != null) {
-    //   User userDetails = User(
-    //     name: epOfficers.name,
-    //     userId: epOfficers.id,
-    //     userName: epOfficers.name,
-    //   );
-    //   state.epOfficers.add(userDetails.email??'');
-    // }
-
-    // if (vendors != null) {
-    //   state.model.proposedVendors = ;
-    // }
     state.model.proposedVendors = vendors ?? state.model.proposedVendors;
 
     /// Get Sl No from API
