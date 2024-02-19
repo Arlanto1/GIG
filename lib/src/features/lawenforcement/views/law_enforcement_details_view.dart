@@ -712,7 +712,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           Styles.textStyleBlack14,
           isMandatory: true,
         ),
-        Text('----'),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
           index == 0
