@@ -117,6 +117,38 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Enter Requester Department');
     }
+    if (model.extraSecurityDeployed == true && model.vendorId == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Guarding Vendor ID');
+    }
+    if (model.extraSecurityDeployed == true && model.guardingVendorPoc == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Guarding Agency POC');
+    }
+    if (model.extraSecurityDeployed == true && model.securityOfficerCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Officers');
+    }
+    if (model.extraSecurityDeployed == true && model.securityOfficerCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Officers');
+    }
+    if (model.extraSecurityDeployed == true && model.securitySupervisorCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Supervisor');
+    }
+    if (model.extraSecurityDeployed == true && model.securitySupervisorCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Supervisor');
+    }
+    if (model.extraSecurityDeployed == true && model.securityGuardCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Facilitators');
+    }
+    if (model.extraSecurityDeployed == true && model.securityGuardCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Facilitators');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

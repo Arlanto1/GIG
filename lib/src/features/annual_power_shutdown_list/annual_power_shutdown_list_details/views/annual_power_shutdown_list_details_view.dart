@@ -1237,7 +1237,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     // state.labels?.locale.vendorId ??
                                     //     state.labels?.defaultLocale.vendorId ??
                                     Constants.guardingVendorId,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleBlack14,isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
