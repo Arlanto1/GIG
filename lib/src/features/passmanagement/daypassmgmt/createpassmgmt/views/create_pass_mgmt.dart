@@ -2915,46 +2915,46 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int statusValue = 0;
 
-    if (statusTextController.text.toLowerCase() == "created") {
+    if (statusTextController.text.toLowerCase() == "Created") {
       statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() == "handed over") {
+    } else if (statusTextController.text.toLowerCase() == "Handed over") {
       statusValue = 1;
-    } else if (statusTextController.text.toLowerCase() == "returned") {
+    } else if (statusTextController.text.toLowerCase() == "Returned") {
       statusValue = 2;
-    } else if (statusTextController.text.toLowerCase() == "non returned") {
+    } else if (statusTextController.text.toLowerCase() == "Non Returned") {
       statusValue = 3;
-    } else if (statusTextController.text.toLowerCase() == "lost") {
+    } else if (statusTextController.text.toLowerCase() == "Lost") {
       statusValue = 4;
-    } else if (statusTextController.text.toLowerCase() == "damaged") {
+    } else if (statusTextController.text.toLowerCase() == "Damaged") {
       statusValue = 5;
-    } else if (statusTextController.text.toLowerCase() == "defaced") {
+    } else if (statusTextController.text.toLowerCase() == "Defaced") {
       statusValue = 6;
-    } else if (statusTextController.text.toLowerCase() == "cancelled") {
+    } else if (statusTextController.text.toLowerCase() == "Cancelled") {
       statusValue = 7;
-    } else if (statusTextController.text.toLowerCase() == "returned damaged") {
+    } else if (statusTextController.text.toLowerCase() == "Returned/Damaged") {
       statusValue = 8;
-    } else if (statusTextController.text.toLowerCase() == "returned defaced") {
+    } else if (statusTextController.text.toLowerCase() == "Returned/Defaced") {
       statusValue = 9;
     } else {
       statusValue = 1;
     }
 
     int updateStatusValue = 0;
-    if (updateStatusTextController.text.toLowerCase() == "returned") {
+    if (updateStatusTextController.text.toLowerCase() == "Returned") {
       updateStatusValue = 2;
-    } else if (updateStatusTextController.text.toLowerCase() == "lost") {
+    } else if (updateStatusTextController.text.toLowerCase() == "Lost/De-Activated") {
       updateStatusValue = 4;
-    } else if (updateStatusTextController.text.toLowerCase() == "damaged") {
+    } else if (updateStatusTextController.text.toLowerCase() == "Damaged/De-Activated") {
       updateStatusValue = 5;
-    } else if (updateStatusTextController.text.toLowerCase() == "defaced") {
+    } else if (updateStatusTextController.text.toLowerCase() == "Defaced") {
       updateStatusValue = 6;
-    } else if (updateStatusTextController.text.toLowerCase() == "cancelled") {
+    } else if (updateStatusTextController.text.toLowerCase() == "Cancelled") {
       updateStatusValue = 7;
     } else if (updateStatusTextController.text.toLowerCase() ==
-        "returned damaged") {
+        "Returned/Damaged") {
       updateStatusValue = 8;
     } else if (updateStatusTextController.text.toLowerCase() ==
-        "returned defaced") {
+        "Returned/Defaced") {
       updateStatusValue = 9;
     } else {
       updateStatusValue = 1;
