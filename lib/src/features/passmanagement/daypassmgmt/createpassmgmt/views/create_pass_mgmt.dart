@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/date_time_picker.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
@@ -464,7 +465,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                                 if (widget.passId == '3') ...[
-                                  /// Day  pass no
+                                  /// Pass Category
                                   CommonWidgets.textDisplay(
                                     Constants.passCategory,
                                     isMandatory: true,
@@ -1292,7 +1293,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       passvalidfromTextController.text =
                                           Utils.timestamptoDateConversion(
                                               int.parse(
-                                                  widget.model?.startTime ?? '0'),
+                                                  widget.model?.startTime ??
+                                                      '0'),
                                               Constants.dateFormat);
                                     },
                                     context: context,
@@ -1882,8 +1884,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createdBy = widget.model?.entrySecurity?.userName ?? '';
     }
     await createPassMgmtCubit.companyTypes(
-        widget.passId == '3' ? 'ATOM_SEZ_COMPANY_TYPES' : 'ATOM_COMPANY_TYPES',
-        context);
+        name: widget.passId == '3'
+            ? 'ATOM_SEZ_COMPANY_TYPES'
+            : 'ATOM_COMPANY_TYPES',
+        context: context);
     await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
     await createPassMgmtCubit.getVendorPassreasons(
         'VENDOR_PASS_REASON', context);
@@ -2011,28 +2015,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   passCategoryDialog({required CreatePassMgmtState state}) {
-    // BaseDropDown().getDropDown(
-    //     isDisabled: false,
-    //     textController: daypassnoTextController,
-    //     items: categoryValues,
-    //     initialValue: daypassnoTextController.text,
-    //     onTap: () {
-    //       BaseDropDown().assetTypeDialog(
-    //           context: context,
-    //           dropDownValues: categoryValues
-    //               .map((label) => label.key)
-    //               .toList(),
-    //           onTap: (String value) {
-    //             Label? selectedLabel;
-    //             selectedLabel = categoryValues.firstWhere(
-    //               (label) => label.key == value,
-    //               orElse: () => const Label(key: '', value: ''),
-    //             );
-    //
-    //             daypassnoTextController.text = selectedLabel.value;
-    //           });
-    //     });
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -2049,7 +2031,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             String passValidUntilDate =
                 await BlocProvider.of<CreatePassMgmtCubit>(context)
                     .getPassValidUntil(
-                        passCategory: value == 'Permanent' ? 2 : 1);
+              passCategory: value == 'Permanent'
+                  ? ConstantsIntValue.passCategoryPermanent
+                  : ConstantsIntValue.passCategoryTemporary,
+            );
+
+            widget.model?.companyType = state.selectedCompanyType;
+            // BlocProvider.of<CreatePassMgmtCubit>(context)
+            //     .companyTypes(
+            //     name: 'ATOM_SEZ_COMPANY_TYPES',
+            //     filter: value == 'Permanent' ? '1' : '0');
+            // List<Organisation> companyTypes =
+            //     await BlocProvider.of<CreatePassMgmtCubit>(context)
+            //         .companyTypes(
+            //             name: 'ATOM_SEZ_COMPANY_TYPES',
+            //             filter: value == 'Permanent' ? '1' : '0');
 
             passValidUntilDate = Utils.timestamptoDateConversion(
                 int.tryParse(passValidUntilDate), Constants.dateFormat);

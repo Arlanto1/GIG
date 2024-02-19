@@ -209,3 +209,9 @@ export 'package:db_atom/src/features/annual_power_shutdown_list/models/requestMo
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/budget_cost_model.dart';
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/requestModel/budget_cost_request.dart';
 export 'package:db_atom/src/features/annual_power_shutdown_list/models/power_failure_model.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/physically_fit_model.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/physically_fit_response_model.dart';
+
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/drop_pick_up_response.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/gm_rate_request.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/pay_rate_request.dart';

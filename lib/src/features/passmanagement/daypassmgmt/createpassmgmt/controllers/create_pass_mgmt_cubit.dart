@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -59,7 +60,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       if (Constants.addcompanytype == title) {
-        await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+        await createPassMgmtCubit.companyTypes(
+            name: 'ATOM_COMPANY_TYPES', context: context);
       } else if (Constants.addreasonfordaypass == title ||
           Constants.addreasonforvendorpass == title) {
         await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
@@ -354,13 +356,18 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get employee departments
-  Future<void> companyTypes(String companyStr, BuildContext context) async {
+  Future<List<Organisation>> companyTypes({
+    required String name,
+    int? filter,
+    BuildContext? context,
+  }) async {
+    List<Organisation> companyTypes = [];
     try {
-      // CompanyTypes companyTypes =
-      //     await createpassmgmtServices.getCompanyTypes(companyStr, context);
-
-      List<Organisation> companyTypes = await commonServices.getOrganisations(
-          name: companyStr, context: context);
+      companyTypes = await commonServices.getOrganisations(
+        name: name,
+        filter: filter,
+        context: context,
+      );
       emit(
         state.copyWith(
           companyTypes: companyTypes,
@@ -375,6 +382,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
     }
+    return companyTypes;
   }
 
   selectedCompanyType(Organisation companyType) async {
@@ -765,17 +773,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<String> getPassValidUntil({required int passCategory}) async {
-    String passValidUntilDate='';
+    String passValidUntilDate = '';
     try {
-
-      passValidUntilDate = await createpassmgmtServices.getPassValidUntil(passCategory: passCategory);
+      passValidUntilDate = await createpassmgmtServices.getPassValidUntil(
+          passCategory: passCategory);
       log('-111--getPassValidUntil---$passValidUntilDate---');
 
+      List<Organisation> updatedCompanyTypes = await companyTypes(
+          name: 'ATOM_SEZ_COMPANY_TYPES', filter: passCategory);
 
+      if (passCategory == ConstantsIntValue.passCategoryPermanent) {
+        state.selectedCompanyType = state.companyTypes?.first;
+      } else {
+        state.selectedCompanyType = null;
+      }
 
       emit(
         state.copyWith(
           passValidUntilDate: passValidUntilDate,
+          companyTypes: updatedCompanyTypes,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -788,7 +804,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
     return passValidUntilDate;
-
   }
 
   getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {

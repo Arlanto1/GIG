@@ -17,8 +17,7 @@ class Apis {
 
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
-  static final String _getOrganisations =
-      '$baseUrl/getOrganisation?name=';
+  static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
@@ -54,9 +53,11 @@ class CommonServices {
 
   Future<List<Organisation>> getOrganisations({
     required String name,
+    int? filter,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name&noRole=true';
+    String url =
+        '${Apis._getOrganisations}$name&noRole=true&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -78,7 +79,6 @@ class CommonServices {
     );
     return Locations.fromJson(response);
   }
-
 
   Future<DayPassReason> getDayPassreason({
     required String name,

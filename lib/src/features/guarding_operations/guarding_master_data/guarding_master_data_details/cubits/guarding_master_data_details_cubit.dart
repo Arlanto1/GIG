@@ -1,16 +1,12 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_details_state.dart';
 
@@ -25,32 +21,31 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-    GuardingMasterDataDetailsState.initial(
-        model: model ?? GuardingMastersDataModel(),
-        locations: Locations(),
-        loggedInUserDetails: User(),
-        users: const [],
-        emailUsers: const [],
-        errorMessage: '',
-        loadAttachments: const [],
-        eventId: null,
-        listOfEntities: const [],
-        getEntitiesResponse: null,
-        departments: const [],
-        listOfQualifications: const [],
-        getQualificationsResponse: null),
-  );
+          GuardingMasterDataDetailsState.initial(
+              model: model ?? GuardingMastersDataModel(),
+              locations: Locations(),
+              loggedInUserDetails: User(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              loadAttachments: const [],
+              eventId: null,
+              listOfEntities: const [],
+              getEntitiesResponse: null,
+              departments: const [],
+              listOfQualifications: const [],
+              getQualificationsResponse: null),
+        );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    Vendors getVendors =
-    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    Vendors getVendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -100,8 +95,7 @@ class GuardingMasterDataDetailsCubit
     );
 
     log('-guardingMastersDataModel--cubit-model--id---${model?.id}---');
-    log('-guardingMastersDataModel--cubit-state.model--id---${state.model
-        .id}---');
+    log('-guardingMastersDataModel--cubit-state.model--id---${state.model.id}---');
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -245,7 +239,7 @@ class GuardingMasterDataDetailsCubit
     // TODO: Object issue
     if (guard != null) {
       User userDetails =
-      User(name: guard.name, userId: guard.id, userName: guard.name);
+          User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -464,13 +458,11 @@ class GuardingMasterDataDetailsCubit
     }
     // Setting time in milliseconds
     state.model.inputDate =
-        (DateTime
-            .now()
-            .millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-    GuardingMasterDataRequest(guardingMasterData: state.model);
+        GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericResponse response = GenericResponse();
     try {
@@ -528,5 +520,41 @@ class GuardingMasterDataDetailsCubit
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.guardingMasterDataModule);
+  }
+
+  Future<void> getGmPhysicallyFit(
+      PhysicallyFitModel physicallyFitModel) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    PhysicallyFitRequestModel request = PhysicallyFitRequestModel();
+    request.gmPhysicallyFit = physicallyFitModel;
+    PhysicallyFitModel physicallyFit = PhysicallyFitModel();
+    try {
+      physicallyFit = await services.getGmPhysicallyFit(body: request);
+
+      log('--physicallyFit--${physicallyFit.physicallyFit}--');
+      state.model.physicallyFit = physicallyFit.physicallyFit ?? false;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      // physicallyFit: physicallyFit,
+      status: FormStatus.initial,
+    ));
   }
 }
