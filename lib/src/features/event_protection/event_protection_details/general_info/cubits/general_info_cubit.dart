@@ -87,7 +87,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     try {
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         SharedPrefs.getDefaultLocation(),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(

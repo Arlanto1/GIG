@@ -109,7 +109,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       model.inputDate = Utils().getCurrentDate();
 
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);

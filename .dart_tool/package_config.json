@@ -914,6 +914,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "pull_to_refresh_flutter3",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pull_to_refresh_flutter3-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "quill_html_editor",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/quill_html_editor-2.2.7",
       "packageUri": "lib/",
@@ -1298,7 +1304,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-02-02T05:57:06.179189Z",
+  "generated": "2024-02-20T05:44:17.863093Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

@@ -33,6 +33,7 @@ class BaseDate {
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
+    String? startDate,
     required Function(String) onChange,
     required BuildContext context,
   }) {
@@ -48,6 +49,7 @@ class BaseDate {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
             textController: textController,
+            startDate: startDate,
             showPastDate: showPastDate,
             showFutureDate: showFutureDate,
             onChange: onChange,
@@ -93,15 +95,24 @@ class BaseDate {
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
+    String? startDate,
   }) async {
     DateTime? pickedDate;
 
     DateTime currentTime = DateTime.now();
 
+    DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
+    DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
+    log('-startDate---$startDate-');
+    log('--minTime-1-$minTime--');
+    if (!startDate.isEmptyOrNull) {
+      minTime = DateTime.fromMillisecondsSinceEpoch(startDate.toIntOrNull() ?? 0);
+    }
+
+    log('--minTime-2-$minTime--');
+
     log('-onlyDate---$onlyDate-');
     if (onlyDate) {
-      DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
-      DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
@@ -122,10 +133,6 @@ class BaseDate {
         locale: LocaleType.en,
       );
     } else {
-      // For DateTimePicker, adjust minTime and maxTime accordingly
-      DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
-      DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
-
       // Ensure minTime is set to the current time if showPastDate is false
       // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
 

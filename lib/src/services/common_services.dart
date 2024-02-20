@@ -69,7 +69,7 @@ class CommonServices {
         response['dimension'].map((x) => Organisation.fromJson(x)));
   }
 
-  Future<Locations> getLocations({
+  Future<Locations> getRegionsWithLocations({
     required String name,
     BuildContext? context,
   }) async {

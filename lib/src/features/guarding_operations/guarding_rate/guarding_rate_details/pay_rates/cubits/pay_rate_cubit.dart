@@ -78,7 +78,7 @@ class PayRateCubit extends Cubit<PayRateState> {
         await commonServices.getUserDetails(userId: userId);
     state.model.entrySecurity ??= loggedInUserDetails;
     Locations getLocationsData =
-        await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+        await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');

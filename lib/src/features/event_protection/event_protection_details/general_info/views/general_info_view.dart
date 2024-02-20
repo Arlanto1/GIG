@@ -369,7 +369,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Utils().formatTime(value);
                                 log('---value11-${state.model.eventStartDate}------');
                                 BlocProvider.of<GeneralInfoCubit>(context)
-                                    .onModelValueChange(state.model);
+                                    .onCheckBoxChange(state.model);
                               },
                               context: context,
                             ),
@@ -387,7 +387,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
                               //onlyDate: false,
-                              showPastDate: false,
+                              // showPastDate: false,
+                              startDate: state.model.eventStartDate,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);

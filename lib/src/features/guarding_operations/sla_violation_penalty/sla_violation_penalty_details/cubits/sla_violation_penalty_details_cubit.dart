@@ -102,7 +102,7 @@ class SLAViolationPenaltyDetailsCubit
     var userId = await SharedPrefs.getUserId();
     try {
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');

@@ -53,7 +53,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'), // 0
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
         commonServices.getUserDetails(userId: userId), // 1
         commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
         commonServices.getUsers(), // 3

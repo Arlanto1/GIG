@@ -38,7 +38,7 @@ class MaterialMovementBloc
           await commonServices.getRegionsOrLocationsByRegionId();
 
       Locations locations =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),

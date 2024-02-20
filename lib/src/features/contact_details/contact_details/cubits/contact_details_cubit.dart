@@ -43,7 +43,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     var userId = await SharedPrefs.getUserId();
     try {
       final futures = [
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUiLabels(

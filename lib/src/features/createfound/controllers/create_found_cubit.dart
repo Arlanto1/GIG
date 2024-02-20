@@ -196,7 +196,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       // GetLocations getLocationsData =
       //     await createFoundServices.getLocations(locationsStr, context);
-      Locations getLocationsData = await commonServices.getLocations(
+      Locations getLocationsData = await commonServices.getRegionsWithLocations(
           name: locationsStr, context: context);
 
       emit(
