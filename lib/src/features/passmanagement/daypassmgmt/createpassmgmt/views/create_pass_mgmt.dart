@@ -1431,7 +1431,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
-                                        isMandatory: true,
                                         Styles.textStyleBlack14)
                                     : Container(),
                                 widget.passId == '1' && widget.model == null
@@ -3341,12 +3340,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter email",
       );
-    } else if ((widget.passId == '3' && emailTextController.text.isEmpty)) {
+    } else if ((widget.passId == '3' && emailTextController.text.isEmpty )) {
       Validator().showToast(
         context,
         "Please enter email",
       );
-    } else if ((widget.passId == '3' &&
+    } else if ((widget.passId == '3' && !emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(widget.model?.email))) {
+    Validator().showToast(
+    context,
+    "Please enter valid email",
+    );
+    }else if ((widget.passId == '3' &&
         sezpassinfoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
@@ -3668,8 +3672,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       controller: controller,
       textFormKey: Keys.colorTextController,
       textCapitalization: controller == emailTextController ? false : true,
-      textInputType: controller == contactnoTextController ||
-              controller == sezpassinfoTextController
+      textInputType: controller == contactnoTextController
           ? TextInputType.number
           : TextInputType.text,
       isEnable:
