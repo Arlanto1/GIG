@@ -184,30 +184,32 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 items: occurrenceStatusDropDownValues,
                                 initialValue: '${state.model.status ??= 0}',
                                 onTap: () {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues:
-                                        occurrenceStatusDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          occurrenceStatusDropDownValues
-                                              .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
+                                  if(!disableForm) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                      occurrenceStatusDropDownValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            occurrenceStatusDropDownValues
+                                                .firstWhere(
+                                                  (label) => label.key == value,
+                                              orElse: () =>
+                                              const Label(key: '', value: ''),
+                                            );
 
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
+                                        BlocProvider.of<
+                                            OccurrenceGeneralInfoCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            status: int.tryParse(
+                                                selectedLabel.value));
+                                      },
+                                    );
+                                  }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
