@@ -61,7 +61,8 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                       BaseDate().datePickerWidgetLoading(
                         textController: powerFailureStartDateController,
                         isDisabled: false,
-                        onlyDate: true,
+                        onlyDate: false,
+                        showFutureDate: false,
                         onChange: (String value) {
                           log('--fr-value-${powerFailureStartDateController.text}------');
                           powerFailureStartDateController.text = value;
@@ -76,7 +77,8 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                       BaseDate().datePickerWidgetLoading(
                         textController: powerFailureEndDateController,
                         isDisabled: false,
-                        onlyDate: true,
+                        onlyDate: false,
+                        showFutureDate: false,
                         onChange: (String value) {
                           log('--fr-value-${powerFailureEndDateController.text}------');
                           powerFailureEndDateController.text = value;
