@@ -2852,15 +2852,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         return;
       }
     }
-    if (widget.passId == '3') {
-      if (sezpassinfoTextController.text.isEmptyOrNull) {
-        Validator().showToast(
-          context,
-          "Please enter Sez Pass Info",
-        );
-        return;
-      }
-    }
+    // if (widget.passId == '3') {
+    //   if (sezpassinfoTextController.text.isEmptyOrNull) {
+    //     Validator().showToast(
+    //       context,
+    //       "Please enter Sez Pass Info",
+    //     );
+    //     return;
+    //   }
+    // }
 
     if (widget.passId == '1' || widget.passId == '2') {
       if (daypassnoTextController.text.isEmptyOrNull) {
@@ -3074,10 +3074,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passValidUntilTextController.text--${passValidUntilTextController.text}--');
     // String endTime = Utils.dateToTimestampConversion(
     //     passValidUntilTextController.text, Constants.dateFormat).toString();
-
-    String endTime = Utils().formatTime(passValidUntilTextController.text);
-    log('-endTime--$endTime--');
-
+String endTime = "";
+    if(!passValidUntilTextController.text.isEmptyOrNull) {
+       endTime = Utils().formatTime(passValidUntilTextController.text);
+    }
     //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
     log('--pass info id--${passInfo.id}---');
