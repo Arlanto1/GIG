@@ -135,24 +135,24 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Violation',
-            //     value: state.items![index].violation?.name ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'Visitor Name',
+                value: state.items![index].name ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Visitor Email Id',
+                value: state.items![index].email ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Purpose of Visit',
+                value: state.items![index].purpose ?? '',
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
