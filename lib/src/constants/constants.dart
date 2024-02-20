@@ -794,13 +794,13 @@ class Constants {
 
 
   ///VVIP Visitors
-  static const String vvipVisitors = 'VVIP Visitors';
-  static const String listVvipVisitors = 'List of VVIP Visitors';
-  static const String visitorsName = 'Visitors Name';
-  static const String visitorsEmailId = 'Visitors Email ID';
-  static const String visitorsDesignation = 'Visitors Designation';
+  static const String vvipVisitors = 'VVIP Visitor';
+  static const String listVvipVisitors = 'List of VVIP Visitor';
+  static const String visitorsName = 'Visitor Name';
+  static const String visitorsEmailId = 'Visitor Email ID';
+  static const String visitorsDesignation = 'Visitor Designation';
   static const String purposeOfVisit = 'Purpose of Visit';
-  static const String baseLocationOfVisitors = 'Base Location of Visitors';
+  static const String baseLocationOfVisitors = 'Base Location of Visitor';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
 }
