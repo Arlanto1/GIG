@@ -1,15 +1,5 @@
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 
-import '../../../../../configurations/base_api_service.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -76,16 +66,6 @@ class CreatePassMgmtService {
       url: url,
     );
     return GetDepositor.fromJson(response);
-  }
-
-  Future<Locations> getLocations({
-    required String name,
-  }) async {
-    String url = '${Apis.getOrganisation}$name';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return Locations.fromJson(response);
   }
 
   Future<DayPassNumberLists> getPassNo(
