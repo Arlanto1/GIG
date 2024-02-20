@@ -282,7 +282,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,isMandatory: true,
-                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                  state.loggedInUserDetails?.email ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ],
