@@ -15,11 +15,11 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
-    on<InitializeValuesMM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
+    on<InitializeValuesMM>(_initializeValues);
   }
 
   final MaterialMovementServices services = MaterialMovementServices();

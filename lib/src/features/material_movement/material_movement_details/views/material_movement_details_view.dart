@@ -548,7 +548,7 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 2 ||
                                 state.model.status == 3 ||
                                 state.model.status == 4 ||
-                                state.model.status == 5,
+                                state.model.status == 5 || isReadOnly,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
                               state.model.materialDescription = value;
@@ -590,7 +590,7 @@ class _MaterialMovementDetailsViewState
                                           state.model.status == 2 ||
                                           state.model.status == 3 ||
                                           state.model.status == 4 ||
-                                          state.model.status == 5
+                                          state.model.status == 5|| isReadOnly
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
@@ -599,7 +599,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5,
+                                      state.model.status == 5|| isReadOnly,
                                   onChange: (String? value) {
                                     if (value != null) {
                                       state.model.quantity = int.parse(value);
@@ -670,7 +670,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5|| isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -679,7 +679,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5|| isReadOnly,
                               onChange: (String value) {
                                 state.model.modelInfo = value;
                                 context
@@ -724,7 +724,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5|| isReadOnly,
                               onChange: (String value) {
                                 state.model.address = value;
                                 context
@@ -899,7 +899,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 10 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 5,
+                                        state.model.status == 5|| isReadOnly,
                                     onChange: (String value) {
                                       state.model.requestorDepartment?.name =
                                           value;
@@ -919,7 +919,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
                                             state.model.status == 4 ||
-                                            state.model.status == 5)
+                                            state.model.status == 5|| isReadOnly)
                                         ? true
                                         : false,
                                     onTap: () {
@@ -992,7 +992,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5|| isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1001,7 +1001,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5|| isReadOnly,
                               onChange: (String value) {
                                 state.model.sentTo = value;
                                 context
@@ -1035,7 +1035,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5|| isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1044,7 +1044,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5|| isReadOnly,
                               onChange: (String value) {
                                 state.model.purpose = value;
                                 context
@@ -1076,7 +1076,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5|| isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1085,7 +1085,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5|| isReadOnly,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
                                 BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -1119,7 +1119,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
                                             state.model.status == 4 ||
-                                            state.model.status == 5
+                                            state.model.status == 5|| isReadOnly
                                         ? false
                                         : true,
                                     isDisableColor: state.model.status == 10 ||
@@ -1128,7 +1128,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        state.model.status == 5,
+                                        state.model.status == 5|| isReadOnly,
                                     onChange: (String value) {
                                       state.model.preparedByDepartment?.name =
                                           value;
@@ -1148,7 +1148,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        state.model.status == 5,
+                                        state.model.status == 5|| isReadOnly,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
                                               state.model.status == -1 ||
@@ -1156,7 +1156,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              state.model.status == 5)
+                                              state.model.status == 5|| isReadOnly)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -2724,7 +2724,7 @@ class _MaterialMovementDetailsViewState
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(140, 50),
-                    backgroundColor: AppColors.navigationSkybluecolor,
+                    backgroundColor: !isReadOnly ? AppColors.navigationSkybluecolor:AppColors.gerylightBackground,
                   ),
                   onPressed: () {
                     showDialog(
