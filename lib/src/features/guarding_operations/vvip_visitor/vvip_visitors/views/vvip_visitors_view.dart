@@ -101,8 +101,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                       key: state.labels?.locale.entrySecurity ??
                           state.labels?.defaultLocale.entrySecurity ??
                           'Created By',
-                      value: (state.items[index].entrySecurity?.firstName ?? '') +
-                          (state.items[index].entrySecurity?.lastName ?? '')));
+                      value: '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                   labels.add(Label(
                       key: state.labels?.locale.slNo ??
                           state.labels?.defaultLocale.slNo ??
