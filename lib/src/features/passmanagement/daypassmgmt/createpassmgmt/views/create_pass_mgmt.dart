@@ -1,16 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
-import 'package:db_atom/src/common_widgets/date_time_picker.dart';
-import 'package:db_atom/src/constants/constant_int_values.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:intl/intl.dart';
-
-import '../../passmgmtlist/models/day_passlist_model.dart';
 
 class CreatePassManagement extends StatefulWidget {
   DayPassListElement? model;
@@ -1286,7 +1278,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   // datepickerWidgetLoading(
                                   //     passvalidfromTextController),
                                   BaseDate().datePickerWidgetLoading(
-                                    isDisabled: widget.model?.status ==0 ||widget.model?.status ==null ? false:true,
+                                    isDisabled: widget.model?.status == 0 ||
+                                            widget.model?.status == null
+                                        ? false
+                                        : true,
                                     showFutureDate: false,
                                     textController: passvalidfromTextController,
                                     onlyDate: false,
@@ -1623,7 +1618,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (widget.passId == '3') {
       passtypeTextController.text = 'SEZ_PASS';
     }
-    getPassmanagmentList();
+    getPassManagementList();
     _getCurrentDate();
   }
 
@@ -1871,8 +1866,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
   }
 
-  getPassmanagmentList() async {
-    await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', context);
+  getPassManagementList() async {
+    if (widget.passId == ConstantsIntValue.passIdSez.toString()) {
+      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context);
+    } else {
+      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', null, context);
+    }
     await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
     await createPassMgmtCubit.getEmployeeDepartments(
         'EMPLOYEE_DEPARTMENTS', context);
@@ -2942,9 +2941,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int updateStatusValue = 0;
     if (updateStatusTextController.text.toLowerCase() == "Returned") {
       updateStatusValue = 2;
-    } else if (updateStatusTextController.text.toLowerCase() == "Lost/De-Activated") {
+    } else if (updateStatusTextController.text.toLowerCase() ==
+        "Lost/De-Activated") {
       updateStatusValue = 4;
-    } else if (updateStatusTextController.text.toLowerCase() == "Damaged/De-Activated") {
+    } else if (updateStatusTextController.text.toLowerCase() ==
+        "Damaged/De-Activated") {
       updateStatusValue = 5;
     } else if (updateStatusTextController.text.toLowerCase() == "Defaced") {
       updateStatusValue = 6;
@@ -3074,9 +3075,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passValidUntilTextController.text--${passValidUntilTextController.text}--');
     // String endTime = Utils.dateToTimestampConversion(
     //     passValidUntilTextController.text, Constants.dateFormat).toString();
-String endTime = "";
-    if(!passValidUntilTextController.text.isEmptyOrNull) {
-       endTime = Utils().formatTime(passValidUntilTextController.text);
+    String endTime = "";
+    if (!passValidUntilTextController.text.isEmptyOrNull) {
+      endTime = Utils().formatTime(passValidUntilTextController.text);
     }
     //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
@@ -3341,17 +3342,19 @@ String endTime = "";
         context,
         "Please enter email",
       );
-    } else if ((widget.passId == '3' && emailTextController.text.isEmpty )) {
+    } else if ((widget.passId == '3' && emailTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter email",
       );
-    } else if ((widget.passId == '3' && !emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(widget.model?.email))) {
-    Validator().showToast(
-    context,
-    "Please enter valid email",
-    );
-    }else if ((widget.passId == '3' &&
+    } else if ((widget.passId == '3' &&
+        !emailTextController.text.isEmptyOrNull &&
+        !Validator.isValidEmail(widget.model?.email))) {
+      Validator().showToast(
+        context,
+        "Please enter valid email",
+      );
+    } else if ((widget.passId == '3' &&
         sezpassinfoTextController.text.isEmpty)) {
       Validator().showToast(
         context,

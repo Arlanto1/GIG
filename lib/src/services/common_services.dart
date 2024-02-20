@@ -1,15 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_type_model.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
-
-import '../features/createfound/models/create_user_model.dart';
-import '../features/lawenforcement/models/addentities.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -72,8 +63,10 @@ class CommonServices {
   Future<Locations> getRegionsWithLocations({
     required String name,
     BuildContext? context,
+    int? filter,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url =
+        '${Apis._getOrganisations}$name&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

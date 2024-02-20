@@ -9,6 +9,10 @@ class ConstantsIntValue {
   static const int passCategoryPermanent = 0;
   static const int passCategoryTemporary = 1;
 
+
+  static const int passIdSez = 3;
+
+
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
 
   static const int businessUserReview = 1;
