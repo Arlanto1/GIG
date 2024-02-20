@@ -291,7 +291,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.vvipVisitors,
+                                Constants.listVvipVisitors,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -335,7 +335,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View VVIP Visitors(S)',
+                                    'Add/View VVIP Visitors',
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
