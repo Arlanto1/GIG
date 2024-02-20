@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../models/vvip_visitor_record_model.dart';
+import '../../models/vvip_visitor_response_model.dart';
 import '../../services/vvip_visitor_services.dart';
 import '../bloc/vvip_visitors_record_bloc.dart';
 import 'add_vvip_visitors_record_popup.dart';
@@ -25,11 +26,13 @@ class VVIPVisitorsRecordView extends StatefulWidget {
     required this.id,
     required this.title,
     this.model,
+    this.vvipModel,
   });
 
   final int id;
   final String title;
   final VIVPVisitorRecordModel? model;
+  final VIVPVisitorModel? vvipModel;
 
   @override
   State<VVIPVisitorsRecordView> createState() => _VVIPVisitorsRecordView();
@@ -69,6 +72,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
   }
 
   bool isPopUpShown = false;
+  bool isReadOnly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +80,16 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
+
+
+      if (widget.vvipModel?.status == 1) {
+        isReadOnly = true;
+      }
+
+
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton:widget.vvipModel?.status ==0 ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
@@ -87,7 +98,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                 contact: VIVPVisitorRecordModel(),
               );
           },
-        ),
+        ):null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.vvipVisitors,
@@ -190,12 +201,12 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-                    onDeleteTap: (selectedIndex) async {
+                    onDeleteTap:widget.vvipModel?.status == 0 ? (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
                           DeleteRecord(state.items![selectedIndex].id!.toInt(),
                               widget.id));
-                    },
+                    } : null,
                     index: index,
                   );
           }
