@@ -702,7 +702,7 @@ class RouteGenerator {
                   ),
                 ));
 
-      case materialMovementInwardDetailsRoute:
+      case materialMovementInwardOutwardDetailsRoute:
         MaterialMovementServices services = MaterialMovementServices();
         CommonServices commonServices = CommonServices();
         bool isInward = true;

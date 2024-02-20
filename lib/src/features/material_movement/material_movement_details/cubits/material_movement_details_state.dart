@@ -15,6 +15,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
   final int? eventId;
+  final bool? isReadOnly;
   final String? message;
   final String? rejectionComment;
   final bool isInward;
@@ -22,23 +23,22 @@ class MaterialMovementDetailsState extends Equatable {
   final bool isEntrySecuritySignatureSignEditable;
   final MmUiLabels? labels;
 
-  factory MaterialMovementDetailsState.initial(
-      {required MaterialMovementModel model,
-      required Locations locations,
-      required User loggedInUserDetails,
-      required List<BaseUser>? users,
-      final List<BaseUser>? emailUsers,
-      required String errorMessage,
-      required List<Organisation> departments,
-      required List<ImageContent> loadAttachments,
-      required List<Organisation> quantityUnits,
-      required int? eventId,
-      String? rejectionComment}) {
+  factory MaterialMovementDetailsState.initial({
+    required MaterialMovementModel model,
+    required Locations locations,
+    required List<BaseUser>? users,
+    final List<BaseUser>? emailUsers,
+    required String errorMessage,
+    required List<Organisation> departments,
+    required List<ImageContent> loadAttachments,
+    required List<Organisation> quantityUnits,
+    required int? eventId,
+    String? rejectionComment,
+  }) {
     return MaterialMovementDetailsState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
-      loggedInUserDetails: loggedInUserDetails,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -225,6 +225,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.approver1Users,
     this.approver2Users,
     this.rejectionComment,
+    this.isReadOnly,
   });
 
   MaterialMovementDetailsState copyWith({
@@ -246,10 +247,12 @@ class MaterialMovementDetailsState extends Equatable {
     MmUiLabels? labels,
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
+    bool? isReadOnly,
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

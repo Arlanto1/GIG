@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -24,7 +25,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
             locations: Locations(),
-            loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -60,6 +60,33 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  Future<void> isFormReadable() async {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    if (isInward ?? false) {
+      return;
+    }
+
+    if (state.model.status != ConstantsIntValue.businessUserReview) {
+      return;
+    }
+
+    String email = await SharedPrefs.getEmail();
+    bool isReadOnly;
+
+    if (state.model.requestorEmail.equalsIgnoreCase(email)) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      model: model,
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
   }
 
   void onAddRejectionComment(String rejectionsComment) {
@@ -138,15 +165,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
+      log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
+
       state.model.entrySecurity ??= loggedInUserDetails;
       state.model.unit = model?.unit;
       // state.model.rejectedBy ??= loggedInUserDetails;
+      log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: locations,
-          loggedInUserDetails: loggedInUserDetails,
+          loggedInUserDetails: state.model.entrySecurity,
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,

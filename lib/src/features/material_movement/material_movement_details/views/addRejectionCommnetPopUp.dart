@@ -4,12 +4,10 @@ class AddRejectionCommentPopUp extends StatefulWidget {
   const AddRejectionCommentPopUp({
     super.key,
     required this.mainContext,
-    required this.model,
     required this.onSubmit,
   });
 
   final BuildContext mainContext;
-  final MaterialMovementModel? model;
   final Function(String)? onSubmit;
 
   @override

@@ -35,8 +35,8 @@ const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
-const String materialMovementInwardDetailsRoute =
-    '/materialMovementInwardDetailsRoute';
+const String materialMovementInwardOutwardDetailsRoute =
+    '/materialMovementInwardOutwardDetailsRoute';
 
 const String sstIncidentListRoute = '/sstIncidentListRoute';
 const String sstIncidentDetailsRoute = '/sstIncidentDetailsRoute';

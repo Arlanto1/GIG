@@ -10,5 +10,6 @@ class ConstantsArgument {
   static const String ranks = "ranks";
   static const String violationDescription = "violationDescription";
   static const String violationDescriptions = "violationDescriptions";
+  static const String isReadOnly = "isReadOnly";
 
 }

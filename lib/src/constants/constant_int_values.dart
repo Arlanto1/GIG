@@ -5,11 +5,13 @@ class ConstantsIntValue {
   static const int keyDamageHistoryInt = 2;
   static const int keyDestroyHistoryInt = 3;
 
+  // Pass Management
   static const int passCategoryPermanent = 0;
   static const int passCategoryTemporary = 1;
 
-
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
+
+  static const int businessUserReview = 1;
 
 
 

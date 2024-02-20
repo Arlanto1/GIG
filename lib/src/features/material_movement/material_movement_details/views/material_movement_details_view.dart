@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 
 import 'addRejectionCommnetPopUp.dart';
 
@@ -46,8 +47,6 @@ class _MaterialMovementDetailsViewState
   TextEditingController materialComingFromBriefDescriptionController =
       TextEditingController();
 
-  get model => null;
-
   @override
   void initState() {
     super.initState();
@@ -61,6 +60,8 @@ class _MaterialMovementDetailsViewState
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
+
+    BlocProvider.of<MaterialMovementDetailsCubit>(context).isFormReadable();
     //initializeDates(state);
   }
 
@@ -70,6 +71,8 @@ class _MaterialMovementDetailsViewState
     securitySignatureController.dispose();
     super.dispose();
   }
+
+  bool showSaveButtons = false;
 
   @override
   Widget build(BuildContext context) {
@@ -129,21 +132,24 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == null) {
           isReadOnly = false;
         }
+        if (state.model.status == ConstantsIntValue.businessUserReview) {
+          isReadOnly = state.isReadOnly ?? false;
+        }
 
+        showSaveButtons = state.model.status == 0 ||
+            state.model.status == 8 ||
+            // state.model.status == 1 ||
+            state.model.status == 6 ||
+            state.model.status == 7 ||
+            state.model.status == 9 ||
+            state.model.status == null ||
+            !isReadOnly;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (state.model.status == 0 ||
-                    state.model.status == 8 ||
-                    state.model.status == 1 ||
-                    state.model.status == 6 ||
-                    state.model.status == 7 ||
-                    state.model.status == 9 ||
-                    state.model.status == null)
-                ? true
-                : false,
+            showSaveButton: showSaveButtons,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -154,15 +160,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showSubmitButton: (state.model.status == 0 ||
-                    state.model.status == 8 ||
-                    state.model.status == 1 ||
-                    state.model.status == 6 ||
-                    state.model.status == 7 ||
-                    state.model.status == 9 ||
-                    state.model.status == null)
-                ? true
-                : false,
+            showSubmitButton: showSaveButtons,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -191,7 +189,6 @@ class _MaterialMovementDetailsViewState
                 context: context,
                 builder: (BuildContext dialogContext) {
                   return AddRejectionCommentPopUp(
-                    model: model,
                     mainContext: context,
                     onSubmit: (value) {
                       log('--value--$value--');
@@ -399,7 +396,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Location
@@ -458,7 +455,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 6 ||
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
-                                state.model.status == 4 ||
+                                    state.model.status == 4 ||
                                     state.model.status == 5 ||
                                     state.model.status == 1
                                 ? false
@@ -498,7 +495,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == -1 ||
                                       state.model.status == 6 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -541,7 +538,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 6 ||
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
-                                state.model.status == 4 ||
+                                    state.model.status == 4 ||
                                     state.model.status == 5
                                 ? false
                                 : true,
@@ -592,7 +589,7 @@ class _MaterialMovementDetailsViewState
                                           state.model.status == 6 ||
                                           state.model.status == 2 ||
                                           state.model.status == 3 ||
-                                      state.model.status == 4 ||
+                                          state.model.status == 4 ||
                                           state.model.status == 5
                                       ? false
                                       : true,
@@ -635,7 +632,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 6 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                            state.model.status == 4 ||
                                             state.model.status == 5
                                         ? true
                                         : false,
@@ -672,7 +669,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -717,7 +714,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -773,7 +770,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
                                                   state.model.status == 5 ||
-                                              state.model.status == 4 ||
+                                                  state.model.status == 4 ||
                                                   state.model.status == 1
                                               ? false
                                               : true) {
@@ -808,7 +805,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 6 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                            state.model.status == 4 ||
+                                                state.model.status == 4 ||
                                                 state.model.status == 5 ||
                                                 state.model.status == 1
                                             ? false
@@ -850,7 +847,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5 ||
                                       state.model.status == 1
                                   ? false
@@ -921,7 +918,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 10 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                            state.model.status == 4 ||
                                             state.model.status == 5)
                                         ? true
                                         : false,
@@ -931,7 +928,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == -1 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                          state.model.status == 4 ||
+                                              state.model.status == 4 ||
                                               state.model.status == 5
                                           ? false
                                           : true) {
@@ -994,7 +991,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -1037,7 +1034,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -1078,7 +1075,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                  state.model.status == 4 ||
+                                      state.model.status == 4 ||
                                       state.model.status == 5
                                   ? false
                                   : true,
@@ -1121,7 +1118,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 6 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                            state.model.status == 4 ||
                                             state.model.status == 5
                                         ? false
                                         : true,
@@ -1158,7 +1155,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 10 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                          state.model.status == 4 ||
+                                              state.model.status == 4 ||
                                               state.model.status == 5)
                                           ? false
                                           : true) {
@@ -1218,7 +1215,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 10 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
-                                                state.model.status == 4 ||
+                                                    state.model.status == 4 ||
                                                     state.model.status == 5 ||
                                                     state.model.status == 1)
                                                 ? true
@@ -1229,7 +1226,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
-                                              state.model.status == 4 ||
+                                                  state.model.status == 4 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 1)
                                               ? false
@@ -1327,7 +1324,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 10 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                            state.model.status == 4 ||
                                             state.model.status == 5 ||
                                             state.model.status == 1)
                                         ? true
@@ -1338,7 +1335,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 10 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                          state.model.status == 4 ||
+                                              state.model.status == 4 ||
                                               state.model.status == 5 ||
                                               state.model.status == 1)
                                           ? false
@@ -1399,7 +1396,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == -1 ||
                                                     state.model.status == 2 ||
                                                     state.model.status == 3 ||
-                                                state.model.status == 4 ||
+                                                    state.model.status == 4 ||
                                                     state.model.status == 5 ||
                                                     state.model.status == 1)
                                                 ? true
@@ -1410,7 +1407,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 10 ||
                                                   state.model.status == 2 ||
                                                   state.model.status == 3 ||
-                                              state.model.status == 4 ||
+                                                  state.model.status == 4 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 1)
                                               ? false
@@ -1514,7 +1511,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == -1 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                            state.model.status == 4 ||
                                             state.model.status == 5 ||
                                             state.model.status == 1)
                                         ? true
@@ -1525,7 +1522,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == -1 ||
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
-                                          state.model.status == 4 ||
+                                              state.model.status == 4 ||
                                               state.model.status == 5 ||
                                               state.model.status == 1)
                                           ? false
@@ -2500,7 +2497,9 @@ class _MaterialMovementDetailsViewState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
-                            submitButtonDisplay(state)
+                            if (showSaveButtons) ...[
+                              submitButtonDisplay(state)
+                            ],
                           ],
                         ),
                       ],

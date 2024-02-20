@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class MaterialMovementsView extends StatefulWidget {
   const MaterialMovementsView({
@@ -19,6 +20,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -52,6 +55,17 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    context.read<MaterialMovementBloc>().add(
+          const InitializeValuesMM(),
+        );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -62,7 +76,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () => {
-          Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+          Navigator.pushNamed(context, materialMovementInwardOutwardDetailsRoute,
               arguments: {
                 "isInward": widget.isInward,
                 "isCreate": true,
@@ -114,7 +128,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
                   statuses: state.statuses ?? [],
-                  regions: state.regions??[],
+                  regions: state.regions ?? [],
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                 if (state.status == FormStatus.loading) ...[
@@ -250,10 +264,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     editDataLoading(materialMovementModel);
   }
 
-  void editDataLoading(MaterialMovementModel? materialMovementModel) {
+  Future<void> editDataLoading(
+      MaterialMovementModel? materialMovementModel) async {
     dismissLoadingDialog(context);
     if (materialMovementModel != null) {
-      Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+      Navigator.pushNamed(context, materialMovementInwardOutwardDetailsRoute,
           arguments: {
             "MaterialMovementModel": materialMovementModel,
             "isInward": widget.isInward,
