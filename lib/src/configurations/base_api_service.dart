@@ -147,7 +147,7 @@ class BaseApiService {
 
       log("API URL: $url");
       log("HTTP Status Code: ${response.statusCode}");
-      log("Response: ${response.body}");
+      // log("Response: ${response.body}");
 
       var responseBody;
       if (!response.body.isEmptyOrNull) {

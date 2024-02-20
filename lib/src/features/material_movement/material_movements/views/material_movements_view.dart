@@ -20,7 +20,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController _refreshController =
+  RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
   @override
@@ -56,14 +56,18 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   }
 
   void _onRefresh() async {
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
     context.read<MaterialMovementBloc>().add(
-          const InitializeValuesMM(),
+          const RefreshList(),
         );
-    // _scrollController = ScrollController()..addListener(_onScroll);
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
+    await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
@@ -76,7 +80,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () => {
-          Navigator.pushNamed(context, materialMovementInwardOutwardDetailsRoute,
+          Navigator.pushNamed(
+              context, materialMovementInwardOutwardDetailsRoute,
               arguments: {
                 "isInward": widget.isInward,
                 "isCreate": true,
@@ -145,106 +150,112 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                 ],
 
                 Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: state.hasReachedMax
-                        ? state.items.length
-                        : state.items.length + 1,
-                    itemBuilder: (context, index) {
-                      List<Label> labels = [];
-                      if (index < state.items.length) {
-                        labels.add(Label(
-                            key: 'Date',
-                            value: state.items[index].inputDate != null
-                                ? Utils.timestamptoDateConversion(
-                                    int.parse(
-                                        state.items[index].inputDate ?? '0'),
-                                    Constants.dateFormat)
-                                : ''));
-                        labels.add(Label(
-                            key: 'Region',
-                            value:
-                                state.items[index].locationRegion?.name ?? ''));
-                        labels.add(Label(
-                            key: 'Location',
-                            value: state.items[index].location?.name ?? ''));
-                        labels.add(Label(
-                            key: 'Material Movement Type ',
-                            value: state.items[index].returnable == true
-                                ? 'Returnable'
-                                : 'Not Returnable'));
+                  child: SmartRefresher(
+                    controller: refreshController,
+                    enablePullDown: true,
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1,
+                      itemBuilder: (context, index) {
+                        List<Label> labels = [];
+                        if (index < state.items.length) {
+                          labels.add(Label(
+                              key: 'Date',
+                              value: state.items[index].inputDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                      int.parse(
+                                          state.items[index].inputDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''));
+                          labels.add(Label(
+                              key: 'Region',
+                              value: state.items[index].locationRegion?.name ??
+                                  ''));
+                          labels.add(Label(
+                              key: 'Location',
+                              value: state.items[index].location?.name ?? ''));
+                          labels.add(Label(
+                              key: 'Material Movement Type ',
+                              value: state.items[index].returnable == true
+                                  ? 'Returnable'
+                                  : 'Not Returnable'));
 
-                        return index >= state.items.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.items[index].id,
-                                labels: labels,
-                                status: state.items[index].status,
-                                isMasterGuard: false,
-                                isMaterialMovementStatus: true,
-                                isEventProtectionStatus: false,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        labels: labels,
-                                        quantity: state
-                                            .items[selectedIndex].quantity
-                                            .toString(),
-                                        challanNo: state
-                                            .items[selectedIndex].challanNo,
-                                        slNo: state.items[selectedIndex].slNo,
-                                        status:
-                                            state.items[selectedIndex].status,
-                                        entrySecurityName: state
-                                            .items[selectedIndex]
-                                            .entrySecurityName,
-                                        isMasterGuard: false,
-                                        isMaterialMovementStatus: true,
-                                        isEventProtectionStatus: false,
-                                      );
-                                    },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getById(state.items[index].id ?? 0);
-                                },
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        labels: labels,
-                                        quantity: state
-                                            .items[selectedIndex].quantity
-                                            .toString(),
-                                        challanNo: state
-                                            .items[selectedIndex].challanNo,
-                                        slNo: state.items[selectedIndex].slNo,
-                                        status:
-                                            state.items[selectedIndex].status,
-                                        entrySecurityName: state
-                                            .items[selectedIndex]
-                                            .entrySecurityName,
-                                        isMasterGuard: false,
-                                        isMaterialMovementStatus: true,
-                                        isEventProtectionStatus: false,
-                                      );
-                                    },
-                                  );
-                                },
-                                index: index,
-                              );
-                      }
-                      return const Center(
-                        child: SizedBox(),
-                      );
-                    },
+                          return index >= state.items.length
+                              ? const BaseLoader()
+                              : BaseListTileItem(
+                                  id: state.items[index].id,
+                                  labels: labels,
+                                  status: state.items[index].status,
+                                  isMasterGuard: false,
+                                  isMaterialMovementStatus: true,
+                                  isEventProtectionStatus: false,
+                                  onTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          quantity: state
+                                              .items[selectedIndex].quantity
+                                              .toString(),
+                                          challanNo: state
+                                              .items[selectedIndex].challanNo,
+                                          slNo: state.items[selectedIndex].slNo,
+                                          status:
+                                              state.items[selectedIndex].status,
+                                          entrySecurityName: state
+                                              .items[selectedIndex]
+                                              .entrySecurityName,
+                                          isMasterGuard: false,
+                                          isMaterialMovementStatus: true,
+                                          isEventProtectionStatus: false,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  onEditTap: (selectedIndex) {
+                                    getById(state.items[index].id ?? 0);
+                                  },
+                                  onViewTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          quantity: state
+                                              .items[selectedIndex].quantity
+                                              .toString(),
+                                          challanNo: state
+                                              .items[selectedIndex].challanNo,
+                                          slNo: state.items[selectedIndex].slNo,
+                                          status:
+                                              state.items[selectedIndex].status,
+                                          entrySecurityName: state
+                                              .items[selectedIndex]
+                                              .entrySecurityName,
+                                          isMasterGuard: false,
+                                          isMaterialMovementStatus: true,
+                                          isEventProtectionStatus: false,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  index: index,
+                                );
+                        }
+                        return const Center(
+                          child: SizedBox(),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],

@@ -26,83 +26,86 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: 30,
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                suffixIcon: InkWell(
-                  onTap: () {
-                    FilterCriteria filterCriteriaModel = FilterCriteria();
-                    filterCriteriaModel.all = searchController.text;
-                    widget.applySearchFilters(filterCriteriaModel);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: AppColors.navigationSkybluecolor),
-                      borderRadius: BorderRadius.circular(5),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 30,
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      FilterCriteria filterCriteriaModel = FilterCriteria();
+                      filterCriteriaModel.all = searchController.text;
+                      widget.applySearchFilters(filterCriteriaModel);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.navigationSkybluecolor),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: const Icon(
+                        Icons.search,
+                        color: AppColors.navigationSkybluecolor,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.search,
+                  ),
+                  contentPadding: const EdgeInsets.all(5),
+                  hintText: 'Search...',
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
                       color: AppColors.navigationSkybluecolor,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  disabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.navigationSkybluecolor,
+                      width: 1,
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.navigationSkybluecolor,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.navigationSkybluecolor,
+                      width: 1,
                     ),
                   ),
                 ),
-                contentPadding: const EdgeInsets.all(5),
-                hintText: 'Search...',
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.navigationSkybluecolor,
-                    style: BorderStyle.solid,
-                  ),
-                ),
-                disabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.navigationSkybluecolor,
-                    width: 1,
-                  ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.navigationSkybluecolor,
-                    width: 1,
-                  ),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.navigationSkybluecolor,
-                    width: 1,
-                  ),
-                ),
+                onChanged: (value) {
+                  // Implement search logic here
+                },
               ),
-              onChanged: (value) {
-                // Implement search logic here
-              },
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        // Problem: clear the value in searchController when ShowFiltersWidget is tapped
-        // ShowFiltersWidget(
-        //   context: context,
-        //   locations: Locations(),
-        //   applyFilters: widget.applyFilters,
-        // ),
-        ShowFiltersWidget(
-          context: context,
-          locations: Locations(),
-          applyFilters: widget.applyFilters,
-          statuses: widget.statuses,
-          regions: widget.regions,
-          clearSearchController: () {
-            searchController.clear();
-          },
-        ),
-      ],
+          const SizedBox(width: 8),
+          // Problem: clear the value in searchController when ShowFiltersWidget is tapped
+          // ShowFiltersWidget(
+          //   context: context,
+          //   locations: Locations(),
+          //   applyFilters: widget.applyFilters,
+          // ),
+          ShowFiltersWidget(
+            context: context,
+            locations: Locations(),
+            applyFilters: widget.applyFilters,
+            statuses: widget.statuses,
+            regions: widget.regions,
+            clearSearchController: () {
+              searchController.clear();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

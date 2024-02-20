@@ -15,11 +15,15 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
+    on<InitializeValuesMM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
-    on<InitializeValuesMM>(_initializeValues);
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final MaterialMovementServices services = MaterialMovementServices();
@@ -49,6 +53,30 @@ class MaterialMovementBloc
           locations: locations,
           regions: regions,
           statuses: statuses,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<MaterialMovementState> emit) async {
+    try {
+      MaterialMovementsModel response;
+
+      response = await services.getMaterialMovementsWithFilters(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        mmType: isInward ? 1 : 0,
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
           hasReachedMax: false,
           status: FormStatus.success,
         ),
@@ -98,12 +126,6 @@ class MaterialMovementBloc
 
       log('-_fetchMaterialMovements------##--');
       MaterialMovementsModel response;
-      // response = await services.getMaterialMovements(
-      //   startPosition: '${event.startPos}',
-      //   maximumRecords: '${event.maxPos}',
-      //   mmType: isInward ? 1 : 0,
-      // );
-
       response = await services.getMaterialMovementsWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
@@ -118,6 +140,7 @@ class MaterialMovementBloc
         state.copyWith(
           items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on TokenExpiredException catch (e) {

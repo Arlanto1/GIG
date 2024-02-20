@@ -19,3 +19,7 @@ class FetchData extends MaterialMovementEvent {
 class InitializeValuesMM extends MaterialMovementEvent {
   const InitializeValuesMM();
 }
+
+class RefreshList extends MaterialMovementEvent {
+  const RefreshList();
+}
