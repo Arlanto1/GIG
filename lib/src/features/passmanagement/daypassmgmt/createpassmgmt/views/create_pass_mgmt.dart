@@ -1286,6 +1286,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   // datepickerWidgetLoading(
                                   //     passvalidfromTextController),
                                   BaseDate().datePickerWidgetLoading(
+                                    isDisabled: widget.model?.status ==0 ||widget.model?.status ==null ? false:true,
                                     showFutureDate: false,
                                     textController: passvalidfromTextController,
                                     onlyDate: false,
