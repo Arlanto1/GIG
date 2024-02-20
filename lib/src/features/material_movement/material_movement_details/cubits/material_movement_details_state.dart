@@ -83,10 +83,6 @@ class MaterialMovementDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Challan No');
     // }
-    if (model.quantity == null && model.status != 0) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Quantity');
-    }
 
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
@@ -101,7 +97,9 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Received by Employee Id');
       }
 
-      if (model.materialFromAddress.isEmptyOrNull && model.status != 0) {
+      if (model.materialFromAddress.isEmptyOrNull &&
+          model.status != 0 &&
+          model.status != null) {
         return const ErrorResponse(
             status: false,
             message: 'Please enter Material coming from (Brief address)');
@@ -127,18 +125,67 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Received For');
       }
     }
-    if (model.unit == null && model.status != 0) {
-      return const ErrorResponse(status: false, message: 'Please enter Unit');
-    }
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
           status: false,
           message: 'Please Select Material Physically Checked as true');
     }
 
-    if (model.materialDescription.isEmptyOrNull && model.status != 0) {
+    if (model.materialDescription.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Material Description');
+          status: false, message: 'Please enter Material Brief Description');
+    }
+    if (model.quantity == null && model.status != 0 && model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Quantity');
+    }
+    if (model.unit == null && model.status != 0) {
+      return const ErrorResponse(status: false, message: 'Please enter Unit');
+    }
+
+    if (model.modelInfo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Equipment No/Identification');
+    }
+    if (model.modelInfo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Equipment No/Identification');
+    }
+    if (model.address.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sent to Address');
+    }
+    if (model.requestorDepartment != null &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Requester Department');
+    }
+    if (model.sentTo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sent To(Name)');
+    }
+    if (model.purpose.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Purpose');
+    }
+    if (model.preparedByDepartment != null &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Prepared By Department');
     }
     if (model.returnable == true &&
         model.rejectionComment == null &&

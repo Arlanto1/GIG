@@ -695,7 +695,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Address
+                            /// Sent to Address
                             CommonWidgets.textDisplay(
                               state.labels?.locale.address ??
                                   state.labels?.defaultLocale.address ??
