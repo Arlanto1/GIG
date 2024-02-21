@@ -84,6 +84,11 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
     }
+    PowerFailure powerFailure = PowerFailure();
+    if (powerFailure.powerFailureEndDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Follow up actions for next shift');
+    }
 
     if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
       return const ErrorResponse(
