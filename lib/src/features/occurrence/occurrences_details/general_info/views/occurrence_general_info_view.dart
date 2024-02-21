@@ -1264,7 +1264,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       return AddDatePopUp(
                                         mainContext: context,
                                         onSubmit: (PowerFailure powerFailure) {
-                                          log('----powerFailure----${powerFailure.powerFailureStartDate}----');
+                                          // log('----powerFailure----${powerFailure.powerFailureStartDate}----');
                                           if (state.model.powerFailures
                                               .isEmptyOrNull) {
                                             state.model.powerFailures = [];
