@@ -21,6 +21,7 @@ enum CreatePassMgmtStateType {
   initial,
   loading,
   success,
+  successFormSubmit,
   failure,
   addattachment,
   photoattachment
@@ -31,7 +32,7 @@ class CreatePassMgmtState extends Equatable {
   AddEntities? getEntitiesResponse;
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
-  String? errorMessage;
+  String? message;
   Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? selectedEntities;
@@ -78,7 +79,7 @@ class CreatePassMgmtState extends Equatable {
     this.eventId,
     this.passTypes,
     required this.stateType,
-    this.errorMessage,
+    this.message,
     this.getLocationsResponse,
     this.getSerialnumberResponse,
     this.selectedEntities,
@@ -124,7 +125,7 @@ class CreatePassMgmtState extends Equatable {
     AddEntities? getEntitiesResponse,
     final int? eventId,
     CreatePassMgmtStateType? stateType,
-    String? errorMessage,
+    String? message,
     Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? selectedEntities,
@@ -170,7 +171,7 @@ class CreatePassMgmtState extends Equatable {
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
       stateType: stateType ?? this.stateType,
-      errorMessage: errorMessage ?? this.errorMessage,
+      message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
           getSerialnumberResponse ?? this.getSerialnumberResponse,
@@ -228,7 +229,7 @@ class CreatePassMgmtState extends Equatable {
         getEntitiesResponse,
         eventId,
         stateType,
-        errorMessage,
+        message,
         getLocationsResponse,
         getSerialnumberResponse,
         selectedEntities,

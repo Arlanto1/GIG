@@ -675,10 +675,10 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 8:
-        statusText = 'Returned Damaged';
+        statusText = 'Returned/Damaged';
         break;
       case 9:
-        statusText = 'Returned Defaced';
+        statusText = 'Returned/Defaced';
         break;
       case -1:
         statusText = 'Record Cancelled';

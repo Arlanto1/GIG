@@ -54,7 +54,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -82,7 +82,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -100,7 +100,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -118,7 +118,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -136,7 +136,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -164,7 +164,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       dismissLoadingDialog(context);
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -193,7 +193,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -220,7 +220,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -259,7 +259,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -288,7 +288,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -310,7 +310,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -335,7 +335,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -343,7 +343,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   getpassListResponseData(Organisation org) async {
-
     log('-org---${org.name}--');
 
     try {
@@ -356,7 +355,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -385,7 +384,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -422,7 +421,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -447,7 +446,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -465,7 +464,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -489,7 +488,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -508,7 +507,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -532,7 +531,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -550,7 +549,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -568,7 +567,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -588,7 +587,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -609,7 +608,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -659,7 +658,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -717,7 +716,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -737,7 +736,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -755,7 +754,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -773,7 +772,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -806,7 +805,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -825,7 +824,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -844,20 +843,30 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           createpassFoundresponse: response,
-          stateType: CreatePassMgmtStateType.success,
+          stateType: CreatePassMgmtStateType.successFormSubmit,
+          message: response.message ?? '',
         ),
       );
-
-      if (response.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(context, response.message ?? '', title, '');
-        });
-      }
-    } catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: e.message,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+    catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -883,7 +892,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
