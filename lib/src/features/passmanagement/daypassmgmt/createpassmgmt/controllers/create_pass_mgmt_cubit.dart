@@ -206,10 +206,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get locations api call
-  Future<void> getLocations(String locationsStr, int? filter, BuildContext context) async {
+  Future<void> getLocations(
+      String locationsStr, int? filter, BuildContext context) async {
     try {
-      Locations getLocationsData =
-          await commonServices.getRegionsWithLocations(name: locationsStr, filter: filter);
+      Locations getLocationsData = await commonServices.getRegionsWithLocations(
+          name: locationsStr, filter: filter);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -252,6 +253,35 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getSerialnumberResponse: serialNumberResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  Future<void> getPassTypes({
+    required int locationId,
+    required int passId,
+  }) async {
+    emit(
+      state.copyWith(
+        stateType: CreatePassMgmtStateType.loading,
+      ),
+    );
+    try {
+      List<String> passTypes = await createpassmgmtServices.getPassTypes(
+          passId: passId, locationId: locationId);
+
+      emit(
+        state.copyWith(
+          passTypes: passTypes,
           stateType: CreatePassMgmtStateType.success,
         ),
       );

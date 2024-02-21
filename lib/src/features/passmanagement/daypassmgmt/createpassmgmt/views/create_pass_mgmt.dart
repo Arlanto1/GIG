@@ -132,7 +132,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if (state.stateType == CreatePassMgmtStateType.photoattachment) {
             photogetFiles = state.photoAttachments ?? [];
           }
-         initiallyLocationAndSerialNumberDataset(state);
+          initiallyLocationAndSerialNumberDataset(state);
           // if (widget.listuser != null) {
           //   if (state.groups != null) {
 
@@ -413,7 +413,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.model?.status == 0 ||
                                         widget.model?.status == null ||
                                         widget.model?.status != 1) {
-                                      passTypeDialog();
+                                      passTypeDialog(state);
                                     }
                                   },
                                   child: FlutterInputField(
@@ -436,7 +436,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         if (widget.model?.status == 0 ||
                                             widget.model?.status == null ||
                                             widget.model?.status != 1) {
-                                          passTypeDialog();
+                                          passTypeDialog(state);
                                         }
                                       },
                                       validateTextField: (String? user) {},
@@ -450,7 +450,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             if (widget.model?.status == 0 ||
                                                 widget.model?.status == null ||
                                                 widget.model?.status != 1) {
-                                              passTypeDialog();
+                                              passTypeDialog(state);
                                             }
                                           })),
                                 ),
@@ -1627,17 +1627,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation location = widget.passId !='3' ?Organisation(id: 323, name: "SunGard") : Organisation(id: 26, name: "MTP");
+      Organisation location = widget.passId != '3'
+          ? Organisation(id: 323, name: "SunGard")
+          : Organisation(id: 26, name: "MTP");
       createPassMgmtCubit.getlocationsResponseData(location);
-      widget.passId !='3' ? await createPassMgmtCubit.getSerialnumberDetails(
-        '323',
-        widget.passId ?? '',
-        context,
-      ): await createPassMgmtCubit.getSerialnumberDetails(
-    '26',
-    widget.passId ?? '',
-    context,
-    );
+      widget.passId != '3'
+          ? await createPassMgmtCubit.getSerialnumberDetails(
+              '323',
+              widget.passId ?? '',
+              context,
+            )
+          : await createPassMgmtCubit.getSerialnumberDetails(
+              '26',
+              widget.passId ?? '',
+              context,
+            );
       await createPassMgmtCubit.getPassNumber(
         widget.passId ?? '',
         '323',
@@ -1962,27 +1966,31 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  passTypeDialog() {
+  passTypeDialog(CreatePassMgmtState state) {
+
+    log('--state.pastype-${state.passTypes.toString()}------');
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: widget.passId == "1" &&
-                    (widget.model?.status == 0 || widget.model?.status == null)
-                ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                : widget.passId == "2"
-                    ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                    : widget.passId == "0" &&
-                            (widget.model?.status == 0 ||
-                                widget.model?.status == null)
-                        ? ["DAY_PASS"]
-                        : widget.passId == "0"
-                            ? ["DAY_PASS", "DWS_DAY_PASS"]
-                            : widget.passId == "3" &&
-                                    (widget.model?.status == 0 ||
-                                        widget.model?.status == null)
-                                ? ["SEZ_PASS"]
-                                : ["SEZ_PASS", "DWS_SEZ_PASS"],
+            texts: state.passTypes,
+            // texts: widget.passId == "1" &&
+            //     (widget.model?.status == 0 || widget.model?.status == null)
+            //     ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
+            //     : widget.passId == "2"
+            //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+            //     : widget.passId == "0" &&
+            //     (widget.model?.status == 0 ||
+            //         widget.model?.status == null)
+            //     ? ["DAY_PASS"]
+            //     : widget.passId == "0"
+            //     ? ["DAY_PASS", "DWS_DAY_PASS"]
+            //     : widget.passId == "3" &&
+            //     (widget.model?.status == 0 ||
+            //         widget.model?.status == null)
+            //     ? ["SEZ_PASS"]
+            //     : ["SEZ_PASS", "DWS_SEZ_PASS"],
             onTap: (String value) {
               log(value);
               passtypeTextController.text = value;
@@ -2765,8 +2773,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     widget.passId ?? '',
                     context,
                   );
+                  await  BlocProvider.of<CreatePassMgmtCubit>(context).getPassTypes(
+                      locationId: org!.id!,
+                      passId: int.tryParse(widget.passId!)!);
 
-                  createPassMgmtCubit.getPassNumber(
+                  await createPassMgmtCubit.getPassNumber(
                       widget.passId ?? '0', org?.id.toString() ?? '', context);
                   createPassMgmtCubit.getlocationsResponseData(org);
                   daypassnoTextController.text = '';

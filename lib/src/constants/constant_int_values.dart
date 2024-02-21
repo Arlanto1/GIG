@@ -10,6 +10,9 @@ class ConstantsIntValue {
   static const int passCategoryTemporary = 1;
 
 
+  static const int passIdDayPass = 0;
+  static const int passIdVisitor = 1;
+  static const int passIdVendor = 2;
   static const int passIdSez = 3;
 
 

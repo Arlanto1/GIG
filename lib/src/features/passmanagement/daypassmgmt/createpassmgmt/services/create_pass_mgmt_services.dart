@@ -1,5 +1,6 @@
-import 'package:db_atom/index.dart';
+import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -10,6 +11,7 @@ class Apis {
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _createUser = '$baseUrl/createUser?';
   static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
+  static final String _getPassTypes = '$baseUrl/getPassType?';
 }
 
 class CreatePassMgmtService {
@@ -83,5 +85,17 @@ class CreatePassMgmtService {
       url: url,
     );
     return response['date'];
+  }
+
+  Future<List<String>> getPassTypes({
+    required int passId,
+    required int locationId,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getPassTypes}passType=$passId&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<String>.from(response);
   }
 }

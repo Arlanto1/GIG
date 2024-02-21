@@ -65,6 +65,7 @@ class CreatePassMgmtState extends Equatable {
   int? escortedbyhost;
   int? exceptionalApproval;
   String? passValidUntilDate = '';
+  List<String>? passTypes;
 
   CreateUserModel? createUserResponse;
   User? hostResponse;
@@ -75,6 +76,7 @@ class CreatePassMgmtState extends Equatable {
   CreatePassMgmtState({
     this.getEntitiesResponse,
     this.eventId,
+    this.passTypes,
     required this.stateType,
     this.errorMessage,
     this.getLocationsResponse,
@@ -131,6 +133,7 @@ class CreatePassMgmtState extends Equatable {
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
+    List<String>? passTypes,
     bool? showIdentifiedFields,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedEmployeeDepartment,
@@ -173,6 +176,7 @@ class CreatePassMgmtState extends Equatable {
           getSerialnumberResponse ?? this.getSerialnumberResponse,
       selectedEntities: selectedEntities ?? this.selectedEntities,
       location: location ?? this.location,
+      passTypes: passTypes ?? this.passTypes,
       locationRegion: locationRegion ?? this.locationRegion,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
