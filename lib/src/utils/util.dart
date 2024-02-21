@@ -139,6 +139,7 @@ class Utils {
     }
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
+      'dd/MM/yyyy hh:mm:ss a',
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
     ];

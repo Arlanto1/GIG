@@ -142,33 +142,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         widget.onSubmit(powerFailure);
         Navigator.pop(context);
       },
-      // onTap: () {
-      //   PowerFailure powerFailure = PowerFailure();
-      //
-      //
-      //   String powerFailureStartDate = powerFailureStartDateController.text;
-      //   String powerFailureEndDate = powerFailureEndDateController.text;
-      //
-      //   powerFailure.powerFailureStartDate = powerFailureStartDate;
-      //   powerFailure.powerFailureEndDate = powerFailureEndDate;
-      //
-      //
-      //   if (powerFailureStartDate.isNotEmpty) {
-      //     // Create a PowerFailures object from the text field value
-      //     powerFailure =
-      //         PowerFailure(powerFailureStartDate: powerFailureStartDate);
-      //
-      //     BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
-      //         .onAddPowerFailureDate(powerFailure);
-      //     Navigator.pop(context);
-      //   } else if (powerFailureEndDate.isNotEmpty) {
-      //     PowerFailure powerFailure =
-      //         PowerFailure(powerFailureEndDate: powerFailureEndDate);
-      //     BlocProvider.of<OccurrenceGeneralInfoCubit>(widget.mainContext)
-      //         .onAddPowerFailureDate(powerFailure);
-      //     Navigator.pop(context);
-      //   }
-      // },
     );
   }
 }
