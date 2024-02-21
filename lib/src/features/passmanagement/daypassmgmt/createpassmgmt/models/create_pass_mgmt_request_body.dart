@@ -78,6 +78,7 @@ class PassManagement {
   Organisation? visitingDepartment;
   String? startTime;
   User? entrySecurity;
+  User? employee;
   User? handoverSecurity;
   String? returnedTime;
 
@@ -127,6 +128,7 @@ class PassManagement {
     this.startTime,
     this.updatedStatus,
     this.entrySecurity,
+    this.employee,
     this.handoverSecurity,
     this.returnedTime,
   });
@@ -206,6 +208,9 @@ class PassManagement {
         entrySecurity: json["entrySecurity"] == null
             ? null
             : User.fromJson(json["entrySecurity"]),
+
+        employee:
+            json["employee"] == null ? null : User.fromJson(json["employee"]),
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : User.fromJson(json["handoverSecurity"]),
@@ -267,6 +272,7 @@ class PassManagement {
         "startTime": startTime,
         "updatedStatus": updatedStatus,
         "entrySecurity": entrySecurity?.toJson(),
+        "employee": employee?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
         "returnedTime": returnedTime,
       };

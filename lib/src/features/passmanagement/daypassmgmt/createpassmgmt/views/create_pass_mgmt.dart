@@ -560,8 +560,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
-                                if (widget.passId == '0' ||
-                                    widget.passId == "3") ...[
+                                if (widget.passId ==
+                                        ConstantsIntValue.passIdDayPass
+                                            .toString() ||
+                                    widget.passId ==
+                                        ConstantsIntValue.passIdSez
+                                            .toString()) ...[
                                   FlutterInputField(
                                     controller: companyNameTextController,
                                     textInputType: TextInputType.text,
@@ -582,7 +586,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ],
 
                                 /// Vendor Company Name
-                                if (widget.passId == "2") ...[
+                                if (widget.passId ==
+                                    ConstantsIntValue.passIdVendor
+                                        .toString()) ...[
                                   CommonWidgets.textDisplay(
                                       Constants.companyname,
                                       isMandatory: true,
@@ -598,22 +604,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ],
 
                                 /// Name
-                                widget.passId == "3"
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.name,
-                                        isMandatory: true,
-                                        Styles.textStyleBlack14)
-                                    : Container(),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                widget.passId == "3"
-                                    ? textFieldWidgetLoad(
-                                        controller: nameTextController,
-                                        index: 0,
-                                        state: state)
-                                    : Container(),
+                                if (widget.passId ==
+                                    ConstantsIntValue.passIdSez.toString()) ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.name,
+                                      isMandatory: true,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textFieldWidgetLoad(
+                                      controller: nameTextController,
+                                      index: 0,
+                                      state: state),
+                                ],
 
-                                ///Contact No / Email
+                                /// Contact No / Email
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                                 CommonWidgets.textDisplay(
@@ -633,7 +638,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 'fte' ||
                                             (state.selectedCompanyType?.name ==
                                                 null)
-                                        ? nameaddButtonwidgetLoading(state)
+                                        ? nameAddButtonWidgetLoading(state)
                                         : textFieldWidgetLoad(
                                             controller: nameTextController,
                                             index: 0,
@@ -1967,7 +1972,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   passTypeDialog(CreatePassMgmtState state) {
-
     log('--state.pastype-${state.passTypes.toString()}------');
 
     showDialog(
@@ -2544,7 +2548,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  Widget nameaddButtonwidgetLoading(CreatePassMgmtState state) {
+  Widget nameAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
@@ -2773,9 +2777,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     widget.passId ?? '',
                     context,
                   );
-                  await  BlocProvider.of<CreatePassMgmtCubit>(context).getPassTypes(
-                      locationId: org!.id!,
-                      passId: int.tryParse(widget.passId!)!);
+                  await BlocProvider.of<CreatePassMgmtCubit>(context)
+                      .getPassTypes(
+                          locationId: org!.id!,
+                          passId: int.tryParse(widget.passId!)!);
 
                   await createPassMgmtCubit.getPassNumber(
                       widget.passId ?? '0', org?.id.toString() ?? '', context);
@@ -3095,11 +3100,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       endTime = Utils().formatTime(passValidUntilTextController.text);
     }
     //Organisation? dayPass = widget.model?.dayPassReason;
-    PassManagement? passmgmtbody;
+    PassManagement? passMgmtBody;
     log('--pass info id--${passInfo.id}---');
     if (widget.model != null) {
       log('--passinfo type--${passInfo.passType}--------');
-      passmgmtbody = PassManagement(
+      passMgmtBody = PassManagement(
         id: isFoundId,
         updatedStatus: (statusTextController.text.toLowerCase() == "created" ||
                 statusTextController.text.toLowerCase() == "handed over")
@@ -3115,6 +3120,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
         employeeId: employeeidTextController.text,
+        employee: User(
+          userId: state.nameResponse?.id,
+          name: state.nameResponse?.name,
+          email: state.nameResponse?.email,
+        ),
         passType: passInfo.passType,
         //int.parse(widget.passId ?? '0'),
         passNo: widget.passId == '3'
@@ -3164,7 +3174,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else {
       log('--passinfo type--333----${passInfo.passType}--------');
-      passmgmtbody = PassManagement(
+      passMgmtBody = PassManagement(
           // id: isFoundId ?? 0,
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
@@ -3176,6 +3186,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
           employeeId: employeeidTextController.text,
+          employee: User(
+            userId: state.nameResponse?.id,
+            name: state.nameResponse?.name,
+            email: state.nameResponse?.email,
+          ),
           passType: passInfo.passType,
           //0,
           passNo: widget.passId == '3'
@@ -3218,7 +3233,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     showLoadingDialog(context);
     var username = await SharedPrefs.getUsername();
-    CreatePassMgmtBody body = CreatePassMgmtBody(passManagement: passmgmtbody);
+    CreatePassMgmtBody body = CreatePassMgmtBody(passManagement: passMgmtBody);
     createPassMgmtCubit.createPass(body, isSubmit, context, username,
         widget.model != null ? widget.title ?? '' : widget.title ?? '');
     String userid = await SharedPrefs.getUserId();

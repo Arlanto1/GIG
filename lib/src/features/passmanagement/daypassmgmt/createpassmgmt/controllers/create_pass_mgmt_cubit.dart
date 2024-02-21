@@ -125,11 +125,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getNameUsersResponseData(BaseUser? userresponsedata) async {
+  getNameUsersResponseData(BaseUser? baseUser) async {
     try {
       emit(
         state.copyWith(
-          nameResponse: userresponsedata,
+          nameResponse: baseUser,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
