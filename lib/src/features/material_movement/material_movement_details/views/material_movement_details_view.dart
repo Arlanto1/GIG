@@ -72,7 +72,7 @@ class _MaterialMovementDetailsViewState
     super.dispose();
   }
 
-  bool showSaveButtons = false;
+  bool showSaveSubmitButtons = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,20 +136,19 @@ class _MaterialMovementDetailsViewState
           isReadOnly = state.isReadOnly ?? false;
         }
 
-        showSaveButtons = state.model.status == 0 ||
+        showSaveSubmitButtons = state.model.status == 0 ||
             state.model.status == 8 ||
             // state.model.status == 1 ||
             state.model.status == 6 ||
             state.model.status == 7 ||
             state.model.status == 9 ||
-            state.model.status == null ||
-            !isReadOnly;
+            state.model.status == null;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveButtons,
+            showSaveButton: showSaveSubmitButtons,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -160,7 +159,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showSubmitButton: showSaveButtons,
+            showSubmitButton: showSaveSubmitButtons,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -2499,7 +2498,7 @@ class _MaterialMovementDetailsViewState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
-                            if (showSaveButtons) ...[
+                            if (showSaveSubmitButtons) ...[
                               submitButtonDisplay(state)
                             ],
                           ],

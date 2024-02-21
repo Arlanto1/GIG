@@ -132,7 +132,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if (state.stateType == CreatePassMgmtStateType.photoattachment) {
             photogetFiles = state.photoAttachments ?? [];
           }
-          initiallyLocationAndSerialNumberDataset(state);
+         initiallyLocationAndSerialNumberDataset(state);
           // if (widget.listuser != null) {
           //   if (state.groups != null) {
 
@@ -1627,13 +1627,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation location = Organisation(id: 323, name: "SunGard");
+      Organisation location = widget.passId !='3' ?Organisation(id: 323, name: "SunGard") : Organisation(id: 26, name: "MTP");
       createPassMgmtCubit.getlocationsResponseData(location);
-      await createPassMgmtCubit.getSerialnumberDetails(
+      widget.passId !='3' ? await createPassMgmtCubit.getSerialnumberDetails(
         '323',
         widget.passId ?? '',
         context,
-      );
+      ): await createPassMgmtCubit.getSerialnumberDetails(
+    '26',
+    widget.passId ?? '',
+    context,
+    );
       await createPassMgmtCubit.getPassNumber(
         widget.passId ?? '',
         '323',
