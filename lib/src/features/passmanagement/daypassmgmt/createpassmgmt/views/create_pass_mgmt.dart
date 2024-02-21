@@ -3732,15 +3732,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter reason for vendor pass",
       );
-    } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedPassInfo == null)) {
+    } else if (widget.passId == ConstantsIntValue.passIdDayPass) {
       Validator().showToast(
         context,
         "Please enter day pass no",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null)) {
       Validator().showToast(
         context,
         "Please enter Visitor pass no",
