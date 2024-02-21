@@ -34,8 +34,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   void initState() {
     super.initState();
     BlocProvider.of<OccurrenceGeneralInfoCubit>(context).initializeValues();
-    BlocProvider.of<OccurrenceGeneralInfoCubit>(context).isFormReadable();
+    // BlocProvider.of<OccurrenceGeneralInfoCubit>(context).isFormReadable();
   }
+
   bool showSaveSubmitButtons = false;
 
   @override
@@ -80,15 +81,16 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       builder: (context, state) {
         initializeDates();
 
-        if (state.model.status == null||state.model.status == 0) {
+        if (state.model.status == null || state.model.status == 0) {
           isReadOnly = false;
         }
         if (state.model.status == ConstantsIntValue.submitted) {
-          isReadOnly = state.isReadOnly ?? false;
+          isReadOnly = state.isReadOnly ?? true;
         }
 
         showSaveSubmitButtons = state.model.status == 0 ||
-            state.model.status == null || isReadOnly;
+            state.model.status == null ||
+            !isReadOnly;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -137,12 +139,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       return const BaseLoader();
     }
 
-    if (state.status == FormStatus.addAttachment ||
-        state.status == FormStatus.initial) {
-      // log('---getAttachments----builder----${getAttachments?.length}-----');
-      // getFiles = state.loadAttachments ?? [];
-      // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
-    }
+    // if (state.status == FormStatus.addAttachment ||
+    //     state.status == FormStatus.initial) {
+    //   // log('---getAttachments----builder----${getAttachments?.length}-----');
+    //   // getFiles = state.loadAttachments ?? [];
+    //   // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
+    // }
 
     return Container(
         color: AppColors.navigationSkybluecolor,
@@ -159,1326 +161,1377 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
-              child: Form(
-                  key: _formKey,
-                  autovalidateMode: state.model.status == 1
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, right: 20),
-                            child: Column(children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  Constants.generalinformation,
-                                  style: Styles.styleHeaderGreyText16,
+              child: AbsorbPointer(
+                absorbing: isReadOnly,
+                child: Form(
+                    key: _formKey,
+                    autovalidateMode: state.model.status == 1
+                        ? AutovalidateMode.disabled
+                        : AutovalidateMode.onUserInteraction,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.generalinformation,
+                                    style: Styles.styleHeaderGreyText16,
+                                  ),
                                 ),
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                              /// Status
-                              CommonWidgets.textDisplay(
-                                  Constants.status,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDropDown().getDropDown(
-                                isDisabled: true,
-                                textController: statusController,
-                                items: occurrenceStatusDropDownValues,
-                                initialValue: '${state.model.status ??= 0}',
-                                onTap: () {
-                                  if(!disableForm) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues:
-                                      occurrenceStatusDropDownValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            occurrenceStatusDropDownValues
-                                                .firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
-                                              const Label(key: '', value: ''),
-                                            );
-
-                                        BlocProvider.of<
-                                            OccurrenceGeneralInfoCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value));
-                                      },
-                                    );
-                                  }
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Shift Handover By
-                              CommonWidgets.horizentaltextHandling(
-                                  Constants.shiftHandoverBy,
-                                  isMandatory: true,
-                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Shift Taken Over by
-                              CommonWidgets.textDisplay(
-                                Constants.shiftTakenOverBy,
-                                isMandatory: true,
-                                Styles.textStyleBlack14,
-                              ),
-                              TextFieldAddButton(
-                                  title: state.model.handoverSecurity?.name,
-                                  height: 70,
-                                  isDisableColor:
-                                  state.model.status ==1,
+                                /// Status
+                                CommonWidgets.textDisplay(
+                                    Constants.status,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDropDown().getDropDown(
+                                  isDisabled: true,
+                                  textController: statusController,
+                                  items: occurrenceStatusDropDownValues,
+                                  initialValue: '${state.model.status ??= 0}',
                                   onTap: () {
-                                    if (state.model.status != 1) {
-                                      BaseOrganisationDialog().userDialog(
+                                    if (!disableForm) {
+                                      BaseDropDown().assetTypeDialog(
                                         context: context,
-                                        users: state.emailUsers!,
-                                        onTap: (BaseUser user) {
+                                        dropDownValues:
+                                            occurrenceStatusDropDownValues
+                                                .map((label) => label.key)
+                                                .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              occurrenceStatusDropDownValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .updateDropdownValues(
-                                                  shiftTakenOverBy: user);
-                                        },
-                                        functionToCall: () {
-                                          // refresh the list
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .refreshList();
+                                                  status: int.tryParse(
+                                                      selectedLabel.value));
                                         },
                                       );
                                     }
-                                  }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Location
-                              CommonWidgets.textDisplay(
-                                  Constants.location,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              locationWidgetdislay(
-                                  selectedLocation:
-                                      state.model.location?.name ?? '',
-                                  enabled: state.model.id == null ||
-                                      (state.model.location?.name ?? '')
-                                          .isEmpty,
-                                  locations: state.locations,
-                                  onTap: (Organisation? location) async {
-                                    log('location?.name-----${location?.name}');
-
-                                    state.model.location = location;
-
-                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            location: location);
-                                  }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Date of creation
-                              CommonWidgets.textDisplay(
-                                  Constants.dateofcreation,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDate().creationDateDisplay(
-                                  state.model.inputDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
-                                  Constants.slno,
-                                  isMandatory: true,
-                                  state.model.slNo ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              ///Shift Briefing Attended
-                              CommonWidgets.textDisplay(
-                                  Constants.shiftBriefingAttended,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.shiftBrfngAttnded ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.shiftBrfngAttnded = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  shiftBrfngAttnded: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.shiftBrfngAttnded = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  shiftBrfngAttnded: false);
-                                        }),
-
-                              ///premises Round Taken
-                              CommonWidgets.textDisplay(
-                                  Constants.premisesRoundTaken,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.premisesRoundTkn ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.premisesRoundTkn = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  premisesRoundTkn: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.premisesRoundTkn = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  premisesRoundTkn: false);
-                                        }),
-
-                              if (state.model.premisesRoundTkn == true) ...[
-                                /// Premises Round Taken Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.premisesRoundTknComments,
-                                  textFormKey: Keys.premisesRoundTknCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  showBorder: true,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.premisesRoundTknComments =
-                                        value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
                                   },
-                                  validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-                              ],
 
-                              ///Medical Emergency
-                              CommonWidgets.textDisplay(
-                                  Constants.medicalEmergency,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.medicalEmrgncy ? 1 : 0,
-                                  onChangedYes:!showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.medicalEmrgncy = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(medicalEmrgncy: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.medicalEmrgncy = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  medicalEmrgncy: false);
-                                        }),
-                              if (state.model.medicalEmrgncy == true) ...[
-                                /// Medical Emergency Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.medicalEmrgncyComments,
-                                  showBorder: true,
-                                  textFormKey: Keys.emergencyCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.medicalEmrgncyComments = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
+                                /// Shift Handover By
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.shiftHandoverBy,
+                                    isMandatory: true,
+                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-                              ],
 
-                              ///Material Movement
-                              CommonWidgets.textDisplay(
-                                  Constants.materialMovement,
+                                /// Shift Taken Over by
+                                CommonWidgets.textDisplay(
+                                  Constants.shiftTakenOverBy,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.materialMovement ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.materialMovement = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  materialMovement: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.materialMovement = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  materialMovement: false);
-                                        }),
-
-                              ///LEO Visit
-                              CommonWidgets.textDisplay(
-                                  Constants.lEOVisit,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.leoVisit ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.leoVisit = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(leoVisit: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.leoVisit = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(leoVisit: false);
-                                        }),
-
-                              ///Social Engineering Incidents
-                              CommonWidgets.textDisplay(
-                                  Constants.socialEngineeringIncidents,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.socialEnggIncdnt ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.socialEnggIncdnt = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  socialEnggIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.socialEnggIncdnt = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  socialEnggIncdnt: false);
-                                        }),
-
-                              if (state.model.socialEnggIncdnt == true) ...[
-                                /// Medical Emergency Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.socialEnggIncdntComments,
-                                  showBorder: true,
-                                  textFormKey: Keys.socialEnggIncdntCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor:!showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.socialEnggIncdntComments =
-                                        value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
+                                  Styles.textStyleBlack14,
                                 ),
+                                TextFieldAddButton(
+                                    title: state.model.handoverSecurity?.name,
+                                    height: 70,
+                                    isDisableColor: state.model.status == 1,
+                                    onTap: () {
+                                      if (state.model.status != 1) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    shiftTakenOverBy: user);
+                                          },
+                                          functionToCall: () {
+                                            // refresh the list
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .refreshList();
+                                          },
+                                        );
+                                      }
+                                    }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-                              ],
 
-                              ///Found Article Transaction
-                              CommonWidgets.textDisplay(
-                                  Constants.foundArticleTransaction,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
+                                /// Location
+                                CommonWidgets.textDisplay(
+                                    Constants.location,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                locationWidgetdislay(
+                                    selectedLocation:
+                                        state.model.location?.name ?? '',
+                                    enabled: state.model.id == null ||
+                                        (state.model.location?.name ?? '')
+                                            .isEmpty,
+                                    locations: state.locations,
+                                    onTap: (Organisation? location) async {
+                                      log('location?.name-----${location?.name}');
+
+                                      state.model.location = location;
+
+                                      BlocProvider.of<
+                                                  OccurrenceGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              location: location);
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Date of creation
+                                CommonWidgets.textDisplay(
+                                    Constants.dateofcreation,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDate().creationDateDisplay(
+                                    state.model.inputDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Sl No.
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.slno,
+                                    isMandatory: true,
+                                    state.model.slNo ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                ///Shift Briefing Attended
+                                CommonWidgets.textDisplay(
+                                    Constants.shiftBriefingAttended,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.shiftBrfngAttnded ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.shiftBrfngAttnded =
+                                                true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    shiftBrfngAttnded: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.shiftBrfngAttnded =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    shiftBrfngAttnded: false);
+                                          }),
+
+                                /// Premises Round Taken
+                                CommonWidgets.textDisplay(
+                                    Constants.premisesRoundTaken,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.premisesRoundTkn ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.premisesRoundTkn = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    premisesRoundTkn: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.premisesRoundTkn =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    premisesRoundTkn: false);
+                                          }),
+
+                                if (state.model.premisesRoundTkn == true) ...[
+                                  /// Premises Round Taken Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.premisesRoundTknComments,
+                                    textFormKey:
+                                        Keys.premisesRoundTknCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    showBorder: true,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.premisesRoundTknComments =
+                                          value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                ///Medical Emergency
+                                CommonWidgets.textDisplay(
+                                    Constants.medicalEmergency,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.medicalEmrgncy ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.medicalEmrgncy = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    medicalEmrgncy: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.medicalEmrgncy = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    medicalEmrgncy: false);
+                                          }),
+                                if (state.model.medicalEmrgncy == true) ...[
+                                  /// Medical Emergency Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.medicalEmrgncyComments,
+                                    showBorder: true,
+                                    textFormKey: Keys.emergencyCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.medicalEmrgncyComments =
+                                          value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                ///Material Movement
+                                CommonWidgets.textDisplay(
+                                    Constants.materialMovement,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.materialMovement ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.materialMovement = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    materialMovement: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.materialMovement =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    materialMovement: false);
+                                          }),
+
+                                /// LEO Visit
+                                CommonWidgets.textDisplay(
+                                    Constants.lEOVisit,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue: state.model.leoVisit ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.leoVisit = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(leoVisit: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.leoVisit = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(leoVisit: false);
+                                          }),
+
+                                /// Social Engineering Incidents
+                                CommonWidgets.textDisplay(
+                                    Constants.socialEngineeringIncidents,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.socialEnggIncdnt ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.socialEnggIncdnt = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    socialEnggIncdnt: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.socialEnggIncdnt =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    socialEnggIncdnt: false);
+                                          }),
+
+                                if (state.model.socialEnggIncdnt == true) ...[
+                                  /// Medical Emergency Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.socialEnggIncdntComments,
+                                    showBorder: true,
+                                    textFormKey:
+                                        Keys.socialEnggIncdntCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.socialEnggIncdntComments =
+                                          value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                /// Found Article Transaction
+                                CommonWidgets.textDisplay(
+                                    Constants.foundArticleTransaction,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.foundArticleTrnsctn ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.foundArticleTrnsctn =
+                                                true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    foundArticleTrnsctn: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.foundArticleTrnsctn =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    foundArticleTrnsctn: false);
+                                          }),
+
+                                /// Process Breach Incident
+                                CommonWidgets.textDisplay(
+                                    Constants.processBreachIncident,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
-                                      state.model.foundArticleTrnsctn ? 1 : 0,
+                                      state.model.processBreachIncdnt ? 1 : 0,
                                   onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                          state.model.foundArticleTrnsctn =
+                                          state.model.processBreachIncdnt =
                                               true;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(
-                                                  foundArticleTrnsctn: true);
+                                                  processBreachIncdnt: true);
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
                                   onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                          state.model.foundArticleTrnsctn =
+                                          state.model.processBreachIncdnt =
                                               false;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(
-                                                  foundArticleTrnsctn: false);
-                                        }),
-
-                              ///Process Breach Incident
-                              CommonWidgets.textDisplay(
-                                  Constants.processBreachIncident,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.processBreachIncdnt ? 1 : 0,
-                                onChangedYes:!showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.processBreachIncdnt = true;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                processBreachIncdnt: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo:!showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.processBreachIncdnt = false;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                processBreachIncdnt: false);
-                                        // .onModelValueChange(state.guardingMasterData
-                                        //  );
-                                      },
-                              ),
-
-                              if (state.model.processBreachIncdnt == true) ...[
-                                CommonWidgets.textDisplay(
-                                    Constants.incidentItemList,
-                                    Styles.textStyleBlack14),
-                                GestureDetector(
-                                  onTap: () => navigateToCreateIncident(
-                                    state: state,
-                                    occType: 1,
-                                    isSSTIncident: false,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      const SizedBox(width: 14),
-                                      SvgPicture.asset(
-                                        AppIcon.pluscircle,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        'Add Incident Item List',
-                                        style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkybluecolor,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                      // if (state.model.incidentItems != null &&
-                                      //     !state.model.incidentItems!.where(
-                                      //         (element) =>
-                                      //             element.incidentType ==
-                                      //             1).isEmptyOrNull) ...[
-                                      CommonWidgets.horizontalSpacerWidget(
-                                          height * 0.01),
-                                      showButtonDisplay(
-                                        occId: state.model.id.toString(),
-                                        occType: 1,
-                                        state: state,
-                                      ),
-                                      // ],
-                                    ],
-                                  ),
-                                ),
-                              ],
-
-                              ///Any Infrastructural Issue
-                              CommonWidgets.textDisplay(
-                                  Constants.anyInfrastructuralIssue,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.infraIssue ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.infraIssue = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(infraIssue: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
+                                                  processBreachIncdnt: false);
+                                          // .onModelValueChange(state.guardingMasterData
+                                          //  );
                                         },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.infraIssue = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(infraIssue: false);
-                                        }),
-
-                              if (state.model.infraIssue == true) ...[
-                                /// Any Infrastructural Issue Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.infraIssueComments,
-                                  textFormKey: Keys.infraIssueCommentsKey,
-                                  showBorder: true,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.infraIssueComments = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
 
-                              ///Any Suspicious Activity
-                              CommonWidgets.textDisplay(
-                                  Constants.anySuspiciousActivity,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.suspiciousActivity ? 1 : 0,
-                                onChangedYes: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.suspiciousActivity = true;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                suspiciousActivity: true);
-                                      },
-                                onChangedNo: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.suspiciousActivity = false;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                suspiciousActivity: false);
-                                      },
-                              ),
+                                if (state.model.processBreachIncdnt ==
+                                    true) ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.incidentItemList,
+                                      Styles.textStyleBlack14),
+                                  GestureDetector(
+                                    onTap: () => navigateToCreateIncident(
+                                      state: state,
+                                      occType: 1,
+                                      isSSTIncident: false,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Incident Item List',
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                        // if (state.model.incidentItems != null &&
+                                        //     !state.model.incidentItems!.where(
+                                        //         (element) =>
+                                        //             element.incidentType ==
+                                        //             1).isEmptyOrNull) ...[
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 1,
+                                          state: state,
+                                        ),
+                                        // ],
+                                      ],
+                                    ),
+                                  ),
+                                ],
 
-                              if (state.model.suspiciousActivity == true) ...[
+                                /// Any Infrastructural Issue
                                 CommonWidgets.textDisplay(
-                                    Constants.incidentItemList,
+                                    Constants.anyInfrastructuralIssue,
+                                    isMandatory: true,
                                     Styles.textStyleBlack14),
-                                GestureDetector(
-                                  onTap: () => navigateToCreateIncident(
-                                    state: state,
-                                    occType: 2,
-                                    isSSTIncident: false,
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      const SizedBox(width: 14),
-                                      SvgPicture.asset(
-                                        AppIcon.pluscircle,
-                                        colorFilter: const ColorFilter.mode(
-                                          AppColors.navigationSkybluecolor,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        'Add Incident Item List',
-                                        style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkybluecolor,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                      // if (state.model.incidentItems != null &&
-                                      //     state.model.incidentItems!
-                                      //         .isNotEmpty) ...[
-                                      CommonWidgets.horizontalSpacerWidget(
-                                          height * 0.01),
-                                      showButtonDisplay(
-                                        occId: state.model.id.toString(),
-                                        occType: 2,
-                                        state: state,
-                                      ),
-                                      // ],
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.infraIssue ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.infraIssue = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(infraIssue: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.infraIssue = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(infraIssue: false);
+                                          }),
 
-                              ///Fire Alarm Emergency Occurred
-                              CommonWidgets.textDisplay(
-                                  Constants.fireAlarmEmergencyOccurred,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
+                                if (state.model.infraIssue == true) ...[
+                                  /// Any Infrastructural Issue Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.infraIssueComments,
+                                    textFormKey: Keys.infraIssueCommentsKey,
+                                    showBorder: true,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.infraIssueComments = value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                /// Any Suspicious Activity
+                                CommonWidgets.textDisplay(
+                                    Constants.anySuspiciousActivity,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
-                                      state.model.fireAlarmEmrgncy ? 1 : 0,
+                                      state.model.suspiciousActivity ? 1 : 0,
                                   onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                          state.model.fireAlarmEmrgncy = true;
+                                          state.model.suspiciousActivity = true;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(
-                                                  fireAlarmEmrgncy: true);
+                                                  suspiciousActivity: true);
                                         },
                                   onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                          state.model.fireAlarmEmrgncy = false;
+                                          state.model.suspiciousActivity =
+                                              false;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(
-                                                  fireAlarmEmrgncy: false);
-                                        }),
-
-                              if (state.model.fireAlarmEmrgncy == true) ...[
-                                /// fire Alarm Emrgncy comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.fireAlarmEmrgncyComments,
-                                  showBorder: true,
-                                  textFormKey: Keys.fireAlarmEmrgncyCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.fireAlarmEmrgncyComments =
-                                        value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-
-                              ///Landlord Issue
-                              CommonWidgets.textDisplay(
-                                  Constants.landlordIssue,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.landlordIssue ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.landlordIssue = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(landlordIssue: true);
+                                                  suspiciousActivity: false);
                                         },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.landlordIssue = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(landlordIssue: false);
-                                        }),
-
-                              if (state.model.landlordIssue == true) ...[
-                                /// fire Alarm Emrgncy comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.landlordIssueComments,
-                                  showBorder: true,
-                                  textFormKey: Keys.landlordIssueCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.landlordIssueComments = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
 
-                              ///Security System Failure Incidents
-                              CommonWidgets.textDisplay(
-                                  Constants.securitySystemFailureIncidents,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.secSysFailureIncdnt ? 1 : 0,
-                                onChangedYes: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.secSysFailureIncdnt = true;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                secSysFailureIncdnt: true);
-                                      },
-                                onChangedNo: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.secSysFailureIncdnt = false;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                secSysFailureIncdnt: false);
-                                      },
-                              ),
-                              if (state.model.secSysFailureIncdnt == true) ...[
-                                CommonWidgets.textDisplay(
-                                    Constants.securitySystemSLAList,
-                                    Styles.textStyleBlack14),
-                                GestureDetector(
-                                  onTap: () {
-                                    openSecuritySystemSLATypePopUp(
-                                        state: state, showListing: false);
-                                  },
-                                  child: Row(
-                                    children: <Widget>[
-                                      const SizedBox(width: 14),
-                                      SvgPicture.asset(
-                                        AppIcon.pluscircle,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        'Add Security System SLA List',
-                                        style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkybluecolor,
-                                          decoration: TextDecoration.underline,
+                                if (state.model.suspiciousActivity == true) ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.incidentItemList,
+                                      Styles.textStyleBlack14),
+                                  GestureDetector(
+                                    onTap: () => navigateToCreateIncident(
+                                      state: state,
+                                      occType: 2,
+                                      isSSTIncident: false,
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                          colorFilter: const ColorFilter.mode(
+                                            AppColors.navigationSkybluecolor,
+                                            BlendMode.srcIn,
+                                          ),
                                         ),
-                                      ),
-                                      if (state.model.secSysFailureIncident !=
-                                          null) ...[
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Incident Item List',
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                        // if (state.model.incidentItems != null &&
+                                        //     state.model.incidentItems!
+                                        //         .isNotEmpty) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
                                         showButtonDisplay(
                                           occId: state.model.id.toString(),
                                           occType: 2,
                                           state: state,
-                                          isSSTIncident: true,
-                                          showPopUp: true,
                                         ),
+                                        // ],
                                       ],
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
 
-                              ///Any System Alarm Received
-                              CommonWidgets.textDisplay(
-                                  Constants.anySystemAlarmReceived,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.sysAlarmRcvd ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.sysAlarmRcvd = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(sysAlarmRcvd: true);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.sysAlarmRcvd = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(sysAlarmRcvd: false);
-                                        }),
-
-                              if (state.model.sysAlarmRcvd == true) ...[
-                                /// Any system alarm received Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.sysAlarmRcvdComments,
-                                  textFormKey: Keys.sysAlarmRcvdCommentsKey,
-                                  showBorder: true,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.sysAlarmRcvdComments = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-
-                              ///Transport Incident
-                              CommonWidgets.textDisplay(
-                                  Constants.transportIncident,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.transportIncdnt ? 1 : 0,
-                                onChangedYes: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.transportIncdnt = true;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(transportIncdnt: true);
-                                      },
-                                onChangedNo: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.transportIncdnt = false;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(transportIncdnt: false);
-                                      },
-                              ),
-
-                              if (state.model.transportIncdnt == true) ...[
-                                /// Transport incident  Comments
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
-                                      state.model.transportIncdntComments,
-                                  textFormKey: Keys.transportIncdntCommentsKey,
-                                  hintText: Constants.informationhere,
-                                  showBorder: true,
-                                  isEnable: showSaveSubmitButtons,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.transportIncdntComments = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-
-                              ///Any Event
-                              CommonWidgets.textDisplay(
-                                  Constants.anyEvent,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue: state.model.anyEvent ? 1 : 0,
-                                onChangedYes: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.anyEvent = true;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(anyEvent: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo: !showSaveSubmitButtons
-                                    ? null
-                                    : (val) {
-                                        state.model.anyEvent = false;
-                                        BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
-                                            .showFields(anyEvent: false);
-                                      },
-                              ),
-
-                              if (state.model.anyEvent == true) ...[
-                                /// Notifi SCRI
-                                CommonWidgets.textDisplay(Constants.notifySCRI,
-                                    Styles.textStyleBlack14),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.notifyScri,
-                                  textFormKey: Keys.notifyScriKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: showSaveSubmitButtons,
-                                  showBorder: true,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
-                                    state.model.notifyScri = value;
-                                    context
-                                        .read<OccurrenceGeneralInfoCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-
-                              /// Power Failure
-                              CommonWidgets.textDisplay(
-                                  Constants.powerFailure,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.powerFailure ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.powerFailure = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(powerFailure: true);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.powerFailure = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(powerFailure: false);
-                                        }),
-
-                              // if (state.model.powerFailure == true) ...[
-                              //   /// Power Failure Start Date
-                              //   CommonWidgets.textDisplay(
-                              //     Constants.powerFailureDate,
-                              //     Styles.textStyleBlack14,
-                              //   ),
-                              //   CommonWidgets.verticalSpacerWidget(
-                              //       height * 0.001),
-                              //
-                              //   BaseDate().datePickerWidgetLoading(
-                              //     onlyDate: false,
-                              //     showFutureDate: false,
-                              //     textController:
-                              //         powerFailureStartDateController,
-                              //     onChange: (String value) {
-                              //       state.model.powerFailureStartDate =
-                              //           Utils().formatTime(value);
-                              //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                              //               context)
-                              //           .onModelValueChange(state.model);
-                              //     },
-                              //     context: context,
-                              //   ),
-                              //   CommonWidgets.verticalSpacerWidget(
-                              //       height * 0.01),
-                              //
-                              //   /// Power Failure End Date
-                              //   CommonWidgets.textDisplay(
-                              //     Constants.powerFailureEndDate,
-                              //     Styles.textStyleBlack14,
-                              //   ),
-                              //   CommonWidgets.verticalSpacerWidget(
-                              //       height * 0.001),
-                              //   //
-                              //   BaseDate().datePickerWidgetLoading(
-                              //     textController: powerFailureEndDateController,
-                              //     onlyDate: false,
-                              //     onChange: (String value) {
-                              //       state.model.powerFailureEndDate =
-                              //           Utils().formatTime(value);
-                              //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                              //               context)
-                              //           .onModelValueChange(state.model);
-                              //     },
-                              //     context: context,
-                              //   ),
-                              //   CommonWidgets.verticalSpacerWidget(
-                              //       height * 0.01),
-                              //
-                              //   ///DG Working
-                              //   CommonWidgets.textDisplay(
-                              //       Constants.dgWrking,
-                              //       isMandatory: true,
-                              //       Styles.textStyleBlack14),
-                              //   RadioButtonsYesNo(
-                              //     status: state.model.status ?? 0,
-                              //     selectedValue: state.model.dgWrking ? 1 : 0,
-                              //     onChangedYes: state.model.status == 6
-                              //         ? null
-                              //         : (val) {
-                              //             state.model.dgWrking = true;
-                              //             BlocProvider.of<
-                              //                         OccurrenceGeneralInfoCubit>(
-                              //                     context)
-                              //                 .showFields(dgWrking: true);
-                              //             //.onModelValueChange(state.guardingMasterData
-                              //             //);
-                              //           },
-                              //     onChangedNo: state.model.status == 4
-                              //         ? null
-                              //         : (val) {
-                              //             state.model.dgWrking = false;
-                              //             BlocProvider.of<
-                              //                         OccurrenceGeneralInfoCubit>(
-                              //                     context)
-                              //                 .showFields(dgWrking: false);
-                              //           },
-                              //   ),
-                              // ],
-
-                              if (state.model.powerFailure == true) ...[
+                                /// Fire Alarm Emergency Occurred
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.csrParticipationDates ??
-                                    //     state.labels?.defaultLocale
-                                    //         .csrParticipationDates ??
-                                    Constants.powerFailuresDate,
+                                    Constants.fireAlarmEmergencyOccurred,
+                                    isMandatory: true,
                                     Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                                GestureDetector(
-                                  onTap: () {
-                                     showSaveSubmitButtons?
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return AddDatePopUp(
-                                            mainContext: context,
-                                            onSubmit:
-                                                (PowerFailure powerFailure) {
-                                              log(
-                                                  '----powerFailure----${powerFailure
-                                                      .powerFailureStartDate}----');
-                                              if (state.model.powerFailures
-                                                  .isEmptyOrNull) {
-                                                state.model.powerFailures = [];
-                                              }
-                                              state.model.powerFailures
-                                                  ?.add(powerFailure);
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.fireAlarmEmrgncy ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.fireAlarmEmrgncy = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    fireAlarmEmrgncy: true);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.fireAlarmEmrgncy =
+                                                false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    fireAlarmEmrgncy: false);
+                                          }),
 
-                                              BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                                  .onCheckBoxChange(
-                                                  state.model);
-                                            },
-                                          );
-                                        },
-                                      ):null;
-                                  },
-                                  child: Row(
-                                    children: <Widget>[
-                                      // Expanded(
-                                      //child:
-                                      const SizedBox(width: 14),
-                                      SvgPicture.asset(
-                                        AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
-                                      ),
-                                      // ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        Constants.addPowerFailuresDates,
-                                        style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkybluecolor,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ],
+                                if (state.model.fireAlarmEmrgncy == true) ...[
+                                  /// fire Alarm Emrgncy comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.fireAlarmEmrgncyComments,
+                                    showBorder: true,
+                                    textFormKey:
+                                        Keys.fireAlarmEmrgncyCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.fireAlarmEmrgncyComments =
+                                          value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
                                   ),
-                                ),
-                              ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              Column(
-                                children: getPowerFailures(state, height),
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
 
-                              /// DG Working
-                              CommonWidgets.textDisplay(
-                                  Constants.dgWrking,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
+                                /// Landlord Issue
+                                CommonWidgets.textDisplay(
+                                    Constants.landlordIssue,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.landlordIssue ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.landlordIssue = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    landlordIssue: true);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.landlordIssue = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    landlordIssue: false);
+                                          }),
+
+                                if (state.model.landlordIssue == true) ...[
+                                  /// fire Alarm Emrgncy comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.landlordIssueComments,
+                                    showBorder: true,
+                                    textFormKey: Keys.landlordIssueCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.landlordIssueComments = value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                ///Security System Failure Incidents
+                                CommonWidgets.textDisplay(
+                                    Constants.securitySystemFailureIncidents,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
-                                  state.model.dgWrking ? 1 : 0,
+                                      state.model.secSysFailureIncdnt ? 1 : 0,
                                   onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                    state.model.dgWrking = true;
-                                    BlocProvider.of<
-                                        OccurrenceGeneralInfoCubit>(
-                                        context)
-                                        .showFields(dgWrking: true);
-                                    //.onModelValueChange(state.guardingMasterData
-                                    //);
-                                  },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                    state.model.dgWrking = false;
-                                    BlocProvider.of<
-                                        OccurrenceGeneralInfoCubit>(
-                                        context)
-                                        .showFields(
-                                        dgWrking: false);
-                                  }),
-
-                              ///ATM Vendor Visit
-                              CommonWidgets.textDisplay(
-                                  Constants.aTMVendorVisit,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.atmVendorVisit ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.atmVendorVisit = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(atmVendorVisit: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.atmVendorVisit = false;
+                                          state.model.secSysFailureIncdnt =
+                                              true;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(
-                                                  atmVendorVisit: false);
-                                        }),
-
-                              ///CWM Visit
-                              CommonWidgets.textDisplay(
-                                  Constants.cWMVisit,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.cwmVisit ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.cwmVisit = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(cwmVisit: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
+                                                  secSysFailureIncdnt: true);
                                         },
                                   onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
-                                          state.model.cwmVisit = false;
+                                          state.model.secSysFailureIncdnt =
+                                              false;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
-                                              .showFields(cwmVisit: false);
-                                        }),
-
-                              /// Follow up actions for next shift
-                              CommonWidgets.textDisplay(
-                                  Constants.followUp,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              FlutterInputField(
-                                lineHeight: 6,
-                                initialValue: state.model.comments,
-                                textFormKey: Keys.commentsKey,
-                                hintText: Constants.informationhere,
-                                showBorder: true,
-                                isEnable: showSaveSubmitButtons,
-                                isDisableColor:!showSaveSubmitButtons,
-                                onChange: (String value) {
-                                  state.model.comments = value;
-                                  context
-                                      .read<OccurrenceGeneralInfoCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              ///Followed Up
-                              CommonWidgets.textDisplay(
-                                  Constants.followedUp,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.followedUp ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.followedUp = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(followedUp: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
+                                              .showFields(
+                                                  secSysFailureIncdnt: false);
                                         },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.followedUp = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(followedUp: false);
-                                        }),
-
-                              /// SubmitButton
-                              if (state.model.status != 4) ...[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    cancelButtonDisplay(state),
-                                    if(showSaveSubmitButtons)...[
-                                    submitButtonDisplay()
-                                    ]
-                                  ],
                                 ),
-                              ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.04),
-                            ]))
-                      ])))
+                                if (state.model.secSysFailureIncdnt ==
+                                    true) ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.securitySystemSLAList,
+                                      Styles.textStyleBlack14),
+                                  GestureDetector(
+                                    onTap: () {
+                                      openSecuritySystemSLATypePopUp(
+                                          state: state, showListing: false);
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Security System SLA List',
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                        if (state.model.secSysFailureIncident !=
+                                            null) ...[
+                                          CommonWidgets.horizontalSpacerWidget(
+                                              height * 0.01),
+                                          showButtonDisplay(
+                                            occId: state.model.id.toString(),
+                                            occType: 2,
+                                            state: state,
+                                            isSSTIncident: true,
+                                            showPopUp: true,
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ),
+                                ],
+
+                                ///Any System Alarm Received
+                                CommonWidgets.textDisplay(
+                                    Constants.anySystemAlarmReceived,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.sysAlarmRcvd ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.sysAlarmRcvd = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(sysAlarmRcvd: true);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.sysAlarmRcvd = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    sysAlarmRcvd: false);
+                                          }),
+
+                                if (state.model.sysAlarmRcvd == true) ...[
+                                  /// Any system alarm received Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.sysAlarmRcvdComments,
+                                    textFormKey: Keys.sysAlarmRcvdCommentsKey,
+                                    showBorder: true,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.sysAlarmRcvdComments = value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                ///Transport Incident
+                                CommonWidgets.textDisplay(
+                                    Constants.transportIncident,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.transportIncdnt ? 1 : 0,
+                                  onChangedYes: !showSaveSubmitButtons
+                                      ? null
+                                      : (val) {
+                                          state.model.transportIncdnt = true;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(
+                                                  transportIncdnt: true);
+                                        },
+                                  onChangedNo: !showSaveSubmitButtons
+                                      ? null
+                                      : (val) {
+                                          state.model.transportIncdnt = false;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(
+                                                  transportIncdnt: false);
+                                        },
+                                ),
+
+                                if (state.model.transportIncdnt == true) ...[
+                                  /// Transport incident  Comments
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue:
+                                        state.model.transportIncdntComments,
+                                    textFormKey:
+                                        Keys.transportIncdntCommentsKey,
+                                    hintText: Constants.informationhere,
+                                    showBorder: true,
+                                    isEnable: showSaveSubmitButtons,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.transportIncdntComments =
+                                          value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                /// Any Event
+                                CommonWidgets.textDisplay(
+                                    Constants.anyEvent,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue: state.model.anyEvent ? 1 : 0,
+                                  onChangedYes: !showSaveSubmitButtons
+                                      ? null
+                                      : (val) {
+                                          state.model.anyEvent = true;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(anyEvent: true);
+                                          //.onModelValueChange(state.guardingMasterData
+                                          //);
+                                        },
+                                  onChangedNo: !showSaveSubmitButtons
+                                      ? null
+                                      : (val) {
+                                          state.model.anyEvent = false;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(anyEvent: false);
+                                        },
+                                ),
+
+                                if (state.model.anyEvent == true) ...[
+                                  /// Notifi SCRI
+                                  CommonWidgets.textDisplay(
+                                      Constants.notifySCRI,
+                                      Styles.textStyleBlack14),
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue: state.model.notifyScri,
+                                    textFormKey: Keys.notifyScriKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: showSaveSubmitButtons,
+                                    showBorder: true,
+                                    isDisableColor: !showSaveSubmitButtons,
+                                    onChange: (String value) {
+                                      state.model.notifyScri = value;
+                                      context
+                                          .read<OccurrenceGeneralInfoCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                /// Power Failure
+                                CommonWidgets.textDisplay(
+                                    Constants.powerFailure,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.powerFailure ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.powerFailure = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(powerFailure: true);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.powerFailure = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    powerFailure: false);
+                                          }),
+
+                                // if (state.model.powerFailure == true) ...[
+                                //   /// Power Failure Start Date
+                                //   CommonWidgets.textDisplay(
+                                //     Constants.powerFailureDate,
+                                //     Styles.textStyleBlack14,
+                                //   ),
+                                //   CommonWidgets.verticalSpacerWidget(
+                                //       height * 0.001),
+                                //
+                                //   BaseDate().datePickerWidgetLoading(
+                                //     onlyDate: false,
+                                //     showFutureDate: false,
+                                //     textController:
+                                //         powerFailureStartDateController,
+                                //     onChange: (String value) {
+                                //       state.model.powerFailureStartDate =
+                                //           Utils().formatTime(value);
+                                //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                //               context)
+                                //           .onModelValueChange(state.model);
+                                //     },
+                                //     context: context,
+                                //   ),
+                                //   CommonWidgets.verticalSpacerWidget(
+                                //       height * 0.01),
+                                //
+                                //   /// Power Failure End Date
+                                //   CommonWidgets.textDisplay(
+                                //     Constants.powerFailureEndDate,
+                                //     Styles.textStyleBlack14,
+                                //   ),
+                                //   CommonWidgets.verticalSpacerWidget(
+                                //       height * 0.001),
+                                //   //
+                                //   BaseDate().datePickerWidgetLoading(
+                                //     textController: powerFailureEndDateController,
+                                //     onlyDate: false,
+                                //     onChange: (String value) {
+                                //       state.model.powerFailureEndDate =
+                                //           Utils().formatTime(value);
+                                //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                //               context)
+                                //           .onModelValueChange(state.model);
+                                //     },
+                                //     context: context,
+                                //   ),
+                                //   CommonWidgets.verticalSpacerWidget(
+                                //       height * 0.01),
+                                //
+                                //   ///DG Working
+                                //   CommonWidgets.textDisplay(
+                                //       Constants.dgWrking,
+                                //       isMandatory: true,
+                                //       Styles.textStyleBlack14),
+                                //   RadioButtonsYesNo(
+                                //     status: state.model.status ?? 0,
+                                //     selectedValue: state.model.dgWrking ? 1 : 0,
+                                //     onChangedYes: state.model.status == 6
+                                //         ? null
+                                //         : (val) {
+                                //             state.model.dgWrking = true;
+                                //             BlocProvider.of<
+                                //                         OccurrenceGeneralInfoCubit>(
+                                //                     context)
+                                //                 .showFields(dgWrking: true);
+                                //             //.onModelValueChange(state.guardingMasterData
+                                //             //);
+                                //           },
+                                //     onChangedNo: state.model.status == 4
+                                //         ? null
+                                //         : (val) {
+                                //             state.model.dgWrking = false;
+                                //             BlocProvider.of<
+                                //                         OccurrenceGeneralInfoCubit>(
+                                //                     context)
+                                //                 .showFields(dgWrking: false);
+                                //           },
+                                //   ),
+                                // ],
+
+                                if (state.model.powerFailure == true) ...[
+                                  CommonWidgets.textDisplay(
+                                      // state.labels?.locale.csrParticipationDates ??
+                                      //     state.labels?.defaultLocale
+                                      //         .csrParticipationDates ??
+                                      Constants.powerFailuresDate,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showSaveSubmitButtons
+                                          ? showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return AddDatePopUp(
+                                                  mainContext: context,
+                                                  onSubmit: (PowerFailure
+                                                      powerFailure) {
+                                                    log('----powerFailure----${powerFailure.powerFailureStartDate}----');
+                                                    if (state
+                                                        .model
+                                                        .powerFailures
+                                                        .isEmptyOrNull) {
+                                                      state.model
+                                                          .powerFailures = [];
+                                                    }
+                                                    state.model.powerFailures
+                                                        ?.add(powerFailure);
+
+                                                    BlocProvider.of<
+                                                                OccurrenceGeneralInfoCubit>(
+                                                            context)
+                                                        .onCheckBoxChange(
+                                                            state.model);
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          : null;
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //child:
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                          //color: AppColors.navigationSkybluecolor,
+                                        ),
+                                        // ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          Constants.addPowerFailuresDates,
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                Column(
+                                  children: getPowerFailures(state, height),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// DG Working
+                                CommonWidgets.textDisplay(
+                                    Constants.dgWrking,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue: state.model.dgWrking ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.dgWrking = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(dgWrking: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.dgWrking = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(dgWrking: false);
+                                          }),
+
+                                ///ATM Vendor Visit
+                                CommonWidgets.textDisplay(
+                                    Constants.aTMVendorVisit,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.atmVendorVisit ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.atmVendorVisit = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    atmVendorVisit: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.atmVendorVisit = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(
+                                                    atmVendorVisit: false);
+                                          }),
+
+                                ///CWM Visit
+                                CommonWidgets.textDisplay(
+                                    Constants.cWMVisit,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue: state.model.cwmVisit ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.cwmVisit = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(cwmVisit: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.cwmVisit = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(cwmVisit: false);
+                                          }),
+
+                                /// Follow up actions for next shift
+                                CommonWidgets.textDisplay(
+                                    Constants.followUp,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                FlutterInputField(
+                                  lineHeight: 6,
+                                  initialValue: state.model.comments,
+                                  textFormKey: Keys.commentsKey,
+                                  hintText: Constants.informationhere,
+                                  showBorder: true,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
+                                  onChange: (String value) {
+                                    state.model.comments = value;
+                                    context
+                                        .read<OccurrenceGeneralInfoCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                ///Followed Up
+                                CommonWidgets.textDisplay(
+                                    Constants.followedUp,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.followedUp ? 1 : 0,
+                                    onChangedYes: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.followedUp = true;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(followedUp: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                    onChangedNo: !showSaveSubmitButtons
+                                        ? null
+                                        : (val) {
+                                            state.model.followedUp = false;
+                                            BlocProvider.of<
+                                                        OccurrenceGeneralInfoCubit>(
+                                                    context)
+                                                .showFields(followedUp: false);
+                                          }),
+
+                                /// SubmitButton
+                                if (state.model.status != 4) ...[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      cancelButtonDisplay(state),
+                                      if (showSaveSubmitButtons) ...[
+                                        submitButtonDisplay()
+                                      ]
+                                    ],
+                                  ),
+                                ],
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.04),
+                              ]))
+                        ])),
+              ))
         ])));
   }
 
@@ -1645,57 +1698,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  // Widget uploadWidget({
-  //   required BuildContext context,
-  //   required EntrySecurity loggedInUserDetails,
-  //   required Function onImageSelected,
-  //   // required List<CreateImage>? getFiles,
-  // }) {
-  //   return Container(
-  //     height: 60,
-  //     decoration: BoxDecoration(
-  //         border: Border.all(
-  //           color: const Color(0xFFCACACA),
-  //           width: 1.0,
-  //         ),
-  //         borderRadius: const BorderRadius.all(Radius.circular(8))),
-  //     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-  //       Padding(
-  //         padding: const EdgeInsets.only(right: 5.0),
-  //         child: ElevatedButton.icon(
-  //           style:
-  //           ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-  //           onPressed: () {
-  //             showDialog(
-  //                 context: context,
-  //                 builder: (BuildContext dialogContext) {
-  //                   return UploadAttachment(
-  //                     userdetails: loggedInUserDetails,
-  //                     getFiles: getFiles ?? [],
-  //                     onImageSelected: onImageSelected,
-  //                   );
-  //                 });
-  //           },
-  //
-  //           icon: SvgPicture.asset(
-  //             //AppIcon.dropdownicon,
-  //             AppIcon.uploadicon,
-  //             //fit: BoxFit.,
-  //             color: AppColors.backgroundWhitecolor,
-  //             width: 13,
-  //             height: 13,
-  //             key: const Key(Keys.userIcon),
-  //           ),
-  //           label: const Text(
-  //             Constants.clicktoupload,
-  //             style: Styles.textStyleRegularNormalWhite12,
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //   );
-  // }
-
   Widget locationWidgetdislay({
     required bool enabled,
     Locations? locations,
@@ -1740,7 +1742,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         Row(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width / 2.5,
+              width: MediaQuery.of(context).size.width / 2.56,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1750,8 +1752,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     textController: startDateController,
                     onlyDate: true,
                     onChange: (String value) {
-                      powerFailure.powerFailureEndDate = Utils.dateToTimestampConversion(
-                          value, Constants.dateFormat).toString();
+                      powerFailure.powerFailureEndDate =
+                          Utils.dateToTimestampConversion(
+                                  value, Constants.dateFormat)
+                              .toString();
                     },
                     context: context,
                   ),
@@ -1769,8 +1773,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     textController: endDateController,
                     onlyDate: true,
                     onChange: (String value) {
-                      powerFailure.powerFailureEndDate = Utils.dateToTimestampConversion(
-                          value, Constants.dateFormat).toString();
+                      powerFailure.powerFailureEndDate =
+                          Utils.dateToTimestampConversion(
+                                  value, Constants.dateFormat)
+                              .toString();
                       // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                       //     .onModelValueChange(state.model);
                     },

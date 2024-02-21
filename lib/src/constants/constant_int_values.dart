@@ -9,16 +9,16 @@ class ConstantsIntValue {
   static const int passCategoryPermanent = 0;
   static const int passCategoryTemporary = 1;
 
-
   static const int passIdDayPass = 0;
   static const int passIdVisitor = 1;
   static const int passIdVendor = 2;
   static const int passIdSez = 3;
 
-
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
 
   static const int businessUserReview = 1;
+
+  /// Shift Occurence
   static const int submitted = 1;
 
 

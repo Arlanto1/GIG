@@ -37,9 +37,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         );
 
   void onModelValueChange(OccurrenceModel occurrence) {
-    log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
+
   Future<void> isFormReadable() async {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
@@ -47,10 +47,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       return;
     }
 
-    // String email = await SharedPrefs.getEmail();
     bool isReadOnly;
-
-    if (state.model.handoverSecurity == state.loggedInUserDetails) {
+    if (state.model.handoverSecurity!.userName
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;
@@ -73,7 +72,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -99,7 +98,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         model = await OccurrenceDetailsServices().getOccurrence(id);
       }
 
-      log('-model----${model.shiftBrfngAttnded}---');
+      log('--model.status--11111-${model.status}-');
 
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -131,25 +130,29 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
 
-          PowerFailureModel powerFailureModel = await services.getOccPowerFailure(
-              locationId: model.location?.id.toString() ?? '');
+          PowerFailureModel powerFailureModel =
+              await services.getOccPowerFailure(
+                  locationId: model.location?.id.toString() ?? '');
 
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
-
             PowerFailure powerFailure = PowerFailure();
-            powerFailure.powerFailureStartDate = Utils.timestamptoDateConversion(
-                int.tryParse(powerFailureModel.powerFailureStartDate),
-                Constants.fulldateFormat);
+            powerFailure.powerFailureStartDate =
+                Utils.timestamptoDateConversion(
+                    int.tryParse(powerFailureModel.powerFailureStartDate),
+                    Constants.fulldateFormat);
 
-            state.model.powerFailures??[].add(powerFailure);
+            model.powerFailures ?? [].add(powerFailure);
           }
         }
       }
-      state.model.entrySecurity ??= loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-      state.model.status ?? 0;
+      model.status ?? 0;
+
+      log('--model.status---${model.status}-');
+
       emit(
         state.copyWith(
           model: model,
@@ -164,6 +167,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           getEntitiesResponse: entities,
         ),
       );
+      isFormReadable();
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
       emit(
@@ -431,6 +435,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.occurrenceModule);
