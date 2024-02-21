@@ -3210,27 +3210,30 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     int updateStatusValue = 0;
-    if (updateStatusTextController.text.toLowerCase() == "Returned") {
+    if (updateStatusTextController.text
+        .equalsIgnoreCase(ConstantsIntValue.passStatusReturned)) {
       updateStatusValue = 2;
-    } else if (updateStatusTextController.text.toLowerCase() ==
-        "Lost/De-Activated") {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase("Lost/De-Activated")) {
       updateStatusValue = 4;
-    } else if (updateStatusTextController.text.toLowerCase() ==
-        "Damaged/De-Activated") {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase("Damaged/De-Activated")) {
       updateStatusValue = 5;
-    } else if (updateStatusTextController.text.toLowerCase() == "Defaced") {
+    } else if (updateStatusTextController.text.equalsIgnoreCase("Defaced")) {
       updateStatusValue = 6;
-    } else if (updateStatusTextController.text.toLowerCase() == "Cancelled") {
+    } else if (updateStatusTextController.text.equalsIgnoreCase("Cancelled")) {
       updateStatusValue = 7;
-    } else if (updateStatusTextController.text.toLowerCase() ==
-        "Returned/Damaged") {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase("Returned/Damaged")) {
       updateStatusValue = 8;
-    } else if (updateStatusTextController.text.toLowerCase() ==
-        "Returned/Defaced") {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase("Returned/Defaced")) {
       updateStatusValue = 9;
     } else {
+      log('---else----');
       updateStatusValue = 1;
     }
+    return;
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
     List<Organisation>? entities = state.selectedEntities;
@@ -3575,7 +3578,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter name",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor) &&
         nameTextController.text.isEmpty) {
       Validator().showToast(
         context,
@@ -3732,12 +3736,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter reason for vendor pass",
       );
-    } else if (widget.passId == ConstantsIntValue.passIdDayPass) {
+    }
+    /*else if (widget.passId == ConstantsIntValue.passIdDayPass) {
       Validator().showToast(
         context,
         "Please enter day pass no",
       );
-    } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    }*/
+    else if (widget.passId == ConstantsIntValue.passIdVisitor &&
         (state.selectedPassInfo == null)) {
       Validator().showToast(
         context,
