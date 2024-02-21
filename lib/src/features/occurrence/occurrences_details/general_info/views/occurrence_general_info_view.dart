@@ -1234,34 +1234,52 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
                                 onTap: () {
-                                  showSaveSubmitButtons
-                                      ? showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return AddDatePopUp(
-                                              mainContext: context,
-                                              onSubmit:
-                                                  (PowerFailure powerFailure) {
-                                                log('----powerFailure----${powerFailure.powerFailureStartDate}----');
-                                                if (state.model.powerFailures
-                                                    .isEmptyOrNull) {
-                                                  state.model.powerFailures =
-                                                      [];
-                                                }
-                                                state.model.powerFailures
-                                                    ?.add(powerFailure);
+                                  if (!showSaveSubmitButtons) {
+                                    return;
+                                  }
 
-                                                BlocProvider.of<
-                                                            OccurrenceGeneralInfoCubit>(
-                                                        context)
-                                                    .onCheckBoxChange(
-                                                        state.model);
-                                              },
-                                            );
-                                          },
-                                        )
-                                      : null;
+                                  log('--state.model.powerFailures----');
+
+                                  for (PowerFailure pf
+                                      in state.model.powerFailures ?? []) {
+                                    log('--${pf.powerFailureStartDate}----');
+                                    log('--${pf.powerFailureEndDate}----');
+                                  }
+
+                                  if (!state
+                                          .model.powerFailures.isEmptyOrNull &&
+                                      state.model.powerFailures!.last
+                                          .powerFailureEndDate.isEmptyOrNull) {
+                                    // Display error message
+                                    Validator().showToast(
+                                      context,
+                                      'Power failure is ongoing not possible to create new entry, unless the existing dates are updated.',
+                                    );
+                                    return;
+                                  }
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return AddDatePopUp(
+                                        mainContext: context,
+                                        onSubmit: (PowerFailure powerFailure) {
+                                          log('----powerFailure----${powerFailure.powerFailureStartDate}----');
+                                          if (state.model.powerFailures
+                                              .isEmptyOrNull) {
+                                            state.model.powerFailures = [];
+                                          }
+                                          state.model.powerFailures
+                                              ?.add(powerFailure);
+
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                      );
+                                    },
+                                  );
                                 },
                                 child: Row(
                                   children: <Widget>[
@@ -1431,8 +1449,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(followedUp: false);
                                       }),
-
-
                           ],
                         ),
                       ),
@@ -1450,17 +1466,14 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     cancelButtonDisplay(state),
-                    if (showSaveSubmitButtons) ...[
-                      submitButtonDisplay()
-                    ]
+                    if (showSaveSubmitButtons) ...[submitButtonDisplay()]
                   ],
                 ),
               ),
