@@ -3214,23 +3214,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         .equalsIgnoreCase(ConstantsIntValue.passStatusReturned)) {
       updateStatusValue = 2;
     } else if (updateStatusTextController.text
-        .equalsIgnoreCase("Lost/De-Activated")) {
+        .equalsIgnoreCase(ConstantsIntValue.passStatusLostDeActivated)) {
       updateStatusValue = 4;
     } else if (updateStatusTextController.text
-        .equalsIgnoreCase("Damaged/De-Activated")) {
+        .equalsIgnoreCase(ConstantsIntValue.passStatusDamagedDeActivated)) {
       updateStatusValue = 5;
-    } else if (updateStatusTextController.text.equalsIgnoreCase("Defaced")) {
+    } else if (updateStatusTextController.text.equalsIgnoreCase(ConstantsIntValue.passStatusDefaced)) {
       updateStatusValue = 6;
-    } else if (updateStatusTextController.text.equalsIgnoreCase("Cancelled")) {
+    } else if (updateStatusTextController.text.equalsIgnoreCase(ConstantsIntValue.passStatusCancelled)) {
       updateStatusValue = 7;
     } else if (updateStatusTextController.text
-        .equalsIgnoreCase("Returned/Damaged")) {
+        .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDamaged)) {
       updateStatusValue = 8;
     } else if (updateStatusTextController.text
-        .equalsIgnoreCase("Returned/Defaced")) {
+        .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDefaced)) {
       updateStatusValue = 9;
     } else {
-      log('---else----');
       updateStatusValue = 1;
     }
     return;
@@ -3737,7 +3736,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter reason for vendor pass",
       );
     }
-    /*else if (widget.passId == ConstantsIntValue.passIdDayPass) {
+    /*else if (widget.passId == ConstantsIntValue.passIdDayPass && (state.selectedPassInfo == null||
+        (state.selectedPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter day pass no",
