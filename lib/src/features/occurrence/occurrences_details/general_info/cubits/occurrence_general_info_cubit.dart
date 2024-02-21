@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -41,12 +40,17 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> isFormReadable() async {
-    // emit(state.copyWith(model: model, status: FormStatus.loading));
+    
+    emit(state.copyWith( status: FormStatus.loading));
+    log('---1-----');
 
     if (state.model.status != ConstantsIntValue.submitted) {
+      emit(state.copyWith(
+        status: FormStatus.initial,
+      ));
       return;
     }
-
+log('-----2---');
     bool isReadOnly;
     if (state.model.handoverSecurity!.userName
         .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
@@ -54,11 +58,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     } else {
       isReadOnly = true;
     }
+    log('------3--');
 
     emit(state.copyWith(
-      model: model,
       isReadOnly: isReadOnly,
-     // status: FormStatus.initial,
+      status: FormStatus.initial,
     ));
   }
 
