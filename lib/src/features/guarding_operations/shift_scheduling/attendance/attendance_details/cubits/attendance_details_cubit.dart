@@ -68,7 +68,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       Organisation? defaultLocation = futures[7];
       List<DutyPostModel> dutyPosts = futures[8];
 
-      if (state.model.location == null && defaultLocation != null) {
+      if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.attendanceModule,
