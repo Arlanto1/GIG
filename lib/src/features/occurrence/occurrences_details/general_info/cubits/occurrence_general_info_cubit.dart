@@ -40,6 +40,28 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
+  Future<void> isFormReadable() async {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    if (state.model.status != ConstantsIntValue.submitted) {
+      return;
+    }
+
+    // String email = await SharedPrefs.getEmail();
+    bool isReadOnly;
+
+    if (state.model.handoverSecurity == state.loggedInUserDetails) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      model: model,
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
+  }
 
   void onCheckBoxChange(OccurrenceModel occurrence) {
     emit(state.copyWith(model: occurrence, status: FormStatus.loading));
@@ -124,7 +146,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           }
         }
       }
-      model.entrySecurity ??= loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.model.status ?? 0;

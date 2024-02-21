@@ -2270,7 +2270,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
             texts: statusTextController.text.toLowerCase() == "created"
-                ? ["cancelled"]
+                ? ["Cancelled"]
                 : [
                     "Returned",
                     "Lost",

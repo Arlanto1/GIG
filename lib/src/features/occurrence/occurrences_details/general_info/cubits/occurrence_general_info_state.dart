@@ -14,6 +14,8 @@ class OccurrenceGeneralInfoState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final bool? isReadOnly;
+
 
   factory OccurrenceGeneralInfoState.initial({
     required OccurrenceModel model,
@@ -83,11 +85,6 @@ class OccurrenceGeneralInfoState extends Equatable {
     if (model.handoverSecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
-    }
-    PowerFailure powerFailure = PowerFailure();
-    if (powerFailure.powerFailureEndDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Follow up actions for next shift');
     }
 
     if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
@@ -159,6 +156,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.isReadOnly,
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -175,6 +173,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    bool? isReadOnly,
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -190,6 +189,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
     );
   }
 }

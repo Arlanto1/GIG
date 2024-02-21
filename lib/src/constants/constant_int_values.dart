@@ -19,6 +19,7 @@ class ConstantsIntValue {
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
 
   static const int businessUserReview = 1;
+  static const int submitted = 1;
 
 
 

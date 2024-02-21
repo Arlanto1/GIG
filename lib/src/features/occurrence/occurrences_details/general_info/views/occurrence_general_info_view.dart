@@ -24,6 +24,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   TextEditingController statusController = TextEditingController();
   bool disableForm = true;
   bool showPowerFailureDates = false;
+  bool isReadOnly = false;
 
   get guardingMasterData => null;
 
@@ -33,7 +34,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   void initState() {
     super.initState();
     BlocProvider.of<OccurrenceGeneralInfoCubit>(context).initializeValues();
+    BlocProvider.of<OccurrenceGeneralInfoCubit>(context).isFormReadable();
   }
+  bool showSaveSubmitButtons = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +79,23 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       },
       builder: (context, state) {
         initializeDates();
+
+        if (state.model.status == null||state.model.status == 0) {
+          isReadOnly = false;
+        }
+        if (state.model.status == ConstantsIntValue.submitted) {
+          isReadOnly = state.isReadOnly ?? false;
+        }
+
+        showSaveSubmitButtons = state.model.status == 0 ||
+            state.model.status == null || isReadOnly;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             //title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 1 ? true : false,
-            showSubmitButton: state.model.status != 1 ? true : false,
+            showSaveButton: showSaveSubmitButtons,
+            showSubmitButton: showSaveSubmitButtons,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -218,7 +231,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.horizentaltextHandling(
                                   Constants.shiftHandoverBy,
                                   isMandatory: true,
-                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Shift Taken Over by
@@ -231,9 +244,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   title: state.model.handoverSecurity?.name,
                                   height: 70,
                                   isDisableColor:
-                                      state.model.status != 6 ? false : true,
+                                  state.model.status ==1,
                                   onTap: () {
-                                    if (state.model.status != 6) {
+                                    if (state.model.status != 1) {
                                       BaseOrganisationDialog().userDialog(
                                         context: context,
                                         users: state.emailUsers!,
@@ -309,7 +322,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.shiftBrfngAttnded ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.shiftBrfngAttnded = true;
@@ -321,7 +334,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.shiftBrfngAttnded = false;
@@ -341,7 +354,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.premisesRoundTkn ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = true;
@@ -353,7 +366,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = false;
@@ -373,8 +386,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   textFormKey: Keys.premisesRoundTknCommentsKey,
                                   hintText: Constants.informationhere,
                                   showBorder: true,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.premisesRoundTknComments =
                                         value;
@@ -397,7 +410,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.medicalEmrgncy ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes:!showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = true;
@@ -408,7 +421,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = false;
@@ -427,8 +440,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   showBorder: true,
                                   textFormKey: Keys.emergencyCommentsKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.medicalEmrgncyComments = value;
                                     context
@@ -450,7 +463,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.materialMovement ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.materialMovement = true;
@@ -462,7 +475,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.materialMovement = false;
@@ -481,7 +494,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.leoVisit ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.leoVisit = true;
@@ -492,7 +505,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.leoVisit = false;
@@ -511,7 +524,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.socialEnggIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = true;
@@ -523,7 +536,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = false;
@@ -543,8 +556,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   showBorder: true,
                                   textFormKey: Keys.socialEnggIncdntCommentsKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor:!showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.socialEnggIncdntComments =
                                         value;
@@ -567,7 +580,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.foundArticleTrnsctn ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.foundArticleTrnsctn =
@@ -580,7 +593,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.foundArticleTrnsctn =
@@ -601,7 +614,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                     state.model.processBreachIncdnt ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                onChangedYes:!showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.processBreachIncdnt = true;
@@ -613,7 +626,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         //.onModelValueChange(state.guardingMasterData
                                         //);
                                       },
-                                onChangedNo: state.model.status == 4
+                                onChangedNo:!showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.processBreachIncdnt = false;
@@ -679,7 +692,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.infraIssue ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.infraIssue = true;
@@ -690,7 +703,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.infraIssue = false;
@@ -708,8 +721,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   textFormKey: Keys.infraIssueCommentsKey,
                                   showBorder: true,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.infraIssueComments = value;
                                     context
@@ -731,7 +744,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                     state.model.suspiciousActivity ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.suspiciousActivity = true;
@@ -741,7 +754,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                             .showFields(
                                                 suspiciousActivity: true);
                                       },
-                                onChangedNo: state.model.status == 4
+                                onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.suspiciousActivity = false;
@@ -807,7 +820,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.fireAlarmEmrgncy ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = true;
@@ -817,7 +830,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .showFields(
                                                   fireAlarmEmrgncy: true);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = false;
@@ -837,8 +850,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   showBorder: true,
                                   textFormKey: Keys.fireAlarmEmrgncyCommentsKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.fireAlarmEmrgncyComments =
                                         value;
@@ -861,7 +874,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.landlordIssue ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = true;
@@ -870,7 +883,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(landlordIssue: true);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = false;
@@ -889,8 +902,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   showBorder: true,
                                   textFormKey: Keys.landlordIssueCommentsKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.landlordIssueComments = value;
                                     context
@@ -912,7 +925,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                     state.model.secSysFailureIncdnt ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.secSysFailureIncdnt = true;
@@ -922,7 +935,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                             .showFields(
                                                 secSysFailureIncdnt: true);
                                       },
-                                onChangedNo: state.model.status == 4
+                                onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.secSysFailureIncdnt = false;
@@ -983,7 +996,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.sysAlarmRcvd ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.sysAlarmRcvd = true;
@@ -992,7 +1005,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(sysAlarmRcvd: true);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.sysAlarmRcvd = false;
@@ -1011,8 +1024,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   textFormKey: Keys.sysAlarmRcvdCommentsKey,
                                   showBorder: true,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.sysAlarmRcvdComments = value;
                                     context
@@ -1034,7 +1047,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                     state.model.transportIncdnt ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.transportIncdnt = true;
@@ -1043,7 +1056,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(transportIncdnt: true);
                                       },
-                                onChangedNo: state.model.status == 4
+                                onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.transportIncdnt = false;
@@ -1063,8 +1076,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   textFormKey: Keys.transportIncdntCommentsKey,
                                   hintText: Constants.informationhere,
                                   showBorder: true,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: showSaveSubmitButtons,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.transportIncdntComments = value;
                                     context
@@ -1085,7 +1098,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue: state.model.anyEvent ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.anyEvent = true;
@@ -1096,7 +1109,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         //.onModelValueChange(state.guardingMasterData
                                         //);
                                       },
-                                onChangedNo: state.model.status == 4
+                                onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.anyEvent = false;
@@ -1116,9 +1129,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   initialValue: state.model.notifyScri,
                                   textFormKey: Keys.notifyScriKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
+                                  isEnable: showSaveSubmitButtons,
                                   showBorder: true,
-                                  isDisableColor: state.model.status == 6,
+                                  isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
                                     state.model.notifyScri = value;
                                     context
@@ -1140,7 +1153,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.powerFailure ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.powerFailure = true;
@@ -1149,7 +1162,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(powerFailure: true);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.powerFailure = false;
@@ -1250,29 +1263,33 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     height * 0.01),
                                 GestureDetector(
                                   onTap: () {
+                                     showSaveSubmitButtons?
                                     showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return AddDatePopUp(
-                                          mainContext: context,
-                                          onSubmit:
-                                              (PowerFailure powerFailure) {
-                                            log('----powerFailure----${powerFailure.powerFailureStartDate}----');
-                                            if (state.model.powerFailures
-                                                .isEmptyOrNull) {
-                                              state.model.powerFailures = [];
-                                            }
-                                            state.model.powerFailures
-                                                ?.add(powerFailure);
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return AddDatePopUp(
+                                            mainContext: context,
+                                            onSubmit:
+                                                (PowerFailure powerFailure) {
+                                              log(
+                                                  '----powerFailure----${powerFailure
+                                                      .powerFailureStartDate}----');
+                                              if (state.model.powerFailures
+                                                  .isEmptyOrNull) {
+                                                state.model.powerFailures = [];
+                                              }
+                                              state.model.powerFailures
+                                                  ?.add(powerFailure);
 
-                                            BlocProvider.of<
-                                                        OccurrenceGeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(state.model);
-                                          },
-                                        );
-                                      },
-                                    );
+                                              BlocProvider.of<
+                                                  OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                                  .onCheckBoxChange(
+                                                  state.model);
+                                            },
+                                          );
+                                        },
+                                      ):null;
                                   },
                                   child: Row(
                                     children: <Widget>[
@@ -1312,7 +1329,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.dgWrking ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                     state.model.dgWrking = true;
@@ -1323,7 +1340,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     //.onModelValueChange(state.guardingMasterData
                                     //);
                                   },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                     state.model.dgWrking = false;
@@ -1343,7 +1360,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                       state.model.atmVendorVisit ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.atmVendorVisit = true;
@@ -1354,7 +1371,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.atmVendorVisit = false;
@@ -1373,7 +1390,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.cwmVisit ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.cwmVisit = true;
@@ -1384,7 +1401,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.cwmVisit = false;
@@ -1405,8 +1422,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 textFormKey: Keys.commentsKey,
                                 hintText: Constants.informationhere,
                                 showBorder: true,
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: showSaveSubmitButtons,
+                                isDisableColor:!showSaveSubmitButtons,
                                 onChange: (String value) {
                                   state.model.comments = value;
                                   context
@@ -1425,7 +1442,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.followedUp ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
+                                  onChangedYes: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.followedUp = true;
@@ -1436,7 +1453,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           //.onModelValueChange(state.guardingMasterData
                                           //);
                                         },
-                                  onChangedNo: state.model.status == 4
+                                  onChangedNo: !showSaveSubmitButtons
                                       ? null
                                       : (val) {
                                           state.model.followedUp = false;
@@ -1453,7 +1470,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     cancelButtonDisplay(state),
+                                    if(showSaveSubmitButtons)...[
                                     submitButtonDisplay()
+                                    ]
                                   ],
                                 ),
                               ],
