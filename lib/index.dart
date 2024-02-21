@@ -237,3 +237,4 @@ export 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 export 'package:db_atom/src/common_widgets/date_time_picker.dart';
 export 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 export 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
+export 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';

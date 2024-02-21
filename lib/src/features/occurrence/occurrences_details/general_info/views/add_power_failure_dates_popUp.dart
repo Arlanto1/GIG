@@ -1,16 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../../../index.dart';
+import 'package:db_atom/index.dart';
 
 class AddDatePopUp extends StatefulWidget {
   const AddDatePopUp({
@@ -140,8 +130,14 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         PowerFailure powerFailure = PowerFailure();
         String powerFailureStartDate = powerFailureStartDateController.text;
         String powerFailureEndDate = powerFailureEndDateController.text;
-        powerFailure.powerFailureStartDate = Utils().formatTime(powerFailureStartDate);
-        powerFailure.powerFailureEndDate = Utils().formatTime(powerFailureEndDate);
+        if (!powerFailureStartDate.isEmptyOrNull) {
+          powerFailure.powerFailureStartDate =
+              Utils().formatTime(powerFailureStartDate);
+        }
+        if (!powerFailureEndDate.isEmptyOrNull) {
+          powerFailure.powerFailureEndDate =
+              Utils().formatTime(powerFailureEndDate);
+        }
         // powerFailure.powerFailureEndDate = powerFailureEndDate;
         widget.onSubmit(powerFailure);
         Navigator.pop(context);
