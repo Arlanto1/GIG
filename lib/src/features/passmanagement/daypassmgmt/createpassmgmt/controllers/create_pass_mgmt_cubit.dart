@@ -342,11 +342,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getpassListResponseData(Organisation? companytypeResponse) async {
+  getpassListResponseData(Organisation org) async {
+
+    log('-org---${org.name}--');
+
     try {
       emit(
         state.copyWith(
-          activePassInfoList: companytypeResponse,
+          selectedPassInfo: org,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -668,7 +671,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.selectedDepartment = null;
     state.employeeDepartment = null;
     state.companyTypes = [];
-    state.vendorPassInfo = Organisation();
+    state.selectedPassInfo = Organisation();
     state.loadAttachments = [];
     state.selectedCompanyType = null;
     state.selectedEntities = [];

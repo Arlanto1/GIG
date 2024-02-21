@@ -575,11 +575,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
 
                                 if (widget.passId ==
-                                        ConstantsIntValue.passIdDayPass
-                                            .toString() ||
+                                        ConstantsIntValue.passIdDayPass ||
                                     widget.passId ==
-                                        ConstantsIntValue.passIdSez
-                                            .toString()) ...[
+                                        ConstantsIntValue.passIdSez) ...[
                                   FlutterInputField(
                                     controller: companyNameTextController,
                                     textInputType: TextInputType.text,
@@ -601,8 +599,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Vendor Company Name
                                 if (widget.passId ==
-                                    ConstantsIntValue.passIdVendor
-                                        .toString()) ...[
+                                    ConstantsIntValue.passIdVendor) ...[
                                   CommonWidgets.textDisplay(
                                       Constants.companyname,
                                       isMandatory: true,
@@ -840,15 +837,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// SEZ Pass Info
                                 if (widget.passId ==
-                                        ConstantsIntValue.passIdVisitor
-                                            .toString() ||
+                                        ConstantsIntValue.passIdVisitor ||
                                     widget.passId ==
-                                        ConstantsIntValue.passIdSez
-                                            .toString()) ...[
+                                        ConstantsIntValue.passIdSez) ...[
                                   CommonWidgets.textDisplay(
                                     widget.passId ==
                                             ConstantsIntValue.passIdVisitor
-                                                .toString()
                                         ? 'Visitor Coming From'
                                         : 'SEZ Pass Info',
                                     Styles.textStyleBlack14,
@@ -859,7 +853,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   textFieldWidgetLoad(
                                     controller: widget.passId ==
                                             ConstantsIntValue.passIdVisitor
-                                                .toString()
                                         ? visitorcomingfromTextController
                                         : sezpassinfoTextController,
                                     index: 0,
@@ -893,9 +886,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   CommonWidgets.textDisplay(
-                                    widget.passId ==
-                                            ConstantsIntValue.passIdSez
-                                                .toString()
+                                    widget.passId == ConstantsIntValue.passIdSez
                                         ? 'MTP Application No'
                                         : 'Purpose of Visit',
                                     Styles.textStyleBlack14,
@@ -906,7 +897,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   textFieldWidgetLoad(
                                       controller: widget.passId ==
                                               ConstantsIntValue.passIdSez
-                                                  .toString()
                                           ? mtpApplicationNoTextController
                                           : purposeofvisitTextController,
                                       index: 0,
@@ -1193,12 +1183,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : CommonWidgets.textDisplay(
                                         widget.passId ==
                                                     ConstantsIntValue
-                                                        .passIdVisitor
-                                                        .toString() ||
+                                                        .passIdVisitor ||
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdVendor
-                                                        .toString()
                                             ? "Visiting Department"
                                             : Constants.department,
                                         isMandatory: true,
@@ -1218,11 +1206,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Reason for day pass
                                 if (widget.passId ==
-                                        ConstantsIntValue.passIdDayPass
-                                            .toString() ||
+                                        ConstantsIntValue.passIdDayPass ||
                                     widget.passId ==
-                                        ConstantsIntValue.passIdVendor
-                                            .toString()) ...[
+                                        ConstantsIntValue.passIdVendor) ...[
                                   CommonWidgets.textDisplay(
                                     widget.passId ==
                                             ConstantsIntValue.passIdVendor
@@ -1263,7 +1249,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   ),
                                 ],
 
-                                if (widget.passId != '3') ...[
+                                if (widget.passId !=
+                                    ConstantsIntValue.passIdSez) ...[
                                   /// Day  pass no
                                   CommonWidgets.textDisplay(
                                     widget.passId ==
@@ -1416,7 +1403,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   onChange: (String value) {
                                     log('--fr-value-${passValidUntilTextController.text}------');
 
-
                                     // TODO: Remove this commented code after testing
                                     // passValidUntilTextController.text =
                                     //     Utils.timestamptoDateConversion(
@@ -1444,17 +1430,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
                                 /// Escorted by Host
-                                widget.passId ==
-                                        ConstantsIntValue.passIdVisitor
-                                            .toString()
+                                widget.passId == ConstantsIntValue.passIdVisitor
                                     ? CommonWidgets.textDisplay(
                                         'Escorted by Host',
                                         isMandatory: true,
                                         Styles.textStyleBlack14)
                                     : Container(),
-                                widget.passId ==
-                                        ConstantsIntValue.passIdVisitor
-                                            .toString()
+                                widget.passId == ConstantsIntValue.passIdVisitor
                                     ? radioButtonHandling(
                                         state.escortedbyhost ?? 0,
                                         'Escorted by Host')
@@ -1462,12 +1444,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Escorted By
                                 (widget.passId ==
-                                                ConstantsIntValue.passIdVendor
-                                                    .toString() ||
+                                                ConstantsIntValue
+                                                    .passIdVendor ||
                                             (widget.passId ==
                                                     ConstantsIntValue
-                                                        .passIdVisitor
-                                                        .toString() &&
+                                                        .passIdVisitor &&
                                                 (state.escortedbyhost ?? 0) ==
                                                     0)) &&
                                         widget.model?.companyType?.name
@@ -1485,21 +1466,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     // Styles.textStyleBlack14),
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
                                         controller: escortedbyTextController,
@@ -1508,14 +1487,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       )
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         widget.passId ==
-                                            ConstantsIntValue.passIdSez
-                                                .toString() ||
+                                            ConstantsIntValue.passIdSez ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.01)
@@ -1523,11 +1500,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Escorted By Employee Id
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.textDisplay(
                                         state.showIdentifiedFields
@@ -1537,21 +1513,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         Styles.textStyleBlack14)
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
                                         controller:
@@ -1561,11 +1535,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       )
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVendor
-                                                .toString() ||
+                                            ConstantsIntValue.passIdVendor ||
                                         (widget.passId ==
-                                                ConstantsIntValue.passIdVisitor
-                                                    .toString() &&
+                                                ConstantsIntValue
+                                                    .passIdVisitor &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.01)
@@ -1573,36 +1546,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 ///upload Photo of Visitor
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVisitor
-                                                .toString() &&
+                                            ConstantsIntValue.passIdVisitor &&
                                         widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
                                         Styles.textStyleBlack14)
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVisitor
-                                                .toString() &&
+                                            ConstantsIntValue.passIdVisitor &&
                                         widget.model == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
                                 widget.passId ==
-                                            ConstantsIntValue.passIdVisitor
-                                                .toString() &&
+                                            ConstantsIntValue.passIdVisitor &&
                                         widget.model == null
                                     ? uploadWidget(state, true)
                                     : Container(),
 
                                 /// Attachments
-                                widget.passId ==
-                                        ConstantsIntValue.passIdVisitor
-                                            .toString()
+                                widget.passId == ConstantsIntValue.passIdVisitor
                                     ? photogetSpaceattchment(height)
                                     : Container(),
-                                widget.passId ==
-                                        ConstantsIntValue.passIdVisitor
-                                            .toString()
+                                widget.passId == ConstantsIntValue.passIdVisitor
                                     ? photogetAttachement(height)
                                     : Container(),
 
@@ -2886,7 +2852,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //     });
             // },
             onTap: (Organisation organisation) {
-              //log(list.name);
+              log('--organisation---${organisation.name}----');
+
+              // widget.model?.passInfo = PassInfo(id: organisation.id, passNo: organisation.name);
+              log('--widget.model?.passInfo---${widget.model?.passInfo}----');
               daypassnoTextController.text = organisation.name ?? '';
               createPassMgmtCubit.getpassListResponseData(organisation);
             },
@@ -3051,7 +3020,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     if (widget.passId == ConstantsIntValue.passIdVendor) {
-      if (state.vendorPassInfo == null) {
+      if (state.selectedPassInfo == null) {
         Validator().showToast(
           context,
           "Vendor Pass No",
@@ -3060,19 +3029,33 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-    PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
+    log('-widget.model?.passInfo--${widget.model?.passInfo}-');
+
+    PassInfo? selectedPassInfo;
+    if (state.selectedPassInfo != null) {
+      selectedPassInfo = PassInfo(
+        id: state.selectedPassInfo?.id,
+        passNo: state.selectedPassInfo?.name,
+      );
+    }
+    PassInfo passInfo =
+        selectedPassInfo ?? widget.model?.passInfo ?? PassInfo();
+
+    log('-passInfo.passNo--${passInfo.passNo}-');
+
+    log('-daypassnoTextController.text--${daypassnoTextController.text}-');
+
     passInfo.passType = widget.passId;
 
-    if (widget.passId == ConstantsIntValue.passIdSez) {
-      passInfo.passNo = sezpassinfoTextController.text;
-    } else {
-      passInfo.passNo = daypassnoTextController.text;
-    }
+    // if (widget.passId == ConstantsIntValue.passIdSez) {
+    //   passInfo.passNo = sezpassinfoTextController.text;
+    // } else {
+    //   passInfo.passNo = daypassnoTextController.text;
+    // }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-
     // int passValidUntilDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
     //
@@ -3160,23 +3143,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         name: state.location?.name ?? '');
 
     // Organisation? dept2 = widget.model?.department;
-    PassInfo info;
-
-    log('widget.passId------------${widget.passId}');
-    passInfo.passNo = passInfo.passNo;
-    if (widget.passId == ConstantsIntValue.passIdSez) {
-      info = passInfo;
-    } else {
-      info = PassInfo(
-          passType: passInfo.passType,
-          id: (state.vendorPassInfo?.id == 0)
-              ? 1
-              : state.vendorPassInfo?.id ??
-                  ((widget.passId == ConstantsIntValue.passIdSez) ? 9151 : 3),
-          //9151 //int.parse(sezpassinfoTextController.text ?? '1')
-          passNo: sezpassinfoTextController.text,
-          mifareNo: mtpApplicationNoTextController.text);
-    }
+    // PassInfo info;
+    //
+    // log('widget.passId------------${widget.passId}');
+    // passInfo.passNo = passInfo.passNo;
+    // if (widget.passId == ConstantsIntValue.passIdSez) {
+    //   info = passInfo;
+    // } else {
+    //
+    //   log('---else---------passNo}');
+    //
+    //   info = PassInfo(
+    //       passType: passInfo.passType,
+    //       id: (state.vendorPassInfo?.id == 0)
+    //           ? 1
+    //           : state.vendorPassInfo?.id ??
+    //               ((widget.passId == ConstantsIntValue.passIdSez) ? 9151 : 3),
+    //       //9151 //int.parse(sezpassinfoTextController.text ?? '1')
+    //       passNo: sezpassinfoTextController.text,
+    //       mifareNo: mtpApplicationNoTextController.text);
+    // }
 
     // createpassmgmtCubit.gethostanalystsResponseData(host1);
     // createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
@@ -3286,7 +3272,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           email: state.nameResponse?.email,
         ),
         passType: passInfo.passType,
-        //int.parse(widget.passId ?? '0'),
+        passInfo: passInfo,
         passNo: widget.passId == ConstantsIntValue.passIdSez
             ? daypassnoTextController.text
             : state.dayPasselementReason?.name ?? '',
@@ -3310,7 +3296,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         evidenceDocuments: evidenceDocuments,
         entities: entities,
         department: department,
-        passInfo: passInfo,
         host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
@@ -3373,7 +3358,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           evidenceDocuments: evidenceDocuments,
           entities: entities,
           department: department,
-          passInfo: info,
+          // passInfo: info,
+          passInfo: passInfo,
+
           host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
           contactNo: contactnoTextController.text,
           visitingDepartment: department,
@@ -3630,30 +3617,30 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter reason for vendor pass",
       );
     } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.vendorPassInfo == null ||
-            (state.vendorPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null ||
+            (state.selectedPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter day pass no",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        (state.vendorPassInfo == null ||
-            (state.vendorPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null ||
+            (state.selectedPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter Visitor pass no",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-        (state.vendorPassInfo == null ||
-            (state.vendorPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null ||
+            (state.selectedPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter Vendor pass no",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        (state.vendorPassInfo == null ||
-            (state.vendorPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null ||
+            (state.selectedPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         widget.passId == ConstantsIntValue.passIdVendor

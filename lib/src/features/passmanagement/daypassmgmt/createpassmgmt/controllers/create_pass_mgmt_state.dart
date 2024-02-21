@@ -59,7 +59,7 @@ class CreatePassMgmtState extends Equatable {
   Analyst? analyst;
   User? t1hostanalyst;
   User? t1dbsponsoranalyst;
-  Organisation? vendorPassInfo;
+  Organisation? selectedPassInfo;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
   int? escortedbyhost;
@@ -108,7 +108,7 @@ class CreatePassMgmtState extends Equatable {
     this.analyst,
     this.t1hostanalyst,
     this.t1dbsponsoranalyst,
-    this.vendorPassInfo,
+    this.selectedPassInfo,
     this.passnumbelistresponse,
     this.escortedbyhost,
     this.exceptionalApproval,
@@ -154,7 +154,7 @@ class CreatePassMgmtState extends Equatable {
     Analyst? analyst,
     User? t1hostanalyst,
     User? t1dbsponsoranalyst,
-    Organisation? activePassInfoList,
+    Organisation? selectedPassInfo,
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem = '',
     int? escortedbyhost,
@@ -208,7 +208,7 @@ class CreatePassMgmtState extends Equatable {
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
       t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
-      vendorPassInfo: activePassInfoList ?? vendorPassInfo,
+      selectedPassInfo: selectedPassInfo ?? selectedPassInfo,
       passnumbelistresponse:
           passnumbelistresponse ?? this.passnumbelistresponse,
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
@@ -256,7 +256,7 @@ class CreatePassMgmtState extends Equatable {
         t1hostanalyst,
         analyst,
         t1dbsponsoranalyst,
-        vendorPassInfo,
+        selectedPassInfo,
         passnumbelistresponse,
         escortedbyhost,
         exceptionalApproval,
