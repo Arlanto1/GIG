@@ -1739,62 +1739,67 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       startDateController.text = powerFailure.powerFailureStartDate ?? '';
       endDateController.text = powerFailure.powerFailureEndDate ?? '';
       widgets.add(
-        Row(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2.56,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text('Start Date'),
-                  BaseDate().datePickerWidgetLoading(
-                    textController: startDateController,
-                    onlyDate: true,
-                    onChange: (String value) {
-                      powerFailure.powerFailureEndDate =
-                          Utils.dateToTimestampConversion(
-                                  value, Constants.dateFormat)
-                              .toString();
+                  IconButton(
+                    onPressed: () {
+                      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+                          .deletePowerFailure(powerFailure);
                     },
-                    context: context,
+                    icon: const Icon(Icons.close),
+                    color: AppColors.gerylightBackground,
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2.6,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('End Date'),
-                  BaseDate().datePickerWidgetLoading(
-                    textController: endDateController,
-                    onlyDate: true,
-                    onChange: (String value) {
-                      powerFailure.powerFailureEndDate =
-                          Utils.dateToTimestampConversion(
-                                  value, Constants.dateFormat)
-                              .toString();
-                      // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                      //     .onModelValueChange(state.model);
-                    },
-                    context: context,
-                  ),
-                ],
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Start Date'),
+                    BaseDate().datePickerWidgetLoading(
+                      textController: startDateController,
+                      onlyDate: false,
+                      onChange: (String value) {
+                        powerFailure.powerFailureEndDate =
+                            Utils.dateToTimestampConversion(
+                                value, Constants.fulldateFormat)
+                                .toString();
+                      },
+                      context: context,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                    .deletePowerFailure(powerFailure);
-              },
-              icon: const Icon(Icons.close),
-              color: AppColors.gerylightBackground,
-            ),
-          ],
-        ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('End Date'),
+                    BaseDate().datePickerWidgetLoading(
+                      textController: endDateController,
+                      onlyDate: false,
+                      onChange: (String value) {
+                        powerFailure.powerFailureEndDate =
+                            Utils.dateToTimestampConversion(
+                                value, Constants.fulldateFormat)
+                                .toString();
+                        // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                        //     .onModelValueChange(state.model);
+                      },
+                      context: context,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+
       );
       widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
     }
