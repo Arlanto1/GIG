@@ -3733,8 +3733,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter reason for vendor pass",
       );
     } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        (state.selectedPassInfo == null)) {
       Validator().showToast(
         context,
         "Please enter day pass no",
