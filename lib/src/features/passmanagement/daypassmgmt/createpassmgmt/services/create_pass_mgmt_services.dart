@@ -71,7 +71,7 @@ class CreatePassMgmtService {
   }
 
   Future<DayPassNumberLists> getPassNo(
-      String passType, String locationId, BuildContext context) async {
+      int passType, String locationId, BuildContext context) async {
     String url = '${Apis._getPassNo}$passType&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,

@@ -232,7 +232,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
     String locationId,
-    String passId,
+    int passId,
     BuildContext context,
   ) async {
     String moduleCode = Constants.passManagementModule;
@@ -319,7 +319,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Get pass number call
   Future<void> getPassNumber(
-    String passType,
+    int passType,
     String locationId,
     BuildContext context,
   ) async {

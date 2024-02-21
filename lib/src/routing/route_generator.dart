@@ -248,19 +248,23 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
+
+        int passId = 0;
+
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           CreatePassMngArguments? passMngArguments =
               passRoutes["passMngCreateDetails"];
+          passId = int.tryParse(passMngArguments!.passType)!;
           return MaterialPageRoute(
             builder: (context) => CreatePassManagement(
-              passId: passMngArguments?.passType ?? '',
-              title: passMngArguments?.title ?? '',
-              model: passMngArguments?.model,
+              passId: int.tryParse(passMngArguments.passType) ?? 0,
+              title: passMngArguments.title ?? '',
+              model: passMngArguments.model,
             ),
           );
         }
-        return MaterialPageRoute(builder: (context) => CreatePassManagement());
+        return MaterialPageRoute(builder: (context) => CreatePassManagement(passId: passId,));
 
       case incidentManagementsRoute:
         String occId = '';
