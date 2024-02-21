@@ -2273,9 +2273,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? ["Cancelled"]
                 : [
                     "Returned",
-                    "Lost",
-                    "Damaged",
-                    "Defaced",
+                    "Lost/De-Activated",
+                    "Damaged/De-Activated",
+                    "Defaced/De-Activated",
                     "Returned/Damaged",
                     "Returned/Defaced"
                   ],
