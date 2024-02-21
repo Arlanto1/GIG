@@ -82,7 +82,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     }, builder: (context, state) {
 
 
-      if (widget.vvipModel?.status == 1) {
+      if (widget.vvipModel?.status == 1 ) {
         isReadOnly = true;
       }
 

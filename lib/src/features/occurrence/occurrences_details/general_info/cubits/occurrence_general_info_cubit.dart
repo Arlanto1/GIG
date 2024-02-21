@@ -41,7 +41,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> isFormReadable() async {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
+    // emit(state.copyWith(model: model, status: FormStatus.loading));
 
     if (state.model.status != ConstantsIntValue.submitted) {
       return;
@@ -58,7 +58,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(
       model: model,
       isReadOnly: isReadOnly,
-      status: FormStatus.initial,
+     // status: FormStatus.initial,
     ));
   }
 

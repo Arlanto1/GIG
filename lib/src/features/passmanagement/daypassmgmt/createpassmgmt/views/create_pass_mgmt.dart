@@ -3547,13 +3547,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter entitiy",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
-        widget.passId == ConstantsIntValue.passIdSez)) {
-      Validator().showToast(
-        context,
-        "Please enter company type",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
+    }
+    // else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+    //     widget.passId == ConstantsIntValue.passIdSez) && state.selectedCompanyType?.name != null ) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter company type",
+    //   );
+    // }
+    else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
         companyNameTextController.text.isEmpty) {
       Validator().showToast(
         context,
