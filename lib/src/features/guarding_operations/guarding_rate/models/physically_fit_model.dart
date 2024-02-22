@@ -1,8 +1,8 @@
 class PhysicallyFitModel {
-  int? gender;
-  int? height;
-  int? weight;
-  int? chest;
+  num? gender;
+  num? height;
+  num? weight;
+  num? chest;
   bool? physicallyFit;
 
   PhysicallyFitModel({
@@ -14,10 +14,10 @@ class PhysicallyFitModel {
   });
 
   PhysicallyFitModel.fromJson(Map<String, dynamic> json)
-      : gender = json['gender'] as int?,
-        height = json['height'] as int?,
-        weight = json['weight'] as int?,
-        chest = json['chest'] as int?,
+      : gender = json['gender'] as num?,
+        height = json['height'] as num?,
+        weight = json['weight'] as num?,
+        chest = json['chest'] as num?,
         physicallyFit = json['physicallyFit'] as bool?;
 
   Map<String, dynamic> toJson() => {

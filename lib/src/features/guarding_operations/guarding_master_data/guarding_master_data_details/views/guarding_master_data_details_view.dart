@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
-import 'add_date_pop_up.dart';
-
 class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
@@ -62,6 +60,8 @@ class _GuardingMasterDataDetailsViewState
   TextEditingController mSGbFormBSubmittedController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
+
+  PhysicallyFitModel physicallyFitModel = PhysicallyFitModel();
 
   get guardingMasterData => null;
 
@@ -166,10 +166,12 @@ class _GuardingMasterDataDetailsViewState
     //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
     //     Constants.dateFormat);
 
-    final issuedDate = DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text);
+    final issuedDate =
+        DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text);
     final expiryDate = issuedDate.add(const Duration(days: 3 * 365));
 
-    pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(expiryDate);
+    pvcExpiryDateController.text =
+        DateFormat(Constants.dateFormat).format(expiryDate);
     // pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
     //   DateFormat("dd/MM/yyyy")
     //       .parse(pvcIssuedDateController.text)
@@ -706,6 +708,14 @@ class _GuardingMasterDataDetailsViewState
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
+
+                                      physicallyFitModel.gender =
+                                          int.tryParse(selectedLabel.value);
+                                      checkPhysicallyFit(
+                                          physicallyFitModel:
+                                              physicallyFitModel,
+                                          state: state);
+
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
@@ -886,9 +896,10 @@ class _GuardingMasterDataDetailsViewState
                               isDisabled: state.model.status != 6,
                               textController: deploymentTypeController,
                               items: deploymentTypeDropDownValues,
-                              initialValue:'${widget.guardingMasterData?.typeOfDeployment ?? 1}',
+                              initialValue:
+                                  '${widget.guardingMasterData?.typeOfDeployment ?? 1}',
                               onTap: () {
-                                if (state.model.id !=null) {
+                                if (state.model.id != null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: deploymentTypeDropDownValues
@@ -1016,6 +1027,12 @@ class _GuardingMasterDataDetailsViewState
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.height = int.tryParse(value);
+
+                                physicallyFitModel.height = state.model.height;
+                                checkPhysicallyFit(
+                                  physicallyFitModel: physicallyFitModel,
+                                  state: state,
+                                );
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -1040,6 +1057,11 @@ class _GuardingMasterDataDetailsViewState
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.weight = int.tryParse(value);
+                                physicallyFitModel.weight = state.model.weight;
+                                checkPhysicallyFit(
+                                  physicallyFitModel: physicallyFitModel,
+                                  state: state,
+                                );
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -1048,9 +1070,10 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Show Chest Parameter only for Males and Transgenders
                             if (genderController.text.toLowerCase() !=
                                 'female') ...[
-                              ///Chest
+                              /// Chest
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.chest ??
                                       state.labels?.defaultLocale.chest ??
@@ -1067,6 +1090,13 @@ class _GuardingMasterDataDetailsViewState
                                 isDisableColor: false,
                                 onChange: (String value) {
                                   state.model.chest = int.tryParse(value);
+
+                                  physicallyFitModel.chest = state.model.chest;
+                                  checkPhysicallyFit(
+                                    physicallyFitModel: physicallyFitModel,
+                                    state: state,
+                                  );
+
                                   context
                                       .read<GuardingMasterDataDetailsCubit>()
                                       .onModelValueChange(state.model);
@@ -1152,29 +1182,15 @@ class _GuardingMasterDataDetailsViewState
                                     Constants.physicallyFit,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
+                            Text(
+                                '-- state.model.physicallyFit--${state.model.physicallyFit}'),
                             RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:  state.model.physicallyFit == true ? 1 : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.physicallyFit = true;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .onCheckBoxChange(state.model);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.physicallyFit = false;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .onCheckBoxChange(state.model);
-                                          }),
+                              status: state.model.status ?? 0,
+                              selectedValue:
+                                  state.model.physicallyFit == true ? 1 : 0,
+                              onChangedYes: null,
+                              onChangedNo: null,
+                            ),
 
                             /// Security Experience
                             CommonWidgets.textDisplay(
@@ -2695,5 +2711,21 @@ class _GuardingMasterDataDetailsViewState
         );
       },
     );
+  }
+
+  void checkPhysicallyFit({
+    required PhysicallyFitModel physicallyFitModel,
+    required GuardingMasterDataDetailsState state,
+  }) {
+    if (physicallyFitModel.gender == null ||
+        physicallyFitModel.height == null ||
+        physicallyFitModel.weight == null) {
+      if (physicallyFitModel.gender != 2 && physicallyFitModel.chest == null) {
+        return;
+      }
+      return;
+    }
+    BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+        .getGmPhysicallyFit(physicallyFitModel);
   }
 }
