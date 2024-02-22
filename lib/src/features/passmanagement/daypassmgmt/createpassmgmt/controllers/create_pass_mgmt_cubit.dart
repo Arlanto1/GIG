@@ -233,16 +233,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getSerialnumberDetails(
     String locationId,
     int passId,
-    BuildContext context,
   ) async {
     String moduleCode = Constants.passManagementModule;
-    if (passId == "0") {
+    if (passId == ConstantsIntValue.passIdDayPass) {
       moduleCode = Constants.passManagementModule;
-    } else if (passId == "1") {
+    } else if (passId == ConstantsIntValue.passIdVisitor) {
       moduleCode = Constants.visitorManagementModule;
-    } else if (passId == "2") {
+    } else if (passId == ConstantsIntValue.passIdVendor) {
       moduleCode = Constants.vendorPassManagementModule;
-    } else if (passId == "3") {
+    } else if (passId == ConstantsIntValue.passIdSez) {
       moduleCode = Constants.passManagementSEZModule;
     }
     try {
@@ -267,24 +266,29 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> getPassTypes({
-    required int locationId,
     required int passId,
+    required int locationId,
   }) async {
     emit(
       state.copyWith(
         stateType: CreatePassMgmtStateType.loading,
       ),
     );
-    try {
-      List<String> passTypes = await createpassmgmtServices.getPassTypes(
-          passId: passId, locationId: locationId);
 
-      emit(
-        state.copyWith(
-          passTypes: passTypes,
-          stateType: CreatePassMgmtStateType.success,
-        ),
+    log('---passId---$passId--');
+    try {
+      List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
+          passId: passId, locationId: locationId);
+      log('----passTypes.length----${passTypes.length}----'); // it has value
+
+      final updatedState = state.copyWith(
+        passTypes: passTypes,
+        stateType: CreatePassMgmtStateType.success,
       );
+
+      emit(updatedState);
+
+      log('----passTypes.length--22222--${updatedState.passTypes?.length}----'); // Should not be null now
     } catch (e) {
       emit(
         state.copyWith(
@@ -688,14 +692,33 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dayPasselementReason = Organisation();
   }
 
-  initializeValues(DayPassListElement model) async {
+  initializeValues({
+    required DayPassListElement model,
+    required int passId,
+  }) async {
     emit(
       state.copyWith(
         selectedEntities: model.entities,
-        stateType: CreatePassMgmtStateType.success,
+        stateType: CreatePassMgmtStateType.loading,
       ),
     );
+
     try {
+      if (passId != ConstantsIntValue.passIdSez) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        log('-defaultLocation---${defaultLocation?.id}--');
+        await getSerialnumberDetails(defaultLocation!.id.toString(), passId);
+
+        // Wait for getPassTypes to complete before proceeding
+        await getPassTypes(passId: passId, locationId: defaultLocation.id!);
+        log('-state.passTypes.length---${state.passTypes?.length}--'); // Should not be null now
+
+        emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
+        emit(state.copyWith(
+            location: defaultLocation,
+            stateType: CreatePassMgmtStateType.success));
+      }
+
       if (model.companyType?.name != null &&
           model.companyType!.name!.contains('CWR')) {
         emit(
@@ -708,6 +731,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       } else {
         emit(
           state.copyWith(
+            selectedEntities: model.entities,
             showIdentifiedFields: false,
             stateType: CreatePassMgmtStateType.success,
           ),
@@ -862,8 +886,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
-    }
-    catch (e) {
+    } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,

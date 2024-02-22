@@ -1,21 +1,4 @@
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../../../models/base_user.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../createfound/models/user.dart';
-import '../models/vendor_pass_reason_model.dart';
+import 'package:db_atom/index.dart';
 
 enum CreatePassMgmtStateType {
   initial,
@@ -66,7 +49,7 @@ class CreatePassMgmtState extends Equatable {
   int? escortedbyhost;
   int? exceptionalApproval;
   String? passValidUntilDate = '';
-  List<String>? passTypes;
+  List<Organisation>? passTypes;
 
   CreateUserModel? createUserResponse;
   User? hostResponse;
@@ -134,7 +117,7 @@ class CreatePassMgmtState extends Equatable {
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
-    List<String>? passTypes,
+    List<Organisation>? passTypes,
     bool? showIdentifiedFields,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedEmployeeDepartment,

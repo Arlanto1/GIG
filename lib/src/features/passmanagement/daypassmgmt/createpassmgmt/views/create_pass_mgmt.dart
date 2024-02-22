@@ -154,6 +154,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (context, state) {
           return BlocBuilder<CreatePassMgmtCubit, CreatePassMgmtState>(
             builder: (context, state) {
+              if (widget.model == null &&
+                  widget.passId != ConstantsIntValue.passIdSez) {
+                passtypeTextController.text = state.passTypes!.first.name!;
+              } else if (widget.model != null) {
+                passtypeTextController.text = state.passTypes!.first.name!;
+              }
+
               if (widget.model?.status != null &&
                   widget.model?.status != 0 &&
                   widget.model?.status != 1) {
@@ -170,7 +177,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               if (state.stateType == CreatePassMgmtStateType.photoattachment) {
                 photogetFiles = state.photoAttachments ?? [];
               }
-              initiallyLocationAndSerialNumberDataset(state);
+              // initiallyLocationAndSerialNumberDataset(state);
               // if (widget.listuser != null) {
               //   if (state.groups != null) {
 
@@ -1872,53 +1879,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       populateData();
     } else {
       createPassMgmtCubit.initialization();
-    }
-    if (widget.passId == ConstantsIntValue.passIdDayPass) {
-      passtypeTextController.text = 'DAY_PASS';
-    } else if (widget.passId == ConstantsIntValue.passIdVisitor) {
-      passtypeTextController.text = 'VISITOR_PASS';
-    } else if (widget.passId == ConstantsIntValue.passIdVendor) {
-      passtypeTextController.text = 'VENDOR_PASS';
-    } else if (widget.passId == ConstantsIntValue.passIdSez) {
-      passtypeTextController.text = 'SEZ_PASS';
+      createPassMgmtCubit.initializeValues(
+          model: DayPassListElement(), passId: widget.passId);
     }
     getPassManagementList();
     _getCurrentDate();
   }
 
-  initiallyLocationAndSerialNumberDataset(CreatePassMgmtState state) async {
-    if (state.location?.id == null &&
-        state.getLocationsResponse != null &&
-        widget.model == null &&
-        (serialnumber ?? '').isEmpty) {
-      Organisation location = widget.passId != ConstantsIntValue.passIdSez
-          ? Organisation(id: 323, name: "SunGard")
-          : Organisation(id: 26, name: "MTP");
-      createPassMgmtCubit.getlocationsResponseData(location);
-      widget.passId != ConstantsIntValue.passIdSez
-          ? await createPassMgmtCubit.getSerialnumberDetails(
-              '323',
-              widget.passId,
-              context,
-            )
-          : await createPassMgmtCubit.getSerialnumberDetails(
-              '26',
-              widget.passId,
-              context,
-            );
-      await createPassMgmtCubit.getPassNumber(
-        widget.passId,
-        '323',
-        context,
-      );
-    }
-  }
-
   populateData() async {
     if (widget.model != null) {
-      log('-edocu-${widget.model?.evidenceDocuments?.length}---');
-
-      createPassMgmtCubit.initializeValues(widget.model!);
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
       }
@@ -1952,7 +1921,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       hostTextController.text = widget.model?.hostName != null
           ? widget.model?.hostName.toString() ?? ""
           : '';
-      log('-widget.model?.host----${widget.model?.host?.userName}----');
       User? host1 = widget.model?.host ??
           User(userId: int.parse(userId), name: hostTextController.text);
 
@@ -1966,7 +1934,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
       //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
       //     : BaseUser();
-
       User? dbSponsor1 = widget.model?.host ??
           User(userId: int.parse(userId), name: dbsponsorTextController.text);
 
@@ -2044,18 +2011,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Organisation location = widget.model?.location != null
-          ? Organisation(
-              id: widget.model?.location?.id ?? 0,
-              name: widget.model?.location?.name ?? "")
-          : Organisation();
+      // Organisation location = widget.model?.location != null
+      //     ? Organisation(
+      //         id: widget.model?.location?.id ?? 0,
+      //         name: widget.model?.location?.name ?? "")
+      //     : Organisation();
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       await createPassMgmtCubit.getSerialnumberDetails(
-          (widget.model?.location?.id ?? 0).toString(), widget.passId, context);
+        (widget.model?.location?.id ?? 0).toString(),
+        widget.passId,
+      );
 
-      createPassMgmtCubit.getlocationsResponseData(location);
+      createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
       Organisation active = Organisation(
           id: widget.model?.passInfo?.id ?? 0,
           name: widget.model?.passInfo?.passNo ?? '');
@@ -2075,7 +2044,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     context);
       createPassMgmtCubit.getPassNumber(
           0, (widget.model?.location?.id ?? 0).toString(), context);
-      createPassMgmtCubit.getlocationsResponseData(location);
+      createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
@@ -2233,33 +2202,43 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   passTypeDialog(CreatePassMgmtState state) {
     log('--state.pastype-${state.passTypes.toString()}------');
 
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomSimpleListTexts(
-            texts: state.passTypes,
-            // texts: widget.passId == ConstantsIntValue.passIdVisitor &&
-            //     (widget.model?.status == 0 || widget.model?.status == null)
-            //     ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-            //     : widget.passId == ConstantsIntValue.passIdVendor
-            //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-            //     : widget.passId == ConstantsIntValue.passIdDayPass &&
-            //     (widget.model?.status == 0 ||
-            //         widget.model?.status == null)
-            //     ? ["DAY_PASS"]
-            //     : widget.passId == ConstantsIntValue.passIdDayPass
-            //     ? ["DAY_PASS", "DWS_DAY_PASS"]
-            //     : widget.passId == ConstantsIntValue.passIdSez &&
-            //     (widget.model?.status == 0 ||
-            //         widget.model?.status == null)
-            //     ? ["SEZ_PASS"]
-            //     : ["SEZ_PASS", "DWS_SEZ_PASS"],
-            onTap: (String value) {
-              log(value);
-              passtypeTextController.text = value;
-            },
-          );
-        });
+    BaseOrganisationDialog().departmentDialog(
+      context: context,
+      organisations: state.passTypes ?? [],
+      onTap: (Organisation org) {
+        widget.model?.passType = org.id;
+
+        passtypeTextController.text = org.name ?? '';
+      },
+    );
+
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return CustomSimpleListTexts(
+    //         texts: state.passTypes,
+    //         // texts: widget.passId == ConstantsIntValue.passIdVisitor &&
+    //         //     (widget.model?.status == 0 || widget.model?.status == null)
+    //         //     ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
+    //         //     : widget.passId == ConstantsIntValue.passIdVendor
+    //         //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+    //         //     : widget.passId == ConstantsIntValue.passIdDayPass &&
+    //         //     (widget.model?.status == 0 ||
+    //         //         widget.model?.status == null)
+    //         //     ? ["DAY_PASS"]
+    //         //     : widget.passId == ConstantsIntValue.passIdDayPass
+    //         //     ? ["DAY_PASS", "DWS_DAY_PASS"]
+    //         //     : widget.passId == ConstantsIntValue.passIdSez &&
+    //         //     (widget.model?.status == 0 ||
+    //         //         widget.model?.status == null)
+    //         //     ? ["SEZ_PASS"]
+    //         //     : ["SEZ_PASS", "DWS_SEZ_PASS"],
+    //         onTap: (String value) {
+    //           log(value);
+    //           passtypeTextController.text = value;
+    //         },
+    //       );
+    //     });
   }
 
   updatestausTypeDialog() {
@@ -2421,8 +2400,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 //   }
 
   Widget reasonforadaypassaddButtonwidgetLoading(CreatePassMgmtState state) {
-    log('-state.dayPasselementReason?.name---${state.dayPasselementReason?.name}-');
-    log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason?.name}--');
     return Column(
       children: [
         TextFieldAddButton(
@@ -2673,8 +2650,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget companytypeaddButtonwidgetLoading(CreatePassMgmtState state) {
-    log('----passCategoryTextController.text---${passCategoryTextController.text}--');
-    log('----state.selectedCompanyType?.name---${state.selectedCompanyType?.name}--');
     return TextFieldAddButton(
       title: passCategoryTextController.text == 'Permanent'
           ? "FTE"
@@ -3043,7 +3018,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   await createPassMgmtCubit.getSerialnumberDetails(
                     org?.id.toString() ?? '',
                     widget.passId,
-                    context,
                   );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)
                       .getPassTypes(
@@ -3154,7 +3128,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     log('-daypassnoTextController.text--${daypassnoTextController.text}-');
 
-    passInfo.passType = widget.passId;
+    passInfo.passType = widget.model?.passType;
 
     // if (widget.passId == ConstantsIntValue.passIdSez) {
     //   passInfo.passNo = sezpassinfoTextController.text;
@@ -3219,9 +3193,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (updateStatusTextController.text
         .equalsIgnoreCase(ConstantsIntValue.passStatusDamagedDeActivated)) {
       updateStatusValue = 5;
-    } else if (updateStatusTextController.text.equalsIgnoreCase(ConstantsIntValue.passStatusDefaced)) {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase(ConstantsIntValue.passStatusDefaced)) {
       updateStatusValue = 6;
-    } else if (updateStatusTextController.text.equalsIgnoreCase(ConstantsIntValue.passStatusCancelled)) {
+    } else if (updateStatusTextController.text
+        .equalsIgnoreCase(ConstantsIntValue.passStatusCancelled)) {
       updateStatusValue = 7;
     } else if (updateStatusTextController.text
         .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDamaged)) {

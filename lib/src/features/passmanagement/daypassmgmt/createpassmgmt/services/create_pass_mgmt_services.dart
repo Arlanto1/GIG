@@ -87,7 +87,7 @@ class CreatePassMgmtService {
     return response['date'];
   }
 
-  Future<List<String>> getPassTypes({
+  Future<List<Organisation>> getPassTypes({
     required int passId,
     required int locationId,
     BuildContext? context,
@@ -96,6 +96,10 @@ class CreatePassMgmtService {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return List<String>.from(response);
+
+    log('----response----${response.toString()}----');
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 }
