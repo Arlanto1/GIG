@@ -19,6 +19,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }) : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
+            model: DayPassListElement(),
             stateType: CreatePassMgmtStateType.initial,
           ),
         );
@@ -76,7 +77,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -214,7 +215,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -276,6 +277,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     );
 
     log('---passId---$passId--');
+    log('---passId--locationId-$locationId--');
     try {
       List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
           passId: passId, locationId: locationId);
@@ -308,7 +310,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -382,7 +384,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           companyTypes: companyTypes,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -444,7 +446,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           dayPassReason: dayPassreasons,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -486,7 +488,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           vendorPassReason: vendorPassreasons,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -606,7 +608,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -656,7 +658,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
@@ -690,14 +692,18 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dbsponsorResponse = User();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
+    state.passTypes = [];
   }
 
   initializeValues({
     required DayPassListElement model,
     required int passId,
   }) async {
+    log('---initializeValues----');
+
     emit(
       state.copyWith(
+        model: DayPassListElement(),
         selectedEntities: model.entities,
         stateType: CreatePassMgmtStateType.loading,
       ),
@@ -705,7 +711,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
     try {
       if (passId != ConstantsIntValue.passIdSez) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        Organisation? defaultLocation;
+        if (model.location == null) {
+          defaultLocation = await SharedPrefs.getDefaultLocation();
+        } else {
+          defaultLocation = model.location;
+        }
         log('-defaultLocation---${defaultLocation?.id}--');
         await getSerialnumberDetails(defaultLocation!.id.toString(), passId);
 
@@ -713,10 +724,18 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         await getPassTypes(passId: passId, locationId: defaultLocation.id!);
         log('-state.passTypes.length---${state.passTypes?.length}--'); // Should not be null now
 
+        List<Organisation> updateStatuses = [];
+        if (model.status != null && (model.status == 0 || model.status == 1)) {
+          updateStatuses = await commonServices.getStatusesByModuleId(
+              module: Constants.passManagementModuleCode, filter: model.status);
+        }
+
         emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
         emit(state.copyWith(
-            location: defaultLocation,
-            stateType: CreatePassMgmtStateType.success));
+          location: defaultLocation,
+          updateStatuses: updateStatuses,
+          stateType: CreatePassMgmtStateType.success,
+        ));
       }
 
       if (model.companyType?.name != null &&
@@ -935,5 +954,24 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       module = Constants.passManagementSEZModule;
     }
     await commonServices.updateRecordStatus(id: id, module: module);
+  }
+
+  Future<void> updateDropdownValues({
+    Organisation? updateStatus,
+  }) async {
+    emit(
+      state.copyWith(
+        stateType: CreatePassMgmtStateType.loading,
+      ),
+    );
+
+    if(updateStatus!= null) {
+      state.model.updatedStatus = updateStatus.id;
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      stateType: CreatePassMgmtStateType.initial,
+    ));
   }
 }

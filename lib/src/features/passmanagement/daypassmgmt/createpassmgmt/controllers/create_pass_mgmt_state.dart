@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
 enum CreatePassMgmtStateType {
   initial,
@@ -11,6 +12,8 @@ enum CreatePassMgmtStateType {
 }
 
 class CreatePassMgmtState extends Equatable {
+  final DayPassListElement model;
+  final List<Organisation>? updateStatuses;
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   late final int? eventId;
@@ -58,6 +61,8 @@ class CreatePassMgmtState extends Equatable {
   bool showIdentifiedFields;
 
   CreatePassMgmtState({
+    required this.model,
+    this.updateStatuses,
     this.getEntitiesResponse,
     this.eventId,
     this.passTypes,
@@ -104,7 +109,17 @@ class CreatePassMgmtState extends Equatable {
     this.nameResponse,
   });
 
+  factory CreatePassMgmtState.initial({
+    required DayPassListElement model,
+  }) {
+    return CreatePassMgmtState(
+      model: model,
+      stateType: CreatePassMgmtStateType.loading,
+    );
+  }
+
   CreatePassMgmtState copyWith({
+    DayPassListElement? model,
     AddEntities? getEntitiesResponse,
     final int? eventId,
     CreatePassMgmtStateType? stateType,
@@ -149,8 +164,11 @@ class CreatePassMgmtState extends Equatable {
     User? dbsponsorResponse,
     BaseUser? nameResponse,
     String? passValidUntilDate,
+    List<Organisation>? updateStatuses,
   }) {
     return CreatePassMgmtState(
+      model: model ?? this.model,
+      updateStatuses:updateStatuses??this.updateStatuses,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
       stateType: stateType ?? this.stateType,

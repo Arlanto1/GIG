@@ -142,40 +142,6 @@ class GMRate {
       };
 }
 
-class Roles {
-  num? roleId;
-  String? application;
-  String? roleName;
-  List<RoleExtension>? roleExtensions;
-  String? name;
-
-  Roles({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  Roles.fromJson(Map<String, dynamic> json)
-      : roleId = json['roleId'] as num?,
-        application = json['application'] as String?,
-        roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)
-            ?.map((dynamic e) =>
-                RoleExtension.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'roleId': roleId,
-        'application': application,
-        'roleName': roleName,
-        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
-        'name': name
-      };
-}
-
 class PayRate {
   int? id;
   num? rankId;

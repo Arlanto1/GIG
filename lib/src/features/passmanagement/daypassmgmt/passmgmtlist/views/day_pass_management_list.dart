@@ -207,13 +207,10 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             if(state.stateType == FormStatus.loading) {
               return const BaseLoader();
             }
-            log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
-            log('--state.stateType--${state.stateType}---');
             if (state.stateType == FormStatus.success) {
               if (state.foundListModel?.items == null &&
                   state.foundListModel!.items!.isEmpty) {
                 if (pageNumber == 0) {
-                  log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
                   localfoundlist = state.foundListModel?.items;
                 }
                 return const Center(

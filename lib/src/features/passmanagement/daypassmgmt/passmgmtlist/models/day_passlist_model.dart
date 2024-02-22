@@ -54,6 +54,7 @@ class DayPassListElement {
   Organisation? vendorPassReason;
   Organisation? locationRegion;
   List<Organisation>? entities;
+  int? updatedStatus;
   int? status;
   String? modifiedDate;
   String? modifiedBy;
@@ -116,6 +117,7 @@ class DayPassListElement {
     this.employeeId,
     this.email,
     this.host,
+    this.updatedStatus,
     this.hostEmployeeId,
     this.department,
     this.dayPassReason,
@@ -166,6 +168,7 @@ class DayPassListElement {
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
+        updatedStatus: json["updatedStatus"],
         history: json["history"] == null
             ? []
             : List<History>.from(
@@ -232,6 +235,7 @@ class DayPassListElement {
         "inputDate": inputDate,
         "location": location?.toJson(),
         "locationRegion": locationRegion?.toJson(),
+        "updatedStatus": updatedStatus,
         "vendorPassReason": vendorPassReason?.toJson(),
         "entities": entities == null
             ? []

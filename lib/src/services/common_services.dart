@@ -332,9 +332,10 @@ class CommonServices {
 
   Future<List<Organisation>> getStatusesByModuleId({
     required String module,
+    int? filter, // For Pass Management Status
     BuildContext? context,
   }) async {
-    String url = '${Apis._getStatusesByModuleId}module=$module';
+    String url = '${Apis._getStatusesByModuleId}module=$module&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

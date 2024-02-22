@@ -64,6 +64,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   int pageNumber = 0;
 
   @override
+  void initState() {
+    super.initState();
+    getPassManagementList();
+    if (widget.model != null) {
+      log('Existing Record');
+      //globalState = CreatePassMgmtState(stateType: CreatePassMgmtStateType.initial);
+      populateData();
+      createPassMgmtCubit.initializeValues(
+          model: widget.model!, passId: widget.passId);
+    } else {
+      log('New Record');
+      // widget.model = DayPassListElement();
+      createPassMgmtCubit.initialization();
+      createPassMgmtCubit.initializeValues(
+          model: DayPassListElement(), passId: widget.passId);
+    }
+    _getCurrentDate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     log('--passId----${widget.passId}----');
     final size = MediaQuery.of(context).size;
@@ -132,6 +152,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 // TODO: Need to improve this code
                 Navigator.pop(context);
                 Navigator.pop(context);
+                Navigator.pop(context);
+                // TODO: dynamic title
                 Navigator.popAndPushNamed(
                   context,
                   daypassmanagementListRoute,
@@ -154,11 +176,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (context, state) {
           return BlocBuilder<CreatePassMgmtCubit, CreatePassMgmtState>(
             builder: (context, state) {
+              log('-builder-state.stateType---${state.stateType}---');
+              if (state.stateType == CreatePassMgmtStateType.loading) {
+                return const BaseLoader();
+              }
+
               if (widget.model == null &&
                   widget.passId != ConstantsIntValue.passIdSez) {
+                log('-builder-if--}--');
                 passtypeTextController.text = state.passTypes!.first.name!;
+                state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
-                passtypeTextController.text = state.passTypes!.first.name!;
+                Iterable<Organisation>? passes = state.passTypes
+                    ?.where((element) => element.id == widget.model?.passType);
+
+                passtypeTextController.text = passes!.first.name!;
+
+                state.model.passType = widget.model?.passType;
+                log('-passes?.length---${passes?.length}--');
+                // passtypeTextController.text = pass!.name!;
               }
 
               if (widget.model?.status != null &&
@@ -258,116 +294,44 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// Update Status
-                                    (widget.model != null &&
-                                            (statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "created" ||
-                                                statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "handed over"))
-                                        ? CommonWidgets.textDisplay(
-                                            isMandatory: true,
-                                            Constants.updatestatus,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    (widget.model != null &&
-                                            (statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "created" ||
-                                                statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "handed over"))
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-
-                                    if ((widget.model != null &&
+                                    if (widget.model != null &&
                                         (statusTextController.text
                                                     .toLowerCase() ==
                                                 "created" ||
                                             statusTextController.text
                                                     .toLowerCase() ==
-                                                "handed over"))) ...[
-                                      InkWell(
+                                                "handed over")) ...[
+                                      CommonWidgets.textDisplay(
+                                          isMandatory: true,
+                                          Constants.updatestatus,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      TextFieldAddButton(
+                                        title: updateStatusTextController.text,
+                                        height: 60,
+                                        isDisableColor: false,
                                         onTap: () {
-                                          log('-ontap-----statusTextController.text----${statusTextController.text}---');
-                                          if (statusTextController.text
-                                                  .toLowerCase() ==
-                                              "created") {
-                                            updatestausTypeDialog();
-                                          } else {
-                                            updatestausTypeDialog();
-                                          }
+                                          BaseOrganisationDialog()
+                                              .departmentDialog(
+                                            context: context,
+                                            organisations:
+                                                state.updateStatuses ?? [],
+                                            onTap: (Organisation org) {
+                                              updateStatusTextController.text =
+                                                  org.name!;
+                                              setState(() {});
+                                              BlocProvider.of<
+                                                          CreatePassMgmtCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      updateStatus: org);
+                                            },
+                                          );
                                         },
-                                        child: FlutterInputField(
-                                          isEnable: false,
-                                          isDisableColor: true,
-                                          controller:
-                                              updateStatusTextController,
-                                          textFormKey: Keys
-                                              .updateStatusTextControllerKey,
-                                          hintText: '',
-                                          onChange: (String value) {},
-                                          validateTextField: (String? user) {},
-                                          suffixIcon: Icons.arrow_drop_down,
-                                        ),
                                       ),
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     log('-ontap-----statusTextController.text----${statusTextController.text}---');
-                                      //     if (statusTextController.text
-                                      //             .toLowerCase() ==
-                                      //         "created") {
-                                      //       updatestausTypeDialog();
-                                      //     } else {
-                                      //       updatestausTypeDialog();
-                                      //     }
-                                      //   },
-                                      //   child: FlutterInputField(
-                                      //     isEnable: false,
-                                      //     isDisableColor: true,
-                                      //     textFieldController:
-                                      //         updateStatusTextController,
-                                      //     textFormKey:
-                                      //         Keys.updateStatusTextControllerKey,
-                                      //     hintText: '',
-                                      //     onChange: (String value) {},
-                                      //     validateTextField: (String? user) {},
-                                      //     suffixWidget: GestureDetector(
-                                      //       onTap: () {
-                                      //         log('--FlutterInputField----onTap--');
-                                      //         if (statusTextController.text
-                                      //                 .toLowerCase() ==
-                                      //             "created") {
-                                      //           updatestausTypeDialog();
-                                      //         } else {
-                                      //           updatestausTypeDialog();
-                                      //         }
-                                      //       },
-                                      //       child: Padding(
-                                      //         padding: const EdgeInsets.all(20.0),
-                                      //         child: SvgPicture.asset(
-                                      //           //AppIcon.dropdownicon,
-                                      //           AppIcon.dropdownicon,
-                                      //           //fit: BoxFit.,
-                                      //           color: AppColors.textgreyThemecolor,
-                                      //           width: 10,
-                                      //           height: 10,
-                                      //           key: const Key(Keys.userIcon),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      (statusTextController.text
-                                                      .toLowerCase() ==
-                                                  "created" ||
-                                              statusTextController.text
-                                                      .toLowerCase() ==
-                                                  "handed over")
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.01)
-                                          : Container(),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
                                     ],
 
                                     /// Created By
@@ -1871,21 +1835,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.model != null) {
-      //globalState = CreatePassMgmtState(stateType: CreatePassMgmtStateType.initial);
-      populateData();
-    } else {
-      createPassMgmtCubit.initialization();
-      createPassMgmtCubit.initializeValues(
-          model: DayPassListElement(), passId: widget.passId);
-    }
-    getPassManagementList();
-    _getCurrentDate();
-  }
-
   populateData() async {
     if (widget.model != null) {
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
@@ -2206,7 +2155,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       context: context,
       organisations: state.passTypes ?? [],
       onTap: (Organisation org) {
-        widget.model?.passType = org.id;
+        log('---widget.model-${widget.model}-');
+        log('---widget.model?.passType-${widget.model?.passType}-');
+        state.model.passType = org.id;
 
         passtypeTextController.text = org.name ?? '';
       },
@@ -2239,32 +2190,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //         },
     //       );
     //     });
-  }
-
-  updatestausTypeDialog() {
-    log('----updatestausTypeDialog-');
-
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomSimpleListTexts(
-            texts: statusTextController.text.toLowerCase() == "created"
-                ? ["Cancelled"]
-                : [
-                    "Returned",
-                    "Lost/De-Activated",
-                    "Damaged/De-Activated",
-                    "Defaced/De-Activated",
-                    "Returned/Damaged",
-                    "Returned/Defaced"
-                  ],
-            onTap: (String value) {
-              log(value);
-              updateStatusTextController.text = value;
-              setState(() {});
-            },
-          );
-        });
   }
 
   passCategoryDialog({required CreatePassMgmtState state}) {
@@ -3127,8 +3052,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passInfo.passNo--${passInfo.passNo}-');
 
     log('-daypassnoTextController.text--${daypassnoTextController.text}-');
+    log('-state.model.passType--${state.model.passType}-');
 
-    passInfo.passType = widget.model?.passType;
+    passInfo.passType = state.model.passType;
 
     // if (widget.passId == ConstantsIntValue.passIdSez) {
     //   passInfo.passNo = sezpassinfoTextController.text;
@@ -3339,10 +3265,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       log('--passinfo type--${passInfo.passType}--------');
       passMgmtBody = PassManagement(
         id: isFoundId,
-        updatedStatus: (statusTextController.text.toLowerCase() == "created" ||
-                statusTextController.text.toLowerCase() == "handed over")
-            ? updateStatusValue
-            : null,
+        updatedStatus: state.model.updatedStatus,
         inputDate: inputDate.toString(),
         slNo: serialnumber ?? '',
         location: location,
