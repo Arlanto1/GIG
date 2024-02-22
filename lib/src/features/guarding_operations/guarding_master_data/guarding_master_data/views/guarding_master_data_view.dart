@@ -46,14 +46,14 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-                arguments: {"title": Constants.createGuardingMasterData}),
-          },
-        ),
+        // floatingActionButton: Flutterfloatingbutton(
+        //   backgroundColor: AppColors.navigationSkybluecolor,
+        //   foregroundColor: AppColors.backgroundWhitecolor,
+        //   onPressed: () => {
+        //     Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+        //         arguments: {"title": Constants.createGuardingMasterData}),
+        //   },
+        // ),
 
         appBar: BaseAppBar().buildAppHeader(
           context: context,

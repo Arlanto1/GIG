@@ -533,6 +533,10 @@ class GuardingMasterDataDetailsCubit
     try {
       physicallyFit = await services.getGmPhysicallyFit(body: request);
       state.model.physicallyFit = physicallyFit.physicallyFit ?? false;
+      emit(state.copyWith(
+        model: state.model,
+        status: FormStatus.initial,
+      ));
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -552,7 +556,6 @@ class GuardingMasterDataDetailsCubit
 
     emit(state.copyWith(
       model: state.model,
-      // physicallyFit: physicallyFit,
       status: FormStatus.initial,
     ));
   }
