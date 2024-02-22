@@ -3232,7 +3232,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else {
       updateStatusValue = 1;
     }
-    return;
+    // return;
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
     List<Organisation>? entities = state.selectedEntities;
