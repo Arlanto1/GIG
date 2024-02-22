@@ -274,7 +274,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
                           widget.model.contactNo = value;
-                          log('-widget.contact.contactNo?.name----${widget.model.contactNo}-');
+                          log('contactNo---${widget.model.contactNo?.length !=10}-');
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -379,7 +379,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         }
         return double.tryParse(str) != null;
       }
-      if (!isNumeric(widget.model.contactNo!)) {
+      if (!isNumeric(widget.model.contactNo!) ) {
         return const ErrorResponse(
           status: false,
           message: 'Please enter a valid numeric contact number.',
@@ -392,7 +392,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       }
       return double.tryParse(str) != null;
     }
-    if (!isNumeric(widget.model.contactNo!)) {
+    if (!isNumeric(widget.model.contactNo!)||widget.model.contactNo?.length != 10) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter a valid contact number.',
