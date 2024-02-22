@@ -19,7 +19,7 @@ class AddDatePopUp extends StatefulWidget {
 class AddDatePopUpState extends State<AddDatePopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController powerFailureStartDateController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
 
   @override

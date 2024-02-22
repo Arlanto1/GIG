@@ -84,6 +84,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.totalKey,
                         hintText: '',
+                        isEnable: false,
                         onChange: (String value) {
                           if (value.isNotEmpty) {
                             widget.payRate.total = num.parse(value);
@@ -115,6 +116,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.daysKey,
                         hintText: '',
+                        isEnable: false,
                         onChange: (String value) {
                           if (value.isNotEmpty &&
                               widget.payRate.total != null) {
@@ -165,7 +167,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: fromDateController,
-                        isDisabled: false,
+                        isDisabled: true,
                         onlyDate: true,
                         onChange: (String value) {
                           log('--fr-value-${fromDateController.text}------');
@@ -186,6 +188,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
+                        isDisabled: true,
                         onlyDate: true,
                         showPastDate: false,
                         onChange: (String value) {
@@ -210,7 +213,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         textFormKey: Keys.commentKey,
                         hintText: '',
                         showBorder: true,
-                        isEnable: true,
+                        isEnable: false,
                         isDisableColor: false,
                         onChange: (String value) {
                           widget.payRate.comment = value;
@@ -243,7 +246,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           cancelButton(width),
-          saveButton(width, widget.onSubmit)
+         // saveButton(width, widget.onSubmit)
         ],
       ),
     );

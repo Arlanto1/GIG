@@ -239,10 +239,32 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
             ),
           ],
         ),
-        const SizedBox(height: 30), // Add some spacing between the boxes
-        Center(
-          child: submitButtonDisplay(),
+        const SizedBox(height: 19), //
+        // const SizedBox(height: 19), // Add spacing between the columns
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
+                Navigator.pushNamed(context, payRateRoute, arguments: {
+                  "title": Constants.createOthers,
+                  "payRates": widget.rate.otherRates ?? [],
+                  "gmRate": widget.rate,
+                });
+              },
+              child: buildRectangleBox(
+                imageAsset: 'assets/images/security.png',
+                text: 'Others',
+                // Add the text
+                bottomPadding: 22,
+              ),
+            ),
+          ],
         ),
+    // const SizedBox(height: 19), // Add spacing between the columns
+    //     Center(
+    //       child: submitButtonDisplay(),
+    //     ),
       ],
     );
   }

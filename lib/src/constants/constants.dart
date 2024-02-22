@@ -446,6 +446,8 @@ class Constants {
   static const String createSecurityFacilitator = 'Create Security Facilitator';
   static const String createGunMan = 'Create Gun Man';
   static const String addSecurityGuard = 'Security Guard';
+  static const String createOthers = 'Create Others';
+
 
   static const String monthlyCost = 'Monthly Cost';
   static const String days = 'Days';

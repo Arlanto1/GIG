@@ -63,20 +63,20 @@ class _GuardingRatesState extends State<GuardingRates> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              guardingRateDetailsRoute,
-              arguments: {
-                "title": Constants.createGuardingRatingCards,
-                "gmRate": GMRate(),
-              },
-            )
-          },
-        ),
+        // floatingActionButton: Flutterfloatingbutton(
+        //   backgroundColor: AppColors.navigationSkybluecolor,
+        //   foregroundColor: AppColors.backgroundWhitecolor,
+        //   onPressed: () => {
+        //     Navigator.pushNamed(
+        //       context,
+        //       guardingRateDetailsRoute,
+        //       arguments: {
+        //         "title": Constants.createGuardingRatingCards,
+        //         "gmRate": GMRate(),
+        //       },
+        //     )
+        //   },
+        // ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.guardingRates,

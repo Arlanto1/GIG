@@ -107,7 +107,7 @@ class _PayRateViewState extends State<PayRateView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: false,
-            showCustomIcon: true,
+            showCustomIcon: false,
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -169,7 +169,8 @@ class _PayRateViewState extends State<PayRateView> {
                           key: 'Monthly',
                           value: '${state.items[index].total}'));
                       labels.add(Label(
-                          key: 'Days', value: '${state.items[index].days??''}'));
+                          key: 'Days',
+                          value: '${state.items[index].days ?? ''}'));
                       labels.add(Label(
                           key: 'Per Hour',
                           value: '${state.items[index].perHour}'));
@@ -184,11 +185,10 @@ class _PayRateViewState extends State<PayRateView> {
                                   context: context,
                                   builder: (BuildContext dialogContext) {
                                     return BasePopUpItems(
-                                        isMasterGuard: false,
+                                      isMasterGuard: false,
                                       id: state.items[selectedIndex].id
                                           .toString(),
                                       labels: labels,
-
                                     );
                                   },
                                 );
@@ -221,85 +221,99 @@ class _PayRateViewState extends State<PayRateView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        cancelButtonDisplay(),
+                        if (widget.title == Constants.createOthers)
+                          Row(
+                            children: [
+                              cancelButtonDisplay(),
+                              const SizedBox(
+                                width: 70,
+                              ),
+                            ],
+                          )
+                        else
+                          cancelButtonDisplay(),
                         const SizedBox(
                           width: 30,
                         ),
-                        submitButtonDisplay(
-                          title: widget.title,
-                          onTap: () {
-                            log('-onTapSubmit--${state.model.vendor?.name}----');
-                            FocusScope.of(context).unfocus();
+                        Visibility(
+                          visible: widget.title != Constants.createOthers,
+                          // Only show the submit button for specific titles
+                          child: submitButtonDisplay(
+                            title: widget.title,
+                            onTap: () {
+                              log('-onTapSubmit--${state.model.vendor?.name}----');
+                              FocusScope.of(context).unfocus();
 
-                            String title = '';
-                            List<PayRate> payRates = [];
-                            switch (widget.title) {
-                              case Constants.createSecuritySupervisor:
-                                title = Constants.createSecurityOfficer;
-                                payRates =
-                                    state.model.securityOfficerRates ?? [];
+                              String title = '';
+                              List<PayRate> payRates = [];
+                              switch (widget.title) {
+                                case Constants.createSecuritySupervisor:
+                                  title = Constants.createSecurityOfficer;
+                                  payRates =
+                                      state.model.securityOfficerRates ?? [];
+                                  state.newPayRate.rankId = 2;
+                                  break;
 
-                                state.newPayRate.rankId = 2;
-                                break;
+                                case Constants.createSecurityGuard:
+                                  title = Constants.createSecuritySupervisor;
+                                  payRates =
+                                      state.model.securitySupervisorRates ?? [];
+                                  state.newPayRate.rankId = 3;
+                                  break;
 
-                              case Constants.createSecurityGuard:
-                                title = Constants.createSecuritySupervisor;
-                                payRates =
-                                    state.model.securitySupervisorRates ?? [];
-                                state.newPayRate.rankId = 3;
+                                case Constants.createSecurityOfficer:
+                                  title = Constants.createSecurityFacilitator;
+                                  payRates =
+                                      state.model.securityFacilitatorRates ??
+                                          [];
+                                  state.newPayRate.rankId = 4;
+                                  break;
 
-                                break;
+                                case Constants.createSecurityFacilitator:
+                                  log('--case ---createSecurityFacilitator-');
+                                  title = Constants.createGunMan;
+                                  payRates =
+                                      state.model.securityGunManRates ?? [];
+                                  state.newPayRate.rankId = 5;
+                                  break;
 
-                              case Constants.createSecurityOfficer:
-                                title = Constants.createSecurityFacilitator;
-                                payRates =
-                                    state.model.securityFacilitatorRates ?? [];
-                                state.newPayRate.rankId = 4;
-                                break;
+                                default:
+                                  title = Constants.createOthers;
+                                  payRates = state.model.otherRates ?? [];
+                                  state.newPayRate.rankId = 6;
+                                  break;
+                              }
 
-                              case Constants.createSecurityFacilitator:
-                                log('--case ---createSecurityFacilitator-');
+                              if (widget.title == Constants.createOthers) {
+                                BlocProvider.of<PayRateCubit>(context).onSave(
+                                  isSubmit: true,
+                                  // newPayRate: state.newPayRate,
+                                );
 
-                                title = Constants.createGunMan;
-                                payRates = state.model.securityGunManRates ?? [];
-                                state.newPayRate.rankId = 5;
-                                break;
-
-                              default:
-                                title = Constants.createGunMan;
-                                payRates = state.model.securityGunManRates ?? [];
-                                state.newPayRate.rankId = 5;
-                                break;
-                            }
-
-                            if (widget.title == Constants.createGunMan) {
-                              BlocProvider.of<PayRateCubit>(context).onSave(
-                                isSubmit: true,
-                                // newPayRate: state.newPayRate,
-                              );
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  guardingRateDetailsRoute,
+                                  arguments: {
+                                    "title":
+                                        Constants.createGuardingRatingCards,
+                                    "gmRate": state.model,
+                                  },
+                                );
+                                return;
+                              }
+                              log('--ifff-3333-');
 
                               Navigator.pushReplacementNamed(
                                 context,
-                                guardingRateDetailsRoute,
+                                payRateRoute,
                                 arguments: {
-                                  "title": Constants.createGuardingRatingCards,
+                                  "payRates": payRates,
                                   "gmRate": state.model,
+                                  "title": title,
                                 },
                               );
-                              return;
-                            }
-                            log('--ifff-3333-');
-
-                            Navigator.pushReplacementNamed(
-                              context,
-                              payRateRoute,
-                              arguments: {
-                                "payRates": payRates,
-                                "gmRate": state.model,
-                                "title": title,
-                              },
-                            );
-                          },
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -329,7 +343,7 @@ class _PayRateViewState extends State<PayRateView> {
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText:
-          title == Constants.createGunMan ? Constants.submit : Constants.next,
+          title == Constants.createOthers ? Constants.submit : Constants.next,
       buttonTextKey: Keys.submitButton,
       onTap: onTap,
     );
