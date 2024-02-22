@@ -369,12 +369,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             (widget.isShiftScheduleStatus &&
                                 widget.status == -1) ||
                             (widget.isIncident &&
-                                widget.status !=0 && widget.status !=1) ||
+                                widget.status != 0 &&
+                                widget.status != 1) ||
                             (widget.isMasterGuard &&
                                 (widget.status != 1 ||
                                     widget.status != 2 ||
                                     widget.status != 3 ||
-                                    widget.status != 4)) || (widget.isVipStatus && (widget.status != 0))
+                                    widget.status != 4)) ||
+                            (widget.isVipStatus && (widget.status != 0)||
+                                (widget.isOccurrenceStatus &&
+                                    widget.status == 1))
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),

@@ -483,7 +483,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-
                                   (state.getVisitsCount) > 0
                                       ? listVisitingOfficialDetails(
                                           height,
@@ -697,16 +696,28 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     visitCount: value, getVisits: getVisits1);
               }
             },
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: SvgPicture.asset(
-                AppIcon.closeicon,
-                color: AppColors.navigationSkybluecolor,
-              ),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Divider(
+                    color: AppColors.navigationSkybluecolor, // Adjust the color of the line as needed
+                    thickness: 1, // Adjust the thickness of the line as needed
+                  ),
+                ),
+                const SizedBox(width: 8), // Adjust the width of the space as needed
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SvgPicture.asset(
+                    AppIcon.closeicon,
+                    color: AppColors.navigationSkybluecolor,
+                  ),
+                ),
+              ],
             ), //Icon(Icons.cancel)
           ),
         ],
         CommonWidgets.verticalSpacerWidget(height * 0.002),
+
         CommonWidgets.textDisplay(
           Constants.name,
           Styles.textStyleBlack14,
