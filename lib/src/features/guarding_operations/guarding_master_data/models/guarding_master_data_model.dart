@@ -100,10 +100,10 @@ class GuardingMastersDataModel extends BaseObject {
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
   String? guardingPOC;
-  List<dynamic>? csrParticipations;
-  List<dynamic>? additionalInitiatives;
-  List<dynamic>? additionalQualifications;
-  List<dynamic>? specialAchievements;
+  List<GuardingMasterDataExtraDetails>? csrParticipations;
+  List<GuardingMasterDataExtraDetails>? additionalInitiatives;
+  List<GuardingMasterDataExtraDetails>? additionalQualifications;
+  List<GuardingMasterDataExtraDetails>? specialAchievements;
   String? entrySecurityName;
   String? guardName;
   int? dependentsNo;
@@ -204,4 +204,31 @@ class GuardingMastersDataModel extends BaseObject {
   }
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
+}
+
+class GuardingMasterDataExtraDetails {
+  final int? id;
+  final String? description;
+  final String? date;
+  final int? type;
+
+  GuardingMasterDataExtraDetails({
+    this.id,
+    this.description,
+    this.date,
+    this.type,
+  });
+
+  GuardingMasterDataExtraDetails.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        description = json['description'] as String?,
+        date = json['date'] as String?,
+        type = json['type'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'description' : description,
+    'date' : date,
+    'type' : type
+  };
 }

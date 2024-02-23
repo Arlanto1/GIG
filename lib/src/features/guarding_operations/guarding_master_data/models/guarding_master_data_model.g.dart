@@ -101,11 +101,23 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       msgbFormBSubmitted: json['msgbFormBSubmitted'] as int?,
       staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
       guardingPOC: json['guardingPOC'] as String?,
-      csrParticipations: json['csrParticipations'] as List<dynamic>?,
-      additionalInitiatives: json['additionalInitiatives'] as List<dynamic>?,
+      csrParticipations: (json['csrParticipations'] as List<dynamic>?)
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      additionalInitiatives: (json['additionalInitiatives'] as List<dynamic>?)
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       additionalQualifications:
-          json['additionalQualifications'] as List<dynamic>?,
-      specialAchievements: json['specialAchievements'] as List<dynamic>?,
+          (json['additionalQualifications'] as List<dynamic>?)
+              ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      specialAchievements: (json['specialAchievements'] as List<dynamic>?)
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       entrySecurityName: json['entrySecurityName'] as String?,
       guardName: json['guardName'] as String?,
       covidFirstDoseDate: json['covidFirstDoseDate'] as String?,
