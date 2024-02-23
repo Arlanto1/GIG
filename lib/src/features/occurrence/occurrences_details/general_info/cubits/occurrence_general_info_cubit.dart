@@ -40,7 +40,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> isFormReadable() async {
-    
+
     emit(state.copyWith( status: FormStatus.loading));
     log('---1-----');
 
@@ -146,7 +146,13 @@ log('-----2---');
                     int.tryParse(powerFailureModel.powerFailureStartDate),
                     Constants.fulldateFormat);
 
-            model.powerFailures ?? [].add(powerFailure);
+            if(model.powerFailures.isEmptyOrNull) {
+              model.powerFailures = [];
+            }
+
+            model.powerFailures?.add(powerFailure);
+            log('--model.powerFailures--${model.powerFailures?.length}-');
+
           }
         }
       }

@@ -1683,6 +1683,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   List<Widget> getPowerFailures(OccurrenceGeneralInfoState state, height) {
     List<Widget> widgets = [];
 
+    log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
+
+
     for (PowerFailure powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
