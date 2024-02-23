@@ -480,6 +480,16 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
+  static const String additionalQualification = 'Additional Qualification/Certifications';
+  static const String qualificationCompletionDate = 'Qualification Completion Date';
+  static const String specialAchievementsInfo = 'Special Achievements Info';
+  static const String achievementsDate = 'Achievement Date';
+  static const String additionalInitiativesInfo = 'Additional Initiatives Info';
+  static const String initiativesDate = 'Initiative Date';
+
+
+
+  static const String participationDate = 'Participation Date';
   static const String csrParticipationDate = 'Add CSR Participation Date';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
@@ -503,7 +513,6 @@ class Constants {
   static const String esicNo = 'ESIC NO';
   static const String uanNo = 'UAN NO';
   static const String mSGBExemptionDate = 'MSGB Exemption Date';
-  static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String localAddress = 'Local Address';
   static const String localLanguage = 'Local Language';
   static const String localLanguageProficiency = 'Local Language Proficiency';

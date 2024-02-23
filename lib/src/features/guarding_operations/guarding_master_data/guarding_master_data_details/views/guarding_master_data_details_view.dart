@@ -247,6 +247,8 @@ class _GuardingMasterDataDetailsViewState
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
+              child: AbsorbPointer(
+                absorbing: true,
               child: Form(
                 key: _formKey,
                 autovalidateMode: state.model.status == 4
@@ -358,7 +360,7 @@ class _GuardingMasterDataDetailsViewState
                           TextFieldAddButton(
                               title: state.model.entity?.name ?? '',
                               height: 70,
-                              isDisableColor: false,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
@@ -407,7 +409,7 @@ class _GuardingMasterDataDetailsViewState
                               TextFieldAddButton(
                                 title: state.model.guard?.name,
                                 height: 70,
-                                isDisableColor: false,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -486,7 +488,7 @@ class _GuardingMasterDataDetailsViewState
                           TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
-                            isDisableColor: false,
+                            isDisableColor: true,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
                                   context: context,
@@ -526,8 +528,8 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.guardingPOC,
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
+                            isEnable: false,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.guardingPOC = value;
                               context
@@ -591,15 +593,16 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.employeeCode,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData
-                                                ?.employeeCode ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
+                            isEnable: false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData
+                            //                     ?.employeeCode ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.employeeCode = value;
                               context
@@ -622,15 +625,16 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.dbEmployeeId,
                             textFormKey: Keys.dbEmployeeIDKey,
                             hintText: '',
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData
-                                                ?.dbEmployeeId ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
+                            isEnable:false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData
+                            //                     ?.dbEmployeeId ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.dbEmployeeId = value;
                               context
@@ -787,14 +791,15 @@ class _GuardingMasterDataDetailsViewState
                             textFormKey: Keys.contactNoKey,
                             hintText: '',
                             characterLimit: 10,
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData?.contactNo ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: false,
+                            isEnable: false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData?.contactNo ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.contactNo = value;
                               context
@@ -818,8 +823,8 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: '${state.model.dependentsNo ?? ''}',
                             textFormKey: Keys.dependentsKey,
                             hintText: '',
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: false,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.dependentsNo = int.tryParse(value);
                               context
@@ -939,29 +944,31 @@ class _GuardingMasterDataDetailsViewState
                             status: state.model.status ?? 0,
                             selectedValue:
                                 state.model.deploymentOrderSubmitted ? 1 : 0,
-                            onChangedYes: widget.guardingMasterData?.status == 6
-                                ? null
-                                : (val) {
-                                    state.model.deploymentOrderSubmitted = true;
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .showFields(
-                                            deploymentOrderSubmitted: true);
-                                    //.onModelValueChange(state.guardingMasterData
-                                    //);
-                                  },
-                            onChangedNo: widget.guardingMasterData?.status == 4
-                                ? null
-                                : (val) {
-                                    state.model.deploymentOrderSubmitted =
-                                        false;
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .showFields(
-                                            deploymentOrderSubmitted: false);
-                                  },
+                            onChangedYes: null,
+                            // widget.guardingMasterData?.status == 6
+                            //     ? null
+                                // : (val) {
+                                //     state.model.deploymentOrderSubmitted = true;
+                                //     BlocProvider.of<
+                                //                 GuardingMasterDataDetailsCubit>(
+                                //             context)
+                                //         .showFields(
+                                //             deploymentOrderSubmitted: true);
+                                //     .onModelValueChange(state.guardingMasterData
+                                //     );
+                                //  },
+                            onChangedNo: null,
+  // widget.guardingMasterData?.status == 4
+  //                               ? null
+  //                               : (val) {
+  //                                   state.model.deploymentOrderSubmitted =
+  //                                       false;
+  //                                   BlocProvider.of<
+  //                                               GuardingMasterDataDetailsCubit>(
+  //                                           context)
+  //                                       .showFields(
+  //                                           deploymentOrderSubmitted: false);
+  //                                 },
                           ),
                           if (state.model.deploymentOrderSubmitted) ...[
                             /// upload Deployment Order File
@@ -1018,8 +1025,8 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: '${state.model.height ?? ''}',
                             textFormKey: Keys.heightKey,
                             hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
+                            isEnable: false,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.height = int.tryParse(value);
 
@@ -1048,8 +1055,8 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: '${state.model.weight ?? ''}',
                             textFormKey: Keys.weightKey,
                             hintText: '',
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: false,
+                            isDisableColor: true,
                             onChange: (String value) {
                               state.model.weight = int.tryParse(value);
                               physicallyFitModel.weight = state.model.weight;
@@ -1080,8 +1087,8 @@ class _GuardingMasterDataDetailsViewState
                               initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
-                              isEnable: isDisabled,
-                              isDisableColor: false,
+                              isEnable: false,
+                              isDisableColor: true,
                               onChange: (String value) {
                                 state.model.chest = int.tryParse(value);
 
@@ -1113,20 +1120,22 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.localLanguage,
                             textFormKey: Keys.languageKey,
                             hintText: '',
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData
-                                                ?.localLanguage ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: (widget.guardingMasterData !=
-                                        null &&
-                                    (widget.guardingMasterData?.localLanguage !=
-                                        null))
-                                ? true
-                                : false,
+                            isEnable:false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData
+                            //                     ?.localLanguage ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
+                            // (widget.guardingMasterData !=
+                            //             null &&
+                            //         (widget.guardingMasterData?.localLanguage !=
+                            //             null))
+                            //     ? true
+                            //     : false,
                             onChange: (String value) {
                               state.model.localLanguage = value;
                               context
@@ -1197,8 +1206,10 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.securityExperience,
                             textFormKey: Keys.securityExperienceKey,
                             hintText: Constants.informationhere,
-                            isEnable: state.model.status != 6,
-                            isDisableColor: state.model.status == 6,
+                            isEnable: false,
+                            //state.model.status != 6,
+                            isDisableColor: true,
+                            //state.model.status == 6,
                             showBorder: true,
                             onChange: (String value) {
                               state.model.securityExperience = value;
@@ -1300,8 +1311,10 @@ class _GuardingMasterDataDetailsViewState
                             textFormKey: Keys.permanentAddressKey,
                             showBorder: true,
                             hintText: Constants.informationhere,
-                            isEnable: state.model.status != 6,
-                            isDisableColor: state.model.status == 6,
+                            isEnable: false,
+                            //state.model.status != 6,
+                            isDisableColor: true,
+                            //state.model.status == 6,
                             onChange: (String value) {
                               state.model.permanentAddress = value;
                               context
@@ -1370,8 +1383,10 @@ class _GuardingMasterDataDetailsViewState
                             textFormKey: Keys.localAddressKey,
                             hintText: Constants.informationhere,
                             showBorder: true,
-                            isEnable: state.model.status != 6,
-                            isDisableColor: state.model.status == 6,
+                            isEnable: false,
+                            // state.model.status != 6,
+                            isDisableColor:true,
+                            // state.model.status == 6,
                             onChange: (String value) {
                               state.model.localAddress = value;
                               context
@@ -1559,28 +1574,31 @@ class _GuardingMasterDataDetailsViewState
                                   state.model.trainingCertificateProvided
                                       ? 1
                                       : 0,
-                              onChangedYes: widget.guardingMasterData?.status ==
-                                      6
-                                  ? null
-                                  : (val) {
-                                      state.model.trainingCertificateProvided =
-                                          true;
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: widget.guardingMasterData?.status ==
-                                      6
-                                  ? null
-                                  : (val) {
-                                      state.model.trainingCertificateProvided =
-                                          false;
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    }),
+                              onChangedYes:null,
+                              // widget.guardingMasterData?.status ==
+                              //         6
+                              //     ? null
+                              //     : (val) {
+                              //         state.model.trainingCertificateProvided =
+                              //             true;
+                              //         BlocProvider.of<
+                              //                     GuardingMasterDataDetailsCubit>(
+                              //                 context)
+                              //             .onCheckBoxChange(state.model);
+                              //       },
+                              onChangedNo:null,
+                              // widget.guardingMasterData?.status ==
+                              //         6
+                              //     ? null
+                              //     : (val) {
+                              //         state.model.trainingCertificateProvided =
+                              //             false;
+                              //         BlocProvider.of<
+                              //                     GuardingMasterDataDetailsCubit>(
+                              //                 context)
+                              //             .onCheckBoxChange(state.model);
+                              //       }
+                                    ),
                           if (state.model.trainingCertificateProvided) ...[
                             /// upload Training Certificate
                             CommonWidgets.textDisplay(
@@ -1747,26 +1765,27 @@ class _GuardingMasterDataDetailsViewState
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.onboarded ? 1 : 0,
-                              onChangedYes:
-                                  widget.guardingMasterData?.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.onboarded = true;
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .onCheckBoxChange(state.model);
-                                        },
-                              onChangedNo:
-                                  widget.guardingMasterData?.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.onboarded = false;
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .onCheckBoxChange(state.model);
-                                        }),
+                              onChangedYes:null,
+                                  // widget.guardingMasterData?.status == 6
+                                  //     ? null
+                                  //     : (val) {
+                                  //         state.model.onboarded = true;
+                                  //         BlocProvider.of<
+                                  //                     GuardingMasterDataDetailsCubit>(
+                                  //                 context)
+                                  //             .onCheckBoxChange(state.model);
+                                  //       },
+                              onChangedNo:null,
+                                  // widget.guardingMasterData?.status == 6
+                                  //     ? null
+                                  //     : (val) {
+                                  //         state.model.onboarded = false;
+                                  //         BlocProvider.of<
+                                  //                     GuardingMasterDataDetailsCubit>(
+                                  //                 context)
+                                  //             .onCheckBoxChange(state.model);
+                                  //       }
+                                        ),
 
                           /// ESIC No
                           CommonWidgets.textDisplay(
@@ -1780,18 +1799,20 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.esicNo,
                             textFormKey: Keys.esicKey,
                             hintText: '',
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData?.esicNo ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: (widget.guardingMasterData !=
-                                        null &&
-                                    (widget.guardingMasterData?.esicNo != null))
-                                ? true
-                                : false,
+                            isEnable: false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData?.esicNo ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
+                            // (widget.guardingMasterData !=
+                            //             null &&
+                            //         (widget.guardingMasterData?.esicNo != null))
+                            //     ? true
+                            //     : false,
                             onChange: (String value) {
                               state.model.esicNo = value;
                               context
@@ -1814,18 +1835,20 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.uanNo,
                             textFormKey: Keys.uanNoKey,
                             hintText: '',
-                            isEnable: widget.guardingMasterData == null
-                                ? true
-                                : (widget.guardingMasterData != null &&
-                                        (widget.guardingMasterData?.uanNo ==
-                                            null))
-                                    ? false
-                                    : true,
-                            isDisableColor: (widget.guardingMasterData !=
-                                        null &&
-                                    (widget.guardingMasterData?.uanNo != null))
-                                ? true
-                                : false,
+                            isEnable: false,
+                            // widget.guardingMasterData == null
+                            //     ? true
+                            //     : (widget.guardingMasterData != null &&
+                            //             (widget.guardingMasterData?.uanNo ==
+                            //                 null))
+                            //         ? false
+                            //         : true,
+                            isDisableColor: true,
+                            // (widget.guardingMasterData !=
+                            //             null &&
+                            //         (widget.guardingMasterData?.uanNo != null))
+                            //     ? true
+                            //     : false,
                             onChange: (String value) {
                               state.model.uanNo = value;
                               context
@@ -2260,25 +2283,25 @@ class _GuardingMasterDataDetailsViewState
                           getLabelAndDate(
                             list: state.model.csrParticipations ?? [],
                             descLabel: Constants.csrParticipation,
-                            dateLabel: Constants.date,
+                            dateLabel: Constants.participationDate,
                           ),
 
                           getLabelAndDate(
                             list: state.model.additionalQualifications ?? [],
-                            descLabel: Constants.csrParticipation,
-                            dateLabel: Constants.date,
+                            descLabel: Constants.additionalQualification,
+                            dateLabel: Constants.qualificationCompletionDate,
                           ),
 
                           getLabelAndDate(
                             list: state.model.specialAchievements ?? [],
-                            descLabel: Constants.csrParticipation,
-                            dateLabel: Constants.date,
+                            descLabel: Constants.specialAchievementsInfo,
+                            dateLabel: Constants.achievementsDate,
                           ),
 
                           getLabelAndDate(
                             list: state.model.additionalInitiatives ?? [],
-                            descLabel: Constants.csrParticipation,
-                            dateLabel: Constants.date,
+                            descLabel: Constants.additionalInitiativesInfo,
+                            dateLabel: Constants.initiativesDate,
                           ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -2300,6 +2323,7 @@ class _GuardingMasterDataDetailsViewState
                     CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
+              ),
               ),
             ),
           ],
@@ -2687,7 +2711,7 @@ class _GuardingMasterDataDetailsViewState
               ? 140
               : 100
           : 60,
-      isDisableColor: false,
+      isDisableColor: true,
       onTap: () {
         _showQualificationSelectionDialog(context, state);
       },
