@@ -68,7 +68,7 @@ class FlutterInputField extends StatelessWidget {
       controller: controller,
       textInputAction: textInputAction,
       textCapitalization: textCapitalization ?? true
-          ? TextCapitalization.words
+          ? TextCapitalization.sentences
           : TextCapitalization.none,
       obscureText: isSecure,
       initialValue: initialValue,
