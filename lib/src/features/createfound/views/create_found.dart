@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
-import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
 

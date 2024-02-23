@@ -13,15 +13,18 @@ class DownloadImage {
     int id,
     String name,
   ) async {
+    log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');
     // print('url123123 $url');
     // downloadData(context, name, url);
     final url = "$endpoint/downloadImage/$id";
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    downloadData(context, name, response);
+    // final response = await BaseApiService().getRequest(
+    //   url: url,
+    // );
+    log('--sss-response--');
+    final uri = Uri.parse(url);
+    downloadData(context, name, uri);
   }
 
   Future<void> exportPdf(
@@ -68,10 +71,12 @@ class DownloadImage {
     // print(url);
     // downloadData(context, name, url);
     final url = '$endpoint$path?userId=$id&passType=$passtype&isList=$isList';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return downloadData(context, name, response);
+    // final response = await BaseApiService().getRequest(
+    //   url: url,
+    // );
+    final uri = Uri.parse(url);
+
+    return downloadData(context, name, uri);
   }
 
   Future<void> passexportExcel(BuildContext context, int id, String name,
@@ -82,10 +87,12 @@ class DownloadImage {
     // print(url);
     // downloadData(context, name, url);
     final url = '$endpoint$path?userId=$id&passType=$passtype&isList=$isList';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return downloadData(context, name, response);
+    // final response = await BaseApiService().getRequest(
+    //   url: url,
+    // );
+    final uri = Uri.parse(url);
+
+    return downloadData(context, name, uri);
   }
 
   downloadData(BuildContext context, String name, Uri url) async {
@@ -100,6 +107,8 @@ class DownloadImage {
         url,
         headers: headers,
       );
+
+
       // final http.Response response = await http.get(
       //   url,
       //   headers: headers,
