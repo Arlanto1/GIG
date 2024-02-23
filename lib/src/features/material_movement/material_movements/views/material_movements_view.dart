@@ -153,6 +153,10 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                   child: SmartRefresher(
                     controller: refreshController,
                     enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    header: const WaterDropHeader(
+                      waterDropColor: AppColors.navigationSkybluecolor,
+                    ),
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
                     child: ListView.builder(

@@ -1985,6 +1985,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // daypassnoTextController.text =
       //     widget.dayPassItem?.category.toString() ?? '';
 
+      log('-widget.model!.passInfo?.passNo----${widget.model!.passInfo?.passNo}-');
+
       daypassnoTextController.text = widget.model!.passInfo?.passNo ?? '';
       createPassMgmtCubit.getpassListResponseData(active);
       // await createpassmgmtCubit.getSerialnumberDetails(
