@@ -8,13 +8,13 @@ import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'addRejectionCommnetPopUp.dart';
 
 class MaterialMovementDetailsView extends StatefulWidget {
-  final MaterialMovementModel? materialMovement;
+  final MaterialMovementModel? model;
   final bool isInward;
   final String title;
 
   const MaterialMovementDetailsView({
     super.key,
-    this.materialMovement,
+    this.model,
     required this.isInward,
     required this.title,
   });
@@ -220,24 +220,24 @@ class _MaterialMovementDetailsViewState
   }
 
   void initializeDates(MaterialMovementDetailsState state) {
-    log('-widget.materialMovement?.expectedDateOfReturn--${widget.materialMovement?.expectedDateOfReturn}--');
+    log('-widget.materialMovement?.expectedDateOfReturn--${widget.model?.expectedDateOfReturn}--');
     if (state.model.expectedDateOfReturn != null) {
       expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
     actualDateOfReturnController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
+        int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
         Constants.dateFormat);
     takenOutOnDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.materialMovement?.takenOutDate ?? '0'),
+        int.tryParse(widget.model?.takenOutDate ?? '0'),
         Constants.dateFormat);
   }
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
     initializeDates(state);
     log('-state.materialMovement.status---${state.model.status}--');
-    log('-rejection Comment---${widget.materialMovement?.rejectionComment}--');
+    log('-rejection Comment---${widget.model?.rejectionComment}--');
 
     returnableTextController.text =
         state.model.returnable! ? 'Returnable' : 'Non Returnable';
@@ -523,7 +523,7 @@ class _MaterialMovementDetailsViewState
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
                             isMandatory:
-                                widget.materialMovement == null ? false : true,
+                                widget.model == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -566,7 +566,7 @@ class _MaterialMovementDetailsViewState
                                 Constants.quantity,
                             Styles.textStyleBlack14,
                             isMandatory:
-                                widget.materialMovement == null ? false : true,
+                                widget.model == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -652,7 +652,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.modelInfo ??
                                   Constants.equipmentNo,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
@@ -697,7 +697,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.address ??
                                   Constants.address,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
@@ -748,7 +748,7 @@ class _MaterialMovementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
-                                widget.materialMovement?.status != 6 ||
+                                widget.model?.status != 6 ||
                                         state.model.status == 1
                                     ? TextFieldAddButton(
                                         title: state.model.requestorEmail,
@@ -876,11 +876,11 @@ class _MaterialMovementDetailsViewState
                                       .requestorDepartment ??
                                   Constants.requestorDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
-                            widget.materialMovement?.status == 6
+                            widget.model?.status == 6
                                 ? FlutterInputField(
                                     initialValue:
                                         state.model.requestorDepartment?.name,
@@ -974,7 +974,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.sentTo ??
                                   Constants.sentTo,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
@@ -1017,7 +1017,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.purpose ??
                                   Constants.purpose,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
@@ -1102,11 +1102,11 @@ class _MaterialMovementDetailsViewState
                                       .preparedByDepartment ??
                                   Constants.preparedByDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.materialMovement == null
+                              isMandatory: widget.model == null
                                   ? false
                                   : true,
                             ),
-                            widget.materialMovement?.status == 6
+                            widget.model?.status == 6
                                 ? FlutterInputField(
                                     initialValue:
                                         state.model.preparedByDepartment?.name,
@@ -1204,7 +1204,7 @@ class _MaterialMovementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
-                                widget.materialMovement?.status != 6
+                                widget.model?.status != 6
                                     ? TextFieldAddButton(
                                         title: state.model.approver1Email,
                                         height: 70,
@@ -1289,7 +1289,7 @@ class _MaterialMovementDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            widget.materialMovement?.status == 6
+                            widget.model?.status == 6
                                 ? FlutterInputField(
                                     initialValue:
                                         state.model.approver1Department?.name,
@@ -1385,7 +1385,7 @@ class _MaterialMovementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
-                                widget.materialMovement?.status != 6
+                                widget.model?.status != 6
                                     ? TextFieldAddButton(
                                         title: state.model.approver2Email,
                                         height: 70,
@@ -1470,7 +1470,7 @@ class _MaterialMovementDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            widget.materialMovement?.status == 6
+                            widget.model?.status == 6
                                 ? FlutterInputField(
                                     initialValue:
                                         state.model.approver2Department?.name,
@@ -1595,7 +1595,7 @@ class _MaterialMovementDetailsViewState
                                         .rejectionComment ??
                                     Constants.rejectionComment,
                                 Styles.textStyleBlack14,
-                                isMandatory: widget.materialMovement == null
+                                isMandatory: widget.model == null
                                     ? false
                                     : true,
                               ),
@@ -1653,7 +1653,7 @@ class _MaterialMovementDetailsViewState
                                         .expectedDateOfReturn ??
                                     Constants.expectedDateOfReturn,
                                 Styles.textStyleBlack14,
-                                isMandatory: widget.materialMovement == null
+                                isMandatory: widget.model == null
                                     ? false
                                     : true,
                               ),
@@ -1933,10 +1933,10 @@ class _MaterialMovementDetailsViewState
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.originalReceiver ? 1 : 0,
-                              onChangedYes: widget.materialMovement?.status ==
+                              onChangedYes: widget.model?.status ==
                                           6 ||
-                                      widget.materialMovement?.status == -1 ||
-                                      widget.materialMovement?.status == 10
+                                      widget.model?.status == -1 ||
+                                      widget.model?.status == 10
                                   ? null
                                   : (val) {
                                       BlocProvider.of<
@@ -1946,10 +1946,10 @@ class _MaterialMovementDetailsViewState
                                         isOriginalReceiverReceiving: true,
                                       );
                                     },
-                              onChangedNo: widget.materialMovement?.status ==
+                              onChangedNo: widget.model?.status ==
                                           6 ||
-                                      widget.materialMovement?.status == -1 ||
-                                      widget.materialMovement?.status == 10
+                                      widget.model?.status == -1 ||
+                                      widget.model?.status == 10
                                   ? null
                                   : (val) {
                                       BlocProvider.of<
@@ -2219,10 +2219,10 @@ class _MaterialMovementDetailsViewState
                                         ? 1
                                         : 0,
                                 onChangedYes: (widget
-                                                .materialMovement?.status ==
+                                                .model?.status ==
                                             6 ||
-                                        widget.materialMovement?.status == 10 ||
-                                        widget.materialMovement?.status == -1)
+                                        widget.model?.status == 10 ||
+                                        widget.model?.status == -1)
                                     ? null
                                     : (val) {
                                         BlocProvider.of<
@@ -2233,10 +2233,10 @@ class _MaterialMovementDetailsViewState
                                           // materialMovement: materialMovement,
                                         );
                                       },
-                                onChangedNo: widget.materialMovement?.status ==
+                                onChangedNo: widget.model?.status ==
                                             6 ||
-                                        widget.materialMovement?.status == 10 ||
-                                        widget.materialMovement?.status == -1
+                                        widget.model?.status == 10 ||
+                                        widget.model?.status == -1
                                     ? null
                                     : (val) {
                                         BlocProvider.of<
@@ -2320,7 +2320,7 @@ class _MaterialMovementDetailsViewState
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
-                                  widget.materialMovement?.status != 6
+                                  widget.model?.status != 6
                                       ? TextFieldAddButton(
                                           title:
                                               state.model.returnReceiverMailId,
@@ -2452,21 +2452,21 @@ class _MaterialMovementDetailsViewState
                           ],
 
                           /// upload
-                          widget.materialMovement?.status == null ||
-                                  widget.materialMovement?.status == 0 ||
-                                  widget.materialMovement?.status == 1
+                          widget.model?.status == null ||
+                                  widget.model?.status == 0 ||
+                                  widget.model?.status == 1
                               ? CommonWidgets.textDisplay(
                                   Constants.upload, Styles.textStyleBlack14)
                               : Container(),
-                          widget.materialMovement?.status == null ||
-                                  widget.materialMovement?.status == 0 ||
-                                  widget.materialMovement?.status == 1
+                          widget.model?.status == null ||
+                                  widget.model?.status == 0 ||
+                                  widget.model?.status == 1
                               ? CommonWidgets.verticalSpacerWidget(
                                   height * 0.001)
                               : Container(),
-                          widget.materialMovement?.status == null ||
-                                  widget.materialMovement?.status == 0 ||
-                                  widget.materialMovement?.status == 1
+                          widget.model?.status == null ||
+                                  widget.model?.status == 0 ||
+                                  widget.model?.status == 1
                               ? uploadWidget(state)
                               : Container(),
 
@@ -2476,7 +2476,7 @@ class _MaterialMovementDetailsViewState
                             attachments: state.loadAttachments,
                             files: getFiles,
                             showDownloadIcon:
-                                widget.materialMovement?.images != null
+                                widget.model?.images != null
                                     ? true
                                     : false,
                           ),
@@ -2708,9 +2708,9 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget uploadWidget(MaterialMovementDetailsState state) {
-    return widget.materialMovement?.status == null ||
-            widget.materialMovement?.status == 0 ||
-            widget.materialMovement?.status == 1
+    return widget.model?.status == null ||
+            widget.model?.status == 0 ||
+            widget.model?.status == 1
         ? Container(
             height: 60,
             decoration: BoxDecoration(
@@ -2773,8 +2773,8 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.materialMovement?.status == null ||
-                widget.materialMovement?.status == 0)
+        if ((widget.model?.status == null ||
+                widget.model?.status == 0)
             ? true
             : false) {
           showDialog(
@@ -2838,7 +2838,7 @@ class _MaterialMovementDetailsViewState
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData;
           ImageContent? imageData1;
-          if (widget.materialMovement != null) {
+          if (widget.model != null) {
             imageData1 = attachmentListviews1?[index];
           } else {
             imageData = attachmentListviews?[index];
@@ -2847,7 +2847,7 @@ class _MaterialMovementDetailsViewState
           return Column(
             children: <Widget>[
               ListTile(
-                trailing: widget.materialMovement != null
+                trailing: widget.model != null
                     ? SvgPicture.asset(AppIcon.download,
                         color: AppColors.boldgreyBackground)
                     : const SizedBox(
@@ -2858,7 +2858,7 @@ class _MaterialMovementDetailsViewState
                   DownloadImage().saveImage(
                       context, imageData1?.id ?? 0, imageData1?.title ?? '');
                 },
-                title: widget.materialMovement != null
+                title: widget.model != null
                     ? Text(imageData1?.title ?? '')
                     : Text(imageData?.title ?? ''),
               ),

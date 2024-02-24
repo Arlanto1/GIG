@@ -511,7 +511,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                             left: 10, top: 5, right: 10, bottom: 10),
                         alignment: Alignment.topLeft,
                         child: const Text(
-                          Constants.caotureorupload,
+                          Constants.captureOrUpload,
                           style: Styles.textStyleRegularGrey16,
                         ),
                       ),

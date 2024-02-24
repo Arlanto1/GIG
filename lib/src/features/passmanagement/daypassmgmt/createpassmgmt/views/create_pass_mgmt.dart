@@ -1693,8 +1693,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     /// Attachments
-                                    getSpaceattchment(height),
-                                    getAttachement(height),
+
+                                    BaseImageUpload().getAttachment(
+                                      height: height,
+                                      attachments: state.loadAttachments,
+                                      files: getFiles,
+                                      showDownloadIcon:
+                                          getAttachments.isNotEmpty
+                                              ? true
+                                              : false,
+                                    ),
+                                    // getSpaceattchment(height),
+                                    // getAttachement(height),
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
@@ -2527,9 +2537,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //       : attachmentListviews(photogetFiles, photogetAttachments);
   // }
   Widget photogetAttachement(double height) {
-    return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
-        ? attachmentListviews(photogetFiles, photogetAttachments)
-        : Container();
+    return BaseImageUpload().getAttachment(
+      height: height,
+      attachments: photogetAttachments,
+      files: photogetFiles,
+      showDownloadIcon: photogetAttachments.isNotEmpty ? true : false,
+    );
+    // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
+    //     ? attachmentListviews(photogetFiles, photogetAttachments)
+    //     : Container();
   }
 
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
@@ -3545,7 +3561,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if ((widget.passId == ConstantsIntValue.passIdSez &&
         !emailTextController.text.isEmptyOrNull &&
         !Validator.isValidEmail(emailTextController.text))) {
-
       log('-widget.model?.email--${widget.model?.email}-222--${emailTextController.text}---');
 
       Validator().showToast(

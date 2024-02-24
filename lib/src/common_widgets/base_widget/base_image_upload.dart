@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -112,7 +113,9 @@ class BaseImageUpload {
         itemCount: attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData = attachmentListviews?[index];
-
+          TextEditingController imageNameController = TextEditingController();
+          imageNameController.text =
+              imageData?.title ?? '';
           return Column(
             children: <Widget>[
               ListTile(
@@ -135,14 +138,25 @@ class BaseImageUpload {
                         // Delete logic here
                         if (imageData != null) {
                           //setState(() {
-                            attachmentListviews!.removeAt(index);
+                          attachmentListviews!.removeAt(index);
                           //});
                         }
                       },
                     ),
                   ],
                 ),
-                title: Text(imageData?.title ?? ''),
+                title: FlutterInputField(
+                  controller: imageNameController,
+                  textFormKey: Keys.claimantEmpIdTextController,
+                  hintText: '',
+                  isEnable: true,
+                  isDisableColor: false,
+                  onChange: (String value) {
+                    imageData?.title = imageNameController.text;
+                  },
+                  validateTextField: (String? user) {},
+                ),
+                // title: Text(imageData?.title ?? ''),
               ),
               const Divider(
                 color: Color(0xFFCACACA),

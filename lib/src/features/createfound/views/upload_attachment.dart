@@ -283,7 +283,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                       left: 10, top: 5, right: 10, bottom: 14),
                   alignment: Alignment.topLeft,
                   child: const Text(
-                    Constants.caotureorupload,
+                    Constants.captureOrUpload,
                     style: Styles.textStyleRegularGrey16,
                   ),
                 ),
@@ -381,7 +381,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                                 ),
                                 const Text(
                                   Constants.document,
-                                  style: Styles.textStyleRegularGrey14,
+                                  style: Styles.textStyleRegularGrey13,
                                 ),
                               ],
                             ),

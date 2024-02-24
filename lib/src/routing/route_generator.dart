@@ -728,7 +728,7 @@ class RouteGenerator {
                       isInward: isInward,
                     ),
                     child: MaterialMovementDetailsView(
-                      materialMovement: materialMovement,
+                      model: materialMovement,
                       isInward: isInward,
                       title: title,
                     ),

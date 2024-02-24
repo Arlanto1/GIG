@@ -247,7 +247,7 @@ class Constants {
   static const String firstname = 'First Name';
   static const String lastname = 'Last Name';
   static const String uploadfile = 'Upload File';
-  static const String caotureorupload = 'Capture or Upload';
+  static const String captureOrUpload = 'Capture or Upload';
   static const String gallery = 'Gallery';
   static const String camera = 'Camera';
   static const String document = 'Document';
