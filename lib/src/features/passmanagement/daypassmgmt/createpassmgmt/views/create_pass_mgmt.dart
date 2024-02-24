@@ -3058,11 +3058,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     passInfo.passType = state.model.passType;
 
-    // if (widget.passId == ConstantsIntValue.passIdSez) {
-    //   passInfo.passNo = sezpassinfoTextController.text;
-    // } else {
-    //   passInfo.passNo = daypassnoTextController.text;
-    // }
+    // For Day Pass and Sez Pass, Pass No is text field.
+    if (widget.passId == ConstantsIntValue.passIdSez) {
+      passInfo.passNo = sezpassinfoTextController.text;
+    } else {
+      passInfo.passNo = daypassnoTextController.text;
+    }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
@@ -3543,7 +3544,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == ConstantsIntValue.passIdSez &&
         !emailTextController.text.isEmptyOrNull &&
-        !Validator.isValidEmail(widget.model?.email))) {
+        !Validator.isValidEmail(emailTextController.text))) {
+
+      log('-widget.model?.email--${widget.model?.email}-222--${emailTextController.text}---');
+
       Validator().showToast(
         context,
         "Please enter valid email",
