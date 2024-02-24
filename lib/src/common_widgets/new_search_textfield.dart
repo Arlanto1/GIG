@@ -50,7 +50,7 @@ class FlutterInputField extends StatelessWidget {
     this.textInputType = TextInputType.text,
     this.onTap,
     this.isDisableColor,
-    this.textInputAction,
+    this.textInputAction = TextInputAction.next,
     this.onFieldSubmitted,
     this.focusNode,
     this.initialValue,
@@ -138,7 +138,7 @@ class FlutterInputField extends StatelessWidget {
         onTap != null ? onTap!() : null;
       },
       onFieldSubmitted: (value) {
-        onFieldSubmitted != null ? onFieldSubmitted!(value) : null;
+        onFieldSubmitted != null ? onFieldSubmitted!(value) : FocusScope.of(context).nextFocus();
       },
       onEditingComplete: () {
         FocusScope.of(context).unfocus();
