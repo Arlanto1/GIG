@@ -33,6 +33,7 @@ class MaterialMovementBloc
   FutureOr<void> _initializeValues(
       InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
     try {
+      emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.materialMovementModuleCode);
 
@@ -54,7 +55,7 @@ class MaterialMovementBloc
           regions: regions,
           statuses: statuses,
           hasReachedMax: false,
-          status: FormStatus.success,
+          status: FormStatus.initial,
         ),
       );
     } on Exception {

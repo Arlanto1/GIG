@@ -13,7 +13,7 @@ export 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart
 export 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_duty_post_list.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
-export 'package:db_atom/src/common_widgets/base_widget/base_filter_widget.dart';
+export 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_filter/cubit/base_filter_cubit.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 class BaseSearchWidget extends StatefulWidget {
@@ -88,15 +89,8 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
             ),
           ),
           const SizedBox(width: 8),
-          // Problem: clear the value in searchController when ShowFiltersWidget is tapped
-          // ShowFiltersWidget(
-          //   context: context,
-          //   locations: Locations(),
-          //   applyFilters: widget.applyFilters,
-          // ),
+          // ShowFiltersWidget is used to trigger the showModalBottomSheet
           ShowFiltersWidget(
-            context: context,
-            locations: Locations(),
             applyFilters: widget.applyFilters,
             statuses: widget.statuses,
             regions: widget.regions,
@@ -111,8 +105,6 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
 }
 
 class ShowFiltersWidget extends StatelessWidget {
-  final BuildContext context;
-  final Locations locations;
   final Function(Filters) applyFilters;
   final List<Organisation> statuses;
   final List<Organisation> regions;
@@ -120,12 +112,10 @@ class ShowFiltersWidget extends StatelessWidget {
 
   const ShowFiltersWidget({
     super.key,
-    required this.context,
-    required this.locations,
     required this.applyFilters,
-    required this.clearSearchController,
     required this.statuses,
     required this.regions,
+    required this.clearSearchController,
   });
 
   @override
@@ -141,15 +131,14 @@ class ShowFiltersWidget extends StatelessWidget {
       child: IntrinsicWidth(
         child: InkWell(
           onTap: () {
-            clearSearchController
-                ?.call(); // Call the clearSearchController function if it's not null
-            showFilters(
-              context: context,
-              locations: locations,
-              applyFilters: applyFilters,
-              statuses: statuses,
-              regions: regions,
-            );
+            clearSearchController();
+            showFilters(context
+                // context: context,
+                // locations: locations,
+                // applyFilters: applyFilters,
+                // statuses: statuses,
+                // regions: regions,
+                );
           },
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -169,9 +158,26 @@ class ShowFiltersWidget extends StatelessWidget {
     );
   }
 
-  static void showFilters({
+  void showFilters(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider(
+          create: (context) => BaseFilterCubit(), // Provide the BaseFilterCubit
+          child: BaseFilterSheet(
+            applyFilters: applyFilters,
+            statuses: statuses,
+            regions: regions,
+          ),
+        );
+      },
+    );
+  }
+
+  void showFilterss({
     required BuildContext context,
-    required final Locations locations,
+    // required final Locations locations,
     required final Function(Filters) applyFilters,
     required List<Organisation> statuses,
     required List<Organisation> regions,
@@ -326,10 +332,15 @@ class ShowFiltersWidget extends StatelessWidget {
                     onChange: (value) async {
                       selectedRegion = value;
 
-                      locations = await CommonServices().getRegionsOrLocationsByRegionId(
-                          id: selectedRegion?.id);
+                      BlocProvider.of<BaseFilterCubit>(context)
+                          .getRegionsOrLocationsByRegionId(
+                              id: selectedRegion?.id ?? 0);
+                      locations = await CommonServices()
+                          .getRegionsOrLocationsByRegionId(
+                              id: selectedRegion?.id);
                     },
                   ),
+
                   // const SizedBox(
                   //   width: 5,
                   // ),
@@ -389,6 +400,250 @@ class ShowFiltersWidget extends StatelessWidget {
                 child: const Text('Search'),
               ),
               const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class BaseFilterSheet extends StatelessWidget {
+  final Function(Filters) applyFilters;
+  final List<Organisation> statuses;
+  final List<Organisation> regions;
+
+  const BaseFilterSheet({
+    super.key,
+    required this.applyFilters,
+    required this.statuses,
+    required this.regions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController idController = TextEditingController();
+    TextEditingController slNoController = TextEditingController();
+    TextEditingController createdByController = TextEditingController();
+    TextEditingController fromDateController = TextEditingController();
+    TextEditingController toDateController = TextEditingController();
+    Organisation? selectedRegion = Organisation();
+    Organisation? selectedLocation = Organisation();
+    Organisation? selectedStatus = Organisation();
+    List<Organisation> locations = [];
+
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
+    double textFieldWidth = width * 0.45;
+    return BlocConsumer<BaseFilterCubit, BaseFilterState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+
+        log('-state.status----${state.status}-');
+        if(state.status == FormStatus.loading){
+          // return BaseLoader();
+        }
+
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 8,
+            right: 8,
+            top: 5,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Filters',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  /// ID
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.id,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      SizedBox(
+                        width: textFieldWidth,
+                        child: FlutterInputField(
+                          textInputType: TextInputType.number,
+                          textFormKey: Keys.idKey,
+                          // initialValue: state.model.challanNo,
+                          controller: idController,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String? user) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                  CommonWidgets.horizontalSpacerWidget(height * 0.01),
+
+                  /// Created By
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.createdby,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      SizedBox(
+                        width: textFieldWidth,
+                        child: FlutterInputField(
+                          textInputType: TextInputType.text,
+                          textFormKey: Keys.slNoKey,
+                          controller: createdByController,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String? user) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              Row(
+                children: [
+                  /// From Date
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.fromDate,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: textFieldWidth,
+                          child: BaseDate().datePickerWidgetLoading(
+                            textController: fromDateController,
+                            onlyDate: true,
+                            onChange: (String value) {},
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  /// To Date
+                  Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                        Constants.toDate,
+                        Styles.textStyleBlack14,
+                        isMandatory: false,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: textFieldWidth,
+                          child: BaseDate().datePickerWidgetLoading(
+                            textController: toDateController,
+                            onlyDate: true,
+                            onChange: (String value) {},
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+              Row(
+                children: [
+                  DropdownWidget(
+                    label: 'Select Region',
+                    elements: regions,
+                    onChange: (value) async {
+                      selectedRegion = value;
+
+                      BlocProvider.of<BaseFilterCubit>(context)
+                          .getRegionsOrLocationsByRegionId(
+                              id: selectedRegion?.id ?? 0);
+                      // locations = await CommonServices()
+                      //     .getRegionsOrLocationsByRegionId(id: selectedRegion?.id);
+                    },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  DropdownWidget(
+                    label: 'Select Location',
+                    elements: state.locations,
+                    onChange: (value) {
+                      selectedLocation = value;
+                    },
+                  )
+                ],
+              ),
+
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              Row(
+                children: [
+                  DropdownWidget(
+                    label: 'Select Status',
+                    elements: statuses,
+                    onChange: (value) {
+                      selectedStatus = value;
+                    },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                ],
+              ),
+              // Add more filter fields as needed
+              const SizedBox(height: 16),
+
+              /// Search
+              ElevatedButton(
+                onPressed: () {
+                  log('Applying Filters---onPressed---');
+                  Filters filtersModel = Filters();
+                  filtersModel.id = int.tryParse(idController.text);
+                  filtersModel.createdBy = createdByController.text;
+                  // filtersModel.slNo = int.tryParse(slNoController.text);
+                  if (!fromDateController.text.isEmptyOrNull) {
+                    filtersModel.fromDate =
+                        Utils().formatTime(fromDateController.text);
+                  }
+                  if (!toDateController.text.isEmptyOrNull) {
+                    filtersModel.toDate =
+                        Utils().formatTime(toDateController.text);
+                  }
+                  filtersModel.status = selectedStatus?.id;
+                  filtersModel.regionId = selectedRegion?.id;
+                  applyFilters(filtersModel);
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      AppColors.navigationSkybluecolor),
+                  // Change the text color here
+                ),
+                child: const Text('Search'),
+              ),
+              const SizedBox(height: 40),
             ],
           ),
         );
