@@ -672,6 +672,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initialization() {
+    state.passTypes = [];
     state.showIdentifiedFields = false;
     state.selectedDepartment = null;
     state.employeeDepartment = null;
@@ -692,7 +693,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dbsponsorResponse = User();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
-    state.passTypes = [];
   }
 
   initializeValues({

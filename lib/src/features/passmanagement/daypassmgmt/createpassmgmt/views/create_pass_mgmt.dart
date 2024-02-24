@@ -3285,9 +3285,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         passType: passInfo.passType,
         passInfo: passInfo,
-        passNo: widget.passId == ConstantsIntValue.passIdSez
-            ? daypassnoTextController.text
-            : state.dayPasselementReason?.name ?? '',
+        passNo: passInfo.passNo,
         escortedBy: escortedbyTextController.text,
         escortedEmployeeId: escortedemployeedidbyTextController.text,
         hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
@@ -3350,9 +3348,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ),
           passType: passInfo.passType,
           //0,
-          passNo: widget.passId == ConstantsIntValue.passIdSez
-              ? daypassnoTextController.text
-              : state.dayPasselementReason?.name ?? '',
+          passNo: passInfo.passNo,
           escortedBy: escortedbyTextController.text,
           escortedEmployeeId: escortedemployeedidbyTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
