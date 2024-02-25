@@ -13,10 +13,10 @@ class GuardingMasterReportServices {
   Future<GuardingMasterReportModel> getGuardingMasterReport({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    // required String userId,
   }) async {
     String url =
-        '${Apis._getGuardingMasterReport}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+        '${Apis._getGuardingMasterReport}startPos=$startPosition&maxResults=$maximumRecords';
     final response = await BaseApiService().getRequest(
       url: url,
     );

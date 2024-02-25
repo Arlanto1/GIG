@@ -25,22 +25,6 @@ class GuardingMasterDataBloc
   final GuardingMasterDataServices _services = GuardingMasterDataServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<GuardingMasterDataState> emit) async {
-    try {
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode);
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
-      return emit(
-        state.copyWith(
-          labels: labels,
-          hasReachedMax: false,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
-    }
-  }
   FutureOr<void> _refreshList(
       RefreshLists event, Emitter<GuardingMasterDataState> emit) async {
     try {
@@ -64,6 +48,23 @@ class GuardingMasterDataBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<GuardingMasterDataState> emit) async {
+    try {
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode);
+      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          labels: labels,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
   FutureOr<void> _fetchList(
       FetchDataList event, Emitter<GuardingMasterDataState> emit) async {
     try {
