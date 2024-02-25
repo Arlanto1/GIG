@@ -13,9 +13,14 @@ class LawEnforcementFetch extends LawEnforcementListEvent {
   final int maxPos;
   final BuildContext cont;
 
-  const LawEnforcementFetch({required this.startPos, required this.maxPos,required this.cont});
+  const LawEnforcementFetch(
+      {required this.startPos, required this.maxPos, required this.cont});
 }
 
 class LawEnforcementRefresh extends LawEnforcementListEvent {
   const LawEnforcementRefresh();
+}
+
+class RefreshList extends LawEnforcementListEvent {
+  const RefreshList();
 }

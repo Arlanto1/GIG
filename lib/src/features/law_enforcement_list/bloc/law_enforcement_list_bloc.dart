@@ -11,6 +11,7 @@ import '../../../enums/form_status.dart';
 import '../models/law_enforcement_list_response.dart';
 
 part 'law_enforcement_list_event.dart';
+
 part 'law_enforcement_list_state.dart';
 
 class LawEnforcementListBloc
@@ -27,9 +28,37 @@ class LawEnforcementListBloc
       _onTodoRefresh,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final LawEnforcementServices services = LawEnforcementServices();
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<LawEnforcementListState> emit) async {
+    try {
+      LawEnforcementListResponse response;
+
+      response = await services.getList(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        userId: '7',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          todos: response.list,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _onTodoFetch(
       LawEnforcementFetch event, Emitter<LawEnforcementListState> emit) async {
@@ -47,12 +76,11 @@ class LawEnforcementListBloc
       }
       if (state.hasReachedMax) return;
       if (state.status == FormStatus.initial) {
-        LawEnforcementListResponse lawEnforcementList =
-            await services.getList(
-                startPosition: '${event.startPos}',
-                maximumRecords: '${event.maxPos}',
-                userId: userid,
-                context: event.cont);
+        LawEnforcementListResponse lawEnforcementList = await services.getList(
+            startPosition: '${event.startPos}',
+            maximumRecords: '${event.maxPos}',
+            userId: userid,
+            context: event.cont);
         return emit(
           state.copyWith(
             todos: lawEnforcementList.list,
@@ -62,8 +90,7 @@ class LawEnforcementListBloc
         );
       }
 
-      LawEnforcementListResponse lawEnforcementList =
-          await services.getList(
+      LawEnforcementListResponse lawEnforcementList = await services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: userid,
@@ -74,8 +101,7 @@ class LawEnforcementListBloc
       } else {
         return emit(
           state.copyWith(
-            todos: List.of(state.items)
-              ..addAll(lawEnforcementList.list ?? []),
+            todos: List.of(state.items)..addAll(lawEnforcementList.list ?? []),
             hasReachedMax: false,
           ),
         );
@@ -85,7 +111,6 @@ class LawEnforcementListBloc
     }
   }
 
-  FutureOr<void> _onTodoRefresh(
-      LawEnforcementRefresh event, Emitter<LawEnforcementListState> emit) async {
-  }
+  FutureOr<void> _onTodoRefresh(LawEnforcementRefresh event,
+      Emitter<LawEnforcementListState> emit) async {}
 }

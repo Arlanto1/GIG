@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
@@ -29,6 +30,9 @@ class LnPage extends StatefulWidget {
 class _LnPageState extends State<LnPage> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -53,6 +57,21 @@ class _LnPageState extends State<LnPage> {
       context.read<LawEnforcementListBloc>().add(
           LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<LawEnforcementListBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
@@ -127,48 +146,65 @@ class _LnPageState extends State<LnPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               )),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: state.hasReachedMax
-                ? state.items.length
-                : state.items.length + 1,
-            itemBuilder: (context, index) {
-              // buildTodo(context, state, index);
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: SmartRefresher(
+                  controller: refreshController,
+                  enablePullDown: true,
+                  physics: const BouncingScrollPhysics(),
+                  header: const WaterDropHeader(
+                    waterDropColor: AppColors.navigationSkybluecolor,
+                  ),
+                  onRefresh: _onRefresh,
+                  onLoading: _onLoading,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.hasReachedMax
+                        ? state.items.length
+                        : state.items.length + 1,
+                    itemBuilder: (context, index) {
+                      // buildTodo(context, state, index);
 
-              if (index < state.items.length) {
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : LawEnforcementListItem(
-                        userItem: state.items[index],
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[index]);
-                            },
-                          );
-                          //do the detail edit of user found
-                        },
-                        onEditTap: (selectedIndex) {
-                          getById(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[selectedIndex]);
-                            },
-                          );
-                        },
-                        index: index,
+                      if (index < state.items.length) {
+                        return index >= state.items.length
+                            ? const BaseLoader()
+                            : LawEnforcementListItem(
+                                userItem: state.items[index],
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[index]);
+                                    },
+                                  );
+                                  //do the detail edit of user found
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[selectedIndex]);
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
+                      }
+                      return const Center(
+                        child: SizedBox(),
                       );
-              }
-              return const Center(
-                child: SizedBox(),
-              );
-            },
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       }),
