@@ -16,3 +16,7 @@ class FetchDataList extends GuardingMasterDataEvent {
 class InitializeValues extends GuardingMasterDataEvent {
   const InitializeValues();
 }
+
+class RefreshLists extends GuardingMasterDataEvent {
+  const RefreshLists();
+}

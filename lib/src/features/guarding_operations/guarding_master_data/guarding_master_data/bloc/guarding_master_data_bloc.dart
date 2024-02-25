@@ -16,6 +16,10 @@ class GuardingMasterDataBloc
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshLists>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final GuardingMasterDataServices _services = GuardingMasterDataServices();
@@ -37,7 +41,29 @@ class GuardingMasterDataBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+  FutureOr<void> _refreshList(
+      RefreshLists event, Emitter<GuardingMasterDataState> emit) async {
+    try {
+      GuardingMasterDataResponse response;
 
+      response = await _services.getGuardingMasterData(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        locationId: '56',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
   FutureOr<void> _fetchList(
       FetchDataList event, Emitter<GuardingMasterDataState> emit) async {
     try {

@@ -13,6 +13,11 @@ class FetchData extends ContactDetailsListEvent {
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+
 class InitializeValues extends ContactDetailsListEvent {
   const InitializeValues();
+}
+
+class RefreshList extends ContactDetailsListEvent {
+  const RefreshList();
 }

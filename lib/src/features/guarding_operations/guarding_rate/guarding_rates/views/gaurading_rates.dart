@@ -12,6 +12,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class GuardingRates extends StatefulWidget {
   const GuardingRates({
@@ -32,6 +34,9 @@ class GuardingRates extends StatefulWidget {
 class _GuardingRatesState extends State<GuardingRates> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -57,6 +62,21 @@ class _GuardingRatesState extends State<GuardingRates> {
           .read<GuardingRatesBloc>()
           .add(FetchList(startPos: pageNumber, maxPos: 20));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<GuardingRatesBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
@@ -102,64 +122,91 @@ class _GuardingRatesState extends State<GuardingRates> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
-              itemBuilder: (context, index) {
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        inputDate: state.items[index].inputDate,
-                        location: state.items[index].location,
-                        locationRegion: state.items[index].locationRegion,
-                  vendors: state.items[index].vendor,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: SmartRefresher(
+                    controller: refreshController,
+                    enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    header: const WaterDropHeader(
+                      waterDropColor: AppColors.navigationSkybluecolor,
+                    ),
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1,
+                      itemBuilder: (context, index) {
+                        return index >= state.items.length
+                            ? const BaseLoader()
+                            : BaseListTileItem(
+                                id: state.items[index].id,
+                                inputDate: state.items[index].inputDate,
+                                location: state.items[index].location,
                                 locationRegion:
-                                state.items[selectedIndex].locationRegion,
-                                slNo: state.items[selectedIndex].slNo,
-                                vendors: state.items[selectedIndex].vendor,
+                                    state.items[index].locationRegion,
+                                vendors: state.items[index].vendor,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        inputDate: state
+                                            .items[selectedIndex].inputDate,
+                                        location:
+                                            state.items[selectedIndex].location,
+                                        locationRegion: state
+                                            .items[selectedIndex]
+                                            .locationRegion,
+                                        slNo: state.items[selectedIndex].slNo,
+                                        vendors:
+                                            state.items[selectedIndex].vendor,
+                                      );
+                                    },
+                                  );
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getId(state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        inputDate: state
+                                            .items[selectedIndex].inputDate,
+                                        location:
+                                            state.items[selectedIndex].location,
+                                        locationRegion: state
+                                            .items[selectedIndex]
+                                            .locationRegion,
+                                        slNo: state.items[selectedIndex].slNo,
+                                        vendors:
+                                            state.items[selectedIndex].vendor,
 
+                                        // status: state.items[selectedIndex].status
+                                        //     .toString(),
+                                        // entrySecurityName: state
+                                        //     .items[selectedIndex].entrySecurityName,
+                                      );
+                                    },
+                                  );
+                                },
+                                index: index,
                               );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getId(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
-                                locationRegion:
-                                state.items[selectedIndex].locationRegion,
-                                slNo: state.items[selectedIndex].slNo,
-                                vendors: state.items[selectedIndex].vendor,
-
-                                // status: state.items[selectedIndex].status
-                                //     .toString(),
-                                // entrySecurityName: state
-                                //     .items[selectedIndex].entrySecurityName,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }));

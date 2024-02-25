@@ -36,6 +36,7 @@ class ContactDetailsServices {
   Future<ContactDetailsListResponseModel> getGcd({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';

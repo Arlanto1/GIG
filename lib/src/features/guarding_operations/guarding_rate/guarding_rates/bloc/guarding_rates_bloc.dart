@@ -10,6 +10,7 @@ import '../../models/rates_response.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
+
 part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
@@ -18,9 +19,37 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final GuardingServices _services = GuardingServices();
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<GuardingRatesState> emit) async {
+    try {
+      RatesResponse response;
+
+      response = await _services.getRates(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        userId: '77',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchList(
       FetchList event, Emitter<GuardingRatesState> emit) async {

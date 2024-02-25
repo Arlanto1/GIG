@@ -13,6 +13,11 @@ class FetchData extends VVIPVisitorsEvent {
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+
 class InitializeValues extends VVIPVisitorsEvent {
   const InitializeValues();
+}
+
+class RefreshList extends VVIPVisitorsEvent {
+  const RefreshList();
 }

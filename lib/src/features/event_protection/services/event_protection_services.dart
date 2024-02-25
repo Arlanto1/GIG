@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/g
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_response.dart';
@@ -41,7 +42,7 @@ class EventProtectionServices {
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords';

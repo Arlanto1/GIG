@@ -18,17 +18,45 @@ class SLAViolationPenaltyListBloc
       _fetchSLAViolationPenalty,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<SLAViolationPenaltyListState> emit) async {
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<SLAViolationPenaltyListState> emit) async {
+    try {
+      SLAViolationPenaltyResponseModel response;
+
+      response = await services.getGSvp(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _initializeValues(InitializeValues event,
+      Emitter<SLAViolationPenaltyListState> emit) async {
     log('_initializeValues');
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       return emit(
@@ -37,11 +65,11 @@ class SLAViolationPenaltyListBloc
           hasReachedMax: false,
         ),
       );
-    }
-    on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchSLAViolationPenalty(
       FetchData event, Emitter<SLAViolationPenaltyListState> emit) async {
     try {

@@ -14,3 +14,6 @@ class FetchList extends GuardingRatesEvent{
 
   const FetchList({required this.startPos, required this.maxPos});
 }
+class RefreshList extends GuardingRatesEvent {
+  const RefreshList();
+}

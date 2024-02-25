@@ -13,6 +13,11 @@ class FetchData extends SLAViolationPenaltyListEvent {
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+
 class InitializeValues extends SLAViolationPenaltyListEvent {
   const InitializeValues();
+}
+
+class RefreshList extends SLAViolationPenaltyListEvent {
+  const RefreshList();
 }

@@ -12,12 +12,15 @@ part 'vvip_visitors_event.dart';
 
 part 'vvip_visitors_state.dart';
 
-class VVIPVisitorsBloc
-    extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
+class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
   VVIPVisitorsBloc() : super(const VVIPVisitorsState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
       _fetchVVIPVisitors,
+      transformer: droppable(),
+    );
+    on<RefreshList>(
+      _refreshList,
       transformer: droppable(),
     );
   }
@@ -25,12 +28,36 @@ class VVIPVisitorsBloc
   final VVIPVisitorServices services = VVIPVisitorServices();
   final CommonServices commonServices = CommonServices();
 
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<VVIPVisitorsState> emit) async {
+    try {
+      VVIPVisitorResponseModel response;
+
+      response = await services.getGVVIP(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<VVIPVisitorsState> emit) async {
     log('_initializeValues');
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       return emit(
@@ -39,11 +66,11 @@ class VVIPVisitorsBloc
           hasReachedMax: false,
         ),
       );
-    }
-    on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchVVIPVisitors(
       FetchData event, Emitter<VVIPVisitorsState> emit) async {
     try {

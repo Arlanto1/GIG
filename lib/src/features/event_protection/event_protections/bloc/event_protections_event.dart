@@ -14,3 +14,6 @@ class FetchData extends EventProtectionsEvent{
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+class RefreshList extends EventProtectionsEvent {
+  const RefreshList();
+}

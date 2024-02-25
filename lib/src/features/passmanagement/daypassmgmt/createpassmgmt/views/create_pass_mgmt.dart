@@ -3045,15 +3045,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-    if (widget.passId == ConstantsIntValue.passIdVendor) {
-      if (state.selectedPassInfo == null) {
-        Validator().showToast(
-          context,
-          "Vendor Pass No",
-        );
-        return;
-      }
-    }
+    // if (widget.passId == ConstantsIntValue.passIdVendor) {
+    //   if (state.selectedPassInfo == null) {
+    //     Validator().showToast(
+    //       context,
+    //       "Vendor Pass No",
+    //     );
+    //     return;
+    //   }
+    // }
 
     log('-widget.model?.passInfo--${widget.model?.passInfo}-');
 
@@ -3659,30 +3659,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter day pass no",
       );
     }*/
-    else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        (state.selectedPassInfo == null)) {
-      Validator().showToast(
-        context,
-        "Please enter Visitor pass no",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter Vendor pass no",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        widget.passId == ConstantsIntValue.passIdVendor
-            ? "Please enter vendor pass no"
-            : "Please enter visit pass no",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdSez &&
+    // else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    //     (state.selectedPassInfo == null|| (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter Visitor pass no",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdVendor &&
+    //     (state.selectedPassInfo == null ||
+    //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter Vendor pass no",
+    //   );
+    // // }
+    // else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     (state.selectedPassInfo == null ||
+    //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     widget.passId == ConstantsIntValue.passIdVendor
+    //         ? "Please enter vendor pass no"
+    //         : "Please enter visitor pass no",
+    //   );
+    // }
+    else if (widget.passId == ConstantsIntValue.passIdSez &&
         passCategoryTextController.text.isEmpty) {
       Validator().showToast(
         context,

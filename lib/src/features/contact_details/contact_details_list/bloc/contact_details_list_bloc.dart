@@ -6,6 +6,7 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_details_list_event.dart';
+
 part 'contact_details_list_state.dart';
 
 class ContactDetailsListBloc
@@ -14,6 +15,10 @@ class ContactDetailsListBloc
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
+      transformer: droppable(),
+    );
+    on<RefreshList>(
+      _refreshList,
       transformer: droppable(),
     );
   }
@@ -25,12 +30,37 @@ class ContactDetailsListBloc
       InitializeValues event, Emitter<ContactDetailsListState> emit) async {
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.contactDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.contactDetailsModuleCode);
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           labels: labels,
           hasReachedMax: false,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<ContactDetailsListState> emit) async {
+    try {
+      ContactDetailsListResponseModel response;
+
+      response = await services.getGcd(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        // mmType: isInward ? 1 : 0,
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on Exception {
@@ -47,6 +77,7 @@ class ContactDetailsListBloc
         ContactDetailsListResponseModel response = await services.getGcd(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
+          filters: BaseFilterModel(),
         );
 
         return emit(
@@ -61,6 +92,7 @@ class ContactDetailsListBloc
       ContactDetailsListResponseModel response = await services.getGcd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        filters: BaseFilterModel(),
       );
 
       if (response.items?.isEmpty == true) {

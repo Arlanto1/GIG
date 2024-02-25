@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
@@ -18,10 +19,38 @@ class EventProtectionsBloc
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
+
   }
 
   final EventProtectionServices _services = EventProtectionServices();
 
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<EventProtectionsState> emit) async {
+    try {
+      EventProtectionResponse response;
+
+      response = await _services.getEventProtections(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
   FutureOr<void> _fetchList(
       FetchData event, Emitter<EventProtectionsState> emit) async {
     try {
@@ -31,7 +60,7 @@ class EventProtectionsBloc
         EventProtectionResponse response = await _services.getEventProtections(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
+          filters: BaseFilterModel(),
         );
 
         return emit(
@@ -46,7 +75,7 @@ class EventProtectionsBloc
       EventProtectionResponse response = await _services.getEventProtections(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',
+        filters: BaseFilterModel(),
       );
 
       if (response.items?.isEmpty == true) {
