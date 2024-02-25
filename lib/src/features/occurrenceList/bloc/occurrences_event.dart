@@ -13,3 +13,7 @@ class FetchData extends OccurrencesEvent {
 
   const FetchData({required this.startPos, required this.maxPos});
 }
+
+class RefreshList extends OccurrencesEvent {
+  const RefreshList();
+}

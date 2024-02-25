@@ -7,11 +7,13 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../bloc/occurrences_bloc.dart';
 
@@ -27,6 +29,9 @@ class OccurrencesView extends StatefulWidget {
 class _OccurrencesViewState extends State<OccurrencesView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -52,6 +57,21 @@ class _OccurrencesViewState extends State<OccurrencesView> {
           .read<OccurrencesBloc>()
           .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<OccurrencesBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
@@ -94,93 +114,125 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.list.length
-                  : state.list.length + 1,
-              itemBuilder: (context, index) {
-                List<Label> labels = [];
-                if (index < state.list.length) {
-                  labels.add(
-                    Label(
-                        key: 'Date of Creation',
-                        value: state.list[index].inputDate != null
-                            ? Utils.timestamptoDateConversion(
-                                int.parse(state.list[index].inputDate ?? '0'),
-                                Constants.dateFormat)
-                            : ''),
-                  );
-                  labels.add(Label(
-                      key: 'Region',
-                      value: state.list[index].locationRegion?.name ?? ''));
-                  labels.add(Label(
-                      key: 'Location',
-                      value: state.list[index].location?.name ?? ''));
-                  labels.add(Label(
-                      key: 'Shift Handed Over By',
-                      value: state.list[index].entrySecurity?.name ?? ''));
-                }
-                return index >= state.list.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.list[index].id,
-                        labels: labels,
-                        status: state.list[index].status,
-                        isOccurrenceStatus: true,
-                        isEventProtectionStatus: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                status: state.list[selectedIndex].status,
-                                labels: labels,
-                                shiftBrfngAttnded:
-                                    state.list[selectedIndex].shiftBrfngAttnded,
-                                materialMovement:
-                                    state.list[selectedIndex].materialMovement,
-                                leoVisit: state.list[selectedIndex].leoVisit,
-                                handOverSecurity:
-                                    state.list[selectedIndex].handoverSecurity,
-                                isOccurrenceStatus: true,
-                                isMasterGuard: false,
-                                isEventProtectionStatus: false,
-                              );
-                            },
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: SmartRefresher(
+                    controller: refreshController,
+                    enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    header: const WaterDropHeader(
+                      waterDropColor: AppColors.navigationSkybluecolor,
+                    ),
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.list.length
+                          : state.list.length + 1,
+                      itemBuilder: (context, index) {
+                        List<Label> labels = [];
+                        if (index < state.list.length) {
+                          labels.add(
+                            Label(
+                                key: 'Date of Creation',
+                                value: state.list[index].inputDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            state.list[index].inputDate ?? '0'),
+                                        Constants.dateFormat)
+                                    : ''),
                           );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getId(id: state.list[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                status: state.list[selectedIndex].status,
+                          labels.add(Label(
+                              key: 'Region',
+                              value: state.list[index].locationRegion?.name ??
+                                  ''));
+                          labels.add(Label(
+                              key: 'Location',
+                              value: state.list[index].location?.name ?? ''));
+                          labels.add(Label(
+                              key: 'Shift Handed Over By',
+                              value:
+                                  state.list[index].entrySecurity?.name ?? ''));
+                        }
+                        return index >= state.list.length
+                            ? const BaseLoader()
+                            : BaseListTileItem(
+                                id: state.list[index].id,
                                 labels: labels,
-                                shiftBrfngAttnded:
-                                    state.list[selectedIndex].shiftBrfngAttnded,
-                                materialMovement:
-                                    state.list[selectedIndex].materialMovement,
-                                leoVisit: state.list[selectedIndex].leoVisit,
-                                handOverSecurity:
-                                    state.list[selectedIndex].handoverSecurity,
-                                isEventProtectionStatus: false,
-                                isMasterGuard: false,
+                                status: state.list[index].status,
                                 isOccurrenceStatus: true,
+                                isEventProtectionStatus: false,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.list[selectedIndex].id
+                                            .toString(),
+                                        slNo: state.list[selectedIndex].slNo,
+                                        status:
+                                            state.list[selectedIndex].status,
+                                        labels: labels,
+                                        shiftBrfngAttnded: state
+                                            .list[selectedIndex]
+                                            .shiftBrfngAttnded,
+                                        materialMovement: state
+                                            .list[selectedIndex]
+                                            .materialMovement,
+                                        leoVisit:
+                                            state.list[selectedIndex].leoVisit,
+                                        handOverSecurity: state
+                                            .list[selectedIndex]
+                                            .handoverSecurity,
+                                        isOccurrenceStatus: true,
+                                        isMasterGuard: false,
+                                        isEventProtectionStatus: false,
+                                      );
+                                    },
+                                  );
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getId(id: state.list[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.list[selectedIndex].id
+                                            .toString(),
+                                        slNo: state.list[selectedIndex].slNo,
+                                        status:
+                                            state.list[selectedIndex].status,
+                                        labels: labels,
+                                        shiftBrfngAttnded: state
+                                            .list[selectedIndex]
+                                            .shiftBrfngAttnded,
+                                        materialMovement: state
+                                            .list[selectedIndex]
+                                            .materialMovement,
+                                        leoVisit:
+                                            state.list[selectedIndex].leoVisit,
+                                        handOverSecurity: state
+                                            .list[selectedIndex]
+                                            .handoverSecurity,
+                                        isEventProtectionStatus: false,
+                                        isMasterGuard: false,
+                                        isOccurrenceStatus: true,
+                                      );
+                                    },
+                                  );
+                                },
+                                index: index,
                               );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }));
