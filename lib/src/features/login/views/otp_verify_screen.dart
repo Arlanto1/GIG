@@ -148,6 +148,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintOtp,
                                     textInputType: TextInputType.number,
+                                    characterLimit: 6,
                                     onChange: (String text) {
                                       otp = text;
                                       setState(() {});
