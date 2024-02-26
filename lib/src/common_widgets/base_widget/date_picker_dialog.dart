@@ -105,9 +105,10 @@ class BaseDate {
     DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
     log('-startDate---$startDate-');
     log('--minTime-1-$minTime--');
-    if (!startDate.isEmptyOrNull) {
-      minTime = DateTime.fromMillisecondsSinceEpoch(startDate.toIntOrNull() ?? 0);
-    }
+    // if (!startDate.isEmptyOrNull) {
+    //   minTime = DateTime.fromMillisecondsSinceEpoch(
+    //       (startDate.toIntOrNull()! * 1000));
+    // }
 
     log('--minTime-2-$minTime--');
 
@@ -136,6 +137,8 @@ class BaseDate {
       // Ensure minTime is set to the current time if showPastDate is false
       // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
 
+      log('--minTime--else-$minTime--');
+      log('--maxTime--else-$maxTime--');
       DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,
