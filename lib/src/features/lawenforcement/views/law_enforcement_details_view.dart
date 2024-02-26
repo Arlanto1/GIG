@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/date_time_picker.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
@@ -698,8 +696,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   isMandatory: true,
                 ),
               ),
-              CommonWidgets.verticalSpacerWidget(
-                  height * 0.06),
+              CommonWidgets.verticalSpacerWidget(height * 0.06),
               GestureDetector(
                 onTap: () {
                   if (widget.model?.status == 1 ||
@@ -993,8 +990,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         for (int i = 0; i < visiting.length; i++) {
           LawVisitingOfficial model = visiting[i];
           Organisation dept = Organisation(
-              id: model.department?.id ?? 1,
-              name: model.department?.name ?? '');
+              id: model.department?.id, name: model.department?.name ?? '');
           VisitingOfficialsModel obj = VisitingOfficialsModel(
               address: model.address ?? '',
               name: model.name ?? '',
@@ -1647,7 +1643,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       for (int i = 0; i < state.visitingOfficials!.length; i++) {
         VisitingOfficialsModel model = state.visitingOfficials![i];
         DbOfficialEmailDepartment? dept =
-            DbOfficialEmailDepartment(id: model.department?.id ?? 1);
+            DbOfficialEmailDepartment(id: model.department?.id);
         VisitingOfficial? obj = VisitingOfficial(
             address: model.address ?? '',
             name: model.name ?? '',
@@ -1655,7 +1651,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             designation: model.designation ?? '',
             email: model.email ?? '',
             department: dept);
-        visitingOfficials.add(obj);
+        if (!obj.name.isEmptyOrNull ||
+            !obj.designation.isEmptyOrNull ||
+            obj.department != null ||
+            !obj.address.isEmptyOrNull) {
+          visitingOfficials.add(obj);
+        }
       }
     }
 
