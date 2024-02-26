@@ -201,6 +201,7 @@ class _OtpVerifyState extends State<OtpVerify> {
 
                                   InkWell(
                                     onTap: () {
+                                      otpTextController.text = '';
                                       bloc.add(LoginVerifyEvent(
                                           requestModel: prepareLoginRequestBody(
                                               userName: widget.userName,
