@@ -2452,7 +2452,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passValidUntilTextController.text = nextFormattedDate;
     }
     if (widget.model == null) {
-      statusTextController.text = 'created';
+      statusTextController.text = 'Created';
     }
   }
 
