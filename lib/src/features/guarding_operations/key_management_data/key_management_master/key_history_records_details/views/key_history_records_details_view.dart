@@ -59,7 +59,7 @@ class _KeyHistoryRecordsDetailsViewState
             onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
-              // Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                   arguments: {
                     ConstantsArgument.id: widget.parentId,
