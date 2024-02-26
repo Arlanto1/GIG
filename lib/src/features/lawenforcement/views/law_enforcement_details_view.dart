@@ -688,28 +688,41 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   ) {
     return Column(
       children: [
-        if (state.getVisitsCount != 1) ...[
-          GestureDetector(
-            onTap: () {
-              if (widget.model?.status == 1 ||
-                  widget.model?.status == 0 ||
-                  widget.model?.status == null) {
-                int value = (state.getVisitsCount) - 1;
-                List<VisitingOfficialsModel>? getVisits1 =
-                    state.visitingOfficials ?? [];
-                getVisits1.removeAt(index);
-                lawEnforcementCubit.addingVisits(
-                    visitCount: value, getVisits: getVisits1);
-              }
-            },
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: SvgPicture.asset(
-                AppIcon.closeicon,
-                color: AppColors.navigationSkybluecolor,
+        if (index != 0) ...[
+          Row(
+            children: [
+              Expanded(
+                child: CommonWidgets.textDisplay(
+                  Constants.visitingofficialdetails,
+                  Styles.textStyleDarkGrey16,
+                  isMandatory: true,
+                ),
               ),
-            ), //Icon(Icons.cancel)
-          ),
+              CommonWidgets.verticalSpacerWidget(
+                  height * 0.06),
+              GestureDetector(
+                onTap: () {
+                  if (widget.model?.status == 1 ||
+                      widget.model?.status == 0 ||
+                      widget.model?.status == null) {
+                    int value = (state.getVisitsCount) - 1;
+                    List<VisitingOfficialsModel>? getVisits1 =
+                        state.visitingOfficials ?? [];
+                    getVisits1.removeAt(index);
+                    lawEnforcementCubit.addingVisits(
+                        visitCount: value, getVisits: getVisits1);
+                  }
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: SvgPicture.asset(
+                    AppIcon.closeicon,
+                    color: AppColors.navigationSkybluecolor,
+                  ),
+                ), //Icon(Icons.cancel)
+              ),
+            ],
+          )
         ],
         CommonWidgets.verticalSpacerWidget(height * 0.002),
 
