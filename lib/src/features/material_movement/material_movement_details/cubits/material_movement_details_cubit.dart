@@ -69,6 +69,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (state.model.status != ConstantsIntValue.businessUserReview) {
+      emit(state.copyWith(
+        status: FormStatus.initial,
+      ));
       return;
     }
 
@@ -603,5 +606,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
     }
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.occurrenceModule);
   }
 }

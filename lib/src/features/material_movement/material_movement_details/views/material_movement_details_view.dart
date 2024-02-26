@@ -2685,11 +2685,23 @@ class _MaterialMovementDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
 
+  void updateRecordStatus(MaterialMovementDetailsState state) {
+    if (state.model.id != null && isReadOnly) {
+      BlocProvider.of<MaterialMovementDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        materialMovementInwardsOutwardsRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       width: 150,
