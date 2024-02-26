@@ -886,11 +886,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? widget.model?.dbOfficialEmail.toString() ?? ""
               : '';
       actualDateTextController.text =
-          (widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != ''
+          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
               ? Utils.timestamptoDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
-              : null)!;
+              : actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
