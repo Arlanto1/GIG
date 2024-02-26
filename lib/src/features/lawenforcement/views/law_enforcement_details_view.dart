@@ -63,6 +63,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
   TextEditingController officeaddressTextController4 = TextEditingController();
+  TextEditingController nameTextController5 = TextEditingController();
+  TextEditingController designationTextController5 = TextEditingController();
+  TextEditingController officeaddressTextController5 = TextEditingController();
+  TextEditingController emailidTextController5 = TextEditingController();
+  TextEditingController contactnoTextController5 = TextEditingController();
+
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   late LawEnforcementState globalState;
@@ -696,23 +702,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     visitCount: value, getVisits: getVisits1);
               }
             },
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Divider(
-                    color: AppColors.navigationSkybluecolor, // Adjust the color of the line as needed
-                    thickness: 1, // Adjust the thickness of the line as needed
-                  ),
-                ),
-                const SizedBox(width: 8), // Adjust the width of the space as needed
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SvgPicture.asset(
-                    AppIcon.closeicon,
-                    color: AppColors.navigationSkybluecolor,
-                  ),
-                ),
-              ],
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: SvgPicture.asset(
+                AppIcon.closeicon,
+                color: AppColors.navigationSkybluecolor,
+              ),
             ), //Icon(Icons.cancel)
           ),
         ],
@@ -729,7 +724,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? nameTextController1
               : index == 1
                   ? nameTextController2
-                  : nameTextController3,
+                  : index == 2
+                      ? nameTextController3
+                      : index == 3
+                          ? nameTextController4
+                          : nameTextController5,
           index,
           state,
         ),
@@ -747,7 +746,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? designationTextController1
               : index == 1
                   ? designationTextController2
-                  : designationTextController3,
+                  : index == 2
+                      ? designationTextController3
+                      : index == 3
+                          ? designationTextController4
+                          : designationTextController5,
           index,
           state,
         ),
@@ -776,7 +779,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? officeaddressTextController1
               : index == 1
                   ? officeaddressTextController2
-                  : officeaddressTextController3,
+                  : index == 2
+                      ? officeaddressTextController3
+                      : index == 3
+                          ? officeaddressTextController4
+                          : officeaddressTextController5,
           index,
           state,
         ),
@@ -794,7 +801,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? emailidTextController1
               : index == 1
                   ? emailidTextController2
-                  : emailidTextController3,
+                  : index == 2
+                      ? emailidTextController3
+                      : index == 3
+                          ? emailidTextController4
+                          : emailidTextController5,
           index,
           state,
         ),
@@ -811,7 +822,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? contactnoTextController1
               : index == 1
                   ? contactnoTextController2
-                  : contactnoTextController3,
+                  : index == 2
+                      ? contactnoTextController3
+                      : index == 3
+                          ? contactnoTextController4
+                          : contactnoTextController5,
           index,
           state,
         ),
@@ -1003,6 +1018,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             contactnoTextController3.text = model.contactNo ?? '';
             emailidTextController3.text = model.email ?? '';
             designationTextController3.text = model.designation ?? '';
+          } else if (i == 3) {
+            nameTextController4.text = model.name ?? '';
+            officeaddressTextController4.text = model.address ?? '';
+            contactnoTextController4.text = model.contactNo ?? '';
+            emailidTextController4.text = model.email ?? '';
+            designationTextController4.text = model.designation ?? '';
+          } else if (i == 4) {
+            nameTextController5.text = model.name ?? '';
+            officeaddressTextController5.text = model.address ?? '';
+            contactnoTextController5.text = model.contactNo ?? '';
+            emailidTextController5.text = model.email ?? '';
+            designationTextController5.text = model.designation ?? '';
           }
           // dept = model != null
           //     ? AtomLeoDepartment(
@@ -1986,21 +2013,27 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //this.username = username;
         if (textController == nameTextController1 ||
             textController == nameTextController2 ||
-            textController == nameTextController3) {
+            textController == nameTextController3 ||
+            textController == nameTextController4 ||
+            textController == nameTextController5) {
           if (state.visitingOfficials!.isNotEmpty) {
             VisitingOfficialsModel model = state.visitingOfficials![index];
             model.name = username;
           }
         } else if (textController == designationTextController1 ||
             textController == designationTextController2 ||
-            textController == designationTextController3) {
+            textController == designationTextController3 ||
+            textController == designationTextController4 ||
+            textController == designationTextController5) {
           if (state.visitingOfficials!.isNotEmpty) {
             VisitingOfficialsModel model = state.visitingOfficials![index];
             model.designation = username;
           }
         } else if (textController == emailidTextController1 ||
             textController == emailidTextController2 ||
-            textController == emailidTextController3) {
+            textController == emailidTextController3 ||
+            textController == emailidTextController4 ||
+            textController == emailidTextController5) {
           log('----state.getVisits-22-${state.visitingOfficials}----');
           if (state.visitingOfficials!.isNotEmpty) {
             log('----state.getVisits------');
@@ -2009,14 +2042,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           }
         } else if (textController == officeaddressTextController1 ||
             textController == officeaddressTextController2 ||
-            textController == officeaddressTextController3) {
+            textController == officeaddressTextController3 ||
+            textController == officeaddressTextController4 ||
+            textController == officeaddressTextController5) {
           if (state.visitingOfficials!.isNotEmpty) {
             VisitingOfficialsModel model = state.visitingOfficials![index];
             model.address = username;
           }
         } else if (textController == contactnoTextController1 ||
             textController == contactnoTextController2 ||
-            textController == contactnoTextController3) {
+            textController == contactnoTextController3 ||
+            textController == contactnoTextController4 ||
+            textController == contactnoTextController5) {
           if (state.visitingOfficials!.isNotEmpty) {
             VisitingOfficialsModel model = state.visitingOfficials![index];
             model.contactNo = username;
