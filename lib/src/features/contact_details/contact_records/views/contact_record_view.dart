@@ -166,7 +166,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
             );
             labels.add(
               Label(
-                key: 'Contact No',
+                key: 'Phone Number',
                 value: state.items![index].contactNo ?? '',
               ),
             );
