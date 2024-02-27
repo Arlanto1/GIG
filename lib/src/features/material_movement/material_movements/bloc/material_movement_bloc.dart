@@ -37,10 +37,11 @@ class MaterialMovementBloc
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.materialMovementModuleCode);
 
-      log('-statuses-bloc--${statuses.length}---');
-
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -54,6 +55,7 @@ class MaterialMovementBloc
           locations: locations,
           regions: regions,
           statuses: statuses,
+          commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
         ),

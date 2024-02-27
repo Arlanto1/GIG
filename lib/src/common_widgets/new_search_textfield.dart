@@ -76,6 +76,7 @@ class FlutterInputField extends StatelessWidget {
       maxLines: lineHeight,
       autofocus: autoFocus!,
       // autocorrect: false,
+      spellCheckConfiguration: const SpellCheckConfiguration(),
       enableSuggestions: true,
       keyboardType: textInputType,
       focusNode: focusNode,

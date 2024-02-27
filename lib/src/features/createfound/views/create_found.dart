@@ -732,6 +732,7 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
+  FocusNode depositorEmployeeFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -1244,6 +1245,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 widget.model == null) {
                                               depositorDialog(
                                                   state, Constants.depositor);
+                                              FocusScope.of(context).requestFocus(depositorEmployeeFocusNode);
                                             }
                                           })
                                       : FlutterInputField(
@@ -1296,6 +1298,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               widget.model?.status != 0
                                                   ? false
                                                   : true,
+                                          focusNode: depositorEmployeeFocusNode,
                                           onChange: (String username) {
                                             //this.username = username;
                                             setState(() {});

@@ -1,3 +1,5 @@
+import 'package:db_atom/index.dart';
+
 class BaseFilterModel {
   FilterCriteria? filterCriteria;
 
@@ -70,4 +72,12 @@ class Filters {
         'createdBy': createdBy,
         'status': status
       };
+}
+
+
+class CommonFilters {
+  final List<Organisation>? regions;
+  final List<Organisation>? statuses;
+
+  CommonFilters({required this.regions, required this.statuses});
 }
