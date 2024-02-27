@@ -188,12 +188,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
                 Iterable<Organisation>? passes = state.passTypes
-                    ?.where((element) => element.id == widget.model?.passType);
+                    ?.where((element) => element.id == widget.model?.passType)??[];
 
-                passtypeTextController.text = passes!.first.name!;
+                passtypeTextController.text = passes.first.name!;
 
                 state.model.passType = widget.model?.passType;
-                log('-passes?.length---${passes?.length}--');
+                log('-passes?.length---${passes.length}--');
                 // passtypeTextController.text = pass!.name!;
               }
 
@@ -600,7 +600,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textInputType: TextInputType.text,
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
-                                        isEnable: isFTECompanyNameEditable,
+                                        isEnable: isFTECompanyNameEditable &&
+                                            (widget.model?.status ==
+                                                null || widget.model?.status ==
+                                                ConstantsIntValue
+                                                    .passStatusCreated),
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -1693,7 +1697,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     /// Attachments
-
                                     BaseImageUpload().getAttachment(
                                       height: height,
                                       attachments: state.loadAttachments,
@@ -3128,31 +3131,31 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusValue = 1;
     }
 
-    int updateStatusValue = 0;
-    if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusReturned)) {
-      updateStatusValue = 2;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusLostDeActivated)) {
-      updateStatusValue = 4;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusDamagedDeActivated)) {
-      updateStatusValue = 5;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusDefaced)) {
-      updateStatusValue = 6;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusCancelled)) {
-      updateStatusValue = 7;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDamaged)) {
-      updateStatusValue = 8;
-    } else if (updateStatusTextController.text
-        .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDefaced)) {
-      updateStatusValue = 9;
-    } else {
-      updateStatusValue = 1;
-    }
+    // int updateStatusValue = 0;
+    // if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusReturned)) {
+    //   updateStatusValue = 2;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusLostDeActivated)) {
+    //   updateStatusValue = 4;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusDamagedDeActivated)) {
+    //   updateStatusValue = 5;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusDefaced)) {
+    //   updateStatusValue = 6;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusCancelled)) {
+    //   updateStatusValue = 7;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDamaged)) {
+    //   updateStatusValue = 8;
+    // } else if (updateStatusTextController.text
+    //     .equalsIgnoreCase(ConstantsIntValue.passStatusReturnedDefaced)) {
+    //   updateStatusValue = 9;
+    // } else {
+    //   updateStatusValue = 1;
+    // }
     // return;
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');

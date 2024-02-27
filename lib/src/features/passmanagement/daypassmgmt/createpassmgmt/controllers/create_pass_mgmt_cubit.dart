@@ -285,7 +285,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
       final updatedState = state.copyWith(
         passTypes: passTypes,
-        stateType: CreatePassMgmtStateType.success,
+        stateType: CreatePassMgmtStateType.initial,
       );
 
       emit(updatedState);
