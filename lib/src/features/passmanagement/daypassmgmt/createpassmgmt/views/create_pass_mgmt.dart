@@ -50,6 +50,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       TextEditingController();
   TextEditingController passReturnedTextController = TextEditingController();
 
+  final FocusNode companyNameFocusNode = FocusNode();
+
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   List<ImageContent> photogetFiles = [];
@@ -172,6 +174,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             // Utils.dynamicAlert(
             //     context, state.message ?? '', 'Material Movement', '');
           }
+          if (state.stateType == CreatePassMgmtStateType.failure) {
+            Validator().showToast(
+              context,
+              state.message ?? 'Invalid Information',
+            );
+          }
         },
         builder: (context, state) {
           return BlocBuilder<CreatePassMgmtCubit, CreatePassMgmtState>(
@@ -192,7 +200,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     [];
 
                 log('-passes---${passes.length}--');
-                if(!passes.isEmptyOrNull) {
+                if (!passes.isEmptyOrNull) {
                   passtypeTextController.text = passes.first.name!;
                 }
                 state.model.passType = widget.model?.passType;
@@ -603,6 +611,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textInputType: TextInputType.text,
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
+                                        focusNode: companyNameFocusNode,
                                         isEnable: isFTECompanyNameEditable &&
                                             (widget.model?.status == null ||
                                                 widget.model?.status ==
@@ -2611,6 +2620,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         if (widget.model == null || widget.model?.status == 0) {
           companyTypeDialog(state);
         }
+
+        FocusScope.of(context)
+            .requestFocus(companyNameFocusNode);
       },
     );
   }
@@ -3052,16 +3064,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-    // if (widget.passId == ConstantsIntValue.passIdVendor) {
-    //   if (state.selectedPassInfo == null) {
-    //     Validator().showToast(
-    //       context,
-    //       "Vendor Pass No",
-    //     );
-    //     return;
-    //   }
-    // }
-
     log('-widget.model?.passInfo--${widget.model?.passInfo}-');
 
     PassInfo? selectedPassInfo;
@@ -3133,7 +3135,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (statusTextController.text.toLowerCase() == "Returned/Defaced") {
       statusValue = 9;
     } else {
-      statusValue = 1;
+      statusValue = 0;
     }
 
     // int updateStatusValue = 0;
