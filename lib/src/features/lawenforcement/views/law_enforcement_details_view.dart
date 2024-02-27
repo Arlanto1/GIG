@@ -1795,12 +1795,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    } else if (additionalInformationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter additional information",
-      );
-    } else if (state.visitingOfficials != null &&
+    }  else if (state.visitingOfficials != null &&
         state.visitingOfficials!.isNotEmpty) {
       for (int i = 0; i < state.visitingOfficials!.length;) {
         VisitingOfficialsModel model = state.visitingOfficials![i];
