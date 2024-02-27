@@ -62,7 +62,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> isFormReadable() async {
-
     if (isInward ?? false) {
       return;
     }
@@ -178,7 +177,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
       isFormReadable();
-
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Material Movement Details Cubit');

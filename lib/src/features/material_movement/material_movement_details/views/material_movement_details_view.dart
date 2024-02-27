@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
-import 'package:db_atom/src/constants/constant_int_values.dart';
 
 import 'addRejectionCommnetPopUp.dart';
 
@@ -49,6 +48,7 @@ class _MaterialMovementDetailsViewState
 
   final FocusNode requestorEmployeeIdFocusNode = FocusNode();
   final FocusNode sentToFocusNode = FocusNode();
+  final FocusNode receivedByFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -233,8 +233,7 @@ class _MaterialMovementDetailsViewState
         int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
         Constants.dateFormat);
     takenOutOnDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.model?.takenOutDate ?? '0'),
-        Constants.dateFormat);
+        int.tryParse(widget.model?.takenOutDate ?? '0'), Constants.dateFormat);
   }
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
@@ -525,8 +524,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                            isMandatory:
-                                widget.model == null ? false : true,
+                            isMandatory: widget.model == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -550,7 +548,8 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 2 ||
                                 state.model.status == 3 ||
                                 state.model.status == 4 ||
-                                state.model.status == 5 || isReadOnly,
+                                state.model.status == 5 ||
+                                isReadOnly,
                             validateTextField: (String? user) {},
                             onChange: (String value) {
                               state.model.materialDescription = value;
@@ -568,8 +567,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory:
-                                widget.model == null ? false : true,
+                            isMandatory: widget.model == null ? false : true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -592,7 +590,8 @@ class _MaterialMovementDetailsViewState
                                           state.model.status == 2 ||
                                           state.model.status == 3 ||
                                           state.model.status == 4 ||
-                                          state.model.status == 5|| isReadOnly
+                                          state.model.status == 5 ||
+                                          isReadOnly
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
@@ -601,7 +600,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5|| isReadOnly,
+                                      state.model.status == 5 ||
+                                      isReadOnly,
                                   onChange: (String? value) {
                                     if (value != null) {
                                       state.model.quantity = int.parse(value);
@@ -655,9 +655,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.modelInfo ??
                                   Constants.equipmentNo,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -672,7 +670,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5|| isReadOnly
+                                      state.model.status == 5 ||
+                                      isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -681,7 +680,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5|| isReadOnly,
+                                  state.model.status == 5 ||
+                                  isReadOnly,
                               onChange: (String value) {
                                 state.model.modelInfo = value;
                                 context
@@ -700,9 +700,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.address ??
                                   Constants.address,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -726,7 +724,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5|| isReadOnly,
+                                  state.model.status == 5 ||
+                                  isReadOnly,
                               onChange: (String value) {
                                 state.model.address = value;
                                 context
@@ -786,8 +785,8 @@ class _MaterialMovementDetailsViewState
                                                     .updateApproverEmailsValue(
                                                         requesterEmailUser:
                                                             user);
-                                                FocusScope.of(context).requestFocus(requestorEmployeeIdFocusNode);
-
+                                                FocusScope.of(context).requestFocus(
+                                                    requestorEmployeeIdFocusNode);
                                               },
                                               functionToCall: () {
                                                 // refresh the list
@@ -882,9 +881,7 @@ class _MaterialMovementDetailsViewState
                                       .requestorDepartment ??
                                   Constants.requestorDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             widget.model?.status == 6
                                 ? FlutterInputField(
@@ -904,7 +901,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 10 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 5|| isReadOnly,
+                                        state.model.status == 5 ||
+                                        isReadOnly,
                                     onChange: (String value) {
                                       state.model.requestorDepartment?.name =
                                           value;
@@ -924,7 +922,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
                                             state.model.status == 4 ||
-                                            state.model.status == 5|| isReadOnly)
+                                            state.model.status == 5 ||
+                                            isReadOnly)
                                         ? true
                                         : false,
                                     onTap: () {
@@ -966,7 +965,8 @@ class _MaterialMovementDetailsViewState
                                                           context)
                                                       .refreshList();
                                                 });
-                                        FocusScope.of(context).requestFocus(sentToFocusNode);
+                                        FocusScope.of(context)
+                                            .requestFocus(sentToFocusNode);
                                       }
                                     },
                                   ),
@@ -980,9 +980,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.sentTo ??
                                   Constants.sentTo,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -998,7 +996,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5|| isReadOnly
+                                      state.model.status == 5 ||
+                                      isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1007,7 +1006,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5|| isReadOnly,
+                                  state.model.status == 5 ||
+                                  isReadOnly,
                               onChange: (String value) {
                                 state.model.sentTo = value;
                                 context
@@ -1024,9 +1024,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.purpose ??
                                   Constants.purpose,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -1041,7 +1039,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5|| isReadOnly
+                                      state.model.status == 5 ||
+                                      isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1050,7 +1049,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5|| isReadOnly,
+                                  state.model.status == 5 ||
+                                  isReadOnly,
                               onChange: (String value) {
                                 state.model.purpose = value;
                                 context
@@ -1082,7 +1082,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5|| isReadOnly
+                                      state.model.status == 5 ||
+                                      isReadOnly
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -1091,7 +1092,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5|| isReadOnly,
+                                  state.model.status == 5 ||
+                                  isReadOnly,
                               onChange: (String value) {
                                 state.model.preparedBy = value;
                                 BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -1109,9 +1111,7 @@ class _MaterialMovementDetailsViewState
                                       .preparedByDepartment ??
                                   Constants.preparedByDepartment,
                               Styles.textStyleBlack14,
-                              isMandatory: widget.model == null
-                                  ? false
-                                  : true,
+                              isMandatory: widget.model == null ? false : true,
                             ),
                             widget.model?.status == 6
                                 ? FlutterInputField(
@@ -1125,7 +1125,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
                                             state.model.status == 4 ||
-                                            state.model.status == 5|| isReadOnly
+                                            state.model.status == 5 ||
+                                            isReadOnly
                                         ? false
                                         : true,
                                     isDisableColor: state.model.status == 10 ||
@@ -1134,7 +1135,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        state.model.status == 5|| isReadOnly,
+                                        state.model.status == 5 ||
+                                        isReadOnly,
                                     onChange: (String value) {
                                       state.model.preparedByDepartment?.name =
                                           value;
@@ -1154,7 +1156,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        state.model.status == 5|| isReadOnly,
+                                        state.model.status == 5 ||
+                                        isReadOnly,
                                     onTap: () {
                                       if ((state.model.status == 6 ||
                                               state.model.status == -1 ||
@@ -1162,7 +1165,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              state.model.status == 5|| isReadOnly)
+                                              state.model.status == 5 ||
+                                              isReadOnly)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1602,9 +1606,8 @@ class _MaterialMovementDetailsViewState
                                         .rejectionComment ??
                                     Constants.rejectionComment,
                                 Styles.textStyleBlack14,
-                                isMandatory: widget.model == null
-                                    ? false
-                                    : true,
+                                isMandatory:
+                                    widget.model == null ? false : true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1660,9 +1663,8 @@ class _MaterialMovementDetailsViewState
                                         .expectedDateOfReturn ??
                                     Constants.expectedDateOfReturn,
                                 Styles.textStyleBlack14,
-                                isMandatory: widget.model == null
-                                    ? false
-                                    : true,
+                                isMandatory:
+                                    widget.model == null ? false : true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1940,12 +1942,13 @@ class _MaterialMovementDetailsViewState
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.originalReceiver ? 1 : 0,
-                              onChangedYes: widget.model?.status ==
-                                          6 ||
+                              onChangedYes: widget.model?.status == 6 ||
                                       widget.model?.status == -1 ||
                                       widget.model?.status == 10
                                   ? null
                                   : (val) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
                                       BlocProvider.of<
                                                   MaterialMovementDetailsCubit>(
                                               context)
@@ -1953,12 +1956,13 @@ class _MaterialMovementDetailsViewState
                                         isOriginalReceiverReceiving: true,
                                       );
                                     },
-                              onChangedNo: widget.model?.status ==
-                                          6 ||
+                              onChangedNo: widget.model?.status == 6 ||
                                       widget.model?.status == -1 ||
                                       widget.model?.status == 10
                                   ? null
                                   : (val) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
                                       BlocProvider.of<
                                                   MaterialMovementDetailsCubit>(
                                               context)
@@ -2060,6 +2064,9 @@ class _MaterialMovementDetailsViewState
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 if (!isReadOnly) {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.departments,
@@ -2072,6 +2079,8 @@ class _MaterialMovementDetailsViewState
                                                 context)
                                             .updateDropdownValues(
                                                 receiverDepartment: department);
+                                        FocusScope.of(context)
+                                            .requestFocus(receivedByFocusNode);
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
@@ -2090,15 +2099,15 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (state.model.originalReceiver) ...[
-                            /// Received by
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.receiverName ??
-                                  state.labels?.defaultLocale.receiverName ??
-                                  Constants.receivedBy,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            TextFieldAddButton(
+                              /// Received by
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.receiverName ??
+                                    state.labels?.defaultLocale.receiverName ??
+                                    Constants.receivedBy,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
                                 title: state.model.otherReceiverName,
                                 height: 70,
                                 isDisableColor: isReadOnly,
@@ -2123,7 +2132,8 @@ class _MaterialMovementDetailsViewState
                                       },
                                     );
                                   }
-                                }),
+                                },
+                              ),
                             ],
                             // FlutterInputField(
                             //   initialValue: state.model.otherReceiverName,
@@ -2142,33 +2152,34 @@ class _MaterialMovementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-    if (!state.model.originalReceiver) ...[
-                            /// Received by
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.receiverName ??
-                                  state.labels?.defaultLocale
-                                      .receiverName ??
-                                  Constants.receivedBy,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
+                            if (!state.model.originalReceiver) ...[
+                              /// Received by
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.receiverName ??
+                                    state.labels?.defaultLocale.receiverName ??
+                                    Constants.receivedBy,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
 
-                            FlutterInputField(
-                              initialValue: state.model.otherReceiverName,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.otherReceiverName = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-],
+                              FlutterInputField(
+                                initialValue: state.model.otherReceiverName,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                focusNode: receivedByFocusNode,
+                                onChange: (String value) {
+                                  state.model.otherReceiverName = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Received by Employee Id
                             CommonWidgets.textDisplay(
                               state.labels?.locale.otherReceiverEmployeeId ??
@@ -2253,9 +2264,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.materialPhysicallyChecked
                                         ? 1
                                         : 0,
-                                onChangedYes: (widget
-                                                .model?.status ==
-                                            6 ||
+                                onChangedYes: (widget.model?.status == 6 ||
                                         widget.model?.status == 10 ||
                                         widget.model?.status == -1)
                                     ? null
@@ -2268,8 +2277,7 @@ class _MaterialMovementDetailsViewState
                                           // materialMovement: materialMovement,
                                         );
                                       },
-                                onChangedNo: widget.model?.status ==
-                                            6 ||
+                                onChangedNo: widget.model?.status == 6 ||
                                         widget.model?.status == 10 ||
                                         widget.model?.status == -1
                                     ? null
@@ -2511,9 +2519,7 @@ class _MaterialMovementDetailsViewState
                             attachments: state.loadAttachments,
                             files: getFiles,
                             showDownloadIcon:
-                                widget.model?.images != null
-                                    ? true
-                                    : false,
+                                widget.model?.images != null ? true : false,
                           ),
                         ]),
                       ),
@@ -2737,6 +2743,7 @@ class _MaterialMovementDetailsViewState
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       width: 150,
@@ -2772,7 +2779,9 @@ class _MaterialMovementDetailsViewState
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(140, 50),
-                    backgroundColor: !isReadOnly ? AppColors.navigationSkybluecolor:AppColors.gerylightBackground,
+                    backgroundColor: !isReadOnly
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.gerylightBackground,
                   ),
                   onPressed: () {
                     showDialog(
@@ -2820,8 +2829,7 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.model?.status == null ||
-                widget.model?.status == 0)
+        if ((widget.model?.status == null || widget.model?.status == 0)
             ? true
             : false) {
           showDialog(
