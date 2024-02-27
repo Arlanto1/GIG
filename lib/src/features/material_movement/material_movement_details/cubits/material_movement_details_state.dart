@@ -90,11 +90,18 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
-
-      if (model.otherReceiverEmployeeId.isEmptyOrNull &&
-          model.originalReceiver) {
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
+      if (!model.originalReceiver && model.otherReceiverEmployeeId.isEmptyOrNull ) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
+      }
+
+      if (model.otherReceiverName.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by');
       }
 
       if (model.materialFromAddress.isEmptyOrNull &&
@@ -118,11 +125,6 @@ class MaterialMovementDetailsState extends Equatable {
       if (model.receiverDepartment == null) {
         return const ErrorResponse(
             status: false, message: 'Please enter Receiver Department');
-      }
-
-      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received For');
       }
     }
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
