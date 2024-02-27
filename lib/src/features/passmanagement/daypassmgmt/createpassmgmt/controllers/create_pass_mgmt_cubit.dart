@@ -710,6 +710,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     );
 
     try {
+      log('-@@@@@@@@@@--111---');
       if (passId != ConstantsIntValue.passIdSez) {
         Organisation? defaultLocation;
         if (model.location == null) {
@@ -717,23 +718,49 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         } else {
           defaultLocation = model.location;
         }
+        log('-@@@@@@@@@@--222---');
         log('-defaultLocation---${defaultLocation?.id}--');
-        await getSerialnumberDetails(defaultLocation!.id.toString(), passId);
 
-        // Wait for getPassTypes to complete before proceeding
-        await getPassTypes(passId: passId, locationId: defaultLocation.id!);
+        String moduleCode = Constants.passManagementModule;
+        if (passId == ConstantsIntValue.passIdDayPass) {
+          moduleCode = Constants.passManagementModule;
+        } else if (passId == ConstantsIntValue.passIdVisitor) {
+          moduleCode = Constants.visitorManagementModule;
+        } else if (passId == ConstantsIntValue.passIdVendor) {
+          moduleCode = Constants.vendorPassManagementModule;
+        } else if (passId == ConstantsIntValue.passIdSez) {
+          moduleCode = Constants.passManagementSEZModule;
+        }
+
+        SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
+          locationId: defaultLocation!.id.toString(),
+          moduleCode: moduleCode,
+        );
+
+        // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
+        log('-@@@@@@@@@@--333---');
+
+        List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
+            passId: passId, locationId: defaultLocation.id!);
+        // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
         log('-state.passTypes.length---${state.passTypes?.length}--'); // Should not be null now
 
+        log('-@@@@@@@@@@--444---');
         List<Organisation> updateStatuses = [];
         if (model.status != null && (model.status == 0 || model.status == 1)) {
           updateStatuses = await commonServices.getStatusesByModuleId(
               module: Constants.passManagementModuleCode, filter: model.status);
         }
 
-        emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
+        log('-@@@@@@@@@@-----');
+
+
+        // emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
         emit(state.copyWith(
           location: defaultLocation,
           updateStatuses: updateStatuses,
+          passTypes: passTypes,
+          getSerialnumberResponse: serialNumberResponse,
           stateType: CreatePassMgmtStateType.success,
         ));
       }

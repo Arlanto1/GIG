@@ -158,8 +158,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   context,
                   daypassmanagementListRoute,
                   arguments: {
-                    "passMngDetails": PassMngArguments(
-                        widget.passId.toString(),  widget.title??'Pass Management', false)
+                    "passMngDetails": PassMngArguments(widget.passId.toString(),
+                        widget.title ?? 'Pass Management', false)
                   },
                 );
               },
@@ -187,11 +187,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 passtypeTextController.text = state.passTypes!.first.name!;
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
-                Iterable<Organisation>? passes = state.passTypes
-                    ?.where((element) => element.id == widget.model?.passType)??[];
+                Iterable<Organisation>? passes = state.passTypes?.where(
+                        (element) => element.id == widget.model?.passType) ??
+                    [];
 
-                passtypeTextController.text = passes.first.name!;
-
+                log('-passes---${passes.length}--');
+                if(!passes.isEmptyOrNull) {
+                  passtypeTextController.text = passes.first.name!;
+                }
                 state.model.passType = widget.model?.passType;
                 log('-passes?.length---${passes.length}--');
                 // passtypeTextController.text = pass!.name!;
@@ -601,10 +604,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         isEnable: isFTECompanyNameEditable &&
-                                            (widget.model?.status ==
-                                                null || widget.model?.status ==
-                                                ConstantsIntValue
-                                                    .passStatusCreated),
+                                            (widget.model?.status == null ||
+                                                widget.model?.status ==
+                                                    ConstantsIntValue
+                                                        .passStatusCreated),
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -2085,7 +2088,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       var userid = await SharedPrefs.getUserId();
       await createPassMgmtCubit.getUserDetails(userid, context);
     } else {
-      createdBy = '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}';
+      createdBy =
+          '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}';
     }
     await createPassMgmtCubit.companyTypes(
         name: widget.passId == ConstantsIntValue.passIdSez
@@ -3117,7 +3121,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusValue = 3;
     } else if (statusTextController.text.toLowerCase() == "Lost/De-Activated") {
       statusValue = 4;
-    } else if (statusTextController.text.toLowerCase() == "Damaged/De-Activated") {
+    } else if (statusTextController.text.toLowerCase() ==
+        "Damaged/De-Activated") {
       statusValue = 5;
     } else if (statusTextController.text.toLowerCase() == "Defaced") {
       statusValue = 6;
