@@ -4,15 +4,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="article found cancel button working">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="focus">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/base_filter_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/base_filter_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,11 +109,11 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notificaitons/views" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -495,7 +502,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="222" />
+    <option name="localTasksCounter" value="240" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -532,23 +539,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="duty post name master: while creating a record,when we click on submit icon at top is not working.[qa]" />
-    <MESSAGE value="notification count api call" />
-    <MESSAGE value="get users by role api" />
-    <MESSAGE value="escalation matrix dropdown issue fixed" />
-    <MESSAGE value="sla violation issue fixed" />
-    <MESSAGE value="sla violation, contact details show po-up if list is empty" />
-    <MESSAGE value="/getEPLists, /exportEPPDF &amp; /exportEPExcel&#10;Added aps as parameter (0 for EP or 1 for Annual Power Shutdown (aps))&#10;&#10;Not required to pass userId in the endpoint of any API, removed it from backend&#10;&#10;For all export PDF or Excel not required to pass startPos &amp; maxResults" />
-    <MESSAGE value="sst incident menu fixed" />
-    <MESSAGE value="ep url issue" />
-    <MESSAGE value="hide password" />
-    <MESSAGE value="future time issue fixed" />
-    <MESSAGE value="sla disable field issue fixed" />
-    <MESSAGE value="day pass no set empty on location selection" />
-    <MESSAGE value="password underline" />
-    <MESSAGE value="username underline" />
-    <MESSAGE value="Add Entity, Department" />
-    <MESSAGE value="event protection issue fixed" />
     <MESSAGE value="location update issue fixed" />
     <MESSAGE value="DONE: cancel API, charcter limit" />
     <MESSAGE value="DONE: cancel API" />
@@ -557,7 +547,24 @@
     <MESSAGE value="DONE: Article Found Show Error" />
     <MESSAGE value="WIP: Base Setup For Filters Done" />
     <MESSAGE value="article found cancel button working" />
-    <option name="LAST_COMMIT_MESSAGE" value="article found cancel button working" />
+    <MESSAGE value="improvements in day pass" />
+    <MESSAGE value="pass management code improved and bugs fixed" />
+    <MESSAGE value="guarding master data add missing fields" />
+    <MESSAGE value="occurence issue fixed" />
+    <MESSAGE value="download image issue fixed" />
+    <MESSAGE value="pull down to refresh" />
+    <MESSAGE value="input" />
+    <MESSAGE value="event protection tile display issue fixed" />
+    <MESSAGE value="move focus to next field" />
+    <MESSAGE value="pass mangments" />
+    <MESSAGE value="edit image title" />
+    <MESSAGE value="missing file" />
+    <MESSAGE value="filters improved" />
+    <MESSAGE value="clear password on resend password" />
+    <MESSAGE value="key history record list issue fixed" />
+    <MESSAGE value="spell check" />
+    <MESSAGE value="focus" />
+    <option name="LAST_COMMIT_MESSAGE" value="focus" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
