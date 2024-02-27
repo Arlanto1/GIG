@@ -132,8 +132,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
-                  statuses: state.commonFilters?.statuses ?? [],
-                  regions: state.commonFilters?.regions ?? [],
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                 if (state.status == FormStatus.loading) ...[

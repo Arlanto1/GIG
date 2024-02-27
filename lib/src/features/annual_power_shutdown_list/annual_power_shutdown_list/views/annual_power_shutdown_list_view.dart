@@ -1,25 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../../../index.dart';
-import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
+import 'package:db_atom/index.dart';
 import '../bloc/annual_power_shutdown_list_bloc.dart';
 
 class AnnualPowerShutdownListView extends StatefulWidget {
@@ -150,8 +133,11 @@ class _AnnualPowerShutdownListViewState
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
-                  statuses: state.commonFilters?.statuses ?? [],
-                  regions: state.commonFilters?.regions ?? [],
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                 if (state.status == FormStatus.initial) ...[

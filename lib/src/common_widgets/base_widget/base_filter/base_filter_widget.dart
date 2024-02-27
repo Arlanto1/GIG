@@ -7,15 +7,13 @@ import 'package:db_atom/src/services/common_services.dart';
 class BaseSearchWidget extends StatefulWidget {
   final Function(FilterCriteria) applySearchFilters;
   final Function(Filters) applyFilters;
-  final List<Organisation> statuses;
-  final List<Organisation> regions;
+  final CommonFilters commonFilters;
 
   const BaseSearchWidget({
     super.key,
     required this.applySearchFilters,
     required this.applyFilters,
-    required this.statuses,
-    required this.regions,
+    required this.commonFilters,
   });
 
   @override
@@ -92,8 +90,7 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
           // ShowFiltersWidget is used to trigger the showModalBottomSheet
           ShowFiltersWidget(
             applyFilters: widget.applyFilters,
-            statuses: widget.statuses,
-            regions: widget.regions,
+            commonFilters: widget.commonFilters,
             clearSearchController: () {
               searchController.clear();
             },
@@ -106,16 +103,14 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
 
 class ShowFiltersWidget extends StatelessWidget {
   final Function(Filters) applyFilters;
-  final List<Organisation> statuses;
-  final List<Organisation> regions;
+  final CommonFilters commonFilters;
   final VoidCallback clearSearchController;
 
   const ShowFiltersWidget({
     super.key,
     required this.applyFilters,
-    required this.statuses,
-    required this.regions,
     required this.clearSearchController,
+    required this.commonFilters,
   });
 
   @override
@@ -167,8 +162,8 @@ class ShowFiltersWidget extends StatelessWidget {
           create: (context) => BaseFilterCubit(), // Provide the BaseFilterCubit
           child: BaseFilterSheet(
             applyFilters: applyFilters,
-            statuses: statuses,
-            regions: regions,
+            statuses: commonFilters.statuses??[],
+            regions: commonFilters.regions??[],
           ),
         );
       },
@@ -233,7 +228,6 @@ class ShowFiltersWidget extends StatelessWidget {
                         child: FlutterInputField(
                           textInputType: TextInputType.number,
                           textFormKey: Keys.idKey,
-                          // initialValue: state.model.challanNo,
                           controller: idController,
                           hintText: '',
                           isEnable: true,
@@ -441,9 +435,8 @@ class BaseFilterSheet extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
-
         log('-state.status----${state.status}-');
-        if(state.status == FormStatus.loading){
+        if (state.status == FormStatus.loading) {
           // return BaseLoader();
         }
 
