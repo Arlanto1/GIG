@@ -563,7 +563,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     /// Distribution Groups
                                     CommonWidgets.textDisplay(
                                         Constants.distributiongroups,
-                                        Styles.textStyleBlack14),
+                                        Styles.textStyleBlack14,isMandatory: true,),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     BaseEntitiesSelection()
@@ -1824,7 +1824,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         else {
           if (widget.model?.status != 0 &&
               (widget.model != null &&
-                  distributiongroupsTextController.text.isNotEmpty)) {
+                  distributiongroupsTextController.text.isEmpty)) {
             Validator().showToast(
               context,
               "Please enter distribution groups",
