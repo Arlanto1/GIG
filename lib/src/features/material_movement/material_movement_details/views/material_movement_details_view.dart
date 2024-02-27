@@ -2082,7 +2082,7 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // if (state.model.originalReceiver) ...[
+                            if (state.model.originalReceiver) ...[
                             /// Received by
                             CommonWidgets.textDisplay(
                               state.labels?.locale.receiverName ??
@@ -2117,6 +2117,7 @@ class _MaterialMovementDetailsViewState
                                     );
                                   }
                                 }),
+                            ],
                             // FlutterInputField(
                             //   initialValue: state.model.otherReceiverName,
                             //   textFormKey: Keys.receivedByKey,
@@ -2134,6 +2135,33 @@ class _MaterialMovementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+    if (!state.model.originalReceiver) ...[
+                            /// Received by
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.receiverName ??
+                                  state.labels?.defaultLocale
+                                      .receiverName ??
+                                  Constants.receivedBy,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+
+                            FlutterInputField(
+                              initialValue: state.model.otherReceiverName,
+                              textFormKey: Keys.claimantEmpIdTextController,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              hintText: '',
+                              onChange: (String value) {
+                                state.model.otherReceiverName = value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             /// Received by Employee Id
                             CommonWidgets.textDisplay(
                               state.labels?.locale.otherReceiverEmployeeId ??
