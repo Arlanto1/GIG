@@ -159,7 +159,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   daypassmanagementListRoute,
                   arguments: {
                     "passMngDetails": PassMngArguments(
-                        widget.passId.toString(), 'Day Pass Management', false)
+                        widget.passId.toString(),  widget.title??'Pass Management', false)
                   },
                 );
               },
@@ -600,7 +600,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textInputType: TextInputType.text,
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
-                                        isEnable: isFTECompanyNameEditable,
+                                        isEnable: isFTECompanyNameEditable ,
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -2082,7 +2082,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       var userid = await SharedPrefs.getUserId();
       await createPassMgmtCubit.getUserDetails(userid, context);
     } else {
-      createdBy = widget.model?.entrySecurity?.userName ?? '';
+      createdBy = '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}';
     }
     await createPassMgmtCubit.companyTypes(
         name: widget.passId == ConstantsIntValue.passIdSez
@@ -3112,9 +3112,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusValue = 2;
     } else if (statusTextController.text.toLowerCase() == "Non Returned") {
       statusValue = 3;
-    } else if (statusTextController.text.toLowerCase() == "Lost") {
+    } else if (statusTextController.text.toLowerCase() == "Lost/De-Activated") {
       statusValue = 4;
-    } else if (statusTextController.text.toLowerCase() == "Damaged") {
+    } else if (statusTextController.text.toLowerCase() == "Damaged/De-Activated") {
       statusValue = 5;
     } else if (statusTextController.text.toLowerCase() == "Defaced") {
       statusValue = 6;
