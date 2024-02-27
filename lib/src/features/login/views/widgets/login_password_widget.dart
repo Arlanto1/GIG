@@ -28,7 +28,8 @@ class LoginPassword extends StatefulWidget {
 
 class _LoginPasswordState extends State<LoginPassword> {
   bool _showPassword = false;
-  TextEditingController passwordTextController = ObscuringTextEditingController();
+  TextEditingController passwordTextController =
+      ObscuringTextEditingController();
 
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _LoginPasswordState extends State<LoginPassword> {
       hintText: Constants.hintPassword,
       onChange: (String str) => widget.onChange(str),
       textCapitalization: false,
-      isSecure: false,
+      isSecure: true,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
       focusNode: widget.passFocusNode,
