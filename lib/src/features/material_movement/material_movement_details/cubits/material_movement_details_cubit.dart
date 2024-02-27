@@ -62,7 +62,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> isFormReadable() async {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
 
     if (isInward ?? false) {
       return;
@@ -75,6 +74,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       return;
     }
 
+    emit(state.copyWith(model: model, status: FormStatus.loading));
     String email = await SharedPrefs.getEmail();
     bool isReadOnly;
 

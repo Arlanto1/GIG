@@ -47,6 +47,9 @@ class _MaterialMovementDetailsViewState
   TextEditingController materialComingFromBriefDescriptionController =
       TextEditingController();
 
+  final FocusNode requestorEmployeeIdFocusNode = FocusNode();
+  final FocusNode sentToFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -79,6 +82,8 @@ class _MaterialMovementDetailsViewState
     return BlocConsumer<MaterialMovementDetailsCubit,
         MaterialMovementDetailsState>(
       listener: (context, state) {
+        log('-state.status--${state.status}--');
+
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Material Movement',
@@ -781,6 +786,8 @@ class _MaterialMovementDetailsViewState
                                                     .updateApproverEmailsValue(
                                                         requesterEmailUser:
                                                             user);
+                                                FocusScope.of(context).requestFocus(requestorEmployeeIdFocusNode);
+
                                               },
                                               functionToCall: () {
                                                 // refresh the list
@@ -839,6 +846,7 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.requestorEmployeeId,
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
+                              focusNode: requestorEmployeeIdFocusNode,
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
                                       state.model.status == 6 ||
@@ -958,7 +966,7 @@ class _MaterialMovementDetailsViewState
                                                           context)
                                                       .refreshList();
                                                 });
-                                        // leodepartmentsDialog(state);
+                                        FocusScope.of(context).requestFocus(sentToFocusNode);
                                       }
                                     },
                                   ),
@@ -983,6 +991,7 @@ class _MaterialMovementDetailsViewState
                               initialValue: state.model.sentTo,
                               textFormKey: Keys.sentToKey,
                               hintText: '',
+                              focusNode: sentToFocusNode,
                               isEnable: state.model.status == 10 ||
                                       state.model.status == -1 ||
                                       state.model.status == 6 ||
