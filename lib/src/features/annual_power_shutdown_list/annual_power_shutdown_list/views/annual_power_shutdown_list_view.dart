@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -14,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../../../../index.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../utils/util.dart';
 import '../bloc/annual_power_shutdown_list_bloc.dart';
@@ -72,9 +76,12 @@ class _AnnualPowerShutdownListViewState
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<AnnualPowerShutdownListBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<AnnualPowerShutdownListBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -95,6 +102,8 @@ class _AnnualPowerShutdownListViewState
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
@@ -121,12 +130,12 @@ class _AnnualPowerShutdownListViewState
       body: BlocBuilder<AnnualPowerShutdownListBloc,
           AnnualPowerShutdownListState>(
         builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.items.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -138,6 +147,25 @@ class _AnnualPowerShutdownListViewState
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
+                  applyFilters: applyFilters,
+                  statuses: state.commonFilters?.statuses ?? [],
+                  regions: state.commonFilters?.regions ?? [],
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                if (state.status == FormStatus.initial) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.items.isEmptyOrNull &&
+                    state.status != FormStatus.initial) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
@@ -255,5 +283,32 @@ class _AnnualPowerShutdownListViewState
         // 'eventStatus': eventStatus,
       },
     );
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

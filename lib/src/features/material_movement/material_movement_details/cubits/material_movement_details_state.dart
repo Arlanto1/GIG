@@ -94,7 +94,7 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Received For');
       }
-      if (!model.originalReceiver && model.otherReceiverEmployeeId.isEmptyOrNull ) {
+      if (model.otherReceiverEmployeeId.isEmptyOrNull ) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }
@@ -119,7 +119,7 @@ class MaterialMovementDetailsState extends Equatable {
 
       if (model.receiverDepartmenttName.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Receiver Department Name');
+            status: false, message: 'Please enter Receiver Department');
       }
 
       if (model.receiverDepartment == null) {

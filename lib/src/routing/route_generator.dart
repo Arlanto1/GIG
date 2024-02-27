@@ -248,7 +248,6 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
-
         int passId = 0;
 
         if (settings.arguments != null) {
@@ -264,7 +263,10 @@ class RouteGenerator {
             ),
           );
         }
-        return MaterialPageRoute(builder: (context) => CreatePassManagement(passId: passId,));
+        return MaterialPageRoute(
+            builder: (context) => CreatePassManagement(
+                  passId: passId,
+                ));
 
       case incidentManagementsRoute:
         String occId = '';
@@ -700,7 +702,10 @@ class RouteGenerator {
             builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
                   create: (_) => mm.MaterialMovementBloc(isInward: isInward)
                     ..add(mm.FetchData(
-                        startPos: 0, maxPos: 20,newSearch: true, filters: BaseFilterModel())),
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: MaterialMovementsView(
                     isInward: isInward,
                   ),
@@ -890,7 +895,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<asp.AnnualPowerShutdownListBloc>(
             create: (_) => asp.AnnualPowerShutdownListBloc()
-              ..add(const asp.FetchData(startPos: 0, maxPos: 20)),
+              ..add(asp.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const AnnualPowerShutdownListView(),
           ),
         );
