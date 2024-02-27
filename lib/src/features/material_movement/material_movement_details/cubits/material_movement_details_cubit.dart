@@ -91,20 +91,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  void onAddRejectionComment(String rejectionsComment) {
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.loading,
-    ));
-
-    state.model.rejectionComment = rejectionsComment;
-    emit(state.copyWith(
-      model: model,
-      rejectionComment: rejectionsComment,
-      status: FormStatus.initial,
-    ));
-  }
-
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -191,6 +177,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           labels: labels,
         ),
       );
+      isFormReadable();
+
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Material Movement Details Cubit');
@@ -607,8 +595,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
     }
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.occurrenceModule);
+  }
+
+  void onAddRejectionComment(String rejectionsComment) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.rejectionComment = rejectionsComment;
+    emit(state.copyWith(
+      model: model,
+      rejectionComment: rejectionsComment,
+      status: FormStatus.initial,
+    ));
   }
 }

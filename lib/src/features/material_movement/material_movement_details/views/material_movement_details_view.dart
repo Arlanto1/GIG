@@ -60,8 +60,6 @@ class _MaterialMovementDetailsViewState
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
-
-    BlocProvider.of<MaterialMovementDetailsCubit>(context).isFormReadable();
     //initializeDates(state);
   }
 

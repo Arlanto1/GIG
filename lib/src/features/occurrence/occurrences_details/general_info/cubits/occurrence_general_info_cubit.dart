@@ -42,15 +42,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   Future<void> isFormReadable() async {
 
     emit(state.copyWith( status: FormStatus.loading));
-    log('---1-----');
-
     if (state.model.status != ConstantsIntValue.submitted) {
       emit(state.copyWith(
         status: FormStatus.initial,
       ));
       return;
     }
-log('-----2---');
     bool isReadOnly;
     if (state.model.handoverSecurity!.userName
         .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
@@ -58,7 +55,6 @@ log('-----2---');
     } else {
       isReadOnly = true;
     }
-    log('------3--');
 
     emit(state.copyWith(
       isReadOnly: isReadOnly,
