@@ -50,6 +50,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       TextEditingController();
   TextEditingController passReturnedTextController = TextEditingController();
 
+  final FocusNode companyNameFocusNode = FocusNode();
+
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   List<ImageContent> photogetFiles = [];
@@ -609,6 +611,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textInputType: TextInputType.text,
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
+                                        focusNode: companyNameFocusNode,
                                         isEnable: isFTECompanyNameEditable &&
                                             (widget.model?.status == null ||
                                                 widget.model?.status ==
@@ -2617,6 +2620,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         if (widget.model == null || widget.model?.status == 0) {
           companyTypeDialog(state);
         }
+
+        FocusScope.of(context)
+            .requestFocus(companyNameFocusNode);
       },
     );
   }
