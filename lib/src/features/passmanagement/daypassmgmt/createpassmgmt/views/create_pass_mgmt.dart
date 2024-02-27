@@ -2153,9 +2153,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       BlocProvider.of<CreatePassMgmtCubit>(context)
           .updateStatus(id: widget.model!.id.toString());
       Navigator.popAndPushNamed(
-        context,
-        daypassmanagementListRoute,
-      );
+          context, daypassmanagementListRoute, arguments: {
+        "passMngDetails": PassMngArguments(widget.passId.toString(), 'Day Pass Management', false)
+      });
     } else {
       Navigator.pop(context);
     }
@@ -2621,8 +2621,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           companyTypeDialog(state);
         }
 
-        FocusScope.of(context)
-            .requestFocus(companyNameFocusNode);
+        FocusScope.of(context).requestFocus(companyNameFocusNode);
       },
     );
   }
