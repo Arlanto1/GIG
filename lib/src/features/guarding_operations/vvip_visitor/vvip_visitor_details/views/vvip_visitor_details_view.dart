@@ -269,7 +269,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.date ??
                                 //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedDate,
+                                Constants.modifiedOn,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),

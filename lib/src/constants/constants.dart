@@ -681,6 +681,8 @@ class Constants {
   static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
   static const String modifiedDate = 'Modified Date';
+  static const String modifiedOn= 'Modified On';
+
 
 
   static const String guardingAgencyRank =
