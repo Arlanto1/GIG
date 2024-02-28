@@ -74,7 +74,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       if (widget.passId == '0') {
         titleIdentify = 'Edit Day Pass Management';
       } else if (widget.passId == '1') {
-        titleIdentify = 'Edit Vistor Pass Management';
+        titleIdentify = 'Edit Visitor Pass Management';
       } else if (widget.passId == '2') {
         titleIdentify = 'Edit Vendor Pass Management';
       } else if (widget.passId == '3') {
@@ -112,7 +112,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           if (widget.passId == '0') {
             titleIdentify = 'Create Day Pass Management';
           } else if (widget.passId == '1') {
-            titleIdentify = 'Create Vistor Pass Management';
+            titleIdentify = 'Create Visitor Pass Management';
           } else if (widget.passId == '2') {
             titleIdentify = 'Create Vendor Pass Management';
           } else if (widget.passId == '3') {
