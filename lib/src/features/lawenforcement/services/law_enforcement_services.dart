@@ -13,6 +13,7 @@ import 'package:db_atom/src/features/lawenforcement/models/law_enforement_reques
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +47,20 @@ class LawEnforcementServices {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
     var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return LawEnforcementListResponse.fromJson(response);
+  }
+  Future<LawEnforcementListResponse> getListWithFilters({
+    required String startPosition,
+    required String maximumRecords,
+    required BaseFilterModel filters,
+  }) async {
+    String url =
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
     );

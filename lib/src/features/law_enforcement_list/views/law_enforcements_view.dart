@@ -12,9 +12,11 @@ class LawEnforcementsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseFilterModel filters = BaseFilterModel();
     return BlocProvider<LawEnforcementListBloc>(
       create: (_) => LawEnforcementListBloc()
-        ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
+        ..add(LawEnforcementFetch(
+            startPos: 0, maxPos: 20, newSearch: false, filters: filters)),
       child: const LnPage(),
     );
   }
@@ -54,8 +56,11 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<LawEnforcementListBloc>().add(
-          LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
+      context.read<LawEnforcementListBloc>().add(LawEnforcementFetch(
+          startPos: pageNumber,
+          maxPos: 20,
+          newSearch: false,
+          filters: filters));
     }
   }
 
@@ -76,6 +81,8 @@ class _LnPageState extends State<LnPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     final bloc = BlocProvider.of<LawEnforcementListBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
@@ -90,8 +97,8 @@ class _LnPageState extends State<LnPage> {
               log('value--$value');
               //localfoundlist?.clear();
               pageNumber = 0;
-              bloc.add(
-                  LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context));
+              bloc.add(LawEnforcementFetch(
+                  startPos: 0, maxPos: 20, newSearch: false, filters: filters));
             }
           });
         },
@@ -131,13 +138,13 @@ class _LnPageState extends State<LnPage> {
       ),
       body: BlocBuilder<LawEnforcementListBloc, LawEnforcementListState>(
           builder: (context, state) {
-        if (state.status == FormStatus.initial) {
-          return const BaseLoader();
-        } else if (state.status == FormStatus.success) {}
-
-        if (state.items.isEmptyOrNull) {
-          return const NoRecordFoundWidget();
-        }
+        // if (state.status == FormStatus.initial) {
+        //   return const BaseLoader();
+        // } else if (state.status == FormStatus.success) {}
+        //
+        // if (state.items.isEmptyOrNull) {
+        //   return const NoRecordFoundWidget();
+        // }
 
         return Container(
           margin: allMargin16,
@@ -149,6 +156,28 @@ class _LnPageState extends State<LnPage> {
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              BaseSearchWidget(
+                applySearchFilters: applySearchFilters,
+                applyFilters: applyFilters,
+                commonFilters: state.commonFilters ??
+                    CommonFilters(
+                      statuses: [],
+                      regions: [],
+                    ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.001),
+              if (state.status == FormStatus.initial) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                const BaseLoader(),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+              ],
+              // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+              // Text('state.status=====${state.status}'),
+              if (state.items.isEmptyOrNull &&
+                  (state.status != FormStatus.loading)) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.1),
+                const NoRecordFoundWidget(),
+              ],
               Expanded(
                 child: SmartRefresher(
                   controller: refreshController,
@@ -235,5 +264,35 @@ class _LnPageState extends State<LnPage> {
       Navigator.pushNamed(context, lawenforcementScreenRoute,
           arguments: {"UserElement": model});
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }
