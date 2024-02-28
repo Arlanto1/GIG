@@ -7,6 +7,9 @@ import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shu
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
+    as af;
+import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
@@ -49,7 +52,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart';
@@ -181,7 +183,7 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
 
-      case createfoundScreenRoute:
+      case createFoundScreenRoute:
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           FoundListArticleDetails? listuser = listroutes["UserElement"];
@@ -213,8 +215,25 @@ class RouteGenerator {
           ),
         );
 
+      // case articleFoundListRoute:
+      //   return MaterialPageRoute(builder: (context) => const ArticleFoundListView());
       case articleFoundListRoute:
-        return MaterialPageRoute(builder: (context) => const FoundList());
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<af.ArticleFoundBloc>(
+            create: (_) => af.ArticleFoundBloc()
+              ..add(
+                af.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel(),
+                ),
+              ),
+            child: const ArticleFoundListView(),
+          ),
+        );
+
       case createFoundAttachmentRoute:
         return MaterialPageRoute(
             builder: (context) => const CreateFoundAttachment());

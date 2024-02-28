@@ -12,11 +12,9 @@ class FoundListServices {
   Future<FoundListModel> getFoundArticleList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    BuildContext? context,
   }) async {
     String url =
-        '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+        '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

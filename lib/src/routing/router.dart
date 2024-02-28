@@ -4,8 +4,8 @@ const String dashboardViewRoute = '/dashboardViewRoute';
 const String notificationsViewRoute = '/notificationsViewRoute';
 const String notificationDetailsViewRoute = '/notificationDetailsViewRoute';
 
-const String createfoundScreenRoute = '/createfoundscreenRoute';
-const String articleFoundListRoute = '/articlefoundlistpage';
+const String articleFoundListRoute = '/articleFoundListRoute';
+const String createFoundScreenRoute = '/createFoundScreenRoute';
 
 const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
 const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';

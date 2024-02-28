@@ -2,6 +2,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class FoundList extends StatefulWidget {
   const FoundList({super.key});
@@ -17,12 +18,13 @@ class _FoundListState extends State<FoundList> {
   List<FoundModel>? localfoundlist;
   late ScrollController scrollController;
   bool isPaginationLoading = false;
+  late RefreshController refreshController;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
-    //added the pagination function with listener
+    refreshController = RefreshController(initialRefresh: false);
     scrollController.addListener(_loadMore);
     _getFoundArticleList();
   }
@@ -36,12 +38,8 @@ class _FoundListState extends State<FoundList> {
         pageNumber = pageNumber + 20;
       }
       isPaginationLoading = true;
-      //showLoadingDialog(context);
-      // Perform event when user reach at the end of list (e.g. do Api call)
       _getFoundArticleList();
-      // }
     }
-    //  });
   }
 
   void _getFoundArticleList() async {
@@ -52,8 +50,6 @@ class _FoundListState extends State<FoundList> {
 
   getFoundArticleListId(int articleId) async {
     showLoadingDialog(context);
-    // FoundListArticleDetails? foundArticleDetailsResponse =
-    //     await foundListArticleCubit.getArticleById(articleId, context);
     final FoundListServices foundListServices = FoundListServices();
     FoundListArticleDetails foundArticleDetailsResponse =
         await foundListServices.getArticleById(articleId, context);
@@ -62,9 +58,8 @@ class _FoundListState extends State<FoundList> {
 
   void editDataLoading(FoundListArticleDetails? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
-    // Navigator.pushNamed(context, createfoundScreenRoute);
     if (foundArticleDetailsResponse != null) {
-      Navigator.pushNamed(context, createfoundScreenRoute, arguments: {
+      Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
         "UserElement": foundArticleDetailsResponse,
         'eventId': foundArticleDetailsResponse.id
       });
@@ -74,6 +69,7 @@ class _FoundListState extends State<FoundList> {
   @override
   void dispose() {
     scrollController.dispose();
+    refreshController.dispose(); // Dispose refresh controller
     super.dispose();
   }
 
@@ -82,14 +78,13 @@ class _FoundListState extends State<FoundList> {
     final size = MediaQuery.of(context).size;
     final height = size.height;
 
-    //_loadMore();
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-          Navigator.pushNamed(context, createfoundScreenRoute)
+          Navigator.pushNamed(context, createFoundScreenRoute)
               .then((value) async {
             if (value != null && value == true) {
               localfoundlist?.clear();
@@ -101,7 +96,7 @@ class _FoundListState extends State<FoundList> {
       ),
       appBar: AppHeader(
         isTitleCenter: false,
-        title: 'Found List',
+        title: Constants.foundList,
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -111,12 +106,9 @@ class _FoundListState extends State<FoundList> {
         ),
         action: [
           CustomPopmenu(
-            //itemList :[],
             itemList: const [
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
-              //PopMenuItems("Export XML", AppIcon.exportxml),
-              // PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
@@ -133,182 +125,178 @@ class _FoundListState extends State<FoundList> {
         ],
       ),
       body: BlocBuilder<FoundListCubit, FoundListState>(
-          bloc: foundListArticleCubit,
-          builder: (context, state) {
-            if (state.stateType == FoundListStateType.success) {
-              if (state.foundListModel?.list == null ||
-                  state.foundListModel!.list!.isEmpty) {
-                return const NoRecordFoundWidget();
-              }
-
-              if (state.foundListModel?.list == null &&
-                  state.foundListModel!.list!.isEmpty) {
-                if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
-                }
-                return const Center(
-                  child: Text(
-                    Constants.nodata,
-                    style: Styles.textStyleRegularGrey16,
-                  ),
-                );
-              } else {
-                if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
-                } else {
-                  localfoundlist?.addAll(state.foundListModel?.list ?? []);
-                }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 ||
-                    (state.foundListModel?.totalCount ?? 0) ==
-                        localfoundlist?.length) {
-                  isPaginationLoading = false;
-                } else {
-                  isPaginationLoading = true;
-                }
-                return listWidgetLoading(
-                    height, state, scrollController, localfoundlist);
-              }
+        bloc: foundListArticleCubit,
+        builder: (context, state) {
+          if (state.stateType == FoundListStateType.success) {
+            if (state.foundListModel?.items == null ||
+                state.foundListModel!.items!.isEmpty) {
+              return const NoRecordFoundWidget();
             }
-            if (state.stateType == FoundListStateType.loading) {
+
+            if (state.foundListModel?.items == null &&
+                state.foundListModel!.items!.isEmpty) {
+              if (pageNumber == 0) {
+                localfoundlist = state.foundListModel?.items;
+              }
               return const Center(
-                  child: CircularProgressIndicator(
-                      color: AppColors.navigationSkybluecolor));
-            } else if (state.stateType == FoundListStateType.failure) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    state.errorMessage ?? Constants.nodata,
-                    style: Styles.textStyleRegularGrey16,
-                  ),
+                child: Text(
+                  Constants.nodata,
+                  style: Styles.textStyleRegularGrey16,
                 ),
               );
             } else {
               if (pageNumber == 0) {
-                localfoundlist = state.foundListModel?.list;
+                localfoundlist = state.foundListModel?.items;
               } else {
-                localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                localfoundlist?.addAll(state.foundListModel?.items ?? []);
+              }
+              if ((state.foundListModel?.items?.length ?? 0) == 0 ||
+                  (state.foundListModel?.totalCount ?? 0) ==
+                      localfoundlist?.length) {
+                isPaginationLoading = false;
+              } else {
+                isPaginationLoading = true;
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
             }
-          }),
+          }
+          if (state.stateType == FoundListStateType.loading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.navigationSkybluecolor,
+              ),
+            );
+          } else if (state.stateType == FoundListStateType.failure) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  state.errorMessage ?? Constants.nodata,
+                  style: Styles.textStyleRegularGrey16,
+                ),
+              ),
+            );
+          } else {
+            if (pageNumber == 0) {
+              localfoundlist = state.foundListModel?.items;
+            } else {
+              localfoundlist?.addAll(state.foundListModel?.items ?? []);
+            }
+            return listWidgetLoading(
+                height, state, scrollController, localfoundlist);
+          }
+        },
+      ),
     );
   }
 
   Widget listWidgetLoading(double height, FoundListState state,
       ScrollController? scrollController, List<FoundModel>? foundList) {
     return Container(
-        color: AppColors.navigationSkybluecolor,
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Column(children: [
+      color: AppColors.navigationSkybluecolor,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: [
             Container(
               height: height * 0.01,
               color: AppColors.navigationSkybluecolor,
             ),
             Container(
-              //padding: const EdgeInsets.all(20.0),
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
+                ),
+              ),
               child: Column(
                 children: [
-                  // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
                           foundList, context, scrollController, state)
-                      : const SizedBox()
+                      : const SizedBox(),
                 ],
               ),
             ),
-          ]),
-        ));
-  }
-
-  // Search Widget
-  Widget searchWidget() {
-    return Container(
-      padding: const EdgeInsets.only(left: 18, right: 18, top: 20, bottom: 2),
-      child: SearchWidget(
-        controller: _searchCtrl,
-        hintText: Constants.searchHintText,
-        textInputFieldKey: Keys.searchInputField,
-        leadingIcon: AppIcon.searchIcon,
-        border: borderColor,
-        isEnabled: false,
-        focusChange: (bool focus) {
-          if (focus) {
-            borderColor = AppColors.navigationSkybluecolor;
-          } else {
-            borderColor = AppColors.textgreyThemecolor;
-          }
-          setState(() {});
-        },
-        onSubmit: (String txt) {
-          if (txt.trim().length >= 15) {
-          } else {
-            //Show error message for validations
-          }
-          _searchCtrl.text = txt;
-        },
+          ],
+        ),
       ),
     );
   }
 
-  // List view builder
-  Widget _userFoundListWidget(List<FoundModel>? userList, BuildContext cont,
-      ScrollController? scrollController, FoundListState state) {
+  Widget _userFoundListWidget(
+    List<FoundModel> userList,
+    BuildContext cont,
+    ScrollController? scrollController,
+    FoundListState state,
+  ) {
     return Container(
-      padding: allMargin16,
+      padding: const EdgeInsets.all(16),
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          )),
-      child: Visibility(
-        visible: userList!.isNotEmpty,
-        child: ListView.builder(
-          //controller: scrollController,
-          itemCount:
-              isPaginationLoading ? userList.length + 1 : userList.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            if (index >= userList.length) {
-              return const BaseLoader();
-            } else {
-              FoundModel user = userList[index];
-
-              return FoundListItem(
-                userItem: user,
-                onTap: (selectedIndex) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return CustomPopUpList(userList[selectedIndex]);
-                    },
-                  );
-                  //do the detail edit of user found
-                },
-                onEditTap: (selectedIndex) {
-                  getFoundArticleListId(userList[selectedIndex].id ?? 0);
-                },
-                onViewTap: (selectedIndex) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return CustomPopUpList(userList[selectedIndex]);
-                    },
-                  );
-                },
-                index: index,
-              );
-            }
+        color: AppColors.backgroundWhitecolor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+        ),
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(cont).size.height * 01,
+        child: SmartRefresher(
+          controller: RefreshController(initialRefresh: false),
+          enablePullDown: true,
+          physics: const BouncingScrollPhysics(),
+          header: const WaterDropHeader(
+            waterDropColor: AppColors.navigationSkybluecolor,
+          ),
+          onRefresh: () async {
+            context.read<FoundListCubit>().refreshList('0', '20');
+            await Future.delayed(const Duration(milliseconds: 2000));
+            refreshController.refreshCompleted();
           },
+          onLoading: () async {
+            if (mounted) {
+              setState(() {});
+            }
+            refreshController.loadComplete();
+          },
+          child: ListView.builder(
+            itemCount:
+                isPaginationLoading ? userList.length + 1 : userList.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              if (index >= userList.length) {
+                return const BaseLoader();
+              } else {
+                FoundModel user = userList[index];
+
+                return FoundListItem(
+                  userItem: user,
+                  onTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return CustomPopUpList(userList[selectedIndex]);
+                      },
+                    );
+                  },
+                  onEditTap: (selectedIndex) {
+                    getFoundArticleListId(userList[selectedIndex].id ?? 0);
+                  },
+                  onViewTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return CustomPopUpList(userList[selectedIndex]);
+                      },
+                    );
+                  },
+                  index: index,
+                );
+              }
+            },
+          ),
         ),
       ),
     );

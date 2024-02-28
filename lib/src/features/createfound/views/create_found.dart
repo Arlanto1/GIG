@@ -305,7 +305,7 @@ class _CreateFoundState extends State<CreateFound> {
         isSubmit,
         context,
         username,
-        widget.model != null ? Constants.editFound : Constants.createfound);
+        widget.model != null ? Constants.editFound : Constants.createFound);
   }
 
   /// Submit Form
@@ -423,7 +423,7 @@ class _CreateFoundState extends State<CreateFound> {
       isSubmit,
       context,
       username,
-      widget.model != null ? Constants.editFound : Constants.createfound,
+      widget.model != null ? Constants.editFound : Constants.createFound,
     );
     var userid = await SharedPrefs.getUserId();
     await foundListArticleCubit.getFoundList(
@@ -777,7 +777,7 @@ class _CreateFoundState extends State<CreateFound> {
               isTitleCenter: false,
               title: widget.model != null
                   ? Constants.editFound
-                  : Constants.createfound,
+                  : Constants.createFound,
               backBtn: IconButton(
                 onPressed: () {
                   Navigator.pop(context);

@@ -67,7 +67,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
-          title: Constants.createfound,
+          title: Constants.createFound,
           backBtn: IconButton(
             onPressed: () {
               Navigator.pop(context);

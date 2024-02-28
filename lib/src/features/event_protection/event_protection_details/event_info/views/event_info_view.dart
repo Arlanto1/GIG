@@ -78,7 +78,7 @@ class _EventInfoViewState extends State<EventInfoView> {
           Navigator.pop(context);
           Navigator.pushNamed(
             context,
-            createfoundScreenRoute,
+            createFoundScreenRoute,
             arguments: {'eventId': state.model.id},
           );
         }
