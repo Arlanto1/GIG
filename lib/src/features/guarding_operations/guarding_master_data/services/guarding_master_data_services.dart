@@ -23,12 +23,13 @@ class GuardingMasterDataServices {
   Future<GuardingMasterDataResponse> getGuardingMasterData({
     required String startPosition,
     required String maximumRecords,
-    // required String userId,
-    required String locationId,
+    required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&locationId=$locationId';
-    final response = await BaseApiService().getRequest(
+        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return GuardingMasterDataResponse.fromJson(response);

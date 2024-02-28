@@ -40,9 +40,12 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<GuardingMasterDataBloc>()
-          .add(FetchDataList(startPos: pageNumber, maxPos: 20));
+      context.read<GuardingMasterDataBloc>().add(FetchDataList(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -63,6 +66,8 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         // floatingActionButton: Flutterfloatingbutton(
@@ -105,6 +110,29 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
+                  applyFilters: applyFilters,
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.list.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
+
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
@@ -229,5 +257,33 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         "title": Constants.editGuardingMasterData
       });
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<GuardingMasterDataBloc>(context).add(
+      FetchDataList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<GuardingMasterDataBloc>(context).add(
+      FetchDataList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

@@ -6,12 +6,13 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/se
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'guarding_master_data_event.dart';
+
 part 'guarding_master_data_state.dart';
 
 class GuardingMasterDataBloc
     extends Bloc<GuardingMasterDataEvent, GuardingMasterDataState> {
   GuardingMasterDataBloc() : super(const GuardingMasterDataState()) {
-    on<InitializeValues>(_initializeValues);
+    on<InitializeValuesGMD>(_initializeValues);
     on<FetchDataList>(
       _fetchList,
       transformer: droppable(),
@@ -25,6 +26,41 @@ class GuardingMasterDataBloc
   final GuardingMasterDataServices _services = GuardingMasterDataServices();
   final CommonServices commonServices = CommonServices();
 
+  FutureOr<void> _initializeValues(
+      InitializeValuesGMD event, Emitter<GuardingMasterDataState> emit) async {
+    try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.guardingMasterModuleCode);
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
+
+      Locations locations =
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.guardingMasterModuleCode);
+      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
+          hasReachedMax: false,
+          status: FormStatus.initial,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
   FutureOr<void> _refreshList(
       RefreshLists event, Emitter<GuardingMasterDataState> emit) async {
     try {
@@ -33,8 +69,8 @@ class GuardingMasterDataBloc
       response = await _services.getGuardingMasterData(
         startPosition: '${0}',
         maximumRecords: '${20}',
-        locationId: '56',
-        // filters: BaseFilterModel(),
+        // locationId: '56',
+        filters: BaseFilterModel(),
       );
 
       return emit(
@@ -48,74 +84,121 @@ class GuardingMasterDataBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<GuardingMasterDataState> emit) async {
-    try {
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode);
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
-      return emit(
-        state.copyWith(
-          labels: labels,
-          hasReachedMax: false,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
-    }
-  }
 
+  // FutureOr<void> _fetchList(
+  //     FetchDataList event, Emitter<GuardingMasterDataState> emit) async {
+  //   try {
+  //     if (state.hasReachedMax) return;
+  //
+  //     if (state.status == FormStatus.initial) {
+  //       GuardingMasterDataResponse getGuardingMaterialDatas =
+  //           await _services.getGuardingMasterData(
+  //         startPosition: '${event.startPos}',
+  //         maximumRecords: '${event.maxPos}',
+  //         filters: event.filters,
+  //         // locationId: '56',
+  //       );
+  //       return emit(
+  //         state.copyWith(
+  //           items: getGuardingMaterialDatas.items,
+  //           hasReachedMax: false,
+  //           status: FormStatus.success,
+  //         ),
+  //       );
+  //     }
+  //
+  //     GuardingMasterDataResponse getGuardingMasterData =
+  //         await _services.getGuardingMasterData(
+  //       startPosition: '${event.startPos}',
+  //       maximumRecords: '${event.maxPos}',
+  //       filters: event.filters,
+  //       // locationId: '56',
+  //     );
+  //
+  //     if (getGuardingMasterData.items?.isEmpty == true) {
+  //       return emit(state.copyWith(hasReachedMax: true));
+  //     }
+  //     return emit(
+  //       state.copyWith(
+  //         items: List.of(state.list)
+  //           ..addAll(getGuardingMasterData.items?.toList() ?? []),
+  //         hasReachedMax: false,
+  //       ),
+  //     );
+  //   }
+  //   // on TokenExpiredException catch (e) {
+  //   //   emit(
+  //   //     state.copyWith(
+  //   //       message: e.message,
+  //   //       status: FormStatus.sessionExpired,
+  //   //     ),
+  //   //   );
+  //   //   return;
+  //   // }
+  //   catch (e) {
+  //     return emit(state.copyWith(status: FormStatus.failure));
+  //   }
+  // }
   FutureOr<void> _fetchList(
       FetchDataList event, Emitter<GuardingMasterDataState> emit) async {
-    try {
-      if (state.hasReachedMax) return;
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
 
-      if (state.status == FormStatus.initial) {
-        GuardingMasterDataResponse getGuardingMaterialDatas =
-            await _services.getGuardingMasterData(
+    try {
+      // if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial || event.newSearch) {
+        GuardingMasterDataResponse response;
+        // response = await services.getMaterialMovements(
+        //   startPosition: '${event.startPos}',
+        //   maximumRecords: '${event.maxPos}',
+        //   mmType: isInward ? 1 : 0,
+        // );
+
+        response = await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          //userId: '7',
-          locationId: '56',
+          filters: event.filters,
         );
+
         return emit(
           state.copyWith(
-            items: getGuardingMaterialDatas.items,
+            items: response.items,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
         );
       }
 
-      GuardingMasterDataResponse getGuardingMasterData =
-          await _services.getGuardingMasterData(
+      GuardingMasterDataResponse response;
+      response = await _services.getGuardingMasterData(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        //userId: '7',
-        locationId: '56',
+        filters: event.filters,
       );
 
-      if (getGuardingMasterData.items?.isEmpty == true) {
+      if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.list)
-            ..addAll(getGuardingMasterData.items?.toList() ?? []),
+          items: List.of(state.list)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
-    }
-    // on TokenExpiredException catch (e) {
-    //   emit(
-    //     state.copyWith(
-    //       message: e.message,
-    //       status: FormStatus.sessionExpired,
-    //     ),
-    //   );
-    //   return;
-    // }
-    catch (e) {
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
