@@ -8,7 +8,7 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class DayPassCustomPopUpList extends StatefulWidget {
-  final DayPassListElement? userItem;
+  final PassManagementModel? userItem;
   String? passId = '0';
 
   DayPassCustomPopUpList(this.userItem, this.passId, {super.key});

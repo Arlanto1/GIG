@@ -13,13 +13,13 @@ class Apis {
 }
 
 class DayPassInfoServices {
-  Future<DayPassInfoResponseModel> getPassInfoFoundArticleList(
-      {required String startPosition,
-      required String maximumRecords,
-      required String userId,
-      required String passType}) async {
+  Future<DayPassInfoResponseModel> getPassInfoFoundArticleList({
+    required String startPosition,
+    required String maximumRecords,
+    required String passType,
+  }) async {
     String url =
-        '${Apis._getPassMgmtInfo}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&passType=$passType';
+        '${Apis._getPassMgmtInfo}startPos=$startPosition&maxResults=$maximumRecords&passType=$passType';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

@@ -742,14 +742,14 @@ class NavigationDrawer1 extends StatelessWidget {
       //day pass mng = 0
       log('day pass mangement index0');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments('0', 'Day Pass Management', false)
+        "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
       });
     } else if (index == 1) {
       log('day pass registry index1');
       //day pass mng = 0
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-            PassMngArguments('0', 'Day Pass Register', true)
+            PassMngArguments(0, 'Day Pass Register', true)
       });
     } else if (index == 2) {
       //visitor pass mng = 1
@@ -757,19 +757,19 @@ class NavigationDrawer1 extends StatelessWidget {
       log('visitor pass mangement index2');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
         "passMngDetails":
-            PassMngArguments('1', 'Visitor Pass Management', false)
+            PassMngArguments(1, 'Visitor Pass Management', false)
       });
     } else if (index == 3) {
       //visitor pass mng = 1
       log('visitor pass registory index3');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-            PassMngArguments('1', 'Visitor Pass Register', true)
+            PassMngArguments(1, 'Visitor Pass Register', true)
       });
     } else if (index == 4) {
       log('vendor pass management index4');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments('2', 'Vendor Pass Management', false)
+        "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
       });
     } else if (index == 5) {
       //vendor pass mng = 2
@@ -777,20 +777,20 @@ class NavigationDrawer1 extends StatelessWidget {
       log('vendor pass registory index5');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-            PassMngArguments('2', 'Vendor Pass Register', true)
+            PassMngArguments(2, 'Vendor Pass Register', true)
       });
     } else if (index == 6) {
       //vendor pass mng = 3
 
       log('Sez pass Management index6');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments('3', 'Sez Pass Management', false)
+        "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
       });
     } else if (index == 7) {
       log('Sez pass registory index7');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-            PassMngArguments('3', 'Sez Pass Register', true)
+            PassMngArguments(3, 'Sez Pass Register', true)
       });
     }
   }

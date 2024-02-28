@@ -16,7 +16,6 @@ class DayPassListServices {
   Future<DayPassListResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
     required String passType,
   }) async {
     String url =
@@ -29,12 +28,12 @@ class DayPassListServices {
     return DayPassListResponse.fromJson(response);
   }
 
-  Future<DayPassListElement> getById(int id, BuildContext context) async {
+  Future<PassManagementModel> getById(int id, BuildContext context) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
 
-    return DayPassListElement.fromJson(response);
+    return PassManagementModel.fromJson(response);
   }
 }

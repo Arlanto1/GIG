@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
 
 class DayPassInfoListPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   int pageNumber = 0;
-  List<DaypassInfoListElement>? localFoundList;
+  List<PassInfo>? localFoundList;
   late ScrollController scrollController;
   bool isPaginationLoading = false;
 
@@ -133,10 +134,10 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
           bloc: dayPassInfoCubit,
           builder: (context, state) {
             if (state.stateType == DayPassInfoStateType.success) {
-              if (state.foundListModel?.list == null &&
-                  state.foundListModel!.list!.isEmpty) {
+              if (state.foundListModel?.items == null &&
+                  state.foundListModel!.items!.isEmpty) {
                 if (pageNumber == 0) {
-                  localFoundList = state.foundListModel?.list;
+                  localFoundList = state.foundListModel?.items;
                 }
                 return const Center(
                   child: Text(
@@ -146,11 +147,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 );
               } else {
                 if (pageNumber == 0) {
-                  localFoundList = state.foundListModel?.list;
+                  localFoundList = state.foundListModel?.items;
                 } else {
-                  localFoundList?.addAll(state.foundListModel?.list ?? []);
+                  localFoundList?.addAll(state.foundListModel?.items ?? []);
                 }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 ||
+                if ((state.foundListModel?.items?.length ?? 0) == 0 ||
                     (state.foundListModel?.totalCount ?? 0) ==
                         localFoundList?.length) {
                   isPaginationLoading = false;
@@ -178,9 +179,9 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               );
             } else {
               if (pageNumber == 0) {
-                localFoundList = state.foundListModel?.list;
+                localFoundList = state.foundListModel?.items;
               } else {
-                localFoundList?.addAll(state.foundListModel?.list ?? []);
+                localFoundList?.addAll(state.foundListModel?.items ?? []);
               }
               return listWidgetLoading(
                   height, state, scrollController, localFoundList);
@@ -193,7 +194,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       double height,
       DayPassInfoState state,
       ScrollController? scrollController,
-      List<DaypassInfoListElement>? foundList) {
+      List<PassInfo>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -256,7 +257,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   }
 
   // List view builder
-  Widget _userFoundListWidget(List<DaypassInfoListElement>? userList,
+  Widget _userFoundListWidget(List<PassInfo>? userList,
       BuildContext cont, ScrollController? scrollController) {
     return Container(
       padding: allMargin16,
@@ -273,7 +274,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               if (index >= userList.length) {
                 return const BaseLoader();
               } else {
-                DaypassInfoListElement user = userList[index];
+                PassInfo user = userList[index];
 
                 return DayPassRegisterListItem(
                   userItem: user,
@@ -310,7 +311,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 }
 
 class PassMngArguments {
-  final String passType;
+  final int passType;
   final String title;
   final bool isRegistry;
 

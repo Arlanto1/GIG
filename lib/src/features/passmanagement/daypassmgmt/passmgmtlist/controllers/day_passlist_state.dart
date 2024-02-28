@@ -5,7 +5,7 @@ import '../models/day_passlist_model.dart';
 
 class DayPassListState extends Equatable {
   final DayPassListResponse? foundListModel;
-  final DayPassListElement? foundArticleDetails;
+  final PassManagementModel? foundArticleDetails;
   final String? errorMessage;
   final FormStatus stateType;
 
@@ -18,7 +18,7 @@ class DayPassListState extends Equatable {
 
   DayPassListState copyWith({
     DayPassListResponse? foundListModel,
-    DayPassListElement? foundArticleDetails,
+    PassManagementModel? foundArticleDetails,
     String? errorMessage,
     FormStatus? stateType,
   }) {

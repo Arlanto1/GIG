@@ -71,6 +71,9 @@ import 'package:db_atom/src/features/material_movement/material_movements/bloc/m
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
+import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
+    as pm;
+import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
@@ -218,7 +221,6 @@ class RouteGenerator {
       // case articleFoundListRoute:
       //   return MaterialPageRoute(builder: (context) => const ArticleFoundListView());
       case articleFoundListRoute:
-
         return MaterialPageRoute(
           builder: (context) => BlocProvider<af.ArticleFoundBloc>(
             create: (_) => af.ArticleFoundBloc()
@@ -243,17 +245,45 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(
             builder: (context) => const LawEnforcementsView());
+      // case daypassmanagementListRoute:
+      //   PassMngArguments? passMngArguments;
+      //   if (settings.arguments != null) {
+      //     final passRoutes = settings.arguments as Map<String, dynamic>;
+      //     passMngArguments = passRoutes["passMngDetails"];
+      //     return MaterialPageRoute(
+      //         builder: (context) => DayPassManagementList(
+      //               passId: passMngArguments!.passType,
+      //               title: passMngArguments.title ?? '',
+      //             ));
+      //   }
+      //   return MaterialPageRoute(
+      //       builder: (context) => DayPassManagementList(
+      //             passId: 0,
+      //             title: passMngArguments?.title ?? '',
+      //           ));
+
       case daypassmanagementListRoute:
+        PassMngArguments? passMngArguments;
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
-          return MaterialPageRoute(
-              builder: (context) => DayPassManagementList(
-                    passId: passMngArguments?.passType ?? '',
-                    title: passMngArguments?.title ?? '',
-                  ));
+          passMngArguments = passRoutes["passMngDetails"];
         }
-        return MaterialPageRoute(builder: (context) => DayPassManagementList());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<pm.PassManagementListBloc>(
+            create: (_) =>
+                pm.PassManagementListBloc(passId: passMngArguments!.passType)
+                  ..add(pm.FetchData(
+                      startPos: 0,
+                      maxPos: 20,
+                      newSearch: true,
+                      filters: BaseFilterModel())),
+            child: PassManagementListView(
+              passId: passMngArguments!.passType,
+              title: passMngArguments.title ?? '',
+            ),
+          ),
+        );
+
       case daypassregistertListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
@@ -261,11 +291,12 @@ class RouteGenerator {
               passRoutes["passMngRegisterDetails"];
           return MaterialPageRoute(
               builder: (context) => DayPassInfoListPage(
-                    passId: passMngArguments?.passType ?? '',
+                    passId: passMngArguments?.passType.toString() ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
+
       case createpassmgmtRoute:
         int passId = 0;
 
@@ -273,10 +304,10 @@ class RouteGenerator {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           CreatePassMngArguments? passMngArguments =
               passRoutes["passMngCreateDetails"];
-          passId = int.tryParse(passMngArguments!.passType)!;
+          passId = passMngArguments!.passType;
           return MaterialPageRoute(
             builder: (context) => CreatePassManagement(
-              passId: int.tryParse(passMngArguments.passType) ?? 0,
+              passId: passMngArguments.passType,
               title: passMngArguments.title ?? '',
               model: passMngArguments.model,
             ),
@@ -718,17 +749,18 @@ class RouteGenerator {
           }
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
-                  create: (_) => mm.MaterialMovementBloc(isInward: isInward)
-                    ..add(mm.FetchData(
-                        startPos: 0,
-                        maxPos: 20,
-                        newSearch: true,
-                        filters: BaseFilterModel())),
-                  child: MaterialMovementsView(
-                    isInward: isInward,
-                  ),
-                ));
+          builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
+            create: (_) => mm.MaterialMovementBloc(isInward: isInward)
+              ..add(mm.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
+            child: MaterialMovementsView(
+              isInward: isInward,
+            ),
+          ),
+        );
 
       case materialMovementInwardOutwardDetailsRoute:
         MaterialMovementServices services = MaterialMovementServices();

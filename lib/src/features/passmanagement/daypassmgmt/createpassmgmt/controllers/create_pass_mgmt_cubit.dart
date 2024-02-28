@@ -19,7 +19,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }) : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
-            model: DayPassListElement(),
+            model: PassManagementModel(),
             stateType: CreatePassMgmtStateType.initial,
           ),
         );
@@ -696,14 +696,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initializeValues({
-    required DayPassListElement model,
+    required PassManagementModel model,
     required int passId,
   }) async {
     log('---initializeValues----');
 
     emit(
       state.copyWith(
-        model: DayPassListElement(),
+        model: PassManagementModel(),
         selectedEntities: model.entities,
         stateType: CreatePassMgmtStateType.loading,
       ),

@@ -5,7 +5,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/mod
 import 'package:intl/intl.dart';
 
 class CreatePassManagement extends StatefulWidget {
-  DayPassListElement? model;
+  PassManagementModel? model;
   final int passId;
   final String? title;
 
@@ -80,7 +80,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // widget.model = DayPassListElement();
       createPassMgmtCubit.initialization();
       createPassMgmtCubit.initializeValues(
-          model: DayPassListElement(), passId: widget.passId);
+          model: PassManagementModel(), passId: widget.passId);
     }
     _getCurrentDate();
   }
@@ -160,7 +160,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   context,
                   daypassmanagementListRoute,
                   arguments: {
-                    "passMngDetails": PassMngArguments(widget.passId.toString(),
+                    "passMngDetails": PassMngArguments(widget.passId,
                         widget.title ?? 'Pass Management', false)
                   },
                 );
@@ -2154,7 +2154,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           .updateStatus(id: widget.model!.id.toString());
       Navigator.popAndPushNamed(
           context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(widget.passId.toString(), 'Day Pass Management', false)
+        "passMngDetails": PassMngArguments(widget.passId, 'Day Pass Management', false)
       });
     } else {
       Navigator.pop(context);
@@ -3951,10 +3951,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 }
 
 class CreatePassMngArguments {
-  final String passType;
+  final int passType;
   final String title;
   final bool isRegistry;
-  final DayPassListElement? model;
+  final PassManagementModel? model;
 
   CreatePassMngArguments(
       this.passType, this.title, this.isRegistry, this.model);
