@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
+import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -70,9 +74,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<EventProtectionsBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<EventProtectionsBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -93,6 +100,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
@@ -135,6 +144,28 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
+                  applyFilters: applyFilters,
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.items.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
@@ -254,5 +285,33 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         'eventStatus': eventStatus,
       },
     );
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<EventProtectionsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<EventProtectionsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

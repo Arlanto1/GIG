@@ -580,7 +580,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
             create: (_) => ep.EventProtectionsBloc()
-              ..add(const ep.FetchData(startPos: 0, maxPos: 20)),
+              ..add(ep.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const EventProtectionsView(),
           ),
         );
