@@ -3,7 +3,6 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +11,7 @@ class DayPassManagementListItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
-  final DayPassListElement userItem;
+  final PassManagementModel userItem;
   final int? index;
   final List<Label>? labels;
 

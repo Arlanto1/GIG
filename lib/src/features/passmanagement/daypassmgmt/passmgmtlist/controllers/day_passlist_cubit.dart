@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -37,12 +38,12 @@ class DayPassListCubit extends Cubit<DayPassListState> {
     }
     try {
       DayPassListResponse foundListModelResponse =
-          await passListServices.getList(
+          await passListServices.getListWithFilters(
         startPosition: startPosition,
         maximumRecords: maximumRecords,
-        userId: userId,
         passType: passType,
-      );
+            filters: BaseFilterModel(),
+          );
       //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   if (startPosition != '0')
       //   {
@@ -77,10 +78,10 @@ class DayPassListCubit extends Cubit<DayPassListState> {
   }
 
   //pass Found Article detials by Id API call
-  Future<DayPassListElement?> getpassArticleById(
+  Future<PassManagementModel?> getpassArticleById(
       int articleId, BuildContext context) async {
     try {
-      DayPassListElement foundArticleDetailsResponse =
+      PassManagementModel foundArticleDetailsResponse =
           await passListServices.getById(articleId, context);
       emit(
         state.copyWith(

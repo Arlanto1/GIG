@@ -1,17 +1,15 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_cubit.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart';
 
 class DayPassManagementList extends StatefulWidget {
-  String? passId = '0';
-  String? title;
+  final int passId;
+  final String title;
 
-  DayPassManagementList({super.key, this.passId, this.title});
+  const DayPassManagementList(
+      {super.key, required this.passId, required this.title});
 
   @override
   State<DayPassManagementList> createState() => _DayPassManagementListState();
@@ -21,7 +19,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   int pageNumber = 0;
-  List<DayPassListElement>? localfoundlist;
+  List<PassManagementModel>? localfoundlist;
   late ScrollController scrollController;
   bool isPaginationLoading = false;
 
@@ -59,32 +57,32 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
   getpassFoundArticleListId(int articleid) async {
     showLoadingDialog(context);
-    DayPassListElement? foundArticleDetailsResponse =
+    PassManagementModel? foundArticleDetailsResponse =
         await dayPassListCubit.getpassArticleById(articleid, context);
 
     editDataLoading(foundArticleDetailsResponse);
   }
 
-  void editDataLoading(DayPassListElement? foundArticleDetailsResponse) {
+  void editDataLoading(PassManagementModel? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
     if (foundArticleDetailsResponse != null) {
       // Navigator.pushNamed(context, createpassmgmtRoute,
       //     arguments: {"UserElement": foundArticleDetailsResponse});
       String titleIdentify = '';
-      if (widget.passId == '0') {
+      if (widget.passId == 0) {
         titleIdentify = 'Edit Day Pass Management';
-      } else if (widget.passId == '1') {
+      } else if (widget.passId == 1) {
         titleIdentify = 'Edit Visitor Pass Management';
-      } else if (widget.passId == '2') {
+      } else if (widget.passId == 2) {
         titleIdentify = 'Edit Vendor Pass Management';
-      } else if (widget.passId == '3') {
+      } else if (widget.passId == 3) {
         titleIdentify = 'Edit SEZ Pass Management';
       }
 
       // DayPassListElement? listuser = foundArticleDetailsResponse;
       Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-        "passMngCreateDetails": CreatePassMngArguments(widget.passId ?? '',
-            titleIdentify, true, foundArticleDetailsResponse)
+        "passMngCreateDetails": CreatePassMngArguments(
+            widget.passId, titleIdentify, true, foundArticleDetailsResponse)
       });
     }
   }
@@ -109,19 +107,19 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         onPressed: () {
           // Navigator.pushNamed(context, createpassmgmtRoute);
           String titleIdentify = '';
-          if (widget.passId == '0') {
+          if (widget.passId == 0) {
             titleIdentify = 'Create Day Pass Management';
-          } else if (widget.passId == '1') {
+          } else if (widget.passId == 1) {
             titleIdentify = 'Create Visitor Pass Management';
-          } else if (widget.passId == '2') {
+          } else if (widget.passId == 2) {
             titleIdentify = 'Create Vendor Pass Management';
-          } else if (widget.passId == '3') {
+          } else if (widget.passId == 3) {
             titleIdentify = 'Create SEZ Pass Management';
           }
 
           Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-            "passMngCreateDetails": CreatePassMngArguments(
-                widget.passId ?? '', titleIdentify, true, null)
+            "passMngCreateDetails":
+                CreatePassMngArguments(widget.passId, titleIdentify, true, null)
           }).then((value) async {
             if (value != null && value == true) {
               localfoundlist?.clear();
@@ -191,7 +189,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               String userid = await SharedPrefs.getUserId();
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx',  '/exportPassMgmtExcel');
+                    'export.xslx', '/exportPassMgmtExcel');
               } else if (value == 1) {
                 DownloadImage().exportPdf(context, int.parse(userid),
                     'export.pdf', '/exportPassMgmtPDF');
@@ -204,7 +202,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       body: BlocBuilder<DayPassListCubit, DayPassListState>(
           bloc: dayPassListCubit,
           builder: (context, state) {
-            if(state.stateType == FormStatus.loading) {
+            if (state.stateType == FormStatus.loading) {
               return const BaseLoader();
             }
             if (state.stateType == FormStatus.success) {
@@ -265,7 +263,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   }
 
   Widget listWidgetLoading(double height, DayPassListState state,
-      ScrollController? scrollController, List<DayPassListElement>? foundList) {
+      ScrollController? scrollController, List<PassManagementModel>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -328,7 +326,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   }
 
   // List view builder
-  Widget _userFoundListWidget(List<DayPassListElement>? userList,
+  Widget _userFoundListWidget(List<PassManagementModel>? userList,
       BuildContext cont, ScrollController? scrollController) {
     return Container(
       padding: allMargin16,
@@ -344,7 +342,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             if (index >= userList.length) {
               return const BaseLoader();
             } else {
-              DayPassListElement user = userList[index];
+              PassManagementModel user = userList[index];
 
               return DayPassManagementListItem(
                 userItem: user,
@@ -353,7 +351,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                     context: context,
                     builder: (BuildContext dialogContext) {
                       return DayPassCustomPopUpList(
-                          userList[selectedIndex], widget.passId);
+                          userList[selectedIndex], widget.passId.toString());
                     },
                   );
                   //do the detail edit of user found
@@ -366,7 +364,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                     context: context,
                     builder: (BuildContext dialogContext) {
                       return DayPassCustomPopUpList(
-                          userList[selectedIndex], widget.passId);
+                          userList[selectedIndex], widget.passId.toString());
                     },
                   );
                 },

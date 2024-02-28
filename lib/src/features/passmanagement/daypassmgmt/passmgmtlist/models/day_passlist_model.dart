@@ -13,7 +13,7 @@ String dayPassListResponseToJson(DayPassListResponse data) =>
     json.encode(data.toJson());
 
 class DayPassListResponse {
-  List<DayPassListElement>? items;
+  List<PassManagementModel>? items;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
@@ -29,8 +29,8 @@ class DayPassListResponse {
       DayPassListResponse(
         items: json["list"] == null
             ? []
-            : List<DayPassListElement>.from(
-                json["list"]!.map((x) => DayPassListElement.fromJson(x))),
+            : List<PassManagementModel>.from(
+                json["list"]!.map((x) => PassManagementModel.fromJson(x))),
         totalCount: json["totalCount"],
         currentPageNo: json["currentPageNo"],
         totalPageCount: json["totalPageCount"],
@@ -46,7 +46,7 @@ class DayPassListResponse {
       };
 }
 
-class DayPassListElement {
+class PassManagementModel {
   int? id;
   String? slNo;
   String? inputDate;
@@ -96,7 +96,7 @@ class DayPassListElement {
   String? passIssuedOn;
   User? employee;
 
-  DayPassListElement({
+  PassManagementModel({
     this.id,
     this.slNo,
     this.inputDate,
@@ -147,8 +147,8 @@ class DayPassListElement {
     this.visitorImage,
   });
 
-  factory DayPassListElement.fromJson(Map<String, dynamic> json) =>
-      DayPassListElement(
+  factory PassManagementModel.fromJson(Map<String, dynamic> json) =>
+      PassManagementModel(
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],

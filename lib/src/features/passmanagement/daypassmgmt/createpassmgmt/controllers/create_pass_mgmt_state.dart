@@ -12,7 +12,7 @@ enum CreatePassMgmtStateType {
 }
 
 class CreatePassMgmtState extends Equatable {
-  final DayPassListElement model;
+  final PassManagementModel model;
   final List<Organisation>? updateStatuses;
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
@@ -110,7 +110,7 @@ class CreatePassMgmtState extends Equatable {
   });
 
   factory CreatePassMgmtState.initial({
-    required DayPassListElement model,
+    required PassManagementModel model,
   }) {
     return CreatePassMgmtState(
       model: model,
@@ -119,7 +119,7 @@ class CreatePassMgmtState extends Equatable {
   }
 
   CreatePassMgmtState copyWith({
-    DayPassListElement? model,
+    PassManagementModel? model,
     AddEntities? getEntitiesResponse,
     final int? eventId,
     CreatePassMgmtStateType? stateType,

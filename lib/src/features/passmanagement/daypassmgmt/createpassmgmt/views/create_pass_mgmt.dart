@@ -5,7 +5,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/mod
 import 'package:intl/intl.dart';
 
 class CreatePassManagement extends StatefulWidget {
-  DayPassListElement? model;
+  PassManagementModel? model;
   final int passId;
   final String? title;
 
@@ -80,7 +80,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // widget.model = DayPassListElement();
       createPassMgmtCubit.initialization();
       createPassMgmtCubit.initializeValues(
-          model: DayPassListElement(), passId: widget.passId);
+          model: PassManagementModel(), passId: widget.passId);
     }
     _getCurrentDate();
   }
@@ -160,8 +160,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   context,
                   daypassmanagementListRoute,
                   arguments: {
-                    "passMngDetails": PassMngArguments(widget.passId.toString(),
-                        widget.title ?? 'Pass Management', false)
+                    "passMngDetails": PassMngArguments(
+                        widget.passId, widget.title ?? 'Pass Management', false)
                   },
                 );
               },
@@ -1941,7 +1941,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passValidUntilTextController.text;
 
-      passReturnedTextController.text = widget.model?.returnedTime != null &&
+      passReturnedTextController.text = widget.model?.status == 1 &&
+              widget.model?.returnedTime != null &&
               widget.model?.returnedTime != '0'
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.returnedTime ?? '0'),
@@ -2152,10 +2153,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     if (widget.model?.id != null) {
       BlocProvider.of<CreatePassMgmtCubit>(context)
           .updateStatus(id: widget.model!.id.toString());
-      Navigator.popAndPushNamed(
-          context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(widget.passId.toString(), 'Day Pass Management', false)
-      });
+      Navigator.popAndPushNamed(context, daypassmanagementListRoute,
+          arguments: {
+            "passMngDetails":
+                PassMngArguments(widget.passId, 'Day Pass Management', false)
+          });
     } else {
       Navigator.pop(context);
     }
@@ -2462,7 +2464,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String nextFormattedDate = DateFormat(Constants.fulldateFormat)
         .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
-    passReturnedTextController.text = formattedDate;
+    passReturnedTextController.text =
+        widget.model?.status == 1 ? formattedDate : '';
     if (widget.passId != ConstantsIntValue.passIdSez) {
       passvalidfromTextController.text = formattedDate;
       passValidUntilTextController.text = nextFormattedDate;
@@ -3254,8 +3257,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //List<ImageContent>? photoImages = photogetFiles;
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
-    User? handoverSecurity = widget.model?.handoverSecurity ??
-        User(userId: state.getUserDetailsResponse?.userId ?? 1);
+
+    User? handoverSecurity = widget.model?.status == 1
+        ? widget.model?.handoverSecurity ??
+            User(userId: state.getUserDetailsResponse?.userId ?? 1)
+        : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
@@ -3324,7 +3330,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         //     ? passValidUntilDatePermanent.toString()
         //     : passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
-        returnedTime: passReturnedOn.toString(),
+        returnedTime:
+            widget.model?.status == 1 ? passReturnedOn.toString() : null,
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.name ?? ''
             : state.dbsponsorResponse?.name ?? '',
@@ -3349,7 +3356,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entrySecurity: entrySecurity,
         handoverSecurity: handoverSecurity,
         handOverSecurityName:
-            '${handoverSecurity.firstName ?? ''} ${handoverSecurity.lastName ?? ''}',
+            '${handoverSecurity?.firstName ?? ''} ${handoverSecurity?.lastName ?? ''}',
         entrySecurityName:
             '${entrySecurity.firstName ?? ''} ${entrySecurity.lastName ?? ''}',
       );
@@ -3384,7 +3391,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           passIssuedOn: passvalidfromdate.toString(),
           endTime: endTime,
           startTime: passvalidfromdate.toString(),
-          returnedTime: passReturnedOn.toString(),
+          returnedTime:
+              widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
               ? state.hostResponse?.name ?? ''
               : state.dbsponsorResponse?.name ?? '',
@@ -3518,7 +3526,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length != 10) {
+        contactnoTextController.text.length <= 10 &&  contactnoTextController.text.length <= 17) {
       Validator().showToast(
         context,
         "Please enter valid contact no",
@@ -3951,10 +3959,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 }
 
 class CreatePassMngArguments {
-  final String passType;
+  final int passType;
   final String title;
   final bool isRegistry;
-  final DayPassListElement? model;
+  final PassManagementModel? model;
 
   CreatePassMngArguments(
       this.passType, this.title, this.isRegistry, this.model);
