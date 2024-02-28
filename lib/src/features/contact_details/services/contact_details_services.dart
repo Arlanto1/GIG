@@ -47,6 +47,20 @@ class ContactDetailsServices {
     return ContactDetailsListResponseModel.fromJson(response);
   }
 
+  Future<ContactDetailsListResponseModel> getGcdWithFilters({
+    required String startPosition,
+    required String maximumRecords,
+    required BaseFilterModel filters,
+  }) async {
+    String url =
+        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
+      url: url,
+    );
+    return ContactDetailsListResponseModel.fromJson(response);
+  }
   Future<ContactDetailModel> getGcdById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(

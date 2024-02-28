@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -12,9 +13,9 @@ part 'contact_details_list_state.dart';
 class ContactDetailsListBloc
     extends Bloc<ContactDetailsListEvent, ContactDetailsListState> {
   ContactDetailsListBloc() : super(const ContactDetailsListState()) {
-    on<InitializeValues>(_initializeValues);
+    on<InitializeValuesCD>(_initializeValues);
     on<FetchData>(
-      _fetchMaterialMovements,
+      _fetchContactDetails,
       transformer: droppable(),
     );
     on<RefreshList>(
@@ -26,17 +27,51 @@ class ContactDetailsListBloc
   final ContactDetailsServices services = ContactDetailsServices();
   final CommonServices commonServices = CommonServices();
 
+  // FutureOr<void> _initializeValues(
+  //     InitializeValues event, Emitter<ContactDetailsListState> emit) async {
+  //   try {
+  //     dynamic responseLabels = await commonServices.getUiLabels(
+  //         language: await SharedPrefs.getLanguageCode(),
+  //         moduleCode: Constants.contactDetailsModuleCode);
+  //     CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+  //     return emit(
+  //       state.copyWith(
+  //         labels: labels,
+  //         hasReachedMax: false,
+  //       ),
+  //     );
+  //   } on Exception {
+  //     return emit(state.copyWith(status: FormStatus.failure));
+  //   }
+  // }
   FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<ContactDetailsListState> emit) async {
+      InitializeValuesCD event, Emitter<ContactDetailsListState> emit) async {
     try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.contactDetailsModuleCode);
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
+
+      Locations locations =
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.contactDetailsModuleCode);
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
-          labels: labels,
+          locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
           hasReachedMax: false,
+          status: FormStatus.initial,
         ),
       );
     } on Exception {
@@ -49,7 +84,7 @@ class ContactDetailsListBloc
     try {
       ContactDetailsListResponseModel response;
 
-      response = await services.getGcd(
+      response = await services.getGcdWithFilters(
         startPosition: '${0}',
         maximumRecords: '${20}',
         // mmType: isInward ? 1 : 0,
@@ -68,16 +103,82 @@ class ContactDetailsListBloc
     }
   }
 
-  FutureOr<void> _fetchMaterialMovements(
+  // FutureOr<void> _fetchContactDetails(
+  //     FetchData event, Emitter<ContactDetailsListState> emit) async {
+  //   try {
+  //     if (state.hasReachedMax) return;
+  //
+  //     if (state.status == FormStatus.initial || event.newSearch) {
+  //       ContactDetailsListResponseModel response =
+  //           await services.getGcdWithFilters(
+  //         startPosition: '${event.startPos}',
+  //         maximumRecords: '${event.maxPos}',
+  //         filters: BaseFilterModel(),
+  //       );
+  //
+  //       return emit(
+  //         state.copyWith(
+  //           items: response.items,
+  //           hasReachedMax: false,
+  //           status: FormStatus.success,
+  //         ),
+  //       );
+  //     }
+  //
+  //     ContactDetailsListResponseModel response =
+  //         await services.getGcdWithFilters(
+  //       startPosition: '${event.startPos}',
+  //       maximumRecords: '${event.maxPos}',
+  //       filters: BaseFilterModel(),
+  //     );
+  //
+  //     if (response.items?.isEmpty == true) {
+  //       return emit(state.copyWith(hasReachedMax: true));
+  //     }
+  //     return emit(
+  //       state.copyWith(
+  //         items: List.of(state.items)..addAll(response.items ?? []),
+  //         hasReachedMax: false,
+  //       ),
+  //     );
+  //   } on TokenExpiredException catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.sessionExpired,
+  //       ),
+  //     );
+  //     return;
+  //   } catch (e) {
+  //     return emit(state.copyWith(status: FormStatus.failure));
+  //   }
+  // }
+  FutureOr<void> _fetchContactDetails(
       FetchData event, Emitter<ContactDetailsListState> emit) async {
-    try {
-      if (state.hasReachedMax) return;
+    log('-_fetchMaterialMovements--');
 
-      if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response = await services.getGcd(
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    try {
+      // if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial || event.newSearch) {
+        log('-_fetchMaterialMovements--initial--');
+        ContactDetailsListResponseModel response;
+        // response = await services.getMaterialMovements(
+        //   startPosition: '${event.startPos}',
+        //   maximumRecords: '${event.maxPos}',
+        //   mmType: isInward ? 1 : 0,
+        // );
+
+        response = await services.getGcdWithFilters(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          filters: BaseFilterModel(),
+          filters: event.filters,
         );
 
         return emit(
@@ -89,10 +190,12 @@ class ContactDetailsListBloc
         );
       }
 
-      ContactDetailsListResponseModel response = await services.getGcd(
+      log('-_fetchMaterialMovements------##--');
+      ContactDetailsListResponseModel response;
+      response = await services.getGcdWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        filters: BaseFilterModel(),
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
@@ -102,6 +205,7 @@ class ContactDetailsListBloc
         state.copyWith(
           items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on TokenExpiredException catch (e) {
