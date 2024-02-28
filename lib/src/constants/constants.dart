@@ -197,8 +197,9 @@ class Constants {
   static const String key = 'Key';
 
   // Create Found
-  static const String createfound = 'Create Found';
+  static const String createFound = 'Create Found';
   static const String editFound = 'Edit Found';
+  static const String foundList = 'Found List';
   static const String generalinformation = 'General Information';
   static const String assettype = 'Asset Type';
   static const String foundlocation = 'Found Location';

@@ -15,20 +15,20 @@ FoundListModel foundListModelFromJson(String str) =>
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());
 
 class FoundListModel {
-  List<FoundModel>? list;
+  List<FoundModel>? items;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
 
   FoundListModel({
-    this.list,
+    this.items,
     this.totalCount,
     this.currentPageNo,
     this.totalPageCount,
   });
 
   factory FoundListModel.fromJson(Map<String, dynamic> json) => FoundListModel(
-        list: json["list"] == null
+        items: json["list"] == null
             ? []
             : List<FoundModel>.from(
                 json["list"]!.map((x) => FoundModel.fromJson(x))),
@@ -38,9 +38,9 @@ class FoundListModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "list": list == null
+        "list": items == null
             ? []
-            : List<dynamic>.from(list!.map((x) => x.toJson())),
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
         "totalCount": totalCount,
         "currentPageNo": currentPageNo,
         "totalPageCount": totalPageCount,

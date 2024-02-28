@@ -20,8 +20,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+
 
   @override
   void initState() {
@@ -55,6 +54,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
   void _onRefresh() async {
     context.read<MaterialMovementBloc>().add(
           const RefreshList(),
