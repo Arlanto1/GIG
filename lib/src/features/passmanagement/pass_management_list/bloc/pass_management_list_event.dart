@@ -16,8 +16,8 @@ class FetchData extends PassManagementListEvent {
   const FetchData({required this.startPos, required this.maxPos,required this.newSearch, required this.filters});
 }
 
-class InitializeValuesMM extends PassManagementListEvent {
-  const InitializeValuesMM();
+class InitializeValuesPM extends PassManagementListEvent {
+  const InitializeValuesPM();
 }
 
 class RefreshList extends PassManagementListEvent {

@@ -31,7 +31,7 @@ class _PassManagementListViewState extends State<PassManagementListView> {
   void initState() {
     super.initState();
     context.read<PassManagementListBloc>().add(
-          const InitializeValuesMM(),
+          const InitializeValuesPM(),
         );
     _scrollController = ScrollController()..addListener(_onScroll);
   }

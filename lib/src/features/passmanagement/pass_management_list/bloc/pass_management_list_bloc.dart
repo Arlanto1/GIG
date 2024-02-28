@@ -28,7 +28,7 @@ class PassManagementListBloc
 
   PassManagementListBloc({required this.passId})
       : super(const PassManagementListState()) {
-    on<InitializeValuesMM>(_initializeValues);
+    on<InitializeValuesPM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
@@ -44,11 +44,11 @@ class PassManagementListBloc
   final CommonServices commonServices = CommonServices();
 
   FutureOr<void> _initializeValues(
-      InitializeValuesMM event, Emitter<PassManagementListState> emit) async {
+      InitializeValuesPM event, Emitter<PassManagementListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.materialMovementModuleCode);
+          module: Constants.passManagementModuleCode);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -83,11 +83,11 @@ class PassManagementListBloc
     try {
       DayPassListResponse response;
 
-      response = await services.getList(
+      response = await services.getListWithFilters(
         startPosition: '${0}',
         maximumRecords: '${20}',
         passType: passId.toString(),
-        // filters: BaseFilterModel(),
+        filters: BaseFilterModel(),
       );
 
       return emit(
@@ -119,11 +119,11 @@ class PassManagementListBloc
         log('-_fetchMaterialMovements--initial--');
         DayPassListResponse response;
 
-        response = await services.getList(
+        response = await services.getListWithFilters(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           passType: passId.toString(),
-          // filters: BaseFilterModel(),
+          filters: BaseFilterModel(),
         );
 
         return emit(
@@ -153,11 +153,11 @@ class PassManagementListBloc
       log('-_fetchMaterialMovements------##--');
       DayPassListResponse response;
 
-      response = await services.getList(
+      response = await services.getListWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         passType: passId.toString(),
-        // filters: BaseFilterModel(),
+        filters: BaseFilterModel(),
       );
 
       if (response.items?.isEmpty == true) {
