@@ -123,7 +123,7 @@ class PassManagementListBloc
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           passType: passId.toString(),
-          filters: BaseFilterModel(),
+          filters: event.filters,
         );
 
         return emit(
@@ -157,7 +157,7 @@ class PassManagementListBloc
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         passType: passId.toString(),
-        filters: BaseFilterModel(),
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
