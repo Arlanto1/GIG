@@ -512,7 +512,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cd.ContactDetailsListBloc>(
             create: (_) => cd.ContactDetailsListBloc()
-              ..add(const cd.FetchData(startPos: 0, maxPos: 20)),
+              ..add(cd.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const ContactDetailsListView(),
           ),
         );

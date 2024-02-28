@@ -32,6 +32,21 @@ class AnnualPowerShutdownListServices {
     );
     return AnnualPowerShutDownResponse.fromJson(response);
   }
+  Future<AnnualPowerShutDownResponse> getAnnualPowerShutdownListWithFilters({
+    required String startPosition,
+    required String maximumRecords,
+    required BaseFilterModel filters,
+  }) async {
+    String url =
+        '${Apis._getAnnualPowerShutdownList}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
+      url: url,
+    );
+    return AnnualPowerShutDownResponse.fromJson(response);
+  }
+
 
   Future<AnnualPowerShutdownListModel> getById(String id) async {
     final String url = '${Apis._getGI}/$id';

@@ -6,6 +6,7 @@ class AnnualPowerShutdownListState extends Equatable {
   final FormStatus status;
   final Locations? locations;
   final CommonFilters? commonFilters;
+  final String? message;
 
 
   const AnnualPowerShutdownListState(
@@ -13,6 +14,7 @@ class AnnualPowerShutdownListState extends Equatable {
         this.hasReachedMax = false,
         this.commonFilters,
         this.locations,
+        this.message,
         this.status = FormStatus.initial});
 
   AnnualPowerShutdownListState copyWith({
@@ -20,6 +22,7 @@ class AnnualPowerShutdownListState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     CommonFilters? commonFilters,
+    String? message,
     List<Organisation>? regions,
     List<Organisation>? statuses,
     Locations? locations,
@@ -28,6 +31,7 @@ class AnnualPowerShutdownListState extends Equatable {
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
+      message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
     );
