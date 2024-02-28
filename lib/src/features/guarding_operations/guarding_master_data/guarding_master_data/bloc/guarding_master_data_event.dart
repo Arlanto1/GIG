@@ -10,11 +10,18 @@ abstract class GuardingMasterDataEvent extends Equatable {
 class FetchDataList extends GuardingMasterDataEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const FetchDataList({required this.startPos, required this.maxPos});
+  const FetchDataList(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
-class InitializeValues extends GuardingMasterDataEvent {
-  const InitializeValues();
+
+class InitializeValuesGMD extends GuardingMasterDataEvent {
+  const InitializeValuesGMD();
 }
 
 class RefreshLists extends GuardingMasterDataEvent {

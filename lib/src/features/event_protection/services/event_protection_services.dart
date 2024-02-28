@@ -46,9 +46,12 @@ class EventProtectionServices {
   }) async {
     String url =
         '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
+
     return EventProtectionResponse.fromJson(response);
   }
 

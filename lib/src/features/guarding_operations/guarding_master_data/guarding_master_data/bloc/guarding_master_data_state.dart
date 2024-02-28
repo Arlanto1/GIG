@@ -5,25 +5,39 @@ class GuardingMasterDataState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final GmUiLabels? labels;
+  final CommonFilters? commonFilters;
+  final Locations? locations;
+  final String? message;
 
-  const GuardingMasterDataState(
-      {this.list = const <GuardingMastersDataModel>[],
-        this.hasReachedMax = false,
-        this.status = FormStatus.initial,
-        this.labels
-      });
+  const GuardingMasterDataState({
+    this.list = const <GuardingMastersDataModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+    this.labels,
+    this.message,
+    this.locations,
+    this.commonFilters,
+  });
 
   GuardingMasterDataState copyWith({
     List<GuardingMastersDataModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
-     GmUiLabels? labels,
+    GmUiLabels? labels,
+    String? message,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return GuardingMasterDataState(
       list: items ?? list,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      labels: labels ?? this.labels
+      labels: labels ?? this.labels,
+      message: message ?? this.message,
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,
     );
   }
 

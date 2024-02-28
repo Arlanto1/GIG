@@ -1,27 +1,43 @@
 part of 'guarding_rates_bloc.dart';
 
- class GuardingRatesState extends Equatable {
-   final List<GMRate> items;
-   final bool hasReachedMax;
-   final FormStatus status;
+class GuardingRatesState extends Equatable {
+  final List<GMRate> items;
+  final bool hasReachedMax;
+  final FormStatus status;
+  final Locations? locations;
+  final CommonFilters? commonFilters;
+  final String? message;
 
-   const GuardingRatesState(
-       {this.items = const <GMRate>[],
-         this.hasReachedMax = false,
-         this.status = FormStatus.initial});
+  const GuardingRatesState(
+      {this.items = const <GMRate>[],
+      this.hasReachedMax = false,
+      this.message,
+      this.locations,
+      this.commonFilters,
+      this.status = FormStatus.initial});
 
-   GuardingRatesState copyWith({
-     List<GMRate>? items,
-     bool? hasReachedMax,
-     FormStatus? status,
-   }) {
-     return GuardingRatesState(
-       items: items ?? this.items,
-       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-       status: status ?? this.status,
-     );
-   }
+  GuardingRatesState copyWith({
+    List<GMRate>? items,
+    bool? hasReachedMax,
+    FormStatus? status,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
+    String? message,
 
-   @override
-   List<Object?> get props => [items, hasReachedMax, status];
+
+  }) {
+    return GuardingRatesState(
+      items: items ?? this.items,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      status: status ?? this.status,
+      message: message ?? this.message,
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,
+    );
+  }
+
+  @override
+  List<Object?> get props => [items, hasReachedMax, status];
 }

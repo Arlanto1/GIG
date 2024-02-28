@@ -21,15 +21,15 @@ class GuardingServices {
   Future<RatesResponse> getRates({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getRates}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
-
-    final response = await BaseApiService().getRequest(
+        '${Apis._getRates}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
-
     return RatesResponse.fromJson(response);
   }
 
