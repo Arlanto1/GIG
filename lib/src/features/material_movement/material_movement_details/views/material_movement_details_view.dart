@@ -124,7 +124,7 @@ class _MaterialMovementDetailsViewState
           isReadOnly = true;
         }
         if (state.model.status == 3 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = false;
+          isReadOnly = true;
         }
         if (state.model.status == 4 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -145,7 +145,7 @@ class _MaterialMovementDetailsViewState
             state.model.status == 6 ||
             state.model.status == 7 ||
             state.model.status == 9 ||
-            state.model.status == null;
+            state.model.status == null||isReadOnly == false;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -1856,14 +1856,14 @@ class _MaterialMovementDetailsViewState
                                   state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              // /// Rejected Comment
-                              // CommonWidgets.verticalTextHandling(
-                              //     state.labels?.locale.rejectionComment ??
-                              //         state.labels?.defaultLocale
-                              //             .rejectionComment ??
-                              //         Constants.rejectedComment,
-                              //     state.model.rejectionComment ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Rejected Comment
+                              CommonWidgets.verticalTextHandling(
+                                  state.labels?.locale.rejectionComment ??
+                                      state.labels?.defaultLocale
+                                          .rejectionComment ??
+                                      Constants.rejectedComment,
+                                  state.model.rejectionComment ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                           ],
 
@@ -2108,7 +2108,7 @@ class _MaterialMovementDetailsViewState
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
-                                title: state.model.otherReceiverName,
+                                title: state.model.receiverEmail,
                                 height: 70,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
@@ -2121,7 +2121,7 @@ class _MaterialMovementDetailsViewState
                                                     MaterialMovementDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                otherReceiverName: user);
+                                            receiverEmail: user);
                                       },
                                       functionToCall: () {
                                         // refresh the list
