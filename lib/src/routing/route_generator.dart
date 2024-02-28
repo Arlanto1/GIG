@@ -765,7 +765,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
             create: (_) => guarding.GuardingRatesBloc()
-              ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
+              ..add(guarding.FetchList(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const GuardingRates(),
           ),
         );

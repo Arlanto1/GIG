@@ -31,7 +31,7 @@ class GuardingMasterDataBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.guardingMasterModuleCode);
+          module: Constants.guardingMasterDataModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
