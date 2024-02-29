@@ -79,7 +79,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  Organisation? proposedVendors;
+  List<Organisation>? proposedVendors;
   // Organisation? proposedVendors;
   double? budget;
   String? poNumber;

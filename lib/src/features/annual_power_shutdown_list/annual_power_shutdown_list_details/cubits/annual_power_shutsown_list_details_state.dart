@@ -105,12 +105,12 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
 
     if (model.bu1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 1');
+          status: false, message: 'Enter Event Business POC');
     }
 
     if (model.bu2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 2');
+          status: false, message: 'Enter Event Business POC');
     }
 
     if (model.requesterDepartment == null) {

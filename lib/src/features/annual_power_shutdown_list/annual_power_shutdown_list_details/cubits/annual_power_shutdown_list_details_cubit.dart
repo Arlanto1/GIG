@@ -124,7 +124,7 @@ class AnnualPowerShutdownListDetailsCubit
         model.slNo = slNo.serialNo;
       }
       model.createdBy ??= loggedInUserDetails;
-
+      state.model.proposedVendors ??=[];
       // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
@@ -172,7 +172,7 @@ class AnnualPowerShutdownListDetailsCubit
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    Organisation? vendors,
+    Organisation? vendor,
   }) async {
     emit(
       state.copyWith(
@@ -197,7 +197,14 @@ class AnnualPowerShutdownListDetailsCubit
       );
       state.model.epManager2 = userDetails;
     }
-    state.model.proposedVendors = vendors ?? state.model.proposedVendors;
+
+    if(vendor != null) {
+      if(state.model.proposedVendors.isEmptyOrNull) {
+        state.model.proposedVendors = [];
+      }
+      state.model.proposedVendors?.clear();
+      state.model.proposedVendors?.add(vendor);
+    }
 
     /// Get Sl No from API
     if (location != null) {

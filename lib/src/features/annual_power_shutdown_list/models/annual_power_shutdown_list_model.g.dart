@@ -88,10 +88,9 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
       securityGuardCountHrs: json['securityGuardCountHrs'] as int?,
       securityFacilitatorCount: json['securityFacilitatorCount'] as int?,
       securityFacilitatorCountHrs: json['securityFacilitatorCountHrs'] as int?,
-      proposedVendors: json['proposedVendors'] == null
-          ? null
-          : Organisation.fromJson(
-              json['proposedVendors'] as Map<String, dynamic>),
+      proposedVendors: (json['proposedVendors'] as List<dynamic>?)
+          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       budget: (json['budget'] as num?)?.toDouble(),
       poNumber: json['poNumber'] as String?,
     )..lock = json['lock'] as String?;
