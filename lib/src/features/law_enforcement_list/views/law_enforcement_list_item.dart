@@ -5,7 +5,6 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,20 +79,20 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                       Utils().textHandling(
                           'Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
-                      if (widget.userItem.location != null) ...[
-                        CommonWidgets.horizontalSpacerWidget(8),
-                        Utils().textHandling(
-                            'Location : ',
-                            widget.userItem.location?.name ?? ''),
-                      ],
                     ],
                   ),
                   if (widget.userItem.inputDate != null) ...[
                     CommonWidgets.verticalSpacerWidget(5),
                     Row(
                       children: [
+                        if (widget.userItem.location != null) ...[
+                          Utils().textHandling(
+                              'Location : ',
+                              widget.userItem.location?.name ?? ''),
+                        ],
+                        CommonWidgets.horizontalSpacerWidget(5),
                         Utils().textHandling(
-                            'Date of Creation : ',
+                            'Date : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestamptoDateConversion(
                                 int.tryParse(

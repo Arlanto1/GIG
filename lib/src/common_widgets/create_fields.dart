@@ -142,7 +142,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: nameTextController,
+                          controller: nameTextController,
                           textFormKey: Keys.nameTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -161,7 +161,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: keyTextController,
+                          controller: keyTextController,
                           textFormKey: Keys.keyTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -180,7 +180,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: descriptionTextController,
+                          controller: descriptionTextController,
                           textFormKey: Keys.keyTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -199,7 +199,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: optionsTextController,
+                          controller: optionsTextController,
                           textFormKey: Keys.keyTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -218,7 +218,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: weightTextController,
+                          controller: weightTextController,
                           textFormKey: Keys.keyTextController,
                           hintText: '',
                           onChange: (String username) {

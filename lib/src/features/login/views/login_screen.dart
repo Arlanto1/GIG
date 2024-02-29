@@ -141,8 +141,9 @@ class _LoginState extends State<Login> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    textFieldController: userNameTextController,
+                                    controller: userNameTextController,
                                     textFormKey: Keys.userTextField,
+                                    textCapitalization: false,
                                     hintText: Constants.hintUserName,
                                     textInputAction: TextInputAction.next,
                                     focusNode: _usernameFocus,

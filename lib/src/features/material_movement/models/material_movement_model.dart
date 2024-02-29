@@ -69,7 +69,6 @@ class MaterialMovementModel extends BaseObject {
   String? expectedDateOfReturn;
   String? takenOutDate;
   String? actualDateOfReturn;
-
   final Organisation? takenOutDepartment;
   List<ImageContent>? gatePassSecuritySign;
 

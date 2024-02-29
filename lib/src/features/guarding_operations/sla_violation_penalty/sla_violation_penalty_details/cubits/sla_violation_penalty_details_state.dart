@@ -89,8 +89,11 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter ASL');
     }
     if (model.poc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Guarding Agency POC');
+    }
+    if (model.poc != null && !Validator.isValidEmail(model.poc)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Agency POC');
+          status: false, message: 'Please enter valid email Guarding Agency POC');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

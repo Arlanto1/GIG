@@ -125,7 +125,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    textFieldController: userNameTextController,
+                                    controller: userNameTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
                                     onChange: (String username) {

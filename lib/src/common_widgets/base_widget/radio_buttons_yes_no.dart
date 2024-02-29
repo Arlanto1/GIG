@@ -12,7 +12,7 @@ class RadioButtonsYesNo extends StatelessWidget {
   });
 
   final int status;
-  final int selectedValue;
+  final int? selectedValue;
   final Function(int?)? onChangedYes;
   final Function(int?)? onChangedNo;
 

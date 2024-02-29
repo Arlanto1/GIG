@@ -76,6 +76,8 @@ class _FemaleDropPickUpViewState extends State<FemaleDropPickUpView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
         ),
         body: BlocBuilder<FemaleDropPickUpBloc, FemaleDropPickUpState>(
             builder: (context, state) {

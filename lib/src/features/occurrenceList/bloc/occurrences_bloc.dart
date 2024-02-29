@@ -17,9 +17,37 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final OccurrenceServices _services = OccurrenceServices();
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<OccurrencesState> emit) async {
+    try {
+      OccurrenceResponse response;
+
+      response = await _services.getIncidents(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        userId: '7',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<OccurrencesState> emit) async {

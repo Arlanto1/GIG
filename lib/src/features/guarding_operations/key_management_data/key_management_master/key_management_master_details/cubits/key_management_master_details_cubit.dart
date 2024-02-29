@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_type_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../../index.dart';
@@ -68,7 +66,7 @@ class KeyManagementMasterDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
@@ -266,5 +264,9 @@ class KeyManagementMasterDetailsCubit
       ),
     );
     return true;
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyManagementMasterModule);
   }
 }

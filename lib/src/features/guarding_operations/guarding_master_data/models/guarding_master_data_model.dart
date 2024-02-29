@@ -19,19 +19,19 @@ class GuardingMasterDataResponse {
 
   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      ?.map((dynamic e) =>
+      GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-        'data': items?.map((e) => e.toJson()).toList(),
-        'totalCount': totalCount,
-        'currentPageNo': currentPageNo,
-        'totalPageCount': totalPageCount
-      };
+    'data': items?.map((e) => e.toJson()).toList(),
+    'totalCount': totalCount,
+    'currentPageNo': currentPageNo,
+    'totalPageCount': totalPageCount
+  };
 }
 
 @JsonSerializable()
@@ -43,39 +43,28 @@ class GuardingMastersDataModel extends BaseObject {
   Organisation? vendor;
   User? entrySecurity;
   User? guard;
+  Organisation? entity;
+  String? inputDate;
+  int? status;
+  int? guardRank;
   ImageContent? localAddressProof;
   ImageContent? permanentAddressProof;
   ImageContent? bioData;
   ImageContent? photoGraph;
-  Organisation? entity;
-  String? inputDate;
-  String? msgbExemptionDate;
-  String? csrParticipationDates;
-  String? medicalCertificateValidUntil;
-  String? covidFirstDoseDate;
-  String? covidSecondDoseDate;
-  String? covidPrecautionaryDoseDate;
-  String? ertCertificationDate;
-  String? firstAidTrainingCompletionDate;
-  String? pvcIssuedDate;
-  String? pvcExpiryDate;
-  String? dateOfBirth;
-  String? dateOfJoining;
-  int? status;
-  num? height;
-  num? weight;
-  num? chest;
-  int? guardRank;
   String? employeeCode;
   String? dbEmployeeId;
   int? dutyType;
   int? gender;
+  num? height;
+  num? weight;
+  num? chest;
   String? contactNo;
-  int? dependentsNo;
+  String? dateOfBirth;
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
   List<ImageContent>? deploymentOrders;
+  String? dateOfJoining;
   bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
@@ -91,10 +80,18 @@ class GuardingMastersDataModel extends BaseObject {
   String? permanentAddress;
   String? localAddress;
   List<Organisation>? qualifications;
+  String? pvcIssuedDate;
+  String? pvcExpiryDate;
   List<ImageContent>? pvc;
   bool trainingCertificateProvided;
   List<ImageContent>? trainingCertificates;
+  String? medicalCertificateValidUntil;
   List<ImageContent>? medicalCertificates;
+  String? covidFirstDoseDate;
+  String? covidSecondDoseDate;
+  String? covidPrecautionaryDoseDate;
+  String? ertCertificationDate;
+  String? firstAidTrainingCompletionDate;
   int? systemAccess;
   bool onboarded;
   String? esicNo;
@@ -102,55 +99,45 @@ class GuardingMastersDataModel extends BaseObject {
   bool msgbExempted;
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
-  bool csrParticipation;
-  bool specialAchievement;
-  String? specialAchievementText;
-  String? additionalInitiatives;
-  List<dynamic>? history;
   String? guardingPOC;
+  List<GuardingMasterDataExtraDetails>? csrParticipations;
+  List<GuardingMasterDataExtraDetails>? additionalInitiatives;
+  List<GuardingMasterDataExtraDetails>? additionalQualifications;
+  List<GuardingMasterDataExtraDetails>? specialAchievements;
+  String? entrySecurityName;
+  String? guardName;
+  int? dependentsNo;
+  String? msgbExemptionDate;
+
 
   GuardingMastersDataModel({
     this.id,
     this.slNo,
     this.location,
     this.locationRegion,
-    this.entrySecurity,
+    this.vendor,
     this.guard,
+    this.entity,
+    this.entrySecurity,
+    this.inputDate,
+    this.status,
+    this.guardRank,
     this.localAddressProof,
     this.permanentAddressProof,
     this.bioData,
     this.photoGraph,
-    this.entity,
-    this.inputDate,
-    this.msgbExemptionDate,
-    this.csrParticipationDates,
-    this.medicalCertificateValidUntil,
-    this.covidFirstDoseDate,
-    this.covidSecondDoseDate,
-    this.covidPrecautionaryDoseDate,
-    this.ertCertificationDate,
-    this.firstAidTrainingCompletionDate,
-    this.pvcExpiryDate,
-    this.pvcIssuedDate,
-    this.dateOfBirth,
-    this.dateOfJoining,
-    this.status,
-    this.height,
-    this.weight,
-    this.chest,
-    this.guardRank,
     this.employeeCode,
     this.dbEmployeeId,
-    this.vendor,
     this.dutyType,
     this.gender,
     this.contactNo,
-    this.dependentsNo,
+    this.dateOfBirth,
     this.maritalStatus,
     this.typeOfDeployment,
-    this.deploymentOrderSubmitted = false,
+    this.deploymentOrderSubmitted= false,
     this.deploymentOrders,
-    this.physicallyFit = false,
+    this.dateOfJoining,
+    this.physicallyFit= false,
     this.localLanguage,
     this.localLangProficiencyR,
     this.hindiLangProficiencyR,
@@ -165,23 +152,38 @@ class GuardingMastersDataModel extends BaseObject {
     this.permanentAddress,
     this.localAddress,
     this.qualifications,
+    this.pvcIssuedDate,
+    this.pvcExpiryDate,
     this.pvc,
-    this.trainingCertificateProvided = false,
+    this.trainingCertificateProvided= false,
     this.trainingCertificates,
+    this.medicalCertificateValidUntil,
     this.medicalCertificates,
     this.systemAccess,
-    this.onboarded = false,
+    this.onboarded= false,
     this.esicNo,
     this.uanNo,
-    this.msgbExempted = false,
+    this.msgbExempted= false,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
-    this.csrParticipation = false,
-    this.specialAchievement = false,
-    this.specialAchievementText,
-    this.additionalInitiatives,
-    this.history,
     this.guardingPOC,
+    this.csrParticipations,
+    this.additionalInitiatives,
+    this.additionalQualifications,
+    this.specialAchievements,
+    this.entrySecurityName,
+    this.guardName,
+    this.covidFirstDoseDate,
+    this.covidSecondDoseDate,
+    this.covidPrecautionaryDoseDate,
+    this.ertCertificationDate,
+    this.firstAidTrainingCompletionDate,
+    this.height,
+    this.weight,
+    this.chest,
+    this.dependentsNo,
+    this.msgbExemptionDate,
+
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
@@ -202,4 +204,31 @@ class GuardingMastersDataModel extends BaseObject {
   }
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
+}
+
+class GuardingMasterDataExtraDetails {
+  final int? id;
+  final String? description;
+  final String? date;
+  final int? type;
+
+  GuardingMasterDataExtraDetails({
+    this.id,
+    this.description,
+    this.date,
+    this.type,
+  });
+
+  GuardingMasterDataExtraDetails.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        description = json['description'] as String?,
+        date = json['date'] as String?,
+        type = json['type'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'description' : description,
+    'date' : date,
+    'type' : type
+  };
 }

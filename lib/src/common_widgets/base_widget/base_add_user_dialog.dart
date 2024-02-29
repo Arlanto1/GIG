@@ -17,10 +17,12 @@ class BaseAddUserDialog extends StatefulWidget {
     super.key,
     required this.title,
     required this.functionToCall,
+    required this.roleName,
   });
 
   final String title;
   final Function functionToCall;
+  final String roleName;
 
   @override
   State<BaseAddUserDialog> createState() => BaseAddUserDialogState();
@@ -94,7 +96,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: firstnameTextController,
+                          controller: firstnameTextController,
                           textFormKey: Keys.firstnameTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -113,7 +115,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: lastnameTextController,
+                          controller: lastnameTextController,
                           textFormKey: Keys.lastnameTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -125,6 +127,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         Container(
                           alignment: Alignment.topLeft,
+
                           child: const Text(
                             Constants.email,
                             style: Styles.textStyleRegularGrey16,
@@ -132,8 +135,9 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: emailTextController,
+                          controller: emailTextController,
                           textFormKey: Keys.emailTextController,
+                          textCapitalization: false,
                           hintText: '',
                           onChange: (String username) {
                             //this.username = username;
@@ -157,14 +161,14 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
 
   Widget buttonViews(BuildContext context, double width) {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: Alignment.bottomCenter,
       child: Container(
           color: AppColors.backgroundWhitecolor,
-          child: createNewuserButton(width)),
+          child: createNewUserButton(width)),
     );
   }
 
-  Widget createNewuserButton(double width) {
+  Widget createNewUserButton(double width) {
     return PopButton(
       width: width / 2,
       key: const Key(Keys.createnewuserButton),
@@ -192,7 +196,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
               firstName: firstnameTextController.text,
               lastName: lastnameTextController.text,
               email: emailTextController.text,
-              role: 'ATOM_STATIC_USER',
+              role: widget.roleName,
               context: context,
             );
 

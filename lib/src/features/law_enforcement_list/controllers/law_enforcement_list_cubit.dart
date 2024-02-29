@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforc
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -25,19 +26,19 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
           ),
         );
 
-  // Found Article list API call
+  // Law Enforcement list API call
   Future<void> getLawEnforcementList(String startPosition,
       String maximumRecords, String userId, BuildContext context) async {
     // if (startPosition == '0') {
     //   emit(state.copyWith(stateType: LawEnforcementListStateType.loading));
     // }
     try {
-      LawEnforcementListResponse foundListModelResponse =
-          await services.getList(
+      LawEnforcementListResponse lawEnforcementListModelResponse =
+          await services.getListWithFilters(
               startPosition: startPosition,
               maximumRecords: maximumRecords,
-              userId: userId,
-              context: context);
+            filters: BaseFilterModel(),
+          );
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         if (startPosition != '0') {
@@ -46,7 +47,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       });
       emit(
         state.copyWith(
-          lawEnforcementListModel: foundListModelResponse,
+          lawEnforcementListModel: lawEnforcementListModelResponse,
           stateType: FormStatus.success,
         ),
       );
@@ -70,7 +71,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
     }
   }
 
-  // Found Article detials by Id API call
+  // Law Enforcement details by Id API call
   Future<LawEnforcementDetails?> getById(
       int id, BuildContext context) async {
     try {

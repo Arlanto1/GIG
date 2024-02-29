@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
@@ -11,9 +12,11 @@ class LawEnforcementsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseFilterModel filters = BaseFilterModel();
     return BlocProvider<LawEnforcementListBloc>(
       create: (_) => LawEnforcementListBloc()
-        ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
+        ..add(LawEnforcementFetch(
+            startPos: 0, maxPos: 20, newSearch: false, filters: filters)),
       child: const LnPage(),
     );
   }
@@ -29,6 +32,9 @@ class LnPage extends StatefulWidget {
 class _LnPageState extends State<LnPage> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -50,13 +56,33 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<LawEnforcementListBloc>().add(
-          LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
+      context.read<LawEnforcementListBloc>().add(LawEnforcementFetch(
+          startPos: pageNumber,
+          maxPos: 20,
+          newSearch: false,
+          filters: filters));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<LawEnforcementListBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     final bloc = BlocProvider.of<LawEnforcementListBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
@@ -71,8 +97,8 @@ class _LnPageState extends State<LnPage> {
               log('value--$value');
               //localfoundlist?.clear();
               pageNumber = 0;
-              bloc.add(
-                  LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context));
+              bloc.add(LawEnforcementFetch(
+                  startPos: 0, maxPos: 20, newSearch: false, filters: filters));
             }
           });
         },
@@ -112,13 +138,13 @@ class _LnPageState extends State<LnPage> {
       ),
       body: BlocBuilder<LawEnforcementListBloc, LawEnforcementListState>(
           builder: (context, state) {
-        if (state.status == FormStatus.initial) {
-          return const BaseLoader();
-        } else if (state.status == FormStatus.success) {}
-
-        if (state.items.isEmptyOrNull) {
-          return const NoRecordFoundWidget();
-        }
+        // if (state.status == FormStatus.initial) {
+        //   return const BaseLoader();
+        // } else if (state.status == FormStatus.success) {}
+        //
+        // if (state.items.isEmptyOrNull) {
+        //   return const NoRecordFoundWidget();
+        // }
 
         return Container(
           margin: allMargin16,
@@ -127,48 +153,87 @@ class _LnPageState extends State<LnPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               )),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: state.hasReachedMax
-                ? state.items.length
-                : state.items.length + 1,
-            itemBuilder: (context, index) {
-              // buildTodo(context, state, index);
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BaseSearchWidget(
+                applySearchFilters: applySearchFilters,
+                applyFilters: applyFilters,
+                commonFilters: state.commonFilters ??
+                    CommonFilters(
+                      statuses: [],
+                      regions: [],
+                    ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.001),
+              if (state.status == FormStatus.initial) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                const BaseLoader(),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+              ],
+              // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+              // Text('state.status=====${state.status}'),
+              if (state.items.isEmptyOrNull &&
+                  (state.status != FormStatus.loading)) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.1),
+                const NoRecordFoundWidget(),
+              ],
+              Expanded(
+                child: SmartRefresher(
+                  controller: refreshController,
+                  enablePullDown: true,
+                  physics: const BouncingScrollPhysics(),
+                  header: const WaterDropHeader(
+                    waterDropColor: AppColors.navigationSkybluecolor,
+                  ),
+                  onRefresh: _onRefresh,
+                  onLoading: _onLoading,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.hasReachedMax
+                        ? state.items.length
+                        : state.items.length + 1,
+                    itemBuilder: (context, index) {
+                      // buildTodo(context, state, index);
 
-              if (index < state.items.length) {
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : LawEnforcementListItem(
-                        userItem: state.items[index],
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[index]);
-                            },
-                          );
-                          //do the detail edit of user found
-                        },
-                        onEditTap: (selectedIndex) {
-                          getById(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[selectedIndex]);
-                            },
-                          );
-                        },
-                        index: index,
+                      if (index < state.items.length) {
+                        return index >= state.items.length
+                            ? const BaseLoader()
+                            : LawEnforcementListItem(
+                                userItem: state.items[index],
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[index]);
+                                    },
+                                  );
+                                  //do the detail edit of user found
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[selectedIndex]);
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
+                      }
+                      return const Center(
+                        child: SizedBox(),
                       );
-              }
-              return const Center(
-                child: SizedBox(),
-              );
-            },
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       }),
@@ -199,5 +264,35 @@ class _LnPageState extends State<LnPage> {
       Navigator.pushNamed(context, lawenforcementScreenRoute,
           arguments: {"UserElement": model});
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

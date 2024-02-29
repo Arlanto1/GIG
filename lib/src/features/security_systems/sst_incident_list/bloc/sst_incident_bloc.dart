@@ -24,9 +24,40 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final SstIncidentServices _services = SstIncidentServices();
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<SstIncidentState> emit) async {
+    try {
+      SstIncidentResponse response;
+
+      response = await _services.get(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        userId: '77',
+        ticketType: ticketType,
+        staffType: staffType,
+        occId: occId,
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<SstIncidentState> emit) async {

@@ -13,3 +13,6 @@ class FetchReportList extends GuardingMasterReportEvent {
 
   const FetchReportList({required this.startPos, required this.maxPos});
 }
+// class RefreshList extends GuardingMasterReportEvent {
+//   const RefreshList();
+// }

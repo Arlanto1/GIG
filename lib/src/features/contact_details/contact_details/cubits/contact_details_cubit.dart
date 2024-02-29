@@ -43,7 +43,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     var userId = await SharedPrefs.getUserId();
     try {
       final futures = [
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUiLabels(
@@ -61,6 +61,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
 
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       if (state.model.location == null && defaultLocation != null) {
@@ -73,6 +74,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") + (loggedInUserDetails.lastName ?? "");
 
       emit(
         state.copyWith(
@@ -229,5 +231,9 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       );
       return false;
     }
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.contactDetailsModule);
   }
 }

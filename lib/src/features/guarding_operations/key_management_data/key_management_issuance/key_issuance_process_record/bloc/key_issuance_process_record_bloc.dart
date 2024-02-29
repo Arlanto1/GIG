@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_issuance_process_record_event.dart';
-
 part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc

@@ -8,10 +8,12 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../../../../utils/util.dart';
@@ -32,6 +34,9 @@ class SLAViolationPenaltyListView extends StatefulWidget {
 class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -59,6 +64,21 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     }
   }
 
+  void _onRefresh() async {
+    context.read<SLAViolationPenaltyListBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +99,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportSvpExcel',
           pdfAPIName: 'exportSvpPDF',
         ),
@@ -98,88 +120,112 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
-              itemBuilder: (context, index) {
-                List<Label> labels = [];
-                if (index < state.items.length) {
-                  labels.add(Label(
-                      key: state.labels?.locale.entrySecurity ??
-                          state.labels?.defaultLocale.entrySecurity ??
-                          'Created By',
-                      value: state.items[index].entrySecurity?.name ?? ''));
-                  labels.add(Label(
-                      key: state.labels?.locale.locationRegion ??
-                          state.labels?.defaultLocale.locationRegion ??
-                          'Region',
-                      value: state.items[index].locationRegion?.name ?? ''));
-                  labels.add(Label(
-                      key: state.labels?.locale.location ??
-                          state.labels?.defaultLocale.location ??
-                          'Location',
-                      value: state.items[index].location?.name ?? ''));
-                  labels.add(Label(
-                      key: state.labels?.locale.slNo ??
-                          state.labels?.defaultLocale.slNo ??
-                          'SL No',
-                      value: state.items[index].slNo ?? ''));
-                  labels.add(Label(
-                      key: state.labels?.locale.inputDate ??
-                          state.labels?.defaultLocale.inputDate ??
-                          'Date of Creation',
-                      value: state.items[index].inputDate != null
-                          ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
-                              Constants.dateFormat)
-                          : ''));
-                }
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        status: state.items[index].status,
-                        labels: labels,
-                        isEventProtectionStatus: false,
-                        isSLAViolationStatus: true,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                status: state.items[selectedIndex].status,
-                                isSLAViolationStatus: true,
-                                isEventProtectionStatus: false,
-                                isMasterGuard: false,
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: SmartRefresher(
+                    controller: refreshController,
+                    enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    header: const WaterDropHeader(
+                      waterDropColor: AppColors.navigationSkybluecolor,
+                    ),
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1,
+                      itemBuilder: (context, index) {
+                        List<Label> labels = [];
+                        if (index < state.items.length) {
+                          labels.add(Label(
+                              key: state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  'Created By',
+                              value:
+                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                          labels.add(Label(
+                              key: state.labels?.locale.locationRegion ??
+                                  state.labels?.defaultLocale.locationRegion ??
+                                  'Region',
+                              value: state.items[index].locationRegion?.name ??
+                                  ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  'Location',
+                              value: state.items[index].location?.name ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  'SL No',
+                              value: state.items[index].slNo ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.inputDate ??
+                                  state.labels?.defaultLocale.inputDate ??
+                                  'Date of Creation',
+                              value: state.items[index].inputDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                      int.parse(
+                                          state.items[index].inputDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''));
+                        }
+                        return index >= state.items.length
+                            ? const BaseLoader()
+                            : BaseListTileItem(
+                                id: state.items[index].id,
+                                status: state.items[index].status,
                                 labels: labels,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getById(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                status: state.items[selectedIndex].status,
-                                isSLAViolationStatus: true,
                                 isEventProtectionStatus: false,
-                                isMasterGuard: false,
-                                labels: labels,
+                                isSLAViolationStatus: true,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        status:
+                                            state.items[selectedIndex].status,
+                                        isSLAViolationStatus: true,
+                                        isEventProtectionStatus: false,
+                                        isMasterGuard: false,
+                                        labels: labels,
+                                      );
+                                    },
+                                  );
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        status:
+                                            state.items[selectedIndex].status,
+                                        isSLAViolationStatus: true,
+                                        isEventProtectionStatus: false,
+                                        isMasterGuard: false,
+                                        labels: labels,
+                                      );
+                                    },
+                                  );
+                                },
+                                index: index,
                               );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }));

@@ -1,34 +1,10 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
-import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../models/base_user.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../../createfound/models/user.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
@@ -42,6 +18,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }) : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
+            model: PassManagementModel(),
             stateType: CreatePassMgmtStateType.initial,
           ),
         );
@@ -58,7 +35,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       if (Constants.addcompanytype == title) {
-        await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+        await createPassMgmtCubit.companyTypes(
+            name: 'ATOM_COMPANY_TYPES', context: context);
       } else if (Constants.addreasonfordaypass == title ||
           Constants.addreasonforvendorpass == title) {
         await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
@@ -76,7 +54,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -98,13 +76,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -122,7 +100,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -140,25 +118,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
     }
   }
 
-  getNameUsersResponseData(BaseUser? userresponsedata) async {
+  getNameUsersResponseData(BaseUser? baseUser) async {
     try {
       emit(
         state.copyWith(
-          nameResponse: userresponsedata,
+          nameResponse: baseUser,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -186,7 +164,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       dismissLoadingDialog(context);
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -215,7 +193,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -228,20 +206,21 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get locations api call
-  Future<void> getLocations(String locationsStr, BuildContext context) async {
+  Future<void> getLocations(
+      String locationsStr, int? filter, BuildContext context) async {
     try {
-      Locations getLocationsData =
-          await createpassmgmtServices.getLocations(name: locationsStr);
+      Locations getLocationsData = await commonServices.getRegionsWithLocations(
+          name: locationsStr, filter: filter);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -253,17 +232,16 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
     String locationId,
-    String passId,
-    BuildContext context,
+    int passId,
   ) async {
     String moduleCode = Constants.passManagementModule;
-    if (passId == "0") {
+    if (passId == ConstantsIntValue.passIdDayPass) {
       moduleCode = Constants.passManagementModule;
-    } else if (passId == "1") {
+    } else if (passId == ConstantsIntValue.passIdVisitor) {
       moduleCode = Constants.visitorManagementModule;
-    } else if (passId == "2") {
+    } else if (passId == ConstantsIntValue.passIdVendor) {
       moduleCode = Constants.vendorPassManagementModule;
-    } else if (passId == "3") {
+    } else if (passId == ConstantsIntValue.passIdSez) {
       moduleCode = Constants.passManagementSEZModule;
     }
     try {
@@ -280,7 +258,42 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  Future<void> getPassTypes({
+    required int passId,
+    required int locationId,
+  }) async {
+    emit(
+      state.copyWith(
+        stateType: CreatePassMgmtStateType.loading,
+      ),
+    );
+
+    log('---passId---$passId--');
+    log('---passId--locationId-$locationId--');
+    try {
+      List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
+          passId: passId, locationId: locationId);
+      log('----passTypes.length----${passTypes.length}----'); // it has value
+
+      final updatedState = state.copyWith(
+        passTypes: passTypes,
+        stateType: CreatePassMgmtStateType.initial,
+      );
+
+      emit(updatedState);
+
+      log('----passTypes.length--22222--${updatedState.passTypes?.length}----'); // Should not be null now
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -296,13 +309,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -311,7 +324,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Get pass number call
   Future<void> getPassNumber(
-    String passType,
+    int passType,
     String locationId,
     BuildContext context,
   ) async {
@@ -327,25 +340,27 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
     }
   }
 
-  getpassListResponseData(Organisation? companytypeResponse) async {
+  getpassListResponseData(Organisation org) async {
+    log('-org---${org.name}--');
+
     try {
       emit(
         state.copyWith(
-          activePassInfoList: companytypeResponse,
+          selectedPassInfo: org,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -353,27 +368,33 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get employee departments
-  Future<void> companyTypes(String companyStr, BuildContext context) async {
+  Future<List<Organisation>> companyTypes({
+    required String name,
+    int? filter,
+    BuildContext? context,
+  }) async {
+    List<Organisation> companyTypes = [];
     try {
-      // CompanyTypes companyTypes =
-      //     await createpassmgmtServices.getCompanyTypes(companyStr, context);
-
-      CompanyTypes companyTypes = await commonServices.getCompanyTypes(
-          name: companyStr, context: context);
+      companyTypes = await commonServices.getOrganisations(
+        name: name,
+        filter: filter,
+        context: context,
+      );
       emit(
         state.copyWith(
           companyTypes: companyTypes,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
     }
+    return companyTypes;
   }
 
   selectedCompanyType(Organisation companyType) async {
@@ -405,7 +426,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -424,13 +445,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           dayPassReason: dayPassreasons,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -448,7 +469,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -466,13 +487,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           vendorPassReason: vendorPassreasons,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -491,7 +512,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -515,7 +536,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -533,7 +554,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -551,7 +572,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -571,7 +592,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -586,13 +607,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -600,7 +621,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> addAttchment(List<ImageContent>? data) async {
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (var image in data) {
         image.type = 1;
@@ -611,8 +632,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.addattachment));
     }
   }
+
   Future<void> photoAttchment(List<ImageContent>? data) async {
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (var image in data) {
         image.type = 2;
@@ -623,6 +645,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.photoattachment));
     }
   }
+
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
@@ -634,13 +657,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
-          stateType: CreatePassMgmtStateType.success,
+          // stateType: CreatePassMgmtStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -648,11 +671,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initialization() {
+    state.passTypes = [];
     state.showIdentifiedFields = false;
     state.selectedDepartment = null;
     state.employeeDepartment = null;
-    state.companyTypes = CompanyTypes();
-    state.vendorPassInfo = Organisation();
+    state.companyTypes = [];
+    state.selectedPassInfo = Organisation();
     state.loadAttachments = [];
     state.selectedCompanyType = null;
     state.selectedEntities = [];
@@ -670,14 +694,76 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dayPasselementReason = Organisation();
   }
 
-  initializeValues(DayPassListElement model) async {
+  initializeValues({
+    required PassManagementModel model,
+    required int passId,
+  }) async {
+    log('---initializeValues----');
+
     emit(
       state.copyWith(
+        model: PassManagementModel(),
         selectedEntities: model.entities,
-        stateType: CreatePassMgmtStateType.success,
+        stateType: CreatePassMgmtStateType.loading,
       ),
     );
+
     try {
+      log('-@@@@@@@@@@--111---');
+      if (passId != ConstantsIntValue.passIdSez) {
+        Organisation? defaultLocation;
+        if (model.location == null) {
+          defaultLocation = await SharedPrefs.getDefaultLocation();
+        } else {
+          defaultLocation = model.location;
+        }
+        log('-@@@@@@@@@@--222---');
+        log('-defaultLocation---${defaultLocation?.id}--');
+
+        String moduleCode = Constants.passManagementModule;
+        if (passId == ConstantsIntValue.passIdDayPass) {
+          moduleCode = Constants.passManagementModule;
+        } else if (passId == ConstantsIntValue.passIdVisitor) {
+          moduleCode = Constants.visitorManagementModule;
+        } else if (passId == ConstantsIntValue.passIdVendor) {
+          moduleCode = Constants.vendorPassManagementModule;
+        } else if (passId == ConstantsIntValue.passIdSez) {
+          moduleCode = Constants.passManagementSEZModule;
+        }
+
+        SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
+          locationId: defaultLocation!.id.toString(),
+          moduleCode: moduleCode,
+        );
+
+        // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
+        log('-@@@@@@@@@@--333---');
+
+        List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
+            passId: passId, locationId: defaultLocation.id!);
+        // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
+        log('-state.passTypes.length---${state.passTypes?.length}--'); // Should not be null now
+
+        log('-@@@@@@@@@@--444---');
+        List<Organisation> updateStatuses = [];
+        if (model.status != null && (model.status == 0 || model.status == 1)) {
+          updateStatuses = await commonServices.getStatusesByModuleId(
+              module: Constants.passManagementModuleCode, filter: model.status);
+        }
+
+        log('-@@@@@@@@@@-----');
+
+
+        // emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
+        emit(state.copyWith(
+          location: defaultLocation,
+          updateStatuses: updateStatuses,
+          passTypes: passTypes,
+          getSerialnumberResponse: serialNumberResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ));
+      }
+
       if (model.companyType?.name != null &&
           model.companyType!.name!.contains('CWR')) {
         emit(
@@ -690,6 +776,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       } else {
         emit(
           state.copyWith(
+            selectedEntities: model.entities,
             showIdentifiedFields: false,
             stateType: CreatePassMgmtStateType.success,
           ),
@@ -698,7 +785,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -707,7 +794,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   getEntityData(List<Organisation> selectedEntities) async {
     try {
-      int eventIds = Random.secure().nextInt(5);
+      int eventIds = math.Random.secure().nextInt(5);
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -718,7 +805,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -736,7 +823,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -754,11 +841,45 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
     }
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    String passValidUntilDate = '';
+    try {
+      passValidUntilDate = await createpassmgmtServices.getPassValidUntil(
+          passCategory: passCategory);
+      log('-111--getPassValidUntil---$passValidUntilDate---');
+
+      List<Organisation> updatedCompanyTypes = await companyTypes(
+          name: 'ATOM_SEZ_COMPANY_TYPES', filter: passCategory);
+
+      if (passCategory == ConstantsIntValue.passCategoryPermanent) {
+        state.selectedCompanyType = state.companyTypes?.first;
+      } else {
+        state.selectedCompanyType = null;
+      }
+
+      emit(
+        state.copyWith(
+          passValidUntilDate: passValidUntilDate,
+          companyTypes: updatedCompanyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+    return passValidUntilDate;
   }
 
   getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
@@ -772,7 +893,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -791,20 +912,29 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           createpassFoundresponse: response,
-          stateType: CreatePassMgmtStateType.success,
+          stateType: CreatePassMgmtStateType.successFormSubmit,
+          message: response.message ?? '',
         ),
       );
-
-      if (response.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(context, response.message ?? '', title, '');
-        });
-      }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
@@ -830,10 +960,44 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
     }
+  }
+
+  Future<void> updateStatus({required String id}) async {
+    String module = '';
+    PassMngArguments? passMngArguments;
+    if (passMngArguments?.passType == '0') {
+      module = Constants.passManagementModule;
+    } else if (passMngArguments?.passType == '1') {
+      module = Constants.visitorManagementModule;
+    } else if (passMngArguments?.passType == '2') {
+      module = Constants.vendorPassManagementModule;
+    } else if (passMngArguments?.passType == '3') {
+      module = Constants.passManagementSEZModule;
+    }
+    await commonServices.updateRecordStatus(id: id, module: module);
+  }
+
+  Future<void> updateDropdownValues({
+    Organisation? updateStatus,
+  }) async {
+    emit(
+      state.copyWith(
+        stateType: CreatePassMgmtStateType.loading,
+      ),
+    );
+
+    if(updateStatus!= null) {
+      state.model.updatedStatus = updateStatus.id;
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      stateType: CreatePassMgmtStateType.initial,
+    ));
   }
 }

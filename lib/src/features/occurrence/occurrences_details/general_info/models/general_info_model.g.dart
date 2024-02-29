@@ -20,8 +20,6 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
-      powerFailureStartDate: json['powerFailureStartDate'] as String?,
-      powerFailureEndDate: json['powerFailureEndDate'] as String?,
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
@@ -51,7 +49,7 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       transportIncdntComments: json['transportIncdntComments'] as String?,
       anyEvent: json['anyEvent'] as bool? ?? false,
       notifyScri: json['notifyScri'] as String?,
-      powerFailure: json['powerFailure'] as bool? ?? false,
+      powerFailure: json['powerFailure'] as bool? ?? true,
       atmVendorVisit: json['atmVendorVisit'] as bool? ?? false,
       cwmVisit: json['cwmVisit'] as bool? ?? false,
       comments: json['comments'] as String?,
@@ -63,6 +61,9 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       secSysFailureIncident: json['secSysFailureIncident'] as List<dynamic>?,
       followedUp: json['followedUp'] as bool? ?? false,
       status: json['status'] as int?,
+      powerFailures: (json['powerFailures'] as List<dynamic>?)
+          ?.map((e) => PowerFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
@@ -105,8 +106,7 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'comments': instance.comments,
       'dgWrking': instance.dgWrking,
       'modifiedBy': instance.modifiedBy,
-      'powerFailureStartDate': instance.powerFailureStartDate,
-      'powerFailureEndDate': instance.powerFailureEndDate,
+      'powerFailures': instance.powerFailures,
       'incidentItems': instance.incidentItems,
       'secSysFailureIncident': instance.secSysFailureIncident,
       'followedUp': instance.followedUp,

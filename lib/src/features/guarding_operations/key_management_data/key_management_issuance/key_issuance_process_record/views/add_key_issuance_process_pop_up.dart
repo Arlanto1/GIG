@@ -141,7 +141,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
                             isDisableColor: false,
@@ -261,7 +261,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: noOfKeysIssuedController,
+                        controller: noOfKeysIssuedController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -280,7 +280,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: alreadyIssuedKeysController,
+                        controller: alreadyIssuedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -299,7 +299,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.aprrover1DepartmentKey,
-                        textFieldController: availableKeysController,
+                        controller: availableKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -318,7 +318,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
                         textInputType: TextInputType.number,
-                        textFieldController: numberOfKeysController,
+                        controller: numberOfKeysController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: widget.parentStatus == 0,
@@ -354,7 +354,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
-                        textFieldController: returnedKeysController,
+                        controller: returnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -375,7 +375,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.addressKey,
-                        textFieldController: notReturnedKeysController,
+                        controller: notReturnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -397,7 +397,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: lostKeysController,
+                        controller: lostKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -419,7 +419,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: damagedKeysController,
+                        controller: damagedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,

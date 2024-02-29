@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,7 +20,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
   }) : super(
           DayPassListState(
             foundListModel: DayPassListResponse(),
-            stateType: DayPassListStateType.initial,
+            stateType: FormStatus.initial,
           ),
         );
 
@@ -30,20 +32,18 @@ class DayPassListCubit extends Cubit<DayPassListState> {
     String passType,
     BuildContext context,
   ) async {
-    // if (startPosition == '0') {
-    //   emit(state.copyWith(stateType: DayPassListStateType.loading));
-    // }
+
+    if (startPosition == '0') {
+      emit(state.copyWith(stateType: FormStatus.loading));
+    }
     try {
       DayPassListResponse foundListModelResponse =
-          await passListServices.getList(
+          await passListServices.getListWithFilters(
         startPosition: startPosition,
         maximumRecords: maximumRecords,
-        userId: userId,
         passType: passType,
-      );
-      log('value-----------------foundListModelResponse---${foundListModelResponse.totalCount}----');
-      log('value-----------------foundListModelResponse-length--${foundListModelResponse.items?.length}----');
-
+            filters: BaseFilterModel(),
+          );
       //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   if (startPosition != '0')
       //   {
@@ -53,7 +53,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       emit(
         state.copyWith(
           foundListModel: foundListModelResponse,
-          stateType: DayPassListStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
@@ -66,7 +66,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
         emit(
           state.copyWith(
             errorMessage: Constants.errorText,
-            stateType: DayPassListStateType.failure,
+            stateType: FormStatus.failure,
           ),
         );
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -78,15 +78,15 @@ class DayPassListCubit extends Cubit<DayPassListState> {
   }
 
   //pass Found Article detials by Id API call
-  Future<DayPassListElement?> getpassArticleById(
+  Future<PassManagementModel?> getpassArticleById(
       int articleId, BuildContext context) async {
     try {
-      DayPassListElement foundArticleDetailsResponse =
+      PassManagementModel foundArticleDetailsResponse =
           await passListServices.getById(articleId, context);
       emit(
         state.copyWith(
           foundArticleDetails: foundArticleDetailsResponse,
-          stateType: DayPassListStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       return foundArticleDetailsResponse;
@@ -94,7 +94,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: DayPassListStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {

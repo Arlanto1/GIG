@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'shift_schedule_list_event.dart';
-
 part 'shift_schedule_list_state.dart';
 
 class ShiftScheduleListBloc

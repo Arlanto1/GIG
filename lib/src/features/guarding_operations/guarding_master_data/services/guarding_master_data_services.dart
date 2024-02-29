@@ -1,12 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
-
-import '../../../../models/responseModels/generic_response.dart';
-import '../../../../utils/shared_preferences.dart';
-import '../models/guarding_master_data_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -16,24 +11,25 @@ class Apis {
   static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
 
   static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+  static final String _getGmPhysicallyFit = '$baseUrl/getGmPhysicallyFit?';
 }
 
 class GuardingMasterDataServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
 
   Future<GuardingMasterDataResponse> getGuardingMasterData({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
+    required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
-    final response = await BaseApiService().getRequest(
+        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return GuardingMasterDataResponse.fromJson(response);
@@ -63,4 +59,14 @@ class GuardingMasterDataServices {
     return GenericResponse.fromJson(response);
   }
 
+  Future<PhysicallyFitModel> getGmPhysicallyFit({
+    required PhysicallyFitRequestModel body,
+  }) async {
+    final String url = Apis._getGmPhysicallyFit;
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return PhysicallyFitModel.fromJson(response);
+  }
 }

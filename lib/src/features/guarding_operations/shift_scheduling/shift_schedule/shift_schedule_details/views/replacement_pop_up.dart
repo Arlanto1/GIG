@@ -80,7 +80,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      TextfieldAddButton(
+                      TextFieldAddButton(
                         title: replacementForController.text,
                         height: 60,
                         isDisableColor: false,
@@ -118,7 +118,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      TextfieldAddButton(
+                      TextFieldAddButton(
                         title: replacementByController.text,
                         height: 60,
                         isDisableColor: false,

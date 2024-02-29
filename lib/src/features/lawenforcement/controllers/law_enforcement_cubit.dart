@@ -1,32 +1,14 @@
 import 'dart:math';
 
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../models/base_user.dart';
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
@@ -163,8 +145,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get locations api call
   Future<void> getLocations(String name, BuildContext context) async {
     try {
-      Locations getLocationsData =
-          await services.getLocations(name, context);
+      Locations getLocationsData = await services.getLocations(name, context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -297,13 +278,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         stateType: FormStatus.addAttachment));
   }
 
-  Future<void> addingVisits(
-      {required int visitCount,
-      List<VisitingOfficialsModel>? getVisits}) async {
+  Future<void> addingVisits({
+    required int visitCount,
+    List<VisitingOfficialsModel>? getVisits,
+  }) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
-        getVisits: getVisits,
+        visitingOfficials: getVisits,
         getVisitsCount: visitCount,
         stateType: FormStatus.success,
       ),
@@ -331,7 +313,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   initalization() {
-    lawEnforcementCubit.state.getVisits = [];
+    lawEnforcementCubit.state.visitingOfficials = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
     state.loadAttachments = [];
@@ -625,6 +607,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
+  Future<void> updateStatus({required String id}) async {
+    await CommonServices()
+        .updateRecordStatus(id: id, module: Constants.leoModuleCode);
+  }
 // void onModelValueChange(LawEnforcementDetails model) {
 //   log('-onModelValueChange---');
 //   emit(state.copyWith(model: model, status: FormStatus.initial));

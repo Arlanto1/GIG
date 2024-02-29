@@ -16,6 +16,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final BudgetCostModel? budgetCost;
 
   //final EpUiLabels? labels;
 
@@ -66,14 +67,10 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    // if (model.handOverSecurity == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Shift Taken Over By.');
-    // }
-    // if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Medical Emergency Comments');
-    // }
+    if (model.createdBy == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Created By.');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -120,6 +117,38 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Enter Requester Department');
     }
+    if (model.extraSecurityDeployed == true && model.vendorId == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Guarding Vendor ID');
+    }
+    if (model.extraSecurityDeployed == true && model.guardingVendorPoc == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Guarding Agency POC');
+    }
+    if (model.extraSecurityDeployed == true && model.securityOfficerCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Officers');
+    }
+    if (model.extraSecurityDeployed == true && model.securityOfficerCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Officers');
+    }
+    if (model.extraSecurityDeployed == true && model.securitySupervisorCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Supervisor');
+    }
+    if (model.extraSecurityDeployed == true && model.securitySupervisorCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Supervisor');
+    }
+    if (model.extraSecurityDeployed == true && model.securityGuardCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter No. Of Security Facilitators');
+    }
+    if (model.extraSecurityDeployed == true && model.securityGuardCountHrs == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Total Duty Hours for Security Facilitators');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -143,6 +172,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.budgetCost,
     //this.labels,
   });
 
@@ -162,6 +192,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    BudgetCostModel? budgetCost,
     // final EpUiLabels? labels,
   }) {
     return AnnualPowerShutdownListDetailsState(
@@ -180,6 +211,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      budgetCost: budgetCost ?? this.budgetCost,
       //labels: labels ?? this.labels,
     );
   }

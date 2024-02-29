@@ -56,8 +56,10 @@ class Validator {
 
   void showToast(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
+    int seconds = message.length > 35 ? 8 : 5;
     scaffold.showSnackBar(
       SnackBar(
+        duration: Duration(seconds: seconds),
         backgroundColor: Colors.red,
         content: Text(message),
         action: SnackBarAction(

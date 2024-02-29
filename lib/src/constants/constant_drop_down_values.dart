@@ -14,6 +14,7 @@ const List<Label> statusDropDownValues = [
 const List<Label> occurrenceStatusDropDownValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Submitted', value: '1'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> sstIncidentType = [
@@ -263,6 +264,11 @@ const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
 ];
+const List<Label> dutyPostMasterStatusValues = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'InActive', value: '2')
+];
 
 const List<Label> slaStatusDropDownValues = [
   Label(key: 'Draft ', value: '0 '),
@@ -271,7 +277,6 @@ const List<Label> slaStatusDropDownValues = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 const List<Label> attendanceTypeDropDownValues = [
-  Label(key: 'Regular', value: '0'),
   Label(key: 'Regular', value: '1'),
   Label(key: 'AD HOC', value: '2'),
 ];

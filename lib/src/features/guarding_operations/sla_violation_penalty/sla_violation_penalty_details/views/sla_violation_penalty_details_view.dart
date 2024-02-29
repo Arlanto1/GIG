@@ -21,8 +21,9 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
+
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
+import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
@@ -124,6 +125,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 state.model.status != 2 && !isReadOnly ? true : false,
             showSubmitButton:
                 state.model.status != 2 && !isReadOnly ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
@@ -204,10 +207,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Created By
                             CommonWidgets.verticalTextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                '${state.model?.entrySecurity?.firstName ?? ''} ${state.model?.entrySecurity?.lastName ?? ''}'),
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'    ,
+                              isMandatory: true,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -380,7 +385,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     Constants.aSL,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.approver?.name,
                               height: 60,
                               isDisableColor: isReadOnly,
@@ -534,7 +539,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             submitButtonDisplay()
                           ],
                         ),
@@ -558,7 +563,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -584,7 +589,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -593,9 +598,22 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+          updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(SLAViolationPenaltyDetailsState state) {
+    if (state.model.id != null && widget.model?.status != null) {
+      BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(
+        context,
+        slaViolationPenaltyListRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {
@@ -682,19 +700,38 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   List<Widget> getPOC(SLAViolationPenaltyDetailsState state, double height) {
     List<Widget> widgets = [];
     log('-state.poc.length---${state.pocs?.length}---');
-    for (String poc in state.pocs ?? []) {
+    for (int index = 0; index < (state.pocs?.length ?? 0); index++) {
+      String poc = state.pocs![index]; // Access the POC at the current index
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
-      widgets.add(Row(
-        children: [
-          Text(
-            poc,
-            textAlign: TextAlign.start,
-          ),
-        ],
-      ));
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
+    // for (String poc in state.pocs ?? []) {
+    //   TextEditingController pocController = TextEditingController();
+    //   pocController.text = poc;
+      widgets.add(
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                poc,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close), // Cancel icon
+              onPressed: () {
+                // Remove the POC from the state
+                state.pocs?.removeAt(index);
+                // Trigger UI update
+                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                    .onCheckBoxChange(state.model);
+              },
+            ),
+          ],
+        ),
+      );
+
+      widgets.add(const SizedBox(height: 1));
+      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.001));
     }
     if (widgets.isNotEmpty) {
       return [

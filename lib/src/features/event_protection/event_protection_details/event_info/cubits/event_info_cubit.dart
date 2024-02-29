@@ -79,7 +79,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
             status: FormStatus.initial,
             model: model,
             additionalEmails: emails,
-            foundArticles: foundArticles.list),
+            foundArticles: foundArticles.items),
       );
     } catch (e) {
       log('initialization issue', error: e, name: (EventInfoCubit).toString());

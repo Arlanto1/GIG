@@ -97,11 +97,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
+            showSaveButton: state.model.status != 4 && state.model.status != -1
                 ? true
                 : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
@@ -110,11 +110,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
+            showSubmitButton:
+                state.model.status != 4 && state.model.status != -1
+                    ? true
+                    : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
@@ -193,7 +192,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -290,27 +289,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entities ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: !isReadOnly,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<
-                                              KeyManagementIssuanceDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: !isReadOnly,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
-                                BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
-                                    context)
+                                BlocProvider.of<
+                                            KeyManagementIssuanceDetailsCubit>(
+                                        context)
                                     .refreshList();
-                              },),
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Department
@@ -322,7 +322,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.department?.name,
                               height: 70,
                               isDisableColor: state.model.status == null ||
@@ -332,29 +332,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               onTap: () {
                                 // if (widget.materialMovement != null) {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    state.model.department?.name =
-                                        department.name;
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.department?.name =
+                                          department.name;
 
-                                    BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            department: department);
-                                  },
+                                      BlocProvider.of<
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              department: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          KeyManagementIssuanceDetailsCubit>(
-                                          context)
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                                 // leodepartmentsDialog(state);
                                 // }
                               },
@@ -512,7 +511,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 Constants.handedOverTo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.handedOverTo?.name,
                               height: 60,
                               isDisableColor: isReadOnly,
@@ -532,8 +531,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
-                                        KeyManagementIssuanceDetailsCubit>(
-                                        context)
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -548,7 +547,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Constants.dbSponsorOfCWRT2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.dbSponsorCwrT2?.name,
                                 height: 60,
                                 isDisableColor: isReadOnly,
@@ -568,8 +567,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          KeyManagementIssuanceDetailsCubit>(
-                                          context)
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
@@ -643,26 +642,38 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         ),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
-                          ? false
-                          : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(),
-                            submitButtonDisplay()
-                          ],
-                        ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
+
+            /// SubmitButton
+            if ((state.model.status == 4 || state.model.status == -1)
+                ? false
+                : true) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      cancelButtonDisplay(state),
+                      submitButtonDisplay()
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            if (state.model.status == 4 || state.model.status == -1) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -675,7 +686,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(),
+                    cancelButtonDisplay(state),
                   ],
                 ),
               ),
@@ -705,7 +716,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -714,9 +725,23 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(KeyManagementIssuanceDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(
+        context,
+        keyManagementIssuanceListRoute,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

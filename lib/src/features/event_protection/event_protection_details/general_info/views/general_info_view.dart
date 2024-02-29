@@ -1,38 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/constants/constant_drop_down_values.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
-import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../constants/app_icon.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../utils/util.dart';
-import '../cubits/general_info_cubit.dart';
 import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
@@ -119,6 +89,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GeneralInfoCubit>(context)
@@ -211,33 +183,33 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0,
+                              isDisabled: false,
                                 textController: statusController,
                                 items: eventProtectionGiStatus,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                  if (state.model.id != null) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: eventProtectionGiStatus
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            eventProtectionGiStatus.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
-                                      },
-                                    );
-                                  }
+                                if(disableForm) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: eventProtectionGiStatus
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          eventProtectionGiStatus.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<GeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          status: int.tryParse(
+                                              selectedLabel.value));
+                                    },
+                                  );
+                                }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -269,7 +241,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby, isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -324,20 +296,27 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entities ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: !disableForm,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<GeneralInfoCubit>(context)
-                                      .updateDropdownValues(
-                                          entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                }),
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: !disableForm,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<GeneralInfoCubit>(
+                                    context)
+                                    .updateDropdownValues(
+                                    entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<GeneralInfoCubit>(
+                                    context)
+                                    .refreshList();
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Event Start Date
@@ -352,7 +331,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              onlyDate: false,
+                              onlyDate: true,
                               showPastDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
@@ -360,7 +339,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Utils().formatTime(value);
                                 log('---value11-${state.model.eventStartDate}------');
                                 BlocProvider.of<GeneralInfoCubit>(context)
-                                    .onModelValueChange(state.model);
+                                    .onCheckBoxChange(state.model);
                               },
                               context: context,
                             ),
@@ -377,7 +356,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
-                              //onlyDate: false,
+                              onlyDate: false,
+                              showPastDate: false,
+                              startDate: state.model.eventStartDate,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
@@ -397,7 +378,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.subRegionalHead1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.srh1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -423,7 +404,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.subRegionalHead2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.srh2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -450,7 +431,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.eventProtectionManager1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.epManager1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -477,7 +458,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.eventProtectionManager2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.epManager2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -504,7 +485,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.locationSecurityManager1,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.lsm1?.name,
                               height: 60,
                               isDisableColor: disableForm,
@@ -537,6 +518,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               isEnable: !disableForm,
+                              characterLimit: 10,
                               isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.lsm1ContactNo = value;
@@ -546,7 +528,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             /// Location Security  Manager 2
                             CommonWidgets.textDisplay(
@@ -555,7 +537,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.locationSecurityManager2,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.lsm2?.name,
                               height: 60,
                               isDisableColor: disableForm,
@@ -572,7 +554,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///LSM 2 Contact No
                             CommonWidgets.textDisplay(
@@ -588,7 +570,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
                               hintText: '',
-                              isEnable: !disableForm,
+                              characterLimit: 10,
                               isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.lsm2ContactNo = value;
@@ -598,7 +580,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Business POC 1
                             CommonWidgets.textDisplay(
@@ -607,7 +588,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.businessPoc,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.bu1?.name,
                               height: 60,
                               isDisableColor: disableForm,
@@ -639,6 +620,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu1ContactNo,
                               textFormKey: Keys.bu1ContactNOKey,
                               hintText: '',
+                              characterLimit: 10,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -649,7 +631,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             ///Business POC 2
 
@@ -659,7 +641,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.businessPocEscalation,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.bu2?.name,
                               height: 60,
                               isDisableColor: disableForm,
@@ -676,7 +658,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Business POC 2 Contact No
                             CommonWidgets.textDisplay(
@@ -691,6 +673,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu2ContactNo,
                               textFormKey: Keys.bu2ContactNOKey,
                               hintText: '',
+                              characterLimit: 10,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -701,7 +684,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             if (state.model.annualPowerShutdown) ...[
                               ///Business POC 1Department
@@ -711,7 +694,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.businessPocDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.bu1Dept?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -735,7 +718,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       Constants.businessPocEscalationDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
-                              TextfieldAddButton(
+                              TextFieldAddButton(
                                 title: state.model.bu2Dept?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
@@ -768,6 +751,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor1,
                                 textFormKey: Keys.systemVendor1EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -847,6 +831,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor2,
                                 textFormKey: Keys.systemVendor2EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -858,7 +843,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -875,6 +860,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
+                                characterLimit: 10,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -925,6 +911,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textInputType: TextInputType.text,
                                 initialValue: state.model.systemVendor3,
                                 textFormKey: Keys.systemVendor2EmailKey,
+                                textCapitalization: false,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -952,6 +939,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
+                                characterLimit: 10,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -963,7 +951,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                               // ///Primary Service Engineer Contact
                               // CommonWidgets.horizentaltextHandling(
@@ -998,7 +986,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.requesterDepartment,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.requesterDepartment?.name,
                               height: 60,
                               isDisableColor: disableForm,
@@ -1034,57 +1022,93 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.eventProtectionOfficers,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
-                            if (!disableForm) ...[
-                              GestureDetector(
-                                onTap: () {
-                                  BaseOrganisationDialog().userDialog(
-                                    context: context,
-                                    enabled: !disableForm,
-                                    users: state.emailUsers!,
-                                    onTap: (BaseUser user) {
-                                      state.model.epOfficers ??= [];
-
-                                      if (state.model.epOfficers!
-                                          .contains(user.email!)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Officer already added! Please add other officer.'),
+                            //if (!disableForm) ...[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...state.model.epOfficers?.asMap()?.entries?.map((entry) {
+                                    final index = entry.key;
+                                    final officer = entry.value;
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(width: 10),
+                                            BasicWidgetFunctions().getStringText(
+                                              strings: [officer],
+                                            ),
+                                          ],
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // Remove the officer from the list
+                                            state.model.epOfficers?.removeAt(index);
+                                            // Trigger UI update
+                                            BlocProvider.of<GeneralInfoCubit>(context)
+                                                .onCheckBoxChange(state.model);
+                                          },
+                                          child: Row(
+                                            children: <Widget>[
+                                              const SizedBox(width: 10),
+                                              SvgPicture.asset(
+                                                AppIcon.close, // Add your close icon asset here
+                                                color: Colors.black, // Set color as per your design
+                                              ),
+                                              const SizedBox(width: 14),
+                                            ],
                                           ),
-                                        );
-                                        return;
-                                      }
+                                        ),
+                                      ],
+                                    );
+                                  })?.toList() ?? [],
+                                  GestureDetector(
+                                    onTap: () {
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        enabled: !disableForm,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          state.model.epOfficers ??= [];
 
-                                      state.model.epOfficers
-                                          ?.add(user.email ?? '');
-                                      log('--eventProtectionGi--22-${state.model.epOfficers}-');
+                                          if (state.model.epOfficers!.contains(user.email!)) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Officer already added! Please add another officer.'),
+                                              ),
+                                            );
+                                            return;
+                                          }
 
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
+                                          state.model.epOfficers?.add(user.email ?? '');
+                                          log('--eventProtectionGi--22-${state.model.epOfficers}-');
+                                          BlocProvider.of<GeneralInfoCubit>(context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    const SizedBox(width: 14),
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                    child: Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add Officer',
+                                          style: TextStyle(
+                                            color: AppColors.navigationSkybluecolor,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      'Add Officer',
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                            BasicWidgetFunctions().getStringText(
-                                strings: state.model.epOfficers ?? []),
+                            //],
+
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1644,7 +1668,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              textFieldController: addEPOfficerController,
+                              controller: addEPOfficerController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: true,

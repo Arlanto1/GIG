@@ -1,12 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-
-import '../models/general_info_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -14,6 +9,7 @@ class Apis {
   static final String _get = '$baseUrl/getOCCLists?';
   static final String _getOccurrence = '$baseUrl/getOCCById';
   static final String _createOccurrence = '$baseUrl/createOccurrence?';
+  static final String _getOccPowerFailure = '$baseUrl/getOccPowerFailure/';
 }
 
 class OccurrenceDetailsServices {
@@ -55,5 +51,13 @@ class OccurrenceDetailsServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<PowerFailureModel> getOccPowerFailure({required String locationId}) async {
+    final String url = "${Apis._getOccPowerFailure}$locationId";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return PowerFailureModel.fromJson(response);
   }
 }

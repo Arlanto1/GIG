@@ -11,7 +11,6 @@ class DutyPostListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('---dutyPosts----${dutyPosts.length}----');
     return ListView.builder(
       itemCount: dutyPosts.length,
       physics: const NeverScrollableScrollPhysics(),

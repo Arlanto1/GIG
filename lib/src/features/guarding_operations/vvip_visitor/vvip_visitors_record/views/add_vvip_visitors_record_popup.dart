@@ -1,6 +1,7 @@
 import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
+import '../../models/vvip_visitor_response_model.dart';
 
 class AddVVIPVisitorsPopUp extends StatefulWidget {
   const AddVVIPVisitorsPopUp({
@@ -9,12 +10,14 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
+    this.vvipModel,
   });
 
   final String title;
   final Function onSubmit;
   final VIVPVisitorRecordModel model;
   final BuildContext mainContext;
+  final VIVPVisitorModel? vvipModel;
 
   @override
   State<AddVVIPVisitorsPopUp> createState() => AddVVIPVisitorsPopUpState();
@@ -85,13 +88,12 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.name,
-                        textFieldController: nameController,
+                        controller: nameController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? true:false,
+                        isDisableColor: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? false:true,
                         onChange: (String value) {
                           widget.model.name = value;
                           nameController.text = value;
@@ -109,13 +111,13 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.email,
-                        textFieldController: emailIdController,
+                        controller: emailIdController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsEmailIdKey,
+                        textCapitalization: false,
                         hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? true:false,
+                        isDisableColor: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? false:true,
                         onChange: (String value) {
                           widget.model.email = value;
                           emailIdController.text = value;
@@ -131,13 +133,12 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.designation,
-                        textFieldController: designationController,
+                        controller: designationController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
                         hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? true:false,
+                        isDisableColor: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? false:true,
                         onChange: (String value) {
                           widget.model.designation = value;
                           designationController.text = value;
@@ -153,13 +154,12 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.purpose,
-                        textFieldController: purposeOfVisitController,
+                        controller: purposeOfVisitController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.purposeOfVisitKey,
                         hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? true:false,
+                        isDisableColor: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? false:true,
                         onChange: (String value) {
                           widget.model.purpose = value;
                           purposeOfVisitController.text = value;
@@ -175,13 +175,12 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
-                        initialValue: widget.model.baseLocation,
-                        textFieldController: baseLocationOfVisitorsController,
+                        controller: baseLocationOfVisitorsController,
                         textInputType: TextInputType.text,
                         textFormKey: Keys.baseLocationOfVisitorKey,
                         hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? true:false,
+                        isDisableColor: widget.vvipModel?.status==0||widget.vvipModel?.status ==null? false:true,
                         onChange: (String value) {
                           widget.model.baseLocation = value;
                           baseLocationOfVisitorsController.text = value;
@@ -200,7 +199,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: startDateVisitController,
-                        isDisabled: false,
+                        isDisabled:  widget.vvipModel?.status==0 ||widget.vvipModel?.status ==null ? false:true,
                         showPastDate: false,
                         onChange: (String value) {
                           // widget.model.startDateVisit = value;
@@ -221,8 +220,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: endDateVisitController,
-                        isDisabled: false,
+                        isDisabled:  widget.vvipModel?.status==0 ||widget.vvipModel?.status ==null ? false:true,
                         showPastDate: false,
+                        showFutureDate: true,
                         onChange: (String value) {
                           widget.model.endDateVisit = Utils().formatTime(value);
                         },
@@ -249,7 +249,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
+        if(widget.vvipModel?.status ==0||widget.vvipModel?.status ==null )...[
         saveButton(width, widget.onSubmit)
+    ]
       ],
     );
   }
@@ -298,18 +300,45 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    // if (widget.model.violation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Violation.');
-    // }
-    // if (widget.model.staffCategory == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Staff Category.');
-    // }
-    // if (widget.model.totalViolations == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Total No of Violations');
-    // }
+    if (widget.model.email != null &&
+        !Validator.isValidEmail(widget.model.email)) {
+      return const ErrorResponse(
+          status: false, message: 'Invalid Email Address');
+    }
+
+    if (widget.model.name == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Name.');
+    }
+    if (widget.model.email == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Email ID.');
+    }
+
+    if (widget.model.designation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Visitor Designation.');
+    }
+
+    if (widget.model.purpose == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Purpose of Visit.');
+    }
+
+    if (widget.model.baseLocation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Base Location of Visitors.');
+    }
+    if (widget.model.startDateVisit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Start Date of Visit.');
+    }
+
+    if (widget.model.endDateVisit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter End Date of Visit.');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

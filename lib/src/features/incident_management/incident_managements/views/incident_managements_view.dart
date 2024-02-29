@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../bloc/incident_management_bloc.dart';
 
@@ -22,6 +23,9 @@ class IncidentManagementsView extends StatefulWidget {
 class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -65,6 +69,21 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     }
   }
 
+  void _onRefresh() async {
+    context.read<IncidentManagementsBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
@@ -93,6 +112,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
               excelAPIName: 'exportIMExcel',
               pdfAPIName: 'exportIMPdf',
             ),
@@ -116,95 +137,115 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount:
-            state.hasReachedMax ? state.items.length : state.items.length + 1,
-        itemBuilder: (context, index) {
-          List<Label> labels = [];
-
-          if (index < state.items.length) {
-            labels.add(Label(
-                key: 'Date of Creation',
-                value: state.items[index].inputDate != null
-                    ? Utils.timestamptoDateConversion(
-                        int.parse(state.items[index].inputDate ?? '0'),
-                        Constants.dateFormat)
-                    : ''));
-            labels.add(
-              Label(
-                key: 'Region',
-                value: state.items[index].locationRegion?.name ?? '',
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+            child: SmartRefresher(
+              controller: refreshController,
+              enablePullDown: true,
+              physics: const BouncingScrollPhysics(),
+              header: const WaterDropHeader(
+                waterDropColor: AppColors.navigationSkybluecolor,
               ),
-            );
-            labels.add(
-              Label(
-                key: 'Location',
-                value: state.items[index].location?.name ?? '',
-              ),
-            );
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: state.hasReachedMax
+                    ? state.items.length
+                    : state.items.length + 1,
+                itemBuilder: (context, index) {
+                  List<Label> labels = [];
 
-            return index >= state.items.length
-                ? const BaseLoader()
-                : BaseListTileItem(
-                    id: state.items[index].id,
-                    labels: labels,
-                    status: state.items[index].status,
-                    incidentType: state.items[index].incidentType,
-                    isMasterGuard: false,
-                    isEventProtectionStatus: false,
-                    isIncident: true,
-                    onTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items[selectedIndex].id.toString(),
+                  if (index < state.items.length) {
+                    labels.add(Label(
+                        key: 'Date of Creation',
+                        value: state.items[index].inputDate != null
+                            ? Utils.timestamptoDateConversion(
+                                int.parse(state.items[index].inputDate ?? '0'),
+                                Constants.dateFormat)
+                            : ''));
+                    labels.add(
+                      Label(
+                        key: 'Region',
+                        value: state.items[index].locationRegion?.name ?? '',
+                      ),
+                    );
+                    labels.add(
+                      Label(
+                        key: 'Location',
+                        value: state.items[index].location?.name ?? '',
+                      ),
+                    );
+
+                    return index >= state.items.length
+                        ? const BaseLoader()
+                        : BaseListTileItem(
+                            id: state.items[index].id,
                             labels: labels,
-                            slNo: state.items[selectedIndex].slNo,
-                            status: state.items[selectedIndex].status,
-                            incidentType:
-                                state.items[selectedIndex].incidentType,
+                            status: state.items[index].status,
+                            incidentType: state.items[index].incidentType,
                             isMasterGuard: false,
                             isEventProtectionStatus: false,
                             isIncident: true,
+                            onTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
+                                    labels: labels,
+                                    slNo: state.items[selectedIndex].slNo,
+                                    status: state.items[selectedIndex].status,
+                                    incidentType:
+                                        state.items[selectedIndex].incidentType,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    isIncident: true,
+                                  );
+                                },
+                              );
+                            },
+                            onEditTap: (selectedIndex) {
+                              getById(
+                                id: state.items[index].id ?? 0,
+                                occType: state.items[index].occType ?? 0,
+                              );
+                            },
+                            onViewTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
+                                    labels: labels,
+                                    slNo: state.items[selectedIndex].slNo,
+                                    status: state.items[selectedIndex].status,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    isIncident: true,
+                                    incidentType:
+                                        state.items[selectedIndex].incidentType,
+                                  );
+                                },
+                              );
+                            },
+                            index: index,
                           );
-                        },
-                      );
-                    },
-                    onEditTap: (selectedIndex) {
-                      getById(
-                        id: state.items[index].id ?? 0,
-                        occType: state.items[index].occType ?? 0,
-                      );
-                    },
-                    onViewTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items[selectedIndex].id.toString(),
-                            labels: labels,
-                            slNo: state.items[selectedIndex].slNo,
-                            status: state.items[selectedIndex].status,
-                            isMasterGuard: false,
-                            isEventProtectionStatus: false,
-                            isIncident: true,
-                            incidentType:
-                                state.items[selectedIndex].incidentType,
-                          );
-                        },
-                      );
-                    },
-                    index: index,
+                  }
+
+                  // Handle the case where index is out of bounds
+                  return const Center(
+                    child: SizedBox(),
                   );
-          }
-
-          // Handle the case where index is out of bounds
-          return const Center(
-            child: SizedBox(),
-          );
-        },
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

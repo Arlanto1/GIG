@@ -11,11 +11,21 @@ abstract class LawEnforcementListEvent extends Equatable {
 class LawEnforcementFetch extends LawEnforcementListEvent {
   final int startPos;
   final int maxPos;
-  final BuildContext cont;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const LawEnforcementFetch({required this.startPos, required this.maxPos,required this.cont});
+  const LawEnforcementFetch(
+      {required this.startPos, required this.maxPos,required this.newSearch, required this.filters});
 }
 
 class LawEnforcementRefresh extends LawEnforcementListEvent {
   const LawEnforcementRefresh();
+}
+
+class InitializeValuesLEO extends LawEnforcementListEvent {
+  const InitializeValuesLEO();
+}
+
+class RefreshList extends LawEnforcementListEvent {
+  const RefreshList();
 }

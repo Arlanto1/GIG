@@ -43,7 +43,7 @@ class LawEnforcementState extends Equatable {
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
   List<ImageContent>? loadAttachments = [];
-  List<VisitingOfficialsModel>? getVisits = [];
+  List<VisitingOfficialsModel>? visitingOfficials = [];
   int getVisitsCount = 0;
   User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
@@ -78,7 +78,7 @@ class LawEnforcementState extends Equatable {
     this.employeeDepartment,
     this.selectedemployeeDepartmentResponse,
     this.loadAttachments,
-    this.getVisits,
+    this.visitingOfficials,
     this.getVisitsCount = 0,
     this.getUserDetailsResponse,
     this.lawcreateFoundresponse,
@@ -115,7 +115,7 @@ class LawEnforcementState extends Equatable {
     Organisation? selectedemployeeDepartmentResponse,
     List<ImageContent>? loadAttachments,
     int? getVisitsCount,
-    List<VisitingOfficialsModel>? getVisits,
+    List<VisitingOfficialsModel>? visitingOfficials,
     User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     List<Organisation>? loadGroups,
@@ -158,7 +158,7 @@ class LawEnforcementState extends Equatable {
       selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ??
           this.selectedemployeeDepartmentResponse,
       loadAttachments: loadAttachments ?? this.loadAttachments,
-      getVisits: getVisits ?? this.getVisits,
+      visitingOfficials: visitingOfficials ?? this.visitingOfficials,
       getVisitsCount: getVisitsCount ?? this.getVisitsCount,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
@@ -200,7 +200,7 @@ class LawEnforcementState extends Equatable {
         employeeDepartment,
         selectedemployeeDepartmentResponse,
         loadAttachments,
-        getVisits,
+        visitingOfficials,
         getVisitsCount,
         getUserDetailsResponse,
         lawcreateFoundresponse,

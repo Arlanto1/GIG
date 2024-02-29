@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../lawenforcement/models/addentities.dart';
 import '../../models/requestModels/sla_violation_penalty_request.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
@@ -49,22 +47,15 @@ class SLAViolationPenaltyDetailsCubit
   }
 
   void onAddPOC(String poc) {
-    log('-poc---$poc-');
-
     emit(state.copyWith(
       model: model,
       status: FormStatus.loading,
     ));
-    log('-state.poc---before---${state.pocs}----');
-
     List<String>? pocs = state.pocs ?? [];
-    log('-pocs--$pocs----');
     pocs.add(poc);
-    log('-pocs-22-$pocs----');
     state.copyWith(
       pocs: pocs,
     );
-    log('-state.poc---after---${state.pocs}----');
     state.model.poc = Utils().joinListWithComma(pocs);
     emit(state.copyWith(
       model: model,
@@ -109,7 +100,7 @@ class SLAViolationPenaltyDetailsCubit
     var userId = await SharedPrefs.getUserId();
     try {
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -148,7 +139,7 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.entrySecurity  ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -216,14 +207,6 @@ class SLAViolationPenaltyDetailsCubit
     }
     if (typeOfServices != null) {
       state.model.typeOfService = typeOfServices;
-    }
-    if (user != null) {
-      User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
-      );
-      state.model.entrySecurity = userDetails;
     }
 
     if (user != null) {
@@ -338,5 +321,9 @@ class SLAViolationPenaltyDetailsCubit
       );
       return false;
     }
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.slaViolationPenaltyDetailsModule);
   }
 }

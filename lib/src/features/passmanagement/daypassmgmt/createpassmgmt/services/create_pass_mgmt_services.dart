@@ -1,15 +1,6 @@
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-import '../../../../../configurations/base_api_service.dart';
+import 'package:db_atom/index.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -19,6 +10,8 @@ class Apis {
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _createUser = '$baseUrl/createUser?';
+  static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
+  static final String _getPassTypes = '$baseUrl/getPassType?';
 }
 
 class CreatePassMgmtService {
@@ -77,22 +70,36 @@ class CreatePassMgmtService {
     return GetDepositor.fromJson(response);
   }
 
-  Future<Locations> getLocations({
-    required String name,
-  }) async {
-    String url = '${Apis.getOrganisation}$name';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return Locations.fromJson(response);
-  }
-
   Future<DayPassNumberLists> getPassNo(
-      String passtype, String locatonid, BuildContext context) async {
-    String url = '${Apis._getPassNo}$passtype&locationId=$locatonid';
+      int passType, String locationId, BuildContext context) async {
+    String url = '${Apis._getPassNo}$passType&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return DayPassNumberLists.fromJson(response);
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    final String url = '${Apis._getPassValidUntil}category=$passCategory';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['date'];
+  }
+
+  Future<List<Organisation>> getPassTypes({
+    required int passId,
+    required int locationId,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getPassTypes}passType=$passId&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    log('----response----${response.toString()}----');
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 }

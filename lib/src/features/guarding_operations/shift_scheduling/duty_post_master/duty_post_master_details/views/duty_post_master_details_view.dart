@@ -23,6 +23,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   User? userDetails;
   TextEditingController totalController = TextEditingController();
   TextEditingController rankController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
 
   bool isDisabled = true;
   bool isReadOnly = false;
@@ -93,6 +94,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
+              showDisLikeButton: false,
+              showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostMasterDetailsCubit>(context)
@@ -165,7 +168,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -178,6 +181,49 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDate().creationDateDisplay(
                               state.model.createdDate ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Status
+                          CommonWidgets.textDisplay(
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDropDown().getDropDown(
+                            isDisabled: true,
+                            textController: statusController,
+                            items: dutyPostMasterStatusValues,
+                            initialValue: '${state.model.status ?? 1}',
+                            onTap: () {
+                              if (widget.model != null) {
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: dutyPostMasterStatusValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        dutyPostMasterStatusValues
+                                            .firstWhere(
+                                              (label) => label.key == value,
+                                          orElse: () =>
+                                          const Label(key: '', value: ''),
+                                        );
+                                    BlocProvider.of<
+                                        DutyPostMasterDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        status: int.tryParse(
+                                            selectedLabel.value));
+                                  },
+                                );
+                              }
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
@@ -213,7 +259,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.dutyPostLocation?.name,
                             height: 70,
                             isDisableColor: false,
@@ -221,7 +267,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
                                 organisations: state.dutyPosts ?? [],
-                                onTap: (Organisation org) {
+                                onTap: (Organisation? org) {
                                   // state.model.dutyPostLocation?.name =
                                   //     org.name;
 
@@ -427,7 +473,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             //           initialValue: (((state.model.shiftA ?? 0) +
                             //           (state.model.shiftB ?? 0))
                             // .toString()),
-                            textFieldController: totalController,
+                            controller: totalController,
                             hintText: '',
                             isEnable: false,
                             isDisableColor: true,

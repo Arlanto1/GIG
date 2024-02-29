@@ -39,6 +39,8 @@ class _SignatureHomePageState extends State<SignatureHomePage> {
         showPopUp: false,
         showSaveButton: false,
         showSubmitButton: false,
+        showLikeButton: false,
+        showDisLikeButton: false,
       ),
       body: Column(
         children: [

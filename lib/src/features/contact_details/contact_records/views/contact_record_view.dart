@@ -105,6 +105,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),
@@ -152,19 +154,19 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Email',
-                value: state.items![index].email ?? '',
-              ),
-            );
-            labels.add(
-              Label(
                 key: 'Rank',
                 value: state.items![index].rank?.name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Contact No',
+                key: 'Name',
+                value: state.items![index].email ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Phone Number',
                 value: state.items![index].contactNo ?? '',
               ),
             );

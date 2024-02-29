@@ -30,6 +30,8 @@ class GeneralInfoTilesView extends StatelessWidget {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
       ),
       body: SingleChildScrollView(
         child: Align(

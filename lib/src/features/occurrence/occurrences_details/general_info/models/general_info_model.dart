@@ -6,10 +6,10 @@ import 'package:json_annotation/json_annotation.dart';
 part 'general_info_model.g.dart';
 
 class OccurrenceResponse {
-  final List<OccurrenceModel>? items;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<OccurrenceModel>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   OccurrenceResponse({
     this.items,
@@ -75,8 +75,7 @@ class OccurrenceModel {
   bool dgWrking;
   // String? modifiedDate;
   String? modifiedBy;
-  String? powerFailureStartDate;
-  String? powerFailureEndDate;
+  List<PowerFailure>? powerFailures;
   List<IncidentModel>? incidentItems;
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
@@ -89,8 +88,6 @@ class OccurrenceModel {
     this.entrySecurity,
     this.handoverSecurity,
     this.location,
-    this.powerFailureStartDate,
-    this.powerFailureEndDate,
     this.locationRegion,
     this.shiftBrfngAttnded = false,
     this.premisesRoundTkn = false,
@@ -117,7 +114,7 @@ class OccurrenceModel {
     this.transportIncdntComments,
     this.anyEvent = false,
     this.notifyScri,
-    this.powerFailure = false,
+    this.powerFailure = true,
     this.atmVendorVisit = false,
     this.cwmVisit = false,
     this.comments,
@@ -128,6 +125,7 @@ class OccurrenceModel {
     this.secSysFailureIncident,
     this.followedUp = false,
     this.status,
+    this.powerFailures,
   });
 
   factory OccurrenceModel.fromJson(Map<String, dynamic> json) =>
@@ -135,4 +133,27 @@ class OccurrenceModel {
 
   Map<String, dynamic> toJson() => _$OccurrenceModelToJson(this);
 
+}
+
+class PowerFailure {
+  int? id;
+  String? powerFailureStartDate;
+  String? powerFailureEndDate;
+
+  PowerFailure({
+    this.id,
+    this.powerFailureStartDate,
+    this.powerFailureEndDate,
+  });
+
+  PowerFailure.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        powerFailureStartDate = json['powerFailureStartDate'] as String?,
+        powerFailureEndDate = json['powerFailureEndDate'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'powerFailureStartDate' : powerFailureStartDate,
+    'powerFailureEndDate' : powerFailureEndDate
+  };
 }

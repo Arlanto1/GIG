@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
@@ -18,6 +19,10 @@ class MaterialMovementBloc
       _fetchMaterialMovements,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final MaterialMovementServices services = MaterialMovementServices();
@@ -27,8 +32,18 @@ class MaterialMovementBloc
   FutureOr<void> _initializeValues(
       InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
     try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.materialMovementModuleCode);
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
+
       Locations locations =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -37,24 +52,71 @@ class MaterialMovementBloc
       return emit(
         state.copyWith(
           locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
           hasReachedMax: false,
+          status: FormStatus.initial,
         ),
       );
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<MaterialMovementState> emit) async {
+    try {
+      MaterialMovementsModel response;
+
+      response = await services.getMaterialMovementsWithFilters(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        mmType: isInward ? 1 : 0,
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
-    try {
-      if (state.hasReachedMax) return;
+    log('-_fetchMaterialMovements--');
 
-      if (state.status == FormStatus.initial) {
-        MaterialMovementsModel response = await services.getMaterialMovements(
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    try {
+      // if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial || event.newSearch) {
+        log('-_fetchMaterialMovements--initial--');
+        MaterialMovementsModel response;
+        // response = await services.getMaterialMovements(
+        //   startPosition: '${event.startPos}',
+        //   maximumRecords: '${event.maxPos}',
+        //   mmType: isInward ? 1 : 0,
+        // );
+
+        response = await services.getMaterialMovementsWithFilters(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           mmType: isInward ? 1 : 0,
+          filters: event.filters,
         );
+
         return emit(
           state.copyWith(
             items: response.items,
@@ -64,10 +126,13 @@ class MaterialMovementBloc
         );
       }
 
-      MaterialMovementsModel response = await services.getMaterialMovements(
+      log('-_fetchMaterialMovements------##--');
+      MaterialMovementsModel response;
+      response = await services.getMaterialMovementsWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         mmType: isInward ? 1 : 0,
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
@@ -77,6 +142,7 @@ class MaterialMovementBloc
         state.copyWith(
           items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on TokenExpiredException catch (e) {

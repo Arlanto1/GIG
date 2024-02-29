@@ -1,10 +1,8 @@
-// Created by Ramesh
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -15,7 +13,7 @@ class DayPassRegisterListItem extends StatefulWidget {
   final Function? onTap;
   final Function? oneditTap;
   final Function? onviewTap;
-  DaypassInfoListElement userItem;
+  PassInfo userItem;
   int? index;
 
   DayPassRegisterListItem({

@@ -131,6 +131,7 @@ class Utils {
   }
 
   String formatTime(String dateTimeString) {
+    log('Formatting Date: $dateTimeString');
     // if the dateTimeString is already unixTimestamp
     if (dateTimeString.length == 10 &&
         dateTimeString.contains(RegExp(r'^\d+$'))) {
@@ -138,6 +139,7 @@ class Utils {
     }
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
+      'dd/MM/yyyy hh:mm:ss a',
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
     ];
@@ -167,7 +169,7 @@ class Utils {
         statusText = 'Under Security Custody';
         break;
       case 2:
-        statusText = 'Handed Over';
+        statusText = 'Handed Over/ Claimed';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -674,10 +676,10 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 8:
-        statusText = 'Returned Damaged';
+        statusText = 'Returned/Damaged';
         break;
       case 9:
-        statusText = 'Returned Defaced';
+        statusText = 'Returned/Defaced';
         break;
       case -1:
         statusText = 'Record Cancelled';
@@ -729,11 +731,14 @@ class Utils {
       String statusText;
 
       switch (status) {
-        case 1:
+        case 0:
           statusText = 'Created';
           break;
-        case 2:
+        case 1:
           statusText = 'Submitted';
+          break;
+        case -1:
+          statusText = 'Cancelled';
           break;
         default:
           statusText = ''; // Handle the default case if needed
@@ -1262,13 +1267,13 @@ class Utils {
 
     switch (status) {
       case 1:
-        statusText = 'Create';
+        statusText = 'Created';
         break;
       case 2:
-        statusText = 'Submit';
+        statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'Acknowledge';
+        statusText = 'Acknowledged';
         break;
       case 4:
         statusText = 'Hold';

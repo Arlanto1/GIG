@@ -8,7 +8,7 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class DayPassCustomPopUpList extends StatefulWidget {
-  final DayPassListElement? userItem;
+  final PassManagementModel? userItem;
   String? passId = '0';
 
   DayPassCustomPopUpList(this.userItem, this.passId, {super.key});
@@ -147,7 +147,8 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           // widget.userItem?.inputDate != null
           //     ? CommonWidgets.verticalSpacerWidget(8)
           //     : Container(),
-          widget.userItem?.entrySecurity?.userName != null
+                  CommonWidgets.verticalSpacerWidget(5),
+                  widget.userItem?.entrySecurity?.userName != null
               ? Row(
                   children: [
                     textHandling(
@@ -157,26 +158,27 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   ],
                 )
               : Container(),
-          widget.userItem?.entrySecurity?.userName != null
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
-          (widget.userItem?.employeeName != null &&
-                  widget.userItem?.entrySecurity != null)
-              ? Row(
-                  children: [
-                    textHandling(
-                        'Name : ',
-                        widget.userItem?.entrySecurity != null
-                            ? widget.userItem?.entrySecurity?.name.toString() ??
-                                " "
-                            : widget.userItem?.employeeName.toString() ?? ''),
-                  ],
-                )
-              : Container(),
-          (widget.userItem?.employeeName != null &&
-                  widget.userItem?.entrySecurity != null)
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
+          // widget.userItem?.entrySecurity?.userName != null
+          //     ? CommonWidgets.verticalSpacerWidget(8)
+          //     : Container(),
+          // (widget.userItem?.employeeName != null &&
+          //         widget.userItem?.entrySecurity != null)
+          //     ? Row(
+          //         children: [
+          //           textHandling(
+          //               'Name : ',
+          //               widget.userItem?.entrySecurity != null
+          //                   ? widget.userItem?.entrySecurity?.name.toString() ??
+          //                       " "
+          //                   : widget.userItem?.employeeName.toString() ?? ''),
+          //         ],
+          //       )
+          //     : Container(),
+          // (widget.userItem?.employeeName != null &&
+          //         widget.userItem?.entrySecurity != null)
+          //     ? CommonWidgets.verticalSpacerWidget(8)
+          //     : Container(),
+                  CommonWidgets.verticalSpacerWidget(5),
           widget.userItem?.passInfo?.passNo != null &&
                   (widget.userItem?.passInfo?.passNo ?? '').isNotEmpty
               ? Row(

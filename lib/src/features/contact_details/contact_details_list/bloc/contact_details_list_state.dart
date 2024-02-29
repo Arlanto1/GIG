@@ -6,6 +6,9 @@ class ContactDetailsListState extends Equatable {
   final FormStatus status;
   final CdUiLabels? labels;
   final String? message;
+  final Locations? locations;
+  final CommonFilters? commonFilters;
+
 
   const ContactDetailsListState({
     this.items = const <ContactDetailModel>[],
@@ -13,6 +16,8 @@ class ContactDetailsListState extends Equatable {
     this.status = FormStatus.initial,
     this.labels,
     this.message,
+    this.locations,
+    this.commonFilters,
   });
 
   ContactDetailsListState copyWith({
@@ -21,6 +26,10 @@ class ContactDetailsListState extends Equatable {
     FormStatus? status,
     CdUiLabels? labels,
     String? message,
+    CommonFilters? commonFilters,
+    Locations? locations,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return ContactDetailsListState(
       items: items ?? this.items,
@@ -28,6 +37,8 @@ class ContactDetailsListState extends Equatable {
       status: status ?? this.status,
       labels: labels ?? this.labels,
       message: message ?? this.message,
+      locations: locations ?? this.locations,
+      commonFilters: commonFilters ?? this.commonFilters,
     );
   }
 

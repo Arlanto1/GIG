@@ -4,6 +4,10 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  /// Text Form Field Character Limit
+  static const int characterLimitIdTextFormField = 250;
+  static const int characterLimitDescTextFormField = 4000;
+
   /// Module Codes
   static const String materialMovementInwardReturnableModule = 'MMINN';
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
@@ -29,6 +33,9 @@ class Constants {
 
 
   /// UI Labels Module Code
+  static const String articleFoundModuleCode = 'AF';
+  static const String passManagementModuleCode = 'PM';
+  static const String leoModuleCode = 'LEO';
   static const String materialMovementModuleCode = 'MM';
   static const String contactDetailsModuleCode = 'CD';
   static const String guardingMasterModuleCode = 'GM';
@@ -190,8 +197,9 @@ class Constants {
   static const String key = 'Key';
 
   // Create Found
-  static const String createfound = 'Create Found';
-  static const String editfound = 'Edit Found';
+  static const String createFound = 'Create Found';
+  static const String editFound = 'Edit Found';
+  static const String foundList = 'Found List';
   static const String generalinformation = 'General Information';
   static const String assettype = 'Asset Type';
   static const String foundlocation = 'Found Location';
@@ -203,6 +211,7 @@ class Constants {
   static const String status = 'Status';
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
+  static const String createDate = 'Create Date';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
   static const String articlename = 'Article Name';
@@ -239,7 +248,7 @@ class Constants {
   static const String firstname = 'First Name';
   static const String lastname = 'Last Name';
   static const String uploadfile = 'Upload File';
-  static const String caotureorupload = 'Capture or Upload';
+  static const String captureOrUpload = 'Capture or Upload';
   static const String gallery = 'Gallery';
   static const String camera = 'Camera';
   static const String document = 'Document';
@@ -282,6 +291,7 @@ class Constants {
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
+  static const String attachments = 'Attachments';
   static const String evidenceDocuments = 'Evidence Documents Name';
   static const String uploadPhoto = 'Upload Photo';
   static const String addvisitingofficialdetails =
@@ -294,8 +304,13 @@ class Constants {
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';
+  static const String passCollectedBy = 'Pass Collected By';
+  static const String passReturnedOn = 'Pass Returned On';
+
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
+  static const String passCategory = 'Pass Category';
+
   static const String exceptionalApproval =
       'Exceptional Approval for External Auditors/ External Regulators';
   static const String passvliduntil = 'Pass Valid Until';
@@ -331,7 +346,7 @@ class Constants {
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
   static const String timeFormat = 'HH:mm:ss a';
-  static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
+  static const String fulldateFormat = 'dd/MM/yyyy hh:mm:ss a';
 
 // static const String dateFormat = 'yyyy-MM-dd';
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
@@ -377,6 +392,8 @@ class Constants {
   static const String addQuantity = 'Add Unit';
   static const String isPhysicallyChecked = 'Is Material Physically Checked';
   static const String comment = 'Comment';
+  static const String rejectionComment = 'Rejection Comment';
+
   static const String isMaterialPhysicallyChecked =
       'Is Material Physically Checked';
   static const String actualDateOfReturn = 'Actual Date Of Return';
@@ -431,6 +448,8 @@ class Constants {
   static const String createSecurityFacilitator = 'Create Security Facilitator';
   static const String createGunMan = 'Create Gun Man';
   static const String addSecurityGuard = 'Security Guard';
+  static const String createOthers = 'Create Others';
+
 
   static const String monthlyCost = 'Monthly Cost';
   static const String days = 'Days';
@@ -448,7 +467,7 @@ class Constants {
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
   static const String zone = 'Zone';
-  static const String areaNameManager = 'Area Name Manager';
+  static const String areaNameManager = 'Area  Manager Name';
   static const String guardName = 'Name';
   static const String typeOfDuty = 'Type of Duty';
   static const String gender = 'Gender';
@@ -462,6 +481,16 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
+  static const String additionalQualification = 'Additional Qualification/Certifications';
+  static const String qualificationCompletionDate = 'Qualification Completion Date';
+  static const String specialAchievementsInfo = 'Special Achievements Info';
+  static const String achievementsDate = 'Achievement Date';
+  static const String additionalInitiativesInfo = 'Additional Initiatives Info';
+  static const String initiativesDate = 'Initiative Date';
+
+
+
+  static const String participationDate = 'Participation Date';
   static const String csrParticipationDate = 'Add CSR Participation Date';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
@@ -485,7 +514,6 @@ class Constants {
   static const String esicNo = 'ESIC NO';
   static const String uanNo = 'UAN NO';
   static const String mSGBExemptionDate = 'MSGB Exemption Date';
-  static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String localAddress = 'Local Address';
   static const String localLanguage = 'Local Language';
   static const String localLanguageProficiency = 'Local Language Proficiency';
@@ -563,7 +591,7 @@ class Constants {
   static const String businessPocEscalationDepartment =
       'Business POC Escalation Department';
   static const String eventProtectionOfficers = 'Event protection Officer(s)';
-  static const String proposedVendors = 'Proposed Vendors';
+  static const String proposedVendors = 'Proposed Event Management Vendors';
   static const String eventStartDate = 'Event Start Date';
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
@@ -572,13 +600,13 @@ class Constants {
   static const String ticketLifeCycle = 'Ticket Life Cycle';
   static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
-  static const String dbComplaint = 'DB Complaint';
+  static const String dbComplaint = 'DB Complainant';
   static const String incidentDescription = 'Incident Description';
   static const String incidentDateTime = 'Incident Date and Time';
-  static const String complaint = 'Complaint';
-  static const String complaintEmployeeId = 'Complaint Employee Id';
-  static const String complaintDepartment = 'Complaint Department';
-  static const String complaintHR = 'Complaint Manager/Host';
+  static const String complaint = 'Complainant';
+  static const String complaintEmployeeId = 'Complainant Employee Id';
+  static const String complaintDepartment = 'Complainant Department';
+  static const String complaintHR = 'Complainant Manager/Host';
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';
@@ -599,6 +627,7 @@ class Constants {
   static const String securitySystemSLAList = 'Security System SLA List';
   static const String socialEngineeringIncidents =
       'Social Engineering Incidents?';
+  static const String addPowerFailuresDates = 'Add Power Failure Date';
   static const String foundArticleTransaction = 'Found Article Transaction?';
   static const String processBreachIncident = 'Process Breach Incident?';
   static const String anyInfrastructuralIssue = 'Any Infrastructural Issue? ';
@@ -618,6 +647,7 @@ class Constants {
   static const String dgWrking = 'DG Working';
   static const String followUp = 'Follow Up Actions For Next Shift';
   static const String followedUp = 'Followed Up ';
+  static const String powerFailuresDate = 'Power Failure Start & End Date';
   static const String powerFailureDate = 'Power Failure Start Date & Time';
   static const String powerFailureEndDate = 'Power Failure End Date & Time';
   static const String systemManager = 'System Manager';
@@ -651,6 +681,13 @@ class Constants {
   static const String cmsEscalationContact = 'CMS Escalation(IPB)';
   static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
+  static const String modifiedDate = 'Modified Date';
+
+
+  static const String guardingAgencyRank =
+      'Guarding Agency Escalation Rank';
+  static const String supervisorRank = 'Supervisor Rank';
+  static const String systemSiEscalationMatrixRank = 'System (SI) Escalation Matrix';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
@@ -757,8 +794,6 @@ class Constants {
   static const String attendanceDetails = 'Attendance Details';
   static const String attendanceType = 'Attendance Type';
 
-  static const String attachments = 'Attachments';
-
   ///Shift Schedule
   static const String shiftScheduling = 'Shift Scheduling';
   static const String shiftSchedule = 'Shift Schedule';
@@ -772,20 +807,15 @@ class Constants {
 
 
   ///VVIP Visitors
-  static const String vvipVisitors = 'VVIP Visitors';
-  static const String visitorsName = 'Visitors Name';
-  static const String visitorsEmailId = 'Visitors Email ID';
-  static const String visitorsDesignation = 'Visitors Designation';
+  static const String vvipVisitors = 'VVIP Visitor';
+  static const String listVvipVisitors = 'List of VVIP Visitor';
+  static const String visitorsName = 'Visitor Name';
+  static const String visitorsEmailId = 'Visitor Email ID';
+  static const String visitorsDesignation = 'Visitor Designation';
   static const String purposeOfVisit = 'Purpose of Visit';
-  static const String baseLocationOfVisitors = 'Base Location of Visitors';
+  static const String baseLocationOfVisitors = 'Base Location of Visitor';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
-
-  /// INT values
-  static const int lockChangeHistoryInt = 0;
-  static const int keyLostHistoryInt = 1;
-  static const int keyDamageHistoryInt = 2;
-  static const int keyDestroyHistoryInt = 3;
 }
 
 //static const String height = 'Height(cm)';

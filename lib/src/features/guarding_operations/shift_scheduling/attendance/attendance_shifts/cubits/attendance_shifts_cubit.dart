@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -53,7 +51,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'), // 0
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
         commonServices.getUserDetails(userId: userId), // 1
         commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
         commonServices.getUsers(), // 3

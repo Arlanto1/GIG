@@ -4,8 +4,8 @@ const String dashboardViewRoute = '/dashboardViewRoute';
 const String notificationsViewRoute = '/notificationsViewRoute';
 const String notificationDetailsViewRoute = '/notificationDetailsViewRoute';
 
-const String createfoundScreenRoute = '/createfoundscreenRoute';
-const String articleFoundListRoute = '/articlefoundlistpage';
+const String articleFoundListRoute = '/articleFoundListRoute';
+const String createFoundScreenRoute = '/createFoundScreenRoute';
 
 const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
 const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
@@ -35,8 +35,8 @@ const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
-const String materialMovementInwardDetailsRoute =
-    '/materialMovementInwardDetailsRoute';
+const String materialMovementInwardOutwardDetailsRoute =
+    '/materialMovementInwardOutwardDetailsRoute';
 
 const String sstIncidentListRoute = '/sstIncidentListRoute';
 const String sstIncidentDetailsRoute = '/sstIncidentDetailsRoute';
@@ -50,8 +50,6 @@ const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
 const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
-const String slaViolationRoute = '/slaViolationRoute';
-const String slaViolationDetailsRoute = '/slaViolationDetailsRoute';
 const String occurrenceRoute = '/occurrenceRoute';
 const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 

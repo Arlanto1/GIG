@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/requestModels/vvip_visitor_request.dart';
@@ -51,7 +51,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
     var userId = await SharedPrefs.getUserId();
     try {
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
@@ -61,6 +61,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
+
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
@@ -81,6 +83,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") + (loggedInUserDetails.lastName ?? "");
+
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -236,5 +240,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       );
       return false;
     }
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.vipVisitorsDetailsModule);
   }
 }

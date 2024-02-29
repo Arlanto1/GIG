@@ -117,7 +117,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: firstnameTextController,
+                          controller: firstnameTextController,
                           textFormKey: Keys.firstnameTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -136,7 +136,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: lastnameTextController,
+                          controller: lastnameTextController,
                           textFormKey: Keys.lastnameTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -155,7 +155,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
-                          textFieldController: emailTextController,
+                          controller: emailTextController,
                           textFormKey: Keys.emailTextController,
                           hintText: '',
                           onChange: (String username) {

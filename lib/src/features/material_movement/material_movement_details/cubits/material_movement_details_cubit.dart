@@ -24,7 +24,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
             locations: Locations(),
-            loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -62,6 +61,35 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  Future<void> isFormReadable() async {
+    if (isInward ?? false) {
+      return;
+    }
+
+    if (state.model.status != ConstantsIntValue.businessUserReview) {
+      emit(state.copyWith(
+        status: FormStatus.initial,
+      ));
+      return;
+    }
+
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+    String email = await SharedPrefs.getEmail();
+    bool isReadOnly;
+
+    if (state.model.requestorEmail.equalsIgnoreCase(email)) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      model: model,
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
+  }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -73,7 +101,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
@@ -124,14 +152,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
 
+      log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
+
       state.model.entrySecurity ??= loggedInUserDetails;
       state.model.unit = model?.unit;
+      // state.model.rejectedBy ??= loggedInUserDetails;
+      log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: locations,
-          loggedInUserDetails: loggedInUserDetails,
+          loggedInUserDetails: state.model.entrySecurity,
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
@@ -144,6 +176,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           labels: labels,
         ),
       );
+      isFormReadable();
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Material Movement Details Cubit');
@@ -161,7 +194,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
-    BaseUser? otherReceiverName,
+    BaseUser? receiverEmail,
     BaseUser? requesterEmailUser,
     BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
@@ -209,15 +242,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (user != null) {
-      state.model.otherReceiverName = user.name;
+      state.model.receiverEmail = user.name;
     }
 
     if (receiverEmailUser != null) {
       state.model.receiverEmail = receiverEmailUser.email;
     }
 
-    if (otherReceiverName != null) {
-      state.model.otherReceiverName = otherReceiverName.email;
+    if (receiverEmail != null) {
+      state.model.receiverEmail = receiverEmail.email;
     }
 
     if (requesterEmailUser != null) {
@@ -433,6 +466,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> submitForm({
     bool isSaveOnly = false,
+    bool isRejectOnly = false,
+    bool isApprovedOnly = false,
     required SignatureController receiverSignatureController,
     required SignatureController securitySignatureController,
   }) async {
@@ -444,6 +479,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     // Setting time in milliseconds
     state.model.inputDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body
@@ -478,7 +515,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           return;
         }
         response = await materialMovementServices.createMaterialMovement(
-            body: request, isSubmit: false);
+            body: request, flow: 1);
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -492,8 +529,41 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           );
           return;
         }
+        int flow = 2;
         response = await materialMovementServices.createMaterialMovement(
-            body: request, isSubmit: true);
+            body: request, flow: flow);
+      }
+      if (isRejectOnly) {
+        //Validating Fields
+        if (!state.isValidDraft.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 4);
+      }
+      if (isApprovedOnly) {
+        //Validating Fields
+        if (!state.isValid.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return;
+        }
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 3);
       }
 
       log('---response--msg--${response.message}---');
@@ -522,5 +592,24 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
     }
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.occurrenceModule);
+  }
+
+  void onAddRejectionComment(String rejectionsComment) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.rejectionComment = rejectionsComment;
+    emit(state.copyWith(
+      model: model,
+      rejectionComment: rejectionsComment,
+      status: FormStatus.initial,
+    ));
   }
 }

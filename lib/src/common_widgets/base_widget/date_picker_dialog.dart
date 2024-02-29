@@ -18,52 +18,72 @@ class BaseDate {
     );
   }
 
+  bool isTimestamp(String str) {
+    try {
+      DateTime.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
+    String? startDate,
     required Function(String) onChange,
     required BuildContext context,
   }) {
+    // Convert Date Time if String
+    if (isTimestamp(textController.text)) {
+      textController.text = Utils.timestamptoDateConversion(
+          int.tryParse(textController.text),
+          onlyDate ? Constants.dateFormat : Constants.fulldateFormat);
+    }
+
     return GestureDetector(
       onTap: () async {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
             textController: textController,
+            startDate: startDate,
             showPastDate: showPastDate,
             showFutureDate: showFutureDate,
             onChange: onChange,
             context: context,
             onlyDate: onlyDate,
           );
-          log('--textController.text-2--1--${textController.text}----');
         }
       },
-      child: FlutterInputField(
-        textFieldController: textController,
-        textFormKey: textController == textController
-            ? Keys.founddateTextController
-            : Keys.handedoverdateTextController,
-        hintText: '',
-        suffixIcon: Icons.calendar_month,
-        isEnable: false,
-        isDisableColor: isDisabled,
-        onChange: onChange,
-        // Pass the onChange callback to FlutterInputField
-        validateTextField: (String? user) {},
-        suffixWidget: GestureDetector(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              AppIcon.calendaricon,
-              colorFilter: const ColorFilter.mode(
-                AppColors.textgreyThemecolor,
-                BlendMode.srcIn,
+      child: AbsorbPointer(
+        absorbing: true,
+        child: FlutterInputField(
+          controller: textController,
+          textFormKey: textController == textController
+              ? Keys.founddateTextController
+              : Keys.handedoverdateTextController,
+          hintText: '',
+          suffixIcon: Icons.calendar_month,
+          isEnable: true,
+          isDisableColor: isDisabled,
+          onChange: onChange,
+          // Pass the onChange callback to FlutterInputField
+          validateTextField: (String? user) {},
+          suffixWidget: GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SvgPicture.asset(
+                AppIcon.calendaricon,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.textgreyThemecolor,
+                  BlendMode.srcIn,
+                ),
+                width: 20,
+                key: const Key(Keys.userIcon),
               ),
-              width: 20,
-              key: const Key(Keys.userIcon),
             ),
           ),
         ),
@@ -78,25 +98,30 @@ class BaseDate {
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
+    String? startDate,
   }) async {
     DateTime? pickedDate;
 
-    // log('--textController.text---${textController.text}--');
-    DateTime initialTime = DateTime.now();
-    // initialTime = textController.text.isNotEmpty
-    //     ? DateTime.parse(Utils().formatTime( textController.text))
-    //     : DateTime.now();
+    DateTime currentTime = DateTime.now();
 
-    // initialTime = DateTime(2024,2,2,15,42);
+    DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
+    DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
+    log('-startDate---$startDate-');
+    log('--minTime-1-$minTime--');
+    // if (!startDate.isEmptyOrNull) {
+    //   minTime = DateTime.fromMillisecondsSinceEpoch(
+    //       (startDate.toIntOrNull()! * 1000));
+    // }
 
-    // log('--initialTime---${initialTime.toString()}--');
+    log('--minTime-2-$minTime--');
 
+    log('-onlyDate---$onlyDate-');
     if (onlyDate) {
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
-        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
-        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        minTime: minTime,
+        maxTime: maxTime,
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
@@ -108,29 +133,33 @@ class BaseDate {
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: initialTime,
+        currentTime: currentTime,
         locale: LocaleType.en,
       );
     } else {
+      // Ensure minTime is set to the current time if showPastDate is false
+      // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
+
+      log('--minTime--else-$minTime--');
+      log('--maxTime--else-$maxTime--');
       DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,
-        minTime: showPastDate ? DateTime(1900) : DateTime.now(),
-        maxTime: showFutureDate ? DateTime(2101) : DateTime.now(),
+        minTime: minTime,
+        maxTime: maxTime,
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
         },
         onConfirm: (date) {
           pickedDate = date;
-          log('confirm $date');
           log('--pickedDate--confirm---$pickedDate--');
 
           if (pickedDate != null) {
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
-        currentTime: initialTime,
+        currentTime: currentTime,
         locale: LocaleType.en,
       );
     }
@@ -145,31 +174,14 @@ class BaseDate {
 
   String setDateTime(DateTime? pickedDate, bool onlyDate,
       TextEditingController textController, Function(String) onChange) {
-    log('--pickedDate--$pickedDate--');
+    log('--pickedDate-sss-$pickedDate--');
     String formattedDate = DateFormat(
       onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
     ).format(pickedDate!);
 
     textController.text = formattedDate;
     onChange(formattedDate);
+    log('--formattedDate-sss-$formattedDate--');
     return formattedDate;
-  }
-
-  String formatTime(String dateTimeString) {
-    // if the dateTimeString is already a Unix timestamp
-    if (dateTimeString.length == 10 &&
-        dateTimeString.contains(RegExp(r'^\d+$'))) {
-      return dateTimeString;
-    }
-
-    try {
-      final dateTime =
-          DateFormat('MM/dd/yyyy a hh:mm:ss').parse(dateTimeString);
-      final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      return unixTimestamp.toString();
-    } catch (_) {
-      // If the format does not match, handle the error or return a default value
-      throw FormatException('Unable to parse date-time: $dateTimeString');
-    }
   }
 }

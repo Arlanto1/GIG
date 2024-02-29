@@ -101,6 +101,8 @@ class _GuardInfoViewState extends State<GuardInfoView> {
             showPopUp: false,
             showSaveButton: state.guardInfoModel.status != 4 ? true : false,
             showSubmitButton: state.guardInfoModel.status != 4 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardInfoCubit>(context)
@@ -550,7 +552,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                             Constants.proposedVendors,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title:'${state.guardInfoModel.proposedVendors??''}',
                             height: 60,
                             isDisableColor: false,

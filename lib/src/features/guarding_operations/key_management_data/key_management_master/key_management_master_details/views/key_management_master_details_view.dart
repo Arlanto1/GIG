@@ -97,6 +97,8 @@ class _KeyManagementMasterDetailsViewState
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
             showSubmitButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
@@ -311,7 +313,7 @@ class _KeyManagementMasterDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
                             isDisableColor:
@@ -571,7 +573,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            textFieldController: totalKeyController,
+                            controller: totalKeyController,
                             // initialValue: (((state.model.noKeys ?? 0) +
                             //         (state.model.noMasterKey ?? 0))
                             //     .toString()),
@@ -645,7 +647,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.lockChangeHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.lockChangeHistoryInt,
+                                        ConstantsIntValue.lockChangeHistoryInt,
                                   },
                                 );
                               },
@@ -702,7 +704,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyLostHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyLostHistoryInt,
+                                        ConstantsIntValue.keyLostHistoryInt,
                                   },
                                 );
                               },
@@ -760,7 +762,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyDamageHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyDamageHistoryInt,
+                                        ConstantsIntValue.keyDamageHistoryInt,
                                   },
                                 );
                               },
@@ -815,7 +817,7 @@ class _KeyManagementMasterDetailsViewState
                                         Constants.keyDestroyHistory,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
-                                        Constants.keyDestroyHistoryInt,
+                                        ConstantsIntValue.keyDestroyHistoryInt,
                                   },
                                 );
                               },
@@ -845,7 +847,7 @@ class _KeyManagementMasterDetailsViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -864,7 +866,7 @@ class _KeyManagementMasterDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -873,9 +875,19 @@ class _KeyManagementMasterDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(KeyManagementMasterDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, keyManagementMasterListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

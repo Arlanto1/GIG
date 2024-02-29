@@ -68,18 +68,20 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: widget.type == Constants.lockChangeHistoryInt
+          title: widget.type == ConstantsIntValue.lockChangeHistoryInt
               ? Constants.lockChangeHistory
-              : widget.type == Constants.keyLostHistoryInt
+              : widget.type == ConstantsIntValue.keyLostHistoryInt
                   ? Constants.keyLostHistory
-                  : widget.type == Constants.keyDamageHistoryInt
+                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
                       ? Constants.keyDamageHistory
-                      : widget.type == Constants.keyDestroyHistoryInt
+                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
                           ? Constants.keyDestroyHistory
                           : 'Default Title',
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),
@@ -202,20 +204,25 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
     dismissLoadingDialog(context);
     if (keyManagementMasterModel != null) {
-      Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
-        "keyMgmtGi": keyManagementMasterModel,
-        ConstantsArgument.title: widget.type == Constants.lockChangeHistoryInt
-            ? Constants.editLockChangeHistory
-            : widget.type == Constants.keyLostHistoryInt
-                ? Constants.editKeyLostHistory
-                : widget.type == Constants.keyDamageHistoryInt
-                    ? Constants.editKeyDamageHistory
-                    : widget.type == Constants.keyDestroyHistoryInt
-                        ? Constants.editKeyDestroyHistory
-                        : 'Default Title',
-        ConstantsArgument.id: widget.id,
-        ConstantsArgument.type: widget.type,
-      });
+      Navigator.pushNamed(
+        context,
+        keyHistoryRecordsDetailsRoute,
+        arguments: {
+          "keyMgmtGi": keyManagementMasterModel,
+          ConstantsArgument.title: widget.type ==
+                  ConstantsIntValue.lockChangeHistoryInt
+              ? Constants.editLockChangeHistory
+              : widget.type == ConstantsIntValue.keyLostHistoryInt
+                  ? Constants.editKeyLostHistory
+                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                      ? Constants.editKeyDamageHistory
+                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
+                          ? Constants.editKeyDestroyHistory
+                          : 'Default Title',
+          ConstantsArgument.id: widget.id,
+          ConstantsArgument.type: widget.type,
+        },
+      );
     }
   }
 }

@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 part 'sla_violation_penalty_list_event.dart';
-
 part 'sla_violation_penalty_list_state.dart';
 
 class SLAViolationPenaltyListBloc
@@ -18,17 +16,45 @@ class SLAViolationPenaltyListBloc
       _fetchSLAViolationPenalty,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<SLAViolationPenaltyListState> emit) async {
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<SLAViolationPenaltyListState> emit) async {
+    try {
+      SLAViolationPenaltyResponseModel response;
+
+      response = await services.getGSvp(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _initializeValues(InitializeValues event,
+      Emitter<SLAViolationPenaltyListState> emit) async {
     log('_initializeValues');
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       return emit(
@@ -37,11 +63,11 @@ class SLAViolationPenaltyListBloc
           hasReachedMax: false,
         ),
       );
-    }
-    on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchSLAViolationPenalty(
       FetchData event, Emitter<SLAViolationPenaltyListState> emit) async {
     try {

@@ -1,3 +1,4 @@
+import 'package:db_atom/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/app_themes/colors/app_color.dart';
@@ -7,7 +8,7 @@ class FlutterInputField extends StatelessWidget {
   final Function onChange;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
-  final TextEditingController? textFieldController;
+  final TextEditingController? controller;
   final Function? suffixTap;
   final Function? onTap;
   final Function? validateTextField;
@@ -27,6 +28,8 @@ class FlutterInputField extends StatelessWidget {
   final String? labelText;
   final IconData? suffixIcon;
   final bool? showBorder;
+  final int? characterLimit;
+  final bool? textCapitalization;
 
   const FlutterInputField({
     super.key,
@@ -34,7 +37,7 @@ class FlutterInputField extends StatelessWidget {
     required this.onChange,
     this.prefixWidget,
     this.suffixWidget,
-    this.textFieldController,
+    this.controller,
     this.suffixTap,
     this.validateTextField,
     this.isSecure = false,
@@ -44,32 +47,37 @@ class FlutterInputField extends StatelessWidget {
     this.hintFontSize = 16,
     this.autoFocus = false,
     required this.textFormKey,
-    this.textInputType =TextInputType.text,
+    this.textInputType = TextInputType.text,
     this.onTap,
     this.isDisableColor,
-    this.textInputAction,
+    this.textInputAction = TextInputAction.next,
     this.onFieldSubmitted,
     this.focusNode,
     this.initialValue,
     this.labelText,
     this.suffixIcon,
     this.showBorder,
+    this.characterLimit = Constants.characterLimitIdTextFormField,
+    this.textCapitalization = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       key: Key(textFormKey),
-      controller: textFieldController,
+      controller: controller,
       textInputAction: textInputAction,
-      textCapitalization: TextCapitalization.words,
+      textCapitalization: textCapitalization ?? true
+          ? TextCapitalization.sentences
+          : TextCapitalization.none,
       obscureText: isSecure,
       initialValue: initialValue,
       enabled: isEnable,
       maxLines: lineHeight,
       autofocus: autoFocus!,
       // autocorrect: false,
-      enableSuggestions: false,
+      spellCheckConfiguration: const SpellCheckConfiguration(),
+      enableSuggestions: true,
       keyboardType: textInputType,
       focusNode: focusNode,
       decoration: showBorder ?? false
@@ -99,6 +107,7 @@ class FlutterInputField extends StatelessWidget {
               hintText: hintText,
               prefixIcon: prefixWidget,
               suffixIcon: suffixWidget,
+              // suffixText: '${textFieldController?.text.length}/$characterLimit',
               hintStyle: TextStyle(
                 fontSize: hintFontSize,
               ),
@@ -115,9 +124,11 @@ class FlutterInputField extends StatelessWidget {
               ),
               suffixIcon: Icon(suffixIcon),
             ),
+
       onChanged: (String str) {
         onChange(str);
       },
+      maxLength: characterLimit,
       validator: (String? value) {
         if (validateTextField != null) {
           return validateTextField!(value);
@@ -128,7 +139,7 @@ class FlutterInputField extends StatelessWidget {
         onTap != null ? onTap!() : null;
       },
       onFieldSubmitted: (value) {
-        onFieldSubmitted != null ? onFieldSubmitted!(value) : null;
+        onFieldSubmitted != null ? onFieldSubmitted!(value) : FocusScope.of(context).nextFocus();
       },
       onEditingComplete: () {
         FocusScope.of(context).unfocus();

@@ -63,6 +63,8 @@ class _NotificationsViewState extends State<NotificationsView> {
         showSaveButton: false,
         showSubmitButton: false,
         showCustomIcon: true,
+        showDisLikeButton: false,
+        showLikeButton: false,
         popAndReplace: () {
           log('--popAndReplace-----');
           // Navigator.pop(context);

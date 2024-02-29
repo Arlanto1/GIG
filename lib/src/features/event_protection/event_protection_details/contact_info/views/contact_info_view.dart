@@ -107,6 +107,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             // showSaveButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
@@ -174,7 +176,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.subRegionalHead1,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.srh1?.name,
                               height: 60,
                               isDisableColor: false,
@@ -198,7 +200,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.subRegionalHead2,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.srh2?.name,
                               height: 60,
                               isDisableColor: false,
@@ -224,7 +226,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.eventProtectionManager1,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.epManager1?.name,
                               height: 60,
                               isDisableColor: false,
@@ -248,7 +250,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               Constants.eventProtectionManager2,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.epManager2?.name,
                               height: 60,
                               isDisableColor: false,
@@ -273,7 +275,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.locationSecurityManager1,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.lsm1?.name,
                             height: 60,
                             isDisableColor: false,
@@ -301,6 +303,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm1ContactNo,
                             textFormKey: Keys.lsm1ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -326,7 +329,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.locationSecurityManager2,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.lsm2?.name,
                             height: 60,
                             isDisableColor: false,
@@ -354,6 +357,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm2ContactNo,
                             textFormKey: Keys.lsm2ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -379,7 +383,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.businessPoc,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.bu1?.name,
                             height: 60,
                             isDisableColor: false,
@@ -408,6 +412,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu1ContactNo,
                             textFormKey: Keys.bu1ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -434,7 +439,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.businessPocEscalation,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.bu2?.name,
                             height: 60,
                             isDisableColor: false,
@@ -463,6 +468,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu2ContactNo,
                             textFormKey: Keys.bu2ContactNOKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -488,7 +494,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.businessPocDepartment,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.bu1Dept?.name,
                             height: 60,
                             isDisableColor: false,
@@ -512,7 +518,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.businessPocEscalationDepartment,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.bu2Dept?.name,
                             height: 60,
                             isDisableColor: false,
@@ -685,6 +691,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -770,6 +777,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
+                            characterLimit: 10,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -821,7 +829,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.requesterDepartment,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.requesterDepartment?.name,
                             height: 60,
                             isDisableColor: false,
@@ -845,7 +853,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Constants.eventProtectionOfficers,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.epOfficers,
                             height: 70,
                             isDisableColor: false,

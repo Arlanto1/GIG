@@ -78,7 +78,7 @@ class _EventInfoViewState extends State<EventInfoView> {
           Navigator.pop(context);
           Navigator.pushNamed(
             context,
-            createfoundScreenRoute,
+            createFoundScreenRoute,
             arguments: {'eventId': state.model.id},
           );
         }
@@ -99,6 +99,8 @@ class _EventInfoViewState extends State<EventInfoView> {
             showPopUp: false,
             showSaveButton: state.model.status != 4 ? true : false,
             showSubmitButton: state.model.status != 4 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<EventInfoCubit>(context)
@@ -461,7 +463,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              textFieldController: addEmailController,
+                              controller: addEmailController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: true,

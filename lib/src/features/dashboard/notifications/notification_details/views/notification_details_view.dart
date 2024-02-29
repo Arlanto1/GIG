@@ -72,6 +72,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             showSubmitButton: false,
             onTapSave: () {},
             showCustomIcon: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
@@ -194,7 +196,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             {
               MaterialMovementModel materialMovementModel =
                   await MaterialMovementServices().getById(moduleId);
-              nav.pushNamed(materialMovementInwardDetailsRoute, arguments: {
+              nav.pushNamed(materialMovementInwardOutwardDetailsRoute, arguments: {
                 "MaterialMovementModel": materialMovementModel,
                 "isInward": false,
                 "isCreate": true,

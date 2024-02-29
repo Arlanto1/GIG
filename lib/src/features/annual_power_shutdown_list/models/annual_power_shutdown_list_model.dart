@@ -41,6 +41,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   Organisation? locationRegion;
   List<Organisation>? entities;
   int? status;
+  User? createdBy;
   String? modifiedBy;
   bool annualPowerShutdown;
   String? eventStartDate;
@@ -78,7 +79,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  List<Organisation>? proposedVendors;
+  Organisation? proposedVendors;
   // Organisation? proposedVendors;
   double? budget;
   String? poNumber;
@@ -88,11 +89,12 @@ class AnnualPowerShutdownListModel  extends BaseObject{
     this.slNo,
     this.inputDate,
     this.location,
+    this.createdBy,
     this.locationRegion,
     this.entities,
     this.status,
     this.modifiedBy,
-    this.annualPowerShutdown = false,
+    this.annualPowerShutdown = true,
     this.eventStartDate,
     this.eventEndDate,
     this.epManager1,

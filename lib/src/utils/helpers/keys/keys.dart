@@ -26,7 +26,7 @@ class Keys {
 
   static const String dateofcreationTextController =
       'external_createfound_dateofcreationid_textfield';
-  static const String assettypeTextController =
+  static const String assetTypeTextControllerKey =
       'external_createfound_assettypetextfield';
   static const String founddateTextController =
       'external_createfound_founddate_textfield';

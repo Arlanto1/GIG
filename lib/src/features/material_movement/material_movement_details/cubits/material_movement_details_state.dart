@@ -15,7 +15,9 @@ class MaterialMovementDetailsState extends Equatable {
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
   final int? eventId;
+  final bool? isReadOnly;
   final String? message;
+  final String? rejectionComment;
   final bool isInward;
   final bool isReceiverSignEditable;
   final bool isEntrySecuritySignatureSignEditable;
@@ -24,7 +26,6 @@ class MaterialMovementDetailsState extends Equatable {
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
     required Locations locations,
-    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -32,12 +33,12 @@ class MaterialMovementDetailsState extends Equatable {
     required List<ImageContent> loadAttachments,
     required List<Organisation> quantityUnits,
     required int? eventId,
+    String? rejectionComment,
   }) {
     return MaterialMovementDetailsState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
-      loggedInUserDetails: loggedInUserDetails,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -45,6 +46,7 @@ class MaterialMovementDetailsState extends Equatable {
       loadAttachments: loadAttachments,
       quantityUnits: quantityUnits,
       eventId: eventId,
+      rejectionComment: rejectionComment,
     );
   }
 
@@ -81,12 +83,6 @@ class MaterialMovementDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Challan No');
     // }
-    if (model.quantity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Quantity');
-    }
-
-    log('--model.inwardMovement--${model.inwardMovement}--');
 
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
@@ -94,40 +90,42 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
-
-      if (model.otherReceiverEmployeeId.isEmptyOrNull && model.originalReceiver) {
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
+      if (model.otherReceiverEmployeeId.isEmptyOrNull ) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }
 
-      if (model.materialFromAddress.isEmptyOrNull) {
+      if (model.receiverEmail.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Material coming from (Brief address)');
+            status: false, message: 'Please enter Received by');
       }
 
-      if (model.receiverEmployeeId.isEmptyOrNull) {
+      if (model.materialFromAddress.isEmptyOrNull &&
+          model.status != 0 &&
+          model.status != null) {
+        return const ErrorResponse(
+            status: false,
+            message: 'Please enter Material coming from (Brief address)');
+      }
+
+      if (!model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received for Employee Id');
       }
 
       if (model.receiverDepartmenttName.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Receiver Department Name');
+            status: false, message: 'Please enter Receiver Department');
       }
 
       if (model.receiverDepartment == null) {
         return const ErrorResponse(
             status: false, message: 'Please enter Receiver Department');
       }
-
-      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received For');
-      }
-
-    }
-    if (model.unit == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
@@ -135,11 +133,73 @@ class MaterialMovementDetailsState extends Equatable {
           message: 'Please Select Material Physically Checked as true');
     }
 
-    if (model.materialDescription.isEmptyOrNull) {
+    if (model.materialDescription.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Material Description');
+          status: false, message: 'Please enter Material Brief Description');
+    }
+    if (model.quantity == null && model.status != 0 && model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Quantity');
+    }
+    if (model.unit == null && model.status != 0) {
+      return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
 
+    if (model.modelInfo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Equipment No/Identification');
+    }
+    if (model.modelInfo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Equipment No/Identification');
+    }
+    if (model.address.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sent to Address');
+    }
+    if (model.requestorDepartment == null &&
+        (model.status == 1 )) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Requester Department');
+    }
+    if (model.sentTo.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sent To(Name)');
+    }
+    if (model.purpose.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Purpose');
+    }
+    if (model.preparedByDepartment == null &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Prepared By Department');
+    }
+    if (model.expectedDateOfReturn == null && model.returnable! &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Expected date of Return');
+    }
+    if (model.returnable == true &&
+        model.rejectionComment == null &&
+        model.status == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Rejection Comment');
+    }
     if (!model.materialPhysicallyChecked &&
         isInward &&
         model.materialNotCheckedComment.isEmptyOrNull) {
@@ -171,6 +231,8 @@ class MaterialMovementDetailsState extends Equatable {
     this.requestorEmailUsers,
     this.approver1Users,
     this.approver2Users,
+    this.rejectionComment,
+    this.isReadOnly,
   });
 
   MaterialMovementDetailsState copyWith({
@@ -188,13 +250,16 @@ class MaterialMovementDetailsState extends Equatable {
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
+    String? rejectionComment,
     MmUiLabels? labels,
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
+    bool? isReadOnly,
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
@@ -210,9 +275,10 @@ class MaterialMovementDetailsState extends Equatable {
       labels: labels ?? this.labels,
       isReceiverSignEditable:
           isReceiverSignEditable ?? this.isReceiverSignEditable,
-
+      rejectionComment: rejectionComment ?? this.rejectionComment,
       isEntrySecuritySignatureSignEditable:
-      isEntrySecuritySignatureSignEditable ?? this.isEntrySecuritySignatureSignEditable,
+          isEntrySecuritySignatureSignEditable ??
+              this.isEntrySecuritySignatureSignEditable,
     );
   }
 }

@@ -3,11 +3,10 @@ import 'dart:math' as math;
 
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../index.dart';
+import 'package:db_atom/index.dart';
 import '../models/general_info_model.dart';
 import '../models/requestModel/general_info_request.dart';
 
@@ -87,7 +86,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     try {
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         SharedPrefs.getDefaultLocation(),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
@@ -95,7 +94,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),

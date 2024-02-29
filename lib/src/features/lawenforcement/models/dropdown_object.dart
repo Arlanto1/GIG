@@ -4,18 +4,18 @@ class VisitingOfficialsModel {
   String? designation;
   String? name;
   Organisation? department;
-  String? officialaddress;
+  String? address;
   String? email;
-  String? conatctno;
+  String? contactNo;
   int? id;
 
   VisitingOfficialsModel(
       {this.designation,
       this.name,
       this.department,
-      this.officialaddress,
+      this.address,
       this.email,
-      this.conatctno,
+      this.contactNo,
       this.id});
 
   factory VisitingOfficialsModel.fromJson(Map<String, dynamic> json) =>
@@ -23,9 +23,9 @@ class VisitingOfficialsModel {
         designation: json["designation"],
         name: json["name"],
         department: json["department"],
-        officialaddress: json["officialaddress"],
+        address: json["address"],
         email: json["email"],
-        conatctno: json["conatctno"],
+        contactNo: json["contactNo"],
         id: json["id"],
       );
 
@@ -33,9 +33,9 @@ class VisitingOfficialsModel {
         "designation": designation,
         "name": name,
         "department": department,
-        "officialaddress": officialaddress,
+        "address": address,
         "email": email,
-        "conatctno": conatctno,
+        "contactNo": contactNo,
         "id": id
       };
 }

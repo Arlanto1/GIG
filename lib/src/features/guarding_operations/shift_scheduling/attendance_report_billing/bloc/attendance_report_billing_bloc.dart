@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attend
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'attendance_report_billing_event.dart';
-
 part 'attendance_report_billing_state.dart';
 
 class AttendanceReportBillingBloc

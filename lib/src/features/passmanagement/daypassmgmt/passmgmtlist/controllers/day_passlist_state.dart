@@ -1,19 +1,13 @@
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/day_passlist_model.dart';
 
-enum DayPassListStateType {
-  initial,
-  loading,
-  success,
-  failure,
-}
-
 class DayPassListState extends Equatable {
   final DayPassListResponse? foundListModel;
-  final DayPassListElement? foundArticleDetails;
+  final PassManagementModel? foundArticleDetails;
   final String? errorMessage;
-  final DayPassListStateType stateType;
+  final FormStatus stateType;
 
   const DayPassListState({
     this.foundListModel,
@@ -24,9 +18,9 @@ class DayPassListState extends Equatable {
 
   DayPassListState copyWith({
     DayPassListResponse? foundListModel,
-    DayPassListElement? foundArticleDetails,
+    PassManagementModel? foundArticleDetails,
     String? errorMessage,
-    DayPassListStateType? stateType,
+    FormStatus? stateType,
   }) {
     return DayPassListState(
       foundListModel: foundListModel ?? this.foundListModel,
