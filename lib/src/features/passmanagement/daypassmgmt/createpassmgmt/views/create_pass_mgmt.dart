@@ -191,7 +191,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
               if (widget.model == null &&
                   widget.passId != ConstantsIntValue.passIdSez) {
-                log('-builder-if--}--');
                 passtypeTextController.text = state.passTypes!.first.name!;
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
@@ -199,12 +198,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         (element) => element.id == widget.model?.passType) ??
                     [];
 
-                log('-passes---${passes.length}--');
                 if (!passes.isEmptyOrNull) {
                   passtypeTextController.text = passes.first.name!;
                 }
                 state.model.passType = widget.model?.passType;
-                log('-passes?.length---${passes.length}--');
                 // passtypeTextController.text = pass!.name!;
               }
 
@@ -1497,15 +1494,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           ? true
                                           : false,
                                       onChange: (String value) {
-                                        log('--fr-value-${passValidUntilTextController.text}------');
-
-                                        // TODO: Remove this commented code after testing
-                                        // passValidUntilTextController.text =
-                                        //     Utils.timestamptoDateConversion(
-                                        //         int.parse(
-                                        //             widget.model?.endTime ?? '0'),
-                                        //         Constants.dateFormat);
-
                                         /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
                                         if (widget.model != null &&
                                             !widget.model!.companyType!.name!
@@ -1517,8 +1505,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                           '0'),
                                                   Constants.dateFormat);
                                         }
-
-                                        log('--passValidUntilTextController.text----${passValidUntilTextController.text}---');
                                       },
                                       context: context,
                                     ),
@@ -2930,10 +2916,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //     });
             // },
             onTap: (Organisation organisation) {
-              log('--organisation---${organisation.name}----');
-
               // widget.model?.passInfo = PassInfo(id: organisation.id, passNo: organisation.name);
-              log('--widget.model?.passInfo---${widget.model?.passInfo}----');
               daypassnoTextController.text = organisation.name ?? '';
               createPassMgmtCubit.getPassListResponseData(organisation);
             },
@@ -3076,11 +3059,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     PassInfo passInfo =
         selectedPassInfo ?? widget.model?.passInfo ?? PassInfo();
 
-    log('-passInfo.passNo--${passInfo.passNo}-');
-
-    log('-daypassnoTextController.text--${daypassnoTextController.text}-');
-    log('-state.model.passType--${state.model.passType}-');
-
     passInfo.passType = state.model.passType;
 
     // For Day Pass and Sez Pass, Pass No is text field.
@@ -3091,7 +3069,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
-    int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passValidFromDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passReturnedOn = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     // int passValidUntilDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
@@ -3179,7 +3157,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         name: state.location?.name ?? '');
 
     // Organisation? companyType = widget.model?.companyType;
-    log('--state.locationSelectedlist?.id--${state.location?.id}----');
     Organisation? locationRegion = Organisation(
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
         name: state.location?.name ?? '');
@@ -3220,8 +3197,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     Organisation? companyType =
         state.selectedCompanyType ?? widget.model?.companyType;
 
-    log('-state.selectedCompanyType.id--${state.selectedCompanyType?.id}---');
-    log('-companyType--${companyType?.id}---');
     Organisation? department =
         state.selectedDepartment ?? widget.model?.department;
     Organisation? dayPass =
@@ -3322,12 +3297,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? hostEmployeeIdTextController.text
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
-        passIssuedOn: passvalidfromdate.toString(),
+        passIssuedOn: passValidFromDate.toString(),
         endTime: endTime,
         // endTime: widget.passId == ConstantsIntValue.passIdSez && widget.model?.category == 0
         //     ? passValidUntilDatePermanent.toString()
         //     : passValidUntilDate.toString(),
-        startTime: passvalidfromdate.toString(),
+        startTime: passValidFromDate.toString(),
         returnedTime:
             widget.model?.status == 1 ? passReturnedOn.toString() : null,
         hostName: dbsponsorTextController.text.isEmpty
@@ -3386,9 +3361,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           hostEmployeeId: hostEmployeeIdTextController.text.isNotEmpty
               ? hostEmployeeIdTextController.text
               : dbsponsorTextController.text,
-          passIssuedOn: passvalidfromdate.toString(),
+          passIssuedOn: passValidFromDate.toString(),
           endTime: endTime,
-          startTime: passvalidfromdate.toString(),
+          startTime: passValidFromDate.toString(),
           returnedTime:
               widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
@@ -3417,12 +3392,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           entrySecurity: entrySecurity,
           handoverSecurity: handoverSecurity);
     }
-    showLoadingDialog(context);
+    // showLoadingDialog(context);
     var username = await SharedPrefs.getUsername();
     CreatePassMgmtBody body = CreatePassMgmtBody(passManagement: passMgmtBody);
 
-    createPassMgmtCubit.createPass(body, isSubmit, context, username,
-        widget.model != null ? widget.title ?? '' : widget.title ?? '');
+    createPassMgmtCubit.createPass(
+      bodyRequest: body,
+      isSubmit: isSubmit,
+      username: username,
+      title: widget.model != null ? widget.title ?? '' : widget.title ?? '',
+    );
 
     // String userid = await SharedPrefs.getUserId();
     //
@@ -3431,311 +3410,311 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   passValidations(BuildContext context, CreatePassMgmtState state) {
-    if (statusTextController.text.isEmpty &&
-        state.getUserDetailsResponse == null &&
-        state.location == null &&
-        dateofcreationTextController.text.isEmpty &&
-        serialnumber == null &&
-        state.selectedEntities == null &&
-        passValidFromTextController.text.isEmpty &&
-        passValidUntilTextController.text.isEmpty &&
-        escortedEmployeeIdByTextController.text.isEmpty &&
-        mtpApplicationNoTextController.text.isEmpty &&
-        escortedByTextController.text.isEmpty &&
-        passtypeTextController.text.isEmpty &&
-        state.selectedDepartment == null &&
-        state.selectedCompanyType == null &&
-        state.dayPasselementReason == null) {
-      Validator().showToast(
-        context,
-        "Please fill all required fields",
-      );
-      //}
-      // else if (state.getUserDetailsResponse != null &&
-      //     (state.getUserDetailsResponse?.firstName ?? '').isEmpty &&
-      //     (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
-      //   Validator().showToast(
-      //     context,
-      //     "Please enter creator name",
-      //   );
-    } else if (state.location != null && (state.location?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter location",
-      );
-    } else if (dateofcreationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator date",
-      );
-    } else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter serial number",
-      );
-    } else if (state.selectedEntities == null) {
-      Validator().showToast(
-        context,
-        "Please enter entitiy",
-      );
-    }
-    // else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
-    //     widget.passId == ConstantsIntValue.passIdSez) && state.selectedCompanyType?.name != null ) {
+    // if (statusTextController.text.isEmpty &&
+    //     state.getUserDetailsResponse == null &&
+    //     state.location == null &&
+    //     dateofcreationTextController.text.isEmpty &&
+    //     serialnumber == null &&
+    //     state.selectedEntities == null &&
+    //     passValidFromTextController.text.isEmpty &&
+    //     passValidUntilTextController.text.isEmpty &&
+    //     escortedEmployeeIdByTextController.text.isEmpty &&
+    //     mtpApplicationNoTextController.text.isEmpty &&
+    //     escortedByTextController.text.isEmpty &&
+    //     passtypeTextController.text.isEmpty &&
+    //     state.selectedDepartment == null &&
+    //     state.selectedCompanyType == null &&
+    //     state.dayPasselementReason == null) {
     //   Validator().showToast(
     //     context,
-    //     "Please enter company type",
+    //     "Please fill all required fields",
+    //   );
+    //   //}
+    //   // else if (state.getUserDetailsResponse != null &&
+    //   //     (state.getUserDetailsResponse?.firstName ?? '').isEmpty &&
+    //   //     (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
+    //   //   Validator().showToast(
+    //   //     context,
+    //   //     "Please enter creator name",
+    //   //   );
+    // } else if (state.location != null && (state.location?.name ?? '').isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter location",
+    //   );
+    // } else if (dateofcreationTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter creator date",
+    //   );
+    // } else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter serial number",
+    //   );
+    // } else if (state.selectedEntities == null) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter entitiy",
     //   );
     // }
-    else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
-        companyNameTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter company name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
-        (state.nameResponse?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-            (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte') &&
-        nameTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        nameTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        widget.passId == ConstantsIntValue.passIdVendor
-            ? "Please enter vendor name"
-            : "Please enter visitor name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter contact no",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length <= 10 &&
-        contactnoTextController.text.length <= 17) {
-      Validator().showToast(
-        context,
-        "Please enter valid contact no",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        visitorcomingfromTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter visit coming from",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        photofidentityextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter photo identify type",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        purposeofvisitTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter purpose of visit",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
-        employeeIdTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter Employee id",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdSez &&
-        employeeIdTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter Employee id",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
-        emailTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter email",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
-        emailTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter email",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
-        !emailTextController.text.isEmptyOrNull &&
-        !Validator.isValidEmail(emailTextController.text))) {
-      log('-widget.model?.email--${widget.model?.email}-222--${emailTextController.text}---');
-
-      Validator().showToast(
-        context,
-        "Please enter valid email",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
-        sezpassinfoTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter SEZ pass info",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
-        mtpApplicationNoTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter MTP application no",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
-            widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
-            hostEmployeeIdTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter host",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
-            widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
-            hostEmployeeIdTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter host employeed id",
-      );
-    }
-    // else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-    //         widget.passId == ConstantsIntValue.passIdVendor ||
-    //         widget.passId == ConstantsIntValue.passIdSez) &&
-    //     (state.hostResponse?.name ?? '').isEmpty  && state.companyTypes == 'Exception') {
+    // // else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+    // //     widget.passId == ConstantsIntValue.passIdSez) && state.selectedCompanyType?.name != null ) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter company type",
+    // //   );
+    // // }
+    // else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
+    //     companyNameTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter company name",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+    //     (state.nameResponse?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter name",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //         (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte') &&
+    //     nameTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter name",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     nameTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     widget.passId == ConstantsIntValue.passIdVendor
+    //         ? "Please enter vendor name"
+    //         : "Please enter visitor name",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     contactnoTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter contact no",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     contactnoTextController.text.length <= 10 &&
+    //     contactnoTextController.text.length <= 17) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter valid contact no",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    //     visitorcomingfromTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter visit coming from",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    //     photofidentityextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter photo identify type",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    //     purposeofvisitTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter purpose of visit",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
+    //     employeeIdTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter Employee id",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdSez &&
+    //     employeeIdTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter Employee id",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
+    //     emailTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter email",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdSez &&
+    //     emailTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter email",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdSez &&
+    //     !emailTextController.text.isEmptyOrNull &&
+    //     !Validator.isValidEmail(emailTextController.text))) {
+    //   log('-widget.model?.email--${widget.model?.email}-222--${emailTextController.text}---');
+    //
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter valid email",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdSez &&
+    //     sezpassinfoTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter SEZ pass info",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdSez &&
+    //     mtpApplicationNoTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter MTP application no",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+    //         widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
+    //         hostEmployeeIdTextController.text.isEmpty)) {
     //   Validator().showToast(
     //     context,
     //     "Please enter host",
     //   );
-    // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-    //         widget.passId == ConstantsIntValue.passIdVendor ||
-    //         widget.passId == ConstantsIntValue.passIdSez) &&
-    //     hostemployeeidTextController.text.isEmpty) {
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+    //         widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
+    //         hostEmployeeIdTextController.text.isEmpty)) {
     //   Validator().showToast(
     //     context,
     //     "Please enter host employeed id",
     //   );
     // }
-    else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedDepartment == null ||
-            (state.selectedDepartment?.name ?? '').isEmpty))) {
-      Validator().showToast(
-        context,
-        "Please enter department",
-      );
-    } else if (((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        (state.selectedDepartment == null ||
-            (state.selectedDepartment?.name ?? '').isEmpty))) {
-      Validator().showToast(
-        context,
-        "Please enter visit department",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        passtypeTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter pass type",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.dayPasselementReason == null ||
-            (state.dayPasselementReason?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter reason for day pass",
-      );
-    } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-        (state.vendorPasselementReason == null ||
-            (state.vendorPasselementReason?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter reason for vendor pass",
-      );
-    }
-    /*else if (widget.passId == ConstantsIntValue.passIdDayPass && (state.selectedPassInfo == null||
-        (state.selectedPassInfo?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter day pass no",
-      );
-    }*/
-    // else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-    //     (state.selectedPassInfo == null|| (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    // // else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    // //         widget.passId == ConstantsIntValue.passIdVendor ||
+    // //         widget.passId == ConstantsIntValue.passIdSez) &&
+    // //     (state.hostResponse?.name ?? '').isEmpty  && state.companyTypes == 'Exception') {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter host",
+    // //   );
+    // // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    // //         widget.passId == ConstantsIntValue.passIdVendor ||
+    // //         widget.passId == ConstantsIntValue.passIdSez) &&
+    // //     hostemployeeidTextController.text.isEmpty) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter host employeed id",
+    // //   );
+    // // }
+    // else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedDepartment == null ||
+    //         (state.selectedDepartment?.name ?? '').isEmpty))) {
     //   Validator().showToast(
     //     context,
-    //     "Please enter Visitor pass no",
+    //     "Please enter department",
+    //   );
+    // } else if (((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     (state.selectedDepartment == null ||
+    //         (state.selectedDepartment?.name ?? '').isEmpty))) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter visit department",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    //     passtypeTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter pass type",
+    //   );
+    // } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.dayPasselementReason == null ||
+    //         (state.dayPasselementReason?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter reason for day pass",
     //   );
     // } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-    //     (state.selectedPassInfo == null ||
-    //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    //     (state.vendorPasselementReason == null ||
+    //         (state.vendorPasselementReason?.name ?? '').isEmpty)) {
     //   Validator().showToast(
     //     context,
-    //     "Please enter Vendor pass no",
+    //     "Please enter reason for vendor pass",
     //   );
+    // }
+    // /*else if (widget.passId == ConstantsIntValue.passIdDayPass && (state.selectedPassInfo == null||
+    //     (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter day pass no",
+    //   );
+    // }*/
+    // // else if (widget.passId == ConstantsIntValue.passIdVisitor &&
+    // //     (state.selectedPassInfo == null|| (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter Visitor pass no",
+    // //   );
+    // // } else if (widget.passId == ConstantsIntValue.passIdVendor &&
+    // //     (state.selectedPassInfo == null ||
+    // //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter Vendor pass no",
+    // //   );
+    // // // }
+    // // else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    // //         widget.passId == ConstantsIntValue.passIdVendor) &&
+    // //     (state.selectedPassInfo == null ||
+    // //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     widget.passId == ConstantsIntValue.passIdVendor
+    // //         ? "Please enter vendor pass no"
+    // //         : "Please enter visitor pass no",
+    // //   );
+    // // }
+    // else if (widget.passId == ConstantsIntValue.passIdSez &&
+    //     passCategoryTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter pass category",
+    //   );
+    // } else if (passValidFromTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter pass valid from",
+    //   );
+    // } else if (passValidUntilTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter pass valid until",
+    //   );
+    // }
+    // // else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    // //     ((state.escortedbyhost ?? 0) == 0) &&
+    // //     (escortedbyTextController.text.isEmpty)) {
+    // //   Validator().showToast(
+    // //     context,
+    // //     "Please enter escorted by",
+    // //   );
     // // }
     // else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
     //         widget.passId == ConstantsIntValue.passIdVendor) &&
-    //     (state.selectedPassInfo == null ||
-    //         (state.selectedPassInfo?.name ?? '').isEmpty)) {
-    //   Validator().showToast(
-    //     context,
-    //     widget.passId == ConstantsIntValue.passIdVendor
-    //         ? "Please enter vendor pass no"
-    //         : "Please enter visitor pass no",
-    //   );
-    // }
-    else if (widget.passId == ConstantsIntValue.passIdSez &&
-        passCategoryTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter pass category",
-      );
-    } else if (passValidFromTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter pass valid from",
-      );
-    } else if (passValidUntilTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter pass valid until",
-      );
-    }
-    // else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
     //     ((state.escortedbyhost ?? 0) == 0) &&
-    //     (escortedbyTextController.text.isEmpty)) {
+    //     (escortedEmployeeIdByTextController.text.isEmpty)) {
     //   Validator().showToast(
     //     context,
-    //     "Please enter escorted by",
+    //     "Please enter escort employeed id",
     //   );
+    // } else {
+    submitForm(true, widget.model?.id ?? 0, globalState);
     // }
-    else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        ((state.escortedbyhost ?? 0) == 0) &&
-        (escortedEmployeeIdByTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter escort employeed id",
-      );
-    } else {
-      submitForm(true, widget.model?.id ?? 0, globalState);
-    }
   }
 
   Widget datecreateWidgetdisplay() {

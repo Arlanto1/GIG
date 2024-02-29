@@ -894,8 +894,17 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> createPass(CreatePassMgmtBody bodyRequest, bool isSubmit,
-      BuildContext context, String username, String title) async {
+  Future<void> createPass({
+    required CreatePassMgmtBody bodyRequest,
+    required bool isSubmit,
+    required String username,
+    required String title,
+  }) async {
+    emit(
+      state.copyWith(
+        stateType: CreatePassMgmtStateType.loading,
+      ),
+    );
     try {
       CreatePassMgmtResponse? response =
           await createpassmgmtServices.createPass(
@@ -932,11 +941,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
 
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
+
+      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //   dismissLoadingDialog(context);
+      //   Utils.dynamicAlert(
+      //       context, Constants.errorText, title, Constants.errorText);
+      // });
     }
   }
 
