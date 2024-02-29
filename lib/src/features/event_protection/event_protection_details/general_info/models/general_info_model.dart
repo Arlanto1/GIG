@@ -1,9 +1,9 @@
 
 import 'package:db_atom/src/models/base_object.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'general_info_model.g.dart';
 

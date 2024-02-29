@@ -18,7 +18,6 @@ import '../../../enums/form_status.dart';
 import '../models/law_enforcement_list_response.dart';
 
 part 'law_enforcement_list_event.dart';
-
 part 'law_enforcement_list_state.dart';
 
 class LawEnforcementListBloc

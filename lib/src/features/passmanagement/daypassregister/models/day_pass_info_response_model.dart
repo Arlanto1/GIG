@@ -1,11 +1,6 @@
-// To parse this JSON data, do
-//
-//     final dayPassInfoResponse = dayPassInfoResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
 
 DayPassInfoResponseModel dayPassInfoResponseFromJson(String str) =>
     DayPassInfoResponseModel.fromJson(json.decode(str));

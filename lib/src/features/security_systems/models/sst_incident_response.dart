@@ -1,5 +1,4 @@
 import '../../../../index.dart';
-import '../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
 class SstIncidentResponse {
   final List<SstIncident>? items;

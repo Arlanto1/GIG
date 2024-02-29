@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'material_movement_event.dart';
-
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc

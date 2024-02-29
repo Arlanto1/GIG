@@ -9,7 +9,6 @@ import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
 
 part 'occurrences_event.dart';
-
 part 'occurrences_state.dart';
 
 class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {

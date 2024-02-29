@@ -1,6 +1,5 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
 
 class DayPassInfoListPage extends StatefulWidget {
   String passId = '0';

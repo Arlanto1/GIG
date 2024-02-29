@@ -9,7 +9,6 @@ import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
-
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc

@@ -2,7 +2,6 @@ import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/m
 import 'package:db_atom/src/models/base_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'violation_penalty_list_response_model.g.dart';
 
 class ViolationPenaltyListResponseModel extends BaseObject {

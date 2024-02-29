@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {

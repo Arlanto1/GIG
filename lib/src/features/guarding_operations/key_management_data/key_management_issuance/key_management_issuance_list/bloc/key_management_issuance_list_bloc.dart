@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_management_issuance_list_event.dart';
-
 part 'key_management_issuance_list_state.dart';
 
 class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,

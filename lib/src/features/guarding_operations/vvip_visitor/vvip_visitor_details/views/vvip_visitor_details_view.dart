@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
@@ -21,11 +19,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
-import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../utils/customalert.dart';
 import '../../models/vvip_visitor_response_model.dart';

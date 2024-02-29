@@ -1,10 +1,9 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import 'package:db_atom/index.dart';
 
 part 'duty_post_master_details_state.dart';
 

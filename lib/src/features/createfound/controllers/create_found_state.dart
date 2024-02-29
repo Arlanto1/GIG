@@ -1,7 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;

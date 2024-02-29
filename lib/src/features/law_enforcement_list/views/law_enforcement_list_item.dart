@@ -5,7 +5,6 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

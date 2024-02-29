@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:flutter/scheduler.dart';
 
 class FoundListCubit extends Cubit<FoundListState> {
   final FoundListServices foundListServices;

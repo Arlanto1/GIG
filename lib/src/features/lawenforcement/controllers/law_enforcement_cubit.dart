@@ -9,7 +9,6 @@ import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:flutter/scheduler.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;

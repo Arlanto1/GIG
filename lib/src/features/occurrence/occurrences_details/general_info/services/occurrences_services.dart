@@ -1,13 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-
-import '../models/general_info_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;

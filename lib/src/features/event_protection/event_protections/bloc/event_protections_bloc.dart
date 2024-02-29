@@ -16,7 +16,6 @@ import '../../models/event_protection_model.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
-
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc

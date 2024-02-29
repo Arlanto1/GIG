@@ -3,13 +3,11 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
-
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/vvip_visitor_response_model.dart';
 
 part 'vvip_visitors_event.dart';
-
 part 'vvip_visitors_state.dart';
 
 class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
