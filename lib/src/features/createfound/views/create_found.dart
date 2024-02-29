@@ -2,10 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.dart';
-import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
 
@@ -50,7 +46,7 @@ class _CreateFoundState extends State<CreateFound> {
 
   // String slnoValue = "dfwe";
   String createdByValue = "";
-  String handOverByValue="";
+  String handOverByValue = "";
   String locationselectedText = "";
   Organisation? selectedEmployeedepartment;
   Organisation? selectedClaimdepartment;
@@ -115,7 +111,8 @@ class _CreateFoundState extends State<CreateFound> {
               lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
       createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
-      handOverByValue = handOverSecurity?.name != null ? handOverSecurity?.name ?? '' : '';
+      handOverByValue =
+          handOverSecurity?.name != null ? handOverSecurity?.name ?? '' : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       locationSelectedlist = widget.model?.location != null
           ? Organisation(
@@ -733,6 +730,7 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   FocusNode depositorEmployeeFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -866,14 +864,14 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
-                  handOverSecurity = state.loggedInUser??User();
+                  handOverSecurity = state.loggedInUser ?? User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
                   }
                   if (handOverSecurity != null) {
                     handOverByValue =
-                    '${handOverSecurity?.firstName ?? ''} ${handOverSecurity?.lastName ?? ''}';
+                        '${handOverSecurity?.firstName ?? ''} ${handOverSecurity?.lastName ?? ''}';
                   }
                   serialnumberResponse = state.getSerialnumberResponse;
                   if (serialnumberResponse != null) {
@@ -955,17 +953,15 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
-                                  ///created by
-
+                                  /// Created By
                                   CommonWidgets.horizentaltextHandling(
                                       Constants.createdby,
                                       isMandatory: true,
-                                      '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'),
+                                      '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.loggedInUser?.lastName ?? ''}'),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
                                   /// Location
-
                                   CommonWidgets.textDisplay(Constants.location,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
@@ -1245,7 +1241,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                 widget.model == null) {
                                               depositorDialog(
                                                   state, Constants.depositor);
-                                              FocusScope.of(context).requestFocus(depositorEmployeeFocusNode);
+                                              FocusScope.of(context).requestFocus(
+                                                  depositorEmployeeFocusNode);
                                             }
                                           })
                                       : FlutterInputField(
@@ -1573,7 +1570,9 @@ class _CreateFoundState extends State<CreateFound> {
                                       widget.model?.status == 1) ...[
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.itemhandoverby,
-                                        widget.model?.status == 2 ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}' : '',
+                                        widget.model?.status == 2
+                                            ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
+                                            : '',
                                         // '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
                                         isMandatory: true),
 

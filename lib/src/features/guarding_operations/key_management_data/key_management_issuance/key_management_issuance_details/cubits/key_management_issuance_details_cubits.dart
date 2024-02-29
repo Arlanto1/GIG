@@ -1,14 +1,9 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../../createfound/models/get_depositor_model.dart';
 
 part 'key_management_issuance_details_state.dart';
 
@@ -35,13 +30,14 @@ class KeyManagementIssuanceDetailsCubit
             errorMessage: '',
           ),
         );
+
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
     emit(
       state.copyWith(
@@ -52,6 +48,7 @@ class KeyManagementIssuanceDetailsCubit
       ),
     );
   }
+
   void onModelValueChange(KeyManagementIssuanceModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -107,7 +104,7 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
-      state.model.keyHandOverDate=Utils().getCurrentDate();
+      state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
@@ -322,6 +319,7 @@ class KeyManagementIssuanceDetailsCubit
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.keyManagementIssuanceModule);

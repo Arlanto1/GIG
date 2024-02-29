@@ -210,7 +210,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status

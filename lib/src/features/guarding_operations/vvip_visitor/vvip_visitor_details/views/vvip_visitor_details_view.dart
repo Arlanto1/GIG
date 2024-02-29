@@ -205,7 +205,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby, isMandatory: true,
-                                '${state.model?.entrySecurity?.firstName ?? ''} ${state.model?.entrySecurity?.lastName ?? ''}'),
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status

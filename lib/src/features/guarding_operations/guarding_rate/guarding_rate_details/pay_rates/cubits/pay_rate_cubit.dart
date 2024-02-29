@@ -1,28 +1,9 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/gm_rate_request.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/pay_rate_request.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../constants/constants.dart';
-import '../../../../../../enums/form_status.dart';
-import '../../../../../../models/organisation.dart';
-import '../../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../../models/responseModels/generic_response.dart';
-import '../../../../../../utils/shared_preferences.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../../createfound/models/get_locations_model.dart';
-import '../../../../../createfound/models/serial_number_model.dart';
-import '../../../../../createfound/models/user.dart';
-import '../../../../../createfound/models/vendors_model.dart';
-import '../../../../../lawenforcement/models/addentities.dart';
 
 part 'pay_rate_state.dart';
 
@@ -51,9 +32,8 @@ class PayRateCubit extends Cubit<PayRateState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    Vendors getVendors =
-    await commonServices.getVendors(name: 'ATOM_VENDORS');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    Vendors getVendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     emit(
       state.copyWith(
@@ -65,6 +45,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
   }
+
   Future<void> initializeValues() async {
     //Show Loader and emit loading state
     emit(
@@ -92,9 +73,6 @@ class PayRateCubit extends Cubit<PayRateState> {
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
-    for (Organisation entity in entities ?? []) {
-      log('--entity.name---${entity.name}--');
-    }
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
       if (defaultLocation != null) {

@@ -8,11 +8,12 @@ class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool viaOccurrence;
   final SstIncident? model;
 
-  const SstIncidentGeneralInfoView(
-      {super.key,
-      required this.isInternal,
-      required this.viaOccurrence,
-      this.model});
+  const SstIncidentGeneralInfoView({
+    super.key,
+    required this.isInternal,
+    required this.viaOccurrence,
+    this.model,
+  });
 
   @override
   State<SstIncidentGeneralInfoView> createState() =>
@@ -189,7 +190,7 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.horizentaltextHandling(
                                 Constants.createdby,
                                 isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -224,16 +225,16 @@ class _SstIncidentGeneralInfoViewState
                                       Label? selectedLabel;
                                       selectedLabel =
                                           sstIncidentsStatusItems.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
+                                        (label) => label.key == value,
+                                        orElse: () =>
                                             const Label(key: '', value: ''),
-                                          );
+                                      );
                                       BlocProvider.of<
-                                          SstIncidentGeneralInfoCubit>(
-                                          context)
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          status: int.tryParse(
-                                              selectedLabel.value));
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
                                     },
                                   );
                                 }
@@ -261,7 +262,7 @@ class _SstIncidentGeneralInfoViewState
                                 selectedLocation:
                                     state.model.location?.name ?? '',
                                 enabled: state.model.id == null ||
-                                    state.model.status == 1 ,
+                                    state.model.status == 1,
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
                                   log('location?.name-----${location?.name}');
@@ -479,8 +480,7 @@ class _SstIncidentGeneralInfoViewState
                                         systemManager: user,
                                       );
                                     },
-                                    roleName:
-                                    'ATOM_Security_System_Manager',
+                                    roleName: 'ATOM_Security_System_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -654,7 +654,11 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
-                              selectedValue:state.model.ipbArea == null?null : state.model?.ipbArea== true ? 1: 0,
+                              selectedValue: state.model.ipbArea == null
+                                  ? null
+                                  : state.model?.ipbArea == true
+                                      ? 1
+                                      : 0,
                               onChangedYes: disableForm
                                   ? null
                                   : (val) {
@@ -682,26 +686,28 @@ class _SstIncidentGeneralInfoViewState
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
-                            if(state.model.status ==1||state.model.status ==null)...[
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? User(),
-                              getFiles: uploadFiles,
-                              onImageSelected: (ImageContent data) {
-                                List<ImageContent>? files = [];
-                                files.add(data);
-                                for (ImageContent image in uploadFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<SstIncidentGeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(
-                                  data: files,
-                                  images: files,
-                                );
-                              },
-                            ),
+                            if (state.model.status == 1 ||
+                                state.model.status == null) ...[
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                loggedInUserDetails:
+                                    state.loggedInUserDetails ?? User(),
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                      in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<SstIncidentGeneralInfoCubit>(
+                                          context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
                             ],
                             // Attachments
                             BaseImageUpload().getAttachment(

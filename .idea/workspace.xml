@@ -4,22 +4,29 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="focus">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="pass management list bloc">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/models/base_filter_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/base_filter_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitor_details/views/vvip_visitor_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +46,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test-case" />
+        <entry key="$PROJECT_DIR$" value="pass-list-bloc" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -80,33 +87,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;shift-schedule&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/guarding_operations/shift_scheduling&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "shift-schedule",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/passmanagement",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/passmanagement" />
+      <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models" />
-      <recent name="$PROJECT_DIR$/lib/src/utils" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter" />
@@ -502,7 +509,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="240" />
+    <option name="localTasksCounter" value="254" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -539,19 +546,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="location update issue fixed" />
-    <MESSAGE value="DONE: cancel API, charcter limit" />
-    <MESSAGE value="DONE: cancel API" />
-    <MESSAGE value="model" />
-    <MESSAGE value="WIP: search filter" />
-    <MESSAGE value="DONE: Article Found Show Error" />
-    <MESSAGE value="WIP: Base Setup For Filters Done" />
-    <MESSAGE value="article found cancel button working" />
-    <MESSAGE value="improvements in day pass" />
-    <MESSAGE value="pass management code improved and bugs fixed" />
-    <MESSAGE value="guarding master data add missing fields" />
-    <MESSAGE value="occurence issue fixed" />
-    <MESSAGE value="download image issue fixed" />
     <MESSAGE value="pull down to refresh" />
     <MESSAGE value="input" />
     <MESSAGE value="event protection tile display issue fixed" />
@@ -559,12 +553,25 @@
     <MESSAGE value="pass mangments" />
     <MESSAGE value="edit image title" />
     <MESSAGE value="missing file" />
-    <MESSAGE value="filters improved" />
     <MESSAGE value="clear password on resend password" />
     <MESSAGE value="key history record list issue fixed" />
     <MESSAGE value="spell check" />
     <MESSAGE value="focus" />
-    <option name="LAST_COMMIT_MESSAGE" value="focus" />
+    <MESSAGE value="filters improved" />
+    <MESSAGE value="day pass issue fixed company name editable" />
+    <MESSAGE value="issue fixed" />
+    <MESSAGE value="status issue fixed" />
+    <MESSAGE value="focus handled for company type and name field" />
+    <MESSAGE value="common filters improved" />
+    <MESSAGE value="cancel record issue fixed." />
+    <MESSAGE value="mm issue fixed" />
+    <MESSAGE value="password input" />
+    <MESSAGE value="mm loading issue" />
+    <MESSAGE value="focus handled for MM" />
+    <MESSAGE value="minor" />
+    <MESSAGE value="article found list bloc" />
+    <MESSAGE value="pass management list bloc" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass management list bloc" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

@@ -4,11 +4,9 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
-  // final String title;
 
   const ShiftScheduleDetailsView({
     super.key,
-    // required this.title,
   });
 
   @override
@@ -232,7 +230,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation

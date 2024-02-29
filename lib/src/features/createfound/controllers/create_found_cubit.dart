@@ -2,14 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:flutter/scheduler.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
@@ -25,6 +19,35 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           ),
         );
   CommonServices commonServices = CommonServices();
+
+  Future<void> initializeValues() async {
+    //Show Loader and emit loading state
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    var userId = await SharedPrefs.getUserId();
+    try {
+      User loggedInUserDetails =
+          await commonServices.getUserDetails(userId: userId);
+
+      emit(
+        state.copyWith(
+          loggedInUser: loggedInUserDetails,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          // TODO: error message should be dynamic
+          status: FormStatus.failure,
+        ),
+      );
+    }
+  }
 
   // Create new Found Article successfully API call
   Future<void> createNewFoundArticle(
@@ -377,35 +400,6 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       dismissLoadingDialog(context);
-    }
-  }
-
-  Future<void> initializeValues() async {
-    //Show Loader and emit loading state
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
-    var userId = await SharedPrefs.getUserId();
-    try {
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-
-      emit(
-        state.copyWith(
-          loggedInUser: loggedInUserDetails,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          // TODO: error message should be dynamic
-          status: FormStatus.failure,
-        ),
-      );
     }
   }
 

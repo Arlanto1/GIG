@@ -590,7 +590,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.horizentaltextHandling(
                                 Constants.createdby,
                                 isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Incident Date and Time

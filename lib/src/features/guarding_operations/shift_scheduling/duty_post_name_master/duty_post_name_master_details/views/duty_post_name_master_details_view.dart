@@ -212,7 +212,7 @@ class _DutyPostNameMasterDetailsViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation

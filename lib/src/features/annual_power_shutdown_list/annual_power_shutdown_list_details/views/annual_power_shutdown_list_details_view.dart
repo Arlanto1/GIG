@@ -242,7 +242,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                                   isMandatory: true,
-                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                  '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Location
