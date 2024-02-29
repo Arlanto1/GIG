@@ -112,8 +112,11 @@ defaultConfig {
     // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
     applicationId "com.arlanto.atomedge"
     minSdkVersion 26
-    targetSdkVersion 33
-    compileSdkVersion 33
+    targetSdkVersion 34
+//    compileSdkVersion 34
+    defaultConfig {
+        compileSdk 34
+    }
     versionCode 3
     versionName flutterVersionName
     multiDexEnabled true

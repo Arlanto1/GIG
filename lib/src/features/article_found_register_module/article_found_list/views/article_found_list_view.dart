@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class ArticleFoundListView extends StatefulWidget {
@@ -160,87 +162,34 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                           ? state.items.length
                           : state.items.length + 1,
                       itemBuilder: (context, index) {
-                        List<Label> labels = [];
                         if (index < state.items.length) {
-                          labels.add(Label(
-                              key: 'Date',
-                              value: state.items[index].inputDate != null
-                                  ? Utils.timestamptoDateConversion(
-                                      int.parse(
-                                          state.items[index].inputDate ?? '0'),
-                                      Constants.dateFormat)
-                                  : ''));
-                          labels.add(Label(
-                              key: 'Region',
-                              value: state.items[index].locationRegion?.name ??
-                                  ''));
-                          labels.add(Label(
-                              key: 'Location',
-                              value: state.items[index].location?.name ?? ''));
+                          FoundModel user = state.items[index];
 
-                          return index >= state.items.length
-                              ? const BaseLoader()
-                              : BaseListTileItem(
-                                  id: state.items[index].id,
-                                  labels: labels,
-                                  status: state.items[index].status,
-                                  isMasterGuard: false,
-                                  isMaterialMovementStatus: true,
-                                  isEventProtectionStatus: false,
-                                  onTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          labels: labels,
-                                          quantity: state
-                                              .items[selectedIndex].quantity
-                                              .toString(),
-
-                                          slNo: state.items[selectedIndex].slNo,
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          entrySecurityName: state
-                                              .items[selectedIndex]
-                                              .entrySecurityName,
-                                          isMasterGuard: false,
-                                          isMaterialMovementStatus: true,
-                                          isEventProtectionStatus: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  onEditTap: (selectedIndex) {
-                                    getById(state.items[index].id ?? 0);
-                                  },
-                                  onViewTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          labels: labels,
-                                          quantity: state
-                                              .items[selectedIndex].quantity
-                                              .toString(),
-                                          slNo: state.items[selectedIndex].slNo,
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          entrySecurityName: state
-                                              .items[selectedIndex]
-                                              .entrySecurityName,
-                                          isMasterGuard: false,
-                                          isMaterialMovementStatus: true,
-                                          isEventProtectionStatus: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  index: index,
-                                );
+                          return FoundListItem(
+                            userItem: user,
+                            onTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return CustomPopUpList(
+                                      state.items[selectedIndex]);
+                                },
+                              );
+                            },
+                            onEditTap: (selectedIndex) {
+                              getById(state.items[selectedIndex].id ?? 0);
+                            },
+                            onViewTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return CustomPopUpList(
+                                      state.items[selectedIndex]);
+                                },
+                              );
+                            },
+                            index: index,
+                          );
                         }
                         return const Center(
                           child: SizedBox(),
