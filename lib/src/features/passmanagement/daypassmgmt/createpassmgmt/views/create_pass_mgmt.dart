@@ -154,7 +154,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 // TODO: Need to improve this code
                 Navigator.pop(context);
                 Navigator.pop(context);
-                Navigator.pop(context);
+                // Navigator.pop(context);
                 // TODO: dynamic title
                 Navigator.popAndPushNamed(
                   context,
