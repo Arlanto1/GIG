@@ -325,12 +325,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Get pass number call
   Future<void> getPassNumber(
     int passType,
-    String locationId,
-    BuildContext context,
+    int locationId,
   ) async {
     try {
-      DayPassNumberLists companyTypes =
-          await createpassmgmtServices.getPassNo(passType, locationId, context);
+      DayPassNumberLists companyTypes = await createpassmgmtServices.getPassNo(
+          passType: passType, locationId: locationId);
       emit(
         state.copyWith(
           passnumbelistresponse: companyTypes,
@@ -347,7 +346,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getpassListResponseData(Organisation org) async {
+  getPassListResponseData(Organisation org) async {
     log('-org---${org.name}--');
 
     try {
@@ -709,7 +708,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     );
 
     try {
-      log('-@@@@@@@@@@--111---');
       if (passId != ConstantsIntValue.passIdSez) {
         Organisation? defaultLocation;
         if (model.location == null) {
@@ -717,8 +715,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         } else {
           defaultLocation = model.location;
         }
-        log('-@@@@@@@@@@--222---');
-        log('-defaultLocation---${defaultLocation?.id}--');
 
         String moduleCode = Constants.passManagementModule;
         if (passId == ConstantsIntValue.passIdDayPass) {
@@ -737,27 +733,24 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         );
 
         // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
-        log('-@@@@@@@@@@--333---');
 
-        List<Organisation> passTypes = await createpassmgmtServices.getPassTypes(
-            passId: passId, locationId: defaultLocation.id!);
+        List<Organisation> passTypes = await createpassmgmtServices
+            .getPassTypes(passId: passId, locationId: defaultLocation.id!);
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
-        log('-state.passTypes.length---${state.passTypes?.length}--'); // Should not be null now
 
-        log('-@@@@@@@@@@--444---');
+        DayPassNumberLists companyTypes = await createpassmgmtServices
+            .getPassNo(passType: passId, locationId: defaultLocation.id!);
+
         List<Organisation> updateStatuses = [];
         if (model.status != null && (model.status == 0 || model.status == 1)) {
           updateStatuses = await commonServices.getStatusesByModuleId(
               module: Constants.passManagementModuleCode, filter: model.status);
         }
 
-        log('-@@@@@@@@@@-----');
-
-
-        // emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
         emit(state.copyWith(
           location: defaultLocation,
           updateStatuses: updateStatuses,
+          passnumbelistresponse: companyTypes,
           passTypes: passTypes,
           getSerialnumberResponse: serialNumberResponse,
           stateType: CreatePassMgmtStateType.success,
@@ -991,7 +984,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       ),
     );
 
-    if(updateStatus!= null) {
+    if (updateStatus != null) {
       state.model.updatedStatus = updateStatus.id;
     }
 

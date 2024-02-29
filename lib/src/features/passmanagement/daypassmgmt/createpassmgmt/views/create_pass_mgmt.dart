@@ -21,16 +21,16 @@ class CreatePassManagement extends StatefulWidget {
 }
 
 class _CreatePassManagementState extends State<CreatePassManagement> {
-  final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> lawEnforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController updateStatusTextController = TextEditingController();
-  TextEditingController passvalidfromTextController = TextEditingController();
+  TextEditingController passValidFromTextController = TextEditingController();
   TextEditingController passValidUntilTextController = TextEditingController();
   TextEditingController companyNameTextController = TextEditingController();
-  TextEditingController employeeidTextController = TextEditingController();
-  TextEditingController hostemployeeidTextController = TextEditingController();
-  TextEditingController escortedbyTextController = TextEditingController();
-  TextEditingController escortedemployeedidbyTextController =
+  TextEditingController employeeIdTextController = TextEditingController();
+  TextEditingController hostEmployeeIdTextController = TextEditingController();
+  TextEditingController escortedByTextController = TextEditingController();
+  TextEditingController escortedEmployeeIdByTextController =
       TextEditingController();
   TextEditingController nameTextController = TextEditingController();
   TextEditingController hostTextController = TextEditingController();
@@ -248,7 +248,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       child: AbsorbPointer(
                         absorbing: isDisabled,
                         child: Form(
-                          key: lawenforcementFormKey,
+                          key: lawEnforcementFormKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -740,7 +740,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 ConstantsIntValue.passIdSez
                                         ? textFieldWidgetLoad(
                                             controller:
-                                                employeeidTextController,
+                                                employeeIdTextController,
                                             index: 0,
                                             state: state,
                                           )
@@ -1254,7 +1254,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         //         null &&
                                         //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? textfieldWidgetLoad1(
-                                            hostemployeeidTextController,
+                                            hostEmployeeIdTextController,
                                             0,
                                             state,
                                           )
@@ -1362,7 +1362,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               // if (widget.passId == ConstantsIntValue.passIdSez) {
                                               //   passCategoryDialog(state: state);
                                               // } else {
-                                              passnumberTypeDialog(state);
+                                              passNumberTypeDialog(state);
                                               // }
                                             }
                                           }
@@ -1393,7 +1393,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                 //   passCategoryDialog(state: state);
                                                 // } else {
-                                                passnumberTypeDialog(state);
+                                                passNumberTypeDialog(state);
                                                 // }
                                               }
                                             },
@@ -1416,7 +1416,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     //   passCategoryDialog(
                                                     //       state: state);
                                                     // } else {
-                                                    passnumberTypeDialog(state);
+                                                    passNumberTypeDialog(state);
                                                     //}
                                                   }
                                                 })),
@@ -1435,7 +1435,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       datepickerWidgetLoading(
-                                          passvalidfromTextController),
+                                          passValidFromTextController),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ],
@@ -1456,10 +1456,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             : true,
                                         showFutureDate: false,
                                         textController:
-                                            passvalidfromTextController,
+                                            passValidFromTextController,
                                         onlyDate: false,
                                         onChange: (String value) {
-                                          passvalidfromTextController.text =
+                                          passValidFromTextController.text =
                                               Utils.timestamptoDateConversion(
                                                   int.parse(
                                                       widget.model?.startTime ??
@@ -1586,7 +1586,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     0)
                                         ? textFieldWidgetLoad(
                                             controller:
-                                                escortedbyTextController,
+                                                escortedByTextController,
                                             index: 0,
                                             state: state,
                                           )
@@ -1644,7 +1644,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     0)
                                         ? textFieldWidgetLoad(
                                             controller:
-                                                escortedemployeedidbyTextController,
+                                                escortedEmployeeIdByTextController,
                                             index: 0,
                                             state: state,
                                           )
@@ -1867,7 +1867,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
-      employeeidTextController.text = widget.model?.employeeId != null
+      employeeIdTextController.text = widget.model?.employeeId != null
           ? widget.model?.employeeId.toString() ?? ""
           : '';
       sezpassinfoTextController.text = widget.model?.passInfo != null
@@ -1879,14 +1879,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       mtpApplicationNoTextController.text = widget.model?.mifareNo != null
           ? widget.model?.mifareNo.toString() ?? ""
           : '';
-      escortedemployeedidbyTextController.text =
+      escortedEmployeeIdByTextController.text =
           widget.model?.escortedEmployeeId != null
               ? widget.model?.escortedEmployeeId.toString() ?? ""
               : '';
-      escortedbyTextController.text = widget.model?.escortedByName != null
+      escortedByTextController.text = widget.model?.escortedByName != null
           ? widget.model?.escortedByName.toString() ?? ""
           : '';
-      hostemployeeidTextController.text = widget.model?.hostEmployeeId != null
+      hostEmployeeIdTextController.text = widget.model?.hostEmployeeId != null
           ? widget.model?.hostEmployeeId.toString() ?? ""
           : '';
       var userId = await SharedPrefs.getUserId();
@@ -1929,12 +1929,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
-      passvalidfromTextController.text =
+      passValidFromTextController.text =
           widget.model?.startTime != null && widget.model?.startTime != '0'
               ? Utils.timestamptoDateConversion(
                   int.parse(widget.model?.startTime ?? '0'),
                   Constants.fulldateFormat)
-              : passvalidfromTextController.text;
+              : passValidFromTextController.text;
       passValidUntilTextController.text = widget.model?.endTime != null &&
               widget.model?.endTime != '0'
           ? Utils.timestamptoDateConversion(
@@ -2014,13 +2014,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       log('-widget.model!.passInfo?.passNo----${widget.model!.passInfo?.passNo}-');
 
       daypassnoTextController.text = widget.model!.passInfo?.passNo ?? '';
-      createPassMgmtCubit.getpassListResponseData(active);
+      createPassMgmtCubit.getPassListResponseData(active);
       // await createpassmgmtCubit.getSerialnumberDetails(
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
       //     'SEZPass',
       //     context);
-      createPassMgmtCubit.getPassNumber(
-          0, (widget.model?.location?.id ?? 0).toString(), context);
+      createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
@@ -2077,7 +2076,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeidTextController.text = widget.model?.employeeId ?? '';
+      employeeIdTextController.text = widget.model?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       dbsponsorTextController.text = widget.model?.hostEmployeeId ?? '';
@@ -2444,8 +2443,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         .format(pickedDate ?? DateTime.now());
     log(formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == passvalidfromTextController) {
-      passvalidfromTextController.text = formattedDate;
+    if (textfield == passValidFromTextController) {
+      passValidFromTextController.text = formattedDate;
     }
     // setState(() {
     //   // dateinput.text = formattedDate; //set output date to TextField value.
@@ -2467,7 +2466,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     passReturnedTextController.text =
         widget.model?.status == 1 ? formattedDate : '';
     if (widget.passId != ConstantsIntValue.passIdSez) {
-      passvalidfromTextController.text = formattedDate;
+      passValidFromTextController.text = formattedDate;
       passValidUntilTextController.text = nextFormattedDate;
     }
     if (widget.model == null) {
@@ -2912,7 +2911,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //     },
   //   );
   // }
-  passnumberTypeDialog(CreatePassMgmtState state) {
+  passNumberTypeDialog(CreatePassMgmtState state) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -2936,7 +2935,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               // widget.model?.passInfo = PassInfo(id: organisation.id, passNo: organisation.name);
               log('--widget.model?.passInfo---${widget.model?.passInfo}----');
               daypassnoTextController.text = organisation.name ?? '';
-              createPassMgmtCubit.getpassListResponseData(organisation);
+              createPassMgmtCubit.getPassListResponseData(organisation);
             },
           );
         });
@@ -2978,17 +2977,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               return CustomExpansionListTexts(
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
-                onTap: (Organisation? org) async {
+                onTap: (Organisation org) async {
                   await createPassMgmtCubit.getSerialnumberDetails(
-                    org?.id.toString() ?? '',
+                    org.id.toString() ?? '',
                     widget.passId,
                   );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)
-                      .getPassTypes(
-                          locationId: org!.id!, passId: widget.passId);
+                      .getPassTypes(locationId: org.id!, passId: widget.passId);
 
                   await createPassMgmtCubit.getPassNumber(
-                      widget.passId, org.id.toString() ?? '', context);
+                      widget.passId, org.id!);
                   createPassMgmtCubit.getlocationsResponseData(org);
                   daypassnoTextController.text = '';
                 },
@@ -3309,7 +3307,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
-        employeeId: employeeidTextController.text,
+        employeeId: employeeIdTextController.text,
         employee: User(
           userId: state.nameResponse?.id,
           name: state.nameResponse?.name,
@@ -3318,10 +3316,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passType: passInfo.passType,
         passInfo: passInfo,
         passNo: passInfo.passNo,
-        escortedBy: escortedbyTextController.text,
-        escortedEmployeeId: escortedemployeedidbyTextController.text,
-        hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
-            ? hostemployeeidTextController.text
+        escortedBy: escortedByTextController.text,
+        escortedEmployeeId: escortedEmployeeIdByTextController.text,
+        hostEmployeeId: hostEmployeeIdTextController.text.isNotEmpty
+            ? hostEmployeeIdTextController.text
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
@@ -3373,7 +3371,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           employeeName: state.nameResponse?.name == null
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
-          employeeId: employeeidTextController.text,
+          employeeId: employeeIdTextController.text,
           employee: User(
             userId: state.nameResponse?.id,
             name: state.nameResponse?.name,
@@ -3382,11 +3380,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           passType: passInfo.passType,
           //0,
           passNo: passInfo.passNo,
-          escortedBy: escortedbyTextController.text,
-          escortedEmployeeId: escortedemployeedidbyTextController.text,
+          escortedBy: escortedByTextController.text,
+          escortedEmployeeId: escortedEmployeeIdByTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
-          hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
-              ? hostemployeeidTextController.text
+          hostEmployeeId: hostEmployeeIdTextController.text.isNotEmpty
+              ? hostEmployeeIdTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
           endTime: endTime,
@@ -3439,11 +3437,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         dateofcreationTextController.text.isEmpty &&
         serialnumber == null &&
         state.selectedEntities == null &&
-        passvalidfromTextController.text.isEmpty &&
+        passValidFromTextController.text.isEmpty &&
         passValidUntilTextController.text.isEmpty &&
-        escortedemployeedidbyTextController.text.isEmpty &&
+        escortedEmployeeIdByTextController.text.isEmpty &&
         mtpApplicationNoTextController.text.isEmpty &&
-        escortedbyTextController.text.isEmpty &&
+        escortedByTextController.text.isEmpty &&
         passtypeTextController.text.isEmpty &&
         state.selectedDepartment == null &&
         state.selectedCompanyType == null &&
@@ -3526,7 +3524,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length <= 10 &&  contactnoTextController.text.length <= 17) {
+        contactnoTextController.text.length <= 10 &&
+        contactnoTextController.text.length <= 17) {
       Validator().showToast(
         context,
         "Please enter valid contact no",
@@ -3551,13 +3550,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
         (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
-        employeeidTextController.text.isEmpty) {
+        employeeIdTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter Employee id",
       );
     } else if (widget.passId == ConstantsIntValue.passIdSez &&
-        employeeidTextController.text.isEmpty) {
+        employeeIdTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter Employee id",
@@ -3600,7 +3599,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
-            hostemployeeidTextController.text.isEmpty)) {
+            hostEmployeeIdTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter host",
@@ -3609,7 +3608,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
-            hostemployeeidTextController.text.isEmpty)) {
+            hostEmployeeIdTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter host employeed id",
@@ -3707,7 +3706,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass category",
       );
-    } else if (passvalidfromTextController.text.isEmpty) {
+    } else if (passValidFromTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass valid from",
@@ -3729,7 +3728,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.escortedbyhost ?? 0) == 0) &&
-        (escortedemployeedidbyTextController.text.isEmpty)) {
+        (escortedEmployeeIdByTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter escort employeed id",
