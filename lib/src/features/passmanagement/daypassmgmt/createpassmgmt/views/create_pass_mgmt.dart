@@ -1309,7 +1309,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.01),
                                     ],
 
-                                    ///Exceptional approval for External auditors/regulators
+                                    /// Exceptional approval for External auditors/regulators
                                     if (state.dayPasselementReason != null &&
                                         (state.dayPasselementReason!.name
                                                 .equalsIgnoreCase(
@@ -3089,32 +3089,33 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //      "${dateString.split("-")[0]}-${dateString.split("-")[1]}-${dateString.split("-")[2]}");
     // int passValidUntilDate = dateTime.millisecondsSinceEpoch ~/ 1000;
 
-    int statusValue = 0;
-
-    if (statusTextController.text.toLowerCase() == "Created") {
-      statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() == "Handed over") {
-      statusValue = 1;
-    } else if (statusTextController.text.toLowerCase() == "Returned") {
-      statusValue = 2;
-    } else if (statusTextController.text.toLowerCase() == "Non Returned") {
-      statusValue = 3;
-    } else if (statusTextController.text.toLowerCase() == "Lost/De-Activated") {
-      statusValue = 4;
-    } else if (statusTextController.text.toLowerCase() ==
-        "Damaged/De-Activated") {
-      statusValue = 5;
-    } else if (statusTextController.text.toLowerCase() == "Defaced") {
-      statusValue = 6;
-    } else if (statusTextController.text.toLowerCase() == "Cancelled") {
-      statusValue = 7;
-    } else if (statusTextController.text.toLowerCase() == "Returned/Damaged") {
-      statusValue = 8;
-    } else if (statusTextController.text.toLowerCase() == "Returned/Defaced") {
-      statusValue = 9;
-    } else {
-      statusValue = 0;
-    }
+    if (widget.model == null) {}
+    // int statusValue = 0;
+    //
+    // if (statusTextController.text.toLowerCase() == "Created") {
+    //   statusValue = 0;
+    // } else if (statusTextController.text.toLowerCase() == "Handed over") {
+    //   statusValue = 1;
+    // } else if (statusTextController.text.toLowerCase() == "Returned") {
+    //   statusValue = 2;
+    // } else if (statusTextController.text.toLowerCase() == "Non Returned") {
+    //   statusValue = 3;
+    // } else if (statusTextController.text.toLowerCase() == "Lost/De-Activated") {
+    //   statusValue = 4;
+    // } else if (statusTextController.text.toLowerCase() ==
+    //     "Damaged/De-Activated") {
+    //   statusValue = 5;
+    // } else if (statusTextController.text.toLowerCase() == "Defaced") {
+    //   statusValue = 6;
+    // } else if (statusTextController.text.toLowerCase() == "Cancelled") {
+    //   statusValue = 7;
+    // } else if (statusTextController.text.toLowerCase() == "Returned/Damaged") {
+    //   statusValue = 8;
+    // } else if (statusTextController.text.toLowerCase() == "Returned/Defaced") {
+    //   statusValue = 9;
+    // } else {
+    //   statusValue = 0;
+    // }
 
     // int updateStatusValue = 0;
     // if (updateStatusTextController.text
@@ -3276,7 +3277,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         inputDate: inputDate.toString(),
         slNo: serialnumber ?? '',
         location: location,
-        status: statusValue,
+        status: widget.model?.status ?? 0,
         locationRegion: widget.model?.locationRegion,
         companyName: companyNameTextController.text,
         employeeName: state.nameResponse?.name == null
@@ -3340,7 +3341,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusValue,
+          status: widget.model?.status ?? 0,
           locationRegion: locationRegion,
           companyName: companyNameTextController.text,
           employeeName: state.nameResponse?.name == null
