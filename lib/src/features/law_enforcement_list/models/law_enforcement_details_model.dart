@@ -9,11 +9,11 @@ import 'package:db_atom/src/models/organisation.dart';
 
 import '../../createfound/models/user.dart';
 
-LawEnforcementDetails lawEnforcementDetailsFromJson(String str) => LawEnforcementDetails.fromJson(json.decode(str));
+LawEnforcementDetailsModel lawEnforcementDetailsFromJson(String str) => LawEnforcementDetailsModel.fromJson(json.decode(str));
 
-String lawEnforcementDetailsToJson(LawEnforcementDetails data) => json.encode(data.toJson());
+String lawEnforcementDetailsToJson(LawEnforcementDetailsModel data) => json.encode(data.toJson());
 
-class LawEnforcementDetails {
+class LawEnforcementDetailsModel {
     int? id;
     String? slNo;
     String? inputDate;
@@ -40,7 +40,7 @@ class LawEnforcementDetails {
     String? entityDesc;
     String? entrySecurityName;
 
-    LawEnforcementDetails({
+    LawEnforcementDetailsModel({
         this.id,
         this.slNo,
         this.inputDate,
@@ -68,7 +68,7 @@ class LawEnforcementDetails {
         this.entrySecurityName,
     });
 
-    factory LawEnforcementDetails.fromJson(Map<String, dynamic> json) => LawEnforcementDetails(
+    factory LawEnforcementDetailsModel.fromJson(Map<String, dynamic> json) => LawEnforcementDetailsModel(
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],

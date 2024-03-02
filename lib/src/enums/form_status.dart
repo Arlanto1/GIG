@@ -5,6 +5,7 @@ enum FormStatus {
   addAttachment,
   next,
   success,
+  successFormSubmit,
   failure,
   error,
   createArticleFound,

@@ -65,6 +65,8 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visit
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
+import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart' as vo;
+import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart'
     as mm;
@@ -200,17 +202,6 @@ class RouteGenerator {
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
-      case lawenforcementScreenRoute:
-        // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
-        if (settings.arguments != null) {
-          final listroutes = settings.arguments as Map<String, dynamic>;
-          LawEnforcementDetails? listuser = listroutes["UserElement"];
-          return MaterialPageRoute(
-              builder: (context) => LawEnforcementDetailsView(model: listuser));
-        } else {
-          return MaterialPageRoute(
-              builder: (context) => const LawEnforcementDetailsView());
-        }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
           builder: (context) => const AddEmployeeDepartment(
@@ -245,7 +236,54 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(
             builder: (context) => const LawEnforcementsView());
-      // case daypassmanagementListRoute:
+
+
+      case lawEnforcementDetailsViewRoute:
+      // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        if (settings.arguments != null) {
+          final listroutes = settings.arguments as Map<String, dynamic>;
+          LawEnforcementDetailsModel? listuser = listroutes["UserElement"];
+          return MaterialPageRoute(
+              builder: (context) => LawEnforcementDetailsView(model: listuser));
+        } else {
+          return MaterialPageRoute(
+              builder: (context) => const LawEnforcementDetailsView());
+        }
+
+      case visitingOfficialListRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        List<LawVisitingOfficial> visitingOfficials = [];
+        List<Organisation> departments = [];
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
+          visitingOfficials = arguments[ConstantsArgument.models] ?? [];
+          departments = arguments[ConstantsArgument.departments] ?? [];
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vo.VisitingOfficialListBloc>(
+            create: (_) =>
+            vo.VisitingOfficialListBloc(parentId: id, departments: departments)
+              ..add(vo.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: VisitingOfficialListView(
+              id: id,
+              type: type,
+              title: title,
+            ),
+          ),
+        );
+
+    // case daypassmanagementListRoute:
       //   PassMngArguments? passMngArguments;
       //   if (settings.arguments != null) {
       //     final passRoutes = settings.arguments as Map<String, dynamic>;

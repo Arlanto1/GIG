@@ -165,7 +165,7 @@ export 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/v
 export 'package:db_atom/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 export 'package:db_atom/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 export 'package:db_atom/src/features/incident_management/incident_managements/views/incident_managements_view.dart';
-export 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+export 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details_model.dart';
 export 'package:db_atom/src/features/law_enforcement_list/views/law_enforcements_view.dart';
 export 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 export 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -242,3 +242,7 @@ export 'package:flutter/services.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
+export 'package:db_atom/src/features/contact_details/models/contacts_list_response_model.dart';
+export 'package:db_atom/src/features/contact_details/models/requestModels/contacts_request.dart';
+export 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/models/request/law_visiting_official.dart';
+export 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';

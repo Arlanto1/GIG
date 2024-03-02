@@ -5,10 +5,11 @@ import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:intl/intl.dart';
 
 class LawEnforcementDetailsView extends StatefulWidget {
-  final LawEnforcementDetails? model;
+  final LawEnforcementDetailsModel? model;
 
   const LawEnforcementDetailsView({
     super.key,
@@ -103,7 +104,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             child: GestureDetector(
               onTap: () {
                 if (!isDistrbuted) {
-                  submitForm(false, widget.model?.id ?? 0, globalState);
+                  submitForm(isSubmit: false, state: globalState);
                 }
               },
               child: Padding(
@@ -153,488 +154,600 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //backgroundColor: AppColors.navigationSkybluecolor,
       ),
       backgroundColor: AppColors.backgroundWhitecolor,
-      body: BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+      body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
+        listener: (context, state) {
+          if (state.stateType == FormStatus.successFormSubmit) {
+            var dialog = CustomAlertDialog(
+              title: 'Law Enforcement',
+              message: state.message ?? '',
+              positiveBtnText: Constants.ok,
+              onPositivePressed: () {
+                // TODO: Need to improve this code
+                Navigator.pop(context);
+                Navigator.pop(context);
+                // Navigator.pop(context);
+                // TODO: dynamic title
+                Navigator.popAndPushNamed(
+                  context,
+                  lawEnforcementListRoute,
+                );
+              },
+            );
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) => dialog);
+
+            // Utils.dynamicAlert(
+            //     context, state.message ?? '', 'Material Movement', '');
+          }
+          if (state.stateType == FormStatus.failure) {
+            Validator().showToast(
+              context,
+              state.message ?? 'Invalid Information',
+            );
+          }
+        },
         builder: (context, state) {
-          // listOfEntities = state.getEntitiesResponse;
-          //leoDepartmentsResponse = state.getLeodepartmentsResponse;
-          // leoPurposeVisitResponse = state.getLeopurposeResponse;
+          return BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+            builder: (context, state) {
+              // listOfEntities = state.getEntitiesResponse;
+              //leoDepartmentsResponse = state.getLeodepartmentsResponse;
+              // leoPurposeVisitResponse = state.getLeopurposeResponse;
 
-          if (state.getVisitsCount < 1) {
-            manageAddVisitOfficialDetailWidget(state);
-          }
-          if (state.getSerialnumberResponse != null) {
-            serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
-          }
-          globalState = state;
-          if (state.stateType == FormStatus.addAttachment) {
-            getFiles = state.loadAttachments ?? [];
-          }
-          initiallyLocationandSerialnumberdataset(state);
-          // if (widget.listuser != null) {
-          //   if (state.groups != null) {
+              if (state.stateType == FormStatus.loading) {
+                return const BaseLoader();
+              }
 
-          //   }
-          // }
-          return Container(
-            color: AppColors.navigationSkybluecolor,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: height * 0.01,
-                    color: AppColors.navigationSkybluecolor,
-                  ),
-                  Container(
-                    //padding: const EdgeInsets.all(20.0),
-                    decoration: const ShapeDecoration(
-                        color: AppColors.backgroundWhitecolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20.0)),
-                        )),
-                    child: AbsorbPointer(
-                      absorbing: widget.model?.status == 3,
-                      child: Form(
-                        key: lawEnforcementFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(children: [
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    Constants.generalinformation,
-                                    style: Styles.styleHeaderGreyText16,
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+              if (state.getVisitsCount < 1) {
+                manageAddVisitOfficialDetailWidget(state);
+              }
+              if (state.getSerialnumberResponse != null) {
+                serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+              }
+              globalState = state;
+              if (state.stateType == FormStatus.addAttachment) {
+                getFiles = state.loadAttachments ?? [];
+              }
+              initiallyLocationandSerialnumberdataset(state);
+              // if (widget.listuser != null) {
+              //   if (state.groups != null) {
 
-                                /// Status
-                                CommonWidgets.textDisplay(
-                                    Constants.status, Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  controller: statusTextController,
-                                  textFormKey: Keys.statusTextController,
-                                  hintText: '',
-                                  onChange: (String username) {
-                                    //this.username = username;
-                                  },
-                                  validateTextField: (String? user) {},
-                                  suffixWidget: GestureDetector(
-                                    onTap: () {},
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: SvgPicture.asset(
-                                        //AppIcon.dropdownicon,
-                                        AppIcon.dropdownicon,
-                                        //fit: BoxFit.,
-                                        color: AppColors.textgreyThemecolor,
-                                        width: 10,
-                                        height: 10,
-                                        key: const Key(Keys.userIcon),
+              //   }
+              // }
+              return Container(
+                color: AppColors.navigationSkybluecolor,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: height * 0.01,
+                        color: AppColors.navigationSkybluecolor,
+                      ),
+                      Container(
+                        //padding: const EdgeInsets.all(20.0),
+                        decoration: const ShapeDecoration(
+                            color: AppColors.backgroundWhitecolor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20.0)),
+                            )),
+                        child: AbsorbPointer(
+                          absorbing: widget.model?.status == 3,
+                          child: Form(
+                            key: lawEnforcementFormKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20),
+                                  child: Column(children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        Constants.generalinformation,
+                                        style: Styles.styleHeaderGreyText16,
                                       ),
                                     ),
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
-                                ///created by
-                                CommonWidgets.horizentaltextHandling(
-                                    Constants.createdby,
-                                    isMandatory: true,
-                                    '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
-
-                                /// Location
-                                CommonWidgets.textDisplay(
-                                    Constants.location, Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                locationWidgetDisplay(state),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// date of creation
-                                CommonWidgets.textDisplay(
-                                    Constants.dateofcreation,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                datecreateWidgetdisplay(),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// slno
-
-                                CommonWidgets.horizentaltextHandling(
-                                    Constants.slno, serialnumber ?? '',
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Entity type
-                                CommonWidgets.textDisplay(
-                                    Constants.entity, Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                entityaddButtonwidgetLoading(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                ///Actual time of visit
-                                CommonWidgets.textDisplay(
-                                    Constants.actualtimeofvisit,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                // datepickerWidgetLoading(
-                                //     actualDateTextController),
-                                BaseDate().datePickerWidgetLoading(
-                                  showFutureDate: false,
-                                  textController: actualDateTextController,
-                                  isDisabled: (widget.model?.status == -1)
-                                      ? true
-                                      : false,
-                                  //initialDate: DateTime.now().subtract(Duration(days: 1)),
-                                  onChange: (String value) {
-                                    widget.model?.timeOfVisit =
-                                        Utils().formatTime(value);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Officials ID Card Verified?
-                                CommonWidgets.textDisplay(
-                                    Constants.officialsidcardverified,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(isOfficialIdcardSelected,
-                                    Constants.officialsidcardverified),
-
-                                /// Purpose of visit
-                                CommonWidgets.textDisplay(
-                                    Constants.purposeofvsit,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-
-                                purposeofvisitaddButtonwidgetLoading(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Document if any to confirm purpose
-                                CommonWidgets.textDisplay(
-                                    Constants.documentifanytoconfirmpurpose,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(isDocumentifanySelected,
-                                    Constants.documentifanytoconfirmpurpose),
-
-                                /// In case of Police, was official in uniform?
-                                CommonWidgets.textDisplay(
-                                    Constants
-                                        .incaseofpolicewasofficialinuniform,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(
-                                    isIncaseofpoliceSelected,
-                                    // state.isIncaseofpoliceSelected ?? 0,
-                                    Constants
-                                        .incaseofpolicewasofficialinuniform),
-
-                                /// DB official want to meet
-                                CommonWidgets.textDisplay(
-                                    Constants.dbofficialwanttomeet,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                // textfieldWidgetLoad(
-                                //     dbOfficailWanttimeetTextController,
-                                //     0,
-                                //     state),
-                                FlutterInputField(
-                                  showBorder: false,
-                                  lineHeight: 1,
-                                  controller:
-                                      dbOfficailWanttimeetTextController,
-                                  textFormKey:
-                                      Keys.additionalinformationTextController,
-                                  hintText: Constants.informationhere,
-                                  isEnable: widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model == null
-                                      ? true
-                                      : false,
-                                  isDisableColor: widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model == null
-                                      ? false
-                                      : true,
-                                  onChange: (String username) {
-                                    //this.username = username;
-                                    setState(() {});
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-
-                                /// DB official department
-                                CommonWidgets.textDisplay(
-                                    Constants.dbofficialdepartment,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                dbwanttodepartmentaddButtonwidgetLoading(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                ///DB Official email ID Accompanied LEO official'
-                                CommonWidgets.textDisplay(
-                                    Constants
-                                        .dbofficialemailidaccompaniedleoofficial,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                dbofficialemailidaddButtonwidgetLoading(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// additional information
-                                CommonWidgets.textDisplay(
-                                    Constants.additionalinformation,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  showBorder: true,
-                                  lineHeight: 6,
-                                  controller:
-                                      additionalInformationTextController,
-                                  textFormKey:
-                                      Keys.additionalinformationTextController,
-                                  hintText: Constants.informationhere,
-                                  isEnable: widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model == null
-                                      ? true
-                                      : false,
-                                  isDisableColor: widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model == null
-                                      ? false
-                                      : true,
-                                  onChange: (String username) {
-                                    //this.username = username;
-                                    setState(() {});
-                                  },
-                                  validateTextField: (String? user) {},
-                                  onFieldSubmitted: (String value) {
-                                    additionalInformationTextController.value =
-                                        TextEditingValue(
-                                      text:
-                                          '${additionalInformationTextController.text}\n',
-                                      selection: TextSelection.collapsed(
-                                        offset:
-                                            additionalInformationTextController
-                                                    .text.length +
-                                                1,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ]),
-                            ),
-
-                            // CommonWidgets.indentedDivider(Colors.black),
-                            const Divider(
-                              color: AppColors.textgreyThemecolor,
-                              thickness: 1,
-                            ),
-
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(
-                                children: [
-                                  /// Visiting Official Details
-                                  CommonWidgets.textDisplay(
-                                    Constants.visitingofficialdetails,
-                                    Styles.textStyleDarkGrey16,
-                                    isMandatory: true,
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                  (state.getVisitsCount) > 0
-                                      ? listVisitingOfficialDetails(
-                                          height,
-                                          width,
-                                          context,
-                                          state,
-                                          state.getVisitsCount,
-                                        )
-                                      : Container(),
-                                  widget.model == null
-                                      ? CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01)
-                                      : Container(),
-
-                                  /// Add another visiting
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (widget.model?.status != -1) {
-                                        if ((state.getVisitsCount) < 10) {
-                                          manageAddVisitOfficialDetailWidget(
-                                              state);
-                                        } else {
-                                          Validator().showToast(
-                                            context,
-                                            "You have reached maximum visiting official details adding",
-                                          );
-                                        }
-                                      }
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        // Expanded(
-                                        //child:
-                                        SvgPicture.asset(
-                                          AppIcon.pluscircle,
-                                          //color: AppColors.navigationSkybluecolor,
-                                        ),
-                                        // ),
-                                        const SizedBox(width: 10),
-                                        const Text(
-                                          Constants.addvisitingofficialdetails,
-                                          style: TextStyle(
-                                            color: AppColors
-                                                .navigationSkybluecolor,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  // Upload
-                                  widget.model == null
-                                      ? CommonWidgets.textDisplay(
-                                          Constants.upload,
-                                          Styles.textStyleBlack14)
-                                      : Container(),
-                                  widget.model == null
-                                      ? CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001)
-                                      : Container(),
-                                  widget.model == null
-                                      ? uploadWidget(state)
-                                      : Container(),
-
-                                  // Attachments
-                                  getSpaceattchment(height),
-                                  getAttachement(height),
-
-                                  if (widget.model?.status == 1 ||
-                                      widget.model?.status == 2 ||
-                                      widget.model?.status == 3) ...[
-                                    /// Distribution Groups
-                                    CommonWidgets.textDisplay(
-                                        Constants.distributiongroups,
-                                        Styles.textStyleBlack14,isMandatory: true,),
+                                    /// Status
+                                    CommonWidgets.textDisplay(Constants.status,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    BaseEntitiesSelection()
-                                        .entityDropDownSelection(
-                                      context: context,
-                                      selectedValues:
-                                          widget.model?.mailList ?? [],
-                                      all: state.groups?.distributionGroups ??
-                                          [],
-                                      enabled: true,
-                                      onTap: (List<Organisation>
-                                          selectedEntities) {
-                                        log('--selectedEntities----${selectedEntities.length}');
+                                    FlutterInputField(
+                                      isEnable: false,
+                                      isDisableColor: true,
+                                      controller: statusTextController,
+                                      textFormKey: Keys.statusTextController,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                      },
+                                      validateTextField: (String? user) {},
+                                      suffixWidget: GestureDetector(
+                                        onTap: () {},
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: SvgPicture.asset(
+                                            //AppIcon.dropdownicon,
+                                            AppIcon.dropdownicon,
+                                            //fit: BoxFit.,
+                                            color: AppColors.textgreyThemecolor,
+                                            width: 10,
+                                            height: 10,
+                                            key: const Key(Keys.userIcon),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
-                                        widget.model?.mailList =
-                                            selectedEntities;
+                                    ///created by
+                                    CommonWidgets.horizentaltextHandling(
+                                        Constants.createdby,
+                                        isMandatory: true,
+                                        '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+
+                                    /// Location
+                                    CommonWidgets.textDisplay(
+                                        Constants.location,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    locationWidgetDisplay(state),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// date of creation
+                                    CommonWidgets.textDisplay(
+                                        Constants.dateofcreation,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    datecreateWidgetdisplay(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// slno
+
+                                    CommonWidgets.horizentaltextHandling(
+                                        Constants.slno, serialnumber ?? '',
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// Entity type
+                                    CommonWidgets.textDisplay(Constants.entity,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    entityaddButtonwidgetLoading(state),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    ///Actual time of visit
+                                    CommonWidgets.textDisplay(
+                                        Constants.actualtimeofvisit,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    // datepickerWidgetLoading(
+                                    //     actualDateTextController),
+                                    BaseDate().datePickerWidgetLoading(
+                                      showFutureDate: false,
+                                      textController: actualDateTextController,
+                                      isDisabled: (widget.model?.status == -1)
+                                          ? true
+                                          : false,
+                                      //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                                      onChange: (String value) {
+                                        widget.model?.timeOfVisit =
+                                            Utils().formatTime(value);
+                                      },
+                                      context: context,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// Officials ID Card Verified?
+                                    CommonWidgets.textDisplay(
+                                        Constants.officialsidcardverified,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    radioButtonHandling(
+                                        isOfficialIdcardSelected,
+                                        Constants.officialsidcardverified),
+
+                                    /// Purpose of visit
+                                    CommonWidgets.textDisplay(
+                                        Constants.purposeofvsit,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+
+                                    purposeofvisitaddButtonwidgetLoading(state),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// Document if any to confirm purpose
+                                    CommonWidgets.textDisplay(
+                                        Constants.documentifanytoconfirmpurpose,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    radioButtonHandling(
+                                        isDocumentifanySelected,
+                                        Constants
+                                            .documentifanytoconfirmpurpose),
+
+                                    /// In case of Police, was official in uniform?
+                                    CommonWidgets.textDisplay(
+                                        Constants
+                                            .incaseofpolicewasofficialinuniform,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    radioButtonHandling(
+                                        isIncaseofpoliceSelected,
+                                        // state.isIncaseofpoliceSelected ?? 0,
+                                        Constants
+                                            .incaseofpolicewasofficialinuniform),
+
+                                    /// DB official want to meet
+                                    CommonWidgets.textDisplay(
+                                        Constants.dbofficialwanttomeet,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    // textfieldWidgetLoad(
+                                    //     dbOfficailWanttimeetTextController,
+                                    //     0,
+                                    //     state),
+                                    FlutterInputField(
+                                      showBorder: false,
+                                      lineHeight: 1,
+                                      controller:
+                                          dbOfficailWanttimeetTextController,
+                                      textFormKey: Keys
+                                          .additionalinformationTextController,
+                                      hintText: Constants.informationhere,
+                                      isEnable: widget.model?.status == 0 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model == null
+                                          ? true
+                                          : false,
+                                      isDisableColor:
+                                          widget.model?.status == 0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model == null
+                                              ? false
+                                              : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
                                         setState(() {});
-                                        // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+
+                                    /// DB official department
+                                    CommonWidgets.textDisplay(
+                                        Constants.dbofficialdepartment,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    dbwanttodepartmentaddButtonwidgetLoading(
+                                        state),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    ///DB Official email ID Accompanied LEO official'
+                                    CommonWidgets.textDisplay(
+                                        Constants
+                                            .dbofficialemailidaccompaniedleoofficial,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    dbofficialemailidaddButtonwidgetLoading(
+                                        state),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// additional information
+                                    CommonWidgets.textDisplay(
+                                        Constants.additionalinformation,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    FlutterInputField(
+                                      showBorder: true,
+                                      lineHeight: 6,
+                                      controller:
+                                          additionalInformationTextController,
+                                      textFormKey: Keys
+                                          .additionalinformationTextController,
+                                      hintText: Constants.informationhere,
+                                      isEnable: widget.model?.status == 0 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model == null
+                                          ? true
+                                          : false,
+                                      isDisableColor:
+                                          widget.model?.status == 0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model == null
+                                              ? false
+                                              : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                      onFieldSubmitted: (String value) {
+                                        additionalInformationTextController
+                                            .value = TextEditingValue(
+                                          text:
+                                              '${additionalInformationTextController.text}\n',
+                                          selection: TextSelection.collapsed(
+                                            offset:
+                                                additionalInformationTextController
+                                                        .text.length +
+                                                    1,
+                                          ),
+                                        );
                                       },
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
-                                  ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                  // SubmitButton
-                                  if (widget.model?.status != 3 &&
-                                      widget.model?.status != -1) ...[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        cancelButtonDisplay(),
-                                        submitButtonDisplay()
+                                  ]),
+                                ),
+
+                                // CommonWidgets.indentedDivider(Colors.black),
+                                const Divider(
+                                  color: AppColors.textgreyThemecolor,
+                                  thickness: 1,
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20),
+                                  child: Column(
+                                    children: [
+                                      /// Visiting Official Details
+                                      CommonWidgets.textDisplay(
+                                        Constants.visitingOfficialDetails,
+                                        Styles.textStyleDarkGrey16,
+                                        isMandatory: true,
+                                      ),
+
+                                      GestureDetector(
+                                        onTap: () async {
+                                          NavigatorState nav = Navigator.of(context);
+
+                                          bool isSaveSuccess = await submitForm(
+                                            isSubmit: false,
+                                            state: state,
+                                            navigateToNextScreen: true,
+                                          );
+                                          if (!isSaveSuccess) {
+                                            return;
+                                          }
+                                          log('--widget.model.id---${widget.model?.id}--');
+                                          List<LawVisitingOfficial>
+                                          visitingOfficials =
+                                          await LawEnforcementServices()
+                                              .getLeoVisitingOfficials(
+                                              id: state.model!.id!);
+
+                                          log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
+                                          nav.pushNamed(
+                                            visitingOfficialListRoute,
+                                            arguments: {
+                                              ConstantsArgument.title:
+                                              Constants.visitingOfficials,
+                                              ConstantsArgument.type: 0,
+                                              ConstantsArgument.id: state.model?.id,
+                                              ConstantsArgument.rankType:
+                                              Constants.contactGeneralRank,
+                                              ConstantsArgument.models:
+                                              visitingOfficials,
+                                              ConstantsArgument.departments: state
+                                                  .departmentResponse
+                                                  ?.atomLeoDepartments ??
+                                                  [],
+                                            },
+                                          );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                              AppIcon.pluscircle,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            const Text(
+                                              'Add/View Visiting Official(s)',
+                                              style: TextStyle(
+                                                color:
+                                                AppColors.navigationSkybluecolor,
+                                                decoration: TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      // (state.getVisitsCount) > 0
+                                      //     ? listVisitingOfficialDetails(
+                                      //         height,
+                                      //         width,
+                                      //         context,
+                                      //         state,
+                                      //         state.getVisitsCount,
+                                      //       )
+                                      //     : Container(),
+                                      // widget.model == null
+                                      //     ? CommonWidgets.verticalSpacerWidget(
+                                      //         height * 0.01)
+                                      //     : Container(),
+                                      //
+                                      // /// Add another visiting
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     if (widget.model?.status != -1) {
+                                      //       if ((state.getVisitsCount) < 10) {
+                                      //         manageAddVisitOfficialDetailWidget(
+                                      //             state);
+                                      //       } else {
+                                      //         Validator().showToast(
+                                      //           context,
+                                      //           "You have reached maximum visiting official details adding",
+                                      //         );
+                                      //       }
+                                      //     }
+                                      //   },
+                                      //   child: Row(
+                                      //     children: <Widget>[
+                                      //       // Expanded(
+                                      //       //child:
+                                      //       SvgPicture.asset(
+                                      //         AppIcon.pluscircle,
+                                      //         //color: AppColors.navigationSkybluecolor,
+                                      //       ),
+                                      //       // ),
+                                      //       const SizedBox(width: 10),
+                                      //       const Text(
+                                      //         Constants
+                                      //             .addvisitingofficialdetails,
+                                      //         style: TextStyle(
+                                      //           color: AppColors
+                                      //               .navigationSkybluecolor,
+                                      //           decoration:
+                                      //               TextDecoration.underline,
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+
+                                      // Upload
+                                      widget.model == null
+                                          ? CommonWidgets.textDisplay(
+                                              Constants.upload,
+                                              Styles.textStyleBlack14)
+                                          : Container(),
+                                      widget.model == null
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001)
+                                          : Container(),
+                                      widget.model == null
+                                          ? uploadWidget(state)
+                                          : Container(),
+
+                                      // Attachments
+                                      getSpaceattchment(height),
+                                      getAttachement(height),
+
+                                      if (widget.model?.status == 1 ||
+                                          widget.model?.status == 2 ||
+                                          widget.model?.status == 3) ...[
+                                        /// Distribution Groups
+                                        CommonWidgets.textDisplay(
+                                          Constants.distributiongroups,
+                                          Styles.textStyleBlack14,
+                                          isMandatory: true,
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        BaseEntitiesSelection()
+                                            .entityDropDownSelection(
+                                          context: context,
+                                          selectedValues:
+                                              widget.model?.mailList ?? [],
+                                          all: state
+                                                  .groups?.distributionGroups ??
+                                              [],
+                                          enabled: true,
+                                          onTap: (List<Organisation>
+                                              selectedEntities) {
+                                            log('--selectedEntities----${selectedEntities.length}');
+
+                                            widget.model?.mailList =
+                                                selectedEntities;
+                                            setState(() {});
+                                            // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
                                       ],
-                                    ),
-                                  ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                ],
-                              ),
-                            )
-                          ],
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      // SubmitButton
+                                      if (widget.model?.status != 3 &&
+                                          widget.model?.status != -1) ...[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            cancelButtonDisplay(),
+                                            submitButtonDisplay()
+                                          ],
+                                        ),
+                                      ],
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.05),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      if (widget.model?.status == 3 ||
+                          widget.model?.status == -1) ...[
+                        Container(
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: const ShapeDecoration(
+                            color: AppColors.backgroundWhitecolor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(00.0)),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              cancelButtonDisplay(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                  if (widget.model?.status == 3 ||
-                      widget.model?.status == -1) ...[
-                    Container(
-                      padding: const EdgeInsets.all(5.0),
-                      decoration: const ShapeDecoration(
-                        color: AppColors.backgroundWhitecolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(00.0)),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          cancelButtonDisplay(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -691,7 +804,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             children: [
               Expanded(
                 child: CommonWidgets.textDisplay(
-                  Constants.visitingofficialdetails,
+                  Constants.visitingOfficialDetails,
                   Styles.textStyleDarkGrey16,
                   isMandatory: true,
                 ),
@@ -801,7 +914,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
         // Email Id
         CommonWidgets.textDisplay(
-          Constants.emailid,
+          Constants.emailId,
           Styles.textStyleBlack14,
           //isMandatory: state.getVisitsCount != 1 ? false : true,
         ),
@@ -823,7 +936,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
         /// Contact No
         CommonWidgets.textDisplay(
-          Constants.contactno,
+          Constants.contactNo,
           Styles.textStyleBlack14,
         ),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1071,8 +1184,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
     await lawEnforcementCubit.getLeopurposeofvisit(
         'ATOM_LEO_PURPOSE_VISIT', context);
-    await lawEnforcementCubit.getLeodepartments(
-        'ATOM_LEO_DEPARTMENTS', context);
+    await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
     await lawEnforcementCubit.getEmployeeDepartments(
         'EMPLOYEE_DEPARTMENTS', context);
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
@@ -1413,7 +1525,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateLeoDepartments:
-                state.getLeodepartmentsResponse?.atomLeoDepartments ?? [],
+                state.departmentResponse?.atomLeoDepartments ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -1595,8 +1707,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Future submitForm(
-      bool isSubmit, int isFoundId, LawEnforcementState state) async {
+  Future<bool> submitForm({
+    required bool isSubmit,
+    required LawEnforcementState state,
+    bool? navigateToNextScreen,
+  }) async {
     log('---submitForm----');
     int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
@@ -1669,7 +1784,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     LawEnforcement? lawEnforcement;
     if (widget.model != null) {
       lawEnforcement = LawEnforcement(
-          id: isFoundId,
+          id: widget.model?.id ?? 0,
           entrySecurity: entrySecurtity,
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
@@ -1713,14 +1828,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     }
-    showLoadingDialog(context);
+    // if(addingVisitingOfficials){
+    //
+    // }
+    // showLoadingDialog(context);
     LawEnforcementRequestBody body =
         LawEnforcementRequestBody(lawEnforcement: lawEnforcement);
-    await BlocProvider.of<LawEnforcementCubit>(context).submitForm(
-      body,
-      isSubmit,
-      context,
-      widget.model != null ? 'edit LawEnforcement' : 'Create LawEnforcement',
+    return await BlocProvider.of<LawEnforcementCubit>(context).submitForm(
+      bodyRequest: body,
+      isSubmit: isSubmit,
+      title: widget.model != null
+          ? 'edit LawEnforcement'
+          : 'Create LawEnforcement',
+      navigateToNextScreen: navigateToNextScreen ?? false,
     );
   }
 
@@ -1795,7 +1915,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    }  else if (state.visitingOfficials != null &&
+    } else if (state.visitingOfficials != null &&
         state.visitingOfficials!.isNotEmpty) {
       for (int i = 0; i < state.visitingOfficials!.length;) {
         VisitingOfficialsModel model = state.visitingOfficials![i];
@@ -1831,7 +1951,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             );
             break;
           } else {
-            submitForm(true, widget.model?.id ?? 0, globalState);
+            submitForm(isSubmit: true, state: globalState);
             break;
           }
         }
@@ -1846,7 +1966,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           "Please enter distribution groups",
         );
       } else {
-        submitForm(true, widget.model?.id ?? 0, globalState);
+        submitForm(isSubmit: true, state: globalState);
       }
     }
   }

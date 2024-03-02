@@ -1,24 +1,9 @@
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
-
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -33,6 +18,10 @@ class Apis {
   static final String _getGroup = '$baseUrl/getGroup';
   static final String _createOrganisation = '$baseUrl/createOrganisation?';
   static final String _createUser = '$baseUrl/createUser?';
+  static final String _getLeoVisitingOfficials = '$baseUrl/getLeoVisitingOfficials/';
+  static final String _getLeoVisitingOfficialById = '$baseUrl/getLeoVisitingOfficialById/';
+  static final String _createVisitingOfficial = '$baseUrl/createVisitingOfficial/';
+  static final String _deleteVisitingOfficial = '$baseUrl/deleteVisitingOfficial/';
 }
 
 class LawEnforcementServices {
@@ -67,7 +56,7 @@ class LawEnforcementServices {
     return LawEnforcementListResponse.fromJson(response);
   }
 
-  Future<LawEnforcementDetails> getById(
+  Future<LawEnforcementDetailsModel> getById(
     int id,
     BuildContext context,
   ) async {
@@ -77,13 +66,12 @@ class LawEnforcementServices {
       isAuthenticated: true,
     );
 
-    return LawEnforcementDetails.fromJson(response);
+    return LawEnforcementDetailsModel.fromJson(response);
   }
 
   Future<SubmitLawEnforcementResponse> createLawFoundArticle({
     required LawEnforcementRequestBody body,
     required bool isSubmit,
-    BuildContext? context,
   }) async {
     var username = await SharedPrefs.getUsername();
     final String url = "${Apis._create}?userEmail=$username&isSubmit=$isSubmit";
@@ -138,7 +126,7 @@ class LawEnforcementServices {
   }
 
   Future<LeoDepartments> getLeodepartments(
-      String name, BuildContext? context) async {
+      String name) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -214,5 +202,53 @@ class LawEnforcementServices {
       url: url,requestedData: {}
     );
     return CreateUserModel.fromJson(response);
+  }
+
+  Future<List<LawVisitingOfficial>> getLeoVisitingOfficials({
+    required int id,
+  }) async {
+    String url = '${Apis._getLeoVisitingOfficials}$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    if (response == null) {
+      return [];
+    }
+    return List<LawVisitingOfficial>.from(
+        response.map((x) => LawVisitingOfficial.fromJson(x)));
+  }
+
+  Future<LawVisitingOfficial> getLeoVisitingOfficialById({
+    required int id,
+  }) async {
+    final String url = '${Apis._getLeoVisitingOfficialById}$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+      isAuthenticated: true,
+    );
+
+    return LawVisitingOfficial.fromJson(response);
+  }
+
+  Future<GenericResponse> createVisitingOfficial({
+    required int parentId,
+    required LawVisitingOfficialRequest body,
+  }) async {
+    var username = await SharedPrefs.getUsername();
+    final String url = "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteVisitingOfficial(int id) async {
+    final String url = '${Apis._deleteVisitingOfficial}$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
   }
 }

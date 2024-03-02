@@ -14,8 +14,10 @@ const String addemployeedepartmentRoute = '/addemployeedepartment';
 const String daypassmanagementListRoute = '/daypassmanagementlist';
 const String daypassregistertListRoute = '/daypassregistertlist';
 
-const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
-const String lawEnforcementListRoute = '/lawenforcementlist';
+const String lawEnforcementListRoute = '/lawEnforcementListRoute';
+const String lawEnforcementDetailsViewRoute = '/lawEnforcementDetailsViewRoute';
+const String visitingOfficialListRoute = '/visitingOfficialListRoute';
+
 const String createpassmgmtRoute = '/createpassmgmt';
 
 const String eventProtectionListRoute = '/eventProtectionListRoute';
