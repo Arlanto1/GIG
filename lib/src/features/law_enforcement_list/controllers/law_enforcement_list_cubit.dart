@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
@@ -72,10 +72,10 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   }
 
   // Law Enforcement details by Id API call
-  Future<LawEnforcementDetails?> getById(
+  Future<LawEnforcementDetailsModel?> getById(
       int id, BuildContext context) async {
     try {
-      LawEnforcementDetails model =
+      LawEnforcementDetailsModel model =
           await services.getById(id, context);
       emit(
         state.copyWith(

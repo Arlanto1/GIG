@@ -1,5 +1,5 @@
 // Created by Ramesh
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,7 +8,7 @@ import '../../../enums/form_status.dart';
 
 class LawEnforcementListState extends Equatable {
   LawEnforcementListResponse? lawEnforcementListModel;
-  LawEnforcementDetails? lawEnforcementDetails;
+  LawEnforcementDetailsModel? lawEnforcementDetails;
   final String? errorMessage;
   late final FormStatus stateType;
 
@@ -21,7 +21,7 @@ class LawEnforcementListState extends Equatable {
 
   LawEnforcementListState copyWith({
     LawEnforcementListResponse? lawEnforcementListModel,
-    LawEnforcementDetails? lawEnforcementDetails,
+    LawEnforcementDetailsModel? lawEnforcementDetails,
     String? errorMessage,
     FormStatus? stateType,
   }) {

@@ -286,8 +286,8 @@ class Constants {
       'In case of Police, was official in uniform?';
   static const String designation = 'Designation';
   static const String officeAddress = 'Office Address';
-  static const String emailid = 'Email Id';
-  static const String contactno = 'Contact No';
+  static const String emailId = 'Email Id';
+  static const String contactNo = 'Contact No';
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
@@ -296,11 +296,12 @@ class Constants {
   static const String uploadPhoto = 'Upload Photo';
   static const String addvisitingofficialdetails =
       "Add Another Visiting Official Details";
-  static const String visitingofficialdetails = "Visiting Official Details";
+  static const String visitingOfficialDetails = "Visiting Official Details";
+  static const String visitingOfficials = "Visiting Officials";
 
   // Pass mgmt
-  static const String companytype = 'Company Type';
-  static const String companyname = 'Company Name';
+  static const String companyType = 'Company Type';
+  static const String companyName = 'Company Name';
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';

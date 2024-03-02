@@ -91,7 +91,7 @@ class _LnPageState extends State<LnPage> {
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
           // Navigator.pushNamed(context, lawenforcementScreenRoute);
-          Navigator.pushNamed(context, lawenforcementScreenRoute)
+          Navigator.pushNamed(context, lawEnforcementDetailsViewRoute)
               .then((value) async {
             if (value != null && value == true) {
               log('value--$value');
@@ -242,7 +242,7 @@ class _LnPageState extends State<LnPage> {
 
   getById(int lawEnforcementId) async {
     showLoadingDialog(context);
-    LawEnforcementDetails? model =
+    LawEnforcementDetailsModel? model =
         await lawEnforcementListCubit.getById(lawEnforcementId, context);
 
     log('-model--maillist--${model?.mailList}-');
@@ -250,7 +250,7 @@ class _LnPageState extends State<LnPage> {
     editDataLoading(model);
   }
 
-  void editDataLoading(LawEnforcementDetails? model) {
+  void editDataLoading(LawEnforcementDetailsModel? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       for (Organisation organisation in model.entities ?? []) {
@@ -261,7 +261,7 @@ class _LnPageState extends State<LnPage> {
         log('--111-organisation.name--populateData---${organisation.name}');
       }
 
-      Navigator.pushNamed(context, lawenforcementScreenRoute,
+      Navigator.pushNamed(context, lawEnforcementDetailsViewRoute,
           arguments: {"UserElement": model});
     }
   }

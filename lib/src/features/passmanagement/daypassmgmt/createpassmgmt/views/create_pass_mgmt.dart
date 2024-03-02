@@ -567,7 +567,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.companytype,
+                                          Constants.companyType,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -584,7 +584,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                       .passIdDayPass ||
                                               widget.passId ==
                                                   ConstantsIntValue.passIdSez
-                                          ? Constants.companyname
+                                          ? Constants.companyName
                                           : widget.passId ==
                                                   ConstantsIntValue.passIdVendor
                                               ? "Vendor Name"
@@ -632,7 +632,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdVendor) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.companyname,
+                                          Constants.companyName,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(

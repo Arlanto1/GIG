@@ -206,10 +206,10 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             }
           case 'LEO':
             {
-              LawEnforcementDetails? model =
+              LawEnforcementDetailsModel? model =
                   await lawEnforcementListCubit.getById(moduleId, context);
 
-              nav.pushNamed(lawenforcementScreenRoute, arguments: {
+              nav.pushNamed(lawEnforcementDetailsViewRoute, arguments: {
                 "UserElement": model,
               });
               break;

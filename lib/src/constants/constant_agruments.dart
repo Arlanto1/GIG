@@ -1,4 +1,5 @@
 class ConstantsArgument {
+  static const String isReadOnly = "isReadOnly";
   static const String id = "id";
   static const String model = "model";
   static const String parentId = "parentId";
@@ -10,6 +11,8 @@ class ConstantsArgument {
   static const String ranks = "ranks";
   static const String violationDescription = "violationDescription";
   static const String violationDescriptions = "violationDescriptions";
-  static const String isReadOnly = "isReadOnly";
+  static const String models = "models";
+  static const String departments = "departments";
+
 
 }
