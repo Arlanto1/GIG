@@ -402,7 +402,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     log('---response--msg--${response.message}---');
-
+    state.model.inputDate =
+        DateFormat(Constants.fulldateFormat).format(DateTime.now());
     emit(
       state.copyWith(
         message: response.message,

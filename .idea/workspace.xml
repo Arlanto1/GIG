@@ -4,30 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="code improved">
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_event.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/models/request/law_visiting_official.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="pass mgmt">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/enums/form_status.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/enums/form_status.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/controllers/law_enforcement_list_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/controllers/law_enforcement_list_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/models/law_enforcement_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/models/law_enforcement_details_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/router.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -511,7 +492,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="260" />
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -548,8 +529,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="missing file" />
-    <MESSAGE value="clear password on resend password" />
     <MESSAGE value="key history record list issue fixed" />
     <MESSAGE value="spell check" />
     <MESSAGE value="focus" />
@@ -573,7 +552,9 @@
     <MESSAGE value="article found listing page" />
     <MESSAGE value="pass management blank screen on back button fixed" />
     <MESSAGE value="code improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="code improved" />
+    <MESSAGE value="visiting official APIs implemented" />
+    <MESSAGE value="pass mgmt" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass mgmt" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
