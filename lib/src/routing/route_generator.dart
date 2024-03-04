@@ -510,7 +510,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sla.SLAViolationPenaltyListBloc>(
             create: (_) => sla.SLAViolationPenaltyListBloc()
-              ..add(const sla.FetchData(startPos: 0, maxPos: 20)),
+              ..add(sla.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const SLAViolationPenaltyListView(),
           ),
         );

@@ -62,7 +62,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             moduleCode: Constants.attendanceModule), // 6
         SharedPrefs.getDefaultLocation(), // 7
         services.getBriefingPoints(), // 8
-        slaServices.getGSvp(startPosition: '0', maximumRecords: '100', aShiftInfoId: id), // 9
+        slaServices.getGSvp(startPosition: '0', maximumRecords: '100', aShiftInfoId: id, filters: BaseFilterModel()), // 9
       ]);
 
       Locations getLocationsData = futures[0];
