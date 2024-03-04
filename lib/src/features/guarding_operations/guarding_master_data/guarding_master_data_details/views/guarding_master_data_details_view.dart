@@ -790,7 +790,7 @@ class _GuardingMasterDataDetailsViewState
                             initialValue: state.model.contactNo,
                             textFormKey: Keys.contactNoKey,
                             hintText: '',
-                            characterLimit: 10,
+                            characterLimit: Constants.characterLimitContactNo,
                             isEnable: false,
                             // widget.guardingMasterData == null
                             //     ? true

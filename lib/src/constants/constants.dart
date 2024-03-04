@@ -5,6 +5,7 @@ class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
   /// Text Form Field Character Limit
+  static const int characterLimitContactNo = 17;
   static const int characterLimitIdTextFormField = 250;
   static const int characterLimitDescTextFormField = 4000;
 

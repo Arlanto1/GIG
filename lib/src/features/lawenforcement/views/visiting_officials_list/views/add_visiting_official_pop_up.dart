@@ -229,7 +229,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
-                        characterLimit: 10,
+                        characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
