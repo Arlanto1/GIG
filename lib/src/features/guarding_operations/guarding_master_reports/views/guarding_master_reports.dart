@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class GuardingMasterReport extends StatefulWidget {
   const GuardingMasterReport({
@@ -12,6 +13,8 @@ class GuardingMasterReport extends StatefulWidget {
 class _GuardingMasterReportState extends State<GuardingMasterReport> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -37,6 +40,21 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           .read<GuardingMasterReportBloc>()
           .add(FetchReportList(startPos: pageNumber, maxPos: 20));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<GuardingMasterReportBloc>().add(
+          const RefreshListGMR(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
@@ -70,99 +88,114 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.list.length
-                  : state.list.length + 1,
-              itemBuilder: (context, index) {
-                return index >= state.list.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.list[index].id,
-                        vendor: state.list[index].vendor,
-                        region: state.list[index].region,
-                        guardCount: state.list[index].guardCount,
-                        pvcExpired: state.list[index].pvcExpired,
-                        msgbExempted: state.list[index].msgbExempted,
-                        locationStr: state.list[index].location,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                vendor: state.list[selectedIndex].vendor,
-                                region: state.list[index].region,
-                                guardCount: state.list[index].guardCount,
-                                pvcExpired: state.list[index].pvcExpired,
-                                msgbExempted: state.list[index].msgbExempted,
-                                mcNotSubmitted:
-                                    state.list[selectedIndex].mcNotSubmitted,
-                                mcExpired: state.list[selectedIndex].mcExpired,
-                                systemAccess:
-                                    state.list[selectedIndex].systemAccess,
-                                trainingCertPending: state
-                                    .list[selectedIndex].trainingCertPending,
-                              );
-                            },
-                          );
-                        },
-                        showEditButton: false,
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                vendor: state.list[selectedIndex].vendor,
-                                region: state.list[selectedIndex].region,
-                                guardCount:
-                                    state.list[selectedIndex].guardCount,
-                                mcNotSubmitted:
-                                    state.list[selectedIndex].mcNotSubmitted,
-                                mcExpired: state.list[selectedIndex].mcExpired,
-                                photoNotSubmitted:
-                                    state.list[selectedIndex].photoNotSubmitted,
-                                deploymentOrderPending: state
-                                    .list[selectedIndex].deploymentOrderPending,
-                                pvcExpired:
-                                    state.list[selectedIndex].pvcExpired,
-                                msgbExempted:
-                                    state.list[selectedIndex].msgbExempted,
-                                msgbNotExempted:
-                                    state.list[selectedIndex].msgbNotExempted,
-                                msgbFormBNotSubmitted: state
-                                    .list[selectedIndex].msgbFormBNotSubmitted,
-                                msgbFormBUnderProcess: state
-                                    .list[selectedIndex].msgbFormBUnderProcess,
-                                systemAccess:
-                                    state.list[selectedIndex].systemAccess,
-                                trainingCertPending: state
-                                    .list[selectedIndex].trainingCertPending,
-                                precPending:
-                                    state.list[selectedIndex].precPending,
-                                precDoseCount:
-                                    state.list[selectedIndex].precDoseCount,
-                                ertCertified:
-                                    state.list[selectedIndex].ertCertified,
-                                ertPending:
-                                    state.list[selectedIndex].ertPending,
-                                esicPending:
-                                    state.list[selectedIndex].esicPending,
-                                uanNoPending:
-                                    state.list[selectedIndex].uanNoPending,
-                                firstAidCertified:
-                                    state.list[selectedIndex].firstAidCertified,
-                                firstAidNotCertified: state
-                                    .list[selectedIndex].firstAidNotCertified,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
+            child: SmartRefresher(
+              controller: refreshController,
+              enablePullDown: true,
+              physics: const BouncingScrollPhysics(),
+              header: const WaterDropHeader(
+                waterDropColor: AppColors.navigationSkybluecolor,
+              ),
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: state.hasReachedMax
+                    ? state.list.length
+                    : state.list.length + 1,
+                itemBuilder: (context, index) {
+                  return index >= state.list.length
+                      ? const BaseLoader()
+                      : BaseListTileItem(
+                          id: state.list[index].id,
+                          vendor: state.list[index].vendor,
+                          region: state.list[index].region,
+                          guardCount: state.list[index].guardCount,
+                          pvcExpired: state.list[index].pvcExpired,
+                          msgbExempted: state.list[index].msgbExempted,
+                          locationStr: state.list[index].location,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.list[selectedIndex].id.toString(),
+                                  vendor: state.list[selectedIndex].vendor,
+                                  region: state.list[index].region,
+                                  guardCount: state.list[index].guardCount,
+                                  pvcExpired: state.list[index].pvcExpired,
+                                  msgbExempted: state.list[index].msgbExempted,
+                                  mcNotSubmitted:
+                                      state.list[selectedIndex].mcNotSubmitted,
+                                  mcExpired:
+                                      state.list[selectedIndex].mcExpired,
+                                  systemAccess:
+                                      state.list[selectedIndex].systemAccess,
+                                  trainingCertPending: state
+                                      .list[selectedIndex].trainingCertPending,
+                                );
+                              },
+                            );
+                          },
+                          showEditButton: false,
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.list[selectedIndex].id.toString(),
+                                  vendor: state.list[selectedIndex].vendor,
+                                  region: state.list[selectedIndex].region,
+                                  guardCount:
+                                      state.list[selectedIndex].guardCount,
+                                  mcNotSubmitted:
+                                      state.list[selectedIndex].mcNotSubmitted,
+                                  mcExpired:
+                                      state.list[selectedIndex].mcExpired,
+                                  photoNotSubmitted: state
+                                      .list[selectedIndex].photoNotSubmitted,
+                                  deploymentOrderPending: state
+                                      .list[selectedIndex]
+                                      .deploymentOrderPending,
+                                  pvcExpired:
+                                      state.list[selectedIndex].pvcExpired,
+                                  msgbExempted:
+                                      state.list[selectedIndex].msgbExempted,
+                                  msgbNotExempted:
+                                      state.list[selectedIndex].msgbNotExempted,
+                                  msgbFormBNotSubmitted: state
+                                      .list[selectedIndex]
+                                      .msgbFormBNotSubmitted,
+                                  msgbFormBUnderProcess: state
+                                      .list[selectedIndex]
+                                      .msgbFormBUnderProcess,
+                                  systemAccess:
+                                      state.list[selectedIndex].systemAccess,
+                                  trainingCertPending: state
+                                      .list[selectedIndex].trainingCertPending,
+                                  precPending:
+                                      state.list[selectedIndex].precPending,
+                                  precDoseCount:
+                                      state.list[selectedIndex].precDoseCount,
+                                  ertCertified:
+                                      state.list[selectedIndex].ertCertified,
+                                  ertPending:
+                                      state.list[selectedIndex].ertPending,
+                                  esicPending:
+                                      state.list[selectedIndex].esicPending,
+                                  uanNoPending:
+                                      state.list[selectedIndex].uanNoPending,
+                                  firstAidCertified: state
+                                      .list[selectedIndex].firstAidCertified,
+                                  firstAidNotCertified: state
+                                      .list[selectedIndex].firstAidNotCertified,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
+                },
+              ),
             ),
           );
         }));

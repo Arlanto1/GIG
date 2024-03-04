@@ -9,6 +9,7 @@ import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
+
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -18,36 +19,36 @@ class GuardingMasterReportBloc
       _fetchList,
       transformer: droppable(),
     );
-    // on<RefreshList>(
-    //   _refreshList,
-    //   transformer: droppable(),
-    // );
+    on<RefreshListGMR>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final GuardingMasterReportServices _services = GuardingMasterReportServices();
 
-  // FutureOr<void> _refreshList(
-  //     RefreshList event, Emitter<GuardingMasterReportState> emit) async {
-  //   try {
-  //     GuardingMasterReportModel response;
-  //
-  //     response = await _services.getGuardingMasterReport(
-  //       startPosition: '${0}',
-  //       maximumRecords: '${20}',
-  //       // filters: BaseFilterModel(),
-  //     );
-  //
-  //     return emit(
-  //       state.copyWith(
-  //         items: response.list,
-  //         hasReachedMax: false,
-  //         status: FormStatus.success,
-  //       ),
-  //     );
-  //   } on Exception {
-  //     return emit(state.copyWith(status: FormStatus.failure));
-  //   }
-  // }
+  FutureOr<void> _refreshList(
+      RefreshListGMR event, Emitter<GuardingMasterReportState> emit) async {
+    try {
+      GuardingMasterReportModel response;
+
+      response = await _services.getGuardingMasterReport(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        // filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.list,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchList(
       FetchReportList event, Emitter<GuardingMasterReportState> emit) async {
