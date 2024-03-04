@@ -1137,8 +1137,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyReconciliationListBloc>(
                   create: (_) => KeyReconciliationListBloc()
-                    ..add(const FetchKeyReconciliationList(
-                        startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyReconciliationList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyReconciliationListView(),
                 ));
 
