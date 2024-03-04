@@ -463,7 +463,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
             create: (_) => ocb.OccurrencesBloc()
-              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
+              ..add(ocb.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const OccurrencesView(),
           ),
         );
