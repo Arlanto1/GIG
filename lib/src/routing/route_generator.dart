@@ -420,7 +420,11 @@ class RouteGenerator {
               ticketType: 1,
               staffType: isInternal ? 1 : 2,
               occId: occId,
-            )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            )..add(sv.FetchData(
+                startPos: 0,
+                maxPos: 20,
+                newSearch: true,
+                filters: BaseFilterModel())),
             child: SstIncidentView(isInternal: isInternal),
           ),
         );
