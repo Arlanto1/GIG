@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/vvip_visitor_request.dart';
@@ -45,10 +46,12 @@ class VVIPVisitorServices {
   Future<VVIPVisitorResponseModel> getGVVIP({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getVVIP}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
     );

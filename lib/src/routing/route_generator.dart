@@ -1358,7 +1358,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vip.VVIPVisitorsBloc>(
             create: (_) => vip.VVIPVisitorsBloc()
-              ..add(const vip.FetchData(startPos: 0, maxPos: 20)),
+              ..add(vip.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const VVIPVisitorsView(),
           ),
         );
