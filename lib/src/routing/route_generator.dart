@@ -1146,7 +1146,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyLossDestructionListBloc>(
                   create: (_) => KeyLossDestructionListBloc()
-                    ..add(const FetchKeyLossList(startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyLossList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyLossDestructionListView(),
                 ));
 
