@@ -220,26 +220,26 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (location != null &&
-        isInward == false &&
-        state.model.returnable == true) {
+    if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
-          moduleCode: Constants.materialMovementOutwardReturnableModule);
+          moduleCode: state.model.returnable ?? false
+              ? Constants.materialMovementOutwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     state.model.status = status ?? state.model.status;
-    if (location != null &&
-        isInward == false &&
-        state.model.returnable == false) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementOutwardNonReturnableModule,
-      );
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
+    // if (location != null &&
+    //     isInward == false &&
+    //     state.model.returnable == false) {
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //     locationId: location.id.toString(),
+    //     moduleCode: Constants.materialMovementOutwardNonReturnableModule,
+    //   );
+    //   state.model.location = location;
+    //   state.model.slNo = slNo.serialNo;
+    // }
 
     if (user != null) {
       state.model.receiverEmail = user.name;
@@ -281,6 +281,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (isReturnable != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: state.model.location!.id.toString(),
+          moduleCode: isReturnable
+              ? Constants.materialMovementOutwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule);
+      state.model.slNo = slNo.serialNo;
       state.model.returnable = isReturnable;
     }
 
@@ -596,7 +602,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.occurrenceModule);
+        id: id, module: Constants.materialMovementModuleCode);
   }
 
   void onAddRejectionComment(String rejectionsComment) {
