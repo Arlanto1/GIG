@@ -65,7 +65,8 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visit
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
-import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart' as vo;
+import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
+    as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart'
@@ -237,9 +238,8 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => const LawEnforcementsView());
 
-
       case lawEnforcementDetailsViewRoute:
-      // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           LawEnforcementDetailsModel? listuser = listroutes["UserElement"];
@@ -258,7 +258,7 @@ class RouteGenerator {
         List<Organisation> departments = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type] ?? 0;
@@ -267,8 +267,8 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vo.VisitingOfficialListBloc>(
-            create: (_) =>
-            vo.VisitingOfficialListBloc(parentId: id, departments: departments)
+            create: (_) => vo.VisitingOfficialListBloc(
+                parentId: id, departments: departments)
               ..add(vo.FetchData(
                 id: id,
                 type: type,
@@ -283,7 +283,7 @@ class RouteGenerator {
           ),
         );
 
-    // case daypassmanagementListRoute:
+      // case daypassmanagementListRoute:
       //   PassMngArguments? passMngArguments;
       //   if (settings.arguments != null) {
       //     final passRoutes = settings.arguments as Map<String, dynamic>;
@@ -867,7 +867,12 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GuardingMasterReportBloc>(
                   create: (_) => GuardingMasterReportBloc()
-                    ..add(const FetchReportList(startPos: 0, maxPos: 20)),
+                    ..add(FetchReportList(
+                      startPos: 0,
+                      maxPos: 20,
+                      newSearch: true,
+                      filters: BaseFilterModel(),
+                    )),
                   child: const GuardingMasterReport(),
                 ));
 
