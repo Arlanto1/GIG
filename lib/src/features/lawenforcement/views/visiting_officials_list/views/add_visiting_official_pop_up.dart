@@ -310,25 +310,25 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    bool isNumeric(String str) {
-      if (str.isEmptyOrNull) {
-        return false;
-      }
-      return double.tryParse(str) != null;
-    }
-
-    if ((!isNumeric(widget.model.contactNo!) ||
-            widget.model.contactNo?.length != 10) &&
-        !widget.model.contactNo.isEmptyOrNull) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Please enter a valid contact number.',
-      );
-    }
-    if (widget.model.contactNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Contact No.');
-    }
+    // bool isNumeric(String str) {
+    //   if (str.isEmptyOrNull) {
+    //     return false;
+    //   }
+    //   return double.tryParse(str) != null;
+    // }
+    //
+    // if ((!isNumeric(widget.model.contactNo!) ||
+    //         widget.model.contactNo?.length != 10) &&
+    //     !widget.model.contactNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Please enter a valid contact number.',
+    //   );
+    // }
+    // if (widget.model.contactNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Contact No.');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

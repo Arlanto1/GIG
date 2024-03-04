@@ -1927,14 +1927,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passValidUntilTextController.text;
 
-      passReturnedTextController.text = widget.model?.status == 1 &&
-              widget.model?.returnedTime != null &&
-              widget.model?.returnedTime != '0'
+      passReturnedTextController.text = widget.model?.status == 2 &&
+             ( widget.model?.returnedTime != null &&
+              widget.model?.returnedTime != '0')
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.returnedTime ?? '0'),
               Constants.fulldateFormat)
           : passReturnedTextController.text;
 
+      log('-${widget.model?.status}-passReturnedTextController--${passReturnedTextController.text}-@@@----${widget.model?.returnedTime}--');
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
 
       statusTextController.text =
@@ -2363,7 +2364,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
-  Widget datepickerWidgetLoading(TextEditingController textfiled) {
+  Widget datepickerWidgetLoading(TextEditingController controller) {
+    log('--controller-@@-${controller.text}--');
     return GestureDetector(
       onTap: () {
         // if (widget.listuser == null || textfiled.text.isEmpty) {
@@ -2371,7 +2373,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         // }
       },
       child: FlutterInputField(
-        controller: textfiled,
+        controller: controller,
         textFormKey: '',
         // textFormKey: textfiled != passvalidfromTextController ||
         //         textfiled != passvaliduntilTextController
@@ -2392,7 +2394,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onTap: () async {
             // if (widget.dayPassItem == null || textfiled.text.isEmpty)
             {
-              datePickerDialog(textfiled);
+              datePickerDialog(controller);
             }
             DateTime? pickedDate = await showDateTimePicker(
                 context: context,
@@ -3892,6 +3894,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       textInputType: controller == contactnoTextController
           ? TextInputType.number
           : TextInputType.text,
+      characterLimit: controller == contactnoTextController ? 10 : 250,
       isEnable:
           (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable
