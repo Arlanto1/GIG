@@ -18,10 +18,13 @@ class KeyReconciliationListServices {
     required String maximumRecords,
     required String userId,
     required String locationId,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return KeyReconciliationListResponse.fromJson(response);

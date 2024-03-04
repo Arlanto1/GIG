@@ -9,12 +9,17 @@ abstract class KeyReconciliationListEvent extends Equatable {
 
 class FetchKeyReconciliationList extends KeyReconciliationListEvent {
   final int startPos;
-  final int maxPos;
+  final int maxPos;final bool newSearch;
+  final BaseFilterModel filters;
 
   const FetchKeyReconciliationList(
-      {required this.startPos, required this.maxPos});
+      {required this.startPos, required this.maxPos,  required this.newSearch,
+        required this.filters});
 }
 
 class InitializeValues extends KeyReconciliationListEvent {
   const InitializeValues();
+}
+class RefreshList extends KeyReconciliationListEvent {
+  const RefreshList();
 }
