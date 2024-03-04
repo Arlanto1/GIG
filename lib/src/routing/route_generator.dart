@@ -1049,7 +1049,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyManagementMasterListBloc>(
                   create: (_) => KeyManagementMasterListBloc()
-                    ..add(const FetchKeyMasterList(startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyManagementMasterListView(),
                 ));
 
