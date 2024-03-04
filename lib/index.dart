@@ -246,3 +246,17 @@ export 'package:db_atom/src/features/contact_details/models/contacts_list_respon
 export 'package:db_atom/src/features/contact_details/models/requestModels/contacts_request.dart';
 export 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/models/request/law_visiting_official.dart';
 export 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
+
+export 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
+export 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
+export 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
+export 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
+
+export 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart';
+export 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/request_models/event_into_request.dart';
+export 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/general_info_model.dart';
+
+export 'package:db_atom/src/models/role_extension.dart';
+
+export 'package:db_atom/src/models/role.dart';
+export 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/show_ep_grids_model.dart';

@@ -331,7 +331,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              onlyDate: true,
+                              onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
@@ -354,6 +354,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
+                            // Text('${Utils().formatUnixTimestamp(state.model.eventStartDate!)}'),
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
                               onlyDate: false,

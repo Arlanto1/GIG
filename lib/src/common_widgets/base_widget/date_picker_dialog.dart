@@ -37,6 +37,7 @@ class BaseDate {
     required Function(String) onChange,
     required BuildContext context,
   }) {
+    log('--datePickerWidgetLoading---');
     // Convert Date Time if String
     if (isTimestamp(textController.text)) {
       textController.text = Utils.timestamptoDateConversion(
@@ -113,6 +114,25 @@ class BaseDate {
     //       (startDate.toIntOrNull()! * 1000));
     // }
 
+    if (!startDate.isEmptyOrNull) {
+      log('-startDate-@@-${startDate.toString()}-is not empty-');
+      // Parse the startDate as an int and convert it to milliseconds
+      int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
+      log('-millisecondsSinceEpoch---${millisecondsSinceEpoch.toString()}-');
+
+      // Check if the parsed value is valid
+      if (millisecondsSinceEpoch > 0) {
+        // Convert milliseconds since epoch to DateTime
+        minTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch * 1000);
+        log('-minTime---${minTime.toString()}-');
+
+        log('-startDate---currentTime--${currentTime.toString()}-----minTime${minTime.toString()}');
+
+        // Ensure minTime is not before the current time
+        minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
+      }
+    }
+
     log('--minTime-2-$minTime--');
 
     log('-onlyDate---$onlyDate-');
@@ -142,6 +162,11 @@ class BaseDate {
 
       log('--minTime--else-$minTime--');
       log('--maxTime--else-$maxTime--');
+      // Problem: minTime is not working properly for showDateTimePicker
+      // it showing past date also when given startDate
+      // I want to show minTime as some date in future based on startDate parameter
+      // showDatePicker is working fine with same logic
+      // Using package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart
       DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,

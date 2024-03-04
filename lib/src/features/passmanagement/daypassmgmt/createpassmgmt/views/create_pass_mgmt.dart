@@ -2139,10 +2139,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     if (widget.model?.id != null) {
       BlocProvider.of<CreatePassMgmtCubit>(context)
           .updateStatus(id: widget.model!.id.toString());
+      Navigator.pop(context);
       Navigator.popAndPushNamed(context, daypassmanagementListRoute,
           arguments: {
             "passMngDetails":
-                PassMngArguments(widget.passId, 'Day Pass Management', false)
+                PassMngArguments(widget.passId, widget.title?.replaceAll('Edit', '') ?? 'Pass Management', false)
           });
     } else {
       Navigator.pop(context);

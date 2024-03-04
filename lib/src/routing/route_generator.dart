@@ -692,16 +692,19 @@ class RouteGenerator {
       case eventProtectionDetailsTabRoute:
         String id = '';
         int eventStatus = 0;
+        ShowEPGridsModel showEPGridsModel= ShowEPGridsModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
           eventStatus = arguments['eventStatus'];
+          showEPGridsModel = arguments[ConstantsArgument.showEPGridsModel];
         }
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
                   id: id,
-                  eventStatus: eventStatus,
+              eventStatus: eventStatus,
+              showEPGridsModel: showEPGridsModel,
                 ));
       case generalInfoTilesViewRoute:
         String id = '';
