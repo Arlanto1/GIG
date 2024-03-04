@@ -420,7 +420,11 @@ class RouteGenerator {
               ticketType: 1,
               staffType: isInternal ? 1 : 2,
               occId: occId,
-            )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            )..add(sv.FetchData(
+                startPos: 0,
+                maxPos: 20,
+                newSearch: true,
+                filters: BaseFilterModel())),
             child: SstIncidentView(isInternal: isInternal),
           ),
         );
@@ -463,7 +467,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
             create: (_) => ocb.OccurrencesBloc()
-              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
+              ..add(ocb.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const OccurrencesView(),
           ),
         );
@@ -510,7 +518,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sla.SLAViolationPenaltyListBloc>(
             create: (_) => sla.SLAViolationPenaltyListBloc()
-              ..add(const sla.FetchData(startPos: 0, maxPos: 20)),
+              ..add(sla.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const SLAViolationPenaltyListView(),
           ),
         );
@@ -1134,7 +1146,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyLossDestructionListBloc>(
                   create: (_) => KeyLossDestructionListBloc()
-                    ..add(const FetchKeyLossList(startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyLossList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyLossDestructionListView(),
                 ));
 
@@ -1354,7 +1370,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vip.VVIPVisitorsBloc>(
             create: (_) => vip.VVIPVisitorsBloc()
-              ..add(const vip.FetchData(startPos: 0, maxPos: 20)),
+              ..add(vip.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
             child: const VVIPVisitorsView(),
           ),
         );

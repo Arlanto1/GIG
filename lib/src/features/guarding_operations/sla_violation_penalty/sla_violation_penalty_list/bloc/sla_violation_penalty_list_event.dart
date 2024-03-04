@@ -10,8 +10,14 @@ abstract class SLAViolationPenaltyListEvent extends Equatable {
 class FetchData extends SLAViolationPenaltyListEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const FetchData({required this.startPos, required this.maxPos});
+  const FetchData(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValues extends SLAViolationPenaltyListEvent {

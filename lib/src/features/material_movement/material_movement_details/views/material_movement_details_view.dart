@@ -2738,6 +2738,7 @@ class _MaterialMovementDetailsViewState
       Navigator.popAndPushNamed(
         context,
         materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": widget.isInward}
       );
     } else {
       Navigator.pop(context);

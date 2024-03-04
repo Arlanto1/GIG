@@ -1,8 +1,8 @@
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_response.dart';
@@ -21,10 +21,11 @@ class SstIncidentServices {
   Future<SstIncidentResponse> get({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    // required String userId,
     required int ticketType,
     required int staffType,
     String? occId,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords'
@@ -32,7 +33,9 @@ class SstIncidentServices {
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId';
     }
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return SstIncidentResponse.fromJson(response);

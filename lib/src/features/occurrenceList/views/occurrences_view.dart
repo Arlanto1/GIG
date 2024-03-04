@@ -1,8 +1,11 @@
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
+import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -53,9 +56,12 @@ class _OccurrencesViewState extends State<OccurrencesView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<OccurrencesBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<OccurrencesBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -76,6 +82,8 @@ class _OccurrencesViewState extends State<OccurrencesView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -100,12 +108,12 @@ class _OccurrencesViewState extends State<OccurrencesView> {
         ),
         body: BlocBuilder<OccurrencesBloc, OccurrencesState>(
             builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.list.isEmpty) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.list.isEmpty) {
+          //   return const NoRecordFoundWidget();
+          // }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -117,6 +125,28 @@ class _OccurrencesViewState extends State<OccurrencesView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
+                  applyFilters: applyFilters,
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.list.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
@@ -249,5 +279,28 @@ class _OccurrencesViewState extends State<OccurrencesView> {
         "title": Constants.editOccurrence,
       },
     );
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<OccurrencesBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+
+    BlocProvider.of<OccurrencesBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

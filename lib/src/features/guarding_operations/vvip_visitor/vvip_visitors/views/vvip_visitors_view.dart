@@ -43,9 +43,12 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<VVIPVisitorsBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<VVIPVisitorsBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -66,6 +69,8 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton:
@@ -94,12 +99,12 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
         ),
         body: BlocBuilder<VVIPVisitorsBloc, VVIPVisitorsState>(
             builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.items.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -111,6 +116,28 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                BaseSearchWidget(
+                  applySearchFilters: applySearchFilters,
+                  applyFilters: applyFilters,
+                  commonFilters: state.commonFilters ??
+                      CommonFilters(
+                        statuses: [],
+                        regions: [],
+                      ),
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
+                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                // Text('state.status=====${state.status}'),
+                if (state.items.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
@@ -233,5 +260,28 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
         },
       );
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<VVIPVisitorsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+
+    BlocProvider.of<VVIPVisitorsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

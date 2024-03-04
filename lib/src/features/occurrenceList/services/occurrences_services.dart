@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../models/occurrence_response.dart';
@@ -21,12 +22,15 @@ class OccurrenceServices {
   Future<OccurrenceResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
+      // required String userId,
     );
     return OccurrenceResponse.fromJson(response);
   }
