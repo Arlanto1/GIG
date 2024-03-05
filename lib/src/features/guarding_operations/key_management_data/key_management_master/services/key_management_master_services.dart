@@ -46,12 +46,15 @@ class KeyManagementMasterServices {
   Future<KeyManagementMasterResponse> getList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
     // required String userId,
     // required String locationId,
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return KeyManagementMasterResponse.fromJson(response);
