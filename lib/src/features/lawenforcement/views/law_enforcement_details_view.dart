@@ -297,7 +297,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.createdby,
                                         isMandatory: true,
-                                        '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                        // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                        '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
 
                                     /// Location
                                     CommonWidgets.textDisplay(
@@ -1799,7 +1800,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         getFiles.isEmpty ? widget.model?.images : getFiles;
     LawEnforcement? lawEnforcement;
     if (widget.model != null) {
-      log('--widget.model != null----');
       lawEnforcement = LawEnforcement(
           id: widget.model?.id ?? 0,
           entrySecurity: entrySecurtity,
@@ -1814,7 +1814,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
           additionalInformation: additionalInformationTextController.text,
-          // visitingOfficials: visitingOfficials,
+          visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
               ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
@@ -1823,7 +1823,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
-      log('-else-widget.model != null----');
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurtity,
           inputDate: inputDate.toString(),
@@ -1933,7 +1932,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    } /*else if (state.visitingOfficials != null &&
+    } else if (state.visitingOfficials != null &&
         state.visitingOfficials!.isNotEmpty) {
       for (int i = 0; i < state.visitingOfficials!.length;) {
         VisitingOfficialsModel model = state.visitingOfficials![i];
@@ -1959,20 +1958,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //   );
         //   break;
         // }
-        else if (widget.model?.status != 0 &&
-            (widget.model != null &&
-                distributiongroupsTextController.text.isEmpty)) {
-          Validator().showToast(
-            context,
-            "Please enter distribution groups",
-          );
-          break;
-        } else {
-          submitForm(isSubmit: true, state: globalState);
-          break;
+        else {
+          if (widget.model?.status != 0 &&
+              (widget.model != null &&
+                  distributiongroupsTextController.text.isEmpty)) {
+            Validator().showToast(
+              context,
+              "Please enter distribution groups",
+            );
+            break;
+          } else {
+            submitForm(isSubmit: true, state: globalState);
+            break;
+          }
         }
       }
-    } */else {
+    } else {
       log('---validateForm-else---');
       if (widget.model?.status != 0 &&
           (widget.model != null &&
