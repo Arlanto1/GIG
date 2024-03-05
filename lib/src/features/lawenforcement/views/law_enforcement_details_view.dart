@@ -68,6 +68,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   TextEditingController emailidTextController5 = TextEditingController();
   TextEditingController contactnoTextController5 = TextEditingController();
 
+  final FocusNode dbOfficialWantToMeetFocusNode = FocusNode();
+  final FocusNode additionalInformationFocusNode = FocusNode();
+
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   late LawEnforcementState globalState;
@@ -424,6 +427,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       textFormKey: Keys
                                           .additionalinformationTextController,
                                       hintText: Constants.informationhere,
+                                      focusNode: dbOfficialWantToMeetFocusNode,
                                       isEnable: widget.model?.status == 0 ||
                                               widget.model?.status == 1 ||
                                               widget.model == null
@@ -481,6 +485,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       textFormKey: Keys
                                           .additionalinformationTextController,
                                       hintText: Constants.informationhere,
+                                      focusNode: additionalInformationFocusNode,
                                       isEnable: widget.model?.status == 0 ||
                                               widget.model?.status == 1 ||
                                               widget.model == null
@@ -1016,9 +1021,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? "Draft"
           : widget.model?.status == 1
               ? "Submitted"
-              : widget.model?.status == 3
-                  ? "Distributed"
-                  : "Handover";
+              : widget.model?.status == 2
+                  ? "Verification Under Process"
+                  : widget.model?.status == 2
+                      ? " Distributed"
+                      : "Handover";
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
@@ -1305,6 +1312,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               // }
               // setState(() {});
               lawEnforcementCubit.geDBOfficialyData(list);
+              FocusScope.of(context)
+                  .requestFocus(additionalInformationFocusNode);
             },
           );
         });
@@ -1490,6 +1499,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             onTap: (Organisation list) {
               //log(list.name);
               lawEnforcementCubit.getleopurposeResponseData(list);
+              FocusScope.of(context)
+                  .requestFocus(dbOfficialWantToMeetFocusNode);
             },
           );
         });
@@ -1727,7 +1738,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       statusValue = 1;
     } else if (statusTextController.text.toLowerCase() == "distributed") {
       statusValue = 3;
-    } else {
+    } else if (statusTextController.text.toLowerCase() ==
+        "verification under process") {
       statusValue = 2;
     }
     bool isDocumentifanySelected =

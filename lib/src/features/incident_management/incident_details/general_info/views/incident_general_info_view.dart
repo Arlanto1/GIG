@@ -25,6 +25,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController assetController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
+  final FocusNode complainantFocusNode = FocusNode();
+  final FocusNode incidentLocationFocusNode = FocusNode();
+  final FocusNode incidentDescriptionFocusNode = FocusNode();
+  final FocusNode complainantEmpIdFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -92,8 +96,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: state.model.status !=0 ? false : true,
-            showSubmitButton: state.model.status !=0 ? false : true,
+            showSaveButton: state.model.status != 0 ? false : true,
+            showSubmitButton: state.model.status != 0 ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -263,26 +267,26 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Constants.entity, Styles.textStyleBlack14,
                                 isMandatory: true),
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entities ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: !disableForm,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<IncidentGeneralInfoCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: !disableForm,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<IncidentGeneralInfoCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
                               orgName: 'ATOM_ENTITIES',
-                                functionToCall: () {
-                            // refresh the list
-                            BlocProvider.of<IncidentGeneralInfoCubit>(
-                            context)
-                            .refreshList();
-                      },),
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<IncidentGeneralInfoCubit>(
+                                        context)
+                                    .refreshList();
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -434,6 +438,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
+                                      FocusScope.of(context)
+                                          .requestFocus(complainantFocusNode);
                                     }
                                   : null,
                             ),
@@ -458,6 +464,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                         complainant: user,
                                       );
+                                      FocusScope.of(context).requestFocus(
+                                          complainantEmpIdFocusNode);
                                     },
                                     functionToCall: () {
                                       // refresh the list
@@ -474,8 +482,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             if (state.model.complainantDbEmp == false) ...[
                               /// Complainant
                               CommonWidgets.textDisplay(
-                                  Constants.complaint, Styles.textStyleBlack14, isMandatory: true
-                                 ),
+                                  Constants.complaint, Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -483,6 +491,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 initialValue: state.model.complainantName,
                                 textFormKey: Keys.claimantTextController,
                                 hintText: Constants.informationhere,
+                                focusNode: complainantFocusNode,
                                 isEnable: state.model.status == 0,
                                 isDisableColor: state.model.status != 0,
                                 onChange: (String value) {
@@ -509,6 +518,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 isEnable: state.model.status != 39,
                                 isDisableColor: state.model.status == 39,
                                 hintText: '',
+                                focusNode: complainantEmpIdFocusNode,
                                 onChange: (String value) {
                                   state.model.employeeId = value;
                                   context
@@ -522,34 +532,34 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                               /// Complainant Department
                               CommonWidgets.textDisplay(
-                                  Constants.complaintDepartment,
-                                  Styles.textStyleBlack14,
-                                 ),
+                                Constants.complaintDepartment,
+                                Styles.textStyleBlack14,
+                              ),
                               TextFieldAddButton(
                                 title: state.model.complainantDepartment?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.departments,
-                                    onTap: (Organisation org) {
-                                      BlocProvider.of<IncidentGeneralInfoCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              complainantDepartment: org);
-                                    },
+                                      context: context,
+                                      organisations: state.departments,
+                                      onTap: (Organisation org) {
+                                        BlocProvider.of<
+                                                    IncidentGeneralInfoCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                complainantDepartment: org);
+                                      },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
                                       title: 'Add Claimant Department',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
-                                            IncidentGeneralInfoCubit>(
-                                            context)
+                                                    IncidentGeneralInfoCubit>(
+                                                context)
                                             .refreshList();
-                                      }
-                                  );
+                                      });
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -613,6 +623,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 BlocProvider.of<IncidentGeneralInfoCubit>(
                                         context)
                                     .onModelValueChange(state.model);
+                                FocusScope.of(context)
+                                    .requestFocus(incidentLocationFocusNode);
                               },
                               context: context,
                             ),
@@ -629,6 +641,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               initialValue: state.model.incidentLocation,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
+                              focusNode: incidentLocationFocusNode,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -655,7 +668,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (state.model?.status ==0) {
+                                if (state.model?.status == 0) {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
@@ -693,7 +706,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (state.model?.status ==0) {
+                                if (state.model?.status == 0) {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
@@ -704,6 +717,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                         incidentOwner: user,
                                       );
+                                      FocusScope.of(context).requestFocus(
+                                          incidentDescriptionFocusNode);
                                     },
                                     functionToCall: () {
                                       // refresh the list
@@ -729,6 +744,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               initialValue: state.model.description,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
+                              focusNode: incidentDescriptionFocusNode,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
@@ -753,7 +769,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model?.status !=0,
+                              isDisabled: state.model?.status != 0,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {

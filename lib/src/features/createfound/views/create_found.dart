@@ -44,6 +44,8 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController claimantTextController = TextEditingController();
   String isDepositorDBEmployee = "";
 
+  final FocusNode foundLocationFocusNode = FocusNode();
+
   // String slnoValue = "dfwe";
   String createdByValue = "";
   String handOverByValue = "";
@@ -628,8 +630,11 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (Organisation list) {
               selectedArtclelist = list;
               setState(() {});
+              FocusScope.of(context)
+                  .requestFocus(foundLocationFocusNode);
             },
           );
+
         });
   }
 
@@ -1087,6 +1092,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     textFormKey:
                                         Keys.foundLocationTextController,
                                     hintText: '',
+                                    focusNode: foundLocationFocusNode,
                                     isEnable: widget.model?.status == 0 ||
                                             widget.model == null
                                         ? true
