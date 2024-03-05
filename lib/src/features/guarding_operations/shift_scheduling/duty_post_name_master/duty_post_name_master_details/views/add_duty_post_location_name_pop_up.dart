@@ -73,6 +73,8 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
                           ),
                           Checkbox(
                             value: isTransportShift,
+                            activeColor: AppColors.navigationSkybluecolor,
+                            focusColor: AppColors.navigationSkybluecolor,
                             onChanged: (bool? value) {
                               setState(() {
                                 isTransportShift = value ?? false;
@@ -127,7 +129,9 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
-        // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
+        DpName dpName = DpName();
+        dpName.dutyPostName = dutyPostLocationNameController.text;
+        // widget.model?.dpName = dutyPostLocationNameController.text;
         // BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
         //     .onAddDutyPostLocationName(dutyPostLocationNameController.text);
         Navigator.pop(context);
