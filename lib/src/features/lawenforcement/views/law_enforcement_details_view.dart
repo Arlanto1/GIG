@@ -1021,9 +1021,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? "Draft"
           : widget.model?.status == 1
               ? "Submitted"
-              : widget.model?.status == 3
-                  ? "Distributed"
-                  : "Handover";
+              : widget.model?.status == 2
+                  ? "Verification Under Process"
+                  : widget.model?.status == 2
+                      ? " Distributed"
+                      : "Handover";
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
@@ -1736,7 +1738,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       statusValue = 1;
     } else if (statusTextController.text.toLowerCase() == "distributed") {
       statusValue = 3;
-    } else {
+    } else if (statusTextController.text.toLowerCase() ==
+        "verification under process") {
       statusValue = 2;
     }
     bool isDocumentifanySelected =

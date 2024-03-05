@@ -197,7 +197,7 @@ class Utils {
         statusText = 'Submitted';
         break;
       case 2:
-        statusText = 'Under Verification';
+        statusText = 'Verification Under Process';
         break;
       case 3:
         statusText = 'Distributed';
