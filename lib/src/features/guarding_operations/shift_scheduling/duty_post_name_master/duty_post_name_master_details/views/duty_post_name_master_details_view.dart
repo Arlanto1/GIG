@@ -299,8 +299,8 @@ class _DutyPostNameMasterDetailsViewState
                             ),
                           ),
                           Column(
-                            children: getDutyPostLocationName(
-                                state.model.locationNames ?? [], height, state),
+                            // children: getDutyPostLocationName(
+                            //     state.model.dpName ?? [], height, state),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -388,7 +388,7 @@ class _DutyPostNameMasterDetailsViewState
     setState(() {
       // Assuming your state has a list of duty post location names
       // Update the state to remove the specified location name
-      state.model.locationNames?.remove(locationName);
+      state.model.dpName?.remove(locationName);
     });
   }
 

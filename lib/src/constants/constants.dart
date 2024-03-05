@@ -785,9 +785,10 @@ class Constants {
   static const String dutyPostNameMaster = 'Duty Post Name Master';
   static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
-  static const String dutyPostLocationName = 'Duty Post Location Name';
+  static const String dutyPostLocationName = 'Post Location Name';
   static const String region = 'Region';
   static const String addDutyPostLocationName = 'Add Duty Post Location Name';
+  static const String isTransportShift = 'is Transport Shift?';
 
   ///Attendance
   static const String attendance = 'Attendance';

@@ -88,7 +88,7 @@ class DutyPostNameMasterDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          locationNames: state.model.locationNames,
+          locationNames: state.model.dpName,
           labels: labels,
         ),
       );
@@ -104,7 +104,7 @@ class DutyPostNameMasterDetailsCubit
     }
   }
 
-  void onAddDutyPostLocationName(String locationName) {
+  void onAddDutyPostLocationName(DpName locationName) {
     log('-locationNames---$locationName-');
 
     emit(state.copyWith(
@@ -113,10 +113,8 @@ class DutyPostNameMasterDetailsCubit
     ));
 
     // state.model??=DutyPostNameMasterModel();
-    log('-state.locationNames---before-1--${model?.locationNames}----');
-    model?.locationNames??=[];
-    model?.locationNames?.add(locationName);
-    log('-state.locationNames---after-2--${model?.locationNames}----');
+    model?.dpName??=[];
+    model?.dpName?.add(locationName);
 
     emit(state.copyWith(
       model: model,

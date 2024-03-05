@@ -8,7 +8,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final String? message;
-  final List<String>? locationNames;
+  final List<DpName>? locationNames;
   final List<User>? entrySecurities;
   final GmUiLabels? labels;
 
@@ -20,7 +20,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     List<User>? entrySecurities,
-    List<String>? dutyPostLocationNames,
+    List<DpName>? dutyPostLocationNames,
   }) {
     return DutyPostNameMasterDetailsState(
       status: FormStatus.initial,
@@ -85,7 +85,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<String>? locationNames,
+    List<DpName>? locationNames,
     String? message,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
