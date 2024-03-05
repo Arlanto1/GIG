@@ -16,7 +16,7 @@ class ArticleFoundBloc
       : super(const ArticleFoundState()) {
     on<InitializeValuesAF>(_initializeValues);
     on<FetchData>(
-      _fetchMaterialMovements,
+      _fetchArticleFound,
       transformer: droppable(),
     );
     on<RefreshList>(
@@ -34,7 +34,7 @@ class ArticleFoundBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.materialMovementModuleCode);
+          module: Constants.articleFoundModuleCode);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -47,7 +47,7 @@ class ArticleFoundBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
+          moduleCode: Constants.articleFoundModuleCode);
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -87,7 +87,7 @@ class ArticleFoundBloc
     }
   }
 
-  FutureOr<void> _fetchMaterialMovements(
+  FutureOr<void> _fetchArticleFound(
       FetchData event, Emitter<ArticleFoundState> emit) async {
     log('-_fetchMaterialMovements--');
 
@@ -101,8 +101,6 @@ class ArticleFoundBloc
       // if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial || event.newSearch) {
-        log('-_fetchMaterialMovements--initial--');
-
         FoundListModel response;
 
         response = await services.getFoundArticleList(
