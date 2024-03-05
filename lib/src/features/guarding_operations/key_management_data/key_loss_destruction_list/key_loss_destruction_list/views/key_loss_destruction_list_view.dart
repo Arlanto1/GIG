@@ -24,6 +24,9 @@ class _KeyLossDestructionListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyLossDestructionListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

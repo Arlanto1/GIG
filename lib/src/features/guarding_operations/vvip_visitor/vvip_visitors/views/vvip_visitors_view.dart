@@ -26,6 +26,9 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
   @override
   void initState() {
     super.initState();
+    context.read<VVIPVisitorsBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

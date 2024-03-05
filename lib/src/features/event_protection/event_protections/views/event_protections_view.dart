@@ -41,6 +41,9 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   @override
   void initState() {
     super.initState();
+    context.read<EventProtectionsBloc>().add(
+      const InitializeValuesEP(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

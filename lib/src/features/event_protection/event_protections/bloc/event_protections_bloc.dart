@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -16,6 +17,7 @@ import '../../models/event_protection_model.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
+
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc
@@ -40,21 +42,21 @@ class EventProtectionsBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.eventProtectionModuleCode);
+          module: Constants.eventProtectionModule);
 
       List<Organisation> regions =
-          await commonServices.getRegionsOrLocationsByRegionId();
+      await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-          CommonFilters(regions: regions, statuses: statuses);
+      CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.eventProtectionModuleCode);
+      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -148,5 +150,4 @@ class EventProtectionsBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 }

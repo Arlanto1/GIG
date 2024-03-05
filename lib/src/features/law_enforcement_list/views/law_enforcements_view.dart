@@ -39,6 +39,9 @@ class _LnPageState extends State<LnPage> {
   @override
   void initState() {
     super.initState();
+    context.read<LawEnforcementListBloc>().add(
+          const InitializeValuesLEO(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -141,7 +144,7 @@ class _LnPageState extends State<LnPage> {
         // if (state.status == FormStatus.initial) {
         //   return const BaseLoader();
         // }
-            // else if (state.status == FormStatus.success) {}
+        // else if (state.status == FormStatus.success) {}
         //
         // if (state.items.isEmptyOrNull) {
         //   return const NoRecordFoundWidget();

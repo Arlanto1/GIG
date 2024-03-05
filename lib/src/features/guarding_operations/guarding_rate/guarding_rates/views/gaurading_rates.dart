@@ -41,6 +41,9 @@ class _GuardingRatesState extends State<GuardingRates> {
   @override
   void initState() {
     super.initState();
+    context.read<GuardingRatesBloc>().add(
+          const InitializeValuesGR(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

@@ -26,6 +26,9 @@ class _AnnualPowerShutdownListViewState
   @override
   void initState() {
     super.initState();
+    context.read<AnnualPowerShutdownListBloc>().add(
+          const InitializeValuesAPS(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

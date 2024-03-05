@@ -24,6 +24,9 @@ class _KeyManagementMasterListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyManagementMasterListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

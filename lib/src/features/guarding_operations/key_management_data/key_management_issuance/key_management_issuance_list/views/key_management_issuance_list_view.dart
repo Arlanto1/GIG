@@ -24,6 +24,9 @@ class _KeyManagementIssuanceListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyManagementIssuanceListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
