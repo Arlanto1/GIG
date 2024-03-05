@@ -25,9 +25,9 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
       status: json['status'] as int?,
-      // dpName: (json['locationNames'] as List<dynamic>?)
-      //     ?.map((e) => e as String)
-      //     .toList(),
+      dpName: (json['dpName'] as List<dynamic>?)
+          ?.map((e) => DpName.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$DutyPostNameMasterModelToJson(
@@ -43,5 +43,5 @@ Map<String, dynamic> _$DutyPostNameMasterModelToJson(
       'modifiedDate': instance.modifiedDate,
       'modifiedBy': instance.modifiedBy,
       'status': instance.status,
-      'locationNames': instance.dpName,
+      'dpName': instance.dpName,
     };
