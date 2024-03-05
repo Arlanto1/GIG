@@ -24,6 +24,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
   TextEditingController totalController = TextEditingController();
   TextEditingController rankController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  final FocusNode aShiftFocusNode = FocusNode();
 
   bool isDisabled = true;
   bool isReadOnly = false;
@@ -316,6 +317,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                             .updateDropdownValues(
                                                 rankId: int.tryParse(
                                                     selectedLabel.value));
+                                        FocusScope.of(context).requestFocus(
+                                            aShiftFocusNode);
                                       });
                                 }
                               }),
@@ -336,6 +339,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             textFormKey: Keys.guardingPOCKey,
                             initialValue: '${state.model.shiftA ?? ''}',
                             hintText: '',
+                            focusNode: aShiftFocusNode,
                             isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {
