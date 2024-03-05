@@ -536,7 +536,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                       GestureDetector(
                                         onTap: () async {
-                                          NavigatorState nav = Navigator.of(context);
+                                          NavigatorState nav =
+                                              Navigator.of(context);
 
                                           bool isSaveSuccess = await submitForm(
                                             isSubmit: false,
@@ -548,32 +549,35 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           }
                                           log('--widget.model.id---${widget.model?.id}--');
                                           List<LawVisitingOfficial>
-                                          visitingOfficials =
-                                          await LawEnforcementServices()
-                                              .getLeoVisitingOfficials(
-                                              id: state.model!.id!);
+                                              visitingOfficials =
+                                              await LawEnforcementServices()
+                                                  .getLeoVisitingOfficials(
+                                                      id: state.model!.id!);
 
                                           log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
                                           nav.pushNamed(
                                             visitingOfficialListRoute,
                                             arguments: {
                                               ConstantsArgument.title:
-                                              Constants.visitingOfficials,
+                                                  Constants.visitingOfficials,
                                               ConstantsArgument.type: 0,
-                                              ConstantsArgument.id: state.model?.id,
+                                              ConstantsArgument.id:
+                                                  state.model?.id,
                                               ConstantsArgument.rankType:
-                                              Constants.contactGeneralRank,
+                                                  Constants.contactGeneralRank,
                                               ConstantsArgument.models:
-                                              visitingOfficials,
-                                              ConstantsArgument.departments: state
-                                                  .departmentResponse
-                                                  ?.atomLeoDepartments ??
+                                                  visitingOfficials,
+                                              ConstantsArgument
+                                                  .departments: state
+                                                      .departmentResponse
+                                                      ?.atomLeoDepartments ??
                                                   [],
                                             },
                                           );
                                         },
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: <Widget>[
                                             SvgPicture.asset(
                                               AppIcon.pluscircle,
@@ -582,15 +586,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             const Text(
                                               'Add/View Visiting Official(s)',
                                               style: TextStyle(
-                                                color:
-                                                AppColors.navigationSkybluecolor,
-                                                decoration: TextDecoration.underline,
+                                                color: AppColors
+                                                    .navigationSkybluecolor,
+                                                decoration:
+                                                    TextDecoration.underline,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-
 
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
@@ -1783,6 +1787,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         getFiles.isEmpty ? widget.model?.images : getFiles;
     LawEnforcement? lawEnforcement;
     if (widget.model != null) {
+      log('--widget.model != null----');
       lawEnforcement = LawEnforcement(
           id: widget.model?.id ?? 0,
           entrySecurity: entrySecurtity,
@@ -1797,7 +1802,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
           additionalInformation: additionalInformationTextController.text,
-          visitingOfficials: visitingOfficials,
+          // visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
               ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
@@ -1806,6 +1811,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
+      log('-else-widget.model != null----');
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurtity,
           inputDate: inputDate.toString(),
@@ -1915,7 +1921,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    } else if (state.visitingOfficials != null &&
+    } /*else if (state.visitingOfficials != null &&
         state.visitingOfficials!.isNotEmpty) {
       for (int i = 0; i < state.visitingOfficials!.length;) {
         VisitingOfficialsModel model = state.visitingOfficials![i];
@@ -1941,22 +1947,20 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //   );
         //   break;
         // }
-        else {
-          if (widget.model?.status != 0 &&
-              (widget.model != null &&
-                  distributiongroupsTextController.text.isEmpty)) {
-            Validator().showToast(
-              context,
-              "Please enter distribution groups",
-            );
-            break;
-          } else {
-            submitForm(isSubmit: true, state: globalState);
-            break;
-          }
+        else if (widget.model?.status != 0 &&
+            (widget.model != null &&
+                distributiongroupsTextController.text.isEmpty)) {
+          Validator().showToast(
+            context,
+            "Please enter distribution groups",
+          );
+          break;
+        } else {
+          submitForm(isSubmit: true, state: globalState);
+          break;
         }
       }
-    } else {
+    } */else {
       log('---validateForm-else---');
       if (widget.model?.status != 0 &&
           (widget.model != null &&
