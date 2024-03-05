@@ -705,7 +705,7 @@ class Constants {
 
   ///KeyManagementData
   static const String keyManagementMaster = 'Key Management Master';
-  static const String keyManagementIssuance = 'Key Management Issuance';
+  static const String keyManagementIssuance = 'Key Management Issuance List';
   static const String keyReconciliationList = 'Key Reconciliation List';
   static const String keyLossDestructionList = 'Key Loss Destruction List';
 

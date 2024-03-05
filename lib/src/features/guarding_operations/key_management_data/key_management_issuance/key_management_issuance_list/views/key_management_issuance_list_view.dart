@@ -127,11 +127,11 @@ class _KeyManagementIssuanceListViewState
                 // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.initial) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                // if (state.list.isEmptyOrNull &&
+                //     state.status != FormStatus.initial) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                //   const NoRecordFoundWidget(),
+                // ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
