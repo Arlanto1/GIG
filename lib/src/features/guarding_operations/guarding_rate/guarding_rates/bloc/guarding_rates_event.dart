@@ -20,8 +20,8 @@ class FetchList extends GuardingRatesEvent {
       required this.filters});
 }
 
-class InitializeValuesGMR extends GuardingRatesEvent {
-  const InitializeValuesGMR();
+class InitializeValuesGR extends GuardingRatesEvent {
+  const InitializeValuesGR();
 }
 
 class RefreshList extends GuardingRatesEvent {

@@ -32,7 +32,7 @@ class KeyLossDestructionListBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.contactDetailsModuleCode);
+          module: Constants.keyManagementMasterModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -45,7 +45,7 @@ class KeyLossDestructionListBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          moduleCode: Constants.keyManagementMasterModule);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

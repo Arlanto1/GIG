@@ -39,6 +39,9 @@ class _LnPageState extends State<LnPage> {
   @override
   void initState() {
     super.initState();
+    context.read<LawEnforcementListBloc>().add(
+          const InitializeValuesLEO(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -140,7 +143,8 @@ class _LnPageState extends State<LnPage> {
           builder: (context, state) {
         // if (state.status == FormStatus.initial) {
         //   return const BaseLoader();
-        // } else if (state.status == FormStatus.success) {}
+        // }
+        // else if (state.status == FormStatus.success) {}
         //
         // if (state.items.isEmptyOrNull) {
         //   return const NoRecordFoundWidget();
@@ -166,7 +170,7 @@ class _LnPageState extends State<LnPage> {
                     ),
               ),
               CommonWidgets.verticalSpacerWidget(height * 0.001),
-              if (state.status == FormStatus.initial) ...[
+              if (state.status == FormStatus.loading) ...[
                 CommonWidgets.verticalSpacerWidget(height * 0.01),
                 const BaseLoader(),
                 CommonWidgets.verticalSpacerWidget(height * 0.01),

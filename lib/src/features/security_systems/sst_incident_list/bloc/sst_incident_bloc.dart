@@ -48,7 +48,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.securitySystem);
+          module: Constants.securitySystemModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -61,7 +61,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.securitySystem);
+          moduleCode: Constants.securitySystemModule);
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

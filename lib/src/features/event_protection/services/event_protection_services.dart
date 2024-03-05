@@ -51,7 +51,6 @@ class EventProtectionServices {
       isAuthenticated: true,
       url: url,
     );
-
     return EventProtectionResponse.fromJson(response);
   }
 

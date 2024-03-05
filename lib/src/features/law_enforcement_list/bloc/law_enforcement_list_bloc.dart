@@ -63,7 +63,7 @@ class LawEnforcementListBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
+          moduleCode: Constants.leoModuleCode);
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -166,13 +166,7 @@ class LawEnforcementListBloc
       // if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial || event.newSearch) {
-        log('-_fetchMaterialMovements--initial--');
         LawEnforcementListResponse response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
 
         response = await services.getListWithFilters(
           startPosition: '${event.startPos}',
@@ -189,7 +183,6 @@ class LawEnforcementListBloc
         );
       }
 
-      log('-_fetchMaterialMovements------##--');
       LawEnforcementListResponse response;
       response = await services.getListWithFilters(
         startPosition: '${event.startPos}',

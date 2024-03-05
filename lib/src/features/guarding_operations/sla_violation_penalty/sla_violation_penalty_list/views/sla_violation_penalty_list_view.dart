@@ -43,6 +43,9 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   @override
   void initState() {
     super.initState();
+    context.read<SLAViolationPenaltyListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

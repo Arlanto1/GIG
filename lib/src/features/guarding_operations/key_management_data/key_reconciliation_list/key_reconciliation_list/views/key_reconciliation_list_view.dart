@@ -23,6 +23,9 @@ class _KeyLossDestructionListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyReconciliationListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

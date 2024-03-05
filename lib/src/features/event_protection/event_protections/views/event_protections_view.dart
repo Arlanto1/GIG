@@ -41,6 +41,9 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   @override
   void initState() {
     super.initState();
+    context.read<EventProtectionsBloc>().add(
+      const InitializeValuesEP(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -127,12 +130,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       ),
       body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
         builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.items.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(

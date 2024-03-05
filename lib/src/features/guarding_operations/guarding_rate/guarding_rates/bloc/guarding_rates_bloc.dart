@@ -21,7 +21,7 @@ part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
   GuardingRatesBloc() : super(const GuardingRatesState()) {
-    on<InitializeValuesGMR>(_initializeValues);
+    on<InitializeValuesGR>(_initializeValues);
     on<FetchList>(
       _fetchList,
       transformer: droppable(),
@@ -36,7 +36,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
   final CommonServices commonServices = CommonServices();
 
   FutureOr<void> _initializeValues(
-      InitializeValuesGMR event, Emitter<GuardingRatesState> emit) async {
+      InitializeValuesGR event, Emitter<GuardingRatesState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(

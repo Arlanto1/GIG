@@ -24,6 +24,9 @@ class _KeyManagementIssuanceListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyManagementIssuanceListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -87,8 +90,8 @@ class _KeyManagementIssuanceListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKmiExcel',
+          pdfAPIName: 'exportKmiPDF',
         ),
         body: BlocBuilder<KeyManagementIssuanceListBloc,
             KeyManagementIssuanceListState>(builder: (context, state) {
@@ -127,11 +130,11 @@ class _KeyManagementIssuanceListViewState
                 // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.initial) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                // if (state.list.isEmptyOrNull &&
+                //     state.status != FormStatus.initial) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                //   const NoRecordFoundWidget(),
+                // ],
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,

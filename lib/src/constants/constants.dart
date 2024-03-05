@@ -19,7 +19,7 @@ class Constants {
   static const String visitorManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
-  static const String securitySystem = 'SSSLA';
+  static const String securitySystemModule = 'SSSLA';
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
@@ -705,7 +705,7 @@ class Constants {
 
   ///KeyManagementData
   static const String keyManagementMaster = 'Key Management Master';
-  static const String keyManagementIssuance = 'Key Management Issuance';
+  static const String keyManagementIssuance = 'Key Management Issuance List';
   static const String keyReconciliationList = 'Key Reconciliation List';
   static const String keyLossDestructionList = 'Key Loss Destruction List';
 
