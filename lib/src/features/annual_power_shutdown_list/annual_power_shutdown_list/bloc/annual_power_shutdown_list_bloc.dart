@@ -43,20 +43,20 @@ class AnnualPowerShutdownListBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.materialMovementModuleCode);
+          module: Constants.eventProtectionModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
+          moduleCode: Constants.eventProtectionModuleCode);
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -95,6 +95,7 @@ class AnnualPowerShutdownListBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
 //   FutureOr<void> _fetchList(
 //       FetchData event, Emitter<AnnualPowerShutdownListState> emit) async {
 //     log('-_fetchMaterialMovements--');
