@@ -36,6 +36,12 @@ class _AnnualPowerShutdownListDetailsViewState
 
   bool disableForm = false;
 
+  final FocusNode lSM1ContactNoFocusNode = FocusNode();
+  final FocusNode lSM2ContactNoFocusNode = FocusNode();
+  final FocusNode pocContactNoFocusNode = FocusNode();
+  final FocusNode pocEscalationContactNoFocusNode = FocusNode();
+  final FocusNode vendor1EmailFocusNode = FocusNode();
+
   BudgetCostModel budgetCostModel = BudgetCostModel();
 
   @override
@@ -440,6 +446,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .updateDropdownValues(
                                         locationSecurityManager1: user,
                                       );
+                                      FocusScope.of(context)
+                                          .requestFocus(lSM1ContactNoFocusNode);
                                     },
                                   );
                                 },
@@ -460,7 +468,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.lsm1ContactNo,
                                 textFormKey: Keys.lsm1ContactNOKey,
                                 hintText: '',
-                                characterLimit: Constants.characterLimitContactNo,
+                                focusNode: lSM1ContactNoFocusNode,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -496,6 +506,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .updateDropdownValues(
                                         locationSecurityManager2: user,
                                       );
+                                      FocusScope.of(context)
+                                          .requestFocus(lSM2ContactNoFocusNode);
                                     },
                                   );
                                 },
@@ -514,10 +526,12 @@ class _AnnualPowerShutdownListDetailsViewState
                               FlutterInputField(
                                 // labelText: Constants.lsm2ContactNo,
                                 textInputType: TextInputType.number,
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 initialValue: state.model.lsm2ContactNo,
                                 textFormKey: Keys.lsm2ContactNOKey,
                                 hintText: '',
+                                focusNode: lSM2ContactNoFocusNode,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -553,6 +567,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .updateDropdownValues(
                                         bu1: user,
                                       );
+                                      FocusScope.of(context)
+                                          .requestFocus(pocContactNoFocusNode);
                                     },
                                   );
                                 },
@@ -573,7 +589,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.bu1ContactNo,
                                 textFormKey: Keys.bu1ContactNOKey,
                                 hintText: '',
-                                characterLimit: Constants.characterLimitContactNo,
+                                focusNode: pocContactNoFocusNode,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -609,6 +627,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .updateDropdownValues(
                                         bu2: user,
                                       );
+                                      FocusScope.of(context)
+                                          .requestFocus(pocEscalationContactNoFocusNode);
                                     },
                                   );
                                 },
@@ -629,7 +649,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue: state.model.bu2ContactNo,
                                 textFormKey: Keys.bu2ContactNOKey,
                                 hintText: '',
-                                characterLimit: Constants.characterLimitContactNo,
+                                focusNode: pocEscalationContactNoFocusNode,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -699,6 +721,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                                 context)
                                             .updateDropdownValues(
                                                 bu2Dept: department);
+                                        FocusScope.of(context)
+                                            .requestFocus(vendor1EmailFocusNode);
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
@@ -731,6 +755,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 textFormKey: Keys.systemVendor1EmailKey,
                                 textCapitalization: false,
                                 hintText: '',
+                                focusNode: vendor1EmailFocusNode,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -760,7 +785,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.model.systemVendor1ContactNo,
                                 textFormKey: Keys.vendor1Contact1Key,
                                 hintText: '',
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -842,7 +868,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -924,7 +951,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
                                 hintText: '',
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
@@ -1597,7 +1625,7 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 TextFieldAddButton(
                                   title:
-                                      '${!state.model.proposedVendors.isEmptyOrNull?state.model.proposedVendors?.first.name :''}',
+                                      '${!state.model.proposedVendors.isEmptyOrNull ? state.model.proposedVendors?.first.name : ''}',
                                   height: 60,
                                   isDisableColor: false,
                                   onTap: () {
