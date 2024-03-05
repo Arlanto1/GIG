@@ -29,6 +29,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       TextEditingController();
   TextEditingController guardingAgencyPOCController = TextEditingController();
   bool isReadOnly = false;
+  final FocusNode employeeIdFocusNode = FocusNode();
 
   get model => null;
 
@@ -468,6 +469,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             .updateDropdownValues(
                                                 employeeType: int.tryParse(
                                                     selectedLabel.value));
+                                        FocusScope.of(context).requestFocus(
+                                            employeeIdFocusNode);
                                       });
                                   //}
                                 }),
@@ -486,6 +489,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               initialValue: state.model.employeeID,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
+                              focusNode: employeeIdFocusNode,
                               isEnable: state.model.status == 0 ||
                                       state.model.status == null
                                   ? true

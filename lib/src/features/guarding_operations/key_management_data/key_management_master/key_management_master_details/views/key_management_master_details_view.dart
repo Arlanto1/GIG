@@ -27,6 +27,9 @@ class _KeyManagementMasterDetailsViewState
   TextEditingController totalKeyController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
+  final FocusNode floorFocusNode = FocusNode();
+  final FocusNode keyDescriptionFocusNode = FocusNode();
+  final FocusNode noOfKeysFocusNode = FocusNode();
 
   get guardingMasterData => null;
 
@@ -258,7 +261,10 @@ class _KeyManagementMasterDetailsViewState
                                       context)
                                   .updateDropdownValues(
                                       entities: selectedEntities);
-                              Navigator.of(context).pop(); // Close the dialog
+                              Navigator.of(context).pop();
+                              FocusScope.of(context).requestFocus(
+                                  floorFocusNode);
+                              // Close the dialog
                             },
                             orgName: 'ATOM_ENTITIES',
                             functionToCall: () {
@@ -294,6 +300,7 @@ class _KeyManagementMasterDetailsViewState
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             isEnable: true,
+                            focusNode: floorFocusNode,
                             isDisableColor: false,
                             onChange: (String value) {
                               state.model.floor = value;
@@ -331,6 +338,8 @@ class _KeyManagementMasterDetailsViewState
                                             context)
                                         .updateDropdownValues(
                                             doorType: department);
+                                    FocusScope.of(context).requestFocus(
+                                        keyDescriptionFocusNode);
                                   },
                                   orgName: 'EMPLOYEE_DEPARTMENTS',
                                   createEntity: false,
@@ -361,6 +370,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.doorName,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
+                            focusNode: keyDescriptionFocusNode,
                             isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {
@@ -495,6 +505,8 @@ class _KeyManagementMasterDetailsViewState
                                               keyTagging: int.tryParse(
                                                   selectedLabel.value));
                                     });
+                                FocusScope.of(context).requestFocus(
+                                    noOfKeysFocusNode);
                                 //}
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -512,6 +524,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: '${state.model.noKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
+                            focusNode: noOfKeysFocusNode,
                             isEnable: isDisabled,
                             isDisableColor: false,
                             onChange: (String value) {

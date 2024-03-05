@@ -1932,48 +1932,50 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    } else if (state.visitingOfficials != null &&
-        state.visitingOfficials!.isNotEmpty) {
-      for (int i = 0; i < state.visitingOfficials!.length;) {
-        VisitingOfficialsModel model = state.visitingOfficials![i];
-        if (model.name == null ||
-            (model.name ?? '').isEmpty ||
-            model.address == null ||
-            (model.address ?? '').isEmpty ||
-            model.department == null ||
-            (model.department?.name ?? '').isEmpty ||
-            model.designation == null ||
-            (model.designation ?? '').isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter visiting official details",
-          );
-          break;
-        }
-        // else if (model.email != null && !Validator.isValidEmail(model.email?.trim())) {
-        //   log('-model.email---${model.email}---');
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter visiting official  details valid email",
-        //   );
-        //   break;
-        // }
-        else {
-          if (widget.model?.status != 0 &&
-              (widget.model != null &&
-                  distributiongroupsTextController.text.isEmpty)) {
-            Validator().showToast(
-              context,
-              "Please enter distribution groups",
-            );
-            break;
-          } else {
-            submitForm(isSubmit: true, state: globalState);
-            break;
-          }
-        }
-      }
-    } else {
+    }
+    // else if (state.visitingOfficials != null &&
+    //     state.visitingOfficials!.isNotEmpty) {
+    //   for (int i = 0; i < state.visitingOfficials!.length;) {
+    //     VisitingOfficialsModel model = state.visitingOfficials![i];
+    //     if (model.name == null ||
+    //         (model.name ?? '').isEmpty ||
+    //         model.address == null ||
+    //         (model.address ?? '').isEmpty ||
+    //         model.department == null ||
+    //         (model.department?.name ?? '').isEmpty ||
+    //         model.designation == null ||
+    //         (model.designation ?? '').isEmpty) {
+    //       // Validator().showToast(
+    //       //   context,
+    //       //   "Please enter visiting official details",
+    //       // );
+    //       // break;
+    //     }
+    //     // else if (model.email != null && !Validator.isValidEmail(model.email?.trim())) {
+    //     //   log('-model.email---${model.email}---');
+    //     //   Validator().showToast(
+    //     //     context,
+    //     //     "Please enter visiting official  details valid email",
+    //     //   );
+    //     //   break;
+    //     // }
+    //     else {
+    //       if (widget.model?.status != 0 &&
+    //           (widget.model != null &&
+    //               distributiongroupsTextController.text.isEmpty)) {
+    //         Validator().showToast(
+    //           context,
+    //           "Please enter distribution groups",
+    //         );
+    //         break;
+    //       } else {
+    //         submitForm(isSubmit: true, state: globalState);
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
+    else {
       log('---validateForm-else---');
       if (widget.model?.status != 0 &&
           (widget.model != null &&
