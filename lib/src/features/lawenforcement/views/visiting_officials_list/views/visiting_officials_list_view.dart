@@ -99,7 +99,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                 await lawEnforcementListCubit.getById(widget.id, context);
 
             nav.pop();
-            nav.pushNamed(lawEnforcementDetailsViewRoute,
+            nav.pushReplacementNamed(lawEnforcementDetailsViewRoute,
                 arguments: {"UserElement": model});
           },
           showLikeButton: false,
