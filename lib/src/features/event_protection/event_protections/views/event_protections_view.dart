@@ -261,6 +261,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     required int id,
     required int eventStatus,
   }) async {
+    log('-----');
     var nav = Navigator.of(context);
     ShowEPGridsModel showEPGridsModel =
         await EventProtectionServices().showEpGrids(id);

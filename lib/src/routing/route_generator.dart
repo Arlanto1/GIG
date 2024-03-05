@@ -692,7 +692,7 @@ class RouteGenerator {
       case eventProtectionDetailsTabRoute:
         String id = '';
         int eventStatus = 0;
-        ShowEPGridsModel showEPGridsModel= ShowEPGridsModel();
+        ShowEPGridsModel showEPGridsModel = ShowEPGridsModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -703,8 +703,8 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
                   id: id,
-              eventStatus: eventStatus,
-              showEPGridsModel: showEPGridsModel,
+                  eventStatus: eventStatus,
+                  showEPGridsModel: showEPGridsModel,
                 ));
       case generalInfoTilesViewRoute:
         String id = '';
@@ -777,6 +777,7 @@ class RouteGenerator {
 
       case eventInfoRoute:
         String id = '';
+        bool editForm = false;
 
         int eventDuration = 0;
         String title = '';
@@ -786,19 +787,22 @@ class RouteGenerator {
           title = arguments[ConstantsArgument.title] ?? '';
           id = arguments['id'];
           eventDuration = arguments['eventDuration'];
+          editForm = arguments[ConstantsArgument.editForm];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<EventInfoCubit>(
-                  create: (_) => EventInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    id: id,
-                    eventDuration: eventDuration,
-                  ),
-                  child: EventInfoView(
-                    title: title,
-                  ),
-                ));
+          builder: (context) => BlocProvider<EventInfoCubit>(
+            create: (_) => EventInfoCubit(
+              services: EventProtectionServices(),
+              commonServices: CommonServices(),
+              id: id,
+              eventDuration: eventDuration,
+            ),
+            child: EventInfoView(
+              title: title,
+              editForm: editForm,
+            ),
+          ),
+        );
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;

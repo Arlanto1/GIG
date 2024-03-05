@@ -1,13 +1,5 @@
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/show_ep_grids_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../common_widgets/base_widget/base_app_bar.dart';
-import '../../../../common_widgets/base_widget/base_tile.dart';
-import '../../../../constants/constants.dart';
-import '../../../../routing/router.dart';
-import '../../../../utils/app_themes/colors/app_color.dart';
-import '../general_information/guard_info/models/show_guard_info_response.dart';
 
 class EventProtectionDetails extends StatelessWidget {
   final String id;
@@ -78,6 +70,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.beforeEventInformation,
                           'id': id,
                           'eventDuration': 0,
+                          ConstantsArgument.editForm: showEPGridsModel.editBefore,
                         },
                       );
                     },
@@ -98,6 +91,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.duringEventInformation,
                           'id': id,
                           'eventDuration': 1,
+                          ConstantsArgument.editForm: showEPGridsModel.editDuring,
                         },
                       );
                     },
@@ -118,6 +112,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.afterEventInformation,
                           'id': id,
                           'eventDuration': 2,
+                          ConstantsArgument.editForm: showEPGridsModel.editAfter,
                         },
                       );
                     },

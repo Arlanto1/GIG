@@ -14,6 +14,7 @@ class ConstantsArgument {
   static const String models = "models";
   static const String departments = "departments";
   static const String showEPGridsModel = "showEPGridsModel";
+  static const String editForm = "editForm";
 
 
 }
