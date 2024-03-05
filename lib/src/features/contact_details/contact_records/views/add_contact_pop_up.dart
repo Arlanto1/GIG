@@ -34,6 +34,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController contactNoController = TextEditingController();
   TextEditingController escalationLevelController = TextEditingController();
 
+  final FocusNode nameFocusNode = FocusNode();
   String name = Constants.name;
   String rank = Constants.rank;
 
@@ -129,6 +130,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
 
                                     setState(() {});
+                                    FocusScope.of(context)
+                                        .requestFocus(nameFocusNode);
                                   },
                                   orgName: widget.rankType ==
                                           Constants.contactGeneralRank
@@ -184,6 +187,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           textInputType: TextInputType.text,
                           textFormKey: Keys.nameKey,
                           hintText: '',
+                          focusNode: nameFocusNode,
                           isEnable: true,
                           isDisableColor: false,
                           onChange: (String value) {
@@ -242,6 +246,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: true,
+                        focusNode: widget.rankType != Constants.contactZone
+                            ? nameFocusNode
+                            : null,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
@@ -273,7 +280,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
                           widget.model.contactNo = value;
-                          log('contactNo---${widget.model.contactNo?.length !=10}-');
+                          log('contactNo---${widget.model.contactNo?.length != 10}-');
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -379,7 +386,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       }
       return double.tryParse(str) != null;
     }
-    if ((!isNumeric(widget.model.contactNo!)||widget.model.contactNo?.length != 10)&& !widget.model.contactNo.isEmptyOrNull) {
+
+    if ((!isNumeric(widget.model.contactNo!) ||
+            widget.model.contactNo?.length != 10) &&
+        !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter a valid contact number.',
