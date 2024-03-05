@@ -297,7 +297,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.createdby,
                                         isMandatory: true,
-                                        '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                        // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                        '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
 
                                     /// Location
                                     CommonWidgets.textDisplay(
