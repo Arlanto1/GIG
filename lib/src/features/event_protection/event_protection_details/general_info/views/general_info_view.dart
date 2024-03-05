@@ -24,6 +24,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   TextEditingController statusController = TextEditingController();
   bool disableForm = false;
 
+  final FocusNode lSM1ContactNoFocusNode = FocusNode();
+  final FocusNode lSM2ContactNoFocusNode = FocusNode();
+  final FocusNode pocContactNoFocusNode = FocusNode();
+  final FocusNode pocEscalationContactNoFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -183,33 +188,33 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: false,
+                                isDisabled: false,
                                 textController: statusController,
                                 items: eventProtectionGiStatus,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                if(disableForm) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: eventProtectionGiStatus
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          eventProtectionGiStatus.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
-                                            const Label(key: '', value: ''),
-                                          );
-                                      BlocProvider.of<GeneralInfoCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          status: int.tryParse(
-                                              selectedLabel.value));
-                                    },
-                                  );
-                                }
+                                  if (disableForm) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues: eventProtectionGiStatus
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            eventProtectionGiStatus.firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                status: int.tryParse(
+                                                    selectedLabel.value));
+                                      },
+                                    );
+                                  }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -240,7 +245,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.horizentaltextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby, isMandatory: true,
+                                Constants.createdby,
+                                isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -303,17 +309,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               enabled: !disableForm,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<GeneralInfoCubit>(
-                                    context)
+                                BlocProvider.of<GeneralInfoCubit>(context)
                                     .updateDropdownValues(
-                                    entities: selectedEntities);
+                                        entities: selectedEntities);
                                 Navigator.of(context).pop(); // Close the dialog
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
-                                BlocProvider.of<GeneralInfoCubit>(
-                                    context)
+                                BlocProvider.of<GeneralInfoCubit>(context)
                                     .refreshList();
                               },
                             ),
@@ -498,6 +502,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                       locationSecurityManager1: user,
                                     );
+                                    FocusScope.of(context)
+                                        .requestFocus(lSM1ContactNoFocusNode);
                                   },
                                 );
                               },
@@ -517,6 +523,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.lsm1ContactNo,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
+                              focusNode: lSM1ContactNoFocusNode,
                               isEnable: !disableForm,
                               characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: disableForm,
@@ -550,6 +557,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                       locationSecurityManager2: user,
                                     );
+                                    FocusScope.of(context)
+                                        .requestFocus(lSM2ContactNoFocusNode);
                                   },
                                 );
                               },
@@ -570,6 +579,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
                               hintText: '',
+                              focusNode: lSM2ContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -601,6 +611,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                       bu1: user,
                                     );
+                                    FocusScope.of(context)
+                                        .requestFocus(pocContactNoFocusNode);
                                   },
                                 );
                               },
@@ -620,6 +632,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu1ContactNo,
                               textFormKey: Keys.bu1ContactNOKey,
                               hintText: '',
+                              focusNode: pocContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
@@ -633,7 +646,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                            ///Business POC 2
+                            ///Business POC Escalation
 
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu2 ??
@@ -654,6 +667,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .updateDropdownValues(
                                       bu2: user,
                                     );
+                                    FocusScope.of(context).requestFocus(
+                                        pocEscalationContactNoFocusNode);
                                   },
                                 );
                               },
@@ -673,6 +688,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu2ContactNo,
                               textFormKey: Keys.bu2ContactNOKey,
                               hintText: '',
+                              focusNode: pocEscalationContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
@@ -843,7 +859,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -860,7 +877,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -939,7 +957,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
-                                characterLimit: Constants.characterLimitContactNo,
+                                characterLimit:
+                                    Constants.characterLimitContactNo,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -992,24 +1011,21 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<GeneralInfoCubit>(context)
-                                        .updateDropdownValues(
-                                            requesterDepartment: department);
-                                  },
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                              requesterDepartment: department);
+                                    },
                                     orgName: 'EMPLOYEE_DEPARTMENTS',
                                     createEntity: false,
                                     title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
-                                      BlocProvider.of<
-                                          GeneralInfoCubit>(
-                                          context)
+                                      BlocProvider.of<GeneralInfoCubit>(context)
                                           .refreshList();
-                                    }
-                                );
+                                    });
                               },
                             ),
 
@@ -1023,92 +1039,107 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             //if (!disableForm) ...[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...state.model.epOfficers?.asMap()?.entries?.map((entry) {
-                                    final index = entry.key;
-                                    final officer = entry.value;
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            const SizedBox(width: 10),
-                                            BasicWidgetFunctions().getStringText(
-                                              strings: [officer],
-                                            ),
-                                          ],
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // Remove the officer from the list
-                                            state.model.epOfficers?.removeAt(index);
-                                            // Trigger UI update
-                                            BlocProvider.of<GeneralInfoCubit>(context)
-                                                .onCheckBoxChange(state.model);
-                                          },
-                                          child: Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...state.model.epOfficers
+                                        ?.asMap()
+                                        ?.entries
+                                        ?.map((entry) {
+                                      final index = entry.key;
+                                      final officer = entry.value;
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
                                             children: <Widget>[
                                               const SizedBox(width: 10),
-                                              SvgPicture.asset(
-                                                AppIcon.close, // Add your close icon asset here
-                                                color: Colors.black, // Set color as per your design
+                                              BasicWidgetFunctions()
+                                                  .getStringText(
+                                                strings: [officer],
                                               ),
-                                              const SizedBox(width: 14),
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  })?.toList() ?? [],
-                                  GestureDetector(
-                                    onTap: () {
-                                      BaseOrganisationDialog().userDialog(
-                                        context: context,
-                                        enabled: !disableForm,
-                                        users: state.emailUsers!,
-                                        onTap: (BaseUser user) {
-                                          state.model.epOfficers ??= [];
-
-                                          if (state.model.epOfficers!.contains(user.email!)) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'Officer already added! Please add another officer.'),
-                                              ),
-                                            );
-                                            return;
-                                          }
-
-                                          state.model.epOfficers?.add(user.email ?? '');
-                                          log('--eventProtectionGi--22-${state.model.epOfficers}-');
-                                          BlocProvider.of<GeneralInfoCubit>(context)
-                                              .onCheckBoxChange(state.model);
-                                        },
-                                      );
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        const SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                          AppIcon.pluscircle,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        const Text(
-                                          'Add Officer',
-                                          style: TextStyle(
-                                            color: AppColors.navigationSkybluecolor,
-                                            decoration: TextDecoration.underline,
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Remove the officer from the list
+                                              state.model.epOfficers
+                                                  ?.removeAt(index);
+                                              // Trigger UI update
+                                              BlocProvider.of<GeneralInfoCubit>(
+                                                      context)
+                                                  .onCheckBoxChange(
+                                                      state.model);
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                const SizedBox(width: 10),
+                                                SvgPicture.asset(
+                                                  AppIcon.close,
+                                                  // Add your close icon asset here
+                                                  color: Colors
+                                                      .black, // Set color as per your design
+                                                ),
+                                                const SizedBox(width: 14),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            //],
+                                        ],
+                                      );
+                                    })?.toList() ??
+                                    [],
+                                GestureDetector(
+                                  onTap: () {
+                                    BaseOrganisationDialog().userDialog(
+                                      context: context,
+                                      enabled: !disableForm,
+                                      users: state.emailUsers!,
+                                      onTap: (BaseUser user) {
+                                        state.model.epOfficers ??= [];
 
+                                        if (state.model.epOfficers!
+                                            .contains(user.email!)) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Officer already added! Please add another officer.'),
+                                            ),
+                                          );
+                                          return;
+                                        }
+
+                                        state.model.epOfficers
+                                            ?.add(user.email ?? '');
+                                        log('--eventProtectionGi--22-${state.model.epOfficers}-');
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                                    );
+                                  },
+                                  child: Row(
+                                    children: <Widget>[
+                                      const SizedBox(width: 14),
+                                      SvgPicture.asset(
+                                        AppIcon.pluscircle,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        'Add Officer',
+                                        style: TextStyle(
+                                          color:
+                                              AppColors.navigationSkybluecolor,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            //],
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
