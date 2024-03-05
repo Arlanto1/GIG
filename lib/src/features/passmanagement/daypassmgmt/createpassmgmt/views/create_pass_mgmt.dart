@@ -1928,8 +1928,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : passValidUntilTextController.text;
 
       passReturnedTextController.text = widget.model?.status == 2 &&
-             ( widget.model?.returnedTime != null &&
-              widget.model?.returnedTime != '0')
+              (widget.model?.returnedTime != null &&
+                  widget.model?.returnedTime != '0')
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.returnedTime ?? '0'),
               Constants.fulldateFormat)
@@ -3894,7 +3894,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       textInputType: controller == contactnoTextController
           ? TextInputType.number
           : TextInputType.text,
-      characterLimit: controller == contactnoTextController ? 17 : 250,
+      characterLimit: controller == contactnoTextController
+          ? Constants.characterLimitContactNo
+          : Constants.characterLimitIdTextFormField,
       isEnable:
           (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable

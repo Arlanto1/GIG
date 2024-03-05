@@ -518,7 +518,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               isEnable: !disableForm,
-                              characterLimit: 10,
+                              characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.lsm1ContactNo = value;
@@ -570,7 +570,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
                               hintText: '',
-                              characterLimit: 10,
+                              characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.lsm2ContactNo = value;
@@ -620,7 +620,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu1ContactNo,
                               textFormKey: Keys.bu1ContactNOKey,
                               hintText: '',
-                              characterLimit: 10,
+                              characterLimit: Constants.characterLimitContactNo,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -673,7 +673,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               initialValue: state.model.bu2ContactNo,
                               textFormKey: Keys.bu2ContactNOKey,
                               hintText: '',
-                              characterLimit: 10,
+                              characterLimit: Constants.characterLimitContactNo,
                               isEnable: !disableForm,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -860,7 +860,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor2ContactNo,
                                 textFormKey: Keys.vendor2ContactKey,
-                                characterLimit: 10,
+                                characterLimit: Constants.characterLimitContactNo,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
@@ -939,7 +939,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 initialValue:
                                     state.model.systemVendor3ContactNo,
                                 textFormKey: Keys.vendor3ContactKey,
-                                characterLimit: 10,
+                                characterLimit: Constants.characterLimitContactNo,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
