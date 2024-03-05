@@ -36,6 +36,8 @@ class _SstIncidentGeneralInfoViewState
   bool isDisabled = true;
   bool disableForm = false;
   List<ImageContent>? uploadFiles;
+  final FocusNode vendorPocFocusNode = FocusNode();
+  final FocusNode descriptionFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -342,6 +344,9 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         vendor: user,
                                       );
+                                      FocusScope.of(context).requestFocus(
+                                          vendorPocFocusNode);
+
                                     },
                                     orgName: 'ATOM_VENDORS',
                                     createEntity: false,
@@ -369,6 +374,7 @@ class _SstIncidentGeneralInfoViewState
                               // initialValue: state.model.vendorPoc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
+                              focusNode: vendorPocFocusNode,
                               textCapitalization: false,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
@@ -586,6 +592,8 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         lt: user,
                                       );
+                                      FocusScope.of(context).requestFocus(
+                                          descriptionFocusNode);
                                     },
                                     roleName: 'ATOM_Security_Team',
                                     functionToCall: () {
@@ -611,6 +619,7 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.shortDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
+                              focusNode: descriptionFocusNode,
                               isEnable: state.model.status != 2,
                               isDisableColor: state.model.status == 2,
                               onChange: (String value) {
