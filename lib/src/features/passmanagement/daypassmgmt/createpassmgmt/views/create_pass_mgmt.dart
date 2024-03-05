@@ -3894,7 +3894,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       textInputType: controller == contactnoTextController
           ? TextInputType.number
           : TextInputType.text,
-      characterLimit: controller == contactnoTextController ? 10 : 250,
+      characterLimit: controller == contactnoTextController ? 17 : 250,
       isEnable:
           (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable
