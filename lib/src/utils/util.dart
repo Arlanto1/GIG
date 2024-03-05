@@ -664,7 +664,7 @@ class Utils {
         statusText = 'Non Returned';
         break;
       case 4:
-        statusText = 'Lost';
+        statusText = 'Lost/De-Activated';
         break;
       case 5:
         statusText = 'Damaged';
