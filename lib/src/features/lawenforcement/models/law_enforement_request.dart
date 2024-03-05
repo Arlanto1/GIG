@@ -132,9 +132,9 @@ class LawEnforcement {
         "dbOfficialEmailDepartment": dbOfficialEmailDepartment?.toJson(),
         "visitPurpose": visitPurpose?.toJson(),
         "additionalInformation": additionalInformation,
-        "visitingOfficials": visitingOfficials == null
-            ? []
-            : List<dynamic>.from(visitingOfficials!.map((x) => x.toJson())),
+        // "visitingOfficials": visitingOfficials == null
+        //     ? []
+        //     : List<dynamic>.from(visitingOfficials!.map((x) => x.toJson())),
         "mailList":
             mailList == null ? [] : List<dynamic>.from(mailList!.map((x) => x)),
         "images": images == null

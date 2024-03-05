@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/contact_records/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart';
@@ -91,6 +90,18 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,
+          popAndReplace: () async {
+            log('--popAndReplace-----');
+            // Navigator.pop(context);
+            var nav = Navigator.of(context);
+
+            LawEnforcementDetailsModel? model =
+                await lawEnforcementListCubit.getById(widget.id, context);
+
+            nav.pop();
+            nav.pushReplacementNamed(lawEnforcementDetailsViewRoute,
+                arguments: {"UserElement": model});
+          },
           showLikeButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',

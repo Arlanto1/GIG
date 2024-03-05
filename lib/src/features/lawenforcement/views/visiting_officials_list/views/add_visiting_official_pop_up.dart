@@ -32,6 +32,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   TextEditingController officeAddressController = TextEditingController();
   TextEditingController emailIdController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
+  final FocusNode officeAddressFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -152,12 +153,15 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 log('-widget.model.department?.name----${widget.model.department?.name}-');
 
                                 setState(() {});
+                                FocusScope.of(context)
+                                    .requestFocus(officeAddressFocusNode);
                               },
                               orgName: 'ATOM_LEO_DEPARTMENTS',
                               createEntity: false,
                               title: Constants.department,
                               functionToCall: () {
-                                BlocProvider.of<VisitingOfficialListBloc>(context)
+                                BlocProvider.of<VisitingOfficialListBloc>(
+                                        context)
                                     .refreshList();
                               });
                         },
@@ -175,6 +179,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
+                        focusNode: officeAddressFocusNode,
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
@@ -229,7 +234,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
-                        characterLimit: 10,
+                        characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');

@@ -7,7 +7,6 @@ import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -43,8 +42,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         await lawEnforcementCubit.getLeopurposeofvisit(
             'ATOM_LEO_PURPOSE_VISIT', context);
       } else if (Constants.addleoofficialtype == title) {
-        await lawEnforcementCubit.getLeodepartments(
-            'ATOM_LEO_DEPARTMENTS');
+        await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
       }
 
       dismissLoadingDialog(context);
@@ -118,15 +116,12 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
       log('---response.lawEnforcementId-----${response.lawEnforcementId}');
 
-      if(state.model?.id == null){
-        state.model?.id =int.tryParse(response.lawEnforcementId!);
-        emit(
-          state.copyWith(
-            model: state.model,
-          ),
-        );
-      }
-
+      state.model?.id = int.tryParse(response.lawEnforcementId!);
+      emit(
+        state.copyWith(
+          model: state.model,
+        ),
+      );
 
       log('---state.model?.id-----${state.model?.id}');
 
@@ -360,8 +355,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get leodepartments api call
   Future<void> getLeodepartments(String name) async {
     try {
-      LeoDepartments leodepartments =
-          await services.getLeodepartments(name);
+      LeoDepartments leodepartments = await services.getLeodepartments(name);
       emit(
         state.copyWith(
           getLeodepartmentsResponse: leodepartments,

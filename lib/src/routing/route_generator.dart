@@ -1052,7 +1052,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyManagementMasterListBloc>(
                   create: (_) => KeyManagementMasterListBloc()
-                    ..add(const FetchKeyMasterList(startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyManagementMasterListView(),
                 ));
 
@@ -1140,8 +1144,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyReconciliationListBloc>(
                   create: (_) => KeyReconciliationListBloc()
-                    ..add(const FetchKeyReconciliationList(
-                        startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyReconciliationList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyReconciliationListView(),
                 ));
 
@@ -1161,7 +1168,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyManagementIssuanceListBloc>(
                   create: (_) => KeyManagementIssuanceListBloc()
-                    ..add(const FetchKeyIssuanceList(startPos: 0, maxPos: 20)),
+                    ..add(FetchKeyIssuanceList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const KeyManagementIssuanceListView(),
                 ));
 

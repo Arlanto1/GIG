@@ -245,22 +245,12 @@ class _LnPageState extends State<LnPage> {
     LawEnforcementDetailsModel? model =
         await lawEnforcementListCubit.getById(lawEnforcementId, context);
 
-    log('-model--maillist--${model?.mailList}-');
-
     editDataLoading(model);
   }
 
   void editDataLoading(LawEnforcementDetailsModel? model) {
     dismissLoadingDialog(context);
     if (model != null) {
-      for (Organisation organisation in model.entities ?? []) {
-        log('-111--organisation.name--populateData--en-${organisation.name}');
-      }
-
-      for (Organisation organisation in model.mailList ?? []) {
-        log('--111-organisation.name--populateData---${organisation.name}');
-      }
-
       Navigator.pushNamed(context, lawEnforcementDetailsViewRoute,
           arguments: {"UserElement": model});
     }
