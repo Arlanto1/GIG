@@ -27,6 +27,7 @@ class FoundListCubit extends Cubit<FoundListState> {
           await foundListServices.getFoundArticleList(
               startPosition: startPosition,
               maximumRecords: maximumRecords,
+            filters: BaseFilterModel(),
           );
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -68,7 +69,8 @@ class FoundListCubit extends Cubit<FoundListState> {
       await foundListServices.getFoundArticleList(
           startPosition: startPosition,
           maximumRecords: maximumRecords,
-          );
+        filters: BaseFilterModel(),
+      );
 
       return emit(
         state.copyWith(

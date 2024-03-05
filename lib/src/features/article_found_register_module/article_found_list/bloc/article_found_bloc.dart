@@ -72,7 +72,7 @@ class ArticleFoundBloc
       response = await services.getFoundArticleList(
         startPosition: '${0}',
         maximumRecords: '${20}',
-        // filters: BaseFilterModel(),
+        filters: BaseFilterModel(),
       );
 
       return emit(
@@ -108,7 +108,7 @@ class ArticleFoundBloc
         response = await services.getFoundArticleList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          // filters: BaseFilterModel(),
+          filters: event.filters,
         );
 
         return emit(
@@ -125,6 +125,7 @@ class ArticleFoundBloc
       response = await services.getFoundArticleList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
