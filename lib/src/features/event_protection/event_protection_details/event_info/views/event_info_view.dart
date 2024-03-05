@@ -60,11 +60,13 @@ class _EventInfoViewState extends State<EventInfoView> {
   }
 
   bool hasFocus = false;
+  bool showSaveButtons = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
+
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
@@ -94,13 +96,22 @@ class _EventInfoViewState extends State<EventInfoView> {
       builder: (context, state) {
         dateController.text = Utils.timestamptoDateConversion(
             int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
+
+        if (state.model.status != 4 && widget.editForm) {
+          showSaveButtons == true;
+        }
+
+        // if(widget.editForm){
+        //   showSaveButtons == true;
+        // }
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 ? true : false,
-            showSubmitButton: state.model.status != 4 ? true : false,
+            showSaveButton: showSaveButtons,
+            showSubmitButton: showSaveButtons,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -134,24 +145,24 @@ class _EventInfoViewState extends State<EventInfoView> {
 
       guardFiles = state.guardAttachments ?? [];
     }
-    return AbsorbPointer(
-      absorbing: !widget.editForm,
-      child: Container(
-        color: AppColors.navigationSkybluecolor,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: height * 0.01,
-                color: AppColors.navigationSkybluecolor,
-              ),
-              Container(
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
+    return Container(
+      color: AppColors.navigationSkybluecolor,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: height * 0.01,
+              color: AppColors.navigationSkybluecolor,
+            ),
+            Container(
+              decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                  )),
+              child: AbsorbPointer(
+                absorbing: !widget.editForm,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: state.model.status == 30
@@ -189,7 +200,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            CommonWidgets.textDisplay(Constants.additionalEmails,
+                            CommonWidgets.textDisplay(
+                                Constants.additionalEmails,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
@@ -249,9 +261,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                                     padding: const EdgeInsets.all(8),
                                     iconSize: 25,
                                     iconColor: toolbarIconColor,
-                                    activeIconColor: Colors.greenAccent.shade400,
+                                    activeIconColor:
+                                        Colors.greenAccent.shade400,
                                     controller: controller,
-                                    crossAxisAlignment: WrapCrossAlignment.start,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
                                     direction: Axis.horizontal,
                                     // customButtons: [
                                     //   Container(
@@ -323,8 +337,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                                         //   hasFocus = focus;
                                         // });
                                       },
-                                      onTextChanged: (text) =>
-                                          debugPrint('widget text change $text'),
+                                      onTextChanged: (text) => debugPrint(
+                                          'widget text change $text'),
                                       onEditorCreated: () {
                                         debugPrint(
                                             'Editor has been loaded--------');
@@ -412,7 +426,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// SubmitButton
-                      if (state.model.status != 4) ...[
+                      if (showSaveButtons) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -432,8 +446,28 @@ class _EventInfoViewState extends State<EventInfoView> {
                   ),
                 ),
               ),
+            ),
+            if (!showSaveButtons) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    cancelButtonDisplay(),
+                  ],
+                ),
+              ),
             ],
-          ),
+            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+          ],
         ),
       ),
     );
