@@ -87,8 +87,8 @@ class _KeyManagementIssuanceListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKmiExcel',
+          pdfAPIName: 'exportKmiPDF',
         ),
         body: BlocBuilder<KeyManagementIssuanceListBloc,
             KeyManagementIssuanceListState>(builder: (context, state) {
