@@ -130,6 +130,19 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     if (state.items.isEmptyOrNull) {
       return const NoRecordFoundWidget();
     }
+    //  if (state.items.isEmptyOrNull && !isPopUpShown) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     isPopUpShown = true;
+    //     showAddKeyIssuanceProcessPopUp(
+    //       context: context,
+    //       keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+    //       keyDescriptions: state.keyDescriptions??[],
+    //       selectedKeyDescription: state.keyDescription,
+    //       parentStatus: widget.parentStatus,
+    //     );
+    //   });
+    //   return const NoRecordFoundWidget();
+    // }
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
