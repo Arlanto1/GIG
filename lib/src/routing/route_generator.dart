@@ -370,7 +370,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc(occType, occId)
-              ..add(const im.FetchData(startPos: 0, maxPos: 20)),
+              ..add(im.FetchData(startPos: 0, maxPos: 20,newSearch: true,
+                  filters: BaseFilterModel())),
             child: IncidentManagementsView(
               occId: occId,
               occType: occType,
