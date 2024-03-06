@@ -744,6 +744,11 @@ class Constants {
   static const String modifiedBy = 'Modified By';
   static const String modifiedOn = 'Modified On';
   static const String keyManageme = 'Modified On';
+  static const String totalAllocated = 'Total Allocated';
+  static const String returned = 'Returned';
+  static const String notReturned = 'Not Returned';
+  static const String lost = 'Lost';
+  static const String damaged = 'Damaged';
   static const String localChangeHistoryType = 'LOCK_CHANGE_HISTORY';
   static const String keyLostHistoryType = 'KEY_LOST_HISTORY';
   static const String keyDamageHistoryType = 'KEY_DAMAGE_HISTORY';
@@ -756,6 +761,9 @@ class Constants {
       'Edit Key Management Issuance';
   static const String handedOverTo = 'Handed Over To';
   static const String keyReturnDueDate = 'Key Return Due Date';
+  static const String keyReturnDateAndTime = 'Key Return Date And Time';
+  static const String returnedByName = 'Returned By Name';
+
   static const String employeeType = 'Employee Type';
   static const String keyHandingOverDuration = 'Key Handing Over Duration';
   static const String dbSponsorOfCWRT2 = 'DB Sponsor of CWR T2';
