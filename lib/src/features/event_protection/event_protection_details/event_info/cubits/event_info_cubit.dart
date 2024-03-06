@@ -81,6 +81,13 @@ class EventInfoCubit extends Cubit<EventInfoState> {
             additionalEmails: emails,
             foundArticles: foundArticles.items),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       log('initialization issue', error: e, name: (EventInfoCubit).toString());
       emit(
@@ -161,7 +168,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         ),
       );
       return;
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),

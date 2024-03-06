@@ -1,13 +1,6 @@
-// To parse this JSON data, do
-//
-//     final foundListModel = foundListModelFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:db_atom/src/models/role.dart';
-import 'package:db_atom/src/models/role_extension.dart';
-
-import '../../../../models/organisation.dart';
+import 'package:db_atom/index.dart';
 
 FoundListModel foundListModelFromJson(String str) =>
     FoundListModel.fromJson(json.decode(str));
@@ -391,8 +384,10 @@ final locationValues =
 
 enum AreaEnum { SOURCE_SYSTEM, CATEGORY }
 
-final areaValues = EnumValues(
-    {"Category": AreaEnum.CATEGORY, "SourceSystem": AreaEnum.SOURCE_SYSTEM});
+final areaValues = EnumValues({
+  "Category": AreaEnum.CATEGORY,
+  "SourceSystem": AreaEnum.SOURCE_SYSTEM,
+});
 
 enum DisplayName {
   T1_USER_SOURCE_SYSTEM_DB_ATOM,

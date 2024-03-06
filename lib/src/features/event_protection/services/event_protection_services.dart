@@ -1,19 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-
-import '../../../models/responseModels/generic_response.dart';
-import '../event_protection_details/event_info/models/event_info_response.dart';
-import '../event_protection_details/event_info/models/request_models/event_into_request.dart';
-import '../event_protection_details/general_info/models/general_info_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -31,6 +19,8 @@ class Apis {
 
   static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
   static final String _createEventEi = '$baseUrl/createEventEi';
+  static final String _showEpGrids = '$baseUrl/showEpGrids';
+
 }
 
 class EventProtectionServices {
@@ -60,6 +50,14 @@ class EventProtectionServices {
       url: url,
     );
     return EventProtectionGi.fromJson(response);
+  }
+
+  Future<ShowEPGridsModel> showEpGrids(int id) async {
+    final String url = '${Apis._showEpGrids}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return ShowEPGridsModel.fromJson(response);
   }
 
   // Future<ContactInfoModel> getCI(String id) async {
