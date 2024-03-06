@@ -533,11 +533,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           status: false, message: 'Please enter No. of Keys Issued.');
     }
 
-    if (widget.model.noKeysIssued != null && widget.model.noKeysIssued! > selectedKeyDescription!.noKeys!) {
+    if (widget.model.noKeysIssued != null && widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid Number of Keys Issued');
+        status: false,
+        message: 'Please enter valid Number of Keys Issued',
+      );
     }
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
