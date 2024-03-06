@@ -28,6 +28,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     required this.locationId,
     required this.title,
     this.model,
+    this.isMasterKey,
   });
 
   final int parentId;
@@ -35,7 +36,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
-
+final bool? isMasterKey;
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
       _ContactRecordViewState();
@@ -91,7 +92,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
             List<Organisation> keyDescriptions =
                 await KeyManagementIssuanceServices()
-                    .getKeyDescriptions(locationId: widget.locationId);
+                    .getKeyDescriptions(locationId: widget.locationId,isMasterKey: widget.isMasterKey!);
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
@@ -183,7 +184,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
                       /// Get Key Description
                       bool isMasterKey =
-                          keyIssuanceProcessModel.kmId == 1 ? false : true;
+                          keyIssuanceProcessModel.kmId == 1 ? true : false;
                       Organisation selectedKeyDescription =
                           await KeyManagementIssuanceServices().getKeyDescById(
                               id: keyIssuanceProcessModel.kmId!,
@@ -192,7 +193,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
                               .getKeyDescriptions(
-                                  locationId: widget.locationId);
+                                  locationId: widget.locationId,isMasterKey: isMasterKey);
 
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 
