@@ -83,7 +83,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton:widget.parentStatus==0||widget.parentStatus==null ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () async {
@@ -101,14 +101,14 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
               parentStatus: widget.parentStatus,
             );
           },
-        ),
+        ):null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.keyIssuanceProcess,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
+          // excelAPIName: 'exportMMExcel',
+          // pdfAPIName: 'exportMMPDF',
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,

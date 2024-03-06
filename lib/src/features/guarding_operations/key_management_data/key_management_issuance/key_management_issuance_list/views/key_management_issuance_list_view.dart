@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
@@ -95,7 +97,9 @@ class _KeyManagementIssuanceListViewState
         ),
         body: BlocBuilder<KeyManagementIssuanceListBloc,
             KeyManagementIssuanceListState>(builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          log('state${state.status}');
+
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
           // if (state.list.isEmptyOrNull) {
@@ -130,11 +134,12 @@ class _KeyManagementIssuanceListViewState
                 // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
-                // if (state.list.isEmptyOrNull &&
-                //     state.status != FormStatus.initial) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
-                //   const NoRecordFoundWidget(),
-                // ],
+                if (state.list.isEmptyOrNull &&
+                    state.status != FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  const NoRecordFoundWidget(),
+                ],
+
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,

@@ -4,6 +4,9 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+
+import '../bloc/notifications_bloc.dart';
 
 class NotificationsView extends StatefulWidget {
   const NotificationsView({
@@ -17,6 +20,8 @@ class NotificationsView extends StatefulWidget {
 class _NotificationsViewState extends State<NotificationsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -52,6 +57,21 @@ class _NotificationsViewState extends State<NotificationsView> {
         .add(const nb.DeleteAllRecords());
   }
 
+  void _onRefresh() async {
+    context.read<NotificationsBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +93,8 @@ class _NotificationsViewState extends State<NotificationsView> {
             context,
             dashboardViewRoute,
           );
-        },        customIcon: Icons.delete_sweep,
+        },
+        customIcon: Icons.delete_sweep,
         onTapCustomIcon: deleteAllNotification,
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
@@ -100,19 +121,36 @@ class _NotificationsViewState extends State<NotificationsView> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),
             ),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
-              itemBuilder: (context, index) {
-                if (index < state.items.length) {
-                  return index >= state.items.length
-                      ? const BaseLoader()
-                      : NotificationTile(item: state.items[index]);
-                }
-                return null;
-              },
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: SmartRefresher(
+                    controller: refreshController,
+                    enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    header: const WaterDropHeader(
+                      waterDropColor: AppColors.navigationSkybluecolor,
+                    ),
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index < state.items.length) {
+                          return index >= state.items.length
+                              ? const BaseLoader()
+                              : NotificationTile(item: state.items[index]);
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },

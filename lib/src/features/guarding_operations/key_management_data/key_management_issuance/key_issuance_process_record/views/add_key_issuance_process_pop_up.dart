@@ -179,9 +179,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Keys
+                      /// Key Type
                       CommonWidgets.textDisplay(
-                          Constants.keys,
+                          Constants.keyType,
                           isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -512,7 +512,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           status: false, message: 'Please enter No. of Keys Issued.');
     }
 
-    if (widget.model.noKeysIssued! > selectedKeyDescription!.noKeys!) {
+    if (widget.model.noKeysIssued != null && widget.model.noKeysIssued! > selectedKeyDescription!.noKeys!) {
       return const ErrorResponse(
           status: false, message: 'Please enter valid Number of Issued Keys');
     }
