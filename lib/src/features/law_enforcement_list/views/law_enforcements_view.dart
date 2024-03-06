@@ -190,6 +190,7 @@ class _LnPageState extends State<LnPage> {
                   header: const WaterDropHeader(
                     waterDropColor: AppColors.navigationSkybluecolor,
                   ),
+                  key: const Key(Keys.refreshKey),
                   onRefresh: _onRefresh,
                   onLoading: _onLoading,
                   child: ListView.builder(

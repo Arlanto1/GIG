@@ -248,7 +248,9 @@ class _FoundListState extends State<FoundList> {
           physics: const BouncingScrollPhysics(),
           header: const WaterDropHeader(
             waterDropColor: AppColors.navigationSkybluecolor,
+            refresh: BaseLoader(),
           ),
+          key: const Key(Keys.refreshKey),
           onRefresh: () async {
             context.read<FoundListCubit>().refreshList('0', '20');
             await Future.delayed(const Duration(milliseconds: 2000));
