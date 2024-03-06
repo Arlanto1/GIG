@@ -1,19 +1,17 @@
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../common_widgets/base_widget/base_app_bar.dart';
-import '../../../../common_widgets/base_widget/base_tile.dart';
-import '../../../../constants/constants.dart';
-import '../../../../routing/router.dart';
-import '../../../../utils/app_themes/colors/app_color.dart';
-import '../general_information/guard_info/models/show_guard_info_response.dart';
 
 class EventProtectionDetails extends StatelessWidget {
   final String id;
   final int eventStatus;
+  final ShowEPGridsModel showEPGridsModel;
 
-  EventProtectionDetails(
-      {super.key, required this.id, required this.eventStatus});
+  EventProtectionDetails({
+    super.key,
+    required this.id,
+    required this.eventStatus,
+    required this.showEPGridsModel,
+  });
 
   final EventProtectionServices services = EventProtectionServices();
 
@@ -62,7 +60,7 @@ class EventProtectionDetails extends StatelessWidget {
                     height: height,
                   ),
                 ),
-                if (eventStatus >= 20) ...[
+                if (showEPGridsModel.before ?? false) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -72,6 +70,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.beforeEventInformation,
                           'id': id,
                           'eventDuration': 0,
+                          ConstantsArgument.editForm: showEPGridsModel.editBefore,
                         },
                       );
                     },
@@ -82,7 +81,7 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (eventStatus >= 21) ...[
+                if (showEPGridsModel.during ?? false) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -92,6 +91,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.duringEventInformation,
                           'id': id,
                           'eventDuration': 1,
+                          ConstantsArgument.editForm: showEPGridsModel.editDuring,
                         },
                       );
                     },
@@ -102,7 +102,7 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (eventStatus >= 22) ...[
+                if (showEPGridsModel.after ?? false) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -112,6 +112,7 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.afterEventInformation,
                           'id': id,
                           'eventDuration': 2,
+                          ConstantsArgument.editForm: showEPGridsModel.editAfter,
                         },
                       );
                     },
