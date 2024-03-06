@@ -848,13 +848,37 @@ class Utils {
         statusText = 'Not Returned';
         break;
       case 3:
-        statusText = 'Loss Damage Reported';
+        statusText = 'Closed/Damaged';
         break;
       case 4:
+        statusText = 'Closed/Lost';
+        break;
+      case 5:
+        statusText = 'Lost/Not Returned';
+        break;
+      case 6:
+        statusText = 'Closed/Lost/Not Returned';
+        break;
+      case 7:
+        statusText = 'Closed/Lost/Damaged';
+        break;
+      case 8:
+        statusText = 'Lost/Damaged';
+        break;
+      case 9:
+        statusText = 'Lost/Damaged/Not Returned';
+        break;
+      case 10:
+        statusText = 'Closed/Lost/Damaged/Not Returned';
+        break;
+      case 11:
+        statusText = 'Damaged/Not Returned';
+        break;
+      case 12:
         statusText = 'Closed';
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
     }
     return IntrinsicWidth(
       child: Row(

@@ -41,7 +41,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     super.initState();
     BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
         .initializeValues();
-    initializeDates();
+    // initializeDates(state);
   }
 
   @override
@@ -131,21 +131,25 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
+  void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
 
     keyReturnDueDateController.text = Utils.timestamptoDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
 
-    // keyReturnDateAndTimeController.text = Utils.timestamptoDateConversion(
-    //     dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+    if (state.model.keyReturnDateTime != null) {
+      keyReturnDateAndTimeController.text = Utils.timestamptoDateConversion(
+          int.tryParse(state.model.keyReturnDateTime ?? '0'),
+          Constants.fulldateFormat);
+    }
   }
 
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
+    initializeDates(state);
 
     return Container(
       color: AppColors.navigationSkybluecolor,
@@ -257,20 +261,21 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if(state.model.status == 1)...[
-                            /// Handed Over Date
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.pvcExpiryDate ??
-                              //   state.labels?.defaultLocale.pvcExpiryDate ??
-                              Constants.handedOverDate,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.keyHandOverDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-],
+                            if (state.model.status == 1) ...[
+                              /// Handed Over Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.pvcExpiryDate ??
+                                //   state.labels?.defaultLocale.pvcExpiryDate ??
+                                Constants.handedOverDate,
+                                isMandatory: true,
+                                Styles.textStyleBlack14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datecreateWidgetdisplay(
+                                  state.model.keyHandOverDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
                             // BaseDate().datePickerWidgetLoading(
                             //   textController: keyHandedOverDateController,
                             //   isDisabled: true,
@@ -590,7 +595,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                               ///DB Sponser CWRT2
                               CommonWidgets.textDisplay(
                                   //state.labels?.locale.approver ??
@@ -629,106 +633,107 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-if(state.model.status == 1)...[
-                            /// Total Allocated
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.totalAllocated,
-                                '${state.model.totalAllocated}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.status == 1) ...[
+                              /// Total Allocated
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.totalAllocated,
+                                  '${state.model.totalAllocated}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Returned
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.returned,
-                                '${state.model.totalReturned ?? 0}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Returned
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.returned,
+                                  '${state.model.totalReturned ?? 0}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Not Returned
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.notReturned,
-                                '${state.model.totalNotReturned ?? 0}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Not Returned
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.notReturned,
+                                  '${state.model.totalNotReturned ?? 0}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Lost
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.lost,
-                                '${state.model.totalLost ?? 0}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Lost
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.lost,
+                                  '${state.model.totalLost ?? 0}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Damaged
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.damaged,
-                                '${state.model.totalDamage ?? 0}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Damaged
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.damaged,
+                                  '${state.model.totalDamage ?? 0}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Key Return Date And Time
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.pvcExpiryDate ??
-                              //   state.labels?.defaultLocale.pvcExpiryDate ??
-                              Constants.keyReturnDateAndTime,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: keyReturnDateAndTimeController,
-                              isDisabled: false,
-                              onlyDate: false,
-                              showPastDate:false,
-                              onChange: (String value) {
-                                state.model.keyReturnDateTime =
-                                    Utils().formatTime(value);
-
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                                //},
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Returned By Name
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.contactNo ??
-                              //  state.labels?.defaultLocale.contactNo ??
-                                Constants.returnedByName,
+                              /// Key Return Date And Time
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.pvcExpiryDate ??
+                                //   state.labels?.defaultLocale.pvcExpiryDate ??
+                                Constants.keyReturnDateAndTime,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.text,
-                              initialValue: state.model.returnedByName,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              focusNode: employeeIdFocusNode,
-                              isEnable: state.model.status == 1
-                                  ? true
-                                  : false,
-                              isDisableColor: state.model.status != 1
-                                  ? false
-                                  : true,
-                              onChange: (String value) {
-                                state.model.returnedByName = value;
-                                context
-                                    .read<KeyManagementIssuanceDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-],
+                                Styles.textStyleBlack14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseDate().datePickerWidgetLoading(
+                                textController: keyReturnDateAndTimeController,
+                                isDisabled: false,
+                                onlyDate: false,
+                                showPastDate: false,
+                                onChange: (String value) {
+                                  state.model.keyReturnDateTime =
+                                      Utils().formatTime(value);
+
+                                  BlocProvider.of<
+                                              KeyManagementIssuanceDetailsCubit>(
+                                          context)
+                                      .onModelValueChange(state.model);
+                                  //},
+                                },
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Returned By Name
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.contactNo ??
+                                  //  state.labels?.defaultLocale.contactNo ??
+                                  Constants.returnedByName,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.text,
+                                initialValue: state.model.returnedByName,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                focusNode: employeeIdFocusNode,
+                                isEnable:
+                                    state.model.status == 1 ? true : false,
+                                isDisableColor:
+                                    state.model.status != 1 ? false : true,
+                                onChange: (String value) {
+                                  state.model.returnedByName = value;
+                                  context
+                                      .read<KeyManagementIssuanceDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
                             /// Key Issuance Process
                             Container(
                               alignment: Alignment.topLeft,
@@ -856,8 +861,24 @@ if(state.model.status == 1)...[
       case 2:
         return 'Not Returned';
       case 3:
-        return 'Loss Damage Reported';
+        return 'Closed/Damaged';
       case 4:
+        return 'Closed/Lost';
+      case 5:
+        return 'Lost/Not Returned';
+      case 6:
+        return 'Closed/Lost/Not Returned';
+      case 7:
+        return 'Closed/Lost/Damaged';
+      case 8:
+        return 'Lost/Damaged';
+      case 9:
+        return 'Lost/Damaged/Not Returned';
+      case 10:
+        return 'Closed/Lost/Damaged/Not Returned';
+      case 11:
+        return 'Damaged/Not Returned';
+      case 12:
         return 'Closed';
       default:
         return '';
