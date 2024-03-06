@@ -23,6 +23,9 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   @override
   void initState() {
     super.initState();
+    context.read<GuardingMasterDataBloc>().add(
+          const InitializeValuesGMD(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

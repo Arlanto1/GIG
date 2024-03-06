@@ -39,6 +39,9 @@ class _OccurrencesViewState extends State<OccurrencesView> {
   @override
   void initState() {
     super.initState();
+    context.read<OccurrencesBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

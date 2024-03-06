@@ -20,6 +20,9 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
   @override
   void initState() {
     super.initState();
+    context.read<GuardingMasterReportBloc>().add(
+          const InitializeValuesGMR(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -265,7 +268,8 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<GuardingMasterReportBloc>(context).add(
-      FetchReportList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchReportList(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

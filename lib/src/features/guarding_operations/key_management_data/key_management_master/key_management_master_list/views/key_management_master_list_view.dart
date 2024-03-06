@@ -24,6 +24,9 @@ class _KeyManagementMasterListViewState
   @override
   void initState() {
     super.initState();
+    context.read<KeyManagementMasterListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -90,8 +93,8 @@ class _KeyManagementMasterListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKeyMgmtExcel',
+          pdfAPIName: 'exportKeyMgmtPDF',
         ),
         body: BlocBuilder<KeyManagementMasterListBloc,
             KeyManagementMasterListState>(builder: (context, state) {

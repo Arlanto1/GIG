@@ -55,7 +55,7 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.slaViolationPenaltyDetailsModuleCode);
+          module: Constants.vipVisitorsDetailsModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -68,7 +68,7 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          moduleCode: Constants.vipVisitorsDetailsModule);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

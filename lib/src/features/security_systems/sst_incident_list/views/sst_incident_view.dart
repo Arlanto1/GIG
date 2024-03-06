@@ -42,6 +42,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
   @override
   void initState() {
     super.initState();
+    context.read<SstIncidentBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 

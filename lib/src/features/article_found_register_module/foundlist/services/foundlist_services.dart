@@ -12,12 +12,16 @@ class FoundListServices {
   Future<FoundListModel> getFoundArticleList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
+
   }) async {
     String url =
         '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
+      // required String userId,
     );
     return FoundListModel.fromJson(response);
   }

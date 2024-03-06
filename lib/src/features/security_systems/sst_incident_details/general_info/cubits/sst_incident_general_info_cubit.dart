@@ -127,7 +127,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
             locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.securitySystem,
+            moduleCode: Constants.securitySystemModule,
           );
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
@@ -464,6 +464,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(id: id, module: Constants.securitySystem);
+    commonServices.updateRecordStatus(id: id, module: Constants.securitySystemModule);
   }
 }
