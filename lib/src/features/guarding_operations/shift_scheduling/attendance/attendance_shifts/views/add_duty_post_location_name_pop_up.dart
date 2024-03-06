@@ -111,8 +111,8 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
-            .onAddDutyPostLocationName(dutyPostLocationNameController.text);
+        // BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
+        //     .onAddDutyPostLocationName(dutyPostLocationNameController.text);
         Navigator.pop(context);
       },
     );

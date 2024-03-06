@@ -473,7 +473,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     setState(() {
       // Assuming your state has a list of duty post location names
       // Update the state to remove the specified location name
-      state.model.locationNames?.remove(locationName);
+      state.model.dpName?.remove(locationName);
     });
   }
 
