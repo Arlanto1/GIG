@@ -33,3 +33,7 @@ class DeleteRecord extends NotificationsEvent {
 class DeleteAllRecords extends NotificationsEvent {
   const DeleteAllRecords();
 }
+
+class RefreshList extends NotificationsEvent {
+  const RefreshList();
+}
