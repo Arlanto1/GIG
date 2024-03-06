@@ -63,9 +63,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<IncidentManagementsBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<IncidentManagementsBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -89,7 +92,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
       listener: (context, state) {},
       builder: (context, state) {
-        log('--occId-im list--${widget.occId}--');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton: Flutterfloatingbutton(
@@ -123,12 +125,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   }
 
   Widget getBody(IncidentManagementsState state) {
-    if (state.status == FormStatus.initial) {
-      return const BaseLoader();
-    }
-    if (state.items.isEmptyOrNull) {
-      return const NoRecordFoundWidget();
-    }
+    // if (state.status == FormStatus.initial) {
+    //   return const BaseLoader();
+    // }
+    // if (state.items.isEmptyOrNull) {
+    //   return const NoRecordFoundWidget();
+    // }
 
     return Container(
       margin: allMargin16,
@@ -140,6 +142,24 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          BaseSearchWidget(
+            applySearchFilters: applySearchFilters,
+            applyFilters: applyFilters,
+            commonFilters: state.commonFilters ??
+                CommonFilters(
+                  statuses: [],
+                  regions: [],
+                ),
+          ),
+          if (state.status == FormStatus.loading) ...[
+            const BaseLoader(),
+          ],
+          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+          // Text('state.status=====${state.status}'),
+          if (state.items.isEmptyOrNull &&
+              state.status != FormStatus.loading) ...[
+            const NoRecordFoundWidget(),
+          ],
           Expanded(
             child: SmartRefresher(
               controller: refreshController,
@@ -258,5 +278,33 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         ConstantsArgument.id: id.toString(),
       },
     );
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<IncidentManagementsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<IncidentManagementsBloc>(context).add(
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }
