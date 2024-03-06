@@ -18,6 +18,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -163,7 +164,9 @@ class _GuardingRatesState extends State<GuardingRates> {
                     physics: const BouncingScrollPhysics(),
                     header: const WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
+                      refresh: BaseLoader(),
                     ),
+                    key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
                     child: ListView.builder(

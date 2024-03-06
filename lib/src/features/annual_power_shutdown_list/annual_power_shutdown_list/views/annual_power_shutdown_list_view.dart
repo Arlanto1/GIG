@@ -162,7 +162,9 @@ class _AnnualPowerShutdownListViewState
                     physics: const BouncingScrollPhysics(),
                     header: const WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
+                      refresh: BaseLoader(),
                     ),
+                    key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
                     child: ListView.builder(
