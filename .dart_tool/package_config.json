@@ -3,9 +3,9 @@
   "packages": [
     {
       "name": "_fe_analyzer_shared",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-64.0.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-61.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.17"
     },
     {
       "name": "_flutterfire_internals",
@@ -15,9 +15,9 @@
     },
     {
       "name": "analyzer",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/analyzer-6.2.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/analyzer-5.13.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.19"
     },
     {
       "name": "app_settings",
@@ -207,9 +207,9 @@
     },
     {
       "name": "dart_style",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_style-2.3.5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_style-2.3.2",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.19"
     },
     {
       "name": "dbus",
@@ -1304,7 +1304,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-03-05T09:16:09.100957Z",
+  "generated": "2024-03-06T08:58:45.588561Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
