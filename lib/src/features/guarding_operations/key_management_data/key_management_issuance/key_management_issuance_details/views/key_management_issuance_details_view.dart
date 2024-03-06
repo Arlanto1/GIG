@@ -861,8 +861,24 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       case 2:
         return 'Not Returned';
       case 3:
-        return 'Loss Damage Reported';
+        return 'Closed/Damaged';
       case 4:
+        return 'Closed/Lost';
+      case 5:
+        return 'Lost/Not Returned';
+      case 6:
+        return 'Closed/Lost/Not Returned';
+      case 7:
+        return 'Closed/Lost/Damaged';
+      case 8:
+        return 'Lost/Damaged';
+      case 9:
+        return 'Lost/Damaged/Not Returned';
+      case 10:
+        return 'Closed/Lost/Damaged/Not Returned';
+      case 11:
+        return 'Damaged/Not Returned';
+      case 12:
         return 'Closed';
       default:
         return '';

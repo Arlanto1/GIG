@@ -89,10 +89,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () async {
             log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
-
+            KeyIssuanceProcessRecord keyIssuanceProcessModel =KeyIssuanceProcessRecord();
+            bool isMasterKey =
+            keyIssuanceProcessModel.kmId == 1 ? true : false;
             List<Organisation> keyDescriptions =
                 await KeyManagementIssuanceServices()
-                    .getKeyDescriptions(locationId: widget.locationId,isMasterKey: widget.isMasterKey!);
+                    .getKeyDescriptions(locationId: widget.locationId,isMasterKey:isMasterKey);
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
