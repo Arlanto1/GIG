@@ -117,12 +117,12 @@ class _GuardingRatesState extends State<GuardingRates> {
         ),
         body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.items.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -144,11 +144,11 @@ class _GuardingRatesState extends State<GuardingRates> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
