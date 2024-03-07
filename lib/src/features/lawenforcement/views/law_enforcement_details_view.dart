@@ -1024,9 +1024,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? "Submitted"
               : widget.model?.status == 2
                   ? "Verification Under Process"
-                  : widget.model?.status == 2
-                      ? " Distributed"
-                      : "Handover";
+                  : widget.model?.status == 3
+                      ? "Distributed"
+                      : "Distributed";
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
