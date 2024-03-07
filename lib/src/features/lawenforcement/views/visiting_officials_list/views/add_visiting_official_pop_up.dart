@@ -11,6 +11,7 @@ class AddVisitingOfficialPopUp extends StatefulWidget {
     required this.model,
     required this.mainContext,
     required this.departments,
+    required this.showSaveButton,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class AddVisitingOfficialPopUp extends StatefulWidget {
   final LawVisitingOfficial model;
   final List<Organisation> departments;
   final BuildContext mainContext;
+  final bool showSaveButton;
 
   @override
   State<AddVisitingOfficialPopUp> createState() =>
@@ -38,7 +40,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   void initState() {
     super.initState();
 
-    nameController.text = widget.model.email ?? '';
+    nameController.text = widget.model.name ?? '';
     departmentController.text = widget.model.department?.name ?? '';
     designationController.text = widget.model.designation ?? '';
     officeAddressController.text = widget.model.address ?? '';
@@ -267,7 +269,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
+        if(widget.showSaveButton)...[
         saveButton(width, widget.onSubmit)
+        ],
       ],
     );
   }

@@ -341,7 +341,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    ///Actual time of visit
+                                    /// Actual time of visit
                                     CommonWidgets.textDisplay(
                                         Constants.actualtimeofvisit,
                                         Styles.textStyleBlack14,
@@ -430,13 +430,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       hintText: Constants.informationhere,
                                       focusNode: dbOfficialWantToMeetFocusNode,
                                       isEnable: widget.model?.status == 0 ||
-                                              widget.model?.status == 1 ||widget.model?.status == 2 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 2 ||
                                               widget.model == null
                                           ? true
                                           : false,
                                       isDisableColor:
                                           widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 || widget.model?.status == 2 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
                                                   widget.model == null
                                               ? false
                                               : true,
@@ -488,13 +490,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       hintText: Constants.informationhere,
                                       focusNode: additionalInformationFocusNode,
                                       isEnable: widget.model?.status == 0 ||
-                                              widget.model?.status == 1 ||  widget.model?.status == 2 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 2 ||
                                               widget.model == null
                                           ? true
                                           : false,
                                       isDisableColor:
                                           widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||  widget.model?.status == 2 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
                                                   widget.model == null
                                               ? false
                                               : true,
@@ -527,211 +531,227 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   color: AppColors.textgreyThemecolor,
                                   thickness: 1,
                                 ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 20),
-                                  child: Column(
-                                    children: [
-                                      /// Visiting Official Details
-                                      CommonWidgets.textDisplay(
-                                        Constants.visitingOfficialDetails,
-                                        Styles.textStyleDarkGrey16,
-                                        isMandatory: true,
-                                      ),
-
-                                      GestureDetector(
-                                        onTap: () async {
-                                          NavigatorState nav =
-                                              Navigator.of(context);
-
-                                          bool isSaveSuccess = await submitForm(
-                                            isSubmit: false,
-                                            state: state,
-                                            navigateToNextScreen: true,
-                                          );
-                                          if (!isSaveSuccess) {
-                                            return;
-                                          }
-                                          log('--widget.model.id---${widget.model?.id}--');
-                                          List<LawVisitingOfficial>
-                                              visitingOfficials =
-                                              await LawEnforcementServices()
-                                                  .getLeoVisitingOfficials(
-                                                      id: state.model!.id!);
-
-                                          log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
-                                          nav.pushNamed(
-                                            visitingOfficialListRoute,
-                                            arguments: {
-                                              ConstantsArgument.title:
-                                                  Constants.visitingOfficials,
-                                              ConstantsArgument.type: 0,
-                                              ConstantsArgument.id:
-                                                  state.model?.id,
-                                              ConstantsArgument.rankType:
-                                                  Constants.contactGeneralRank,
-                                              ConstantsArgument.models:
-                                                  visitingOfficials,
-                                              ConstantsArgument
-                                                  .departments: state
-                                                      .departmentResponse
-                                                      ?.atomLeoDepartments ??
-                                                  [],
-                                            },
-                                          );
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            SvgPicture.asset(
-                                              AppIcon.pluscircle,
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text(
-                                              'Add/View Visiting Official(s)',
-                                              style: TextStyle(
-                                                color: AppColors
-                                                    .navigationSkybluecolor,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                      // (state.getVisitsCount) > 0
-                                      //     ? listVisitingOfficialDetails(
-                                      //         height,
-                                      //         width,
-                                      //         context,
-                                      //         state,
-                                      //         state.getVisitsCount,
-                                      //       )
-                                      //     : Container(),
-                                      // widget.model == null
-                                      //     ? CommonWidgets.verticalSpacerWidget(
-                                      //         height * 0.01)
-                                      //     : Container(),
-                                      //
-                                      // /// Add another visiting
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     if (widget.model?.status != -1) {
-                                      //       if ((state.getVisitsCount) < 10) {
-                                      //         manageAddVisitOfficialDetailWidget(
-                                      //             state);
-                                      //       } else {
-                                      //         Validator().showToast(
-                                      //           context,
-                                      //           "You have reached maximum visiting official details adding",
-                                      //         );
-                                      //       }
-                                      //     }
-                                      //   },
-                                      //   child: Row(
-                                      //     children: <Widget>[
-                                      //       // Expanded(
-                                      //       //child:
-                                      //       SvgPicture.asset(
-                                      //         AppIcon.pluscircle,
-                                      //         //color: AppColors.navigationSkybluecolor,
-                                      //       ),
-                                      //       // ),
-                                      //       const SizedBox(width: 10),
-                                      //       const Text(
-                                      //         Constants
-                                      //             .addvisitingofficialdetails,
-                                      //         style: TextStyle(
-                                      //           color: AppColors
-                                      //               .navigationSkybluecolor,
-                                      //           decoration:
-                                      //               TextDecoration.underline,
-                                      //         ),
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-
-                                      // Upload
-                                      widget.model == null
-                                          ? CommonWidgets.textDisplay(
-                                              Constants.upload,
-                                              Styles.textStyleBlack14)
-                                          : Container(),
-                                      widget.model == null
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.001)
-                                          : Container(),
-                                      widget.model == null
-                                          ? uploadWidget(state)
-                                          : Container(),
-
-                                      // Attachments
-                                      getSpaceattchment(height),
-                                      getAttachement(height),
-
-                                      if (widget.model?.status == 1 ||
-                                          widget.model?.status == 2 ||
-                                          widget.model?.status == 3) ...[
-                                        /// Distribution Groups
-                                        CommonWidgets.textDisplay(
-                                          Constants.distributiongroups,
-                                          Styles.textStyleBlack14,
-                                          isMandatory: true,
-                                        ),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-                                        BaseEntitiesSelection()
-                                            .entityDropDownSelection(
-                                          context: context,
-                                          selectedValues:
-                                              widget.model?.mailList ?? [],
-                                          all: state
-                                                  .groups?.distributionGroups ??
-                                              [],
-                                          enabled: true,
-                                          onTap: (List<Organisation>
-                                              selectedEntities) {
-                                            log('--selectedEntities----${selectedEntities.length}');
-
-                                            widget.model?.mailList =
-                                                selectedEntities;
-                                            setState(() {});
-                                            // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                          },
-                                        ),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-                                      ],
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                      // SubmitButton
-                                      if (widget.model?.status != 3 &&
-                                          widget.model?.status != -1) ...[
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            cancelButtonDisplay(),
-                                            submitButtonDisplay()
-                                          ],
-                                        ),
-                                      ],
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.05),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(00.0)),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(
+                                children: [
+                                  /// Visiting Official Details
+                                  CommonWidgets.textDisplay(
+                                    Constants.visitingOfficialDetails,
+                                    Styles.textStyleDarkGrey16,
+                                    isMandatory: true,
+                                  ),
+
+                                  GestureDetector(
+                                    onTap: () async {
+                                      NavigatorState nav =
+                                          Navigator.of(context);
+
+                                      bool isSaveSuccess = await submitForm(
+                                        isSubmit: false,
+                                        state: state,
+                                        navigateToNextScreen: true,
+                                      );
+                                      if (!isSaveSuccess) {
+                                        return;
+                                      }
+                                      log('--widget.model.status---${widget.model?.status}--');
+                                      List<LawVisitingOfficial>
+                                          visitingOfficials =
+                                          await LawEnforcementServices()
+                                              .getLeoVisitingOfficials(
+                                                  id: state.model!.id!);
+
+                                      log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
+                                      nav.pushNamed(
+                                        visitingOfficialListRoute,
+                                        arguments: {
+                                          ConstantsArgument.title:
+                                              Constants.visitingOfficials,
+                                          ConstantsArgument.type: 0,
+                                          ConstantsArgument.id: state.model?.id,
+                                          ConstantsArgument.rankType:
+                                              Constants.contactGeneralRank,
+                                          ConstantsArgument.models:
+                                              visitingOfficials,
+                                          ConstantsArgument.departments: state
+                                                  .departmentResponse
+                                                  ?.atomLeoDepartments ??
+                                              [],
+                                          ConstantsArgument.showSaveButton:
+                                              (widget.model?.status != 2 &&
+                                                      widget.model?.status != 3)
+                                                  ? true
+                                                  : false,
+                                        },
+                                      );
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Add/View Visiting Official(s)',
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                  // (state.getVisitsCount) > 0
+                                  //     ? listVisitingOfficialDetails(
+                                  //         height,
+                                  //         width,
+                                  //         context,
+                                  //         state,
+                                  //         state.getVisitsCount,
+                                  //       )
+                                  //     : Container(),
+                                  // widget.model == null
+                                  //     ? CommonWidgets.verticalSpacerWidget(
+                                  //         height * 0.01)
+                                  //     : Container(),
+                                  //
+                                  // /// Add another visiting
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     if (widget.model?.status != -1) {
+                                  //       if ((state.getVisitsCount) < 10) {
+                                  //         manageAddVisitOfficialDetailWidget(
+                                  //             state);
+                                  //       } else {
+                                  //         Validator().showToast(
+                                  //           context,
+                                  //           "You have reached maximum visiting official details adding",
+                                  //         );
+                                  //       }
+                                  //     }
+                                  //   },
+                                  //   child: Row(
+                                  //     children: <Widget>[
+                                  //       // Expanded(
+                                  //       //child:
+                                  //       SvgPicture.asset(
+                                  //         AppIcon.pluscircle,
+                                  //         //color: AppColors.navigationSkybluecolor,
+                                  //       ),
+                                  //       // ),
+                                  //       const SizedBox(width: 10),
+                                  //       const Text(
+                                  //         Constants
+                                  //             .addvisitingofficialdetails,
+                                  //         style: TextStyle(
+                                  //           color: AppColors
+                                  //               .navigationSkybluecolor,
+                                  //           decoration:
+                                  //               TextDecoration.underline,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+
+                                  // Upload
+                                  widget.model == null
+                                      ? CommonWidgets.textDisplay(
+                                          Constants.upload,
+                                          Styles.textStyleBlack14)
+                                      : Container(),
+                                  widget.model == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001)
+                                      : Container(),
+                                  widget.model == null
+                                      ? uploadWidget(state)
+                                      : Container(),
+
+                                  // Attachments
+                                  getSpaceattchment(height),
+                                  getAttachement(height),
+
+                                  if (widget.model?.status == 1 ||
+                                      widget.model?.status == 2 ||
+                                      widget.model?.status == 3) ...[
+                                    /// Distribution Groups
+                                    CommonWidgets.textDisplay(
+                                      Constants.distributiongroups,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    BaseEntitiesSelection()
+                                        .entityDropDownSelection(
+                                      context: context,
+                                      selectedValues:
+                                          widget.model?.mailList ?? [],
+                                      all: state.groups?.distributionGroups ??
+                                          [],
+                                      enabled: widget.model?.status == 1 ||
+                                          widget.model?.status == 2,
+                                      onTap: (List<Organisation>
+                                          selectedEntities) {
+                                        log('--selectedEntities----${selectedEntities.length}');
+
+                                        widget.model?.mailList =
+                                            selectedEntities;
+                                        setState(() {});
+                                        // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+                                  ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                  // SubmitButton
+                                  if (widget.model?.status != 3 &&
+                                      widget.model?.status != -1) ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        submitButtonDisplay()
+                                      ],
+                                    ),
+                                  ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.05),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       if (widget.model?.status == 3 ||
@@ -1472,10 +1492,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       },
       enabled: widget.model?.status == 0 ||
           widget.model == null ||
-          widget.model?.status == 1||widget.model?.status == 2,
+          widget.model?.status == 1 ||
+          widget.model?.status == 2,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
-      createEntity: widget.model?.status == 0 || widget.model?.status == 1||widget.model?.status == 2,
+      createEntity: widget.model?.status == 0 ||
+          widget.model?.status == 1 ||
+          widget.model?.status == 2,
     );
   }
 
@@ -1572,12 +1595,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
               widget.model != null &&
-              widget.model?.status != 1 && widget.model?.status != 2
+              widget.model?.status != 1 &&
+              widget.model?.status != 2
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 || widget.model?.status == 2 ||
+            widget.model?.status == 1 ||
+            widget.model?.status == 2 ||
             widget.model == null) {
           leopurposeDialog(state);
         }
@@ -1615,13 +1640,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
-              widget.model?.status != 1 && widget.model?.status != 2 &&
+              widget.model?.status != 1 &&
+              widget.model?.status != 2 &&
               widget.model != null
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 ||widget.model?.status == 2 ||
+            widget.model?.status == 1 ||
+            widget.model?.status == 2 ||
             widget.model == null) {
           leodepartmentsDialog(state);
         }
@@ -1651,13 +1678,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 0 &&
-              widget.model?.status != 1 &&widget.model?.status != 2 &&
+              widget.model?.status != 1 &&
+              widget.model?.status != 2 &&
               widget.model != null
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 ||widget.model?.status == 2 ||
+            widget.model?.status == 1 ||
+            widget.model?.status == 2 ||
             widget.model == null) {
           dbOfficialDialog(state);
         }
@@ -1985,7 +2014,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       //   );
       // }
       // else {
-        submitForm(isSubmit: true, state: globalState);
+      submitForm(isSubmit: true, state: globalState);
       //}
     }
   }

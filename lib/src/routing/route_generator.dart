@@ -254,6 +254,7 @@ class RouteGenerator {
         String title = '';
         int id = 0;
         int type = 0;
+        bool showSaveButton = true;
         List<LawVisitingOfficial> visitingOfficials = [];
         List<Organisation> departments = [];
         if (settings.arguments != null) {
@@ -264,6 +265,7 @@ class RouteGenerator {
           type = arguments[ConstantsArgument.type] ?? 0;
           visitingOfficials = arguments[ConstantsArgument.models] ?? [];
           departments = arguments[ConstantsArgument.departments] ?? [];
+          showSaveButton = arguments[ConstantsArgument.showSaveButton];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vo.VisitingOfficialListBloc>(
@@ -279,6 +281,7 @@ class RouteGenerator {
               id: id,
               type: type,
               title: title,
+              showSaveButton: showSaveButton,
             ),
           ),
         );
@@ -370,7 +373,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc(occType, occId)
-              ..add(im.FetchData(startPos: 0, maxPos: 20,newSearch: true,
+              ..add(im.FetchData(
+                  startPos: 0,
+                  maxPos: 20,
+                  newSearch: true,
                   filters: BaseFilterModel())),
             child: IncidentManagementsView(
               occId: occId,

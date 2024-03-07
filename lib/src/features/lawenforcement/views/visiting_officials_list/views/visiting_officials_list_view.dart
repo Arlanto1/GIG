@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart';
 
 import '../bloc/visiting_officials_list_bloc.dart';
 
@@ -13,11 +12,13 @@ class VisitingOfficialListView extends StatefulWidget {
     required this.id,
     required this.title,
     required this.type,
+    required this.showSaveButton,
   });
 
   final int id;
   final String title;
   final int type;
+  final bool showSaveButton;
 
   @override
   State<VisitingOfficialListView> createState() =>
@@ -66,23 +67,25 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-            showAddContactPopUp(
-              context: context,
-              visitingOfficialDetails: LawVisitingOfficial(
-                id: null,
-                email: '',
-                contactNo: '',
-                department: Organisation(),
-                designation: '',
-              ),
-              departments: state.departments,
-            );
-          },
-        ),
+        floatingActionButton: widget.showSaveButton
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () {
+                  showAddContactPopUp(
+                    context: context,
+                    visitingOfficialDetails: LawVisitingOfficial(
+                      id: null,
+                      email: '',
+                      contactNo: '',
+                      department: Organisation(),
+                      designation: '',
+                    ),
+                    departments: state.departments,
+                  );
+                },
+              )
+            : Container(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.visitingOfficials,
@@ -236,6 +239,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           model: visitingOfficialDetails,
           mainContext: context,
           departments: departments,
+          showSaveButton: widget.showSaveButton,
           onSubmit: (LawVisitingOfficial model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
