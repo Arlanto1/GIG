@@ -76,6 +76,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailureState(
             message: e.message ?? 'An unexpected error occurred.'));
       } else {
+        InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
         log('An unexpected error occurred---1: $e');
         emit(LoginFailureState(message: 'An unexpected error occurred.'));
