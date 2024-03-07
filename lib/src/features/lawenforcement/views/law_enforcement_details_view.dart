@@ -596,8 +596,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                   ?.atomLeoDepartments ??
                                               [],
                                           ConstantsArgument.showSaveButton:
-                                              (widget.model?.status != 2 &&
-                                                      widget.model?.status != 3)
+                                              (widget.model?.status != 3)
                                                   ? true
                                                   : false,
                                         },
