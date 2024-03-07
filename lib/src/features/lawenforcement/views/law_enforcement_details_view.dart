@@ -430,13 +430,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       hintText: Constants.informationhere,
                                       focusNode: dbOfficialWantToMeetFocusNode,
                                       isEnable: widget.model?.status == 0 ||
-                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 1 ||widget.model?.status == 2 ||
                                               widget.model == null
                                           ? true
                                           : false,
                                       isDisableColor:
                                           widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 1 || widget.model?.status == 2 ||
                                                   widget.model == null
                                               ? false
                                               : true,
@@ -488,13 +488,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       hintText: Constants.informationhere,
                                       focusNode: additionalInformationFocusNode,
                                       isEnable: widget.model?.status == 0 ||
-                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 1 ||  widget.model?.status == 2 ||
                                               widget.model == null
                                           ? true
                                           : false,
                                       isDisableColor:
                                           widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 1 ||  widget.model?.status == 2 ||
                                                   widget.model == null
                                               ? false
                                               : true,
@@ -1472,10 +1472,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       },
       enabled: widget.model?.status == 0 ||
           widget.model == null ||
-          widget.model?.status == 1,
+          widget.model?.status == 1||widget.model?.status == 2,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
-      createEntity: widget.model?.status == 0 || widget.model?.status == 1,
+      createEntity: widget.model?.status == 0 || widget.model?.status == 1||widget.model?.status == 2,
     );
   }
 
@@ -1572,12 +1572,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
               widget.model != null &&
-              widget.model?.status != 1
+              widget.model?.status != 1 && widget.model?.status != 2
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 ||
+            widget.model?.status == 1 || widget.model?.status == 2 ||
             widget.model == null) {
           leopurposeDialog(state);
         }
@@ -1615,13 +1615,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
-              widget.model?.status != 1 &&
+              widget.model?.status != 1 && widget.model?.status != 2 &&
               widget.model != null
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 ||
+            widget.model?.status == 1 ||widget.model?.status == 2 ||
             widget.model == null) {
           leodepartmentsDialog(state);
         }
@@ -1651,13 +1651,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 0 &&
-              widget.model?.status != 1 &&
+              widget.model?.status != 1 &&widget.model?.status != 2 &&
               widget.model != null
           ? true
           : false,
       onTap: () {
         if (widget.model?.status == 0 ||
-            widget.model?.status == 1 ||
+            widget.model?.status == 1 ||widget.model?.status == 2 ||
             widget.model == null) {
           dbOfficialDialog(state);
         }
@@ -1976,17 +1976,17 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     //   }
     // }
     else {
-      log('---validateForm-else---');
-      if (widget.model?.status != 0 &&
-          (widget.model != null &&
-              distributiongroupsTextController.text.isEmpty)) {
-        Validator().showToast(
-          context,
-          "Please enter distribution groups",
-        );
-      } else {
+      // if (widget.model?.status != 0 &&
+      //     (widget.model != null &&
+      //         distributiongroupsTextController.text.isEmpty)) {
+      //   Validator().showToast(
+      //     context,
+      //     "Please enter distribution groups",
+      //   );
+      // }
+      // else {
         submitForm(isSubmit: true, state: globalState);
-      }
+      //}
     }
   }
 
