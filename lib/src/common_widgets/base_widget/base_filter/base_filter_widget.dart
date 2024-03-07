@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_filter/cubit/base_filter_cubit.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class BaseSearchWidget extends StatefulWidget {
   final Function(FilterCriteria) applySearchFilters;
@@ -162,8 +161,8 @@ class ShowFiltersWidget extends StatelessWidget {
           create: (context) => BaseFilterCubit(), // Provide the BaseFilterCubit
           child: BaseFilterSheet(
             applyFilters: applyFilters,
-            statuses: commonFilters.statuses??[],
-            regions: commonFilters.regions??[],
+            statuses: commonFilters.statuses ?? [],
+            regions: commonFilters.regions ?? [],
           ),
         );
       },
@@ -194,6 +193,7 @@ class BaseFilterSheet extends StatelessWidget {
     Organisation? selectedLocation = Organisation();
     Organisation? selectedStatus = Organisation();
     List<Organisation> locations = [];
+    Filters filtersModel = Filters();
 
     final size = MediaQuery.of(context).size;
     double height = size.height;
@@ -204,7 +204,7 @@ class BaseFilterSheet extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
-        log('-state.status----${state.status}-');
+        log('-state.status-builder---${state.status}-');
         if (state.status == FormStatus.loading) {
           // return BaseLoader();
         }
@@ -241,12 +241,14 @@ class BaseFilterSheet extends StatelessWidget {
                         child: FlutterInputField(
                           textInputType: TextInputType.number,
                           textFormKey: Keys.idKey,
-                          // initialValue: state.model.challanNo,
-                          controller: idController,
+                          initialValue: '${filtersModel.id ?? ''}',
+                          // controller: idController,
                           hintText: '',
                           isEnable: true,
                           isDisableColor: false,
-                          onChange: (String value) {},
+                          onChange: (String value) {
+                            filtersModel.id = int.tryParse(value);
+                          },
                           validateTextField: (String? user) {},
                         ),
                       ),
@@ -268,11 +270,14 @@ class BaseFilterSheet extends StatelessWidget {
                         child: FlutterInputField(
                           textInputType: TextInputType.text,
                           textFormKey: Keys.slNoKey,
-                          controller: createdByController,
+                          initialValue: filtersModel.createdBy ?? '',
+                          // controller: createdByController,
                           hintText: '',
                           isEnable: true,
                           isDisableColor: false,
-                          onChange: (String value) {},
+                          onChange: (String value) {
+                            filtersModel.createdBy = value;
+                          },
                           validateTextField: (String? user) {},
                         ),
                       ),
@@ -382,9 +387,8 @@ class BaseFilterSheet extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   log('Applying Filters---onPressed---');
-                  Filters filtersModel = Filters();
-                  filtersModel.id = int.tryParse(idController.text);
-                  filtersModel.createdBy = createdByController.text;
+                  // filtersModel.id = int.tryParse(idController.text);
+                  // filtersModel.createdBy = createdByController.text;
                   // filtersModel.slNo = int.tryParse(slNoController.text);
                   if (!fromDateController.text.isEmptyOrNull) {
                     filtersModel.fromDate =
@@ -396,6 +400,7 @@ class BaseFilterSheet extends StatelessWidget {
                   }
                   filtersModel.status = selectedStatus?.id;
                   filtersModel.regionId = selectedRegion?.id;
+                  filtersModel.locationId = selectedLocation?.id;
                   applyFilters(filtersModel);
                 },
                 style: ButtonStyle(
