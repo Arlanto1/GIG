@@ -694,7 +694,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           all: state
                                                   .groups?.distributionGroups ??
                                               [],
-                                          enabled: true,
+                                          enabled:
+                                        widget.model?.status == 1||widget.model?.status == 2 ? true : false,
                                           onTap: (List<Organisation>
                                               selectedEntities) {
                                             log('--selectedEntities----${selectedEntities.length}');
@@ -2116,7 +2117,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         selectedValues: widget.model?.mailList ?? [],
         all: state.groups?.distributionGroups ?? [],
-        enabled: true,
+        enabled:
+    widget.model?.status == 1||widget.model?.status == 2,
         onTap: (List<Organisation> selectedEntities) {
           log('--selectedEntities----${selectedEntities.length}');
 
