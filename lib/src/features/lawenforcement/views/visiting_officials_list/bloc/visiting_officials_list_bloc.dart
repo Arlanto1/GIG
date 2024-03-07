@@ -35,7 +35,7 @@ class VisitingOfficialListBloc
           await services.getLeoVisitingOfficials(id: parentId);
 
       LeoDepartments leodepartments =
-      await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+          await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
 
       return emit(
         state.copyWith(
@@ -55,7 +55,8 @@ class VisitingOfficialListBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        List<LawVisitingOfficial> response = await services.getLeoVisitingOfficials(
+        List<LawVisitingOfficial> response =
+            await services.getLeoVisitingOfficials(
           id: event.id,
         );
         return emit(
@@ -67,7 +68,8 @@ class VisitingOfficialListBloc
         );
       }
 
-      List<LawVisitingOfficial> response = await services.getLeoVisitingOfficials(
+      List<LawVisitingOfficial> response =
+          await services.getLeoVisitingOfficials(
         id: event.id,
       );
 
@@ -117,7 +119,8 @@ class VisitingOfficialListBloc
     try {
       await services.deleteVisitingOfficial(event.id);
 
-      List<LawVisitingOfficial> response = await services.getLeoVisitingOfficials(
+      List<LawVisitingOfficial> response =
+          await services.getLeoVisitingOfficials(
         id: event.parentId,
       );
 
@@ -148,12 +151,16 @@ class VisitingOfficialListBloc
       LawVisitingOfficialRequest request = LawVisitingOfficialRequest();
 
       request.visitingOfficials = event.model;
-      await services
-          .createVisitingOfficial(parentId:event.parentId,body: request, );
+      await services.createVisitingOfficial(
+        parentId: event.parentId,
+        body: request,
+      );
 
-      List<LawVisitingOfficial> response = await services.getLeoVisitingOfficials(
+      List<LawVisitingOfficial> response =
+          await services.getLeoVisitingOfficials(
         id: event.parentId,
       );
+
       /// Refresh list
       // ContactsListModel response = await services.getContactListByType(
       //   id: '${event.parentId}',

@@ -28,9 +28,8 @@ class InitializeValues extends VisitingOfficialListEvent {
 class SaveRecord extends VisitingOfficialListEvent {
   final LawVisitingOfficial model;
   final int parentId;
-  final int type;
 
-  const SaveRecord(this.model, this.parentId, this.type);
+  const SaveRecord({required this.model, required this.parentId});
 }
 
 class DeleteRecord extends VisitingOfficialListEvent {

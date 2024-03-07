@@ -123,7 +123,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         showAddContactPopUp(
           context: context,
           visitingOfficialDetails: LawVisitingOfficial(
-            id: widget.id,
+            id: null,
             email: '',
             contactNo: '',
             department: Organisation(),
@@ -240,10 +240,14 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
-            log('-widget.title---${widget.title}----');
+            log('-model.id---${model.id}----');
 
-            BlocProvider.of<VisitingOfficialListBloc>(context)
-                .add(SaveRecord(model, widget.id, widget.type));
+            BlocProvider.of<VisitingOfficialListBloc>(context).add(
+              SaveRecord(
+                model: model,
+                parentId: widget.id,
+              ),
+            );
           },
         );
       },
