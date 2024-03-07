@@ -293,7 +293,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    ///created by
+                                    /// created by
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.createdby,
                                         isMandatory: true,
@@ -312,7 +312,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// date of creation
+                                    /// Date of creation
                                     CommonWidgets.textDisplay(
                                         Constants.dateofcreation,
                                         Styles.textStyleBlack14,
@@ -1069,10 +1069,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      widget?.model?.slNo == null
-          ? await lawEnforcementCubit.getSerialnumberDetails(
-              (widget.model?.location?.id ?? 0).toString(), 'LEO', context)
-          : widget?.model?.slNo;
+      widget.model?.slNo ?? await lawEnforcementCubit.getSerialnumberDetails(
+              (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
