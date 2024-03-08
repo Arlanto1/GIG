@@ -977,13 +977,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> updateStatus({required String id}) async {
     String module = '';
     PassMngArguments? passMngArguments;
-    if (passMngArguments?.passType == '0') {
+    if (passMngArguments?.passType == 0) {
       module = Constants.passManagementModule;
-    } else if (passMngArguments?.passType == '1') {
+    } else if (passMngArguments?.passType == 1) {
       module = Constants.visitorManagementModule;
-    } else if (passMngArguments?.passType == '2') {
+    } else if (passMngArguments?.passType == 2) {
       module = Constants.vendorPassManagementModule;
-    } else if (passMngArguments?.passType == '3') {
+    } else if (passMngArguments?.passType == 3) {
       module = Constants.passManagementSEZModule;
     }
     await commonServices.updateRecordStatus(id: id, module: module);
