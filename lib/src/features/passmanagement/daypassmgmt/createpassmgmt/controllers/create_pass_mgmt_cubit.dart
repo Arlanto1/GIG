@@ -708,8 +708,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     );
 
     try {
+      Organisation? defaultLocation;
+      SerialNumberModel serialNumberResponse = SerialNumberModel();
+      List<Organisation> passTypes = [];
+      DayPassNumberLists companyTypes = DayPassNumberLists();
       if (passId != ConstantsIntValue.passIdSez) {
-        Organisation? defaultLocation;
         if (model.location == null) {
           defaultLocation = await SharedPrefs.getDefaultLocation();
         } else {
@@ -727,35 +730,36 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           moduleCode = Constants.passManagementSEZModule;
         }
 
-        SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
+        serialNumberResponse = await commonServices.getSlNo(
           locationId: defaultLocation!.id.toString(),
           moduleCode: moduleCode,
         );
 
         // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
 
-        List<Organisation> passTypes = await createpassmgmtServices
+        passTypes = await createpassmgmtServices
             .getPassTypes(passId: passId, locationId: defaultLocation.id!);
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
-        DayPassNumberLists companyTypes = await createpassmgmtServices
+        companyTypes = await createpassmgmtServices
             .getPassNo(passType: passId, locationId: defaultLocation.id!);
 
-        List<Organisation> updateStatuses = [];
-        if (model.status != null && (model.status == 0 || model.status == 1)) {
-          updateStatuses = await commonServices.getStatusesByModuleId(
-              module: Constants.passManagementModuleCode, filter: model.status);
-        }
-
-        emit(state.copyWith(
-          location: defaultLocation,
-          updateStatuses: updateStatuses,
-          passnumbelistresponse: companyTypes,
-          passTypes: passTypes,
-          getSerialnumberResponse: serialNumberResponse,
-          stateType: CreatePassMgmtStateType.success,
-        ));
       }
+
+      List<Organisation> updateStatuses = [];
+      if (model.status != null && (model.status == 0 || model.status == 1)) {
+        updateStatuses = await commonServices.getStatusesByModuleId(
+            module: Constants.passManagementModuleCode, filter: model.status);
+      }
+
+      emit(state.copyWith(
+        location: defaultLocation,
+        updateStatuses: updateStatuses,
+        passnumbelistresponse: companyTypes,
+        passTypes: passTypes,
+        getSerialnumberResponse: serialNumberResponse,
+        stateType: CreatePassMgmtStateType.success,
+      ));
 
       if (model.companyType?.name != null &&
           model.companyType!.name!.contains('CWR')) {
