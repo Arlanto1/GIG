@@ -56,7 +56,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     context.read<GuardingMasterDataBloc>().add(
           const RefreshLists(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

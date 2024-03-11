@@ -59,7 +59,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
     context.read<VVIPVisitorsBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

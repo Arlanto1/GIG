@@ -76,7 +76,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     context.read<IncidentManagementsBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

@@ -53,7 +53,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     context.read<GuardingMasterReportBloc>().add(
           const RefreshListGMR(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

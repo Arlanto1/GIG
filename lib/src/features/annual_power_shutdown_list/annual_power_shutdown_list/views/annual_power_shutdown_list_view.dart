@@ -75,7 +75,7 @@ class _AnnualPowerShutdownListViewState
     context.read<AnnualPowerShutdownListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -143,7 +143,7 @@ class _AnnualPowerShutdownListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.initial) ...[
+                if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -151,7 +151,7 @@ class _AnnualPowerShutdownListViewState
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.initial) ...[
+                    state.status != FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
