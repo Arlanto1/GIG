@@ -3288,9 +3288,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : state.nameResponse?.name ?? '',
         employeeId: employeeIdTextController.text,
         employee: widget.passId ==
-            ConstantsIntValue.passIdDayPass ? User(
+            ConstantsIntValue.passIdDayPass && companyType?.name != 'FTE' ? User(
           userId: state.nameResponse?.id,
-          name: state.nameResponse?.name,
+          firstName: state.nameResponse?.name,
           email: state.nameResponse?.email,
         ): null,
         passType: passInfo.passType,
@@ -3353,7 +3353,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : state.nameResponse?.name ?? '',
           employeeId: employeeIdTextController.text,
           employee: widget.passId ==
-              ConstantsIntValue.passIdDayPass ? User(
+              ConstantsIntValue.passIdDayPass && companyType?.name != 'FTE' ? User(
             userId: state.nameResponse?.id,
             name: state.nameResponse?.name,
             email: state.nameResponse?.email,
