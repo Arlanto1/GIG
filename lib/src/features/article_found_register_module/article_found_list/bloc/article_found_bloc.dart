@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -48,7 +49,7 @@ class ArticleFoundBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.articleFoundModuleCode);
-      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
