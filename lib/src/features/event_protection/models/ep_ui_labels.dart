@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+part 'ep_ui_labels.g.dart';
 
 @JsonSerializable()
 class EPUiLabels {

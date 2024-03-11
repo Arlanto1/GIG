@@ -1,5 +1,7 @@
 import 'package:db_atom/index.dart';
 
+part 'aps_ui_labels.g.dart';
+
 @JsonSerializable()
 class APSUILabels {
   APSUILabels({
@@ -609,8 +611,8 @@ class APSUILabelsLocale {
       this.managementCommitteeRating,
       this.importantRating);
 
-  factory APSUiLabelsLocale.fromJson(Map<String, dynamic> json) =>
-      _$APSUiLabelsLocaleFromJson(json);
+  factory APSUILabelsLocale.fromJson(Map<String, dynamic> json) =>
+      _$APSUILabelsLocaleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$APSUiLabelsLocaleToJson(this);
+  Map<String, dynamic> toJson() => _$APSUILabelsLocaleToJson(this);
 }
