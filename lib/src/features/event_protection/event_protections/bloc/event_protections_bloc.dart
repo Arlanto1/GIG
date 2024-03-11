@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/token_expired.dart';
@@ -56,7 +56,7 @@ class EventProtectionsBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
-      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      EPUiLabels labels = EPUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
