@@ -2036,6 +2036,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? widget.model?.vendorPassReason
               : widget.model?.dayPassReason
           : Organisation();
+
+      createPassMgmtCubit.getVendorPassReasonResponseData(day);
       createPassMgmtCubit.getdaypassreasonResponseData(day);
 
       Organisation dep = widget.model?.department ?? Organisation();
@@ -2142,8 +2144,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, daypassmanagementListRoute,
           arguments: {
-            "passMngDetails":
-                PassMngArguments(widget.passId, widget.title?.replaceAll('Edit', '') ?? 'Pass Management', false)
+            "passMngDetails": PassMngArguments(
+                widget.passId,
+                widget.title?.replaceAll('Edit', '') ?? 'Pass Management',
+                false)
           });
     } else {
       Navigator.pop(context);
@@ -2700,6 +2704,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //     );
               //   }
               // });
+              createPassMgmtCubit.getVendorPassReasonResponseData(organisation);
               createPassMgmtCubit.getdaypassreasonResponseData(organisation);
             },
           );
@@ -3203,6 +3208,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     Organisation? department =
         state.selectedDepartment ?? widget.model?.department;
+    Organisation? vendorPass =
+        state.vendorPasselementReason ?? widget.model?.vendorPassReason;
     Organisation? dayPass =
         state.dayPasselementReason ?? widget.model?.dayPassReason;
 
@@ -3287,12 +3294,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
         employeeId: employeeIdTextController.text,
-        employee: widget.passId ==
-            ConstantsIntValue.passIdDayPass && companyType?.name != 'FTE' ? User(
-          userId: state.nameResponse?.id,
-          firstName: state.nameResponse?.name,
-          email: state.nameResponse?.email,
-        ): null,
+        employee: widget.passId == ConstantsIntValue.passIdDayPass &&
+                companyType?.name != 'FTE'
+            ? User(
+                userId: state.nameResponse?.id,
+                firstName: state.nameResponse?.name,
+                email: state.nameResponse?.email,
+              )
+            : null,
         passType: passInfo.passType,
         passInfo: passInfo,
         passNo: passInfo.passNo,
@@ -3331,6 +3340,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
         dayPassReason: dayPass,
+        vendorPassReason: vendorPass,
         entrySecurity: entrySecurity,
         handoverSecurity: handoverSecurity,
         handOverSecurityName:
@@ -3352,12 +3362,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
           employeeId: employeeIdTextController.text,
-          employee: widget.passId ==
-              ConstantsIntValue.passIdDayPass && companyType?.name != 'FTE' ? User(
-            userId: state.nameResponse?.id,
-            name: state.nameResponse?.name,
-            email: state.nameResponse?.email,
-          ): null,
+          employee: widget.passId == ConstantsIntValue.passIdDayPass &&
+                  companyType?.name != 'FTE'
+              ? User(
+                  userId: state.nameResponse?.id,
+                  name: state.nameResponse?.name,
+                  email: state.nameResponse?.email,
+                )
+              : null,
           passType: passInfo.passType,
           //0,
           passNo: passInfo.passNo,
@@ -3394,6 +3406,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,
           dayPassReason: dayPass,
+          vendorPassReason: vendorPass,
           email: emailTextController.text,
           entrySecurity: entrySecurity,
           handoverSecurity: handoverSecurity);

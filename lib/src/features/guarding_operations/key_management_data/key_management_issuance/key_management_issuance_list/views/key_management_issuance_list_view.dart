@@ -59,7 +59,7 @@ class _KeyManagementIssuanceListViewState
     context.read<KeyManagementIssuanceListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

@@ -75,7 +75,7 @@ class _GuardingRatesState extends State<GuardingRates> {
     context.read<GuardingRatesBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

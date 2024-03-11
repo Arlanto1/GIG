@@ -61,7 +61,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     context.read<NotificationsBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

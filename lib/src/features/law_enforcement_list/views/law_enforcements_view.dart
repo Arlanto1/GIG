@@ -71,7 +71,7 @@ class _LnPageState extends State<LnPage> {
     context.read<LawEnforcementListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -178,7 +178,7 @@ class _LnPageState extends State<LnPage> {
               // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
               // Text('state.status=====${state.status}'),
               if (state.items.isEmptyOrNull &&
-                  (state.status != FormStatus.loading)) ...[
+                  (state.status != FormStatus.loading && state.status != FormStatus.initial)) ...[
                 CommonWidgets.verticalSpacerWidget(height * 0.1),
                 const NoRecordFoundWidget(),
               ],

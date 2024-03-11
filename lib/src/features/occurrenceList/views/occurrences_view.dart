@@ -72,7 +72,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
     context.read<OccurrencesBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
