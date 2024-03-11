@@ -125,7 +125,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    textFieldController: userNameTextController,
+                                    controller: userNameTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
                                     onChange: (String username) {
@@ -133,8 +133,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       setState(() {});
                                     },
                                     textInputAction: TextInputAction.next,
-                                    focusnode: _usernameFocus,
-                                    onfieldSubmitted: (term) {
+                                    focusNode: _usernameFocus,
+                                    onFieldSubmitted: (term) {
                                       _usernameFocus.unfocus();
                                       FocusScope.of(context)
                                           .requestFocus(_oldpasswordFocus);

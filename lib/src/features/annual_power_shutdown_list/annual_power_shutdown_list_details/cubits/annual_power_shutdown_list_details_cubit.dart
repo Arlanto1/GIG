@@ -1,14 +1,7 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/annual_power_shutdown_list/models/annual_power_shutdown_list_model.dart';
-import 'package:db_atom/src/features/annual_power_shutdown_list/models/requestModel/annual_power_shutdown_list_request.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -55,6 +48,29 @@ class AnnualPowerShutdownListDetailsCubit
     log('--eventProtectionGi---${model.epOfficers}-');
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+      ),
+    );
+  }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state
@@ -70,7 +86,7 @@ class AnnualPowerShutdownListDetailsCubit
     try {
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         SharedPrefs.getDefaultLocation(),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
@@ -78,7 +94,7 @@ class AnnualPowerShutdownListDetailsCubit
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
@@ -91,7 +107,7 @@ class AnnualPowerShutdownListDetailsCubit
       dynamic responseLabels = results[3];
       Analyst users = results[4];
       GetDepositor emailUsers = results[5];
-      AddEntities entities = results[6];
+      List<Organisation>? entities = results[6];
       Vendors vendors = results[7];
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
@@ -107,7 +123,8 @@ class AnnualPowerShutdownListDetailsCubit
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-
+      model.createdBy ??= loggedInUserDetails;
+      state.model.proposedVendors ??=[];
       // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
@@ -120,7 +137,7 @@ class AnnualPowerShutdownListDetailsCubit
         departments: departments.employeeDepartments,
         vendors: vendors.items,
         entrySecurities: entrySecurities,
-        listOfEntities: entities.atomEntities,
+        listOfEntities: entities,
         getEntitiesResponse: entities,
         // labels: EpUiLabels.fromJson(responseLabels),
       ));
@@ -155,7 +172,7 @@ class AnnualPowerShutdownListDetailsCubit
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    List<Organisation>? vendors,
+    Organisation? vendor,
   }) async {
     emit(
       state.copyWith(
@@ -180,17 +197,13 @@ class AnnualPowerShutdownListDetailsCubit
       );
       state.model.epManager2 = userDetails;
     }
-    // if (epOfficers != null) {
-    //   User userDetails = User(
-    //     name: epOfficers.name,
-    //     userId: epOfficers.id,
-    //     userName: epOfficers.name,
-    //   );
-    //   state.epOfficers.add(userDetails.email??'');
-    // }
 
-    if (vendors != null) {
-      state.model.proposedVendors = vendors;
+    if(vendor != null) {
+      if(state.model.proposedVendors.isEmptyOrNull) {
+        state.model.proposedVendors = [];
+      }
+      state.model.proposedVendors?.clear();
+      state.model.proposedVendors?.add(vendor);
     }
 
     /// Get Sl No from API
@@ -236,6 +249,7 @@ class AnnualPowerShutdownListDetailsCubit
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
+      state.emailUsers?.remove(subRegionalHead1);
       User userDetails = User(
           name: subRegionalHead1.name,
           userId: subRegionalHead1.id,
@@ -243,6 +257,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
+      state.emailUsers?.remove(subRegionalHead2);
       User userDetails = User(
           name: subRegionalHead2.name,
           userId: subRegionalHead2.id,
@@ -250,6 +265,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
+      state.emailUsers?.remove(locationSecurityManager1);
       User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
@@ -257,6 +273,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
+      state.emailUsers?.remove(locationSecurityManager2);
       User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,
@@ -327,10 +344,8 @@ class AnnualPowerShutdownListDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    state.model.status ??= 0;
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -395,5 +410,45 @@ class AnnualPowerShutdownListDetailsCubit
         status: FormStatus.success,
       ),
     );
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.eventProtectionModule);
+  }
+
+  Future<void> getEpGuardBudgetCost(BudgetCostModel budgetCost) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    BudgetCostRequest request = BudgetCostRequest();
+    request.apsBudget = budgetCost;
+    BudgetCostModel budgetCostResponse = BudgetCostModel();
+    try {
+      budgetCostResponse = await services.getEpGuardBudgetCost(body: request);
+
+      log('--budgetCostResponse--${budgetCostResponse.budgetCost}--');
+      state.model.budget = budgetCostResponse.budgetCost;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      budgetCost: budgetCostResponse,
+      status: FormStatus.initial,
+    ));
   }
 }

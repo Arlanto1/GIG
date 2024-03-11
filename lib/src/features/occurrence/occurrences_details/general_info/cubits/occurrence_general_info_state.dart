@@ -10,10 +10,12 @@ class OccurrenceGeneralInfoState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
-  final List<String>? participationDates;
+  final List<PowerFailure>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final bool? isReadOnly;
+
 
   factory OccurrenceGeneralInfoState.initial({
     required OccurrenceModel model,
@@ -28,7 +30,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
-    List<String>? participationDate,
+    List<PowerFailure>? participationDate,
   }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
@@ -129,10 +131,10 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Notify SCRI is Mandatory');
     }
 
-    if (model.powerFailure && model.powerFailureStartDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Power Failure Start Date is Mandatory');
-    }
+    // if (model.powerFailure && model.powerFailureStartDate == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Power Failure Start Date is Mandatory');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -154,6 +156,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.isReadOnly,
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -166,10 +169,11 @@ class OccurrenceGeneralInfoState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
-    List<String>? participationDates,
+    List<PowerFailure>? participationDates,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    bool? isReadOnly,
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -185,6 +189,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
     );
   }
 }

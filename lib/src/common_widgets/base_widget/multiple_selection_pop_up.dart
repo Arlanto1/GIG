@@ -94,7 +94,12 @@ class CustomMultipleSelectionListTextsState
                 .toList();
             widget.onTap(selectedEntities); // Call the callback
           },
-          child: const Text('Confirm'),
+          child: const Text(
+            'Confirm',
+            style: TextStyle(
+              color: AppColors.navigationSkybluecolor,
+            ),
+          ),
         ),
       ],
     );

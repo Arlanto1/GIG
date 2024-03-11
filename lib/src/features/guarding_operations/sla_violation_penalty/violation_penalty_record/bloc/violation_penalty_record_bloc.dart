@@ -10,9 +10,12 @@ part 'violation_penalty_record_state.dart';
 class ViolationPenaltyRecordBloc
     extends Bloc<ViolationPenaltyRecordEvent, ViolationPenaltyRecordState> {
   final String violationDescription;
+  final List<Organisation> violationDescriptions;
 
-  ViolationPenaltyRecordBloc({required this.violationDescription})
-      : super(const ViolationPenaltyRecordState(violationDescriptions: [])) {
+  ViolationPenaltyRecordBloc(
+      {required this.violationDescription, required this.violationDescriptions})
+      : super(ViolationPenaltyRecordState(
+            violationDescriptions: violationDescriptions)) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -28,17 +31,18 @@ class ViolationPenaltyRecordBloc
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
-      List<Organisation> items =
+      List<Organisation> violationDescriptions =
           await commonServices.getOrganisations(name: violationDescription);
 
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       Map<String, dynamic> staffCategoriesValues =
           await SLAViolationPenaltyServices().getStaffCategoriesValues();
       return emit(
         state.copyWith(
-          violationDescriptions: items,
+          violationDescriptions: violationDescriptions,
           hasReachedMax: false,
           labels: labels,
           staffCategoriesValues: staffCategoriesValues,

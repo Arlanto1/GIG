@@ -2,7 +2,6 @@ import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 import 'package:db_atom/src/models/base_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'contacts_list_response_model.g.dart';
 
 class ContactListResponseModel extends BaseObject {

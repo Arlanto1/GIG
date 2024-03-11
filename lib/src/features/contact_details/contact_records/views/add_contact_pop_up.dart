@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
+import '../bloc/contact_record_bloc.dart';
+
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
     super.key,
@@ -32,22 +34,44 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController contactNoController = TextEditingController();
   TextEditingController escalationLevelController = TextEditingController();
 
+  final FocusNode nameFocusNode = FocusNode();
+  String name = Constants.name;
+  String rank = Constants.rank;
+
   @override
   void initState() {
     super.initState();
 
-    log('---widget.contact.state---${widget.model.state}-----');
+    log('---widget.rankType---${widget.rankType}-----');
     rankController.text = widget.model.rank?.name ?? '';
     nameController.text = widget.model.email ?? '';
     stateController.text = widget.model.state ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
 
-    if(widget.model.escalationLevel != null) {
+    if (widget.model.escalationLevel != null) {
       Label matchingLabel = escalationLevelDropDownValues.firstWhere(
-              (label) =>
-          label.value == widget.model.escalationLevel.toString());
+          (label) => label.value == widget.model.escalationLevel.toString());
 
       escalationLevelController.text = matchingLabel.key;
+    }
+    if (widget.rankType == Constants.contactZone) {
+      name = Constants.areaNameManager;
+    }
+
+    if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
+      name = Constants.name;
+      rank = Constants.guardingAgencyRank;
+    }
+
+    if (widget.rankType == Constants.contactSupervisorRank) {
+      rank = Constants.supervisorRank;
+    }
+    if (widget.rankType == Constants.contactZone) {
+      rank = Constants.zone;
+    }
+
+    if (widget.rankType == Constants.contactSystemEscalationRank) {
+      rank = Constants.systemSiEscalationMatrixRank;
     }
   }
 
@@ -84,35 +108,66 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         children: [
                           /// Rank
                           CommonWidgets.textDisplay(
-                            widget.rankType == Constants.contactZone
-                                ? Constants.zone
-                                : Constants.rank,
+                            rank,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
+                            //  isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseOrganisationDialog().userDialog(
-                                context: context,
-                                entities: widget.users,
-                                onTap: (Organisation user) {
-                                  log('-user.name----${user.name}-');
+                              BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: widget.users,
+                                  onTap: (Organisation user) {
+                                    log('-user.name----${user.name}-');
 
-                                  rankController.text = user.name ?? '';
+                                    rankController.text = user.name ?? '';
 
-                                  widget.model.rank ??= Organisation();
-                                  widget.model.rank = user;
-                                  log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
+                                    widget.model.rank ??= Organisation();
+                                    widget.model.rank = user;
+                                    log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
 
-                                  setState(() {});
-                                  // BlocProvider.of<ContactListingBloc>(context)
-                                  //     .updateApproverEmailsValue(
-                                  //         approver1EmailUser: user);
-                                },
-                              );
+                                    setState(() {});
+                                    FocusScope.of(context)
+                                        .requestFocus(nameFocusNode);
+                                  },
+                                  orgName: widget.rankType ==
+                                          Constants.contactGeneralRank
+                                      ? 'CONTACT_GENERAL_RANK'
+                                      : widget.rankType ==
+                                              Constants
+                                                  .contactGuardingAgencyEscalationRank
+                                          ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                                          : widget.rankType ==
+                                                  Constants.contactZone
+                                              ? 'CONTACT_ZONE'
+                                              : widget.rankType ==
+                                                      Constants
+                                                          .contactSystemEscalationRank
+                                                  ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                                                  : 'CONTACT_SUPERVISOR_RANK',
+                                  createEntity: false,
+                                  title: widget.rankType ==
+                                          Constants.contactZone
+                                      ? 'Add Zone'
+                                      : widget.rankType ==
+                                              Constants.contactGeneralRank
+                                          ? 'Add Rank'
+                                          : widget.rankType ==
+                                                  Constants
+                                                      .contactSystemEscalationRank
+                                              ? 'Add System Escalation Matrix'
+                                              : widget.rankType ==
+                                                      Constants
+                                                          .contactSupervisorRank
+                                                  ? 'Add Supervisor Rank'
+                                                  : 'Add Guarding Agency Escalation Matrix',
+                                  functionToCall: () {
+                                    BlocProvider.of<ContactRecordBloc>(context)
+                                        .refreshList();
+                                  });
                             },
                           )
                         ],
@@ -123,15 +178,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       if (widget.rankType == Constants.contactZone) ...[
                         CommonWidgets.textDisplay(
                           Constants.state,
-                          isMandatory: true,
+                          //isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
                           initialValue: stateController.text,
-                          keyboardType: TextInputType.text,
+                          textInputType: TextInputType.text,
                           textFormKey: Keys.nameKey,
                           hintText: '',
+                          focusNode: nameFocusNode,
                           isEnable: true,
                           isDisableColor: false,
                           onChange: (String value) {
@@ -146,7 +202,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         /// Escalation Level
                         CommonWidgets.textDisplay(
                             Constants.escalationLevel,
-                            isMandatory: true,
+                            //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
                           isDisabled: true,
@@ -179,19 +235,20 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Name
                       CommonWidgets.textDisplay(
-                        widget.rankType == Constants.contactZone
-                            ? Constants.areaNameManager
-                            : Constants.name,
-                        isMandatory: true,
+                        name,
+                        //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         initialValue: nameController.text,
-                        keyboardType: TextInputType.text,
+                        textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: true,
+                        focusNode: widget.rankType != Constants.contactZone
+                            ? nameFocusNode
+                            : null,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
@@ -214,15 +271,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         initialValue: widget.model.contactNo ?? '',
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
+                        characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
                           widget.model.contactNo = value;
-                          log('-widget.contact.contactNo?.name----${widget.model.contactNo}-');
+                          log('contactNo---${widget.model.contactNo?.length != 10}-');
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -309,18 +367,33 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       return ErrorResponse(
           status: false,
           message: widget.rankType == Constants.contactZone
-              ? 'Please enter Area Name Manager.'
+              ? 'Please enter Area  Manager Name.'
               : 'Please enter Name.');
     }
     if (widget.rankType == Constants.contactZone) {
       if (widget.model.state.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Name.');
+            status: false, message: 'Please enter State.');
       }
       if (widget.model.escalationLevel == null) {
         return const ErrorResponse(
             status: false, message: 'Please enter Escalation Level.');
       }
+    }
+    bool isNumeric(String str) {
+      if (str == null) {
+        return false;
+      }
+      return double.tryParse(str) != null;
+    }
+
+    if ((!isNumeric(widget.model.contactNo!) ||
+            widget.model.contactNo?.length != 10) &&
+        !widget.model.contactNo.isEmptyOrNull) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid contact number.',
+      );
     }
     // if (widget.contact.contactNo.isEmptyOrNull) {
     //   return const ErrorResponse(

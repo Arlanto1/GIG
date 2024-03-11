@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/sla_violation_penalty_request.dart';
@@ -54,10 +55,19 @@ class SLAViolationPenaltyServices {
   Future<SLAViolationPenaltyResponseModel> getGSvp({
     required String startPosition,
     required String maximumRecords,
+     String? aShiftInfoId,
+    required BaseFilterModel filters,
   }) async {
-    String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
+    String url = '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+
+    // Append the 'aShiftInfoId' parameter in url if it's not null
+    if (aShiftInfoId != null) {
+      url += '&aShiftInfoId=$aShiftInfoId';
+    }
+    // String url =
+    //     '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
     );

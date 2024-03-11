@@ -37,8 +37,8 @@ class KeyManagementIssuanceServices {
   }
 
   Future<List<Organisation>> getKeyDescriptions(
-      {required int locationId}) async {
-    String url = '${Apis._getKeyDescriptions}?locId=$locationId';
+      {required int locationId,required bool isMasterKey }) async {
+    String url = '${Apis._getKeyDescriptions}?locId=$locationId&isMasterKey=$isMasterKey';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -59,12 +59,14 @@ class KeyManagementIssuanceServices {
   Future<KeyManagementIssuanceResponseModel> getList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
     // required String userId,
     // required String locationId,
   }) async {
     String url =
         '${Apis._getKMI}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
       isAuthenticated: true,
       url: url,
     );

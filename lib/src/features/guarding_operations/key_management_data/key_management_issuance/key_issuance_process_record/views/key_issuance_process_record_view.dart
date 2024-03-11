@@ -28,6 +28,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     required this.locationId,
     required this.title,
     this.model,
+    this.isMasterKey,
   });
 
   final int parentId;
@@ -35,7 +36,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
-
+final bool? isMasterKey;
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
       _ContactRecordViewState();
@@ -83,15 +84,17 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton:widget.parentStatus==0||widget.parentStatus==null ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () async {
             log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
-
+            KeyIssuanceProcessRecord keyIssuanceProcessModel =KeyIssuanceProcessRecord();
+            bool isMasterKey =
+            keyIssuanceProcessModel.kmId == 1 ? true : false;
             List<Organisation> keyDescriptions =
                 await KeyManagementIssuanceServices()
-                    .getKeyDescriptions(locationId: widget.locationId);
+                    .getKeyDescriptions(locationId: widget.locationId,isMasterKey:isMasterKey);
 
             showAddKeyIssuanceProcessPopUp(
               context: context,
@@ -101,15 +104,17 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
               parentStatus: widget.parentStatus,
             );
           },
-        ),
+        ):null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.keyIssuanceProcess,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
+          // excelAPIName: 'exportMMExcel',
+          // pdfAPIName: 'exportMMPDF',
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
         ),
         body: getBody(state),
       );
@@ -125,6 +130,19 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     if (state.items.isEmptyOrNull) {
       return const NoRecordFoundWidget();
     }
+    //  if (state.items.isEmptyOrNull && !isPopUpShown) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     isPopUpShown = true;
+    //     showAddKeyIssuanceProcessPopUp(
+    //       context: context,
+    //       keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+    //       keyDescriptions: state.keyDescriptions??[],
+    //       selectedKeyDescription: state.keyDescription,
+    //       parentStatus: widget.parentStatus,
+    //     );
+    //   });
+    //   return const NoRecordFoundWidget();
+    // }
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
@@ -181,7 +199,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
                       /// Get Key Description
                       bool isMasterKey =
-                          keyIssuanceProcessModel.kmId == 1 ? false : true;
+                          keyIssuanceProcessModel.kmId == 1 ? true : false;
                       Organisation selectedKeyDescription =
                           await KeyManagementIssuanceServices().getKeyDescById(
                               id: keyIssuanceProcessModel.kmId!,
@@ -190,7 +208,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
                               .getKeyDescriptions(
-                                  locationId: widget.locationId);
+                                  locationId: widget.locationId,isMasterKey: isMasterKey);
 
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 

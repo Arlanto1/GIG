@@ -10,6 +10,9 @@ EventProtectionGi _$EventProtectionGiFromJson(Map<String, dynamic> json) =>
     EventProtectionGi(
       id: json['id'] as int?,
       slNo: json['slNo'] as String?,
+      createdBy: json['createdBy'] == null
+          ? null
+          : User.fromJson(json['createdBy'] as Map<String, dynamic>),
       inputDate: json['inputDate'] as String?,
       location: json['location'] == null
           ? null
@@ -96,6 +99,7 @@ Map<String, dynamic> _$EventProtectionGiToJson(EventProtectionGi instance) =>
       'lock': instance.lock,
       'id': instance.id,
       'slNo': instance.slNo,
+      'createdBy': instance.createdBy,
       'inputDate': instance.inputDate,
       'location': instance.location,
       'locationRegion': instance.locationRegion,

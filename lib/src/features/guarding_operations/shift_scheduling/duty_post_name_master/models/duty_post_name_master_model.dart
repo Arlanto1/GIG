@@ -17,14 +17,15 @@ class DutyPostNameMasterResponse {
 
   DutyPostNameMasterResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                DutyPostNameMasterModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      ?.map((dynamic e) =>
+      DutyPostNameMasterModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'data': items?.map((e) => e.toJson()).toList(),
         'totalCount': totalCount,
         'currentPageNo': currentPageNo,
@@ -43,7 +44,7 @@ class DutyPostNameMasterModel extends BaseObject {
   String? modifiedDate;
   String? modifiedBy;
   int? status;
-  List<String>? locationNames;
+  List<DpName>? dpName;
 
   DutyPostNameMasterModel({
     this.id,
@@ -55,7 +56,7 @@ class DutyPostNameMasterModel extends BaseObject {
     this.modifiedDate,
     this.modifiedBy,
     this.status,
-    this.locationNames,
+    this.dpName
   });
 
   factory DutyPostNameMasterModel.fromJson(Map<String, dynamic> json) =>
@@ -65,7 +66,29 @@ class DutyPostNameMasterModel extends BaseObject {
   Map<String, dynamic> toJson() => _$DutyPostNameMasterModelToJson(this);
 }
 
+class DpName {
+  int? id;
+  String? dutyPostName;
+  bool? transportShift;
 
+  DpName({
+    this.id,
+    this.dutyPostName,
+    this.transportShift,
+  });
+
+  DpName.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        dutyPostName = json['dutyPostName'] as String?,
+        transportShift = json['transportShift'] as bool?;
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'dutyPostName': dutyPostName,
+        'transportShift': transportShift
+      };
+}
 
 
 

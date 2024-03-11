@@ -22,6 +22,7 @@ class _RatesInfoState extends State<RatesInfo> {
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
+  bool isReadonly = false;
 
   @override
   void initState() {
@@ -53,6 +54,8 @@ class _RatesInfoState extends State<RatesInfo> {
             showPopUp: false,
             showSaveButton: false,
             showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBody(context, state, height),
@@ -104,7 +107,8 @@ class _RatesInfoState extends State<RatesInfo> {
                               children: [
                                 CommonWidgets.verticalTextHandling(
                                     Constants.createdby,
-                                    '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                    isMandatory: true,
+                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
@@ -149,16 +153,25 @@ class _RatesInfoState extends State<RatesInfo> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         BaseEntitiesSelection().entityDropDownSelection(
-                            context: context,
-                            selectedValues: state.model.entities ?? [],
-                            all: state.listOfEntities ?? [],
-                            onTap: (List<Organisation> selectedEntities) {
-                              log('--selectedEntities----${selectedEntities.length}');
-                              BlocProvider.of<PayRateCubit>(context)
-                                  .updateDropdownValues(
-                                      entities: selectedEntities);
-                              Navigator.of(context).pop(); // Close the dialog
-                            }),
+                          enabled: false,
+                          context: context,
+                          selectedValues: state.model.entities ?? [],
+                          all: state.listOfEntities ?? [],
+                          onTap: (List<Organisation> selectedEntities) {
+                            log('--selectedEntities----${selectedEntities.length}');
+                            BlocProvider.of<PayRateCubit>(context)
+                                .updateDropdownValues(
+                                    entities: selectedEntities);
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          addTitle: 'Add Entity',
+                          orgName: 'ATOM_ENTITIES',
+                          functionToCall: () {
+                            // refresh the list
+                            BlocProvider.of<PayRateCubit>(context)
+                                .refreshList();
+                          },
+                        ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Vendor
@@ -172,25 +185,34 @@ class _RatesInfoState extends State<RatesInfo> {
                                 initialValue: state.model.vendor?.name,
                                 textFormKey: Keys.vendorDepartmentKey,
                                 hintText: '',
-                                isEnable: true,
-                                isDisableColor: false,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {},
                                 validateTextField: (String? user) {},
                               )
-                            : TextfieldAddButton(
+                            : TextFieldAddButton(
                                 title: state.model.vendor?.name,
                                 height: 60,
-                                isDisableColor: false,
+                                isDisableColor: true,
                                 onTap: () {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.departments,
-                                    onTap: (Organisation department) {
-                                      BlocProvider.of<PayRateCubit>(context)
-                                          .updateDropdownValues(
-                                              vendor: department);
-                                    },
-                                  );
+                                  if (isReadonly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                        context: context,
+                                        organisations: state.departments,
+                                        onTap: (Organisation department) {
+                                          BlocProvider.of<PayRateCubit>(context)
+                                              .updateDropdownValues(
+                                                  vendor: department);
+                                        },
+                                        orgName: 'ATOM_VENDORS',
+                                        createEntity: false,
+                                        title: 'Add Vendor',
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<PayRateCubit>(context)
+                                              .refreshList();
+                                        });
+                                  }
                                 },
                               ),
 
@@ -204,28 +226,28 @@ class _RatesInfoState extends State<RatesInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
-                        submitButtonDisplay(
-                          onTap: () {
-                            log('-onTapSubmit--${state.model.vendor?.name}----');
-                            FocusScope.of(context).unfocus();
-                            BlocProvider.of<PayRateCubit>(context).onSave(
-                              isSubmit: false,
-                            );
-
-                            // BlocProvider.of<PayRateCubit>(context)
-                            //     .onModelValueChange(state.);
-
-                            Navigator.pushReplacementNamed(
-                              context,
-                              payRateRoute,
-                              arguments: {
-                                "payRates": state.model.securityGuardRates,
-                                "gmRate": state.model,
-                                "title": Constants.createSecurityGuard,
-                              },
-                            );
-                          },
-                        ),
+                        // submitButtonDisplay(
+                        //   onTap: () {
+                        //     log('-onTapSubmit--${state.model.vendor?.name}----');
+                        //     FocusScope.of(context).unfocus();
+                        //     BlocProvider.of<PayRateCubit>(context).onSave(
+                        //       isSubmit: false,
+                        //     );
+                        //
+                        //     // BlocProvider.of<PayRateCubit>(context)
+                        //     //     .onModelValueChange(state.);
+                        //
+                        //     Navigator.pushReplacementNamed(
+                        //       context,
+                        //       payRateRoute,
+                        //       arguments: {
+                        //         "payRates": state.model.securityGuardRates,
+                        //         "gmRate": state.model,
+                        //         "title": Constants.createSecurityGuard,
+                        //       },
+                        //     );
+                        //   },
+                        // ),
                       ],
                     )
                   ]),
@@ -262,39 +284,41 @@ class _RatesInfoState extends State<RatesInfo> {
   Widget locationWidgetdislay(PayRateState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if (isReadonly) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              // print(state.getLocationsResponse);
+              return CustomExpansionListTexts(
+                locationList: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<PayRateCubit>(context)
-                    .updateDropdownValues(location: location);
+                  BlocProvider.of<PayRateCubit>(context)
+                      .updateDropdownValues(location: location);
 
-                // state.copyWith(
-                //   materialMovement: state.materialMovement,
-                // );
-                // log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
+                  // state.copyWith(
+                  //   materialMovement: state.materialMovement,
+                  // );
+                  // log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
 
-                // TODO: Need to check this setState
-                // May be calling SlNo. API and then setting the state
-                // setState(() {});
+                  // TODO: Need to check this setState
+                  // May be calling SlNo. API and then setting the state
+                  // setState(() {});
 
-                // await lawenforcementCubit.getSerialnumberDetails(
-                //     list?.id.toString() ?? '', 'AF');
-                // // locationselectedText = list?.name ?? '';
-                // // locationSelectedlist = list;
-                // lawenforcementCubit.getlocationsResponseData(list);
-              },
-            );
-          },
-        );
+                  // await lawenforcementCubit.getSerialnumberDetails(
+                  //     list?.id.toString() ?? '', 'AF');
+                  // // locationselectedText = list?.name ?? '';
+                  // // locationSelectedlist = list;
+                  // lawenforcementCubit.getlocationsResponseData(list);
+                },
+              );
+            },
+          );
+        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );

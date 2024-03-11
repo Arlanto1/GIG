@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
@@ -48,9 +50,7 @@ class BaseImageUpload {
                   });
             },
             icon: SvgPicture.asset(
-              //AppIcon.dropdownicon,
               AppIcon.uploadicon,
-              //fit: BoxFit.,
               colorFilter: const ColorFilter.mode(
                 AppColors.backgroundWhitecolor,
                 BlendMode.srcIn,
@@ -75,13 +75,12 @@ class BaseImageUpload {
     List<ImageContent>? attachments,
     required bool showDownloadIcon,
   }) {
-    // log('----attachments-----${attachments?.length}-----------');
     if (attachments != null) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
           _attachmentListviews(
-            attachmentListviews: files??attachments,
+            attachmentListviews: files ?? attachments,
             showDownloadIcon: showDownloadIcon,
           ),
         ],
@@ -98,7 +97,6 @@ class BaseImageUpload {
     List<ImageContent>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
-    log('--attachmentListviews--${attachmentListviews?.length}-----');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -115,29 +113,51 @@ class BaseImageUpload {
         itemCount: attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData = attachmentListviews?[index];
-
+          TextEditingController imageNameController = TextEditingController();
+          imageNameController.text =
+              imageData?.title ?? '';
           return Column(
             children: <Widget>[
               ListTile(
-                trailing: showDownloadIcon
-                    ? SvgPicture.asset(
-                        AppIcon.download,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.backgroundWhitecolor,
-                          BlendMode.srcIn,
-                        ),
-                      )
-                    : const SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-                onTap: () {
-                  DownloadImage()
-                      .saveImage(context, 1230, imageData?.title ?? '');
-                },
-                title: Text(imageData?.title ?? ''),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Add your download functionality here
+                        DownloadImage().saveImage(context, imageData?.id ?? 0,
+                            imageData?.title ?? '');
+                      },
+                      child: SvgPicture.asset(AppIcon.download,
+                          color: AppColors.boldgreyBackground),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        // Delete logic here
+                        if (imageData != null) {
+                          //setState(() {
+                          attachmentListviews!.removeAt(index);
+                          //});
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                title: FlutterInputField(
+                  controller: imageNameController,
+                  textFormKey: Keys.claimantEmpIdTextController,
+                  hintText: '',
+                  isEnable: true,
+                  isDisableColor: false,
+                  onChange: (String value) {
+                    imageData?.title = imageNameController.text;
+                  },
+                  validateTextField: (String? user) {},
+                ),
+                // title: Text(imageData?.title ?? ''),
               ),
-
               const Divider(
                 color: Color(0xFFCACACA),
                 thickness: 1,

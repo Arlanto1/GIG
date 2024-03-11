@@ -5,17 +5,18 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_issuance_process_record_event.dart';
-
 part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
   final int locationId;
   final int parentId;
+  final bool? isMasterKey;
 
   KeyIssuanceProcessRecordBloc({
     required this.locationId,
     required this.parentId,
+    this.isMasterKey,
   }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,
@@ -36,8 +37,9 @@ class KeyIssuanceProcessRecordBloc
     try {
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
+
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId);
+          .getKeyDescriptions(locationId: locationId,isMasterKey: isMasterKey!);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),

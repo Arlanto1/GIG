@@ -11,7 +11,7 @@ class GeneralInfoState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final List<Organisation> vendors;
-  final AddEntities? getEntitiesResponse;
+  final List<Organisation>? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
@@ -27,7 +27,7 @@ class GeneralInfoState extends Equatable {
     final List<BaseUser>? emailUsers,
     final List<BaseUser>? epOfficers,
     required final List<Organisation>? listOfEntities,
-    required final AddEntities? getEntitiesResponse,
+    required final List<Organisation>? getEntitiesResponse,
     required final List<Organisation> departments,
     required final List<Organisation> vendors,
     required String errorMessage,
@@ -108,12 +108,12 @@ class GeneralInfoState extends Equatable {
 
     if (model.bu1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 1');
+          status: false, message: 'Enter Event Business POC');
     }
 
     if (model.bu2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 2');
+          status: false, message: 'Enter Event Business POC Escalation');
     }
 
     if (model.requesterDepartment == null) {
@@ -158,7 +158,7 @@ class GeneralInfoState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,

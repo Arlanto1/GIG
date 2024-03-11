@@ -23,6 +23,7 @@ import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/get_articletype_model.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
@@ -70,6 +71,23 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        emailUsers: emailUsers.atomStaticUser,
+      ),
+    );
+  }
   Future<void> initializeValues() async {
     log('initializeValues---incidentGeneralCubit-occId---$occId--');
 
@@ -91,11 +109,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       model.inputDate = Utils().getCurrentDate();
 
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -134,7 +152,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
+          getEntitiesResponse: entities.atomEntities,
         ),
       );
     } catch (e) {
@@ -194,6 +212,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentManager != null) {
+      state.emailUsers?.remove(incidentManager);
       User userDetails = User(
         name: incidentManager.name,
         userId: incidentManager.id,
@@ -203,6 +222,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentOwner != null) {
+      state.emailUsers?.remove(incidentOwner);
       User userDetails = User(
         name: incidentOwner.name,
         userId: incidentOwner.id,

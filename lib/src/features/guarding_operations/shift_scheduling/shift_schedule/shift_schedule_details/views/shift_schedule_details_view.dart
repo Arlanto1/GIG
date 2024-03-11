@@ -4,11 +4,9 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
-  // final String title;
 
   const ShiftScheduleDetailsView({
     super.key,
-    // required this.title,
   });
 
   @override
@@ -107,6 +105,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
             showSubmitButton: state.model.status != 5 ? true : false,
+              showDisLikeButton: false,
+              showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ShiftScheduleDetailsCubit>(context)
@@ -193,21 +193,21 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
-                            items: statusDropDownValues,
-                            initialValue: '${state.model.status ?? 1}',
+                            items: shiftScheduleStatusDropDownValues,
+                            initialValue: '${state.model.status ?? 0}',
                             onTap: () {
                               if (state.model.id != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: statusDropDownValues
+                                  dropDownValues: shiftScheduleStatusDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        shiftScheduleStatusDropDownValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
@@ -230,7 +230,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -245,7 +245,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               .creationDateDisplay(state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Location
+                          /// Location
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.location ??
                               //  state.labels?.defaultLocale.location ??
@@ -283,7 +283,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
                             isDisableColor: false,
@@ -296,6 +296,16 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                           context)
                                       .updateDropdownValues(vendor: department);
                                 },
+                                  orgName: 'ATOM_VENDORS',
+                                  createEntity: false,
+                                  title: 'Add Vendors',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        ShiftScheduleDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  }
                               );
                             },
                           ),
@@ -408,7 +418,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -442,7 +452,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(ShiftScheduleDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -451,11 +461,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
   }
-
+  void updateRecordStatus(ShiftScheduleDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, shiftScheduleListRoute,);
+    } else {
+      Navigator.pop(context);
+    }
+  }
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

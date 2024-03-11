@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
-
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/vvip_visitor_response_model.dart';
@@ -12,12 +11,15 @@ part 'vvip_visitors_event.dart';
 
 part 'vvip_visitors_state.dart';
 
-class VVIPVisitorsBloc
-    extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
+class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
   VVIPVisitorsBloc() : super(const VVIPVisitorsState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
       _fetchVVIPVisitors,
+      transformer: droppable(),
+    );
+    on<RefreshList>(
+      _refreshList,
       transformer: droppable(),
     );
   }
@@ -25,34 +27,137 @@ class VVIPVisitorsBloc
   final VVIPVisitorServices services = VVIPVisitorServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<VVIPVisitorsState> emit) async {
-    log('_initializeValues');
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<VVIPVisitorsState> emit) async {
     try {
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+      VVIPVisitorResponseModel response;
+
+      response = await services.getGVVIP(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        filters: BaseFilterModel(),
+      );
 
       return emit(
         state.copyWith(
-          labels: labels,
+          items: response.items,
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
-    }
-    on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<VVIPVisitorsState> emit) async {
+    try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.vipVisitorsDetailsModule);
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
+
+      Locations locations =
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.vipVisitorsDetailsModule);
+      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
+          hasReachedMax: false,
+          status: FormStatus.initial,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  //
+  // FutureOr<void> _fetchVVIPVisitors(
+  //     FetchData event, Emitter<VVIPVisitorsState> emit) async {
+  //   try {
+  //     if (state.hasReachedMax) return;
+  //
+  //     if (state.status == FormStatus.initial) {
+  //       VVIPVisitorResponseModel response = await services.getGVVIP(
+  //         startPosition: '${event.startPos}',
+  //         maximumRecords: '${event.maxPos}',
+  //         filters: event.filters
+  //       );
+  //
+  //       return emit(
+  //         state.copyWith(
+  //           items: response.items,
+  //           hasReachedMax: false,
+  //           status: FormStatus.success,
+  //         ),
+  //       );
+  //     }
+  //
+  //     VVIPVisitorResponseModel response = await services.getGVVIP(
+  //       startPosition: '${event.startPos}',
+  //       maximumRecords: '${event.maxPos}',
+  //         filters: event.filters
+  //     );
+  //
+  //     if (response.items?.isEmpty == true) {
+  //       return emit(state.copyWith(hasReachedMax: true));
+  //     }
+  //     return emit(
+  //       state.copyWith(
+  //         items: List.of(state.items)..addAll(response.items ?? []),
+  //         hasReachedMax: false,
+  //       ),
+  //     );
+  //   } on TokenExpiredException catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.sessionExpired,
+  //       ),
+  //     );
+  //     return;
+  //   } catch (e) {
+  //     return emit(state.copyWith(status: FormStatus.failure));
+  //   }
+  // }
+
   FutureOr<void> _fetchVVIPVisitors(
       FetchData event, Emitter<VVIPVisitorsState> emit) async {
-    try {
-      if (state.hasReachedMax) return;
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
 
-      if (state.status == FormStatus.initial) {
-        VVIPVisitorResponseModel response = await services.getGVVIP(
+    try {
+      // if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial || event.newSearch) {
+        VVIPVisitorResponseModel response;
+        // response = await services.getMaterialMovements(
+        //   startPosition: '${event.startPos}',
+        //   maximumRecords: '${event.maxPos}',
+        //   mmType: isInward ? 1 : 0,
+        // );
+
+        response = await services.getGVVIP(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
+          filters: event.filters,
         );
 
         return emit(
@@ -64,9 +169,12 @@ class VVIPVisitorsBloc
         );
       }
 
-      VVIPVisitorResponseModel response = await services.getGVVIP(
+      log('-_fetchMaterialMovements------##--');
+      VVIPVisitorResponseModel response;
+      response = await services.getGVVIP(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
@@ -76,6 +184,7 @@ class VVIPVisitorsBloc
         state.copyWith(
           items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
     } on TokenExpiredException catch (e) {

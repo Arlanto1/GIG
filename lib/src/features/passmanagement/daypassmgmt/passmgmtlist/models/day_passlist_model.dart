@@ -13,7 +13,7 @@ String dayPassListResponseToJson(DayPassListResponse data) =>
     json.encode(data.toJson());
 
 class DayPassListResponse {
-  List<DayPassListElement>? items;
+  List<PassManagementModel>? items;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
@@ -29,24 +29,24 @@ class DayPassListResponse {
       DayPassListResponse(
         items: json["list"] == null
             ? []
-            : List<DayPassListElement>.from(
-            json["list"]!.map((x) => DayPassListElement.fromJson(x))),
+            : List<PassManagementModel>.from(
+                json["list"]!.map((x) => PassManagementModel.fromJson(x))),
         totalCount: json["totalCount"],
         currentPageNo: json["currentPageNo"],
         totalPageCount: json["totalPageCount"],
       );
 
   Map<String, dynamic> toJson() => {
-    "list": items == null
-        ? []
-        : List<dynamic>.from(items!.map((x) => x.toJson())),
-    "totalCount": totalCount,
-    "currentPageNo": currentPageNo,
-    "totalPageCount": totalPageCount,
-  };
+        "list": items == null
+            ? []
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
+        "totalCount": totalCount,
+        "currentPageNo": currentPageNo,
+        "totalPageCount": totalPageCount,
+      };
 }
 
-class DayPassListElement {
+class PassManagementModel {
   int? id;
   String? slNo;
   String? inputDate;
@@ -54,6 +54,7 @@ class DayPassListElement {
   Organisation? vendorPassReason;
   Organisation? locationRegion;
   List<Organisation>? entities;
+  int? updatedStatus;
   int? status;
   String? modifiedDate;
   String? modifiedBy;
@@ -76,6 +77,7 @@ class DayPassListElement {
   String? endTime;
   String? returnedTime;
   List<ImageContent>? evidenceDocuments;
+  ImageContent? visitorImage;
   String? contactNo;
   bool? escortedByHost;
   String? escortedBy;
@@ -94,7 +96,7 @@ class DayPassListElement {
   String? passIssuedOn;
   User? employee;
 
-  DayPassListElement({
+  PassManagementModel({
     this.id,
     this.slNo,
     this.inputDate,
@@ -115,6 +117,7 @@ class DayPassListElement {
     this.employeeId,
     this.email,
     this.host,
+    this.updatedStatus,
     this.hostEmployeeId,
     this.department,
     this.dayPassReason,
@@ -141,10 +144,11 @@ class DayPassListElement {
     this.mifareNo,
     this.passIssuedOn,
     this.employee,
+    this.visitorImage,
   });
 
-  factory DayPassListElement.fromJson(Map<String, dynamic> json) =>
-      DayPassListElement(
+  factory PassManagementModel.fromJson(Map<String, dynamic> json) =>
+      PassManagementModel(
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
@@ -160,14 +164,15 @@ class DayPassListElement {
         entities: json["entities"] == null
             ? []
             : List<Organisation>.from(
-            json["entities"]!.map((x) => Organisation.fromJson(x))),
+                json["entities"]!.map((x) => Organisation.fromJson(x))),
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
+        updatedStatus: json["updatedStatus"],
         history: json["history"] == null
             ? []
             : List<History>.from(
-            json["history"]!.map((x) => History.fromJson(x))),
+                json["history"]!.map((x) => History.fromJson(x))),
         entrySecurity: json["entrySecurity"] == null
             ? null
             : User.fromJson(json["entrySecurity"]),
@@ -199,8 +204,11 @@ class DayPassListElement {
         returnedTime: json["returnedTime"],
         evidenceDocuments: json["evidenceDocuments"] == null
             ? []
-            : List<ImageContent>.from(
-            json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
+            : List<ImageContent>.from(json["evidenceDocuments"]!
+                .map((x) => ImageContent.fromJson(x))),
+        visitorImage: json["visitorImage"] == null
+            ? null
+            : ImageContent.fromJson(json["visitorImage"]),
         contactNo: json["contactNo"],
         escortedByHost: json["escortedByHost"],
         escortedBy: json["escortedBy"],
@@ -218,69 +226,71 @@ class DayPassListElement {
         mifareNo: json["mifareNo"],
         passIssuedOn: json["passIssuedOn"],
         employee:
-        json["employee"] == null ? null : User.fromJson(json["employee"]),
+            json["employee"] == null ? null : User.fromJson(json["employee"]),
       );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "slNo": slNo,
-    "inputDate": inputDate,
-    "location": location?.toJson(),
-    "locationRegion": locationRegion?.toJson(),
-    "vendorPassReason": vendorPassReason?.toJson(),
-    "entities": entities == null
-        ? []
-        : List<dynamic>.from(entities!.map((x) => x.toJson())),
-    "status": status,
-    "modifiedDate": modifiedDate,
-    "modifiedBy": modifiedBy,
-    "history": history == null
-        ? []
-        : List<dynamic>.from(history!.map((x) => x.toJson())),
-    "entrySecurity": entrySecurity?.toJson(),
-    "handoverSecurity": handoverSecurity?.toJson(),
-    "passType": passType,
-    "companyType": companyType?.toJson(),
-    "companyName": companyName,
-    "employeeName": employeeName,
-    "employeeId": employeeId,
-    "email": email,
-    "host": host?.toJson(),
-    "hostEmployeeId": hostEmployeeId,
-    "department": department?.toJson(),
-    "dayPassReason": dayPassReason?.toJson(),
-    "exceptionalApproval": exceptionalApproval,
-    "passInfo": passInfo?.toJson(),
-    "startTime": startTime,
-    "endTime": endTime,
-    "returnedTime": returnedTime,
-    "evidenceDocuments": evidenceDocuments == null
-        ? []
-        : List<dynamic>.from(evidenceDocuments!.map((x) => x)),
-    "contactNo": contactNo,
-    "escortedByHost": escortedByHost,
-    "escortedBy": escortedBy,
-    "escortedEmployeeId": escortedEmployeeId,
-    "visitorComingFrom": visitorComingFrom,
-    "idValidated": idValidated,
-    "idValidationType": idValidationType,
-    "visitingPurpose": visitingPurpose,
-    "category": category,
-    "hostName": hostName,
-    "passNo": passNo,
-    "entrySecurityName": entrySecurityName,
-    "escortedByName": escortedByName,
-    "handOverSecurityName": handOverSecurityName,
-    "mifareNo": mifareNo,
-    "passIssuedOn": passIssuedOn,
-    "employee": employee?.toJson(),
-  };
+        "id": id,
+        "slNo": slNo,
+        "inputDate": inputDate,
+        "location": location?.toJson(),
+        "locationRegion": locationRegion?.toJson(),
+        "updatedStatus": updatedStatus,
+        "vendorPassReason": vendorPassReason?.toJson(),
+        "entities": entities == null
+            ? []
+            : List<dynamic>.from(entities!.map((x) => x.toJson())),
+        "status": status,
+        "modifiedDate": modifiedDate,
+        "modifiedBy": modifiedBy,
+        "history": history == null
+            ? []
+            : List<dynamic>.from(history!.map((x) => x.toJson())),
+        "entrySecurity": entrySecurity?.toJson(),
+        "handoverSecurity": handoverSecurity?.toJson(),
+        "passType": passType,
+        "companyType": companyType?.toJson(),
+        "companyName": companyName,
+        "employeeName": employeeName,
+        "employeeId": employeeId,
+        "email": email,
+        "host": host?.toJson(),
+        "hostEmployeeId": hostEmployeeId,
+        "department": department?.toJson(),
+        "dayPassReason": dayPassReason?.toJson(),
+        "exceptionalApproval": exceptionalApproval,
+        "passInfo": passInfo?.toJson(),
+        "startTime": startTime,
+        "endTime": endTime,
+        "returnedTime": returnedTime,
+        "evidenceDocuments": evidenceDocuments == null
+            ? []
+            : List<dynamic>.from(evidenceDocuments!.map((x) => x)),
+        "visitorImage": visitorImage?.toJson(),
+        "contactNo": contactNo,
+        "escortedByHost": escortedByHost,
+        "escortedBy": escortedBy,
+        "escortedEmployeeId": escortedEmployeeId,
+        "visitorComingFrom": visitorComingFrom,
+        "idValidated": idValidated,
+        "idValidationType": idValidationType,
+        "visitingPurpose": visitingPurpose,
+        "category": category,
+        "hostName": hostName,
+        "passNo": passNo,
+        "entrySecurityName": entrySecurityName,
+        "escortedByName": escortedByName,
+        "handOverSecurityName": handOverSecurityName,
+        "mifareNo": mifareNo,
+        "passIssuedOn": passIssuedOn,
+        "employee": employee?.toJson(),
+      };
 }
 
 enum Area { CATEGORY, SOURCE_SYSTEM }
 
 final areaValues =
-EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
+    EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
 
 enum DisplayName {
   T1_ADMIN_CATEGORY_DB_ATOM,
@@ -303,13 +313,13 @@ final displayNameValues = EnumValues({
   "T1_Admin Source System Default": DisplayName.T1_ADMIN_SOURCE_SYSTEM_DEFAULT,
   "T1_Analyst Category DB_ATOM": DisplayName.T1_ANALYST_CATEGORY_DB_ATOM,
   "T1_Analyst Source System DB_ATOM":
-  DisplayName.T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
+      DisplayName.T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
   "T1_Manager Category DB_ATOM": DisplayName.T1_MANAGER_CATEGORY_DB_ATOM,
   "T1_Manager Source System DB_ATOM":
-  DisplayName.T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
+      DisplayName.T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
   "T1_Performer Category DB_ATOM": DisplayName.T1_PERFORMER_CATEGORY_DB_ATOM,
   "T1_Performer Source System DB_ATOM":
-  DisplayName.T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
+      DisplayName.T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
   "T1_User Category DB_ATOM": DisplayName.T1_USER_CATEGORY_DB_ATOM,
   "T1_User Source System DB_ATOM": DisplayName.T1_USER_SOURCE_SYSTEM_DB_ATOM,
   "T1_User Source System Default": DisplayName.T1_USER_SOURCE_SYSTEM_DEFAULT
@@ -318,7 +328,7 @@ final displayNameValues = EnumValues({
 enum Filter { DB_ATOM, DEFAULT }
 
 final filterValues =
-EnumValues({"DB_ATOM": Filter.DB_ATOM, "Default": Filter.DEFAULT});
+    EnumValues({"DB_ATOM": Filter.DB_ATOM, "Default": Filter.DEFAULT});
 
 enum Application { DB_ATOM, TRACKING1 }
 
@@ -375,36 +385,36 @@ class PassInfo {
   });
 
   factory PassInfo.fromJson(Map<String, dynamic> json) => PassInfo(
-    id: json["id"],
-    passType: json["passType"],
-    passNo: json["passNo"],
-    mifareNo: json["mifareNo"],
-    expiryDate: json["expiryDate"],
-    location: json["location"] == null
-        ? null
-        : Organisation.fromJson(json["location"]),
-    region: json["region"] == null
-        ? null
-        : Organisation.fromJson(json["region"]),
-    entity: json["entity"] == null
-        ? null
-        : Organisation.fromJson(json["entity"]),
-    dws: json["dws"],
-    status: json["status"],
-  );
+        id: json["id"],
+        passType: json["passType"],
+        passNo: json["passNo"],
+        mifareNo: json["mifareNo"],
+        expiryDate: json["expiryDate"],
+        location: json["location"] == null
+            ? null
+            : Organisation.fromJson(json["location"]),
+        region: json["region"] == null
+            ? null
+            : Organisation.fromJson(json["region"]),
+        entity: json["entity"] == null
+            ? null
+            : Organisation.fromJson(json["entity"]),
+        dws: json["dws"],
+        status: json["status"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "passType": passType,
-    "passNo": passNo,
-    "mifareNo": mifareNo,
-    "expiryDate": expiryDate,
-    "location": location?.toJson(),
-    "region": region?.toJson(),
-    "entity": entity?.toJson(),
-    "dws": dws,
-    "status": status,
-  };
+        "id": id,
+        "passType": passType,
+        "passNo": passNo,
+        "mifareNo": mifareNo,
+        "expiryDate": expiryDate,
+        "location": location?.toJson(),
+        "region": region?.toJson(),
+        "entity": entity?.toJson(),
+        "dws": dws,
+        "status": status,
+      };
 }
 
 class EnumValues<T> {

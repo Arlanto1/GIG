@@ -1,16 +1,10 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_type_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'key_management_master_details_state.dart';
 
@@ -38,16 +32,27 @@ class KeyManagementMasterDetailsCubit
               getQualificationsResponse: null),
         );
 
-  void onModelValueChange(KeyManagementMasterModel model) {
-    log('-onModelValueChange---');
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
-  void onCheckBoxChange(KeyManagementMasterModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+      ),
+    );
   }
 
   Future<void> initializeValues() async {
@@ -61,10 +66,10 @@ class KeyManagementMasterDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
@@ -79,7 +84,7 @@ class KeyManagementMasterDetailsCubit
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
-      AddEntities entities = futures[3];
+      List<Organisation>? entities = futures[3];
       List<User> createdBy = futures[4];
       GetDepositor emailUsers = futures[6];
       KeyType departments = futures[7];
@@ -93,8 +98,7 @@ class KeyManagementMasterDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
-
+      state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
 
@@ -109,7 +113,7 @@ class KeyManagementMasterDetailsCubit
           users: users.t1Analyst,
           //createdBy: createdBy,
           emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
+          listOfEntities: entities,
           getEntitiesResponse: entities,
           departments: departments.items,
           labels: labels,
@@ -125,6 +129,18 @@ class KeyManagementMasterDetailsCubit
         ),
       );
     }
+  }
+
+  void onModelValueChange(KeyManagementMasterModel model) {
+    log('-onModelValueChange---');
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  void onCheckBoxChange(KeyManagementMasterModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   Future<void> updateDropdownValues({
@@ -248,5 +264,9 @@ class KeyManagementMasterDetailsCubit
       ),
     );
     return true;
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyManagementMasterModule);
   }
 }

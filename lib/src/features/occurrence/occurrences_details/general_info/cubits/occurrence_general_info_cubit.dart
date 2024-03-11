@@ -1,30 +1,10 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../../createfound/models/serial_number_model.dart';
 
 part 'occurrence_general_info_state.dart';
 
@@ -32,11 +12,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   final OccurrenceDetailsServices services;
   final String id;
   final CommonServices commonServices;
+  final OccurrenceModel? model;
 
   OccurrenceGeneralInfoCubit({
     required this.services,
     required this.commonServices,
     required this.id,
+    this.model,
   }) : super(
           OccurrenceGeneralInfoState.initial(
             model: OccurrenceModel(),
@@ -54,14 +36,51 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         );
 
   void onModelValueChange(OccurrenceModel occurrence) {
-    log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
+  }
+
+  Future<void> isFormReadable() async {
+
+    emit(state.copyWith( status: FormStatus.loading));
+    if (state.model.status != ConstantsIntValue.submitted) {
+      emit(state.copyWith(
+        status: FormStatus.initial,
+      ));
+      return;
+    }
+    bool isReadOnly;
+    if (state.model.handoverSecurity!.userName
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
   }
 
   void onCheckBoxChange(OccurrenceModel occurrence) {
     emit(state.copyWith(model: occurrence, status: FormStatus.loading));
 
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
+  }
+
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+      ),
+    );
   }
 
   Future<void> initializeValues() async {
@@ -79,10 +98,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         model = await OccurrenceDetailsServices().getOccurrence(id);
       }
 
-      log('-model----${model.shiftBrfngAttnded}---');
+      log('--model.status--11111-${model.status}-');
 
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
@@ -101,7 +120,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
-      if (state.model.location == null) {
+      if (model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
@@ -110,12 +129,36 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           );
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
+
+          PowerFailureModel powerFailureModel =
+              await services.getOccPowerFailure(
+                  locationId: model.location?.id.toString() ?? '');
+
+          log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
+          if (powerFailureModel.powerFailureStartDate != null) {
+            PowerFailure powerFailure = PowerFailure();
+            powerFailure.powerFailureStartDate =
+                Utils.timestamptoDateConversion(
+                    int.tryParse(powerFailureModel.powerFailureStartDate),
+                    Constants.fulldateFormat);
+
+            if(model.powerFailures.isEmptyOrNull) {
+              model.powerFailures = [];
+            }
+
+            model.powerFailures?.add(powerFailure);
+            log('--model.powerFailures--${model.powerFailures?.length}-');
+
+          }
         }
       }
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-      state.model.status ?? 0;
+      model.status ?? 0;
+
+      log('--model.status---${model.status}-');
+
       emit(
         state.copyWith(
           model: model,
@@ -130,6 +173,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           getEntitiesResponse: entities,
         ),
       );
+      isFormReadable();
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
       emit(
@@ -396,5 +440,18 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       ),
     );
     return true;
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.occurrenceModule);
+  }
+
+  void deletePowerFailure(PowerFailure powerFailure) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    state.model.powerFailures?.remove(powerFailure);
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 }

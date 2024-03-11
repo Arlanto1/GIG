@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
 
 import '../models/guarding_master_report_model.dart';
 
@@ -13,11 +14,13 @@ class GuardingMasterReportServices {
   Future<GuardingMasterReportModel> getGuardingMasterReport({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getGuardingMasterReport}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
-    final response = await BaseApiService().getRequest(
+        '${Apis._getGuardingMasterReport}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return GuardingMasterReportModel.fromJson(response);

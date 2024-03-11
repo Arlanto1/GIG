@@ -33,6 +33,7 @@ class DutyPostMasterResponse {
 @JsonSerializable()
 class DutyPostMasterModel extends BaseObject {
   int? id;
+  int? status;
   Organisation? location;
   Organisation? region;
   Organisation? dutyPostLocation;
@@ -49,6 +50,7 @@ class DutyPostMasterModel extends BaseObject {
 
   DutyPostMasterModel({
     this.id,
+    this.status,
     this.location,
     this.region,
     this.dutyPostLocation,
@@ -66,6 +68,7 @@ class DutyPostMasterModel extends BaseObject {
 
   DutyPostMasterModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
+        status = json['status'] as int?,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
@@ -93,6 +96,7 @@ class DutyPostMasterModel extends BaseObject {
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
+        'status': status,
         'location': location?.toJson(),
         'region': region?.toJson(),
         'dutyPostLocation': dutyPostLocation?.toJson(),

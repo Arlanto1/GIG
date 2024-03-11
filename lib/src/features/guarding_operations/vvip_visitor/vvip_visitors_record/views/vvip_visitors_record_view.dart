@@ -9,13 +9,13 @@ import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../models/vvip_visitor_record_model.dart';
+import '../../models/vvip_visitor_response_model.dart';
 import '../../services/vvip_visitor_services.dart';
 import '../bloc/vvip_visitors_record_bloc.dart';
 import 'add_vvip_visitors_record_popup.dart';
@@ -26,11 +26,13 @@ class VVIPVisitorsRecordView extends StatefulWidget {
     required this.id,
     required this.title,
     this.model,
+    this.vvipModel,
   });
 
   final int id;
   final String title;
   final VIVPVisitorRecordModel? model;
+  final VIVPVisitorModel? vvipModel;
 
   @override
   State<VVIPVisitorsRecordView> createState() => _VVIPVisitorsRecordView();
@@ -69,30 +71,42 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     }
   }
 
+  bool isPopUpShown = false;
+  bool isReadOnly = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
         listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
+
+
+      if (widget.vvipModel?.status == 1 ) {
+        isReadOnly = true;
+      }
+
+
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton:widget.vvipModel?.status ==0 ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
-            showAddVVIPVisitorsPopUp(
-              context: context,
-              contact: VIVPVisitorRecordModel(),
-            );
+              showAddVVIPVisitorsPopUp(
+                context: context,
+                contact: VIVPVisitorRecordModel(),
+              );
           },
-        ),
+        ):null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.vvipVisitors,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
+          showDisLikeButton: false,
+          showLikeButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),
@@ -107,7 +121,15 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items!.isEmptyOrNull) {
+
+    if (state.items!.isEmptyOrNull&& !isPopUpShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isPopUpShown = true;
+        showAddVVIPVisitorsPopUp(
+          context: context,
+          contact: VIVPVisitorRecordModel(),
+        );
+      });
       return const NoRecordFoundWidget();
     }
     return Container(
@@ -124,24 +146,24 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Violation',
-            //     value: state.items![index].violation?.name ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'Visitor Name',
+                value: state.items![index].name ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Visitor Email Id',
+                value: state.items![index].email ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Purpose of Visit',
+                value: state.items![index].purpose ?? '',
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
@@ -179,12 +201,12 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-                    onDeleteTap: (selectedIndex) async {
+                    onDeleteTap:widget.vvipModel?.status == 0 ? (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
                           DeleteRecord(state.items![selectedIndex].id!.toInt(),
                               widget.id));
-                    },
+                    } : null,
                     index: index,
                   );
           }

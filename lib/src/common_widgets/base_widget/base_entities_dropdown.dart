@@ -1,11 +1,9 @@
-
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../create_fields.dart';
 import '../textfiled_addbutton.dart';
+import 'base_add_organisation_dialog.dart';
 import 'multiple_selection_pop_up.dart';
 
 class BaseEntitiesSelection {
@@ -15,6 +13,12 @@ class BaseEntitiesSelection {
     required List<Organisation> all,
     required dynamic Function(List<Organisation>) onTap,
     bool enabled = true,
+
+    // Add Organisation Fields
+    String? addTitle,
+    String? orgName = 'ATOM_ENTITIES', // TODO: Need to make it required and non nullable
+    bool? createEntity,
+    Function? functionToCall,
   }) {
     String title = '';
     if (selectedValues.isNotEmpty) {
@@ -25,7 +29,7 @@ class BaseEntitiesSelection {
       }
     }
 
-    return TextfieldAddButton(
+    return TextFieldAddButton(
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
@@ -40,6 +44,12 @@ class BaseEntitiesSelection {
             all: all,
             selectedValues: selectedValues,
             onTap: onTap,
+
+            // Add Organisation Fields
+            title: addTitle?? 'Add Entity',
+            orgName: orgName ?? '',
+            createEntity: createEntity,
+            functionToCall: functionToCall ?? () {},
           );
         }
       },
@@ -51,6 +61,10 @@ class BaseEntitiesSelection {
     required List<Organisation> all,
     required List<Organisation> selectedValues,
     required dynamic Function(List<Organisation>) onTap,
+    required String title,
+    String? orgName, // TODO: Need to make it required and non nullable
+    bool? createEntity,
+    Function? functionToCall,
   }) {
     showDialog(
       context: context,
@@ -61,10 +75,11 @@ class BaseEntitiesSelection {
             showDialog(
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return AddNewFields(
-                    title: Constants.addentitytype,
-                    // TODO: Need to make it functional
-                    // createpassmgmtstate: state,
+                  return BaseAddOrganisationDialog(
+                    title: title,
+                    orgName: orgName ?? '',
+                    createEntity: createEntity,
+                    functionToCall: functionToCall ?? () {},
                   );
                 });
           },

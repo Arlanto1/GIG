@@ -1,15 +1,18 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
   final bool viaOccurrence;
+  final SstIncident? model;
 
   const SstIncidentGeneralInfoView({
     super.key,
     required this.isInternal,
     required this.viaOccurrence,
+    this.model,
   });
 
   @override
@@ -26,8 +29,15 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController assetTypeController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   TextEditingController systemController = TextEditingController();
+  TextEditingController vendorPocController = TextEditingController();
+  TextEditingController escalation1PocController = TextEditingController();
+  TextEditingController escalation2PocController = TextEditingController();
+  TextEditingController escalation3PocController = TextEditingController();
   bool isDisabled = true;
   bool disableForm = false;
+  List<ImageContent>? uploadFiles;
+  final FocusNode vendorPocFocusNode = FocusNode();
+  final FocusNode descriptionFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -53,6 +63,11 @@ class _SstIncidentGeneralInfoViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                sstIncidentListRoute,
+                arguments: {"isInternal": widget.isInternal},
+              );
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
@@ -64,11 +79,6 @@ class _SstIncidentGeneralInfoViewState
                 );
                 return;
               }
-              Navigator.popAndPushNamed(
-                context,
-                sstIncidentListRoute,
-                arguments: {"isInternal": widget.isInternal},
-              );
             },
           );
           showDialog(
@@ -89,8 +99,13 @@ class _SstIncidentGeneralInfoViewState
         }
       },
       builder: (context, state) {
-        state.model.status ??= 0;
-        if (state.model.id != null && state.model.status! > 0) {
+        vendorPocController.text = state.model.vendorPoc ?? '';
+        escalation1PocController.text = state.model.escalation1Poc ?? '';
+        escalation2PocController.text = state.model.escalation2Poc ?? '';
+        escalation3PocController.text = state.model.escalation3Poc ?? '';
+
+        state.model.status ??= 1;
+        if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
@@ -103,6 +118,8 @@ class _SstIncidentGeneralInfoViewState
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
@@ -124,6 +141,11 @@ class _SstIncidentGeneralInfoViewState
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
+    }
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      uploadFiles = state.uploadAttachments ?? [];
     }
 
     return Container(
@@ -170,7 +192,7 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.horizentaltextHandling(
                                 Constants.createdby,
                                 isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -179,40 +201,52 @@ class _SstIncidentGeneralInfoViewState
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            // FlutterInputField(
+                            //   isEnable: true,
+                            //   isDisableColor: true,
+                            //   textFormKey: Keys.statusTextController,
+                            //   hintText: '',
+                            //   initialValue:
+                            //       getStatusString(state.model.status ?? 1),
+                            //   onChange: (String value) {},
+                            //   validateTextField: (String? user) {},
+                            // ),
                             BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 0,
+                              isDisabled: true,
                               textController: statusController,
                               items: sstIncidentsStatusItems,
-                              initialValue: '${state.model.status ?? 0}',
+                              initialValue: '${state.model.status ?? -1}',
                               onTap: () {
-                                BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: statusDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        statusDropDownValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value));
-                                  },
-                                );
+                                if (!isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: sstIncidentsStatusItems
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          sstIncidentsStatusItems.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                Constants.dateofcreation,
+                                Constants.createDate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -230,7 +264,7 @@ class _SstIncidentGeneralInfoViewState
                                 selectedLocation:
                                     state.model.location?.name ?? '',
                                 enabled: state.model.id == null ||
-                                    (state.model.location?.name ?? '').isEmpty,
+                                    state.model.status == 1,
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
                                   log('location?.name-----${location?.name}');
@@ -294,24 +328,36 @@ class _SstIncidentGeneralInfoViewState
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.vendor?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  //enabled: !disableForm,
-                                  organisations: state.vendors,
-                                  onTap: (Organisation user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      vendor: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    //enabled: !disableForm,
+                                    organisations: state.vendors,
+                                    onTap: (Organisation user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        vendor: user,
+                                      );
+                                      FocusScope.of(context).requestFocus(
+                                          vendorPocFocusNode);
+
+                                    },
+                                    orgName: 'ATOM_VENDORS',
+                                    createEntity: false,
+                                    title: 'Add Vendor',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -324,11 +370,14 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.vendorPoc,
+                              controller: vendorPocController,
+                              // initialValue: state.model.vendorPoc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              focusNode: vendorPocFocusNode,
+                              textCapitalization: false,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.vendorPoc = value;
                                 context
@@ -336,62 +385,6 @@ class _SstIncidentGeneralInfoViewState
                                     .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// System Manager
-                            CommonWidgets.textDisplay(
-                              Constants.systemManager,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.systemManager?.name,
-                              height: 70,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      systemManager: user,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Security Lead
-                            CommonWidgets.textDisplay(
-                              Constants.securityLead,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.asl?.name,
-                              height: 70,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      asl: user,
-                                    );
-                                  },
-                                );
-                              },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -403,11 +396,13 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation1Poc,
+                              controller: escalation1PocController,
+                              // initialValue: state.model.escalation1Poc,
                               textFormKey: Keys.claimantTextController,
+                              textCapitalization: false,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation1Poc = value;
                                 context
@@ -426,11 +421,13 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation2Poc,
+                              controller: escalation2PocController,
+                              // initialValue: state.model.escalation2Poc,
                               textFormKey: Keys.claimantTextController,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              textCapitalization: false,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation2Poc = value;
                                 context
@@ -449,11 +446,13 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              initialValue: state.model.escalation3Poc,
+                              controller: escalation3PocController,
+                              // initialValue: state.model.escalation3Poc,
                               textFormKey: Keys.claimantTextController,
+                              textCapitalization: false,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.escalation3Poc = value;
                                 context
@@ -464,30 +463,146 @@ class _SstIncidentGeneralInfoViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// System Manager
+                            CommonWidgets.textDisplay(
+                              Constants.systemManager,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextFieldAddButton(
+                              title: state.model.systemManager?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.systemManagers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        systemManager: user,
+                                      );
+                                    },
+                                    roleName: 'ATOM_Security_System_Manager',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Security Manager
+                            CommonWidgets.textDisplay(
+                              Constants.securityManager,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextFieldAddButton(
+                              title: state.model.lsm?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.securityManagers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        lsm: user,
+                                      );
+                                    },
+                                    roleName:
+                                        'ATOM_Security_Manager;ATOM_Senior_Security_Manager',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Security Lead
+                            CommonWidgets.textDisplay(
+                              Constants.securityLead,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextFieldAddButton(
+                              title: state.model.asl?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.securityLeads!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        asl: user,
+                                      );
+                                    },
+                                    roleName:
+                                        'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Location Team
                             CommonWidgets.textDisplay(
                               Constants.locationTeam,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
-                            TextfieldAddButton(
+                            TextFieldAddButton(
                               title: state.model.lt?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SstIncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      lt: user,
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.locationTeamUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        lt: user,
+                                      );
+                                      FocusScope.of(context).requestFocus(
+                                          descriptionFocusNode);
+                                    },
+                                    roleName: 'ATOM_Security_Team',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  SstIncidentGeneralInfoCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -504,8 +619,9 @@ class _SstIncidentGeneralInfoViewState
                               initialValue: state.model.shortDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              focusNode: descriptionFocusNode,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.shortDescription = value;
                                 context
@@ -528,8 +644,8 @@ class _SstIncidentGeneralInfoViewState
                               showBorder: true,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isEnable: state.model.status != 2,
+                              isDisableColor: state.model.status == 2,
                               onChange: (String value) {
                                 state.model.detailDescription = value;
                                 context
@@ -547,7 +663,11 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
-                              selectedValue: state.model.ipbArea ? 1 : 0,
+                              selectedValue: state.model.ipbArea == null
+                                  ? null
+                                  : state.model.ipbArea == true
+                                      ? 1
+                                      : 0,
                               onChangedYes: disableForm
                                   ? null
                                   : (val) {
@@ -557,7 +677,7 @@ class _SstIncidentGeneralInfoViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: state.model.status == 39
+                              onChangedNo: disableForm
                                   ? null
                                   : (val) {
                                       state.model.ipbArea = false;
@@ -568,6 +688,44 @@ class _SstIncidentGeneralInfoViewState
                                     },
                             ),
 
+                            ///Attachments
+                            CommonWidgets.textDisplay(
+                                Constants.attachments, Styles.textStyleBlack14),
+                            widget.model == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                : Container(),
+                            if (state.model.status == 1 ||
+                                state.model.status == null) ...[
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                loggedInUserDetails:
+                                    state.loggedInUserDetails ?? User(),
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                      in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<SstIncidentGeneralInfoCubit>(
+                                          context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
+                            ],
+                            // Attachments
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.uploadAttachments,
+                              files: uploadFiles,
+                              showDownloadIcon:
+                                  widget.model != null ? true : false,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
                         ),
@@ -577,7 +735,7 @@ class _SstIncidentGeneralInfoViewState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(),
+                          cancelButtonDisplay(state),
                           if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
@@ -598,7 +756,44 @@ class _SstIncidentGeneralInfoViewState
     );
   }
 
-  Widget cancelButtonDisplay() {
+  String getStatusString(int status) {
+    switch (status) {
+      case 1:
+        return 'Create';
+      case 2:
+        return 'Submit';
+      case 3:
+        return 'Acknowledge';
+      case 4:
+        return 'Hold';
+      case 5:
+        return 'Rework';
+      case 6:
+        return 'Review';
+      case 7:
+        return 'Solve Propose';
+      case 8:
+        return 'Quotes Reject';
+      case 9:
+        return 'Quotes Approve';
+      case 10:
+        return 'Po Raised';
+      case 11:
+        return 'Work Complete';
+      case 12:
+        return 'Invoice Request';
+      case 13:
+        return 'Invoice Submit';
+      case 14:
+        return 'Closed';
+      case -1:
+        return 'Cancelled';
+      default:
+        return '';
+    }
+  }
+
+  Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -607,9 +802,19 @@ class _SstIncidentGeneralInfoViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(SstIncidentGeneralInfoState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, sstIncidentListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay(

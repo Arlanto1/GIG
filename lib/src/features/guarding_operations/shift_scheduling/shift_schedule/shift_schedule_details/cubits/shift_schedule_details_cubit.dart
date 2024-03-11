@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -41,8 +40,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   Future<void> getDutyPostById(int id) async {
     log('-getGuardsByAssignedId---');
     emit(state.copyWith(status: FormStatus.loading));
-    DutyPostModel dutyPostModel =
-        await services.getDutyPostById(id: id);
+    DutyPostModel dutyPostModel = await services.getDutyPostById(id: id);
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
         seletedDutyPostModel: dutyPostModel,
@@ -51,6 +49,18 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        vendors: vendors.items,
+      ),
+    );
   }
 
   Future<void> initializeValues() async {
@@ -69,7 +79,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
@@ -93,7 +103,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
+
+      log('--model.location--${model.location?.id}--');
+      if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.shiftScheduleModule,
@@ -101,7 +113,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
-      model.entrySecurity = loggedInUserDetails;
+      model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       model.inputDate = _getCurrentDate();
 
@@ -153,13 +165,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     );
     ////Get Sl No from API
     if (location != null) {
+      log('--location--${location.name}--');
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.shiftScheduleModule,
       );
 
-      // state.model.location = location;
+      state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      state.model.location = location;
 
       // TODO: uncomment
       if (state.model.vendor != null) {
@@ -170,6 +184,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(
+          model: state.model,
           dutyPosts: dutyPosts,
           status: FormStatus.initial,
         ));
@@ -391,5 +406,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         status: FormStatus.success,
       ),
     );
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.shiftScheduleModule);
   }
 }

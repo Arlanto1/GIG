@@ -58,7 +58,7 @@ class _KeyHistoryRecordsDetailsViewState
             onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
-              // Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                   arguments: {
                     ConstantsArgument.id: widget.parentId,
@@ -98,6 +98,8 @@ class _KeyHistoryRecordsDetailsViewState
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
             showSubmitButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
@@ -173,21 +175,21 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         BaseDropDown().getDropDown(
-                          isDisabled: state.model.status != 6,
+                          isDisabled: true,
                           textController: statusController,
-                          items: keyManagementStatus,
+                          items: keyManagementHistoryStatus,
                           initialValue: '${state.model.status ?? 0}',
                           onTap: () {
-                            if (widget.model != null) {
+                            if (state.model.status == null) {
                               BaseDropDown().assetTypeDialog(
                                 context: context,
-                                dropDownValues: statusDropDownValues
+                                dropDownValues: keyManagementHistoryStatus
                                     .map((label) => label.key)
                                     .toList(),
                                 onTap: (String value) {
                                   Label? selectedLabel;
                                   selectedLabel =
-                                      statusDropDownValues.firstWhere(
+                                      keyManagementHistoryStatus.firstWhere(
                                     (label) => label.key == value,
                                     orElse: () =>
                                         const Label(key: '', value: ''),
@@ -211,7 +213,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
                             isMandatory: true,
-                            '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                            '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Date of creation
@@ -245,33 +247,33 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: false,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              //  if (isDisabled) {
-                              BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: keyTypeDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        keyTypeDropDownValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            keyType: int.tryParse(
-                                                selectedLabel.value));
-                                  });
-                              //}
+                             // if (!isDisabled) {
+                                BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: keyTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          keyTypeDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              keyType: int.tryParse(
+                                                  selectedLabel.value));
+                                    });
+                             // }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -284,12 +286,17 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: typeController,
                             items: typesDropDownValues,
-                            initialValue: state.model.type.toString(),
+                            initialValue:
+                            '${widget.type== ConstantsIntValue.lockChangeHistoryInt ? state.model.type??0
+                                :widget.type== ConstantsIntValue.keyLostHistoryInt ? state.model.type??1
+                                : widget.type== ConstantsIntValue.keyDamageHistoryInt ? state.model.type??2
+                                :widget.type== ConstantsIntValue.keyDestroyHistoryInt? state.model.type??3
+                                :state.model.type.toString()}',
                             onTap: () {
-                              //  if (isDisabled) {
+                                if (isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: typesDropDownValues
@@ -310,12 +317,14 @@ class _KeyHistoryRecordsDetailsViewState
                                             type: int.tryParse(
                                                 selectedLabel.value));
                                   });
-                              //}
+                              }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           /// SRH
                           CommonWidgets.textDisplay(
                               //state.labels?.locale.approver ??
@@ -323,7 +332,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Constants.srh,
                               Styles.textStyleBlack14,
                               isMandatory: true),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.srh?.name,
                             height: 60,
                             isDisableColor: isReadOnly,
@@ -346,7 +355,8 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.keyDestroyHistoryInt) ...[
+                        if (widget.type ==
+                            ConstantsIntValue.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
                             //state.labels?.locale.approver ??
@@ -355,7 +365,7 @@ class _KeyHistoryRecordsDetailsViewState
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.securityManager?.name,
                             height: 60,
                             isDisableColor: isReadOnly,
@@ -385,7 +395,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
                             isDisableColor: false,
@@ -408,8 +418,10 @@ class _KeyHistoryRecordsDetailsViewState
                         ],
 
                         /// Details of Lost Keys
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.additionalinformation ??
                               //     state.labels?.defaultLocale
@@ -437,7 +449,8 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type == Constants.lockChangeHistoryInt) ...[
+                        if (widget.type ==
+                            ConstantsIntValue.lockChangeHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
                               //  state.labels?.locale.guardingPOC ??
@@ -447,7 +460,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            keyboardType: TextInputType.number,
+                            textInputType: TextInputType.number,
                             initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
@@ -492,8 +505,10 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Investigation Required
-                        if (widget.type == Constants.keyLostHistoryInt ||
-                            widget.type == Constants.keyDamageHistoryInt) ...[
+                        if (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.deploymentOrderSubmitted ??
                               //   state.labels?.defaultLocale
@@ -592,7 +607,7 @@ class _KeyHistoryRecordsDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+        BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
     );

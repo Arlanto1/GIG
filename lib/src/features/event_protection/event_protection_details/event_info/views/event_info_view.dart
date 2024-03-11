@@ -31,9 +31,11 @@ class EventInfoView extends StatefulWidget {
   const EventInfoView({
     super.key,
     required this.title,
+    required this.editForm,
   });
 
   final String title;
+  final bool editForm;
 
   @override
   State<EventInfoView> createState() => _EventInfoViewState();
@@ -58,11 +60,13 @@ class _EventInfoViewState extends State<EventInfoView> {
   }
 
   bool hasFocus = false;
+  bool showSaveButtons = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
+
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
@@ -78,7 +82,7 @@ class _EventInfoViewState extends State<EventInfoView> {
           Navigator.pop(context);
           Navigator.pushNamed(
             context,
-            createfoundScreenRoute,
+            createFoundScreenRoute,
             arguments: {'eventId': state.model.id},
           );
         }
@@ -92,13 +96,24 @@ class _EventInfoViewState extends State<EventInfoView> {
       builder: (context, state) {
         dateController.text = Utils.timestamptoDateConversion(
             int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
+
+        if (state.model.status != 4 && widget.editForm) {
+          showSaveButtons == true;
+        }
+
+        // if(widget.editForm){
+        //   showSaveButtons == true;
+        // }
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 ? true : false,
-            showSubmitButton: state.model.status != 4 ? true : false,
+            showSaveButton: showSaveButtons,
+            showSubmitButton: showSaveButtons,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<EventInfoCubit>(context)
@@ -146,286 +161,312 @@ class _EventInfoViewState extends State<EventInfoView> {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: state.model.status == 30
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(
-                        children: [
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          if (state.eventDuration != 1) ...[
-                            CommonWidgets.textDisplay(
-                              state.eventDuration == 0
-                                  ? Constants.eventStartedAt
-                                  : Constants.eventConcludedAt,
-                              Styles.textStyleBlack14,
-                            ),
-                            BaseDate().datePickerWidgetLoading(
-                              context: context,
-                              textController: dateController,
-                              isDisabled: false,
-                              onlyDate: true,
-                              onChange: (String value) {
-                                dateController.text = value;
-                                state.model.date = value;
-                                BlocProvider.of<EventInfoCubit>(context)
-                                    .onModelValueChange(state.model);
-                              },
-                            ),
+              child: AbsorbPointer(
+                absorbing: !widget.editForm,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: state.model.status == 30
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Column(
+                          children: [
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
-                          CommonWidgets.textDisplay(Constants.additionalEmails,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          GestureDetector(
-                            onTap: () {
-                              addEmail();
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                // Expanded(
-                                //child:
-                                const SizedBox(width: 14),
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  //color: AppColors.navigationSkybluecolor,
-                                ),
-                                // ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  Constants.additionalEmails,
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
+
+                            if (state.eventDuration != 1) ...[
+                              CommonWidgets.textDisplay(
+                                state.eventDuration == 0
+                                    ? Constants.eventStartedAt
+                                    : Constants.eventConcludedAt,
+                                Styles.textStyleBlack14,
+                              ),
+                              BaseDate().datePickerWidgetLoading(
+                                context: context,
+                                textController: dateController,
+                                isDisabled: false,
+                                onlyDate: true,
+                                onChange: (String value) {
+                                  dateController.text = value;
+                                  state.model.date = value;
+                                  BlocProvider.of<EventInfoCubit>(context)
+                                      .onModelValueChange(state.model);
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+                            CommonWidgets.textDisplay(
+                                Constants.additionalEmails,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            GestureDetector(
+                              onTap: () {
+                                addEmail();
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  // Expanded(
+                                  //child:
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    //color: AppColors.navigationSkybluecolor,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          getEmail(state.additionalEmails ?? []),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          Container(
-                            height: 700,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              border: Border.all(
-                                color: Colors.grey, // Border color
-                                width: .7, // Bor
-                                // der width
+                                  // ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    Constants.additionalEmails,
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child:
-
-                                // Column(
-                                //   children: [
-                                //     EditorHtml(
-                                //       mainContext: context,
-                                //       text: state.model.email ?? '',
-                                //       eventInfoState: state,
-                                //     ),
-                                //   ],
-                                // ),
-
-                                Column(
-                              children: [
-                                ToolBar(
-                                  toolBarColor: toolbarColor,
-                                  padding: const EdgeInsets.all(8),
-                                  iconSize: 25,
-                                  iconColor: toolbarIconColor,
-                                  activeIconColor: Colors.greenAccent.shade400,
-                                  controller: controller,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  direction: Axis.horizontal,
-                                  // customButtons: [
-                                  //   Container(
-                                  //     width: 25,
-                                  //     height: 25,
-                                  //     decoration: BoxDecoration(
-                                  //         color: _hasFocus ? Colors.green : Colors.grey,
-                                  //         borderRadius: BorderRadius.circular(15)),
-                                  //   ),
-                                  //   InkWell(
-                                  //       onTap: () => unFocusEditor(),
-                                  //       child: const Icon(
-                                  //         Icons.favorite,
-                                  //         color: Colors.black,
-                                  //       )),
-                                  //   InkWell(
-                                  //       onTap: () async {
-                                  //         var selectedText = await controller.getSelectedText();
-                                  //         debugPrint('selectedText $selectedText');
-                                  //         var selectedHtmlText = await controller.getSelectedHtmlText();
-                                  //         debugPrint('selectedHtmlText $selectedHtmlText');
-                                  //       },
-                                  //       child: const Icon(
-                                  //         Icons.add_circle,
-                                  //         color: Colors.black,
-                                  //       )),
-                                  // ],
+                            getEmail(state.additionalEmails ?? []),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            Container(
+                              height: 700,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(
+                                  color: Colors.grey, // Border color
+                                  width: .7, // Bor
+                                  // der width
                                 ),
-                                SizedBox(
-                                  height: 450,
-                                  width: double.infinity,
-                                  child: QuillHtmlEditor(
-                                    // text: widget.text,
-                                    hintText: 'Hint text goes here',
+                              ),
+                              child:
+
+                                  // Column(
+                                  //   children: [
+                                  //     EditorHtml(
+                                  //       mainContext: context,
+                                  //       text: state.model.email ?? '',
+                                  //       eventInfoState: state,
+                                  //     ),
+                                  //   ],
+                                  // ),
+
+                                  Column(
+                                children: [
+                                  ToolBar(
+                                    toolBarColor: toolbarColor,
+                                    padding: const EdgeInsets.all(8),
+                                    iconSize: 25,
+                                    iconColor: toolbarIconColor,
+                                    activeIconColor:
+                                        Colors.greenAccent.shade400,
                                     controller: controller,
-                                    isEnabled: true,
-                                    ensureVisible: false,
-                                    minHeight: 500,
-                                    autoFocus: true,
-                                    textStyle: editorTextStyle,
-                                    hintTextStyle: hintTextStyle,
-                                    hintTextAlign: TextAlign.start,
-                                    padding: const EdgeInsets.only(
-                                        left: 10, top: 10),
-                                    hintTextPadding:
-                                        const EdgeInsets.only(left: 20),
-                                    backgroundColor: backgroundColor,
-                                    inputAction: InputAction.newline,
-                                    onEditingComplete: (s) async {
-                                      debugPrint('Editing completed $s');
-                                      var cubit =
-                                          BlocProvider.of<EventInfoCubit>(
-                                              context);
-                                      state.model.email = await getHtmlText();
-                                      cubit.onModelValueChange(state.model);
-                                    },
-                                    loadingBuilder: (context) {
-                                      return const Center(
-                                          child: CircularProgressIndicator(
-                                        strokeWidth: 1,
-                                        color: Colors.red,
-                                      ));
-                                    },
-                                    onFocusChanged: (focus) {
-                                      debugPrint(
-                                          'has focus-----SSSS---- $focus');
-
-                                      // setState(() {
-                                      //   hasFocus = focus;
-                                      // });
-                                    },
-                                    onTextChanged: (text) =>
-                                        debugPrint('widget text change $text'),
-                                    onEditorCreated: () {
-                                      debugPrint(
-                                          'Editor has been loaded--------');
-                                      // setHtmlText(widget.text);
-                                      controller
-                                          .setText(state.model.email ?? '');
-                                    },
-                                    onEditorResized: (height) => debugPrint(
-                                        'Editor resized----------- $height'),
-                                    onSelectionChanged: (sel) => debugPrint(
-                                        'index---- ${sel.index}, range ${sel.length}'),
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    direction: Axis.horizontal,
+                                    // customButtons: [
+                                    //   Container(
+                                    //     width: 25,
+                                    //     height: 25,
+                                    //     decoration: BoxDecoration(
+                                    //         color: _hasFocus ? Colors.green : Colors.grey,
+                                    //         borderRadius: BorderRadius.circular(15)),
+                                    //   ),
+                                    //   InkWell(
+                                    //       onTap: () => unFocusEditor(),
+                                    //       child: const Icon(
+                                    //         Icons.favorite,
+                                    //         color: Colors.black,
+                                    //       )),
+                                    //   InkWell(
+                                    //       onTap: () async {
+                                    //         var selectedText = await controller.getSelectedText();
+                                    //         debugPrint('selectedText $selectedText');
+                                    //         var selectedHtmlText = await controller.getSelectedHtmlText();
+                                    //         debugPrint('selectedHtmlText $selectedHtmlText');
+                                    //       },
+                                    //       child: const Icon(
+                                    //         Icons.add_circle,
+                                    //         color: Colors.black,
+                                    //       )),
+                                    // ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          if (state.eventDuration == 2) ...[
-                            Center(
-                              child: submitButtonDisplay(
-                                  label: 'Articles Found',
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ArticleDialog(
-                                          articles: state.foundArticles ?? [],
-                                          showLeftButton:
-                                              (state.model.status ?? 0) > 22
-                                                  ? false
-                                                  : true,
-                                          leftButtonTap: () {
-                                            // TODO: Call Save API
+                                  SizedBox(
+                                    height: 450,
+                                    width: double.infinity,
+                                    child: QuillHtmlEditor(
+                                      // text: widget.text,
+                                      hintText: 'Hint text goes here',
+                                      controller: controller,
+                                      isEnabled: true,
+                                      ensureVisible: false,
+                                      minHeight: 500,
+                                      autoFocus: true,
+                                      textStyle: editorTextStyle,
+                                      hintTextStyle: hintTextStyle,
+                                      hintTextAlign: TextAlign.start,
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 10),
+                                      hintTextPadding:
+                                          const EdgeInsets.only(left: 20),
+                                      backgroundColor: backgroundColor,
+                                      inputAction: InputAction.newline,
+                                      onEditingComplete: (s) async {
+                                        debugPrint('Editing completed $s');
+                                        var cubit =
                                             BlocProvider.of<EventInfoCubit>(
-                                                    this.context)
-                                                .submitForm(
-                                                    isSaveOnly: true,
-                                                    addArticleFound: true);
-                                          },
-                                        );
+                                                context);
+                                        state.model.email = await getHtmlText();
+                                        cubit.onModelValueChange(state.model);
                                       },
-                                    );
-                                  }),
+                                      loadingBuilder: (context) {
+                                        return const Center(
+                                            child: CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          color: Colors.red,
+                                        ));
+                                      },
+                                      onFocusChanged: (focus) {
+                                        debugPrint(
+                                            'has focus-----SSSS---- $focus');
+
+                                        // setState(() {
+                                        //   hasFocus = focus;
+                                        // });
+                                      },
+                                      onTextChanged: (text) => debugPrint(
+                                          'widget text change $text'),
+                                      onEditorCreated: () {
+                                        debugPrint(
+                                            'Editor has been loaded--------');
+                                        // setHtmlText(widget.text);
+                                        controller
+                                            .setText(state.model.email ?? '');
+                                      },
+                                      onEditorResized: (height) => debugPrint(
+                                          'Editor resized----------- $height'),
+                                      onSelectionChanged: (sel) => debugPrint(
+                                          'index---- ${sel.index}, range ${sel.length}'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            if (state.eventDuration == 2) ...[
+                              Center(
+                                child: submitButtonDisplay(
+                                    label: 'Articles Found',
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ArticleDialog(
+                                            articles: state.foundArticles ?? [],
+                                            showLeftButton:
+                                                (state.model.status ?? 0) > 22
+                                                    ? false
+                                                    : true,
+                                            leftButtonTap: () {
+                                              // TODO: Call Save API
+                                              BlocProvider.of<EventInfoCubit>(
+                                                      this.context)
+                                                  .submitForm(
+                                                      isSaveOnly: true,
+                                                      addArticleFound: true);
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }),
+                              ),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// upload Photo
+                            CommonWidgets.textDisplay(
+                                Constants.uploadPhoto, Styles.textStyleBlack14),
+                            state.model.image == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                : Container(),
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                                  state.loggedInUserDetails ?? User(),
+                              getFiles: guardFiles,
+                              onImageSelected: (ImageContent data) {
+                                log('-------function---onImageSelected---------');
+                                List<ImageContent>? files = [];
+                                files.add(data);
+                                for (ImageContent image in guardFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<EventInfoCubit>(context)
+                                    .addAttachment(guardImages: files);
+                              },
+                            ),
+                            // Attachments
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.guardAttachments,
+                              files: guardFiles,
+                              showDownloadIcon:
+                                  state.model.image != null ? true : false,
                             ),
                           ],
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// upload Photo
-                          CommonWidgets.textDisplay(
-                              Constants.uploadPhoto, Styles.textStyleBlack14),
-                          state.model.image == null
-                              ? CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001)
-                              : Container(),
-                          BaseImageUpload().uploadWidget(
-                            context: context,
-                            loggedInUserDetails:
-                                state.loggedInUserDetails ?? User(),
-                            getFiles: guardFiles,
-                            onImageSelected: (ImageContent data) {
-                              log('-------function---onImageSelected---------');
-                              List<ImageContent>? files = [];
-                              files.add(data);
-                              for (ImageContent image in guardFiles ?? []) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<EventInfoCubit>(context)
-                                  .addAttachment(guardImages: files);
-                            },
-                          ),
-                          // Attachments
-                          BaseImageUpload().getAttachment(
-                            height: height,
-                            attachments: state.guardAttachments,
-                            files: guardFiles,
-                            showDownloadIcon:
-                                state.model.image != null ? true : false,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
 
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                    /// SubmitButton
-                    if (state.model.status != 4) ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          cancelButtonDisplay(),
-                          submitButtonDisplay(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              BlocProvider.of<EventInfoCubit>(context)
-                                  .submitForm(isSaveOnly: true);
-                            },
-                          ),
-                        ],
-                      ),
+                      /// SubmitButton
+                      if (showSaveButtons) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            submitButtonDisplay(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<EventInfoCubit>(context)
+                                    .submitForm(isSaveOnly: true);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                  ),
                 ),
               ),
             ),
+            if (!showSaveButtons) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    cancelButtonDisplay(),
+                  ],
+                ),
+              ),
+            ],
+            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
           ],
         ),
       ),
@@ -461,7 +502,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
-                              textFieldController: addEmailController,
+                              controller: addEmailController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
                               isEnable: true,

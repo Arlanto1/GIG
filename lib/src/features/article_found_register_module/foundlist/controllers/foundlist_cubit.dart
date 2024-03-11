@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:flutter/scheduler.dart';
 
 class FoundListCubit extends Cubit<FoundListState> {
   final FoundListServices foundListServices;
@@ -29,8 +27,8 @@ class FoundListCubit extends Cubit<FoundListState> {
           await foundListServices.getFoundArticleList(
               startPosition: startPosition,
               maximumRecords: maximumRecords,
-              userId: userId,
-              context: context);
+            filters: BaseFilterModel(),
+          );
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         // if (startPosition != '0')
@@ -39,7 +37,7 @@ class FoundListCubit extends Cubit<FoundListState> {
         // }
       });
 
-      if (foundListModelResponse.list.isEmptyOrNull) {
+      if (foundListModelResponse.items.isEmptyOrNull) {
         if (int.tryParse(startPosition)! > 0) {
           return;
         }
@@ -61,6 +59,27 @@ class FoundListCubit extends Cubit<FoundListState> {
           ),
         );
       }
+    }
+  }
+
+  Future<void>refreshList(String startPosition, String maximumRecords,
+      ) async {
+    try {
+      FoundListModel foundListModelResponse =
+      await foundListServices.getFoundArticleList(
+          startPosition: startPosition,
+          maximumRecords: maximumRecords,
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          foundListModel: foundListModelResponse,
+          stateType: FoundListStateType.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(stateType: FoundListStateType.failure));
     }
   }
 }

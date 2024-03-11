@@ -10,9 +10,18 @@ abstract class KeyManagementMasterListEvent extends Equatable {
 class FetchKeyMasterList extends KeyManagementMasterListEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const FetchKeyMasterList({required this.startPos, required this.maxPos});
+  const FetchKeyMasterList({required this.startPos, required this.maxPos,
+    required this.newSearch,
+    required this.filters});
 }
+
 class InitializeValues extends KeyManagementMasterListEvent {
   const InitializeValues();
- }
+}
+
+class RefreshList extends KeyManagementMasterListEvent {
+  const RefreshList();
+}

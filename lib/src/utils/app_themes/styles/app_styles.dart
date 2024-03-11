@@ -43,6 +43,13 @@ class Styles {
     color: AppColors.textgreyThemecolor,
   );
 
+  static const TextStyle textStyleRegularGrey13 = TextStyle(
+    fontSize: 13,
+    fontFamily: Constants.customFontRegularFamily,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textgreyThemecolor,
+  );
+
   static const TextStyle textStyleRegularGrey16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontRegularFamily,

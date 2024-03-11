@@ -1,13 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../models/contacts_list_response_model.dart';
 import '../../models/requestModels/contacts_request.dart';
@@ -18,9 +12,10 @@ part 'contact_record_state.dart';
 
 class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
   final String rankType;
+  List<Organisation> ranks;
 
-  ContactRecordBloc({required this.rankType})
-      : super(const ContactRecordState(ranks: [])) {
+  ContactRecordBloc({required this.rankType, required this.ranks})
+      : super(ContactRecordState(ranks: ranks)) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -29,6 +24,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
   }
+
   final ContactDetailsServices services = ContactDetailsServices();
   final CommonServices commonServices = CommonServices();
 
@@ -48,7 +44,6 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 
   FutureOr<void> _fetchContacts(
       FetchData event, Emitter<ContactRecordState> emit) async {
@@ -86,6 +81,28 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
+  }
+
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation> departments = await commonServices.getOrganisations(
+        name: rankType == Constants.contactGeneralRank
+            ? 'CONTACT_GENERAL_RANK'
+            : rankType == Constants.contactGuardingAgencyEscalationRank
+                ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                : rankType == Constants.contactSystemEscalationRank
+                    ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                    : rankType == Constants.contactSupervisorRank
+                        ? 'CONTACT_SUPERVISOR_RANK'
+                        : rankType == Constants.contactZone
+                            ? 'CONTACT_ZONE'
+                            : '');
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        ranks: departments,
+      ),
+    );
   }
 
   FutureOr<void> _deleteRecord(

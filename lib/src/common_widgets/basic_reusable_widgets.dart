@@ -208,15 +208,29 @@ class CommonWidgets {
     );
   }
 
-  static Widget verticalTextHandling(String title, String desc) {
+  static Widget verticalTextHandling(
+    String title,
+    String desc, {
+    bool? isMandatory = false,
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           alignment: Alignment.topLeft,
-          child: Text(
-            title,
-            style: Styles.textStyleBlack14,
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: Styles.textStyleBlack14,
+              ),
+              if (isMandatory ?? false) ...[
+                const Text(
+                  ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ],
           ),
         ),
         const SizedBox(

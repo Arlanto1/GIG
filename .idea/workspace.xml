@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: attendance duty posts">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="tile expand issue fixed">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,13 +30,14 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="duty-post-name-master" />
+        <entry key="$PROJECT_DIR$" value="ep-tiles" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">
@@ -57,6 +61,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2TPqGFbLKqVcsfg0sCQZ4U2TK6s" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -68,40 +75,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
-    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
-    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "shift-schedule",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/guarding_operations/shift_scheduling",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pathVariables",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
+    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/lawenforcement/views&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;consents&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/lawenforcement/views" />
+      <recent name="$PROJECT_DIR$/lib/src/features/passmanagement" />
+      <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance" />
-      <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models" />
-      <recent name="$PROJECT_DIR$/lib/src/utils" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notificaitons/views" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -132,6 +139,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.test.dart" />
+        <item itemvalue="Flutter.test.dart" />
+        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
     </recent_temporary>
@@ -488,7 +498,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <option name="localTasksCounter" value="266" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -512,7 +522,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/charts" />
+                        <option value="origin/shift-schedule" />
                       </list>
                     </value>
                   </entry>
@@ -525,32 +535,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: Key Management Issuance" />
-    <MESSAGE value="WIP: Notification Attachments" />
-    <MESSAGE value="DONE: Notification Link" />
-    <MESSAGE value="DONE: key history type" />
-    <MESSAGE value="refresh notification count" />
-    <MESSAGE value="git ignore updated" />
-    <MESSAGE value="device token pass" />
-    <MESSAGE value="g files" />
-    <MESSAGE value="minor issue fixed" />
-    <MESSAGE value="created drawer for shift scheduling" />
-    <MESSAGE value="WIP: listing page" />
-    <MESSAGE value="WIP: Details GI" />
-    <MESSAGE value="WIP: shift schedule Details duty posts" />
-    <MESSAGE value="WIP: create GI API implemented" />
-    <MESSAGE value="WIP: create Duty API implemented" />
-    <MESSAGE value="WIP: shift schedule" />
-    <MESSAGE value="Duty post master list page fixed according to API changes" />
-    <MESSAGE value="Duty post master detail page issue fixed" />
-    <MESSAGE value="minor fixes" />
-    <MESSAGE value="improvement as per API changes" />
+    <MESSAGE value="day pass issue fixed company name editable" />
+    <MESSAGE value="issue fixed" />
+    <MESSAGE value="status issue fixed" />
+    <MESSAGE value="focus handled for company type and name field" />
+    <MESSAGE value="common filters improved" />
+    <MESSAGE value="cancel record issue fixed." />
     <MESSAGE value="mm issue fixed" />
-    <MESSAGE value="attendance_view loader issue fixed" />
-    <MESSAGE value="WIP: attendance detail page" />
-    <MESSAGE value="WIP: attendance report and billing" />
-    <MESSAGE value="WIP: attendance duty posts" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: attendance duty posts" />
+    <MESSAGE value="password input" />
+    <MESSAGE value="mm loading issue" />
+    <MESSAGE value="focus handled for MM" />
+    <MESSAGE value="minor" />
+    <MESSAGE value="article found list bloc" />
+    <MESSAGE value="pass management list bloc" />
+    <MESSAGE value="annual power shutdown issue fixed" />
+    <MESSAGE value="list cache issue" />
+    <MESSAGE value="validation for pass management handled from backend only" />
+    <MESSAGE value="article found listing page" />
+    <MESSAGE value="pass management blank screen on back button fixed" />
+    <MESSAGE value="code improved" />
+    <MESSAGE value="visiting official APIs implemented" />
+    <MESSAGE value="pass mgmt" />
+    <MESSAGE value="WIP: show grids" />
+    <MESSAGE value=" show grids" />
+    <MESSAGE value="updated model .g class" />
+    <MESSAGE value="tile expand issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="tile expand issue fixed" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

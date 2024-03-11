@@ -1,16 +1,11 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_details_state.dart';
 
@@ -41,6 +36,28 @@ class GuardingMasterDataDetailsCubit
               getQualificationsResponse: null),
         );
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors getVendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: getVendors.items,
+      ),
+    );
+  }
+
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -52,18 +69,18 @@ class GuardingMasterDataDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onAddParticipationDate(String participationDate) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    List<String>? dates = state.participationDates ?? [];
-    dates.add(participationDate);
-
-    state.copyWith(
-      participationDates: dates,
-    );
-
-    state.model.csrParticipationDates = Utils().joinListWithComma(dates);
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
+  // void onAddParticipationDate(String participationDate) {
+  //   emit(state.copyWith(model: model, status: FormStatus.loading));
+  //   List<String>? dates = state.participationDates ?? [];
+  //   dates.add(participationDate);
+  //
+  //   state.copyWith(
+  //     participationDates: dates,
+  //   );
+  //
+  //   state.model.csrParticipations = Utils().joinListWithComma(dates);
+  //   emit(state.copyWith(model: model, status: FormStatus.initial));
+  // }
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -83,10 +100,10 @@ class GuardingMasterDataDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
@@ -101,7 +118,7 @@ class GuardingMasterDataDetailsCubit
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
-      AddEntities entities = futures[3];
+      List<Organisation>? entities = futures[3];
       List<User> entrySecurities = futures[4];
       AddQualifications qualifications = futures[5];
       GetDepositor emailUsers = futures[6];
@@ -117,16 +134,12 @@ class GuardingMasterDataDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
-      dynamic participationDates = Utils()
-          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      log('-state.model.id---${state.model.id}---');
-      log('-state.model.bopData---${state.model.bioData}---');
-      log('--guardImages---${state.model.photoGraph}----');
+      // dynamic participationDates = Utils()
+      //     .splitStringAfterComma(state.model.csrParticipations ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -140,11 +153,11 @@ class GuardingMasterDataDetailsCubit
           vendors: vendors.items,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
+          listOfEntities: entities,
           getEntitiesResponse: entities,
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,
-          participationDates: participationDates,
+          // participationDates: participationDates,
           localAddressAttachments: state.model.localAddressProof != null
               ? [state.model.localAddressProof ?? ImageContent()]
               : null,
@@ -269,7 +282,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && deploymentFiles != null) {
       for (var image in data) {
@@ -284,7 +297,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && bioDataFiles != null) {
       for (var image in data) {
         image.type = 6;
@@ -298,7 +311,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && permanentAddressFiles != null) {
       for (var image in data) {
         image.type = 7;
@@ -312,7 +325,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && localAddressFiles != null) {
       for (var image in data) {
         image.type = 5;
@@ -326,7 +339,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && pVCFiles != null) {
       for (var image in data) {
@@ -341,7 +354,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     if (data != null && trainingFiles != null) {
       for (var image in data) {
@@ -357,7 +370,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && mSGBExemptionFiles != null) {
       for (var image in data) {
         image.type = 1;
@@ -370,7 +383,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
     if (data != null && medicalFiles != null) {
       for (var image in data) {
         image.type = 4;
@@ -394,7 +407,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
         ),
       );
-        }
+    }
 
     log('--state.status--3--${state.status}----');
   }
@@ -417,12 +430,12 @@ class GuardingMasterDataDetailsCubit
     if (trainingCertificateProvided != null) {
       state.model.trainingCertificateProvided = trainingCertificateProvided;
     }
-    if (csrParticipation != null) {
-      state.model.csrParticipation = csrParticipation;
-    }
-    if (specialAchievement != null) {
-      state.model.specialAchievement = specialAchievement;
-    }
+    // if (csrParticipation != null) {
+    //   state.model.csrParticipation = csrParticipation;
+    // }
+    // if (specialAchievement != null) {
+    //   state.model.specialAchievement = specialAchievement;
+    // }
     if (msgbExempted != null) {
       state.model.msgbExempted = msgbExempted;
     }
@@ -501,5 +514,49 @@ class GuardingMasterDataDetailsCubit
         status: FormStatus.success,
       ),
     );
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.guardingMasterDataModule);
+  }
+
+  Future<void> getGmPhysicallyFit(
+    PhysicallyFitModel physicallyFitModel,
+  ) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    PhysicallyFitRequestModel request = PhysicallyFitRequestModel();
+    request.gmPhysicallyFit = physicallyFitModel;
+    PhysicallyFitModel physicallyFit = PhysicallyFitModel();
+
+    try {
+      physicallyFit = await services.getGmPhysicallyFit(body: request);
+      state.model.physicallyFit = physicallyFit.physicallyFit ?? false;
+      emit(state.copyWith(
+        model: state.model,
+        status: FormStatus.initial,
+      ));
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -115,10 +116,12 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                 ? true
                 : false,
             showSubmitButton: state.model.status != 6 &&
-                // state.model.status != 1 &&
-                !isReadOnly
+                    // state.model.status != 1 &&
+                    !isReadOnly
                 ? true
                 : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);
@@ -203,11 +206,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
-                            CommonWidgets.verticalTextHandling(
+                            CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                    Constants.createdby,isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -267,6 +270,28 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            if(state.model.status!=null)...[
+                            /// Modified Date
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.date ??
+                              //     state.labels?.defaultLocale.date ??
+                                  Constants.modifiedDate,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.modifiedDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                      Constants.modifiedBy,isMandatory: true,
+                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ],
                             /// General Contact
                             Container(
                               alignment: Alignment.topLeft,
@@ -295,6 +320,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactGeneralRank);
 
                                 nav.pushNamed(
                                   contactRecordsRoute,
@@ -305,6 +333,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactGeneralRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -356,7 +385,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants
+                                            .contactGuardingAgencyEscalationRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -366,6 +398,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType: Constants
                                         .contactGuardingAgencyEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -416,7 +449,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants
+                                            .contactSystemEscalationRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -426,6 +462,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactSystemEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -476,7 +513,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactSupervisorRank);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
@@ -486,6 +525,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactSupervisorRank,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -537,16 +577,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
-
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                        name: Constants.contactZone);
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.guardingAgencyZonalManagerContact,
+                                    ConstantsArgument.title: Constants
+                                        .guardingAgencyZonalManagerContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
                                         Constants.contactZone,
+                                    ConstantsArgument.ranks: ranks,
                                   },
                                 );
                               },
@@ -577,7 +620,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             // if ((state.model.status != 1
                             // || state.model.status == 1
                             // )) ...[
@@ -609,7 +652,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(ContactDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -618,9 +661,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(ContactDetailsState state) {
+    if (state.model.id != null) {
+      BlocProvider.of<ContactDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, contactDetailsListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

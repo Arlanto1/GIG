@@ -14,6 +14,7 @@ const List<Label> statusDropDownValues = [
 const List<Label> occurrenceStatusDropDownValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Submitted', value: '1'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> sstIncidentType = [
@@ -218,6 +219,20 @@ const List<Label> keyManagementStatus = [
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
 ];
+const List<Label> keyManagementHistoryStatus = [
+  Label(key: 'Cancelled', value: '11'),
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Lock Changed', value: '1'),
+  Label(key: 'Lost', value: '2'),
+  Label(key: 'Damaged', value: '3'),
+  Label(key: 'Lost Approved', value: '4'),
+  Label(key: 'Damaged Approved', value: '5'),
+  Label(key: 'Investigation', value: '6'),
+  Label(key: 'Destroy', value: '7'),
+  Label(key: 'Destroy Rejected', value: '8'),
+  Label(key: 'Destroy Approved', value: '9'),
+  Label(key: 'Closed', value: '10'),
+];
 
 const List<Label> sstIncidentsStatusItems = [
   Label(key: 'Cancelled', value: '-1'),
@@ -249,6 +264,11 @@ const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
 ];
+const List<Label> dutyPostMasterStatusValues = [
+  Label(key: 'Cancelled', value: '-1'),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'InActive', value: '2')
+];
 
 const List<Label> slaStatusDropDownValues = [
   Label(key: 'Draft ', value: '0 '),
@@ -257,7 +277,6 @@ const List<Label> slaStatusDropDownValues = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 const List<Label> attendanceTypeDropDownValues = [
-  Label(key: 'Regular', value: '0'),
   Label(key: 'Regular', value: '1'),
   Label(key: 'AD HOC', value: '2'),
 ];
@@ -266,5 +285,26 @@ const List<Label> attendanceStatusDropDownValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+
+const List<Label> materialMovementStatusValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Business User Review', value: '1'),
+  Label(key: 'Submitted', value: '2'),
+  Label(key: 'LSM Review', value: '3'),
+  Label(key: 'LSM Approved', value: '4'),
+  Label(key: 'LSM Rejected', value: '5'),
+  Label(key: 'Approved', value: '6'),
+  Label(key: 'Rejected', value: '7'),
+  Label(key: 'Outward Waiting', value: '8'),
+  Label(key: 'Inward Waiting', value: '9'),
+  Label(key: 'Closed/Finalized', value: '10'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+const List<Label> shiftScheduleStatusDropDownValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Active', value: '1'),
+  Label(key: 'Finalized', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
 ];

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -13,7 +11,11 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionListTexts extends StatefulWidget {
-  const CustomExpansionListTexts({super.key, this.locationList, this.onTap});
+  const CustomExpansionListTexts({
+    super.key,
+    this.locationList,
+    this.onTap,
+  });
 
   final Locations? locationList;
   final Function? onTap;
@@ -81,8 +83,6 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
     final height = size.height;
     final width = size.width;
 
-    log('-----items----lenthg---${widget.locationList?.south?.length}');
-
     return Center(
       child: SizedBox(
         height: height / 1.5,
@@ -101,14 +101,15 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Align(
-                      alignment: Alignment.topRight,
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: SvgPicture.asset(
-                              AppIcon.closeicon) //Icon(Icons.cancel)
-                          )),
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: SvgPicture.asset(
+                            AppIcon.closeicon) //Icon(Icons.cancel)
+                        ),
+                  ),
                 ),
                 expansionListWidget()
               ],
@@ -138,24 +139,21 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        if (widget.locations!.west != null) ...[
-          _buildPlayerModelList(widget.locations!.west, 'West', context),
+        if (widget.locations!.central != null) ...[
+          _buildPlayerModelList(widget.locations!.central, 'Central', context),
         ],
-        if (widget.locations!.south != null) ...[
-          _buildPlayerModelList(
-              widget.locations!.south, 'South', context),
+        if (widget.locations!.mumbai != null) ...[
+          _buildPlayerModelList(widget.locations!.mumbai, 'Mumbai', context),
         ],
         if (widget.locations!.northEast != null) ...[
           _buildPlayerModelList(
               widget.locations!.northEast, 'North East', context),
         ],
-        if (widget.locations!.mumbai != null) ...[
-          _buildPlayerModelList(
-              widget.locations!.mumbai, 'Mumbai', context),
+        if (widget.locations!.south != null) ...[
+          _buildPlayerModelList(widget.locations!.south, 'South', context),
         ],
-        if (widget.locations!.central != null) ...[
-          _buildPlayerModelList(
-              widget.locations!.central, 'Central', context),
+        if (widget.locations!.west != null) ...[
+          _buildPlayerModelList(widget.locations!.west, 'West', context),
         ],
       ],
     );
@@ -163,7 +161,6 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 
   Widget _buildPlayerModelList(
       List<Organisation>? items, String title, BuildContext context) {
-
     return ExpansionTile(
       trailing: const SizedBox.shrink(),
       key: GlobalKey(),

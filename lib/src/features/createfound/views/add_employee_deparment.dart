@@ -102,13 +102,13 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.name,
-                          style: Styles.textStyleBlack16,
-                        ),
+                        child: CommonWidgets.textDisplay(
+                                Constants.name,
+                            Styles.textStyleBlack14,
+                            isMandatory: true),
                       ),
                       FlutterInputField(
-                        textFieldController: nameTextController,
+                        controller: nameTextController,
                         textFormKey: Keys.nameTextController,
                         hintText: '',
                         onChange: (String username) {
@@ -126,7 +126,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                         ),
                       ),
                       FlutterInputField(
-                        textFieldController: keyTextController,
+                        controller: keyTextController,
                         textFormKey: Keys.keyTextController,
                         hintText: '',
                         onChange: (String username) {
@@ -196,7 +196,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         //loginFormKey.currentState!.validate();
-        FocusScope.of(context).unfocus();
+       // FocusScope.of(context).unfocus();
         if (nameTextController.text.isEmpty) {
           Validator().showToast(
             context,
@@ -211,9 +211,9 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                   nameTextController.text, keyTextController.text);
             }
           } catch (e) {
-            // present userwith error message
           }
         }
+        Navigator.of(context).pop();
       },
     );
   }

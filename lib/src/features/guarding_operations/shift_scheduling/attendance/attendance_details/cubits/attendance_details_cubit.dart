@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +44,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'), // 0
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
         commonServices.getUserDetails(userId: userId), // 1
         commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
         commonServices.getUsers(), // 3
@@ -68,7 +67,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       Organisation? defaultLocation = futures[7];
       List<DutyPostModel> dutyPosts = futures[8];
 
-      if (state.model.location == null && defaultLocation != null) {
+      if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.attendanceModule,
@@ -231,5 +230,9 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     log('-navigateToNextScreen---');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.attendanceModule);
   }
 }

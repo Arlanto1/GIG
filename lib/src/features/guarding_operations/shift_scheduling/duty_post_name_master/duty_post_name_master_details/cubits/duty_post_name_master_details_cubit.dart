@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -56,28 +55,28 @@ class DutyPostNameMasterDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
-        SharedPrefs.getDefaultLocation(),
+        //SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       dynamic responseLabels = futures[2];
-      Organisation? defaultLocation = futures[3];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.dutyPostNameMasterModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+      //Organisation? defaultLocation = futures[3];
+      // if (state.model.location == null && defaultLocation != null) {
+      //   SerialNumberModel slNo = await commonServices.getSlNo(
+      //     locationId: defaultLocation.id.toString(),
+      //     moduleCode: Constants.dutyPostNameMasterModule,
+      //   );
+      //   state.model.location = defaultLocation;
+      //   state.model.slNo = slNo.serialNo;
+      // }
 
-      state.model.entrySecurity = loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
@@ -89,7 +88,7 @@ class DutyPostNameMasterDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          locationNames: state.model.locationNames,
+          locationNames: state.model.dpName,
           labels: labels,
         ),
       );
@@ -105,7 +104,7 @@ class DutyPostNameMasterDetailsCubit
     }
   }
 
-  void onAddDutyPostLocationName(String locationName) {
+  void onAddDutyPostLocationName(DpName locationName) {
     log('-locationNames---$locationName-');
 
     emit(state.copyWith(
@@ -114,10 +113,8 @@ class DutyPostNameMasterDetailsCubit
     ));
 
     // state.model??=DutyPostNameMasterModel();
-    log('-state.locationNames---before-1--${model?.locationNames}----');
-    model?.locationNames??=[];
-    model?.locationNames?.add(locationName);
-    log('-state.locationNames---after-2--${model?.locationNames}----');
+    model?.dpName??=[];
+    model?.dpName?.add(locationName);
 
     emit(state.copyWith(
       model: model,
@@ -162,10 +159,8 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.loading,
       ),
     );
-
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    state.model.status = !isSaveOnly ? 1 : (state.model.status ?? 0);
+    //state.model.status ??= 0;
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -227,5 +222,9 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.success,
       ),
     );
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.dutyPostNameMasterModule);
   }
 }

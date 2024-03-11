@@ -43,7 +43,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     num? sum = (widget.model.totalPenaltyAmount ??
         (widget.model.penaltyAmount ?? 0) *
             (widget.model.totalViolations ?? 0));
-    totalPenaltyAmountController.text = sum.toString();
+    totalPenaltyAmountController.text = widget.model.penaltyAmount == null ? '' :sum.toString();
     numberOfViolationsAmountController.text = widget.model.totalViolations == null
         ? ''
         : widget.model.totalViolations.toString();
@@ -92,15 +92,15 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Violation
+                      /// Violation
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
                             Constants.violation,
                             Styles.textStyleBlack14,
-                            isMandatory: true,
+                            //isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: widget.model.violation?.name ?? '',
                             height: 70,
                             isDisableColor: false,
@@ -137,6 +137,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                         org.keyName ?? '';
                                   });
                                 },
+
                               );
                             },
                           )
@@ -147,13 +148,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Penalty Amount
                       CommonWidgets.textDisplay(
                         Constants.penaltyAmount,
-                        isMandatory: true,
+                        //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       FlutterInputField(
                         // initialValue: '${widget.model.penaltyAmount}',
-                        textFieldController: penaltyAmountController,
-                        keyboardType: TextInputType.number,
+                        controller: penaltyAmountController,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: false,
@@ -172,7 +173,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Staff Category
                       CommonWidgets.textDisplay(
                           Constants.staffCategory,
-                          isMandatory: true,
+                          //isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -228,16 +229,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.totalNoOfViolations,
                         Styles.textStyleBlack14,
-                        isMandatory: true,
+                        //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
-                        keyboardType: TextInputType.number,
-                        textFieldController: numberOfViolationsAmountController,
+                        textInputType: TextInputType.number,
+                        controller: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable:  staffCategoryController.text == "Guarding Agency" ? false : true,
+                        isEnable:  true,
                         isDisableColor: false,
                         onChange: (String value) {
                           widget.model.totalViolations = num.parse(value);
@@ -263,13 +264,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.totalPenaltyAmount,
                         Styles.textStyleBlack14,
-                        isMandatory: true,
+                        //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: totalPenaltyAmountController,
+                        controller: totalPenaltyAmountController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -347,18 +348,18 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.model.violation == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Violation.');
-    }
-    if (widget.model.staffCategory == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Staff Category.');
-    }
-    if (widget.model.totalViolations == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Total No of Violations');
-    }
+    // if (widget.model.violation == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Violation.');
+    // }
+    // if (widget.model.staffCategory == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Staff Category.');
+    // }
+    // if (widget.model.totalViolations == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Total No of Violations');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

@@ -1,35 +1,35 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../features/createfound/views/add_employee_deparment.dart';
-import '../../features/createfound/views/create_found_newuser.dart';
-import '../../models/base_user.dart';
-import '../../models/organisation.dart';
-import '../custom_pop_list_texts.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
 
 class BaseOrganisationDialog {
   departmentDialog({
     required BuildContext context,
     required List<Organisation> organisations,
     required Function onTap,
+    String? title, // Ex: 'Add Key Type'
+    String? orgName, // TODO: Need to make it required and non nullable
+    bool? createEntity, // Ex: false
+    Function? functionToCall,
   }) {
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
-          leftImageName: AppIcon.addicon,
+          leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return const AddEmployeeDepartment(
-                    title: '',
+                  return BaseAddOrganisationDialog(
+                    title: title ?? '',
+                    orgName: orgName ?? '',
+                    createEntity: createEntity,
+                    functionToCall: functionToCall ?? () {},
                   );
                 });
           },
@@ -45,7 +45,9 @@ class BaseOrganisationDialog {
     List<BaseUser>? users,
     List<Organisation>? entities,
     required Function onTap,
+    Function? functionToCall,
     bool enabled = true,
+    String roleName = 'ATOM_STATIC_USER',
   }) {
     showDialog(
       context: context,
@@ -61,8 +63,10 @@ class BaseOrganisationDialog {
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return CreateFoundNewUser(
+                  return BaseAddUserDialog(
                     title: Constants.createnewuser,
+                    roleName: roleName,
+                    functionToCall: functionToCall ?? () {},
                   );
                 });
           },

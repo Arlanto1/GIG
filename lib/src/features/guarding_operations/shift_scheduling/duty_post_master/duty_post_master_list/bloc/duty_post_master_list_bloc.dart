@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 

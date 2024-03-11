@@ -32,11 +32,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   TextEditingController keyDescriptionController = TextEditingController();
   TextEditingController keyTypeController = TextEditingController();
 
-  TextEditingController noOfKeysIssuedController = TextEditingController();
+  TextEditingController noOfKeysController = TextEditingController();
   TextEditingController alreadyIssuedKeysController = TextEditingController();
   TextEditingController availableKeysController = TextEditingController();
 
-  TextEditingController numberOfKeysController = TextEditingController();
+  TextEditingController numberOfKeysIssuedController = TextEditingController();
   TextEditingController returnedKeysController = TextEditingController();
   TextEditingController notReturnedKeysController = TextEditingController();
   TextEditingController lostKeysController = TextEditingController();
@@ -53,7 +53,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     if (selectedKeyDescription != null) {
       keyDescriptionController.text = selectedKeyDescription!.keyDescription!;
 
-      noOfKeysIssuedController.text = (selectedKeyDescription?.noKeys == null
+      noOfKeysController.text = (selectedKeyDescription?.noKeys == null
           ? ''
           : selectedKeyDescription?.noKeys.toString())!;
 
@@ -66,8 +66,10 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       //         selectedKeyDescription!.noKeysIssued!)
       //     .toString();
       availableKeysController.text = widget.model.available.toString();
-      noOfKeysIssuedController.text =
+      noOfKeysController.text =
           widget.selectedKeyDescription!.noKeys.toString();
+      // noOfKeysIssuedController.text= widget.model.noKeysIssued.toString();
+
     }
 
     /// Key Type Dropdown
@@ -77,12 +79,16 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
       keyTypeController.text = matchingLabel.key;
     }
-    widget.model.noKeysIssued = int.tryParse(numberOfKeysController.text);
+    // widget.model.noKeysIssued = int.tryParse(numberOfKeysIssuedController.text);
 
-    numberOfKeysController.text = widget.model.noKeysIssued == null
-        ? '0'
-        : widget.model.noKeysIssued.toString();
-    widget.model.noKeysIssued = int.tryParse(numberOfKeysController.text);
+    // numberOfKeysIssuedController.text = widget.model.noKeysIssued == null
+    //     ? '0'
+    //     : widget.model.noKeysIssued.toString();
+    // widget.model.noKeysIssued = int.tryParse(numberOfKeysIssuedController.text);
+
+    numberOfKeysIssuedController.text =
+    widget.model.returned == null ? '0' : widget.model.noKeysIssued.toString();
+    widget.model.returned = int.tryParse(numberOfKeysIssuedController.text);
 
     returnedKeysController.text =
         widget.model.returned == null ? '0' : widget.model.returned.toString();
@@ -104,6 +110,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
   @override
   Widget build(BuildContext context) {
+    log('no of keys issued ${widget.model.noKeysIssued}---');
     log('--keyDescriptions----${widget.keyDescriptions.length}--');
     return AlertDialog(
       title: Align(
@@ -141,7 +148,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-                          TextfieldAddButton(
+                          TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
                             isDisableColor: false,
@@ -179,9 +186,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Keys
+                      /// Key Type
                       CommonWidgets.textDisplay(
-                          Constants.keys,
+                          Constants.keyType,
                           isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -223,7 +230,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                   widget.model.notReturned =
                                       keyDescription.notReturned;
 
-                                  noOfKeysIssuedController.text =
+                                  noOfKeysController.text =
                                       keyDescription.noKeys.toString();
 
                                   widget.model.noKeysIssued =
@@ -259,9 +266,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: noOfKeysIssuedController,
+                        controller: noOfKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -278,9 +285,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: alreadyIssuedKeysController,
+                        controller: alreadyIssuedKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -297,9 +304,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.aprrover1DepartmentKey,
-                        textFieldController: availableKeysController,
+                        controller: availableKeysController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
@@ -315,34 +322,48 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      // FlutterInputField(
+                      //   // initialValue: '${widget.model.totalViolations ?? ''}',
+                      //   textInputType: TextInputType.number,
+                      //   controller: numberOfKeysController,
+                      //   textFormKey: Keys.phoneNumberKey,
+                      //   hintText: '',
+                      //   isEnable: widget.parentStatus == 0,
+                      //
+                      //   isDisableColor: false,
+                      //   onChange: (String value) {
+                      //     // widget.model.totalViolations = num.parse(value);
+                      //     //
+                      //     // num sum = (widget.model.penaltyAmount ?? 0) *
+                      //     //     num.parse(value);
+                      //     // log('--sum-----$sum---');
+                      //     // totalPenaltyAmountController.text = sum.toString();
+                      //     //
+                      //     // widget.model.totalPenaltyAmount = sum;
+                      //     // numberOfKeysController.text = value;
+                      //     // log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
+                      //     //
+                      //     // setState(() {
+                      //     //   // totalPenaltyAmountController.text = sum.toString();
+                      //     // });
+                      //   },
+                      //   validateTextField: (String? user) {},
+                      // ),
+                      // CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        // initialValue: '${widget.model.totalViolations ?? ''}',
-                        keyboardType: TextInputType.number,
-                        textFieldController: numberOfKeysController,
-                        textFormKey: Keys.phoneNumberKey,
+                        textInputType: TextInputType.number,
+                        textFormKey: Keys.bu2ContactNOKey,
+                        controller: numberOfKeysIssuedController,
                         hintText: '',
                         isEnable: widget.parentStatus == 0,
-
-                        isDisableColor: false,
+                        isDisableColor: true,
                         onChange: (String value) {
-                          // widget.model.totalViolations = num.parse(value);
-                          //
-                          // num sum = (widget.model.penaltyAmount ?? 0) *
-                          //     num.parse(value);
-                          // log('--sum-----$sum---');
-                          // totalPenaltyAmountController.text = sum.toString();
-                          //
-                          // widget.model.totalPenaltyAmount = sum;
-                          // numberOfKeysController.text = value;
-                          // log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
-                          //
-                          // setState(() {
-                          //   // totalPenaltyAmountController.text = sum.toString();
-                          // });
+                          widget.model.noKeysIssued = int.tryParse(value);
                         },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                       /// keys Returned
                       CommonWidgets.textDisplay(
@@ -352,9 +373,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
-                        textFieldController: returnedKeysController,
+                        controller: returnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -373,9 +394,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.addressKey,
-                        textFieldController: notReturnedKeysController,
+                        controller: notReturnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -395,9 +416,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: lostKeysController,
+                        controller: lostKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -417,9 +438,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        keyboardType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        textFieldController: damagedKeysController,
+                        controller: damagedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1,
                         isDisableColor: true,
@@ -512,11 +533,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           status: false, message: 'Please enter No. of Keys Issued.');
     }
 
-    if (widget.model.noKeysIssued! > selectedKeyDescription!.noKeys!) {
+    if (widget.model.noKeysIssued != null && widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid Number of Issued Keys');
+        status: false,
+        message: 'Please enter valid Number of Keys Issued',
+      );
     }
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

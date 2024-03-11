@@ -28,7 +28,8 @@ class LoginPassword extends StatefulWidget {
 
 class _LoginPasswordState extends State<LoginPassword> {
   bool _showPassword = false;
-  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController passwordTextController =
+      ObscuringTextEditingController();
 
   @override
   void initState() {
@@ -40,15 +41,16 @@ class _LoginPasswordState extends State<LoginPassword> {
   @override
   Widget build(BuildContext context) {
     return FlutterInputField(
-      textFieldController: passwordTextController,
+      controller: passwordTextController,
       textFormKey: Keys.passwordTextField,
       hintText: Constants.hintPassword,
       onChange: (String str) => widget.onChange(str),
-      isSecure: !_showPassword,
+      textCapitalization: false,
+      isSecure: true,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
-      focusnode: widget.passFocusNode,
-      onfieldSubmitted: (value) {
+      focusNode: widget.passFocusNode,
+      onFieldSubmitted: (value) {
         widget.onFieldSubmitted != null
             ? widget.onFieldSubmitted!(value)
             : null;

@@ -1,14 +1,9 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
-import '../../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../../createfound/models/get_depositor_model.dart';
 
 part 'key_management_issuance_details_state.dart';
 
@@ -36,6 +31,24 @@ class KeyManagementIssuanceDetailsCubit
           ),
         );
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments.employeeDepartments,
+      ),
+    );
+  }
+
   void onModelValueChange(KeyManagementIssuanceModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -58,7 +71,7 @@ class KeyManagementIssuanceDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
@@ -88,10 +101,10 @@ class KeyManagementIssuanceDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
-      state.model.keyHandOverDate=Utils().getCurrentDate();
+      state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
@@ -126,8 +139,8 @@ class KeyManagementIssuanceDetailsCubit
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
-    User? handedOverTo,
-    User? dbSponsorCwrT2,
+    BaseUser? handedOverTo,
+    BaseUser? dbSponsorCwrT2,
     int? employeeType,
     int? keyHandingOverDuration,
   }) async {
@@ -175,19 +188,19 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy = userDetails;
     }
 
-    if (user != null) {
+    if (handedOverTo != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: handedOverTo.name,
+        userId: handedOverTo.id,
+        userName: handedOverTo.name,
       );
       state.model.handedOverTo = userDetails;
     }
-    if (user != null) {
+    if (dbSponsorCwrT2 != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: dbSponsorCwrT2.name,
+        userId: dbSponsorCwrT2.id,
+        userName: dbSponsorCwrT2.name,
       );
       state.model.dbSponsorCwrT2 = userDetails;
     }
@@ -305,5 +318,10 @@ class KeyManagementIssuanceDetailsCubit
       ),
     );
     return true;
+  }
+
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyManagementIssuanceModule);
   }
 }

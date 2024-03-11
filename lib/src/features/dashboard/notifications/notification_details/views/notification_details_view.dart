@@ -72,6 +72,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             showSubmitButton: false,
             onTapSave: () {},
             showCustomIcon: true,
+            showDisLikeButton: false,
+            showLikeButton: false,
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
@@ -194,7 +196,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             {
               MaterialMovementModel materialMovementModel =
                   await MaterialMovementServices().getById(moduleId);
-              nav.pushNamed(materialMovementInwardDetailsRoute, arguments: {
+              nav.pushNamed(materialMovementInwardOutwardDetailsRoute, arguments: {
                 "MaterialMovementModel": materialMovementModel,
                 "isInward": false,
                 "isCreate": true,
@@ -204,10 +206,10 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             }
           case 'LEO':
             {
-              LawEnforcementDetails? model =
+              LawEnforcementDetailsModel? model =
                   await lawEnforcementListCubit.getById(moduleId, context);
 
-              nav.pushNamed(lawenforcementScreenRoute, arguments: {
+              nav.pushNamed(lawEnforcementDetailsViewRoute, arguments: {
                 "UserElement": model,
               });
               break;

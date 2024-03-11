@@ -6,7 +6,9 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
+  final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
+  final List<Organisation>? getEntitiesResponse;
   final List<Organisation> vendors;
   final List<Organisation> typeOfServices;
   final String? message;
@@ -19,10 +21,11 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
+    final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
+    required final List<Organisation>? getEntitiesResponse,
     required final List<Organisation> vendors,
     required final List<Organisation> typeOfServices,
-    final List<BaseUser>? emailUsers,
     required String errorMessage,
     final List<String>? pocs,
 
@@ -33,7 +36,9 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       users: users,
+      emailUsers: emailUsers,
       listOfEntities: listOfEntities,
+      getEntitiesResponse: getEntitiesResponse,
       vendors: vendors,
       typeOfServices: typeOfServices,
       message: errorMessage,
@@ -84,8 +89,11 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter ASL');
     }
     if (model.poc == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Guarding Agency POC');
+    }
+    if (model.poc != null && !Validator.isValidEmail(model.poc)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Agency POC');
+          status: false, message: 'Please enter valid email Guarding Agency POC');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -99,9 +107,11 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.listOfEntities,
+    this.getEntitiesResponse,
     required this.vendors,
     required this.typeOfServices,
     this.users,
+    this.emailUsers,
     this.message,
     this.pocs,
     this.labels,
@@ -114,7 +124,9 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
+    List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
+    List<Organisation>? getEntitiesResponse,
     List<Organisation>? vendors,
     List<Organisation>? typeOfServices,
     List<String>? pocs,
@@ -134,6 +146,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       message: message ?? this.message,
       pocs: pocs ?? this.pocs,
       labels: labels ?? this.labels,
+      emailUsers: emailUsers ?? this.emailUsers,
     );
   }
 }

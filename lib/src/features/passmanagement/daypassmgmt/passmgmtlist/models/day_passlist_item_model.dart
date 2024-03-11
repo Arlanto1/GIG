@@ -7,7 +7,7 @@ import '../../../../createfound/models/user.dart';
 import 'day_passlist_model.dart';
 
 class DayPassListResponse {
-  final List<DayPassListElement>? items;
+  final List<PassManagementModel>? items;
   final int? totalCount;
   final int? currentPageNo;
   final int? totalPageCount;
@@ -22,7 +22,7 @@ class DayPassListResponse {
   DayPassListResponse.fromJson(Map<String, dynamic> json)
       : items = (json['list'] as List?)
             ?.map((dynamic e) =>
-                DayPassListElement.fromJson(e as Map<String, dynamic>))
+                PassManagementModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,

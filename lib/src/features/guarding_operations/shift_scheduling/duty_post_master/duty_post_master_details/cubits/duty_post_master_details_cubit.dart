@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../../index.dart';
 
 part 'duty_post_master_details_state.dart';
 
@@ -38,6 +36,20 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    Organisation? location;
+        List<Organisation> dutyPostName =
+    await services.getDutyPostsByLocation(locationId: location!.id.toString());
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        dutyPosts: dutyPostName,
+      ),
+    );
+  }
+
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -49,7 +61,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUsers(),
@@ -68,22 +80,23 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
       List<Organisation> dutyPosts = [];
+      Organisation? location = state.model.location ;
+
       if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.contactDetailsModule,
-        );
+        // SerialNumberModel slNo = await commonServices.getSlNo(
+        //   locationId: defaultLocation.id.toString(),
+        //   moduleCode: Constants.contactDetailsModule,
+        // );
         state.model.location = defaultLocation;
         // state.model.slNo = slNo.serialNo;
         dutyPosts = await services.getDutyPostsByLocation(
             locationId: defaultLocation.id.toString());
       }
-      state.model.createdBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       state.model.createdDate = _getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
-
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -128,9 +141,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         locationId: location.id.toString(),
         moduleCode: Constants.guardingMasterDataModule,
       );
-
+      state.model.status = status ?? state.model.status;
       state.model.location = location;
-      state.model.dutyPostLocation = null;
+      state.model.dutyPostLocation = dutyPostName;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
           locationId: location.id.toString());
       emit(state.copyWith(
@@ -140,9 +153,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('--dutyPostName--${dutyPostName?.name}---');
-    if (dutyPostName != null) {
-      state.model.dutyPostLocation = dutyPostName;
-    }
+    //if (location != null) {
+      state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
+   // }
     state.model.rankId = rankId ?? state.model.rankId;
     emit(state.copyWith(
       model: state.model,

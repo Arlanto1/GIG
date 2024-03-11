@@ -1,26 +1,9 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../common_widgets/app_bar.dart';
-import '../../../common_widgets/cubits.dart';
-import '../../../common_widgets/custom_pop_menu.dart';
-import '../../../common_widgets/floating_button.dart';
-import '../../../common_widgets/image_download.dart';
-import '../../../common_widgets/spinnerdialog.dart';
-import '../../../constants/app_icon.dart';
-import '../../../constants/ui_geometry_constants.dart';
-import '../../../enums/form_status.dart';
-import '../../../routing/router.dart';
-import '../../../utils/app_themes/colors/app_color.dart';
-import '../../../utils/shared_preferences.dart';
-import '../models/law_enforcement_details.dart';
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
 
@@ -29,9 +12,11 @@ class LawEnforcementsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LawEnforcementBloc>(
-      create: (_) => LawEnforcementBloc()
-        ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
+    BaseFilterModel filters = BaseFilterModel();
+    return BlocProvider<LawEnforcementListBloc>(
+      create: (_) => LawEnforcementListBloc()
+        ..add(LawEnforcementFetch(
+            startPos: 0, maxPos: 20, newSearch: false, filters: filters)),
       child: const LnPage(),
     );
   }
@@ -47,10 +32,16 @@ class LnPage extends StatefulWidget {
 class _LnPageState extends State<LnPage> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
+    context.read<LawEnforcementListBloc>().add(
+          const InitializeValuesLEO(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -68,14 +59,34 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<LawEnforcementBloc>().add(
-          LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
+      context.read<LawEnforcementListBloc>().add(LawEnforcementFetch(
+          startPos: pageNumber,
+          maxPos: 20,
+          newSearch: false,
+          filters: filters));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<LawEnforcementListBloc>().add(
+          const RefreshList(),
+        );
+    // await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<LawEnforcementBloc>(context);
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
+    final bloc = BlocProvider.of<LawEnforcementListBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
@@ -83,21 +94,21 @@ class _LnPageState extends State<LnPage> {
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
           // Navigator.pushNamed(context, lawenforcementScreenRoute);
-          Navigator.pushNamed(context, lawenforcementScreenRoute)
+          Navigator.pushNamed(context, lawEnforcementDetailsViewRoute)
               .then((value) async {
             if (value != null && value == true) {
               log('value--$value');
               //localfoundlist?.clear();
               pageNumber = 0;
-              bloc.add(
-                  LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context));
+              bloc.add(LawEnforcementFetch(
+                  startPos: 0, maxPos: 20, newSearch: false, filters: filters));
             }
           });
         },
       ),
       appBar: AppHeader(
         isTitleCenter: false,
-        title: 'LawEnforcement List',
+        title: Constants.lawenforcementvisitslist,
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -116,28 +127,28 @@ class _LnPageState extends State<LnPage> {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              log(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', 0, 20, '/exportLEOExcel');
+                    'export.xslx', '/exportLEOExcel');
               } else if (value == 1) {
-                DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', 0, 20, '/exportLEOPDF');
+                DownloadImage().exportPdf(
+                    context, int.parse(userid), 'export.pdf', '/exportLEOPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
           ),
         ],
       ),
-      body: BlocBuilder<LawEnforcementBloc, LawEnforcementState>(
+      body: BlocBuilder<LawEnforcementListBloc, LawEnforcementListState>(
           builder: (context, state) {
-        if (state.status == FormStatus.initial) {
-          return const BaseLoader();
-        } else if (state.status == FormStatus.success) {}
-
-        if (state.items.isEmptyOrNull) {
-          return const NoRecordFoundWidget();
-        }
+        // if (state.status == FormStatus.initial) {
+        //   return const BaseLoader();
+        // }
+        // else if (state.status == FormStatus.success) {}
+        //
+        // if (state.items.isEmptyOrNull) {
+        //   return const NoRecordFoundWidget();
+        // }
 
         return Container(
           margin: allMargin16,
@@ -146,48 +157,88 @@ class _LnPageState extends State<LnPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               )),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: state.hasReachedMax
-                ? state.items.length
-                : state.items.length + 1,
-            itemBuilder: (context, index) {
-              // buildTodo(context, state, index);
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BaseSearchWidget(
+                applySearchFilters: applySearchFilters,
+                applyFilters: applyFilters,
+                commonFilters: state.commonFilters ??
+                    CommonFilters(
+                      statuses: [],
+                      regions: [],
+                    ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.001),
+              if (state.status == FormStatus.loading) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                const BaseLoader(),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+              ],
+              // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+              // Text('state.status=====${state.status}'),
+              if (state.items.isEmptyOrNull &&
+                  (state.status != FormStatus.loading)) ...[
+                CommonWidgets.verticalSpacerWidget(height * 0.1),
+                const NoRecordFoundWidget(),
+              ],
+              Expanded(
+                child: SmartRefresher(
+                  controller: refreshController,
+                  enablePullDown: true,
+                  physics: const BouncingScrollPhysics(),
+                  header: const WaterDropHeader(
+                    waterDropColor: AppColors.navigationSkybluecolor,
+                  ),
+                  key: const Key(Keys.refreshKey),
+                  onRefresh: _onRefresh,
+                  onLoading: _onLoading,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.hasReachedMax
+                        ? state.items.length
+                        : state.items.length + 1,
+                    itemBuilder: (context, index) {
+                      // buildTodo(context, state, index);
 
-              if (index < state.items.length) {
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : LawEnforcementListItem(
-                        userItem: state.items[index],
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[index]);
-                            },
-                          );
-                          //do the detail edit of user found
-                        },
-                        onEditTap: (selectedIndex) {
-                          getById(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return LawEnforcementCustomPopUpList(
-                                  state.items[selectedIndex]);
-                            },
-                          );
-                        },
-                        index: index,
+                      if (index < state.items.length) {
+                        return index >= state.items.length
+                            ? const BaseLoader()
+                            : LawEnforcementListItem(
+                                userItem: state.items[index],
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[index]);
+                                    },
+                                  );
+                                  //do the detail edit of user found
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return LawEnforcementCustomPopUpList(
+                                          state.items[selectedIndex]);
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
+                      }
+                      return const Center(
+                        child: SizedBox(),
                       );
-              }
-              return const Center(
-                child: SizedBox(),
-              );
-            },
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       }),
@@ -196,27 +247,47 @@ class _LnPageState extends State<LnPage> {
 
   getById(int lawEnforcementId) async {
     showLoadingDialog(context);
-    LawEnforcementDetails? model =
+    LawEnforcementDetailsModel? model =
         await lawEnforcementListCubit.getById(lawEnforcementId, context);
-
-    log('-model--maillist--${model?.mailList}-');
 
     editDataLoading(model);
   }
 
-  void editDataLoading(LawEnforcementDetails? model) {
+  void editDataLoading(LawEnforcementDetailsModel? model) {
     dismissLoadingDialog(context);
     if (model != null) {
-      for (Organisation organisation in model.entities ?? []) {
-        log('-111--organisation.name--populateData--en-${organisation.name}');
-      }
-
-      for (Organisation organisation in model.mailList ?? []) {
-        log('--111-organisation.name--populateData---${organisation.name}');
-      }
-
-      Navigator.pushNamed(context, lawenforcementScreenRoute,
+      Navigator.pushNamed(context, lawEnforcementDetailsViewRoute,
           arguments: {"UserElement": model});
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<LawEnforcementListBloc>(context).add(
+      LawEnforcementFetch(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

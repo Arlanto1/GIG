@@ -1,32 +1,15 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:developer';
+import 'dart:math' as math;
 
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../models/base_user.dart';
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
@@ -35,7 +18,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementCubit({required this.services, this.loadAttachments})
       : super(
           LawEnforcementState(
-            //lawenforcementServices: SubmitCreateFoundModel(),
+            model: LawEnforcementDetailsModel(),
             stateType: FormStatus.initial,
           ),
         );
@@ -59,8 +42,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         await lawEnforcementCubit.getLeopurposeofvisit(
             'ATOM_LEO_PURPOSE_VISIT', context);
       } else if (Constants.addleoofficialtype == title) {
-        await lawEnforcementCubit.getLeodepartments(
-            'ATOM_LEO_DEPARTMENTS', context);
+        await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
       }
 
       dismissLoadingDialog(context);
@@ -71,7 +53,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -105,7 +87,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -118,53 +100,73 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> submitForm(
-    LawEnforcementRequestBody bodyRequest,
-    bool isSubmit,
-    BuildContext context,
-    String title,
-  ) async {
+  FutureOr<bool> submitForm({
+    required LawEnforcementRequestBody bodyRequest,
+    required bool isSubmit,
+    required String title,
+    required bool navigateToNextScreen,
+  }) async {
+    emit(state.copyWith(stateType: FormStatus.loading));
     try {
       SubmitLawEnforcementResponse? response =
           await services.createLawFoundArticle(
         body: bodyRequest,
         isSubmit: isSubmit,
-        context: context,
       ); //replace empty model with bodyRequest
+
+      log('---response.lawEnforcementId-----${response.lawEnforcementId}');
+
+      state.model?.id = int.tryParse(response.lawEnforcementId!);
       emit(
         state.copyWith(
-          lawcreateFoundresponse: response,
-          stateType: FormStatus.success,
+          model: state.model,
         ),
       );
 
-      if (response.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(context, response.message ?? '', title, '');
-        });
-      }
-    } catch (e) {
+      log('---state.model?.id-----${state.model?.id}');
+
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          submitResponse: response,
+          stateType: navigateToNextScreen
+              ? FormStatus.navigateToNextScreen
+              : FormStatus.successFormSubmit,
+          message: response.message ?? '',
+          model: state.model,
+        ),
+      );
+      return true;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
           stateType: FormStatus.failure,
         ),
       );
-
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
+      return false;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          stateType: FormStatus.failure,
+        ),
+      );
+      return false;
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          stateType: FormStatus.failure,
+        ),
+      );
+      return false;
     }
   }
 
   // Get locations api call
   Future<void> getLocations(String name, BuildContext context) async {
     try {
-      Locations getLocationsData =
-          await services.getLocations(name, context);
+      Locations getLocationsData = await services.getLocations(name, context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -174,7 +176,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -196,7 +198,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -217,7 +219,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -239,7 +241,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -261,7 +263,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -281,7 +283,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -289,7 +291,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   Future<void> addAttchment(List<ImageContent>? data) async {
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
 
     emit(state.copyWith(
         eventId: eventIds,
@@ -297,13 +299,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         stateType: FormStatus.addAttachment));
   }
 
-  Future<void> addingVisits(
-      {required int visitCount,
-      List<VisitingOfficialsModel>? getVisits}) async {
+  Future<void> addingVisits({
+    required int visitCount,
+    List<VisitingOfficialsModel>? getVisits,
+  }) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
-        getVisits: getVisits,
+        visitingOfficials: getVisits,
         getVisitsCount: visitCount,
         stateType: FormStatus.success,
       ),
@@ -323,7 +326,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -331,7 +334,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   initalization() {
-    lawEnforcementCubit.state.getVisits = [];
+    lawEnforcementCubit.state.visitingOfficials = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
     state.loadAttachments = [];
@@ -350,10 +353,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get leodepartments api call
-  Future<void> getLeodepartments(String name, BuildContext context) async {
+  Future<void> getLeodepartments(String name) async {
     try {
-      LeoDepartments leodepartments =
-          await services.getLeodepartments(name, context);
+      LeoDepartments leodepartments = await services.getLeodepartments(name);
       emit(
         state.copyWith(
           getLeodepartmentsResponse: leodepartments,
@@ -363,7 +365,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -391,7 +393,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -413,7 +415,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -435,7 +437,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -453,7 +455,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -462,7 +464,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   getEntityData(List<Organisation> listOfEntities) async {
     try {
-      int eventIds = Random.secure().nextInt(5);
+      int eventIds = math.Random.secure().nextInt(5);
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -473,7 +475,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -491,7 +493,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -509,7 +511,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -527,7 +529,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -545,7 +547,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -563,7 +565,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -600,7 +602,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: FormStatus.failure,
         ),
       );
@@ -625,6 +627,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
+  Future<void> updateStatus({required String id}) async {
+    await CommonServices()
+        .updateRecordStatus(id: id, module: Constants.leoModuleCode);
+  }
 // void onModelValueChange(LawEnforcementDetails model) {
 //   log('-onModelValueChange---');
 //   emit(state.copyWith(model: model, status: FormStatus.initial));

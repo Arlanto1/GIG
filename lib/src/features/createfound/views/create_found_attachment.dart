@@ -67,7 +67,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
-          title: Constants.createfound,
+          title: Constants.createFound,
           backBtn: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -131,7 +131,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: depositorTextController,
+                          controller: depositorTextController,
                           textFormKey: Keys.depositorTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -149,7 +149,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                             )),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: depositorempidTextController,
+                          controller: depositorempidTextController,
                           textFormKey: Keys.depositorEmpIdTextController,
                           hintText: '',
                           isEnable: true,
@@ -169,7 +169,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                          textFieldController: employeedepartmentTextController,
+                          controller: employeedepartmentTextController,
                           textFormKey: Keys.employeedepartmentTextController,
                           hintText: '',
                           onChange: (String username) {
@@ -511,7 +511,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                             left: 10, top: 5, right: 10, bottom: 10),
                         alignment: Alignment.topLeft,
                         child: const Text(
-                          Constants.caotureorupload,
+                          Constants.captureOrUpload,
                           style: Styles.textStyleRegularGrey16,
                         ),
                       ),

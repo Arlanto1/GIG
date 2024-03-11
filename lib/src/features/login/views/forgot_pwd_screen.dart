@@ -119,10 +119,10 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                     height: 30,
                                   ),
                                   FlutterInputField(
-                                    textFieldController: emailTextController,
+                                    controller: emailTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
-                                    keyboardType: TextInputType.text,
+                                    textInputType: TextInputType.text,
                                     onChange: (String text) {
                                       email = text;
                                       setState(() {});

@@ -26,7 +26,7 @@ class Keys {
 
   static const String dateofcreationTextController =
       'external_createfound_dateofcreationid_textfield';
-  static const String assettypeTextController =
+  static const String assetTypeTextControllerKey =
       'external_createfound_assettypetextfield';
   static const String founddateTextController =
       'external_createfound_founddate_textfield';
@@ -61,6 +61,7 @@ class Keys {
   static const String claimantTextController = 'createfound_claimant_textfield';
   static const String actualdateTextController =
       'external_lawenforcement_actualdate_textfield';
+  static const String refreshKey = 'refresh_key';
 
   /// Material Movement
   static const String challanKey = 'material_inward_challan_key';

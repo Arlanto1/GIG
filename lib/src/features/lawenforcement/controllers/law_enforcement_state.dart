@@ -1,30 +1,18 @@
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../models/base_user.dart';
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
 
 class LawEnforcementState extends Equatable {
+  final LawEnforcementDetailsModel? model;
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
-  LeoDepartments? getLeodepartmentsResponse;
+  LeoDepartments? departmentResponse;
   LeoPurposeVisit? getLeopurposeResponse;
   late final int? eventId;
   final FormStatus stateType;
-  String? errorMessage;
+  String? message;
   Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? listOfEntities;
@@ -43,10 +31,10 @@ class LawEnforcementState extends Equatable {
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
   List<ImageContent>? loadAttachments = [];
-  List<VisitingOfficialsModel>? getVisits = [];
+  List<VisitingOfficialsModel>? visitingOfficials = [];
   int getVisitsCount = 0;
   User? getUserDetailsResponse;
-  SubmitLawEnforcementResponse? lawcreateFoundresponse;
+  SubmitLawEnforcementResponse? submitResponse;
   List<Organisation>? loadGroups = [];
   DistributionGroupModel? groups;
   Organisation? listIndividualdept;
@@ -56,12 +44,13 @@ class LawEnforcementState extends Equatable {
   bool? isDistributed;
 
   LawEnforcementState({
+    this.model,
     this.getEntitiesResponse,
-    this.getLeodepartmentsResponse,
+    this.departmentResponse,
     this.getLeopurposeResponse,
     this.eventId,
     required this.stateType,
-    this.errorMessage,
+    this.message,
     this.getLocationsResponse,
     this.getSerialnumberResponse,
     this.listOfEntities,
@@ -78,10 +67,10 @@ class LawEnforcementState extends Equatable {
     this.employeeDepartment,
     this.selectedemployeeDepartmentResponse,
     this.loadAttachments,
-    this.getVisits,
+    this.visitingOfficials,
     this.getVisitsCount = 0,
     this.getUserDetailsResponse,
-    this.lawcreateFoundresponse,
+    this.submitResponse,
     this.loadGroups,
     this.groups,
     this.listIndividualdept,
@@ -97,7 +86,7 @@ class LawEnforcementState extends Equatable {
     LeoPurposeVisit? getLeopurposeResponse,
     final int? eventId,
     FormStatus? stateType,
-    String? errorMessage,
+    String? message,
     Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? listOfEntities,
@@ -115,9 +104,9 @@ class LawEnforcementState extends Equatable {
     Organisation? selectedemployeeDepartmentResponse,
     List<ImageContent>? loadAttachments,
     int? getVisitsCount,
-    List<VisitingOfficialsModel>? getVisits,
+    List<VisitingOfficialsModel>? visitingOfficials,
     User? getUserDetailsResponse,
-    SubmitLawEnforcementResponse? lawcreateFoundresponse,
+    SubmitLawEnforcementResponse? submitResponse,
     List<Organisation>? loadGroups,
     DistributionGroupModel? groups,
     Organisation? listIndividualdept,
@@ -125,16 +114,18 @@ class LawEnforcementState extends Equatable {
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
     bool? isDistributed,
+    LawEnforcementDetailsModel? model,
   }) {
     return LawEnforcementState(
+      model: model ?? this.model,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
-      getLeodepartmentsResponse:
-          getLeodepartmentsResponse ?? this.getLeodepartmentsResponse,
+      departmentResponse:
+          getLeodepartmentsResponse ?? this.departmentResponse,
       getLeopurposeResponse:
           getLeopurposeResponse ?? this.getLeopurposeResponse,
       eventId: eventId ?? this.eventId,
       stateType: stateType ?? this.stateType,
-      errorMessage: errorMessage ?? this.errorMessage,
+      message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
           getSerialnumberResponse ?? this.getSerialnumberResponse,
@@ -158,12 +149,11 @@ class LawEnforcementState extends Equatable {
       selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ??
           this.selectedemployeeDepartmentResponse,
       loadAttachments: loadAttachments ?? this.loadAttachments,
-      getVisits: getVisits ?? this.getVisits,
+      visitingOfficials: visitingOfficials ?? this.visitingOfficials,
       getVisitsCount: getVisitsCount ?? this.getVisitsCount,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
-      lawcreateFoundresponse:
-          lawcreateFoundresponse ?? this.lawcreateFoundresponse,
+      submitResponse: submitResponse ?? this.submitResponse,
       loadGroups: loadGroups ?? this.loadGroups,
       groups: groups ?? this.groups,
       listIndividualdept: listIndividualdept ?? this.listIndividualdept,
@@ -179,11 +169,11 @@ class LawEnforcementState extends Equatable {
   @override
   List<Object?> get props => [
         getEntitiesResponse,
-        getLeodepartmentsResponse,
+        departmentResponse,
         getLeopurposeResponse,
         eventId,
         stateType,
-        errorMessage,
+        message,
         getLocationsResponse,
         getSerialnumberResponse,
         listOfEntities,
@@ -200,10 +190,10 @@ class LawEnforcementState extends Equatable {
         employeeDepartment,
         selectedemployeeDepartmentResponse,
         loadAttachments,
-        getVisits,
+        visitingOfficials,
         getVisitsCount,
         getUserDetailsResponse,
-        lawcreateFoundresponse,
+        submitResponse,
         loadGroups,
         groups,
         listIndividualdept,

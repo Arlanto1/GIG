@@ -15,6 +15,9 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
+      createdBy: json['createdBy'] == null
+          ? null
+          : User.fromJson(json['createdBy'] as Map<String, dynamic>),
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
@@ -24,7 +27,7 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
           .toList(),
       status: json['status'] as int?,
       modifiedBy: json['modifiedBy'] as String?,
-      annualPowerShutdown: json['annualPowerShutdown'] as bool? ?? false,
+      annualPowerShutdown: json['annualPowerShutdown'] as bool? ?? true,
       eventStartDate: json['eventStartDate'] as String?,
       eventEndDate: json['eventEndDate'] as String?,
       epManager1: json['epManager1'] == null
@@ -103,6 +106,7 @@ Map<String, dynamic> _$AnnualPowerShutdownListModelToJson(
       'locationRegion': instance.locationRegion,
       'entities': instance.entities,
       'status': instance.status,
+      'createdBy': instance.createdBy,
       'modifiedBy': instance.modifiedBy,
       'annualPowerShutdown': instance.annualPowerShutdown,
       'eventStartDate': instance.eventStartDate,

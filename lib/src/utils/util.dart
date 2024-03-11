@@ -131,6 +131,7 @@ class Utils {
   }
 
   String formatTime(String dateTimeString) {
+    log('Formatting Date: $dateTimeString');
     // if the dateTimeString is already unixTimestamp
     if (dateTimeString.length == 10 &&
         dateTimeString.contains(RegExp(r'^\d+$'))) {
@@ -138,6 +139,7 @@ class Utils {
     }
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
+      'dd/MM/yyyy hh:mm:ss a',
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
     ];
@@ -167,7 +169,7 @@ class Utils {
         statusText = 'Under Security Custody';
         break;
       case 2:
-        statusText = 'Handed Over';
+        statusText = 'Handed Over/ Claimed';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -195,7 +197,7 @@ class Utils {
         statusText = 'Submitted';
         break;
       case 2:
-        statusText = 'Under Verification';
+        statusText = 'Verification Under Process';
         break;
       case 3:
         statusText = 'Distributed';
@@ -662,7 +664,7 @@ class Utils {
         statusText = 'Non Returned';
         break;
       case 4:
-        statusText = 'Lost';
+        statusText = 'Lost/De-Activated';
         break;
       case 5:
         statusText = 'Damaged';
@@ -674,10 +676,10 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 8:
-        statusText = 'Returned Damaged';
+        statusText = 'Returned/Damaged';
         break;
       case 9:
-        statusText = 'Returned Defaced';
+        statusText = 'Returned/Defaced';
         break;
       case -1:
         statusText = 'Record Cancelled';
@@ -729,11 +731,14 @@ class Utils {
       String statusText;
 
       switch (status) {
-        case 1:
+        case 0:
           statusText = 'Created';
           break;
-        case 2:
+        case 1:
           statusText = 'Submitted';
+          break;
+        case -1:
+          statusText = 'Cancelled';
           break;
         default:
           statusText = ''; // Handle the default case if needed
@@ -753,6 +758,39 @@ class Utils {
     switch (status) {
       case 0:
         statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Lock Changed';
+        break;
+      case 2:
+        statusText = 'Lost';
+        break;
+      case 3:
+        statusText = 'Damaged';
+        break;
+      case 4:
+        statusText = 'Lost Approved';
+        break;
+      case 5:
+        statusText = 'Damaged Approved';
+        break;
+      case 6:
+        statusText = 'Investigation';
+        break;
+      case 7:
+        statusText = 'Destroyed';
+        break;
+      case 8:
+        statusText = 'Destroy Rejected';
+        break;
+      case 9:
+        statusText = 'Destroy Approved';
+        break;
+      case 10:
+        statusText = 'Closed';
+        break;
+      case 11:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -810,13 +848,37 @@ class Utils {
         statusText = 'Not Returned';
         break;
       case 3:
-        statusText = 'Loss Damage Reported';
+        statusText = 'Closed/Damaged';
         break;
       case 4:
+        statusText = 'Closed/Lost';
+        break;
+      case 5:
+        statusText = 'Lost/Not Returned';
+        break;
+      case 6:
+        statusText = 'Closed/Lost/Not Returned';
+        break;
+      case 7:
+        statusText = 'Closed/Lost/Damaged';
+        break;
+      case 8:
+        statusText = 'Lost/Damaged';
+        break;
+      case 9:
+        statusText = 'Lost/Damaged/Not Returned';
+        break;
+      case 10:
+        statusText = 'Closed/Lost/Damaged/Not Returned';
+        break;
+      case 11:
+        statusText = 'Damaged/Not Returned';
+        break;
+      case 12:
         statusText = 'Closed';
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
     }
     return IntrinsicWidth(
       child: Row(
@@ -1203,13 +1265,13 @@ class Utils {
     String employeeTypeText;
 
     switch (employeeType) {
-      case 0:
+      case 1:
         employeeTypeText = 'FTE';
         break;
-      case 1:
+      case 2:
         employeeTypeText = 'CWR T1';
         break;
-      case 2:
+      case 3:
         employeeTypeText = 'CWR T2';
         break;
       default:
@@ -1229,13 +1291,13 @@ class Utils {
 
     switch (status) {
       case 1:
-        statusText = 'Create';
+        statusText = 'Created';
         break;
       case 2:
-        statusText = 'Submit';
+        statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'Acknowledge';
+        statusText = 'Acknowledged';
         break;
       case 4:
         statusText = 'Hold';

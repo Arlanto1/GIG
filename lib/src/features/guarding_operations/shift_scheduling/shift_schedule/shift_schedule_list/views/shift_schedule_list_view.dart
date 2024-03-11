@@ -59,8 +59,10 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
-        excelAPIName: 'exportGMDataExcel',
-        pdfAPIName: 'exportGMDataPDF',
+        showDisLikeButton: false,
+        showLikeButton: false,
+        excelAPIName: 'exportShiftSchdExcel',
+        pdfAPIName: 'exportShiftSchdPDF',
       ),
       body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
         builder: (context, state) {

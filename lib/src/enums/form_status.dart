@@ -5,6 +5,7 @@ enum FormStatus {
   addAttachment,
   next,
   success,
+  successFormSubmit,
   failure,
   error,
   createArticleFound,
@@ -12,6 +13,7 @@ enum FormStatus {
   addArticleFound,
   navigateToNextScreen,
   sessionExpired,
+  popOnly,
 }
 
 enum NavPop {

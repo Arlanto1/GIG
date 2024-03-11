@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -77,6 +76,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailureState(
             message: e.message ?? 'An unexpected error occurred.'));
       } else {
+        InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
         log('An unexpected error occurred---1: $e');
         emit(LoginFailureState(message: 'An unexpected error occurred.'));

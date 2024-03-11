@@ -1,13 +1,6 @@
-// To parse this JSON data, do
-//
-//     final foundListModel = foundListModelFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:db_atom/src/models/role.dart';
-import 'package:db_atom/src/models/role_extension.dart';
-
-import '../../../../models/organisation.dart';
+import 'package:db_atom/index.dart';
 
 FoundListModel foundListModelFromJson(String str) =>
     FoundListModel.fromJson(json.decode(str));
@@ -15,20 +8,20 @@ FoundListModel foundListModelFromJson(String str) =>
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());
 
 class FoundListModel {
-  List<FoundModel>? list;
+  List<FoundModel>? items;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
 
   FoundListModel({
-    this.list,
+    this.items,
     this.totalCount,
     this.currentPageNo,
     this.totalPageCount,
   });
 
   factory FoundListModel.fromJson(Map<String, dynamic> json) => FoundListModel(
-        list: json["list"] == null
+        items: json["list"] == null
             ? []
             : List<FoundModel>.from(
                 json["list"]!.map((x) => FoundModel.fromJson(x))),
@@ -38,9 +31,9 @@ class FoundListModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "list": list == null
+        "list": items == null
             ? []
-            : List<dynamic>.from(list!.map((x) => x.toJson())),
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
         "totalCount": totalCount,
         "currentPageNo": currentPageNo,
         "totalPageCount": totalPageCount,
@@ -391,8 +384,10 @@ final locationValues =
 
 enum AreaEnum { SOURCE_SYSTEM, CATEGORY }
 
-final areaValues = EnumValues(
-    {"Category": AreaEnum.CATEGORY, "SourceSystem": AreaEnum.SOURCE_SYSTEM});
+final areaValues = EnumValues({
+  "Category": AreaEnum.CATEGORY,
+  "SourceSystem": AreaEnum.SOURCE_SYSTEM,
+});
 
 enum DisplayName {
   T1_USER_SOURCE_SYSTEM_DB_ATOM,

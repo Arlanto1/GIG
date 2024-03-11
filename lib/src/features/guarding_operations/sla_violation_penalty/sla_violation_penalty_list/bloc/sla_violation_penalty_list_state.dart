@@ -6,14 +6,18 @@ class SLAViolationPenaltyListState extends Equatable {
   final FormStatus status;
   final SlaUiLabels? labels;
   final String? message;
+  final CommonFilters? commonFilters;
+  final Locations? locations;
 
-  const SLAViolationPenaltyListState(
-      {this.items = const <SLAViolationPenaltyModel>[],
-        this.hasReachedMax = false,
-        this.status = FormStatus.initial,
-       this.labels,
-        this.message,
-      });
+  const SLAViolationPenaltyListState({
+    this.items = const <SLAViolationPenaltyModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+    this.labels,
+    this.message,
+    this.locations,
+    this.commonFilters,
+  });
 
   SLAViolationPenaltyListState copyWith({
     List<SLAViolationPenaltyModel>? items,
@@ -21,6 +25,10 @@ class SLAViolationPenaltyListState extends Equatable {
     FormStatus? status,
     SlaUiLabels? labels,
     String? message,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return SLAViolationPenaltyListState(
       items: items ?? this.items,
@@ -28,6 +36,8 @@ class SLAViolationPenaltyListState extends Equatable {
       status: status ?? this.status,
       labels: labels ?? this.labels,
       message: message ?? this.message,
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,
     );
   }
 

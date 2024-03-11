@@ -1,17 +1,4 @@
-import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../models/organisation.dart';
-import '../models/user.dart';
-
-enum CreateFoundStateType { initial, loading, success, failure, addattachment }
+import 'package:db_atom/index.dart';
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -22,10 +9,11 @@ class CreateFoundState extends Equatable {
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
   User? loggedInUser;
+  User? handedOverUser;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
   final String? message;
-  final CreateFoundStateType stateType;
+  final FormStatus status;
   List<ImageContent>? loadAttachments = [];
   final int? eventId;
 
@@ -38,9 +26,10 @@ class CreateFoundState extends Equatable {
       this.createEmployeeDepartments,
       this.createUserResponse,
       this.loggedInUser,
+        this.handedOverUser,
       this.createFoundResponse,
       this.getSerialnumberResponse,
-      required this.stateType,
+      required this.status,
       this.message,
       this.loadAttachments,
       this.eventId});
@@ -54,10 +43,11 @@ class CreateFoundState extends Equatable {
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
     User? loggedInUser,
+    User? handedOverUser,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
     String? message,
-    CreateFoundStateType? stateType,
+    FormStatus? status,
     List<ImageContent>? loadAttachments,
     final int? eventId,
   }) {
@@ -73,12 +63,13 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
+        handedOverUser:handedOverUser??this.handedOverUser,
         loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
             getSerialnumberResponse ?? this.getSerialnumberResponse,
         message: message ?? this.message,
-        stateType: stateType ?? this.stateType,
+        status: status ?? this.status,
         loadAttachments: loadAttachments ?? this.loadAttachments,
         eventId: eventId ?? this.eventId);
   }
@@ -93,10 +84,11 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments,
         createUserResponse,
         loggedInUser,
+    handedOverUser,
         createFoundResponse,
         getSerialnumberResponse,
         message,
-        stateType,
+        status,
         loadAttachments,
         eventId
       ];

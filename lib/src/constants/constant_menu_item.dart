@@ -24,7 +24,7 @@ const materialMovementDrawerItems = [
 ];
 
 const securitySystemTicketsItems = [
-  MenuItem(Constants.incident, AppIcon.materialMovementOutwardIcon, 1),
+  MenuItem(Constants.incident, AppIcon.materialMovementOutwardIcon, 0),
 ];
 const securitySystemTicketsIncidentItems = [
   MenuItem(Constants.ticketLifeCycle, AppIcon.materialMovementOutwardIcon, 0),
@@ -35,12 +35,12 @@ const guardingOperationDrawerItems = [
   MenuItem(Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0),
   MenuItem(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
   MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
-  //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
-  MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
-  MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
   MenuItem(Constants.occurrence, AppIcon.occurence, 0),
   MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
   MenuItem(Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
+  //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
+  MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
+  MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
 ];
 
 const keyManagementDataItems = [
@@ -54,9 +54,9 @@ const keyManagementDataItems = [
 const shiftSchedulingDataItems = [
   MenuItem(Constants.dutyPostMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
+  MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 0),
 ];
 
 const passTileDrawerItems = [
@@ -68,4 +68,8 @@ const passTileDrawerItems = [
   MenuItem(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
   MenuItem(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
   MenuItem(Constants.sezpassregister, AppIcon.segpassregicon, 0),
+];
+
+const sCRIItems = [
+  MenuItem(Constants.vvipVisitors, AppIcon.materialMovementOutwardIcon, 0),
 ];

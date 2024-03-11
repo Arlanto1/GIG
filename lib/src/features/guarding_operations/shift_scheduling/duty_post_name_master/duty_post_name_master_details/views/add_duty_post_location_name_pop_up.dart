@@ -1,7 +1,4 @@
 
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
-
 import '../../../../../../../index.dart';
 
 
@@ -22,7 +19,7 @@ class AddDutyPostLocationNamePopUp extends StatefulWidget {
 class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController dutyPostLocationNameController = TextEditingController();
-
+  bool isTransportShift = false;
   @override
   void initState() {
     super.initState();
@@ -38,7 +35,7 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 4.9,
+          height: height / 3.8,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -57,15 +54,34 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         lineHeight: 1,
-                        textFieldController: dutyPostLocationNameController,
+                        controller: dutyPostLocationNameController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
-                        onChange: (String value) {
-                          dutyPostLocationNameController.text = value;
+                        onChange: (DpName value) {
+                          dutyPostLocationNameController.text = value.toString();
                         },
                         validateTextField: (String value) {},
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          CommonWidgets.textDisplay(
+                            Constants.isTransportShift,
+                            Styles.textStyleBlack14,
+                          ),
+                          Checkbox(
+                            value: isTransportShift,
+                            activeColor: AppColors.navigationSkybluecolor,
+                            focusColor: AppColors.navigationSkybluecolor,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isTransportShift = value ?? false;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       buttonViews(widget.mainContext, width),
@@ -113,9 +129,11 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
-        // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
-            .onAddDutyPostLocationName(dutyPostLocationNameController.text);
+        DpName dpName = DpName();
+        dpName.dutyPostName = dutyPostLocationNameController.text;
+        // widget.model?.dpName = dutyPostLocationNameController.text;
+        // BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
+        //     .onAddDutyPostLocationName(dutyPostLocationNameController.text);
         Navigator.pop(context);
       },
     );

@@ -1,10 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 
 class DutyPostNameMasterDetailsView extends StatefulWidget {
   final DutyPostNameMasterModel? model;
@@ -98,10 +95,17 @@ class _DutyPostNameMasterDetailsViewState
             showPopUp: false,
             showSubmitButton: state.model.status != 5 ? true : false,
             showSaveButton: state.model.status != 5 ? true : false,
+            showDisLikeButton: false,
+            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
@@ -169,7 +173,7 @@ class _DutyPostNameMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
                             items: dutyPostNameMasterStatusValues,
                             initialValue: '${state.model.status ?? 0}',
@@ -208,14 +212,14 @@ class _DutyPostNameMasterDetailsViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                                  Constants.date,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -259,7 +263,8 @@ class _DutyPostNameMasterDetailsViewState
                               //    state.labels?.defaultLocale.poc ??
                               Constants.dutyPostLocationName,
                               Styles.textStyleBlack14,
-                              isMandatory: true),
+                              //isMandatory: true
+                            ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           GestureDetector(
                             onTap: () {
@@ -294,8 +299,8 @@ class _DutyPostNameMasterDetailsViewState
                             ),
                           ),
                           Column(
-                            children: getDutyPostLocationName(
-                                state.model.locationNames ?? [], height, state),
+                            // children: getDutyPostLocationName(
+                            //     state.model.dpName ?? [], height, state),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -305,7 +310,7 @@ class _DutyPostNameMasterDetailsViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(),
+                              cancelButtonDisplay(state),
                               submitButtonDisplay()
                             ],
                           ),
@@ -322,21 +327,6 @@ class _DutyPostNameMasterDetailsViewState
         ),
       ),
     );
-  }
-
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
   }
 
   List<Widget> getDutyPostLocationName(
@@ -398,11 +388,11 @@ class _DutyPostNameMasterDetailsViewState
     setState(() {
       // Assuming your state has a list of duty post location names
       // Update the state to remove the specified location name
-      state.model.locationNames?.remove(locationName);
+      state.model.dpName?.remove(locationName);
     });
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(DutyPostNameMasterDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -411,9 +401,19 @@ class _DutyPostNameMasterDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(DutyPostNameMasterDetailsState state) {
+    if (state.model.id != null && widget.model?.status != 1) {
+      BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, dutyPostNameMasterListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay() {

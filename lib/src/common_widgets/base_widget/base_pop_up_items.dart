@@ -87,6 +87,8 @@ class BasePopUpItems extends StatefulWidget {
   final User? handedOver;
   final String? returnedByName;
   final Organisation? department;
+  final Organisation? vendors;
+
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -135,7 +137,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
-    this.isAttendance= false,
+    this.isAttendance = false,
     this.isIncident = false,
     this.eventType,
     this.isEventProtectionStatus = true,
@@ -169,6 +171,7 @@ class BasePopUpItems extends StatefulWidget {
     this.handedOver,
     this.department,
     this.returnedByName,
+    this.vendors,
   });
 }
 
@@ -236,6 +239,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils()
                 .textHandling('Region : ', widget.locationRegion?.name ?? " "),
+          ],
+        ),
+      ],
+      if (widget.location != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils()
+                .textHandling('Location : ', widget.location?.name ?? " "),
           ],
         ),
       ],
@@ -351,9 +363,18 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 'DateOfCreation : ',
                 widget.inputDate != null
                     ? Utils.timestamptoDateConversion(
-                        int.parse(widget.inputDate ?? '0'),
+                        int.tryParse(widget.inputDate ?? '0'),
                         Constants.dateFormat)
                     : ''),
+          ],
+        ),
+      ],
+      if (widget.vendors != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling(
+                'Vendor : ', widget.vendors?.name??''),
           ],
         ),
       ],
@@ -431,8 +452,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
-
-
 
       if (widget.status != null &&
           widget.isKeyManagementIssuanceStatus == true) ...[
@@ -756,8 +775,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.status != null && widget.isSLAViolationStatus == true) ...[
-        CommonWidgets.horizontalSpacerWidget(5),
-        Utils().buildSLAViolationStatus(widget.status ?? 0),
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildSLAViolationStatus(widget.status ?? 0),
+          ],
+        ),
       ],
       if (widget.firstAidNotCertified != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -858,7 +882,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.dbSponsorCWRT2 != null) ...[
+      if (widget.dbSponsorCWRT2 != null && !widget.dbSponsorCWRT2!.name.isEmptyOrNull) ...[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

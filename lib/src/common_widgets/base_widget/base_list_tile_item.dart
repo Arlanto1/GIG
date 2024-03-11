@@ -21,6 +21,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onDeleteTap;
   final int? incidentType;
   final bool isIncident;
+  final Organisation? vendors;
 
   // final Item userItem;
   final int? index;
@@ -82,6 +83,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isDutyPostNameMasterStatus = false,
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
+    this.vendors,
   });
 
   @override
@@ -146,6 +148,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
+                      if (widget.location != null) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().textHandling(
+                                'Location : ', widget.location?.name ?? ''),
+                          ],
+                        ),
+                      ],
                       if (widget.locationStr != null) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
@@ -153,6 +165,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           children: [
                             Utils().textHandling(
                                 'Location : ', widget.locationStr.toString()),
+                          ],
+                        ),
+                      ],
+                      if (widget.vendors != null) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().textHandling(
+                                'Vendor : ', widget.vendors?.name ?? ''),
                           ],
                         ),
                       ],
@@ -340,11 +362,23 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 (widget.status == -1 || widget.status == 2)) ||
                             (widget.isKeyManagementIssuanceStatus &&
                                 widget.status == 2) ||
+                            (widget.isEventProtectionStatus &&
+                                (widget.status != 0)) ||
                             (widget.isDutyPostNameMasterStatus &&
                                 widget.status == -1) ||
                             (widget.isShiftScheduleStatus &&
-                                widget.status == -1)
-                        ? const Icon(Icons.auto_stories)
+                                widget.status == -1) ||
+                            (widget.isIncident &&
+                                widget.status != 0) ||
+                            (widget.isMasterGuard &&
+                                (widget.status != 1 ||
+                                    widget.status != 2 ||
+                                    widget.status != 3 ||
+                                    widget.status != 4)) ||
+                            (widget.isVipStatus && (widget.status != 0)||
+                                (widget.isOccurrenceStatus &&
+                                    widget.status == 1))
+                        ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
                 ],

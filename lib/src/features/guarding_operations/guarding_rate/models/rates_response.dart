@@ -1,5 +1,3 @@
-import 'package:db_atom/src/models/role_extension.dart';
-
 import '../../../../models/organisation.dart';
 import '../../../createfound/models/user.dart';
 
@@ -40,6 +38,7 @@ class GMRate {
   User? entrySecurity;
   List<Organisation>? entities;
   String? inputDate;
+
   // num? modifiedDate;
   String? modifiedBy;
   Organisation? vendor;
@@ -48,6 +47,7 @@ class GMRate {
   List<PayRate>? securitySupervisorRates;
   List<PayRate>? securityFacilitatorRates;
   List<PayRate>? securityGunManRates;
+  List<PayRate>? otherRates;
   List<dynamic>? history;
 
   GMRate({
@@ -66,6 +66,7 @@ class GMRate {
     this.securitySupervisorRates,
     this.securityFacilitatorRates,
     this.securityGunManRates,
+    this.otherRates,
     this.history,
   });
 
@@ -81,11 +82,11 @@ class GMRate {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['entrySecurity'] as Map<String, dynamic>)
+            ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
             : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         inputDate = json['inputDate'] as String?,
         // modifiedDate = json['modifiedDate'] as num?,
@@ -106,6 +107,9 @@ class GMRate {
             ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
             .toList(),
         securityGunManRates = (json['securityGunManRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        otherRates = (json['otherRates'] as List?)
             ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
             .toList(),
         history = json['history'] as List?;
@@ -131,41 +135,8 @@ class GMRate {
             securityFacilitatorRates?.map((e) => e.toJson()).toList(),
         'securityGunManRates':
             securityGunManRates?.map((e) => e.toJson()).toList(),
+        'otherRates': otherRates?.map((e) => e.toJson()).toList(),
         'history': history
-      };
-}
-
-class Roles {
-  num? roleId;
-  String? application;
-  String? roleName;
-  List<RoleExtension>? roleExtensions;
-  String? name;
-
-  Roles({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  Roles.fromJson(Map<String, dynamic> json)
-      : roleId = json['roleId'] as num?,
-        application = json['application'] as String?,
-        roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)
-            ?.map((dynamic e) =>
-                RoleExtension.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'roleId': roleId,
-        'application': application,
-        'roleName': roleName,
-        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
-        'name': name
       };
 }
 

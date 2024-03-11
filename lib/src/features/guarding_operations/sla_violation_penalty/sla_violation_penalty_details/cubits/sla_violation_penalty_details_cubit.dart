@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../lawenforcement/models/addentities.dart';
 import '../../models/requestModels/sla_violation_penalty_request.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
@@ -16,11 +14,13 @@ class SLAViolationPenaltyDetailsCubit
   final SLAViolationPenaltyServices services;
   final SLAViolationPenaltyModel? model;
   final CommonServices commonServices;
+  final String? attdInfoId;
 
   SLAViolationPenaltyDetailsCubit({
     required this.services,
     required this.commonServices,
     this.model,
+    this.attdInfoId,
   }) : super(
           SLAViolationPenaltyDetailsState.initial(
             model: model ?? SLAViolationPenaltyModel(),
@@ -32,6 +32,7 @@ class SLAViolationPenaltyDetailsCubit
             vendors: const [],
             typeOfServices: const [],
             errorMessage: '',
+            getEntitiesResponse: const [],
           ),
         );
 
@@ -46,27 +47,46 @@ class SLAViolationPenaltyDetailsCubit
   }
 
   void onAddPOC(String poc) {
-    log('-poc---$poc-');
-
     emit(state.copyWith(
       model: model,
       status: FormStatus.loading,
     ));
-    log('-state.poc---before---${state.pocs}----');
-
     List<String>? pocs = state.pocs ?? [];
-    log('-pocs--$pocs----');
     pocs.add(poc);
-    log('-pocs-22-$pocs----');
     state.copyWith(
       pocs: pocs,
     );
-    log('-state.poc---after---${state.pocs}----');
     state.model.poc = Utils().joinListWithComma(pocs);
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+    GetDepositor emailUsers =
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    TypeOfServices typeOfService = await commonServices.getTypeOfService(
+        name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
+
+    emit(
+      state.copyWith(
+        getEntitiesResponse: entities,
+        listOfEntities: entities,
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        vendors: vendors.items,
+        typeOfServices: typeOfService.items,
+      ),
+    );
   }
 
   Future<void> initializeValues() async {
@@ -80,7 +100,7 @@ class SLAViolationPenaltyDetailsCubit
     var userId = await SharedPrefs.getUserId();
     try {
       Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -100,7 +120,8 @@ class SLAViolationPenaltyDetailsCubit
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       if (state.model.location == null) {
@@ -118,8 +139,7 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity = loggedInUserDetails;
-
+      state.model.entrySecurity  ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -188,14 +208,6 @@ class SLAViolationPenaltyDetailsCubit
     if (typeOfServices != null) {
       state.model.typeOfService = typeOfServices;
     }
-    if (user != null) {
-      User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
-      );
-      state.model.entrySecurity = userDetails;
-    }
 
     if (user != null) {
       User userDetails = User(
@@ -225,6 +237,9 @@ class SLAViolationPenaltyDetailsCubit
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    if (!attdInfoId.isEmptyOrNull) {
+      state.model.attdInfoId = attdInfoId;
+    }
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);
@@ -277,9 +292,11 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: navigateToNextScreen
-              ? FormStatus.navigateToNextScreen
-              : FormStatus.success,
+          status: !attdInfoId.isEmptyOrNull
+              ? FormStatus.popOnly
+              : navigateToNextScreen
+                  ? FormStatus.navigateToNextScreen
+                  : FormStatus.success,
         ),
       );
       state.model.inputDate =
@@ -304,5 +321,9 @@ class SLAViolationPenaltyDetailsCubit
       );
       return false;
     }
+  }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.slaViolationPenaltyDetailsModule);
   }
 }

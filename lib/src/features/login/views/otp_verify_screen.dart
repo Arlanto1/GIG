@@ -144,10 +144,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     height: 30,
                                   ),
                                   FlutterInputField(
-                                    textFieldController: otpTextController,
+                                    controller: otpTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintOtp,
-                                    keyboardType: TextInputType.number,
+                                    textInputType: TextInputType.number,
+                                    characterLimit: 6,
                                     onChange: (String text) {
                                       otp = text;
                                       setState(() {});
@@ -201,6 +202,7 @@ class _OtpVerifyState extends State<OtpVerify> {
 
                                   InkWell(
                                     onTap: () {
+                                      otpTextController.text = '';
                                       bloc.add(LoginVerifyEvent(
                                           requestModel: prepareLoginRequestBody(
                                               userName: widget.userName,
