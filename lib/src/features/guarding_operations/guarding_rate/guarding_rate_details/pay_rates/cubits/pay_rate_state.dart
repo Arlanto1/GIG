@@ -12,6 +12,7 @@ class PayRateState extends Equatable {
   final List<Organisation>? listOfEntities;
   final  List<Organisation>? getEntitiesResponse;
   final int? eventId;
+  final GRUiLabels? labels;
 
   factory PayRateState.initial({
     required List<PayRate> payRates,
@@ -80,6 +81,7 @@ class PayRateState extends Equatable {
     this.listOfEntities,
     this.getEntitiesResponse,
     this.eventId,
+    this.labels,
   });
 
   PayRateState copyWith({
@@ -95,6 +97,7 @@ class PayRateState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? getEntitiesResponse,
     int? eventId,
+    GRUiLabels? labels,
   }) {
     return PayRateState(
       status: status ?? this.status,
@@ -109,6 +112,8 @@ class PayRateState extends Equatable {
       listOfEntities: listOfEntities ?? this.listOfEntities,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
+      labels: labels ?? this.labels,
+
     );
   }
 }
