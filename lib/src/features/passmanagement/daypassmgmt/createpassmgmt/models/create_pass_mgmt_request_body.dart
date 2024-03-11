@@ -37,6 +37,7 @@ class PassManagement {
   String? inputDate;
   Organisation? location;
   Organisation? dayPassReason;
+  Organisation? vendorPassReason;
   Organisation? locationRegion;
   List<Organisation>? entities;
   int? status;
@@ -125,6 +126,7 @@ class PassManagement {
     this.visitorImage,
     this.visitingDepartment,
     this.dayPassReason,
+    this.vendorPassReason,
     this.startTime,
     this.updatedStatus,
     this.entrySecurity,
@@ -144,6 +146,9 @@ class PassManagement {
         dayPassReason: json["dayPassReason"] == null
             ? null
             : Organisation.fromJson(json["dayPassReason"]),
+        vendorPassReason: json["vendorPassReason"] == null
+            ? null
+            : Organisation.fromJson(json["vendorPassReason"]),
         locationRegion: json["locationRegion"] == null
             ? null
             : Organisation.fromJson(json["locationRegion"]),
@@ -269,6 +274,7 @@ class PassManagement {
             : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
         "visitingDepartment": visitingDepartment?.toJson(),
         "dayPassReason": dayPassReason?.toJson(),
+        "vendorPassReason": vendorPassReason?.toJson(),
         "startTime": startTime,
         "updatedStatus": updatedStatus,
         "entrySecurity": entrySecurity?.toJson(),
