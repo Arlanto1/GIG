@@ -84,7 +84,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        services.getDutyPostsById(id: model.id),
+        services.getDutyPostsById(id: model.id, dutyType: model.dutyType),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),

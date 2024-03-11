@@ -46,12 +46,12 @@ class ShiftScheduleServices {
 
   Future<List<DutyPostModel>> getDutyPostsById({
     required int? id,
-    BuildContext? context,
+    required int? dutyType,
   }) async {
     if (id == null) {
       return [];
     }
-    final String url = '${Apis._getDutyPostsById}/$id';
+    final String url = '${Apis._getDutyPostsById}/$id?dutyPost=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
