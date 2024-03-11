@@ -28,6 +28,99 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.eventLocation')
   String? eventLocation;
 
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.inputDate')
+  String? inputDate;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.slNo')
+  String? slNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.status')
+  String? status;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.entrySecurity')
+  String? entrySecurity;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.srh1')
+  String? srh1;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.srh2')
+  String? srh2;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.lsm1')
+  String? lsm1;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.lsm2')
+  String? lsm2;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.lsm1ContactNo')
+  String? lsm1ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.lsm2ContactNo')
+  String? lsm2ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.bu1Dept')
+  String? bu1Dept;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.bu2Dept')
+  String? bu2Dept;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.bu1ContactNo')
+  String? bu1ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.bu2ContactNo')
+  String? bu2ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor1')
+  String? systemVendor1;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor1ContactNo')
+  String? systemVendor1ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor2')
+  String? systemVendor2;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor2ContactNo')
+  String? systemVendor2ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor3')
+  String? systemVendor3;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.systemVendor3ContactNo')
+  String? systemVendor3ContactNo;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.epOfficers')
+  String? epOfficers;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.extraSecurityDeployed')
+  String? extraSecurityDeployed;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.vendorId')
+  String? vendorId;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.guardingVendorPoc')
+  String? guardingVendorPoc;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityOfficerCountHrs')
+  String? securityOfficerCountHrs;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securitySupervisorCountHrs')
+  String? securitySupervisorCountHrs;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityGuardCount')
+  String? securityGuardCount;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityGuardCountHrs')
+  String? securityGuardCountHrs;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityFacilitatorCount')
+  String? securityFacilitatorCount;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityFacilitatorCountHrs')
+  String? securityFacilitatorCountHrs;
+
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.proposedVendors')
+  String? proposedVendors;
+
   @JsonKey(name: 'com.arlanto.atom.eventProtection.eventName')
   String? eventName;
 
@@ -55,7 +148,8 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.accessControl')
   String? accessControl;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.aarGrade.rating.lessPositive')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.aarGrade.rating.lessPositive')
   String? lessPositive;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.eepOversight')
@@ -73,10 +167,12 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.status.epPostApproved')
   String? epPostApproved;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.high')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.high')
   String? dbStaffConcentrationRiskHigh;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.serviceEngineerContactPrimary')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.serviceEngineerContactPrimary')
   String? serviceEngineerContactPrimary;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.commandSupportCbre')
@@ -95,12 +191,13 @@ class APSUILabelsLocale {
   String? entityOwner;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.important.comment')
-   String? importantComment;
+  String? importantComment;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.sensitiveInfoRisk')
   String? sensitiveInfoRisk;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.external1')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.external1')
   String? locationParticipantsExternal1;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.securityDeployment')
@@ -175,7 +272,8 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.high.reputation')
   String? highReputation;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.external')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.external')
   String? locationParticipantsExternal;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.eventEndDate')
@@ -214,10 +312,12 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.accessControlCount')
   String? accessControlCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.low')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.low')
   String? dbStaffConcentrationRiskLow;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.med')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.dbStaffConcentrationRisk.med')
   String? dbStaffConcentrationRiskMed;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.commandSupport')
@@ -241,7 +341,8 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.cctvCoverage')
   String? cctvCoverage;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.entryExitPoints')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.controlChecks.entryExitPoints')
   String? entryExitPoints;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.lockers')
@@ -250,7 +351,8 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.manTraps')
   String? manTraps;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.metalDetectors')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.controlChecks.metalDetectors')
   String? metalDetectors;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.snifferDogs')
@@ -326,23 +428,29 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.status.epPreApproved')
   String? epPreApproved;
 
+  @JsonKey(name: 'com.arlanto.atom.eventProtection.location')
+  String? location;
+
   @JsonKey(name: 'com.arlanto.atom.eventProtection.locationRegion')
   String? locationRegion;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants')
   String? locationParticipants;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.internal')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.internal')
   String? locationParticipantsInternal;
 
-
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.internal1')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.internal1')
   String? locationParticipantsInternal1;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.external2')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.external2')
   String? locationParticipantsExternal2;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.locationParticipants.internal2')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.locationParticipants.internal2')
   String? locationParticipantsInternal2;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.eventStaffDiscussion')
@@ -354,16 +462,19 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.eventDetail')
   String? situationEventDetail;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.situationEventName')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.situation.situationEventName')
   String? situationEventName;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.situationEventDate')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.situation.situationEventDate')
   String? situationEventDate;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.eventRiskThreat')
   String? situationEventRiskThreat;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.eventServiceImpact')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.situation.eventServiceImpact')
   String? situationEventServiceImpact;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.eventSummary')
@@ -384,64 +495,96 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture')
   String? securityPosture;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCount')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCount')
   String? securityPostureSecurityEquipmentCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCost')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCost')
   String? securityPostureSecurityEquipmentCost;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityGuardCount')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityGuardCount')
   String? securityPostureSecurityGuardCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securitySupervisorCount')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securitySupervisorCount')
   String? securityPostureSecuritySupervisorCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityOfficerCount')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityOfficerCount')
   String? securityPostureSecurityOfficerCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityFacilitatorCount')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityFacilitatorCount')
   String? securityPostureSecurityFacilitatorCount;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.guardingVendorPoc')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.guardingVendorPoc')
   String? securityPostureGuardingVendorPoc;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.vendorId')
   String? securityPostureVendorId;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.extraSecurityDeployed')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.extraSecurityDeployed')
   String? securityPostureExtraSecurityDeployed;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityDeployment')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.securityDeployment')
   String? securityPostureSecurityDeployment;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityBreach')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.securityBreach')
   String? securityPostureSecurityBreach;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.accessControlFail')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.accessControlFail')
   String? securityPostureAccessControlFail;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.cctvSystemFail')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.cctvSystemFail')
   String? securityPostureCctvSystemFail;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.autoFireDetect')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.autoFireDetect')
   String? securityPostureAutoFireDetect;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.ambulanceCost')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.ambulanceCost')
   String? securityPostureAmbulanceCost;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.emergencyFailure')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.emergencyFailure')
   String? securityPostureEmergencyFailure;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.annualPowerShutdown')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.annualPowerShutdown')
   String? securityPostureAnnualPowerShutdown;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.compoundEntryFail')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.compoundEntryFail')
   String? securityPostureCompoundEntryFail;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.extinguisherInspection')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.eventProtection.securityPosture.extinguisherInspection')
   String? securityPostureExtinguisherInspection;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.securityTraining')
+  @JsonKey(
+      name: 'com.arlanto.atom.eventProtection.securityPosture.securityTraining')
   String? securityPostureSecurityTraining;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.oddIncident')
@@ -466,6 +609,37 @@ class APSUILabelsLocale {
   APSUILabelsLocale(
       this.vendorDetails,
       this.eventLocation,
+      this.inputDate,
+      this.slNo,
+      this.status,
+      this.entrySecurity,
+      this.srh1,
+      this.srh2,
+      this.lsm1,
+      this.lsm2,
+      this.lsm1ContactNo,
+      this.lsm2ContactNo,
+      this.bu1Dept,
+      this.bu2Dept,
+      this.bu1ContactNo,
+      this.bu2ContactNo,
+      this.systemVendor1,
+      this.systemVendor1ContactNo,
+      this.systemVendor2,
+      this.systemVendor2ContactNo,
+      this.systemVendor3,
+      this.systemVendor3ContactNo,
+      this.epOfficers,
+      this.extraSecurityDeployed,
+      this.vendorId,
+      this.guardingVendorPoc,
+      this.securityOfficerCountHrs,
+      this.securitySupervisorCountHrs,
+      this.securityGuardCount,
+      this.securityGuardCountHrs,
+      this.securityFacilitatorCount,
+      this.securityFacilitatorCountHrs,
+      this.proposedVendors,
       this.eventName,
       this.eventConcludedAt,
       this.budget,
@@ -565,6 +739,7 @@ class APSUILabelsLocale {
       this.securitySupervisorCountRating,
       this.epPostApproval,
       this.epPreApproved,
+      this.location,
       this.locationRegion,
       this.locationParticipants,
       this.locationParticipantsInternal,

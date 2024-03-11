@@ -201,8 +201,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Status
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.status ??
-                                  //     state.labels?.defaultLocale.status ??
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
                                   Constants.status,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -244,8 +244,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Created By
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                                   isMandatory: true,
                                   '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
@@ -253,8 +253,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Location
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.location ??
-                                  //     state.labels?.defaultLocale.location ??
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
                                   Constants.location,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -265,8 +265,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Date of creation
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.inputDate ??
-                                  //     state.labels?.defaultLocale.inputDate ??
+                                  state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -278,8 +278,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.slNo ??
-                                  //     state.labels?.defaultLocale.slNo ??
+                                  state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
                                   state.model.slNo ?? '',
                                   isMandatory: true),
@@ -287,8 +287,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Entity
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.entity ??
-                                  //     state.labels?.defaultLocale.entity ??
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
                                   Constants.entity,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -314,9 +314,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Event Start Date
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.eventStartDate ??
-                                  //     state
-                                  //         .labels?.defaultLocale.eventStartDate ??
+                                  state.labels?.locale.eventStartDate ??
+                                      state
+                                          .labels?.defaultLocale.eventStartDate ??
                                   Constants.eventStartDate,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -343,8 +343,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Event End Date
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.eventEndDate ??
-                                  //     state.labels?.defaultLocale.eventEndDate ??
+                                  state.labels?.locale.eventEndDate ??
+                                      state.labels?.defaultLocale.eventEndDate ??
                                   Constants.eventEndDate,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -370,8 +370,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.srh1 ??
-                                  //     state.labels?.defaultLocale.srh1 ??
+                                  state.labels?.locale.srh1 ??
+                                      state.labels?.defaultLocale.srh1 ??
                                   Constants.subRegionalHead1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -398,8 +398,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.srh2 ??
-                                  //     state.labels?.defaultLocale.srh2 ??
+                                  state.labels?.locale.srh2 ??
+                                      state.labels?.defaultLocale.srh2 ??
                                   Constants.subRegionalHead2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -426,8 +426,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Location Security  Manager 1
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm1 ??
-                                  //     state.labels?.defaultLocale.lsm1 ??
+                                  state.labels?.locale.lsm1 ??
+                                      state.labels?.defaultLocale.lsm1 ??
                                   Constants.locationSecurityManager1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -456,8 +456,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///LSM 1 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm1ContactNo ??
-                                  //     state.labels?.defaultLocale.lsm1ContactNo ??
+                                  state.labels?.locale.lsm1ContactNo ??
+                                      state.labels?.defaultLocale.lsm1ContactNo ??
                                   Constants.lsm1ContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -486,8 +486,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Location Security  Manager 2
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm2 ??
-                                  //     state.labels?.defaultLocale.lsm2 ??
+                                  state.labels?.locale.lsm2 ??
+                                      state.labels?.defaultLocale.lsm2 ??
                                   Constants.locationSecurityManager2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -516,8 +516,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///LSM 2 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm2ContactNo ??
-                                  //     state.labels?.defaultLocale.lsm2ContactNo ??
+                                  state.labels?.locale.lsm2ContactNo ??
+                                      state.labels?.defaultLocale.lsm2ContactNo ??
                                   Constants.lsm2ContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -547,8 +547,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1 ??
-                                  //     state.labels?.defaultLocale.bu1 ??
+                                  state.labels?.locale.bu1 ??
+                                      state.labels?.defaultLocale.bu1 ??
                                   Constants.businessPoc,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -577,8 +577,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC  Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1ContactNo ??
-                                  //     state.labels?.defaultLocale.bu1ContactNo ??
+                                  state.labels?.locale.bu1ContactNo ??
+                                      state.labels?.defaultLocale.bu1ContactNo ??
                                   Constants.businessPocContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -607,8 +607,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Escalation
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2 ??
-                                  //     state.labels?.defaultLocale.bu2 ??
+                                  state.labels?.locale.bu2 ??
+                                      state.labels?.defaultLocale.bu2 ??
                                   Constants.businessPocEscalation,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -637,8 +637,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Escalation Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2ContactNo ??
-                                  //     state.labels?.defaultLocale.bu2ContactNo ??
+                                  state.labels?.locale.bu2ContactNo ??
+                                      state.labels?.defaultLocale.bu2ContactNo ??
                                   Constants.businessPocEscalationContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -667,8 +667,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1Dept ??
-                                  //     state.labels?.defaultLocale.bu1Dept ??
+                                  state.labels?.locale.bu1Dept ??
+                                      state.labels?.defaultLocale.bu1Dept ??
                                   Constants.businessPocDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -702,8 +702,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Business POC Escalation Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2Dept ??
-                                  //     state.labels?.defaultLocale.bu2Dept ??
+                                  state.labels?.locale.bu2Dept ??
+                                      state.labels?.defaultLocale.bu2Dept ??
                                   Constants.businessPocEscalationDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -741,9 +741,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// System Vendor 1 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor1 ??
-                                  //     state.labels?.defaultLocale
-                                  //      .systemVendor1 ??
+                                  state.labels?.locale.systemVendor1 ??
+                                      state.labels?.defaultLocale
+                                       .systemVendor1 ??
                                   Constants.systemVendor1Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -771,9 +771,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Vendor 1 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor1ContactNo ??
-                                  //     state.labels?.defaultLocale
-                                  //     .systemVendor1ContactNo ??
+                                  state.labels?.locale.systemVendor1ContactNo ??
+                                      state.labels?.defaultLocale
+                                      .systemVendor1ContactNo ??
                                   Constants.vendor1ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -826,9 +826,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor2 ??
-                                  //     state.labels?.defaultLocale
-                                  //         .systemVendor2 ??
+                                  state.labels?.locale.systemVendor2 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor2 ??
                                   Constants.systemVendor2Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -855,9 +855,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor2ContactNo ??
-                                  //     state.labels?.defaultLocale
-                                  //    .systemVendor2ContactNo ??
+                                  state.labels?.locale.systemVendor2ContactNo ??
+                                      state.labels?.defaultLocale
+                                     .systemVendor2ContactNo ??
                                   Constants.vendor2ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -910,9 +910,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///System Vendor 3 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor3 ??
-                                  //     state.labels?.defaultLocale
-                                  //     .systemVendor3 ??
+                                  state.labels?.locale.systemVendor3 ??
+                                      state.labels?.defaultLocale
+                                      .systemVendor3 ??
                                   Constants.systemVendor3Email,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -938,9 +938,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
-                                  //     state.labels?.locale.systemVendor3ContactNo ??
-                                  //         state.labels?.defaultLocale
-                                  //  .systemVendor3ContactNo ??
+                                      state.labels?.locale.systemVendor3ContactNo ??
+                                          state.labels?.defaultLocale
+                                   .systemVendor3ContactNo ??
                                   Constants.vendor3ContactNO,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -992,9 +992,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Requester Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.requesterDepartment ??
-                                  //     state.labels?.defaultLocale
-                                  //  .requesterDepartment ??
+                                  state.labels?.locale.requesterDepartment ??
+                                      state.labels?.defaultLocale
+                                   .requesterDepartment ??
                                   Constants.requesterDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -1031,8 +1031,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Event Protection Officer
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.epOfficers ??
-                                  //     state.labels?.defaultLocale.epOfficers ??
+                                  state.labels?.locale.epOfficers ??
+                                      state.labels?.defaultLocale.epOfficers ??
                                   Constants.eventProtectionOfficers,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -1256,9 +1256,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               ///Is Extra Security Deployment Required
                               Row(children: [
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.extraSecurityDeployed ??
-                                  //     state.labels?.defaultLocale
-                                  //      .extraSecurityDeployed ??
+                                  state.labels?.locale.extraSecurityDeployed ??
+                                      state.labels?.defaultLocale
+                                       .extraSecurityDeployed ??
                                   Constants.isExtraSecurityDeploymentRequired,
                                   Styles.textStyleBlack14,
                                 ),
@@ -1281,8 +1281,8 @@ class _AnnualPowerShutdownListDetailsViewState
                               if (state.model.extraSecurityDeployed) ...[
                                 ///Vendor Id
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.vendorId ??
-                                    //     state.labels?.defaultLocale.vendorId ??
+                                    state.labels?.locale.vendorId ??
+                                        state.labels?.defaultLocale.vendorId ??
                                     Constants.guardingVendorId,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
@@ -1309,9 +1309,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 ///Guarding Agency POC
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.guardingVendorPoc ??
-                                    //     state.labels?.defaultLocale
-                                    //  .guardingVendorPoc ??
+                                    state.labels?.locale.guardingVendorPoc ??
+                                        state.labels?.defaultLocale
+                                     .guardingVendorPoc ??
                                     Constants.guardingAgencyPOC,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
@@ -1338,9 +1338,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Officers
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityOfficerCount ??
-                                  //     state.labels?.defaultLocale
-                                  //.securityOfficerCount ??
+                                  state.labels?.locale.securityOfficerCount ??
+                                      state.labels?.defaultLocale
+                                  .securityOfficerCount ??
                                   Constants.numOfSecurityOfficers,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1372,9 +1372,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityOfficerCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  // .securityOfficerCountHrs ??
+                                  state.labels?.locale.securityOfficerCountHrs ??
+                                      state.labels?.defaultLocale
+                                  .securityOfficerCountHrs ??
                                   Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1406,9 +1406,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Supervisors
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securitySupervisorCount ??
-                                  //     state.labels?.defaultLocale
-                                  //.securitySupervisorCount ??
+                                  state.labels?.locale.securitySupervisorCount ??
+                                      state.labels?.defaultLocale
+                                  .securitySupervisorCount ??
                                   Constants.numOfSecuritySupervisor,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1440,10 +1440,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 ///Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale
-                                  //     .securitySupervisorCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securitySupervisorCountHrs ??
+                                  state.labels?.locale
+                                      .securitySupervisorCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securitySupervisorCountHrs ??
                                   Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1476,9 +1476,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Guards
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityGuardCount ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityGuardCount ??
+                                  state.labels?.locale.securityGuardCount ??
+                                      state.labels?.defaultLocale
+                                          .securityGuardCount ??
                                   Constants.numOfSecurityGuards,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1510,9 +1510,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityGuardCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityGuardCountHrs ??
+                                  state.labels?.locale.securityGuardCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securityGuardCountHrs ??
                                   Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1544,9 +1544,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Facilitators
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityFacilitatorCount ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityFacilitatorCount ??
+                                  state.labels?.locale.securityFacilitatorCount ??
+                                      state.labels?.defaultLocale
+                                          .securityFacilitatorCount ??
                                   Constants.numOfSecurityFacilitators,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1578,10 +1578,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale
-                                  //     .securityFacilitatorCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityFacilitatorCountHrs ??
+                                  state.labels?.locale
+                                      .securityFacilitatorCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securityFacilitatorCountHrs ??
                                   Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
@@ -1614,9 +1614,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Proposed Vendors
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.proposedVendors ??
-                                  //     state.labels?.defaultLocale
-                                  //         .proposedVendors ??
+                                  state.labels?.locale.proposedVendors ??
+                                      state.labels?.defaultLocale
+                                          .proposedVendors ??
                                   Constants.proposedVendors,
                                   Styles.textStyleBlack14,
                                 ),
@@ -1650,8 +1650,8 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Budget Costs
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.budget ??
-                                    //     state.labels?.defaultLocale.budget ??
+                                    state.labels?.locale.budget ??
+                                        state.labels?.defaultLocale.budget ??
                                     Constants.budget,
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
