@@ -1,6 +1,4 @@
-
-import '../../../../../../../index.dart';
-
+import 'package:db_atom/index.dart';
 
 class AddDutyPostLocationNamePopUp extends StatefulWidget {
   const AddDutyPostLocationNamePopUp({
@@ -13,13 +11,17 @@ class AddDutyPostLocationNamePopUp extends StatefulWidget {
   final DutyPostNameMasterModel? model;
 
   @override
-  State<AddDutyPostLocationNamePopUp> createState() => AddDutyPostLocationNamePopUpState();
+  State<AddDutyPostLocationNamePopUp> createState() =>
+      AddDutyPostLocationNamePopUpState();
 }
 
-class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePopUp> {
+class AddDutyPostLocationNamePopUpState
+    extends State<AddDutyPostLocationNamePopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController dutyPostLocationNameController = TextEditingController();
+  TextEditingController dutyPostLocationNameController =
+      TextEditingController();
   bool isTransportShift = false;
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +48,7 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Duty Post Location Name
+                      /// Duty Post Location Name
                       CommonWidgets.textDisplay(
                         Constants.dutyPostLocationName,
                         Styles.textStyleBlack14,
@@ -59,12 +61,13 @@ class AddDutyPostLocationNamePopUpState extends State<AddDutyPostLocationNamePop
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
-                        onChange: (DpName value) {
-                          dutyPostLocationNameController.text = value.toString();
+                        onChange: (String value) {
+                          dutyPostLocationNameController.text = value;
                         },
                         validateTextField: (String value) {},
                       ),
 
+                      /// is Transport Shift
                       Row(
                         children: <Widget>[
                           CommonWidgets.textDisplay(

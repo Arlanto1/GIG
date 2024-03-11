@@ -298,13 +298,11 @@ class _DutyPostNameMasterDetailsViewState
                               ],
                             ),
                           ),
-                          Column(
+                          // Column(
                             // children: getDutyPostLocationName(
                             //     state.model.dpName ?? [], height, state),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          // ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                           /// SubmitButton
                           Row(
