@@ -38,9 +38,6 @@ class EPUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.controlChecks.cctvRetention')
   String? cctvRetention;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.situation.eventDetail')
-  String? eventDetail;
-
   @JsonKey(name: 'com.arlanto.atom.eventProtection.status.epPreReview')
   String? epPreReview;
 
@@ -471,7 +468,6 @@ class EPUiLabelsLocale {
       this.eventConcludedAt,
       this.budget,
       this.cctvRetention,
-      this.eventDetail,
       this.epPreReview,
       this.bu1,
       this.bu2,
