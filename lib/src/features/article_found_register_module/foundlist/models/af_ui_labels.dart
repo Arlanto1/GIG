@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+part 'af_ui_labels.g.dart';
 
 @JsonSerializable()
 class AFUiLabels {
