@@ -23,6 +23,44 @@ APSUILabelsLocale _$APSUILabelsLocaleFromJson(Map<String, dynamic> json) =>
     APSUILabelsLocale(
       json['com.arlanto.atom.eventProtection.vendorDetails'] as String?,
       json['com.arlanto.atom.eventProtection.eventLocation'] as String?,
+      json['com.arlanto.atom.eventProtection.inputDate'] as String?,
+      json['com.arlanto.atom.eventProtection.slNo'] as String?,
+      json['com.arlanto.atom.eventProtection.status'] as String?,
+      json['com.arlanto.atom.eventProtection.entrySecurity'] as String?,
+      json['com.arlanto.atom.eventProtection.srh1'] as String?,
+      json['com.arlanto.atom.eventProtection.srh2'] as String?,
+      json['com.arlanto.atom.eventProtection.lsm1'] as String?,
+      json['com.arlanto.atom.eventProtection.lsm2'] as String?,
+      json['com.arlanto.atom.eventProtection.lsm1ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.lsm2ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.bu1Dept'] as String?,
+      json['com.arlanto.atom.eventProtection.bu2Dept'] as String?,
+      json['com.arlanto.atom.eventProtection.bu1ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.bu2ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor1'] as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor1ContactNo']
+          as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor2'] as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor2ContactNo']
+          as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor3'] as String?,
+      json['com.arlanto.atom.eventProtection.systemVendor3ContactNo']
+          as String?,
+      json['com.arlanto.atom.eventProtection.epOfficers'] as String?,
+      json['com.arlanto.atom.eventProtection.extraSecurityDeployed'] as String?,
+      json['com.arlanto.atom.eventProtection.vendorId'] as String?,
+      json['com.arlanto.atom.eventProtection.guardingVendorPoc'] as String?,
+      json['com.arlanto.atom.eventProtection.securityOfficerCountHrs']
+          as String?,
+      json['com.arlanto.atom.eventProtection.securitySupervisorCountHrs']
+          as String?,
+      json['com.arlanto.atom.eventProtection.securityGuardCount'] as String?,
+      json['com.arlanto.atom.eventProtection.securityGuardCountHrs'] as String?,
+      json['com.arlanto.atom.eventProtection.securityFacilitatorCount']
+          as String?,
+      json['com.arlanto.atom.eventProtection.securityFacilitatorCountHrs']
+          as String?,
+      json['com.arlanto.atom.eventProtection.proposedVendors'] as String?,
       json['com.arlanto.atom.eventProtection.eventName'] as String?,
       json['com.arlanto.atom.eventProtection.eventConcludedAt'] as String?,
       json['com.arlanto.atom.eventProtection.budget'] as String?,
@@ -164,6 +202,7 @@ APSUILabelsLocale _$APSUILabelsLocaleFromJson(Map<String, dynamic> json) =>
           as String?,
       json['com.arlanto.atom.eventProtection.epPostApproval'] as String?,
       json['com.arlanto.atom.eventProtection.status.epPreApproved'] as String?,
+      json['com.arlanto.atom.eventProtection.location'] as String?,
       json['com.arlanto.atom.eventProtection.locationRegion'] as String?,
       json['com.arlanto.atom.eventProtection.locationParticipants'] as String?,
       json['com.arlanto.atom.eventProtection.locationParticipants.internal']
@@ -249,6 +288,49 @@ Map<String, dynamic> _$APSUILabelsLocaleToJson(APSUILabelsLocale instance) =>
     <String, dynamic>{
       'com.arlanto.atom.eventProtection.vendorDetails': instance.vendorDetails,
       'com.arlanto.atom.eventProtection.eventLocation': instance.eventLocation,
+      'com.arlanto.atom.eventProtection.inputDate': instance.inputDate,
+      'com.arlanto.atom.eventProtection.slNo': instance.slNo,
+      'com.arlanto.atom.eventProtection.status': instance.status,
+      'com.arlanto.atom.eventProtection.entrySecurity': instance.entrySecurity,
+      'com.arlanto.atom.eventProtection.srh1': instance.srh1,
+      'com.arlanto.atom.eventProtection.srh2': instance.srh2,
+      'com.arlanto.atom.eventProtection.lsm1': instance.lsm1,
+      'com.arlanto.atom.eventProtection.lsm2': instance.lsm2,
+      'com.arlanto.atom.eventProtection.lsm1ContactNo': instance.lsm1ContactNo,
+      'com.arlanto.atom.eventProtection.lsm2ContactNo': instance.lsm2ContactNo,
+      'com.arlanto.atom.eventProtection.bu1Dept': instance.bu1Dept,
+      'com.arlanto.atom.eventProtection.bu2Dept': instance.bu2Dept,
+      'com.arlanto.atom.eventProtection.bu1ContactNo': instance.bu1ContactNo,
+      'com.arlanto.atom.eventProtection.bu2ContactNo': instance.bu2ContactNo,
+      'com.arlanto.atom.eventProtection.systemVendor1': instance.systemVendor1,
+      'com.arlanto.atom.eventProtection.systemVendor1ContactNo':
+          instance.systemVendor1ContactNo,
+      'com.arlanto.atom.eventProtection.systemVendor2': instance.systemVendor2,
+      'com.arlanto.atom.eventProtection.systemVendor2ContactNo':
+          instance.systemVendor2ContactNo,
+      'com.arlanto.atom.eventProtection.systemVendor3': instance.systemVendor3,
+      'com.arlanto.atom.eventProtection.systemVendor3ContactNo':
+          instance.systemVendor3ContactNo,
+      'com.arlanto.atom.eventProtection.epOfficers': instance.epOfficers,
+      'com.arlanto.atom.eventProtection.extraSecurityDeployed':
+          instance.extraSecurityDeployed,
+      'com.arlanto.atom.eventProtection.vendorId': instance.vendorId,
+      'com.arlanto.atom.eventProtection.guardingVendorPoc':
+          instance.guardingVendorPoc,
+      'com.arlanto.atom.eventProtection.securityOfficerCountHrs':
+          instance.securityOfficerCountHrs,
+      'com.arlanto.atom.eventProtection.securitySupervisorCountHrs':
+          instance.securitySupervisorCountHrs,
+      'com.arlanto.atom.eventProtection.securityGuardCount':
+          instance.securityGuardCount,
+      'com.arlanto.atom.eventProtection.securityGuardCountHrs':
+          instance.securityGuardCountHrs,
+      'com.arlanto.atom.eventProtection.securityFacilitatorCount':
+          instance.securityFacilitatorCount,
+      'com.arlanto.atom.eventProtection.securityFacilitatorCountHrs':
+          instance.securityFacilitatorCountHrs,
+      'com.arlanto.atom.eventProtection.proposedVendors':
+          instance.proposedVendors,
       'com.arlanto.atom.eventProtection.eventName': instance.eventName,
       'com.arlanto.atom.eventProtection.eventConcludedAt':
           instance.eventConcludedAt,
@@ -422,6 +504,7 @@ Map<String, dynamic> _$APSUILabelsLocaleToJson(APSUILabelsLocale instance) =>
           instance.epPostApproval,
       'com.arlanto.atom.eventProtection.status.epPreApproved':
           instance.epPreApproved,
+      'com.arlanto.atom.eventProtection.location': instance.location,
       'com.arlanto.atom.eventProtection.locationRegion':
           instance.locationRegion,
       'com.arlanto.atom.eventProtection.locationParticipants':
