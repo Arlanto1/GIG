@@ -113,9 +113,6 @@ class EPUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.qmrGrade')
   String? qmrGrade;
 
-  @JsonKey(name: 'com.arlanto.atom.eventProtection.serious.reputation')
-  String? reputation;
-
   @JsonKey(name: 'com.arlanto.atom.eventProtection.qmrGrade.qmrSecOpsComments')
   String? qmrSecOpsComments;
 
@@ -499,7 +496,6 @@ class EPUiLabelsLocale {
       this.securityDeployment,
       this.securityEquipmentCost,
       this.qmrGrade,
-      this.reputation,
       this.qmrSecOpsComments,
       this.epOnsite,
       this.conclusion,
