@@ -179,8 +179,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (state.model.vendor != null) {
         List<DutyPostModel> dutyPosts =
             await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
+          locationId: state.model.location!.id ?? 0,
+          vendorId: state.model.vendor?.id ?? 0,
+          dutyType: state.model.dutyType,
+        );
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(
@@ -197,8 +199,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (state.model.location != null) {
         List<DutyPostModel> dutyPosts =
             await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
+          locationId: state.model.location!.id ?? 0,
+          vendorId: state.model.vendor?.id ?? 0,
+          dutyType: state.model.dutyType,
+        );
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(

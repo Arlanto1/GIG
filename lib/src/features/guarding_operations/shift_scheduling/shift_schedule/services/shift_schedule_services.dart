@@ -75,9 +75,10 @@ class ShiftScheduleServices {
   Future<List<DutyPostModel>> getDutyPostsByLocationAndVendor({
     required int locationId,
     required int vendorId,
+    required int? dutyType,
   }) async {
     String url =
-        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId';
+        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyPost=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
