@@ -1,28 +1,16 @@
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
 
 class AddNewFields extends StatefulWidget {
-  AddNewFields(
-      {super.key,
-      required this.title,
-      this.lawstate,
-      this.createoundstate,
-      this.createpassmgmtstate,
-      this.payRateState,
-      this.entityFun});
+  AddNewFields({
+    super.key,
+    required this.title,
+    this.lawstate,
+    this.createoundstate,
+    this.createpassmgmtstate,
+    this.payRateState,
+    this.entityFun,
+  });
 
   final String title;
   LawEnforcementState? lawstate;
@@ -133,9 +121,8 @@ class AddNewFieldsState extends State<AddNewFields> {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.topLeft,
-                          child:
-                          CommonWidgets.textDisplay(
-                                Constants.name,
+                          child: CommonWidgets.textDisplay(
+                            Constants.name,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
