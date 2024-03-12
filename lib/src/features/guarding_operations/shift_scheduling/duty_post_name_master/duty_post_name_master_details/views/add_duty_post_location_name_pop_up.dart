@@ -134,6 +134,7 @@ class AddDutyPostLocationNamePopUpState
       onTap: () {
         DpName dpName = DpName();
         dpName.dutyPostName = dutyPostLocationNameController.text;
+        dpName.transportShift = isTransportShift;
         // widget.model?.dpName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
             .onAddDutyPostLocationName(dpName);

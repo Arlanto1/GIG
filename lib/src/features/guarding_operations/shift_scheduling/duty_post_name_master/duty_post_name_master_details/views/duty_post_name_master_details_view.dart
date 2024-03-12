@@ -334,11 +334,12 @@ class _DutyPostNameMasterDetailsViewState
     for (DpName dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
           TextEditingController();
-      dutyPostLocationNameController.text = dutyPostLocationName.dutyPostName??'';
+      dutyPostLocationNameController.text =
+          dutyPostLocationName.dutyPostName ?? '';
       widgets.add(Row(
         children: [
           Text(
-            dutyPostLocationName.dutyPostName??'',
+            dutyPostLocationName.dutyPostName ?? '',
             textAlign: TextAlign.start,
           ),
           GestureDetector(
@@ -349,10 +350,7 @@ class _DutyPostNameMasterDetailsViewState
             },
             child: Align(
               alignment: Alignment.centerRight,
-              child: SvgPicture.asset(
-                AppIcon.closeicon,
-                color: AppColors.black,
-              ),
+              child: BaseIcons().closeIcon(),
             ), //
           ),
         ],
