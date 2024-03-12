@@ -668,7 +668,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (state.model?.status == 0) {
+                                if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
@@ -706,7 +706,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (state.model?.status == 0) {
+                                if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
@@ -769,7 +769,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model?.status != 0,
+                              isDisabled: state.model.status != 0,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {

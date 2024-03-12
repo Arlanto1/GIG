@@ -139,6 +139,12 @@ dev_dependencies:
 #flutter_native_splash:
 #   color: "#ffffff" #white color
 #   image: assets/atom_splash.png
+flutter_obfuscate:
+  entry_points:
+    - lib/main.dart
+    # Add additional entry points if needed
+  exclude:
+    - test/**
 
 flutter_launcher_icons:
   android: "launcher_icon"

@@ -68,10 +68,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
 
-    List<BaseUser> securityManagers =
-    await commonServices.getBaseUsersByRoles(
+    List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
-
 
     emit(
       state.copyWith(
@@ -82,7 +80,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
         securityLeads: securityLeads,
-        securityManagers:securityManagers,
+        securityManagers: securityManagers,
         locationTeamUsers: locationTeamUsers,
       ),
     );
@@ -157,7 +155,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         state.model.staffType = 2;
         state.model.ticketType = 1;
       }
-        state.model.status = 1;
+      state.model.status = 1;
 
       emit(
         state.copyWith(
@@ -239,7 +237,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           state.model.escalation3Poc =
               !emails[3].isEmptyOrNull ? emails[3].trim() : '';
         }
-
       }
 
       emit(
@@ -343,7 +340,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       for (ImageContent image in data) {
         image.type = 1;
       }
-      log('--data----${data?.length}----');
+      log('--data----${data.length}----');
 
       state.model.attachments = data;
       emit(
@@ -464,6 +461,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(id: id, module: Constants.securitySystemModule);
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.securitySystemModule);
   }
 }

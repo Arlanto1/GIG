@@ -2,7 +2,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
 class Apis {
@@ -18,10 +17,14 @@ class Apis {
   static final String _getGroup = '$baseUrl/getGroup';
   static final String _createOrganisation = '$baseUrl/createOrganisation?';
   static final String _createUser = '$baseUrl/createUser?';
-  static final String _getLeoVisitingOfficials = '$baseUrl/getLeoVisitingOfficials/';
-  static final String _getLeoVisitingOfficialById = '$baseUrl/getLeoVisitingOfficialById/';
-  static final String _createVisitingOfficial = '$baseUrl/createVisitingOfficial/';
-  static final String _deleteVisitingOfficial = '$baseUrl/deleteVisitingOfficial/';
+  static final String _getLeoVisitingOfficials =
+      '$baseUrl/getLeoVisitingOfficials/';
+  static final String _getLeoVisitingOfficialById =
+      '$baseUrl/getLeoVisitingOfficialById/';
+  static final String _createVisitingOfficial =
+      '$baseUrl/createVisitingOfficial/';
+  static final String _deleteVisitingOfficial =
+      '$baseUrl/deleteVisitingOfficial/';
 }
 
 class LawEnforcementServices {
@@ -41,6 +44,7 @@ class LawEnforcementServices {
     );
     return LawEnforcementListResponse.fromJson(response);
   }
+
   Future<LawEnforcementListResponse> getListWithFilters({
     required String startPosition,
     required String maximumRecords,
@@ -125,8 +129,7 @@ class LawEnforcementServices {
     return LeoPurposeVisit.fromJson(response);
   }
 
-  Future<LeoDepartments> getLeodepartments(
-      String name) async {
+  Future<LeoDepartments> getLeodepartments(String name) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -182,9 +185,8 @@ class LawEnforcementServices {
     BuildContext? context,
   ) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
-    final response = await BaseApiService().postRequest(
-      url: url, requestedData: {}
-    );
+    final response =
+        await BaseApiService().postRequest(url: url, requestedData: {});
     return Organisation.fromJson(response);
   }
 
@@ -198,9 +200,8 @@ class LawEnforcementServices {
   ) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().postRequest(
-      url: url,requestedData: {}
-    );
+    final response =
+        await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);
   }
 
@@ -236,7 +237,8 @@ class LawEnforcementServices {
     required LawVisitingOfficialRequest body,
   }) async {
     var username = await SharedPrefs.getUsername();
-    final String url = "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
+    final String url =
+        "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

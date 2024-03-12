@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -17,7 +16,6 @@ import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
-
 part 'sst_incident_state.dart';
 
 class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
@@ -104,7 +102,6 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<SstIncidentState> emit) async {

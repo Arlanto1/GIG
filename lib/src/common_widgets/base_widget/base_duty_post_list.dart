@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import '../../../index.dart';
+import 'package:db_atom/index.dart';
 
 class DutyPostListWidget extends StatelessWidget {
   final List<DutyPostModel> dutyPosts;

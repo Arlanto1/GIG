@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -50,13 +49,13 @@ class IncidentManagementsBloc
           module: Constants.eventProtectionModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -76,6 +75,7 @@ class IncidentManagementsBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<IncidentManagementsState> emit) async {
     try {
@@ -160,8 +160,8 @@ class IncidentManagementsBloc
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '7',
-         occId: occId,
-         occType: occType,
+          occId: occId,
+          occType: occType,
           filters: event.filters,
         );
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -22,7 +23,7 @@ class DownloadImage {
     // final response = await BaseApiService().getRequest(
     //   url: url,
     // );
-    log('--sss-response--');
+    log('--sss-response-$url-');
     final uri = Uri.parse(url);
     downloadData(context, name, uri);
   }
@@ -114,6 +115,13 @@ class DownloadImage {
       //   headers: headers,
       // );
       log('response---${response.body.toString()}');
+
+      if (response.statusCode.toString() == "400") {
+        final responseBody = json.decode(response.body);
+        log("Status Code: ${response.statusCode}");
+        throw GenericResponse.fromJson(responseBody);
+      }
+
       // Get temporary directory
       final dir = await getTemporaryDirectory();
 
