@@ -191,8 +191,8 @@ const List<Label> keyHandingOverDuration = [
 ];
 
 const List<Label> keyTypeDropDownValues = [
-  Label(key: 'Keys', value: '1'),
-  Label(key: 'Master Keys', value: '2'),
+  Label(key: 'Normal', value: '1'),
+  Label(key: 'Master', value: '2'),
 ];
 
 const List<Label> typesDropDownValues = [
