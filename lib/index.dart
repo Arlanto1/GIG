@@ -262,3 +262,4 @@ export 'package:db_atom/src/models/role.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/show_ep_grids_model.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_tile.dart';
 export 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart';
+export 'package:db_atom/src/common_widgets/base_widget/base_icon_buttons/base_icons.dart';

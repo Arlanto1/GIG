@@ -118,8 +118,8 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            buildShiftColumn(shift, isSourceList: true),
-            buildShiftColumn(shift, isSourceList: false),
+            buildShiftColumn(shift: shift, isSourceList: true),
+            buildShiftColumn(shift: shift, isSourceList: false),
           ],
         ),
         CommonWidgets.verticalSpacerWidget(
@@ -131,7 +131,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     ];
   }
 
-  Column buildShiftColumn(Shift shift, {required bool isSourceList}) {
+  Column buildShiftColumn({required Shift shift, required bool isSourceList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize:MainAxisSize.min,
