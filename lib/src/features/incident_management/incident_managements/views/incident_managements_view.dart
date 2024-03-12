@@ -182,7 +182,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
                   if (index < state.items.length) {
                     labels.add(Label(
-                        key: 'Date of Creation',
+                        key: state.labels?.locale.inputDate ??
+                            state.labels?.defaultLocale.inputDate ??
+                            'Date of Creation',
                         value: state.items[index].inputDate != null
                             ? Utils.timestamptoDateConversion(
                                 int.parse(state.items[index].inputDate ?? '0'),
@@ -190,13 +192,17 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             : ''));
                     labels.add(
                       Label(
-                        key: 'Region',
+                        key: state.labels?.locale.locationRegion ??
+                            state.labels?.defaultLocale.locationRegion ??
+                            'Region',
                         value: state.items[index].locationRegion?.name ?? '',
                       ),
                     );
                     labels.add(
                       Label(
-                        key: 'Location',
+                        key: state.labels?.locale.location ??
+                            state.labels?.defaultLocale.location ??
+                            'Location',
                         value: state.items[index].location?.name ?? '',
                       ),
                     );
