@@ -344,9 +344,8 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         vendor: user,
                                       );
-                                      FocusScope.of(context).requestFocus(
-                                          vendorPocFocusNode);
-
+                                      FocusScope.of(context)
+                                          .requestFocus(vendorPocFocusNode);
                                     },
                                     orgName: 'ATOM_VENDORS',
                                     createEntity: false,
@@ -592,8 +591,8 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         lt: user,
                                       );
-                                      FocusScope.of(context).requestFocus(
-                                          descriptionFocusNode);
+                                      FocusScope.of(context)
+                                          .requestFocus(descriptionFocusNode);
                                     },
                                     roleName: 'ATOM_Security_Team',
                                     functionToCall: () {
@@ -725,6 +724,7 @@ class _SstIncidentGeneralInfoViewState
                               files: uploadFiles,
                               showDownloadIcon:
                                   widget.model != null ? true : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),

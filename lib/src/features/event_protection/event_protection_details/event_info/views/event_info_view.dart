@@ -418,6 +418,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               files: guardFiles,
                               showDownloadIcon:
                                   state.model.image != null ? true : false,
+                              moduleCode: Constants.eventProtectionModuleCode,
                             ),
                           ],
                         ),
@@ -454,7 +455,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
@@ -466,7 +467,6 @@ class _EventInfoViewState extends State<EventInfoView> {
               ),
             ],
             CommonWidgets.verticalSpacerWidget(height * 0.04),
-
           ],
         ),
       ),
