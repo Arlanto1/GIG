@@ -90,43 +90,43 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                 List<Label> labels = [];
                 if (index < state.list.length) {
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Created Date',
+                      key: state.labels?.locale.createdDate ??
+                          state.labels?.defaultLocale.createdDate ??
+                          'Created Date',
                       value: state.list[index].createdDate != null
                           ? Utils.timestamptoDateConversion(
                               int.parse(state.list[index].createdDate ?? '0'),
                               Constants.dateFormat)
                           : ''));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Region',
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??
+                          'Region',
                       value: state.list[index].region?.name ?? ''));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Location',
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??
+                          'Location',
                       value: state.list[index].location?.name ?? ''));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Shift A',
+                      key: state.labels?.locale.shiftA ??
+                          state.labels?.defaultLocale.shiftA ??
+                          'Shift A',
                       value: state.list[index].shiftA.toString()));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Shift B',
+                      key: state.labels?.locale.shiftB ??
+                          state.labels?.defaultLocale.shiftB ??
+                          'Shift B',
                       value: state.list[index].shiftB.toString()));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Shift C',
+                      key: state.labels?.locale.shiftC ??
+                          state.labels?.defaultLocale.shiftC ??
+                          'Shift C',
                       value: state.list[index].shiftC.toString()));
                   labels.add(Label(
-                      // key: state.labels?.locale.locationRegion ??
-                      //  state.labels?.defaultLocale.locationRegion ??
-                      key: 'Shift G',
+                      key: state.labels?.locale.shiftG ??
+                          state.labels?.defaultLocale.shiftG ??
+                          'Shift G',
                       value: state.list[index].shiftG.toString()));
                 }
                 return index >= state.list.length

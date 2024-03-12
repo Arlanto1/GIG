@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/dpn_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -80,7 +81,7 @@ class DutyPostNameMasterDetailsCubit
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(

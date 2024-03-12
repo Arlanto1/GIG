@@ -150,6 +150,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             attachments: state.model.attachments,
                             files: state.model.attachments,
                             showDownloadIcon: true,
+                            moduleCode: state.model.moduleCode??''
                           ),
                         ],
                         if (!state.model.moduleCode.isEmptyOrNull) ...[
@@ -181,12 +182,23 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
   }
 
   Widget submitButtonDisplay(NotificationDetailsState state) {
+    log('---${state.model.moduleCode}---');
+
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.showDetails,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
+        log('--state.model.moduleId--${state.model.moduleId}--');
+
+        if (state.model.moduleId == null) {
+          Validator().showToast(
+            context,
+            'Module Id is null.',
+          );
+          return;
+        }
         int moduleId = state.model.moduleId ?? 0;
 
         var nav = Navigator.of(context);
@@ -196,12 +208,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             {
               MaterialMovementModel materialMovementModel =
                   await MaterialMovementServices().getById(moduleId);
-              nav.pushNamed(materialMovementInwardOutwardDetailsRoute, arguments: {
-                "MaterialMovementModel": materialMovementModel,
-                "isInward": false,
-                "isCreate": true,
-                "title": Constants.materialMovementOutwardCreate,
-              });
+              nav.pushNamed(materialMovementInwardOutwardDetailsRoute,
+                  arguments: {
+                    "MaterialMovementModel": materialMovementModel,
+                    "isInward": false,
+                    "isCreate": true,
+                    "title": Constants.materialMovementOutwardCreate,
+                  });
               break;
             }
           case 'LEO':

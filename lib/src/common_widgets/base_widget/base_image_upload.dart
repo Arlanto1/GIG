@@ -59,6 +59,7 @@ class BaseImageUpload {
     List<ImageContent>? files,
     List<ImageContent>? attachments,
     required bool showDownloadIcon,
+    required String moduleCode,
   }) {
     if (attachments != null) {
       return Column(
@@ -67,6 +68,7 @@ class BaseImageUpload {
           _attachmentListviews(
             attachmentListviews: files ?? attachments,
             showDownloadIcon: showDownloadIcon,
+              moduleCode: moduleCode,
           ),
         ],
       );
@@ -81,6 +83,7 @@ class BaseImageUpload {
   Widget _attachmentListviews({
     List<ImageContent>? attachmentListviews,
     required bool showDownloadIcon,
+    required String moduleCode,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -109,8 +112,12 @@ class BaseImageUpload {
                     GestureDetector(
                       onTap: () {
                         // Add your download functionality here
-                        DownloadImage().saveImage(context, imageData?.id ?? 0,
-                            imageData?.title ?? '');
+                        DownloadImage().saveImage(
+                          context,
+                          imageData?.id ?? 0,
+                          imageData?.title ?? '',
+                          moduleCode,
+                        );
                       },
                       child: SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground),

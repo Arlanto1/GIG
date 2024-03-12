@@ -46,12 +46,12 @@ class ShiftScheduleServices {
 
   Future<List<DutyPostModel>> getDutyPostsById({
     required int? id,
-    BuildContext? context,
+    required int? dutyType,
   }) async {
     if (id == null) {
       return [];
     }
-    final String url = '${Apis._getDutyPostsById}/$id';
+    final String url = '${Apis._getDutyPostsById}/$id?dutyPost=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -75,9 +75,10 @@ class ShiftScheduleServices {
   Future<List<DutyPostModel>> getDutyPostsByLocationAndVendor({
     required int locationId,
     required int vendorId,
+    required int? dutyType,
   }) async {
     String url =
-        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId';
+        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyPost=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );

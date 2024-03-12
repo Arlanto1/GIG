@@ -7,6 +7,7 @@ class IncidentManagementsState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final String? message;
+  final IMUiLabels? labels;
 
   const IncidentManagementsState(
       {this.items = const <IncidentModel>[],
@@ -14,6 +15,7 @@ class IncidentManagementsState extends Equatable {
       this.locations,
       this.commonFilters,
       this.message,
+        this.labels,
       this.status = FormStatus.initial});
 
   IncidentManagementsState copyWith({
@@ -25,6 +27,7 @@ class IncidentManagementsState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    IMUiLabels? labels,
   }) {
     return IncidentManagementsState(
       items: items ?? this.items,
@@ -33,6 +36,8 @@ class IncidentManagementsState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      labels: labels ?? this.labels,
+
     );
   }
 

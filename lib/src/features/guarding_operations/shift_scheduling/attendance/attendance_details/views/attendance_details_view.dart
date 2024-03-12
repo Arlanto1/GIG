@@ -435,10 +435,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             },
             child: Align(
               alignment: Alignment.centerRight,
-              child: SvgPicture.asset(
-                AppIcon.closeicon,
-                color: AppColors.black,
-              ),
+              child: BaseIcons().closeIcon(),
             ), //
           ),
         ],

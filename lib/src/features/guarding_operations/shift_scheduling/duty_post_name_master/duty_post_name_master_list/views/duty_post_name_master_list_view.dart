@@ -95,22 +95,21 @@ class _DutyPostNameMasterListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??
+                          'Region',
+                      value: state.list[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??
+                          'Location ',
+                      value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
-                        location: state.list[index].location,
-                        locationRegion: state.list[index].locationRegion,
                         labels: labels,
                         status: state.list[index].status,
                         isDutyPostNameMasterStatus: true,
@@ -123,9 +122,6 @@ class _DutyPostNameMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                location: state.list[selectedIndex].location,
-                                locationRegion:
-                                    state.list[selectedIndex].locationRegion,
                                 labels: labels,
                                 isEventProtectionStatus: false,
                                 isDutyPostNameMasterStatus: true,
@@ -145,9 +141,6 @@ class _DutyPostNameMasterListViewState
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                location: state.list[selectedIndex].location,
-                                locationRegion:
-                                    state.list[selectedIndex].locationRegion,
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isEventProtectionStatus: false,

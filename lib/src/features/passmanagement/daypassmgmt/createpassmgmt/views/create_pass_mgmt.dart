@@ -267,7 +267,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// Status
-                                    CommonWidgets.textDisplay(Constants.status,
+                                    CommonWidgets.textDisplay(
+                                        state.labels?.locale.status ??
+                                            state
+                                                .labels?.defaultLocale.status ??
+                                            Constants.status,
                                         Styles.textStyleBlack14,
                                         isMandatory: true),
                                     CommonWidgets.verticalSpacerWidget(
@@ -311,7 +315,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 "handed over")) ...[
                                       CommonWidgets.textDisplay(
                                           isMandatory: true,
-                                          Constants.updatestatus,
+                                          state.labels?.locale.updateStatus ??
+                                              state.labels?.defaultLocale
+                                                  .updateStatus ??
+                                              Constants.updatestatus,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
@@ -344,7 +351,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// Created By
                                     CommonWidgets.horizentaltextHandling(
-                                        Constants.createdby,
+                                        state.labels?.locale.entrySecurity ??
+                                            state.labels?.defaultLocale
+                                                .entrySecurity ??
+                                            Constants.createdby,
                                         isMandatory: true,
                                         createdBy.isNotEmpty
                                             ? createdBy
@@ -355,7 +365,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// Location
                                     CommonWidgets.textDisplay(
-                                      Constants.location,
+                                      state.labels?.locale.location ??
+                                          state
+                                              .labels?.defaultLocale.location ??
+                                          Constants.location,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -389,7 +402,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// date of creation
                                     CommonWidgets.textDisplay(
-                                        Constants.dateofcreation,
+                                        state.labels?.locale.inputDate ??
+                                            state.labels?.defaultLocale
+                                                .inputDate ??
+                                            Constants.dateofcreation,
                                         isMandatory: true,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
@@ -401,7 +417,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     /// slno
 
                                     CommonWidgets.horizentaltextHandling(
-                                      Constants.slno,
+                                      state.labels?.locale.slNo ??
+                                          state.labels?.defaultLocale.slNo ??
+                                          Constants.slno,
                                       serialnumber ?? '',
                                       isMandatory: true,
                                     ),
@@ -410,7 +428,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// entity type
                                     CommonWidgets.textDisplay(
-                                      Constants.entity,
+                                      state.labels?.locale.entity ??
+                                          state.labels?.defaultLocale.entity ??
+                                          Constants.entity,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -422,7 +442,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// Pass Type
                                     CommonWidgets.textDisplay(
-                                      Constants.passtype,
+                                      state.labels?.locale.passType ??
+                                          state
+                                              .labels?.defaultLocale.passType ??
+                                          Constants.passtype,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -482,7 +505,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ConstantsIntValue.passIdSez) ...[
                                       /// Pass Category
                                       CommonWidgets.textDisplay(
-                                        Constants.passCategory,
+                                        state.labels?.locale.category ??
+                                            state.labels?.defaultLocale
+                                                .category ??
+                                            Constants.passCategory,
                                         isMandatory: true,
                                         Styles.textStyleBlack14,
                                       ),
@@ -567,7 +593,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.companyType,
+                                          state.labels?.locale.companyType ??
+                                              state.labels?.defaultLocale
+                                                  .companyType ??
+                                              Constants.companyType,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -584,15 +613,34 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                       .passIdDayPass ||
                                               widget.passId ==
                                                   ConstantsIntValue.passIdSez
-                                          ? Constants.companyName
+                                          ? state.labels?.locale.companyName ??
+                                              state.labels?.defaultLocale
+                                                  .companyName ??
+                                              Constants.companyName
                                           : widget.passId ==
                                                   ConstantsIntValue.passIdVendor
-                                              ? "Vendor Name"
+                                              ? state.labels?.locale
+                                                      .vendorName ??
+                                                  state.labels?.defaultLocale
+                                                      .vendorName ??
+                                                  "Vendor Name"
                                               : widget.passId ==
                                                       ConstantsIntValue
                                                           .passIdDayPass
-                                                  ? Constants.name
-                                                  : "Visitor Name",
+                                                  ? state.labels?.locale
+                                                          .employeeName ??
+                                                      state
+                                                          .labels
+                                                          ?.defaultLocale
+                                                          .employeeName ??
+                                                      Constants.name
+                                                  : state.labels?.locale
+                                                          .visitorName ??
+                                                      state
+                                                          .labels
+                                                          ?.defaultLocale
+                                                          .visitorName ??
+                                                      "Visitor Name",
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -632,7 +680,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdVendor) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.companyName,
+                                          state.labels?.locale.companyName ??
+                                              state.labels?.defaultLocale
+                                                  .companyName ??
+                                              Constants.companyName,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -649,7 +700,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.name,
+                                          state.labels?.locale.employeeName ??
+                                              state.labels?.defaultLocale
+                                                  .employeeName ??
+                                              Constants.name,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -666,11 +720,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.textDisplay(
                                         widget.passId ==
                                                 ConstantsIntValue.passIdDayPass
-                                            ? Constants.name
+                                            ? state.labels?.locale
+                                                    .employeeName ??
+                                                state.labels?.defaultLocale
+                                                    .employeeName ??
+                                                Constants.name
                                             : widget.passId ==
                                                     ConstantsIntValue.passIdSez
-                                                ? "Email"
-                                                : "Contact No",
+                                                ? state.labels?.locale.email ??
+                                                    state.labels?.defaultLocale
+                                                        .email ??
+                                                    "Email"
+                                                : state.labels?.locale
+                                                        .contactNo ??
+                                                    state.labels?.defaultLocale
+                                                        .contactNo ??
+                                                    "Contact No",
                                         Styles.textStyleBlack14,
                                         isMandatory: true),
                                     CommonWidgets.verticalSpacerWidget(
@@ -719,10 +784,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     'exceptions' ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdSez
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.employeeid,
-                                            isMandatory: true,
-                                            Styles.textStyleBlack14)
+                                        ? CommonWidgets
+                                            .textDisplay(
+                                                state.labels?.locale
+                                                        .employeeId ??
+                                                    state.labels?.defaultLocale
+                                                        .employeeId ??
+                                                    Constants.employeeid,
+                                                isMandatory: true,
+                                                Styles.textStyleBlack14)
                                         : Container(),
 
                                     widget.passId ==
@@ -751,7 +821,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .toLowerCase() ==
                                                 'cwr t1'
                                         ? CommonWidgets.textDisplay(
-                                            Constants.email,
+                                            state.labels?.locale.email ??
+                                                state.labels?.defaultLocale
+                                                    .email ??
+                                                Constants.email,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
                                         : Container(),
@@ -785,7 +858,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdDayPass &&
-                                            ((state.selectedCompanyType?.name ??
+                                            ((state.selectedCompanyType
+                                                                ?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'cwr t1' ||
@@ -795,7 +869,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .toLowerCase() ==
                                                     'cwr t2')
                                         ? CommonWidgets.textDisplay(
-                                            'DB Sponsor',
+                                            state.labels?.locale.cwrSponsor ??
+                                                state.labels?.defaultLocale
+                                                    .cwrSponsor ??
+                                                'DB Sponsor',
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -861,7 +938,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .toLowerCase() ==
                                                     'cwr t2')
                                         ? CommonWidgets.textDisplay(
-                                            'DB Sponsor Employee Id',
+                                            state.labels?.locale
+                                                    .cwrSponsorEmployeeId ??
+                                                state.labels?.defaultLocale
+                                                    .cwrSponsorEmployeeId ??
+                                                'DB Sponsor Employee Id',
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -909,8 +990,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.textDisplay(
                                         widget.passId ==
                                                 ConstantsIntValue.passIdVisitor
-                                            ? 'Visitor Coming From'
-                                            : 'SEZ Pass Info',
+                                            ? state.labels?.locale
+                                                    .visitorComingFrom ??
+                                                state.labels?.defaultLocale
+                                                    .visitorComingFrom ??
+                                                'Visitor Coming From'
+                                            : state.labels?.locale
+                                                    .sezPassInfo ??
+                                                state.labels?.defaultLocale
+                                                    .sezPassInfo ??
+                                                'SEZ Pass Info',
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -954,8 +1043,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.textDisplay(
                                         widget.passId ==
                                                 ConstantsIntValue.passIdSez
-                                            ? 'MTP Application No'
-                                            : 'Purpose of Visit',
+                                            ? state.labels?.locale.mtpPassNo ??
+                                                state.labels?.defaultLocale
+                                                    .mtpPassNo ??
+                                                'MTP Application No'
+                                            : state.labels?.locale
+                                                    .visitingPurpose ??
+                                                state.labels?.defaultLocale
+                                                    .visitingPurpose ??
+                                                'Purpose of Visit',
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -975,7 +1071,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                             ConstantsIntValue.passIdVisitor
                                         ? CommonWidgets.textDisplay(
-                                            'Photo Identity Validation Type  ',
+                                            state.labels?.locale
+                                                    .idValidationType ??
+                                                state.labels?.defaultLocale
+                                                    .idValidationType ??
+                                                'Photo Identity Validation Type  ',
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1075,7 +1175,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         //         null &&
                                         //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.textDisplay(
-                                            Constants.host,
+                                            state.labels?.locale.host ??
+                                                state.labels?.defaultLocale
+                                                    .host ??
+                                                Constants.host,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1182,17 +1285,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
-                                            widget.passId ==
+                                            widget
+                                                    .passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor ||
-                                            widget.passId ==
+                                            widget
+                                                    .passId ==
                                                 ConstantsIntValue.passIdVendor
                                         // widget.passId == ConstantsIntValue.passIdSez ||
                                         // (state.selectedCompanyType?.name ==
                                         //         null &&
                                         //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.textDisplay(
-                                            Constants.hostemployeeid,
+                                            state.labels?.locale
+                                                    .hostEmployeeId ??
+                                                state.labels?.defaultLocale
+                                                    .hostEmployeeId ??
+                                                Constants.hostemployeeid,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1269,7 +1378,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     widget.passId ==
                                                         ConstantsIntValue
                                                             .passIdVendor
-                                                ? "Visiting Department"
+                                                ? state.labels?.locale
+                                                        .visitingDepartment ??
+                                                    state.labels?.defaultLocale
+                                                        .visitingDepartment ??
+                                                    "Visiting Department"
                                                 : Constants.department,
                                             isMandatory: true,
                                             Styles.textStyleBlack14),
@@ -1295,8 +1408,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.textDisplay(
                                         widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                            ? "Reason for Vendor Pass"
-                                            : Constants.reasonfordaypass,
+                                            ? state.labels?.locale
+                                                    .vendorPassReason ??
+                                                state.labels?.defaultLocale
+                                                    .vendorPassReason ??
+                                                "Reason for Vendor Pass"
+                                            : state.labels?.locale
+                                                    .dayPassReason ??
+                                                state.labels?.defaultLocale
+                                                    .dayPassReason ??
+                                                Constants.reasonfordaypass,
                                         isMandatory: true,
                                         Styles.textStyleBlack14,
                                       ),
@@ -1320,13 +1441,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       Column(
                                         children: [
                                           CommonWidgets.textDisplay(
-                                            Constants.exceptionalApproval,
+                                            state.labels?.locale
+                                                    .exceptionalApproval ??
+                                                state.labels?.defaultLocale
+                                                    .exceptionalApproval ??
+                                                Constants.exceptionalApproval,
                                             Styles.textStyleBlack14,
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
                                             state.exceptionalApproval ?? 0,
-                                            Constants.exceptionalApproval,
+                                            state.labels?.locale
+                                                    .exceptionalApproval ??
+                                                state.labels?.defaultLocale
+                                                    .exceptionalApproval ??
+                                                Constants.exceptionalApproval,
                                           ),
                                         ],
                                       ),
@@ -1338,12 +1467,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.textDisplay(
                                         widget.passId ==
                                                 ConstantsIntValue.passIdVisitor
-                                            ? "Visitor Pass No"
+                                            ? state.labels?.locale
+                                                    .visitorPassInfo ??
+                                                state.labels?.defaultLocale
+                                                    .visitorPassInfo ??
+                                                "Visitor Pass No"
                                             : widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdVendor
-                                                ? "Vendor Pass No"
-                                                : Constants.daypassno,
+                                                ? state.labels?.locale
+                                                        .vendorPassInfo ??
+                                                    state.labels?.defaultLocale
+                                                        .vendorPassInfo ??
+                                                    "Vendor Pass No"
+                                                : state.labels?.locale
+                                                        .dayPassInfo ??
+                                                    state.labels?.defaultLocale
+                                                        .dayPassInfo ??
+                                                    Constants.daypassno,
                                         isMandatory: true,
                                         Styles.textStyleBlack14,
                                       ),
@@ -1426,7 +1567,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.passId !=
                                         ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.passvlidfrom,
+                                          state.labels?.locale.startTime ??
+                                              state.labels?.defaultLocale
+                                                  .startTime ??
+                                              Constants.passvlidfrom,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -1439,7 +1583,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          Constants.passIssuedOn,
+                                          state.labels?.locale.passIssuedOn ??
+                                              state.labels?.defaultLocale
+                                                  .passIssuedOn ??
+                                              Constants.passIssuedOn,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -1471,7 +1618,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// Pass Valid Until
                                     CommonWidgets.textDisplay(
-                                        Constants.passvliduntil,
+                                        state.labels?.locale.endTime ??
+                                            state.labels?.defaultLocale
+                                                .endTime ??
+                                            Constants.passvliduntil,
                                         isMandatory: true,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
@@ -1516,7 +1666,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                             ConstantsIntValue.passIdVisitor
                                         ? CommonWidgets.textDisplay(
-                                            'Escorted by Host',
+                                            state.labels?.locale
+                                                    .escortedByHost ??
+                                                state.labels?.defaultLocale
+                                                    .escortedByHost ??
+                                                'Escorted by Host',
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1524,7 +1678,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdVisitor
                                         ? radioButtonHandling(
                                             state.escortedbyhost ?? 0,
-                                            'Escorted by Host')
+                                            state.labels?.locale
+                                                    .escortedByHost ??
+                                                state.labels?.defaultLocale
+                                                    .escortedByHost ??
+                                                'Escorted by Host')
                                         : Container(),
 
                                     /// Escorted By
@@ -1537,13 +1695,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     (state.escortedbyhost ??
                                                             0) ==
                                                         0)) &&
-                                            widget.model?.companyType?.name
+                                            widget
+                                                    .model?.companyType?.name
                                                     ?.toLowerCase() !=
                                                 'cwr t1'
                                         ? CommonWidgets.textDisplay(
                                             state.showIdentifiedFields
-                                                ? Constants.identifiedBy
-                                                : Constants.escortedby,
+                                                ? state.labels?.locale
+                                                        .identifiedBy ??
+                                                    state.labels?.defaultLocale
+                                                        .identifiedBy ??
+                                                    Constants.identifiedBy
+                                                : state.labels?.locale
+                                                        .escortedBy ??
+                                                    state.labels?.defaultLocale
+                                                        .escortedBy ??
+                                                    Constants.escortedby,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         // :CommonWidgets.textDisplay(
@@ -1602,10 +1769,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     0)
                                         ? CommonWidgets.textDisplay(
                                             state.showIdentifiedFields
-                                                ? Constants
-                                                    .identifiedByEmployeeId
-                                                : Constants
-                                                    .escortedbyemployeeid,
+                                                ? state.labels?.locale
+                                                        .identifiedEmployeeId ??
+                                                    state.labels?.defaultLocale
+                                                        .identifiedEmployeeId ??
+                                                    Constants
+                                                        .identifiedByEmployeeId
+                                                : state.labels?.locale
+                                                        .escortedEmployeeId ??
+                                                    state.labels?.defaultLocale
+                                                        .escortedEmployeeId ??
+                                                    Constants
+                                                        .escortedbyemployeeid,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1653,7 +1828,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor &&
                                             widget.model == null
                                         ? CommonWidgets.textDisplay(
-                                            'Photo of Visitor',
+                                            state.labels?.locale.visitorImage ??
+                                                state.labels?.defaultLocale
+                                                    .visitorImage ??
+                                                'Photo of Visitor',
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     widget.passId ==
@@ -1683,7 +1861,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ///upload
                                     widget.model == null
                                         ? CommonWidgets.textDisplay(
-                                            Constants.evidenceDocuments,
+                                            state.labels?.locale.evidenceInfo ??
+                                                state.labels?.defaultLocale
+                                                    .evidenceInfo ??
+                                                Constants.evidenceDocuments,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     widget.model == null
@@ -1703,6 +1884,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           getAttachments.isNotEmpty
                                               ? true
                                               : false,
+                                      moduleCode: Constants.guardingMasterModuleCode,
                                     ),
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
@@ -1712,14 +1894,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if (widget.model?.status == 2) ...[
                                       /// Pass Collected By
                                       CommonWidgets.horizentaltextHandling(
-                                        Constants.passCollectedBy,
+                                        state.labels?.locale.handoverSecurity ??
+                                            state.labels?.defaultLocale
+                                                .handoverSecurity ??
+                                            Constants.passCollectedBy,
                                         isMandatory: true,
                                         '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                       CommonWidgets.textDisplay(
-                                          Constants.passReturnedOn,
+                                          state.labels?.locale.returnedTime ??
+                                              state.labels?.defaultLocale
+                                                  .returnedTime ??
+                                              Constants.passReturnedOn,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
@@ -2553,6 +2741,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       attachments: photogetAttachments,
       files: photogetFiles,
       showDownloadIcon: photogetAttachments.isNotEmpty ? true : false,
+      moduleCode: Constants.guardingMasterModuleCode,
     );
     // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
     //     ? attachmentListviews(photogetFiles, photogetAttachments)
@@ -3877,7 +4066,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                           color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                      context,
+                      imageData1?.id ?? 0,
+                      imageData1?.title ?? '',
+                      Constants.passManagementModuleCode,
+                    );
                   },
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')

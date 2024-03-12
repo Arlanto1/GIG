@@ -198,8 +198,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Created By
                             CommonWidgets.verticalTextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
+                                state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -227,9 +227,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                              state.labels?.locale.createdDate ??
+                                  state.labels?.defaultLocale.createdDate ??
+                                  Constants.createDate,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -264,9 +264,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             if (state.model.status == 1) ...[
                               /// Handed Over Date
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.pvcExpiryDate ??
-                                //   state.labels?.defaultLocale.pvcExpiryDate ??
-                                Constants.handedOverDate,
+                                state.labels?.locale.handedOverDate ??
+                                    state
+                                        .labels?.defaultLocale.handedOverDate ??
+                                    Constants.handedOverDate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14,
                               ),
@@ -292,8 +293,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Entity
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.entity ??
-                                    state.labels?.defaultLocale.entity ??
+                                state.labels?.locale.entities ??
+                                    state.labels?.defaultLocale.entities ??
                                     Constants.entity,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -326,10 +327,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Department
                             CommonWidgets.textDisplay(
-                              //state.labels?.locale.vendor ??
-                              //    state.labels?.defaultLocale
-                              //      .vendor ??
-                              Constants.department,
+                              state.labels?.locale.department ??
+                                  state.labels?.defaultLocale.department ??
+                                  Constants.department,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -375,9 +375,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Key Handing Over Duration
                             CommonWidgets.textDisplay(
-                                //state.labels?.locale.maritalStatus ??
-                                //   state.labels?.defaultLocale.maritalStatus ??
-                                Constants.keyHandingOverDuration,
+                                state.labels?.locale.keyHandingOverDuration ??
+                                    state.labels?.defaultLocale
+                                        .keyHandingOverDuration ??
+                                    Constants.keyHandingOverDuration,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -418,9 +419,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Key Return Due Date
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.pvcExpiryDate ??
-                              //   state.labels?.defaultLocale.pvcExpiryDate ??
-                              Constants.keyReturnDueDate,
+                              state.labels?.locale.keyHandOverDue ??
+                                  state.labels?.defaultLocale.keyHandOverDue ??
+                                  Constants.keyReturnDueDate,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -446,9 +447,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Employee Type
                             CommonWidgets.textDisplay(
-                                //state.labels?.locale.maritalStatus ??
-                                //   state.labels?.defaultLocale.maritalStatus ??
-                                Constants.employeeType,
+                                state.labels?.locale.employeeType ??
+                                    state.labels?.defaultLocale.employeeType ??
+                                    Constants.employeeType,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -491,9 +492,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             /// Employee Id
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.contactNo ??
-                                //  state.labels?.defaultLocale.contactNo ??
-                                Constants.employeeid,
+                                state.labels?.locale.employeeID ??
+                                    state.labels?.defaultLocale.employeeID ??
+                                    Constants.employeeid,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -523,9 +524,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             if (employeeTypeController.text != 'CWR T2') ...[
                               /// Handed Over To
                               CommonWidgets.textDisplay(
-                                  //state.labels?.locale.approver ??
-                                  //  state.labels?.defaultLocale.approver ??
-                                  Constants.handedOverTo,
+                                  state.labels?.locale.handedOverTo ??
+                                      state
+                                          .labels?.defaultLocale.handedOverTo ??
+                                      Constants.handedOverTo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -564,9 +566,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             if (employeeTypeController.text == 'CWR T2') ...[
                               /// Handed Over To
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.contactNo ??
-                                  //  state.labels?.defaultLocale.contactNo ??
-                                  Constants.handedOverTo,
+                                  state.labels?.locale.handedOverTo ??
+                                      state
+                                          .labels?.defaultLocale.handedOverTo ??
+                                      Constants.handedOverTo,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -597,9 +600,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               ///DB Sponser CWRT2
                               CommonWidgets.textDisplay(
-                                  //state.labels?.locale.approver ??
-                                  //  state.labels?.defaultLocale.approver ??
-                                  Constants.dbSponsorOfCWRT2,
+                                  state.labels?.locale.dbSponsorCwrT2 ??
+                                      state.labels?.defaultLocale
+                                          .dbSponsorCwrT2 ??
+                                      Constants.dbSponsorOfCWRT2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -636,49 +640,51 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             if (state.model.status == 1) ...[
                               /// Total Allocated
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.totalAllocated,
+                                  state.labels?.locale.totalAllocated ??
+                                      state.labels?.defaultLocale
+                                          .totalAllocated ??
+                                      Constants.totalAllocated,
                                   '${state.model.totalAllocated}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Returned
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.returned,
+                                  state.labels?.locale.returned ??
+                                      state.labels?.defaultLocale.returned ??
+                                      Constants.returned,
                                   '${state.model.totalReturned ?? 0}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Not Returned
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.notReturned,
+                                  state.labels?.locale.notReturned ??
+                                      state.labels?.defaultLocale.notReturned ??
+                                      Constants.notReturned,
                                   '${state.model.totalNotReturned ?? 0}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Lost
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.lost,
+                                  state.labels?.locale.lost ??
+                                      state.labels?.defaultLocale.lost ??
+                                      Constants.lost,
                                   '${state.model.totalLost ?? 0}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Damaged
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.damaged,
+                                  state.labels?.locale.damaged ??
+                                      state.labels?.defaultLocale.damaged ??
+                                      Constants.damaged,
                                   '${state.model.totalDamage ?? 0}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Key Return Date And Time
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.pvcExpiryDate ??
-                                //   state.labels?.defaultLocale.pvcExpiryDate ??
-                                Constants.keyReturnDateAndTime,
+                                state.labels?.locale.keyReturnDateTime ??
+                                    state.labels?.defaultLocale
+                                        .keyReturnDateTime ??
+                                    Constants.keyReturnDateAndTime,
                                 isMandatory: true,
                                 Styles.textStyleBlack14,
                               ),
@@ -706,9 +712,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               /// Returned By Name
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.contactNo ??
-                                  //  state.labels?.defaultLocale.contactNo ??
-                                  Constants.returnedByName,
+                                  state.labels?.locale.returnedByName ??
+                                      state.labels?.defaultLocale
+                                          .returnedByName ??
+                                      Constants.returnedByName,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(

@@ -2276,8 +2276,14 @@ class _CreateFoundState extends State<CreateFound> {
                     : SvgPicture.asset(AppIcon.download,
                         color: AppColors.boldgreyBackground),
                 onTap: () {
-                  DownloadImage().saveImage(
-                      context, imageData1?.id ?? 1, imageData1?.title ?? '');
+                  if (imageData1?.id != null) {
+                    DownloadImage().saveImage(
+                      context,
+                      imageData1?.id ?? 1,
+                      imageData1?.title ?? '',
+                      Constants.articleFoundModuleCode,
+                    );
+                  }
                 },
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')

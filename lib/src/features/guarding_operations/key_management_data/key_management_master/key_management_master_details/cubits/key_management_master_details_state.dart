@@ -15,7 +15,7 @@ class KeyManagementMasterDetailsState extends Equatable {
   final List<String>? participationDates;
   final String? message;
   final User? createdBy;
-  final GmUiLabels? labels;
+  final KMUiLabels? labels;
 
   factory KeyManagementMasterDetailsState.initial({
     required KeyManagementMasterModel model,
@@ -151,7 +151,7 @@ class KeyManagementMasterDetailsState extends Equatable {
     List<String>? participationDates,
     String? message,
     User? createdBy,
-    final GmUiLabels? labels,
+    final KMUiLabels? labels,
   }) {
     return KeyManagementMasterDetailsState(
       status: status ?? this.status,

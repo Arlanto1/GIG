@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -84,7 +85,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        services.getDutyPostsById(id: model.id),
+        services.getDutyPostsById(id: model.id, dutyType: model.dutyType),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -120,7 +121,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
@@ -177,10 +178,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       // TODO: uncomment
       if (state.model.vendor != null) {
-        List<DutyPostModel> dutyPosts =
-            await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
+        List<DutyPostModel> dutyPosts = await getDutyPosts();
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(
@@ -195,10 +193,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       // TODO: uncomment
       if (state.model.location != null) {
-        List<DutyPostModel> dutyPosts =
-            await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
+        List<DutyPostModel> dutyPosts = await getDutyPosts();
         // List<DutyPostModel> dutyPosts=[];
         // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
         emit(state.copyWith(
@@ -207,13 +202,34 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         ));
       }
     }
-    state.model.dutyType = dutyType ?? state.model.dutyType;
+    if (dutyType != null) {
+      state.model.dutyType = dutyType;
+      List<DutyPostModel> dutyPosts = await getDutyPosts();
+      // List<DutyPostModel> dutyPosts=[];
+      // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+      emit(state.copyWith(
+        model: state.model,
+        dutyPosts: dutyPosts,
+        status: FormStatus.initial,
+      ));
+    }
+
     state.model.status = status ?? state.model.status;
 
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<List<DutyPostModel>> getDutyPosts() async {
+    List<DutyPostModel> dutyPosts =
+        await services.getDutyPostsByLocationAndVendor(
+      locationId: state.model.location!.id ?? 0,
+      vendorId: state.model.vendor?.id ?? 0,
+      dutyType: state.model.dutyType,
+    );
+    return dutyPosts;
   }
 
   void updateReplacement(

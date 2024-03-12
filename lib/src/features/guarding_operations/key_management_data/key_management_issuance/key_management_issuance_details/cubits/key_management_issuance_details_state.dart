@@ -11,7 +11,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final List<Organisation> typeOfServices;
   final String? message;
   final List<BaseUser>? emailUsers;
-  final SlaUiLabels? labels;
+  final KMUiLabels? labels;
 
 
   factory KeyManagementIssuanceDetailsState.initial({
@@ -118,7 +118,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     List<Organisation>? typeOfServices,
     String? message,
     List<BaseUser>? emailUsers,
-    // SlaUiLabels? labels,
+    KMUiLabels? labels,
 
   }) {
     return KeyManagementIssuanceDetailsState(
@@ -132,7 +132,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
       emailUsers: emailUsers ?? this.emailUsers,
-      //labels: labels ?? this.labels,
+      labels: labels ?? this.labels,
     );
   }
 }

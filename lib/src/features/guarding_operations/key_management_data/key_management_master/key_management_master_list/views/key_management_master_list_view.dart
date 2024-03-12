@@ -160,14 +160,13 @@ class _KeyManagementMasterListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              // key: state.labels?.locale.locationRegion ??
-                              //  state.labels?.defaultLocale.locationRegion ??
-                              key: 'Floor',
+                              key: state.labels?.locale.floor ??
+                                  state.labels?.defaultLocale.floor ??
+                                  'Floor',
                               value: state.list[index].floor.toString()));
                           labels.add(Label(
-                              key:
-                                  // state.labels?.locale.location ??
-                                  //state.labels?.defaultLocale.location ??
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   'Created By',
                               value: state.list[index].createdBy?.name ?? ''));
 

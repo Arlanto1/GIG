@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../bloc/key_history_record_bloc.dart';
 
@@ -22,6 +23,8 @@ class KeyHistoryRecordsView extends StatefulWidget {
 class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -118,14 +121,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                   List<Label> labels = [];
                   if (index < state.list.length) {
                     labels.add(Label(
-                        // key: state.labels?.locale.locationRegion ??
-                        //  state.labels?.defaultLocale.locationRegion ??
-                        key: 'Floor',
+                        key: state.labels?.locale.floor ??
+                            state.labels?.defaultLocale.floor ??
+                            'Floor',
                         value: state.list[index].floor.toString()));
                     labels.add(Label(
-                        key:
-                            // state.labels?.locale.location ??
-                            //state.labels?.defaultLocale.location ??
+                        key: state.labels?.locale.createdBy ??
+                            state.labels?.defaultLocale.createdBy ??
                             'Created By',
                         value: state.list[index].createdBy?.name ?? ''));
                     // labels.add(Label(

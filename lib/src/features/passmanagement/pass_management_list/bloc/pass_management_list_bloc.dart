@@ -8,6 +8,7 @@ import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/services/day_passlist_services.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -61,7 +62,7 @@ class PassManagementListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.contactDetailsModuleCode);
-      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -70,6 +71,7 @@ class PassManagementListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
         ),
       );
     } on Exception {
