@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/dpn_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
@@ -26,10 +27,10 @@ class DutyPostNameMasterListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
-          //labels: labels,
+          labels: labels,
           hasReachedMax: false,
         ),
       );

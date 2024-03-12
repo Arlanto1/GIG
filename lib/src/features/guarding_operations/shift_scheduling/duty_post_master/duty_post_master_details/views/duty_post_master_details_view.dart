@@ -90,24 +90,23 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
-            context: context,
-            title: widget.title,
-            showPopUp: false,
-            showSaveButton: true,
-            showSubmitButton: true,
+              context: context,
+              title: widget.title,
+              showPopUp: false,
+              showSaveButton: true,
+              showSubmitButton: true,
               showDisLikeButton: false,
               showLikeButton: false,
-            onTapSave: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<DutyPostMasterDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
-            },
-            onTapSubmit: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<DutyPostMasterDetailsCubit>(context)
-                  .submitForm(isSaveOnly: false);
-            }
-          ),
+              onTapSave: () {
+                FocusScope.of(context).unfocus();
+                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                    .submitForm(isSaveOnly: true);
+              },
+              onTapSubmit: () {
+                FocusScope.of(context).unfocus();
+                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                    .submitForm(isSaveOnly: false);
+              }),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
         );
@@ -165,8 +164,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
                               isMandatory: true,
                               '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
@@ -208,18 +207,16 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        dutyPostMasterStatusValues
-                                            .firstWhere(
-                                              (label) => label.key == value,
-                                          orElse: () =>
+                                        dutyPostMasterStatusValues.firstWhere(
+                                      (label) => label.key == value,
+                                      orElse: () =>
                                           const Label(key: '', value: ''),
-                                        );
-                                    BlocProvider.of<
-                                        DutyPostMasterDetailsCubit>(
-                                        context)
+                                    );
+                                    BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                        status: int.tryParse(
-                                            selectedLabel.value));
+                                            status: int.tryParse(
+                                                selectedLabel.value));
                                   },
                                 );
                               }
@@ -229,9 +226,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           ///Location
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -240,10 +237,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                              state.model.location?.name ?? '',
+                                  state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
-
-                                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                                BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                        context)
                                     .updateDropdownValues(location: location);
                                 // BlocProvider.of<DutyPostNameMasterDetailsCubit>(
                                 //     context)
@@ -253,9 +250,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// Duty Post Name
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.guardRank ??
-                              //    state.labels?.defaultLocale.guardRank ??
-                              Constants.dutyPostName,
+                              state.labels?.locale.postName ??
+                                  state.labels?.defaultLocale.postName ??
+                                  Constants.dutyPostName,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -274,8 +271,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                                   BlocProvider.of<DutyPostMasterDetailsCubit>(
                                           context)
-                                      .updateDropdownValues(
-                                          dutyPostName: org);
+                                      .updateDropdownValues(dutyPostName: org);
                                 },
                               );
                             },
@@ -284,8 +280,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// Rank
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.guardRank ??
-                                  state.labels?.defaultLocale.guardRank ??
+                              state.labels?.locale.rankId ??
+                                  state.labels?.defaultLocale.rankId ??
                                   Constants.rank,
                               isMandatory: true,
                               Styles.textStyleBlack14),
@@ -317,8 +313,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                             .updateDropdownValues(
                                                 rankId: int.tryParse(
                                                     selectedLabel.value));
-                                        FocusScope.of(context).requestFocus(
-                                            aShiftFocusNode);
+                                        FocusScope.of(context)
+                                            .requestFocus(aShiftFocusNode);
                                       });
                                 }
                               }),
@@ -328,9 +324,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// A Shift(7AM-3PM)
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.aShift,
+                              state.labels?.locale.shiftA ??
+                                  state.labels?.defaultLocale.shiftA ??
+                                  Constants.aShift,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -363,9 +359,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// B Shift(3PM-11PM)
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.bShift,
+                              state.labels?.locale.shiftB ??
+                                  state.labels?.defaultLocale.shiftB ??
+                                  Constants.bShift,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -397,9 +393,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// C Shift(11PM-7AM)
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.cShift,
+                              state.labels?.locale.shiftC ??
+                                  state.labels?.defaultLocale.shiftC ??
+                                  Constants.cShift,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -431,9 +427,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           /// G Shift(9AM-6PM)
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.gShift,
+                              state.labels?.locale.shiftG ??
+                                  state.labels?.defaultLocale.shiftG ??
+                                  Constants.gShift,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -465,9 +461,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                           ///  Total
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.total,
+                              state.labels?.locale.total ??
+                                  state.labels?.defaultLocale.total ??
+                                  Constants.total,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),

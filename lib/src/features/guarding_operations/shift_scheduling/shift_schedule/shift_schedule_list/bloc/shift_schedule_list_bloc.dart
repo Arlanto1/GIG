@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
@@ -26,10 +27,10 @@ class ShiftScheduleListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
-          //labels: labels,
+          labels: labels,
           hasReachedMax: false,
         ),
       );

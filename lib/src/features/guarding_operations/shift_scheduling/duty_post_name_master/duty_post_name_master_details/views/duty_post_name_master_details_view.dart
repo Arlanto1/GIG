@@ -217,9 +217,9 @@ class _DutyPostNameMasterDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
-                              Constants.date,
+                              state.labels?.locale.inputDate ??
+                                  state.labels?.defaultLocale.inputDate ??
+                                  Constants.date,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -229,9 +229,9 @@ class _DutyPostNameMasterDetailsViewState
 
                           /// Location
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -259,9 +259,9 @@ class _DutyPostNameMasterDetailsViewState
 
                           /// DutyPost Location Name
                           CommonWidgets.textDisplay(
-                            //  state.labels?.locale.poc ??
-                            //    state.labels?.defaultLocale.poc ??
-                            Constants.dutyPostLocationName,
+                            state.labels?.locale.postName ??
+                                state.labels?.defaultLocale.postName ??
+                                Constants.dutyPostLocationName,
                             Styles.textStyleBlack14,
                             //isMandatory: true
                           ),
