@@ -187,6 +187,15 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
       buttonText: Constants.showDetails,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
+        log('--state.model.moduleId--${state.model.moduleId}--');
+
+        if (state.model.moduleId == null) {
+          Validator().showToast(
+            context,
+            'Module Id is null.',
+          );
+          return;
+        }
         int moduleId = state.model.moduleId ?? 0;
 
         var nav = Navigator.of(context);
@@ -196,12 +205,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             {
               MaterialMovementModel materialMovementModel =
                   await MaterialMovementServices().getById(moduleId);
-              nav.pushNamed(materialMovementInwardOutwardDetailsRoute, arguments: {
-                "MaterialMovementModel": materialMovementModel,
-                "isInward": false,
-                "isCreate": true,
-                "title": Constants.materialMovementOutwardCreate,
-              });
+              nav.pushNamed(materialMovementInwardOutwardDetailsRoute,
+                  arguments: {
+                    "MaterialMovementModel": materialMovementModel,
+                    "isInward": false,
+                    "isCreate": true,
+                    "title": Constants.materialMovementOutwardCreate,
+                  });
               break;
             }
           case 'LEO':
