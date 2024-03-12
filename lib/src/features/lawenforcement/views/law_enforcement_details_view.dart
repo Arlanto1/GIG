@@ -2120,7 +2120,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                           color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                        context, imageData1?.id ?? 0, imageData1?.title ?? '',
+                      Constants.leoModuleCode,
+                    );
                   },
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')

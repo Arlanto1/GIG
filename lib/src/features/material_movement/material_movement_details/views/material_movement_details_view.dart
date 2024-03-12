@@ -145,7 +145,8 @@ class _MaterialMovementDetailsViewState
             state.model.status == 6 ||
             state.model.status == 7 ||
             state.model.status == 9 ||
-            state.model.status == null||isReadOnly == false;
+            state.model.status == null ||
+            isReadOnly == false;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -2121,7 +2122,7 @@ class _MaterialMovementDetailsViewState
                                                     MaterialMovementDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                            receiverEmail: user);
+                                                receiverEmail: user);
                                       },
                                       functionToCall: () {
                                         // refresh the list
@@ -2520,6 +2521,7 @@ class _MaterialMovementDetailsViewState
                             files: getFiles,
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
+                            moduleCode: Constants.guardingMasterModuleCode,
                           ),
                         ]),
                       ),
@@ -2735,11 +2737,8 @@ class _MaterialMovementDetailsViewState
     if (state.model.id != null && isReadOnly) {
       BlocProvider.of<MaterialMovementDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": widget.isInward}
-      );
+      Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": widget.isInward});
     } else {
       Navigator.pop(context);
     }
@@ -2912,7 +2911,11 @@ class _MaterialMovementDetailsViewState
                       ),
                 onTap: () {
                   DownloadImage().saveImage(
-                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                    context,
+                    imageData1?.id ?? 0,
+                    imageData1?.title ?? '',
+                    Constants.materialMovementModuleCode,
+                  );
                 },
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')

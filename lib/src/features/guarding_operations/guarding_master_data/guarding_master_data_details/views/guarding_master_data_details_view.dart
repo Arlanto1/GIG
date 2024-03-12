@@ -476,6 +476,7 @@ class _GuardingMasterDataDetailsViewState
                                       null
                                   ? true
                                   : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
 
                             /// Guarding Vendor
@@ -1014,6 +1015,7 @@ class _GuardingMasterDataDetailsViewState
                                     widget.guardingMasterData != null
                                         ? true
                                         : false,
+                                moduleCode: Constants.guardingMasterModuleCode,
                               ),
                             ],
 
@@ -1263,6 +1265,7 @@ class _GuardingMasterDataDetailsViewState
                                   widget.guardingMasterData != null
                                       ? true
                                       : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1373,6 +1376,7 @@ class _GuardingMasterDataDetailsViewState
                                   widget.guardingMasterData != null
                                       ? true
                                       : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1446,6 +1450,7 @@ class _GuardingMasterDataDetailsViewState
                                   widget.guardingMasterData != null
                                       ? true
                                       : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1567,6 +1572,7 @@ class _GuardingMasterDataDetailsViewState
                                   widget.guardingMasterData != null
                                       ? true
                                       : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1653,6 +1659,7 @@ class _GuardingMasterDataDetailsViewState
                                     widget.guardingMasterData != null
                                         ? true
                                         : false,
+                                moduleCode: Constants.guardingMasterModuleCode,
                               ),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1726,6 +1733,7 @@ class _GuardingMasterDataDetailsViewState
                                   widget.guardingMasterData != null
                                       ? true
                                       : false,
+                              moduleCode: Constants.guardingMasterModuleCode,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -2685,7 +2693,11 @@ class _GuardingMasterDataDetailsViewState
                         ),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
+                      context,
+                      imagedata1?.id ?? 0,
+                      imagedata1?.title ?? '',
+                      Constants.guardingMasterModuleCode,
+                    );
                   },
                   title: widget.guardingMasterData != null
                       ? Text(imagedata1?.title ?? '')

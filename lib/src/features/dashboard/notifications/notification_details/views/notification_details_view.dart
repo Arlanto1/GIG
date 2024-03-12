@@ -150,6 +150,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             attachments: state.model.attachments,
                             files: state.model.attachments,
                             showDownloadIcon: true,
+                            moduleCode: state.model.moduleCode??''
                           ),
                         ],
                         if (!state.model.moduleCode.isEmptyOrNull) ...[

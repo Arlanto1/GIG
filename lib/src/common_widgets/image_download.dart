@@ -13,13 +13,14 @@ class DownloadImage {
     BuildContext context,
     int id,
     String name,
+    String moduleCode,
   ) async {
     log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');
     // print('url123123 $url');
     // downloadData(context, name, url);
-    final url = "$endpoint/downloadImage/$id";
+    final url = "$endpoint/downloadImage/$id?module=$moduleCode";
     // final response = await BaseApiService().getRequest(
     //   url: url,
     // );
@@ -108,7 +109,6 @@ class DownloadImage {
         url,
         headers: headers,
       );
-
 
       // final http.Response response = await http.get(
       //   url,

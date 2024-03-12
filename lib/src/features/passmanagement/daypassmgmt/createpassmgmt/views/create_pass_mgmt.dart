@@ -1884,6 +1884,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           getAttachments.isNotEmpty
                                               ? true
                                               : false,
+                                      moduleCode: Constants.guardingMasterModuleCode,
                                     ),
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
@@ -2740,6 +2741,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       attachments: photogetAttachments,
       files: photogetFiles,
       showDownloadIcon: photogetAttachments.isNotEmpty ? true : false,
+      moduleCode: Constants.guardingMasterModuleCode,
     );
     // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
     //     ? attachmentListviews(photogetFiles, photogetAttachments)
@@ -4064,7 +4066,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                           color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                      context,
+                      imageData1?.id ?? 0,
+                      imageData1?.title ?? '',
+                      Constants.passManagementModuleCode,
+                    );
                   },
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')

@@ -2277,7 +2277,11 @@ class _CreateFoundState extends State<CreateFound> {
                         color: AppColors.boldgreyBackground),
                 onTap: () {
                   DownloadImage().saveImage(
-                      context, imageData1?.id ?? 1, imageData1?.title ?? '');
+                    context,
+                    imageData1?.id ?? 1,
+                    imageData1?.title ?? '',
+                    Constants.articleFoundModuleCode,
+                  );
                 },
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')
