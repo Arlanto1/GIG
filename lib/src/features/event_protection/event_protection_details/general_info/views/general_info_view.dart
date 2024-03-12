@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.dart';
 
-import '../models/general_info_model.dart';
-
 class GeneralInfoView extends StatefulWidget {
   final EventProtectionGi? model;
 
@@ -1045,8 +1043,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               children: [
                                 ...state.model.epOfficers
                                         ?.asMap()
-                                        ?.entries
-                                        ?.map((entry) {
+                                        .entries
+                                        .map((entry) {
                                       final index = entry.key;
                                       final officer = entry.value;
                                       return Row(
@@ -1088,7 +1086,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                           ),
                                         ],
                                       );
-                                    })?.toList() ??
+                                    }).toList() ??
                                     [],
                                 GestureDetector(
                                   onTap: () {

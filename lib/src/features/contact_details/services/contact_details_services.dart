@@ -1,8 +1,5 @@
 import 'package:db_atom/index.dart';
 
-import '../models/contacts_list_response_model.dart';
-import '../models/requestModels/contacts_request.dart';
-
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
@@ -18,7 +15,7 @@ class Apis {
 
   static final String _createContactRecord = '$baseUrl/createContactInfo?';
 
-  //static final String _deleteContacts = '$baseUrl/deleteContactInfo';
+//static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
 
 class ContactDetailsServices {
@@ -62,6 +59,7 @@ class ContactDetailsServices {
     );
     return ContactDetailsListResponseModel.fromJson(response);
   }
+
   Future<ContactDetailModel> getGcdById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
@@ -126,11 +124,11 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  // Future<ContactRecord> deleteContacts(int id) async {
-  //   final String url = '${Apis._deleteContacts}/$id';
-  //   final response = await BaseApiService().getRequest(
-  //     url: url,
-  //   );
-  //   return ContactRecord.fromJson(response);
-  // }
+// Future<ContactRecord> deleteContacts(int id) async {
+//   final String url = '${Apis._deleteContacts}/$id';
+//   final response = await BaseApiService().getRequest(
+//     url: url,
+//   );
+//   return ContactRecord.fromJson(response);
+// }
 }

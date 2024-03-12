@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
 class LawEnforcementState extends Equatable {
@@ -119,8 +118,7 @@ class LawEnforcementState extends Equatable {
     return LawEnforcementState(
       model: model ?? this.model,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
-      departmentResponse:
-          getLeodepartmentsResponse ?? this.departmentResponse,
+      departmentResponse: getLeodepartmentsResponse ?? departmentResponse,
       getLeopurposeResponse:
           getLeopurposeResponse ?? this.getLeopurposeResponse,
       eventId: eventId ?? this.eventId,
