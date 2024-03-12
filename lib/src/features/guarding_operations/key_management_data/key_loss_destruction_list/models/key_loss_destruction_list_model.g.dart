@@ -32,8 +32,8 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
       createdBy: json['createdBy'] == null
           ? null
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),
-      createdDate: json['createdDate'] as int?,
-      modifiedDate: json['modifiedDate'] as int?,
+      createdDate: json['createdDate'] as String?,
+      modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
     )..lock = json['lock'] as String?;
 

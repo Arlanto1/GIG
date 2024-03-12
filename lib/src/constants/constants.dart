@@ -27,6 +27,7 @@ class Constants {
   static const String slaViolationPenaltyDetailsModule = 'SVP';
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
+  static const String keyLossDestructionModule = 'LOS';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
@@ -731,6 +732,10 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String createLockChangeHistory = 'Create Lock Change History';
+  static const String createKeyLostHistory = ' Create Key Lost History';
+  static const String createKeyDamageHistory = 'Create Key Damage History';
+  static const String createKeyDestroyHistory = 'Create Key Destroy History';
   static const String editLockChangeHistory = ' Edit Lock Change History';
   static const String editKeyLostHistory = 'Edit Key Lost History';
   static const String editKeyDamageHistory = 'Edit Key Damage History';
@@ -777,6 +782,7 @@ class Constants {
   static const String keysDamaged = 'Keys Damaged';
   static const String noKeysIssued = 'No. Keys Issued';
   static const String handedOverDate = 'Handed Over Date';
+  static const String editKeyLossDestruction = 'Edit Key Loss Destruction';
 
   /// Duty Post Master
   static const String dutyPostMaster = 'Duty Post Master';
