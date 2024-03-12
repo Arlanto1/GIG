@@ -15,6 +15,11 @@ class DownloadImage {
     String name,
     String moduleCode,
   ) async {
+
+    if(id == 1) {
+      return;
+    }
+
     log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');
@@ -114,23 +119,27 @@ class DownloadImage {
       //   url,
       //   headers: headers,
       // );
-      log('response---${response.body.toString()}');
+      // log('response---${response.body.toString()}');
 
+      log("Status Code: ${response.statusCode}");
       if (response.statusCode.toString() == "400") {
         final responseBody = json.decode(response.body);
-        log("Status Code: ${response.statusCode}");
         throw GenericResponse.fromJson(responseBody);
       }
 
       // Get temporary directory
       final dir = await getTemporaryDirectory();
+      log('---1---');
 
       // Create an image name
       var filename = '${dir.path}/$name';
+      log('---1-1--');
 
       // Save to filesystem
       final file = File(filename);
+      log('---1--3-');
       await file.writeAsBytes(response.bodyBytes);
+      log('---1-4--');
 
       log('pdf---$file');
       // Ask the user to save it
