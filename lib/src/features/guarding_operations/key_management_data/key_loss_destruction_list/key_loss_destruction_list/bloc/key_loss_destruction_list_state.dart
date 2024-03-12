@@ -4,7 +4,7 @@ class KeyLossDestructionListState extends Equatable {
   final List<KeyLossDestructionListModel> list;
   final bool hasReachedMax;
   final FormStatus status;
-  final SlaUiLabels? labels;
+  final KLDUiLabels? labels;
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
@@ -28,6 +28,7 @@ class KeyLossDestructionListState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    KLDUiLabels? labels,
   }) {
     return KeyLossDestructionListState(
       list: items ?? list,

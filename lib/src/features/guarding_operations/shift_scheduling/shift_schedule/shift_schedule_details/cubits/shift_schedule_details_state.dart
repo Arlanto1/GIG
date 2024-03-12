@@ -12,7 +12,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final List<DutyPostModel>? dutyPosts;
-  final GmUiLabels? labels;
+  final SSUiLabels? labels;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -103,7 +103,7 @@ class ShiftScheduleDetailsState extends Equatable {
     String? message,
     List<User>? entrySecurities,
     List<DutyPostModel>? dutyPosts,
-    final GmUiLabels? labels,
+    final SSUiLabels? labels,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,

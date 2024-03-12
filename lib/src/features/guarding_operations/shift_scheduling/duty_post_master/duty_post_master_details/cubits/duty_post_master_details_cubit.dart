@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -39,8 +40,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Organisation? location;
-        List<Organisation> dutyPostName =
-    await services.getDutyPostsByLocation(locationId: location!.id.toString());
+    List<Organisation> dutyPostName = await services.getDutyPostsByLocation(
+        locationId: location!.id.toString());
 
     emit(
       state.copyWith(
@@ -80,7 +81,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
       List<Organisation> dutyPosts = [];
-      Organisation? location = state.model.location ;
+      Organisation? location = state.model.location;
 
       if (state.model.location == null && defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
@@ -96,7 +97,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       // Get Date of Creation
       state.model.createdDate = _getCurrentDate();
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -154,8 +155,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
 
     log('--dutyPostName--${dutyPostName?.name}---');
     //if (location != null) {
-      state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
-   // }
+    state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
+    // }
     state.model.rankId = rankId ?? state.model.rankId;
     emit(state.copyWith(
       model: state.model,

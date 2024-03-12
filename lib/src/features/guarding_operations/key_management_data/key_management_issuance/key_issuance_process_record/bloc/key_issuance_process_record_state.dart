@@ -7,7 +7,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
   final List<Organisation>? keyDescriptions;
   final Organisation? keyDescription;
   final String? message;
-  final SlaUiLabels? labels;
+  final KMUiLabels? labels;
 
   const KeyIssuanceProcessRecordState({
     this.message,
@@ -26,7 +26,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
     List<Organisation>? keyDescriptions,
     Organisation? keyDescription,
     String? message,
-    SlaUiLabels? labels,
+    KMUiLabels? labels,
   }) {
     return KeyIssuanceProcessRecordState(
       items: items ?? this.items,

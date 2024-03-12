@@ -41,14 +41,14 @@ class KeyHistoryRecordState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
     final String? message;
-  //final GmUiLabels? labels;
+  final KMUiLabels? labels;
 
   const KeyHistoryRecordState(
       {this.list = const <KeyManagementMasterModel>[],
         this.hasReachedMax = false,
             this.message,
         this.status = FormStatus.initial,
-        //this.labels
+        this.labels
       });
 
   KeyHistoryRecordState copyWith({
@@ -56,14 +56,14 @@ class KeyHistoryRecordState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
         String? message,
-    // GmUiLabels? labels,
+    KMUiLabels? labels,
   }) {
     return KeyHistoryRecordState(
       list: items ?? list,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       message: message ?? this.message,
-      // labels: labels ?? this.labels
+      labels: labels ?? this.labels
     );
   }
 

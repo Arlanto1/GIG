@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
@@ -45,7 +46,7 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -54,6 +55,7 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
         ),
       );
     } on Exception {

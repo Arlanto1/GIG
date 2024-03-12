@@ -15,6 +15,7 @@ class IncidentGeneralInfoState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final IMUiLabels? labels;
 
   factory IncidentGeneralInfoState.initial({
     required IncidentModel model,
@@ -173,6 +174,7 @@ class IncidentGeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.labels,
   });
 
   IncidentGeneralInfoState copyWith({

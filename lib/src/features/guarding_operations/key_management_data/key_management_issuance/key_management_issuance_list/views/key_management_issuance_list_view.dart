@@ -161,14 +161,13 @@ class _KeyManagementIssuanceListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              // key: state.labels?.locale.locationRegion ??
-                              //  state.labels?.defaultLocale.locationRegion ??
-                              key: 'Created By',
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
+                                  'Created By',
                               value: state.list[index].createdBy?.name ?? ''));
                           labels.add(Label(
-                              key:
-                                  // state.labels?.locale.location ??
-                                  //     state.labels?.defaultLocale.location ??
+                              key: state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
                                   'Location ',
                               value: state.list[index].location?.name ?? ''));
                         }

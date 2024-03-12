@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
 class AddKeyIssuanceProcessPopUp extends StatefulWidget {
@@ -69,7 +70,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       noOfKeysController.text =
           widget.selectedKeyDescription!.noKeys.toString();
       // noOfKeysIssuedController.text= widget.model.noKeysIssued.toString();
-
     }
 
     /// Key Type Dropdown
@@ -86,8 +86,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     //     : widget.model.noKeysIssued.toString();
     // widget.model.noKeysIssued = int.tryParse(numberOfKeysIssuedController.text);
 
-    numberOfKeysIssuedController.text =
-    widget.model.returned == null ? '0' : widget.model.noKeysIssued.toString();
+    numberOfKeysIssuedController.text = widget.model.returned == null
+        ? '0'
+        : widget.model.noKeysIssued.toString();
     widget.model.returned = int.tryParse(numberOfKeysIssuedController.text);
 
     returnedKeysController.text =
@@ -110,6 +111,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
   @override
   Widget build(BuildContext context) {
+    KeyIssuanceProcessRecordState state = KeyIssuanceProcessRecordState();
     log('no of keys issued ${widget.model.noKeysIssued}---');
     log('--keyDescriptions----${widget.keyDescriptions.length}--');
     return AlertDialog(
@@ -144,7 +146,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
-                            Constants.keyDescription,
+                            state.labels?.locale.keyDescription ??
+                                state.labels?.defaultLocale.keyDescription ??
+                                Constants.keyDescription,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -188,7 +192,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// Key Type
                       CommonWidgets.textDisplay(
-                          Constants.keyType,
+                          state.labels?.locale.keyType ??
+                              state.labels?.defaultLocale.keyType ??
+                              Constants.keyType,
                           isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -260,7 +266,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// No of Keys
                       CommonWidgets.textDisplay(
-                        Constants.noOfKeys,
+                        state.labels?.locale.noKeys ??
+                            state.labels?.defaultLocale.noKeys ??
+                            Constants.noOfKeys,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -279,7 +287,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// Already Issued Keys
                       CommonWidgets.textDisplay(
-                        Constants.alreadyIssuedKeys,
+                        state.labels?.locale.alreadyIssued ??
+                            state.labels?.defaultLocale.alreadyIssued ??
+                            Constants.alreadyIssuedKeys,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -298,7 +308,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// Keys Available
                       CommonWidgets.textDisplay(
-                        Constants.keysAvailable,
+                        state.labels?.locale.keysAvailable ??
+                            state.labels?.defaultLocale.keysAvailable ??
+                            Constants.keysAvailable,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -317,7 +329,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// No. Keys Issued
                       CommonWidgets.textDisplay(
-                        Constants.noKeysIssued,
+                        state.labels?.locale.noKeysIssued ??
+                            state.labels?.defaultLocale.noKeysIssued ??
+                            Constants.noKeysIssued,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -364,10 +378,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                       /// keys Returned
                       CommonWidgets.textDisplay(
-                        Constants.keysReturned,
+                        state.labels?.locale.keysReturned ??
+                            state.labels?.defaultLocale.keysReturned ??
+                            Constants.keysReturned,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -388,7 +403,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// keys Not Returned
                       CommonWidgets.textDisplay(
-                        Constants.keysNotReturned,
+                        state.labels?.locale.keysNotReturned ??
+                            state.labels?.defaultLocale.keysNotReturned ??
+                            Constants.keysNotReturned,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -410,7 +427,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// keys Lost
                       CommonWidgets.textDisplay(
-                        Constants.keysLost,
+                        state.labels?.locale.keysLost ??
+                            state.labels?.defaultLocale.keysLost ??
+                            Constants.keysLost,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -432,7 +451,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
                       /// keys Damaged
                       CommonWidgets.textDisplay(
-                        Constants.keysDamaged,
+                        state.labels?.locale.keysDamaged ??
+                            state.labels?.defaultLocale.keysDamaged ??
+                            Constants.keysDamaged,
                         Styles.textStyleBlack14,
                         isMandatory: true,
                       ),
@@ -533,7 +554,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
           status: false, message: 'Please enter No. of Keys Issued.');
     }
 
-    if (widget.model.noKeysIssued != null && widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
+    if (widget.model.noKeysIssued != null &&
+        widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter valid Number of Keys Issued',

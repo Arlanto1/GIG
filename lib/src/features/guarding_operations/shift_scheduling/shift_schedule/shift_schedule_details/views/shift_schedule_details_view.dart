@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
-
   const ShiftScheduleDetailsView({
     super.key,
   });
@@ -99,25 +98,24 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         initializeDates(state);
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
-            context: context,
-            title: Constants.shiftSchedule,
-            // title: widget.title,
-            showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+              context: context,
+              title: Constants.shiftSchedule,
+              // title: widget.title,
+              showPopUp: false,
+              showSaveButton: state.model.status != 5 ? true : false,
+              showSubmitButton: state.model.status != 5 ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
-            onTapSave: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
-            },
-            onTapSubmit: (){
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                  .submitForm(isSaveOnly: false);
-            }
-          ),
+              onTapSave: () {
+                FocusScope.of(context).unfocus();
+                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                    .submitForm(isSaveOnly: true);
+              },
+              onTapSubmit: () {
+                FocusScope.of(context).unfocus();
+                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                    .submitForm(isSaveOnly: false);
+              }),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
         );
@@ -201,13 +199,15 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               if (state.model.id != null) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: shiftScheduleStatusDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
+                                  dropDownValues:
+                                      shiftScheduleStatusDropDownValues
+                                          .map((label) => label.key)
+                                          .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        shiftScheduleStatusDropDownValues.firstWhere(
+                                        shiftScheduleStatusDropDownValues
+                                            .firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
@@ -226,8 +226,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
                               isMandatory: true,
                               '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
@@ -247,9 +247,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// Location
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -277,9 +277,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// Vendor
                           CommonWidgets.textDisplay(
-                            // state.labels?.locale.vendor ??
-                            //   state.labels?.defaultLocale.vendor ??
-                            Constants.vendor,
+                            state.labels?.locale.vendor ??
+                                state.labels?.defaultLocale.vendor ??
+                                Constants.vendor,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -289,24 +289,23 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             isDisableColor: false,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: state.vendors,
-                                onTap: (Organisation department) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(vendor: department);
-                                },
+                                  context: context,
+                                  organisations: state.vendors,
+                                  onTap: (Organisation department) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            vendor: department);
+                                  },
                                   orgName: 'ATOM_VENDORS',
                                   createEntity: false,
                                   title: 'Add Vendors',
                                   functionToCall: () {
                                     // refresh the list
-                                    BlocProvider.of<
-                                        ShiftScheduleDetailsCubit>(
-                                        context)
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
                                         .refreshList();
-                                  }
-                              );
+                                  });
                             },
                           ),
 
@@ -314,9 +313,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// Duty Type
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.guardRank ??
-                              //    state.labels?.defaultLocale.guardRank ??
-                              Constants.dutyType,
+                              state.labels?.locale.dutyType ??
+                                  state.labels?.defaultLocale.dutyType ??
+                                  Constants.dutyType,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -356,9 +355,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// From Date
                           CommonWidgets.textDisplay(
-                            // state.labels?.locale.dateOfBirth ??
-                            //  state.labels?.defaultLocale.dateOfBirth ??
-                            Constants.fromDate,
+                            state.labels?.locale.fromDate ??
+                                state.labels?.defaultLocale.fromDate ??
+                                Constants.fromDate,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -380,9 +379,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// To Date
                           CommonWidgets.textDisplay(
-                            // state.labels?.locale.dateOfBirth ??
-                            //   state.labels?.defaultLocale.dateOfBirth ??
-                            Constants.toDate,
+                            state.labels?.locale.toDate ??
+                                state.labels?.defaultLocale.toDate ??
+                                Constants.toDate,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -465,15 +464,20 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       },
     );
   }
+
   void updateRecordStatus(ShiftScheduleDetailsState state) {
     if (state.model.id != null) {
       BlocProvider.of<ShiftScheduleDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, shiftScheduleListRoute,);
+      Navigator.popAndPushNamed(
+        context,
+        shiftScheduleListRoute,
+      );
     } else {
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

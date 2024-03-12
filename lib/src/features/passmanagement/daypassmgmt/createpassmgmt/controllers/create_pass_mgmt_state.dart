@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
 enum CreatePassMgmtStateType {
@@ -59,6 +60,7 @@ class CreatePassMgmtState extends Equatable {
   User? dbsponsorResponse;
   BaseUser? nameResponse;
   bool showIdentifiedFields;
+  PMUiLabels? labels;
 
   CreatePassMgmtState({
     required this.model,
@@ -107,6 +109,7 @@ class CreatePassMgmtState extends Equatable {
     this.hostResponse,
     this.dbsponsorResponse,
     this.nameResponse,
+    this.labels,
   });
 
   factory CreatePassMgmtState.initial({
@@ -165,10 +168,11 @@ class CreatePassMgmtState extends Equatable {
     BaseUser? nameResponse,
     String? passValidUntilDate,
     List<Organisation>? updateStatuses,
+    PMUiLabels? labels,
   }) {
     return CreatePassMgmtState(
       model: model ?? this.model,
-      updateStatuses:updateStatuses??this.updateStatuses,
+      updateStatuses: updateStatuses ?? this.updateStatuses,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
       stateType: stateType ?? this.stateType,
@@ -222,6 +226,7 @@ class CreatePassMgmtState extends Equatable {
       dbsponsorResponse: dbsponsorResponse ?? this.dbsponsorResponse,
       nameResponse: nameResponse ?? this.nameResponse,
       passValidUntilDate: passValidUntilDate ?? this.passValidUntilDate,
+      labels: labels ?? this.labels,
     );
   }
 
@@ -268,5 +273,6 @@ class CreatePassMgmtState extends Equatable {
         hostResponse,
         dbsponsorResponse,
         nameResponse,
+        labels,
       ];
 }

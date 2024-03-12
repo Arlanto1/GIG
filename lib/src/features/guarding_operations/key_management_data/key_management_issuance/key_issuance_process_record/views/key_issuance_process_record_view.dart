@@ -112,7 +112,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.keyIssuanceProcess,
+          title: state.labels?.locale.keyIssProcess ??
+              state.labels?.defaultLocale.keyIssProcess ??
+              Constants.keyIssuanceProcess,
           showPopUp: false,
           showSaveButton: false,
           // excelAPIName: 'exportMMExcel',

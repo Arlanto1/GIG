@@ -5,26 +5,26 @@ class DutyPostNameMasterListState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
 
-  //final GmUiLabels? labels;
+  final DPNUiLabels? labels;
 
   const DutyPostNameMasterListState({
     this.list = const <DutyPostNameMasterModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    //this.labels
+    this.labels
   });
 
   DutyPostNameMasterListState copyWith({
     List<DutyPostNameMasterModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    // GmUiLabels? labels,
+    DPNUiLabels? labels,
   }) {
     return DutyPostNameMasterListState(
       list: items ?? list,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      // labels: labels ?? this.labels
+      labels: labels ?? this.labels
     );
   }
 
