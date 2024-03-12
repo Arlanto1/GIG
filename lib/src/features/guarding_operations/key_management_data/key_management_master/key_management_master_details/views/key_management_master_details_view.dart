@@ -582,7 +582,8 @@ class _KeyManagementMasterDetailsViewState
                               // state.labels?.locale.budget ??
                               //     state.labels?.defaultLocale.budget ??
                               Constants.totalKeys,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleBlack14,
+                          isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
