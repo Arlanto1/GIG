@@ -212,8 +212,8 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
                               isMandatory: true,
                               '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
