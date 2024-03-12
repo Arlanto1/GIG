@@ -450,7 +450,9 @@ class _KeyHistoryRecordsDetailsViewState
                         ],
 
                         if (widget.type ==
-                            ConstantsIntValue.lockChangeHistoryInt) ...[
+                            ConstantsIntValue.lockChangeHistoryInt || widget.type ==
+                            ConstantsIntValue.keyDestroyHistoryInt|| widget.type ==
+                            ConstantsIntValue.keyDamageHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
                               //  state.labels?.locale.guardingPOC ??
