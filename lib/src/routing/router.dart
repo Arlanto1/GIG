@@ -83,7 +83,8 @@ const String keyHistoryRecordsDetailsRoute = '/keyHistoryRecordsDetailsRoute';
 
 const String keyReconciliationListRoute = '/keyReconciliationListRoute';
 const String keyLossDestructionListRoute = '/keyLossDestructionListRoute';
-
+const String keyLossDestructionListDetailsRoute =
+    '/keyLossDestructionListDetailsRoute';
 const String dutyPostMasterListRoute = '/dutyPostMasterListRoute';
 const String dutyPostMasterDetailsRoute = '/dutyPostMasterDetailsRoute';
 

@@ -82,8 +82,12 @@ import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst
     as sv;
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart'
     as kip;
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart';
@@ -1174,6 +1178,30 @@ class RouteGenerator {
                         filters: BaseFilterModel())),
                   child: const KeyLossDestructionListView(),
                 ));
+
+      case keyLossDestructionListDetailsRoute:
+        KeyLossDestructionListServices services =
+            KeyLossDestructionListServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyLossDestructionListModel? keyLossDestructionListModel =
+            arguments["keyLossGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyLossDestructionDetailsCubit>(
+            create: (_) => KeyLossDestructionDetailsCubit(
+              services: services,
+              model: keyLossDestructionListModel,
+              commonServices: commonServices,
+            ),
+            child: KeyLossDestructionDetailsView(
+              model: keyLossDestructionListModel,
+              title: title,
+            ),
+          ),
+        );
 
       case keyManagementIssuanceListRoute:
         return MaterialPageRoute(
