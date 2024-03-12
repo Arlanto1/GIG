@@ -135,8 +135,8 @@ class AddDutyPostLocationNamePopUpState
         DpName dpName = DpName();
         dpName.dutyPostName = dutyPostLocationNameController.text;
         // widget.model?.dpName = dutyPostLocationNameController.text;
-        // BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
-        //     .onAddDutyPostLocationName(dutyPostLocationNameController.text);
+        BlocProvider.of<DutyPostNameMasterDetailsCubit>(widget.mainContext)
+            .onAddDutyPostLocationName(dpName);
         Navigator.pop(context);
       },
     );

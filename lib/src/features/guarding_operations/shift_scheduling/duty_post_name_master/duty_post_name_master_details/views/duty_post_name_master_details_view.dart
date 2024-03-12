@@ -298,10 +298,10 @@ class _DutyPostNameMasterDetailsViewState
                               ],
                             ),
                           ),
-                          // Column(
-                            // children: getDutyPostLocationName(
-                            //     state.model.dpName ?? [], height, state),
-                          // ),
+                          Column(
+                            children: getDutyPostLocationName(
+                                state.model.dpName ?? [], height, state),
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                           /// SubmitButton
@@ -328,16 +328,17 @@ class _DutyPostNameMasterDetailsViewState
   }
 
   List<Widget> getDutyPostLocationName(
-      List<String> list, double height, DutyPostNameMasterDetailsState state) {
+      List<DpName> list, double height, DutyPostNameMasterDetailsState state) {
+    log('-list--${list.length}--');
     List<Widget> widgets = [];
-    for (String dutyPostLocationName in list) {
+    for (DpName dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
           TextEditingController();
-      dutyPostLocationNameController.text = dutyPostLocationName;
+      dutyPostLocationNameController.text = dutyPostLocationName.dutyPostName??'';
       widgets.add(Row(
         children: [
           Text(
-            dutyPostLocationName,
+            dutyPostLocationName.dutyPostName??'',
             textAlign: TextAlign.start,
           ),
           GestureDetector(
@@ -382,7 +383,7 @@ class _DutyPostNameMasterDetailsViewState
   }
 
   void deleteDutyPostLocationName(
-      String locationName, DutyPostNameMasterDetailsState state) {
+      DpName locationName, DutyPostNameMasterDetailsState state) {
     setState(() {
       // Assuming your state has a list of duty post location names
       // Update the state to remove the specified location name
