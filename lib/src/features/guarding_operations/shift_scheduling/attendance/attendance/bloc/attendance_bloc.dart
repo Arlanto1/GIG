@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/services/common_services.dart';
 

@@ -219,7 +219,7 @@ class _DutyPostNameMasterDetailsViewState
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.inputDate ??
                               //     state.labels?.defaultLocale.inputDate ??
-                                  Constants.date,
+                              Constants.date,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -259,12 +259,12 @@ class _DutyPostNameMasterDetailsViewState
 
                           /// DutyPost Location Name
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.poc ??
-                              //    state.labels?.defaultLocale.poc ??
-                              Constants.dutyPostLocationName,
-                              Styles.textStyleBlack14,
-                              //isMandatory: true
-                            ),
+                            //  state.labels?.locale.poc ??
+                            //    state.labels?.defaultLocale.poc ??
+                            Constants.dutyPostLocationName,
+                            Styles.textStyleBlack14,
+                            //isMandatory: true
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           GestureDetector(
                             onTap: () {
@@ -298,10 +298,10 @@ class _DutyPostNameMasterDetailsViewState
                               ],
                             ),
                           ),
-                          Column(
-                            // children: getDutyPostLocationName(
-                            //     state.model.dpName ?? [], height, state),
-                          ),
+                          const Column(
+                              // children: getDutyPostLocationName(
+                              //     state.model.dpName ?? [], height, state),
+                              ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.02),

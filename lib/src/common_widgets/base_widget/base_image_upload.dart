@@ -1,19 +1,4 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../features/createfound/models/user.dart';
-import '../../features/createfound/views/upload_attachment.dart';
-import '../../utils/app_themes/colors/app_color.dart';
-import '../../utils/app_themes/styles/app_styles.dart';
-import '../../utils/helpers/keys/keys.dart';
-import '../basic_reusable_widgets.dart';
-import '../image_download.dart';
 
 class BaseImageUpload {
   Widget uploadWidget({
@@ -114,8 +99,7 @@ class BaseImageUpload {
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData = attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
-          imageNameController.text =
-              imageData?.title ?? '';
+          imageNameController.text = imageData?.title ?? '';
           return Column(
             children: <Widget>[
               ListTile(

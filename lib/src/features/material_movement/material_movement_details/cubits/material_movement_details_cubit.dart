@@ -385,7 +385,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       for (ImageContent image in data) {
         image.type = 0;
       }
-      log('--data----${data?.length}----');
+      log('--data----${data.length}----');
 
       state.model.images = data;
       emit(

@@ -1,14 +1,11 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import 'package:db_atom/index.dart';
-import '../models/general_info_model.dart';
-import '../models/requestModel/general_info_request.dart';
 
 part 'general_info_state.dart';
 
@@ -53,13 +50,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -72,6 +69,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
   }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     // Show Loader and emit loading state

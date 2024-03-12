@@ -36,7 +36,8 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
-final bool? isMasterKey;
+  final bool? isMasterKey;
+
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
       _ContactRecordViewState();
@@ -84,27 +85,31 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton:widget.parentStatus==0||widget.parentStatus==null ? Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () async {
-            log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
-            KeyIssuanceProcessRecord keyIssuanceProcessModel =KeyIssuanceProcessRecord();
-            bool isMasterKey =
-            keyIssuanceProcessModel.kmId == 1 ? true : false;
-            List<Organisation> keyDescriptions =
-                await KeyManagementIssuanceServices()
-                    .getKeyDescriptions(locationId: widget.locationId,isMasterKey:isMasterKey);
+        floatingActionButton: widget.parentStatus == 0
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () async {
+                  log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
+                  KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      KeyIssuanceProcessRecord();
+                  bool isMasterKey =
+                      keyIssuanceProcessModel.kmId == 1 ? true : false;
+                  List<Organisation> keyDescriptions =
+                      await KeyManagementIssuanceServices().getKeyDescriptions(
+                          locationId: widget.locationId,
+                          isMasterKey: isMasterKey);
 
-            showAddKeyIssuanceProcessPopUp(
-              context: context,
-              keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
-              keyDescriptions: keyDescriptions,
-              selectedKeyDescription: null,
-              parentStatus: widget.parentStatus,
-            );
-          },
-        ):null,
+                  showAddKeyIssuanceProcessPopUp(
+                    context: context,
+                    keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+                    keyDescriptions: keyDescriptions,
+                    selectedKeyDescription: null,
+                    parentStatus: widget.parentStatus,
+                  );
+                },
+              )
+            : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.keyIssuanceProcess,
@@ -208,7 +213,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
                               .getKeyDescriptions(
-                                  locationId: widget.locationId,isMasterKey: isMasterKey);
+                                  locationId: widget.locationId,
+                                  isMasterKey: isMasterKey);
 
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 
@@ -270,7 +276,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           mainContext: context,
           keyDescriptions: keyDescriptions,
           selectedKeyDescription: selectedKeyDescription,
-            parentStatus: parentStatus,
+          parentStatus: parentStatus,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
