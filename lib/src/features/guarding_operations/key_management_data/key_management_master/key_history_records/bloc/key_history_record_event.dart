@@ -40,3 +40,6 @@ class DeleteRecord extends KeyHistoryRecordEvent {
 
   const DeleteRecord(this.id, this.type, this.mainContactId);
 }
+
+
+

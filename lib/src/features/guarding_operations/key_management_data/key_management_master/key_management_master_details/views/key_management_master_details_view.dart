@@ -212,8 +212,8 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
                               isMandatory: true,
                               '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
@@ -221,9 +221,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
-                              Constants.dateofcreation,
+                              state.labels?.locale.createdDate ??
+                                  state.labels?.defaultLocale.createdDate ??
+                                  Constants.dateofcreation,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -233,9 +233,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Location
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -244,7 +244,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Entity
                           CommonWidgets.textDisplay(
-                            Constants.entity,
+                            state.labels?.locale.entities ??
+                                state.labels?.defaultLocale.entities ??
+                                Constants.entity,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -262,8 +264,8 @@ class _KeyManagementMasterDetailsViewState
                                   .updateDropdownValues(
                                       entities: selectedEntities);
                               Navigator.of(context).pop();
-                              FocusScope.of(context).requestFocus(
-                                  floorFocusNode);
+                              FocusScope.of(context)
+                                  .requestFocus(floorFocusNode);
                               // Close the dialog
                             },
                             orgName: 'ATOM_ENTITIES',
@@ -288,9 +290,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Floor
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.floor,
+                              state.labels?.locale.floor ??
+                                  state.labels?.defaultLocale.floor ??
+                                  Constants.floor,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -314,9 +316,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Type
                           CommonWidgets.textDisplay(
-                            //state.labels?.locale.vendor ??
-                            //  state.labels?.defaultLocale.vendor ??
-                            Constants.keyType,
+                            state.labels?.locale.keyType ??
+                                state.labels?.defaultLocale.keyType ??
+                                Constants.keyType,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -338,8 +340,8 @@ class _KeyManagementMasterDetailsViewState
                                             context)
                                         .updateDropdownValues(
                                             doorType: department);
-                                    FocusScope.of(context).requestFocus(
-                                        keyDescriptionFocusNode);
+                                    FocusScope.of(context)
+                                        .requestFocus(keyDescriptionFocusNode);
                                   },
                                   orgName: 'EMPLOYEE_DEPARTMENTS',
                                   createEntity: false,
@@ -359,9 +361,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Description
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyDescription,
+                              state.labels?.locale.keyDescription ??
+                                  state.labels?.defaultLocale.keyDescription ??
+                                  Constants.keyDescription,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -385,10 +387,10 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Door Has Access Control
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasAccessControl,
+                              state.labels?.locale.doorAccessControl ??
+                                  state.labels?.defaultLocale
+                                      .doorAccessControl ??
+                                  Constants.doorHasAccessControl,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
@@ -416,10 +418,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Door Has Lock And Key Mechanism
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasLockAndKeyMechanism,
+                              state.labels?.locale.doorLockKey ??
+                                  state.labels?.defaultLocale.doorLockKey ??
+                                  Constants.doorHasLockAndKeyMechanism,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
@@ -446,9 +447,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key No
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyNo,
+                              state.labels?.locale.keyNo ??
+                                  state.labels?.defaultLocale.keyNo ??
+                                  Constants.keyNo,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -471,9 +472,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Tagging Done?
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.gender ??
-                              //  state.labels?.defaultLocale.gender ??
-                              Constants.keyTaggingDone,
+                              state.labels?.locale.keyTagging ??
+                                  state.labels?.defaultLocale.keyTagging ??
+                                  Constants.keyTaggingDone,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -505,17 +506,17 @@ class _KeyManagementMasterDetailsViewState
                                               keyTagging: int.tryParse(
                                                   selectedLabel.value));
                                     });
-                                FocusScope.of(context).requestFocus(
-                                    noOfKeysFocusNode);
+                                FocusScope.of(context)
+                                    .requestFocus(noOfKeysFocusNode);
                                 //}
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// No. of  Keys
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfKeys,
+                              state.labels?.locale.noKeys ??
+                                  state.labels?.defaultLocale.noKeys ??
+                                  Constants.noOfKeys,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -546,9 +547,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Number of  Master Keys
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfMasterKeys,
+                              state.labels?.locale.noMasterKey ??
+                                  state.labels?.defaultLocale.noMasterKey ??
+                                  Constants.noOfMasterKeys,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -579,9 +580,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Total Keys
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.budget ??
-                              //     state.labels?.defaultLocale.budget ??
-                              Constants.totalKeys,
+                              state.labels?.locale.total ??
+                                  state.labels?.defaultLocale.total ??
+                                  Constants.totalKeys,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -606,9 +607,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// How And Where The Keys Are Stored
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.howAndWhereTheKeysAreStored,
+                              state.labels?.locale.keysStored ??
+                                  state.labels?.defaultLocale.keysStored ??
+                                  Constants.howAndWhereTheKeysAreStored,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -634,6 +635,8 @@ class _KeyManagementMasterDetailsViewState
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
+                                // state.labels?.locale.location ??
+                                //     state.labels?.defaultLocale.location ??
                                 Constants.lockChangeHistory,
                                 style: Styles.styleHeaderGreyText16,
                               ),

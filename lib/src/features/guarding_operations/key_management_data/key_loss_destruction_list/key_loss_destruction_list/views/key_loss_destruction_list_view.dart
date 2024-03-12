@@ -148,15 +148,16 @@ class _KeyLossDestructionListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              key: 'Date of Creation',
+                              key: state.labels?.locale.createdDate ??
+                                  state.labels?.defaultLocale.createdDate ??
+                                  'Date of Creation',
                               value: DateFormat('dd-MM-yyyy').format(
                                   DateTime.fromMillisecondsSinceEpoch(
                                       state.list[index].createdDate ??
                                           0 * 1000))));
                           labels.add(Label(
-                              key:
-                                  // state.labels?.locale.location ??
-                                  //state.labels?.defaultLocale.location ??
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   'Created By',
                               value: state.list[index].createdBy?.name ?? ''));
                         }

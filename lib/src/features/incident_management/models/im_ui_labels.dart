@@ -1,6 +1,6 @@
 import 'package:db_atom/index.dart';
 
-part 'gm_ui_labels.g.dart';
+part 'im_ui_labels.g.dart';
 
 @JsonSerializable()
 class IMUiLabels {
