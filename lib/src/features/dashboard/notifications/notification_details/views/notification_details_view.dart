@@ -181,6 +181,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
   }
 
   Widget submitButtonDisplay(NotificationDetailsState state) {
+    log('---${state.model.moduleCode}---');
+
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),

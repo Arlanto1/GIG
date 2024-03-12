@@ -1,6 +1,6 @@
 import 'package:db_atom/index.dart';
 
-part 'vvip_ui_labels.g.dart';
+part 'ss_ui_labels.g.dart';
 
 @JsonSerializable()
 class SSUiLabels {
