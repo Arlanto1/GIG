@@ -31,11 +31,11 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.articlefoundregister, AppIcon.clipboardImage, 0));
+          Constants.articleFoundRegister, AppIcon.clipboardImage, 0));
     }
     if (displayMenu.eP ?? false) {
       expansionTileDrawerItems.add(
-          const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
+          const MenuItem(Constants.eventProtectionList, AppIcon.tasklist, 0));
     }
 
     if (displayMenu.gM ?? false) {
@@ -53,7 +53,7 @@ class NavigationDrawer1 extends StatelessWidget {
     // }
     if (displayMenu.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
+          Constants.lawEnforcementVisitsList, AppIcon.lawenforcement, 0));
     }
 
     if (displayMenu.mM ?? false) {

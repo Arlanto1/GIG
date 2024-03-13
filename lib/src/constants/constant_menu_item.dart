@@ -64,7 +64,7 @@ const shiftSchedulingDataItems = [
 ];
 
 const passTileDrawerItems = [
-  MenuItem(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
+  MenuItem(Constants.dayPassManagement, AppIcon.daypassmgmticon, 0),
   MenuItem(Constants.daypassregister, AppIcon.daypassregicon, 0),
   MenuItem(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
   MenuItem(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),

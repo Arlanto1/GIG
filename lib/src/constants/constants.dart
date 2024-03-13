@@ -147,9 +147,9 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articlefoundregister = 'Article Found Register';
-  static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
-  static const String eventprotectionlist = 'Event Protection List';
+  static const String articleFoundRegister = 'Article Found Register';
+  static const String lawEnforcementVisitsList = 'Law Enforcement Visits List';
+  static const String eventProtectionList = 'Event Protection List';
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
@@ -183,7 +183,7 @@ class Constants {
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
 
-  static const String daypassmgmt = 'Day Pass Management';
+  static const String dayPassManagement = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
   static const String visitorpassmgmt = 'Visitor Pass Management';
   static const String visitorpassregister = 'Visitor Pass Register';
