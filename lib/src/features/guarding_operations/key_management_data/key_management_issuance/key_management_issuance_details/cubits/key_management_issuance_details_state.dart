@@ -86,7 +86,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
 
-    if (model.department.name == null) {
+    if (model.department == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Department');
     }
@@ -103,7 +103,11 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Employee Type');
     }
-    if (model.handedOverTo.name == null) {
+    if (model.employeeID == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Employee Id');
+    }
+    if (model.handedOverTo == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Handed Over To');
     }
