@@ -110,7 +110,7 @@ class KeyHistoryRecordsDetailsCubit
       }
       state.model.createdBy = loggedInUserDetails;
       state.model.modifiedBy = loggedInUserDetails;
-
+      state.model.type = type;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
       state.model.modifiedDate = Utils().getCurrentDate();

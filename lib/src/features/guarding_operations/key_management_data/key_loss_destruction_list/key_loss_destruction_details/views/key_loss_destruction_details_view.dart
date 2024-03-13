@@ -290,7 +290,7 @@ class _KeyLossDestructionDetailsViewState
                               initialValue:
                             '${state.model.type}',
                               onTap: () {
-                                if (isDisabled) {
+                                if (!isDisabled) {
                                   BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues: typesDropDownValues
@@ -315,6 +315,7 @@ class _KeyLossDestructionDetailsViewState
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            if(state.model?.type == 1||state.model?.type == 2)...[
                             /// SRH
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.srh ??
@@ -369,7 +370,7 @@ class _KeyLossDestructionDetailsViewState
                             validateTextField: (String? user) {},
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+],
                           /// No. of  Keys
                           CommonWidgets.textDisplay(
                             //state.labels?.locale.employeeCode ??
@@ -427,7 +428,7 @@ class _KeyLossDestructionDetailsViewState
                             validateTextField: (String? user) {},
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+          if(state.model?.type == 1||state.model?.type == 2)...[
                           /// Investigation Required
                           // if (widget.type ==
                           //     ConstantsIntValue.keyLostHistoryInt ||
@@ -463,8 +464,7 @@ class _KeyLossDestructionDetailsViewState
                                       .onCheckBoxChange(state.model);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //],
-
+                          ],
 
                           if (state.model.id != null) ...[
                             /// Modified By

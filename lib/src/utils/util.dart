@@ -760,13 +760,13 @@ class Utils {
         statusText = 'Created';
         break;
       case 1:
-        statusText = 'Lock Changed';
+        statusText = 'Lock Change Initiated';
         break;
       case 2:
-        statusText = 'Lost';
+        statusText = 'Lost Initiated';
         break;
       case 3:
-        statusText = 'Damaged';
+        statusText = 'Damaged Initiated';
         break;
       case 4:
         statusText = 'Lost Approved';
@@ -775,10 +775,10 @@ class Utils {
         statusText = 'Damaged Approved';
         break;
       case 6:
-        statusText = 'Investigation';
+        statusText = 'Investigation Initiated';
         break;
       case 7:
-        statusText = 'Destroyed';
+        statusText = 'Destroy Initiated';
         break;
       case 8:
         statusText = 'Destroy Rejected';
