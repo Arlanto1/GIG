@@ -312,7 +312,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                       vipVisitorsRecordsRoute,
                                       arguments: {
                                         ConstantsArgument.title:
-                                        Constants.vvipVisitors,
+                                        Constants.vVipVisitors,
                                         ConstantsArgument.id: state.model.id,
                                         // ConstantsArgument.violationDescription:
                                         //     Constants.slaViolation,

@@ -108,7 +108,7 @@ class _LnPageState extends State<LnPage> {
       ),
       appBar: AppHeader(
         isTitleCenter: false,
-        title: Constants.lawenforcementvisitslist,
+        title: Constants.lawEnforcementVisitsList,
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);

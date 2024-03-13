@@ -1,4 +1,3 @@
-// Created by Ramesh
 class AppIcon {
   static const String userIcon = 'assets/images/user-circle.svg';
   static const String secureIcon = 'assets/images/lock.svg';
@@ -47,7 +46,7 @@ class AppIcon {
   static const String questionmark = 'assets/images/questionmark.svg';
   static const String download = 'assets/images/download.svg';
   static const String pluscircle = 'assets/images/pluscircle.svg';
- static const String materialMovementIcon='assets/images/material_movement_icon.png';
+  static const String materialMovementIcon='assets/images/material_movement_icon.png';
   static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
   static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
   static const String guardingOperationIcon = 'assets/images/guardingOperation.png';

@@ -21,6 +21,7 @@ part 'guarding_master_report_state.dart';
 class GuardingMasterReportBloc
     extends Bloc<GuardingMasterReportEvent, GuardingMasterReportState> {
   GuardingMasterReportBloc() : super(const GuardingMasterReportState()) {
+    on<InitializeValuesGMR>(_initializeValues);
     on<FetchReportList>(
       _fetchList,
       transformer: droppable(),
