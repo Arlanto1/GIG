@@ -87,10 +87,10 @@ class KeyManagementMasterDetailsState extends Equatable {
     if (model.floor == null) {
       return const ErrorResponse(status: false, message: 'Please enter Floor');
     }
-    if (model.keyType == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter KeyType');
-    }
+    // if (model.doorType == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter KeyType');
+    // }
     if (model.doorName == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Key Description');
@@ -103,10 +103,10 @@ class KeyManagementMasterDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Key Tagging Done');
     }
-    if (model.noOfKeys == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Number of Master Keys');
-    }
+    // if (model.noOfKeys == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Number of Master Keys');
+    // }
     if (model.keysStored == null) {
       return const ErrorResponse(
           status: false,
