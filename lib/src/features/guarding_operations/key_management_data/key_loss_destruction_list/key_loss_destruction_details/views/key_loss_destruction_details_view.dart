@@ -80,6 +80,8 @@ class _KeyLossDestructionDetailsViewState
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
         //   isReadOnly = true;
         // }
+          isReadOnly = state.isReadOnly ?? true;
+
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -90,8 +92,8 @@ class _KeyLossDestructionDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+            showSaveButton: !isReadOnly,
+            showSubmitButton: !isReadOnly,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -134,6 +136,8 @@ class _KeyLossDestructionDetailsViewState
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
+              child: AbsorbPointer(
+                absorbing: isReadOnly,
               child: Form(
                 key: _formKey,
                 autovalidateMode: state.model.status == 4
@@ -208,7 +212,7 @@ class _KeyLossDestructionDetailsViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model?.createdBy?.firstName ?? ''} ${state.model?.createdBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -355,7 +359,7 @@ class _KeyLossDestructionDetailsViewState
                             hintText: Constants.informationhere,
                             showBorder: true,
                             isEnable: state.model.status != 6,
-                            isDisableColor: state.model.status == 6,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.lostKeyDetails = value;
                               context
@@ -381,7 +385,7 @@ class _KeyLossDestructionDetailsViewState
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
                             isEnable: isDisabled,
-                            isDisableColor: false,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
 
@@ -413,8 +417,7 @@ class _KeyLossDestructionDetailsViewState
                             textFormKey: Keys.additionInitiativesKey,
                             hintText: Constants.informationhere,
                             showBorder: true,
-                            isEnable: state.model.status != 6,
-                            isDisableColor: state.model.status == 6,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.additionalInformation = value;
                               context
@@ -441,7 +444,7 @@ class _KeyLossDestructionDetailsViewState
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                 state.model.investigationRequired ? 1 : 0,
-                                onChangedYes: widget.model?.status == 6
+                                onChangedYes:isReadOnly
                                     ? null
                                     : (val) {
                                   state.model.investigationRequired = true;
@@ -450,7 +453,7 @@ class _KeyLossDestructionDetailsViewState
                                       context)
                                       .onCheckBoxChange(state.model);
                                 },
-                                onChangedNo: widget.model?.status == 6
+                                onChangedNo:isReadOnly
                                     ? null
                                     : (val) {
                                   state.model.investigationRequired = false;
@@ -461,14 +464,7 @@ class _KeyLossDestructionDetailsViewState
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           //],
-                          if( state.model.investigationRequired == true)...[
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.additionalInformation ??
-                              //     state.labels?.defaultLocale
-                              //         .additionalInformation ??
-                                Constants.additionalinformation,
-                                Styles.textStyleBlack14),
-                          ],
+
 
                           if (state.model.id != null) ...[
                             /// Modified By
@@ -497,7 +493,9 @@ class _KeyLossDestructionDetailsViewState
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
+                              if(!isReadOnly)...[
                               submitButtonDisplay()
+    ],
                             ],
                           ),
 
@@ -507,6 +505,7 @@ class _KeyLossDestructionDetailsViewState
                     ),
                   ],
                 ),
+              ),
               ),
             ),
           ],

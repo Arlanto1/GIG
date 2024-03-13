@@ -113,6 +113,7 @@ class KeyLossDestructionDetailsCubit
           labels: labels,
         ),
       );
+      isFormReadable();
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Key Loss Destruction Details Cubit');
@@ -123,6 +124,29 @@ class KeyLossDestructionDetailsCubit
         ),
       );
     }
+  }
+
+  Future<void> isFormReadable() async {
+
+    emit(state.copyWith( status: FormStatus.loading));
+    // if (state.model.status != ConstantsIntValue.submitted) {
+    //   emit(state.copyWith(
+    //     status: FormStatus.initial,
+    //   ));
+    //   return;
+    // }
+    bool isReadOnly;
+    if (state.model.createdBy!.userName
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
   }
 
   void onModelValueChange(KeyLossDestructionListModel model) {
