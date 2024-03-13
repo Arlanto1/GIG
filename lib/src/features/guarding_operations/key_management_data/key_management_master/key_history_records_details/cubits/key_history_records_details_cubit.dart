@@ -103,7 +103,7 @@ class KeyHistoryRecordsDetailsCubit
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyManagementMasterModule,
+          moduleCode: Constants.keyLossDestructionModule,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
@@ -166,7 +166,7 @@ class KeyHistoryRecordsDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.keyManagementMasterModule,
+        moduleCode: Constants.keyLossDestructionModule,
       );
 
       state.model.location = location;
