@@ -201,7 +201,7 @@ class _KeyLossDestructionListViewState
                                 onEditTap: (selectedIndex) {
                                   getById(state.list[index].id ?? 0);
                                 },
-                                showEditButton: false,
+                                showEditButton: true,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
@@ -255,7 +255,7 @@ class _KeyLossDestructionListViewState
       Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,
           arguments: {
             "keyLossGi": keyLossDestructionListModel,
-            "title": ''
+            "title": Constants.editKeyLossDestruction
           });
     }
   }

@@ -44,7 +44,7 @@ class KeyLossDestructionListModel extends BaseObject {
    dynamic hasKeyLost;
    User? srh;
    dynamic securityManager;
-   bool? investigationRequired;
+   bool investigationRequired;
    String? lostKeyDetails;
    String? additionalInformation;
    dynamic destructionReason;
@@ -66,7 +66,7 @@ class KeyLossDestructionListModel extends BaseObject {
     this.hasKeyLost,
     this.srh,
     this.securityManager,
-    this.investigationRequired,
+    this.investigationRequired = false,
     this.lostKeyDetails,
     this.additionalInformation,
     this.destructionReason,

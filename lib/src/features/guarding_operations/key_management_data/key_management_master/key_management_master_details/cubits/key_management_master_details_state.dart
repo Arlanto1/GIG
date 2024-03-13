@@ -51,7 +51,6 @@ class KeyManagementMasterDetailsState extends Equatable {
     log('-model.status---${model.status}--');
 
     // if (model.location == null) {
-    //   log('-model.location-----isValidDraft-');
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Location');
     // }
@@ -70,7 +69,6 @@ class KeyManagementMasterDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-
     if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
