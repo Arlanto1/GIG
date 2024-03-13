@@ -76,8 +76,8 @@ class NavigationDrawer1 extends StatelessWidget {
     // }
 
     // if (displayMenu. ?? false) {
-    expansionTileDrawerItems
-        .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
+    // expansionTileDrawerItems
+    //     .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
     //}
     return expansionTileDrawerItems;
   }
