@@ -387,8 +387,9 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, guardingRatesRoute,
-          arguments: {"Guarding Rates": true});
+      Navigator.pushNamed(context, guardingRatesRoute);
+    }else if (index == 1) {
+      Navigator.pushNamed(context, attendanceReportBillingListRoute);
     }
   }
 

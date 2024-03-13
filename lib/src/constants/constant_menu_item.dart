@@ -15,6 +15,7 @@ const securityItems = [
 
 const costAndBillingExpansionTileDrawerItems = [
   MenuItem(Constants.guardingRates, AppIcon.clipboardImage, 0),
+  MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
 ];
 const securitySystemExpansionTileDrawerItems = [
   MenuItem(Constants.securitySystemTickets, AppIcon.clipboardImage, 1),
@@ -60,7 +61,7 @@ const shiftSchedulingDataItems = [
   MenuItem(Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
+  // MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
 ];
 
 const passTileDrawerItems = [
