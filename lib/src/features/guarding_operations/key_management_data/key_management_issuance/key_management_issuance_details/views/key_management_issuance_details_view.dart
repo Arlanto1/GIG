@@ -579,7 +579,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 initialValue: state.model.handedOverToCwrT2,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                focusNode: employeeIdFocusNode,
+                                // focusNode: employeeIdFocusNode,
                                 isEnable: state.model.status == 0 ||
                                         state.model.status == null
                                     ? true
