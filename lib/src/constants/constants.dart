@@ -141,6 +141,7 @@ class Constants {
   static const String dashboard = 'Dashboard';
   static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
+  static const String costAndBilling = "Cost & Billing";
   static const String securitySystems = "Security System";
   static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
@@ -154,7 +155,7 @@ class Constants {
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Shift Occurrence';
+  static const String shiftOccurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -436,7 +437,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
-  static const String contactDetails = 'Escalation Matrix';
+  static const String escalationMatrix = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';

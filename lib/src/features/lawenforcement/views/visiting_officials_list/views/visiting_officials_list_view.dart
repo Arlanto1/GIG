@@ -274,7 +274,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         contactDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.contactDetails,
+          "title": Constants.escalationMatrix,
         },
       );
     }

@@ -56,7 +56,6 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
     }
 
-
     if (displayMenu.mM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.materialMovement, AppIcon.materialMovement, 1));
@@ -67,16 +66,15 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(const MenuItem(
-        shiftSchedulingTitle, AppIcon.keyManagementListIcon, 1));
+    expansionTileDrawerItems.add(
+        const MenuItem(shiftSchedulingTitle, AppIcon.keyManagementListIcon, 1));
     // }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(const MenuItem(
-        vVipVisitorsTitle, AppIcon.keyManagementListIcon, 0));
+    expansionTileDrawerItems.add(
+        const MenuItem(vVipVisitorsTitle, AppIcon.keyManagementListIcon, 0));
     // }
 
-    
     // if (displayMenu. ?? false) {
     expansionTileDrawerItems
         .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
@@ -98,6 +96,8 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   // TODO: Need to define all the Titles here
+  static const String operationsTitle = Constants.operations;
+  static const String costAndBillingTitle = Constants.costAndBilling;
   static const String shiftSchedulingTitle = Constants.shiftScheduling;
   static const String keyManagementDataTitle = Constants.keyManagementData;
   static const String vVipVisitorsTitle = Constants.vVipVisitors;
@@ -234,7 +234,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 //   _onSecuritySystemIncidentItemSelected(i, context);
                 //   break;
 
-                case Constants.operations:
+                case operationsTitle:
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
@@ -382,6 +382,16 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
+  _onCostAndBillingItemSelected(int index, BuildContext context) async {
+    _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, guardingRatesRoute,
+          arguments: {"Guarding Rates": true});
+    }
+  }
+
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
@@ -390,22 +400,19 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
+      Navigator.pushNamed(context, contactDetailsListRoute,
+          arguments: {"Contact Details": true});
+    } else if (index == 1) {
       Navigator.pushNamed(context, guardingMasterDataRoute,
           arguments: {"Guarding Master Data": true});
-    } else if (index == 1) {
-      Navigator.pushNamed(context, guardingMasterReportRoute,
-          arguments: {"Guarding Master Report": false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, guardingRatesRoute,
-          arguments: {"Guarding Rates": true});
+      Navigator.pushNamed(context, guardingMasterReportRoute);
     } else if (index == 3) {
       Navigator.pushNamed(context, occurrenceRoute);
     } else if (index == 4) {
       Navigator.pushNamed(context, slaViolationPenaltyListRoute,
           arguments: {"SLA Violation Penalty": false});
     } else if (index == 5) {
-      Navigator.pushNamed(context, contactDetailsListRoute,
-          arguments: {"Contact Details": true});
     } else if (index == 6) {
       // TODO: Show Dropdown
 
@@ -597,22 +604,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
-                    children: drawerItem.title == Constants.operations
-                        ? _genericItemExpandable(
-                            context,
-                            expansionTileDrawerItems,
-                            Constants.operations,
-                          )
-                        // : _genericItemSelection(
-                        //     context,
-                        //     shiftSchedulingDataItems,
-                        //     Constants.shiftScheduling,
-                        //   )
-                        : _genericItemExpandable(
-                            context,
-                            securitySystemExpansionTileDrawerItems,
-                            Constants.securitySystems,
-                          ),
+                    children: selectedChild(drawerItem, context),
                   ),
                 ),
               ),
@@ -620,6 +612,33 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     return children;
+  }
+
+  List<Widget> selectedChild(MenuItem drawerItem, BuildContext context) {
+    switch (drawerItem.title) {
+      case operationsTitle:
+        return _genericItemExpandable(
+          context,
+          expansionTileDrawerItems,
+          operationsTitle,
+        );
+
+      case costAndBillingTitle:
+        return _genericItemExpandable(
+          context,
+          costAndBillingExpansionTileDrawerItems,
+          costAndBillingTitle,
+        );
+
+      case Constants.securitySystems:
+        return _genericItemExpandable(
+          context,
+          securitySystemExpansionTileDrawerItems,
+          Constants.securitySystems,
+        );
+      default:
+        return [];
+    }
   }
 
   List<Widget> _genericItemExpandable(
@@ -661,6 +680,11 @@ class NavigationDrawer1 extends StatelessWidget {
                     log('-onTap-----title---$title---');
                     if (title == Constants.guardingOperations) {
                       _onGuardingOperationItemSelected(i, context);
+                      return;
+                    }
+
+                    if (title == costAndBillingTitle) {
+                      _onCostAndBillingItemSelected(i, context);
                       return;
                     }
 
