@@ -824,7 +824,7 @@ class Constants {
 
 
   ///VVIP Visitors
-  static const String vvipVisitors = 'VVIP Visitor';
+  static const String vVipVisitors = 'VVIP Visitor';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';

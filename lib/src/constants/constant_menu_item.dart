@@ -39,8 +39,8 @@ const guardingOperationDrawerItems = [
   MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
   MenuItem(Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
   //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
-  MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
-  MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
+  // MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
+  // MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
 ];
 
 const keyManagementDataItems = [
@@ -71,5 +71,5 @@ const passTileDrawerItems = [
 ];
 
 const sCRIItems = [
-  MenuItem(Constants.vvipVisitors, AppIcon.materialMovementOutwardIcon, 0),
+  MenuItem(Constants.vVipVisitors, AppIcon.materialMovementOutwardIcon, 0),
 ];

@@ -25,26 +25,38 @@ class NavigationDrawer1 extends StatelessWidget {
       return [];
     }
     List<MenuItem> expansionTileDrawerItems = [];
+    if (displayMenu.aps ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
+    }
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.articlefoundregister, AppIcon.clipboardImage, 0));
-    }
-    if (displayMenu.lEO ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
     }
     if (displayMenu.eP ?? false) {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
     }
-  //  if (displayMenu.aps ?? false) {
+
+    if (displayMenu.gM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
-   // }
+          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
+    }
+
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.incidentManagement, AppIcon.materialMovement, 0));
     }
+    // if (displayMenu.gM ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        keyManagementDataTitle, AppIcon.keyManagementListIcon, 1));
+    // }
+    if (displayMenu.lEO ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
+    }
+
+
     if (displayMenu.mM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.materialMovement, AppIcon.materialMovement, 1));
@@ -53,10 +65,18 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.passManagement, AppIcon.passmanagement, 1));
     }
-    if (displayMenu.gM ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
-    }
+
+    // if (displayMenu.gM ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        shiftSchedulingTitle, AppIcon.keyManagementListIcon, 1));
+    // }
+
+    // if (displayMenu.gM ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        vVipVisitorsTitle, AppIcon.keyManagementListIcon, 0));
+    // }
+
+    
     // if (displayMenu. ?? false) {
     expansionTileDrawerItems
         .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
@@ -79,6 +99,8 @@ class NavigationDrawer1 extends StatelessWidget {
 
   // TODO: Need to define all the Titles here
   static const String shiftSchedulingTitle = Constants.shiftScheduling;
+  static const String keyManagementDataTitle = Constants.keyManagementData;
+  static const String vVipVisitorsTitle = Constants.vVipVisitors;
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +242,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
-                case Constants.keyManagementData:
+                case keyManagementDataTitle:
                   _onKeyManagementItemSelected(i, context);
                   break;
 
@@ -709,15 +731,16 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onExpansionSelectItem(int index, BuildContext context) async {
+    log('---_onExpansionSelectItem--${index}-');
     _menuScaffoldKey.currentState!.closeDrawer();
     _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getOperationsIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, articleFoundListRoute);
+      Navigator.pushNamed(context, annualPowerShutdownListRoute);
     } else if (index == 1) {
-      Navigator.pushNamed(context, lawEnforcementListRoute);
+      Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 2) {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
@@ -727,7 +750,8 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, incidentManagementsRoute);
     } else if (index == 5) {
     } else if (index == 6) {
-    } else if (index == 7) {
+      Navigator.pushNamed(context, lawEnforcementListRoute);
+    } else if (index == 10) {
       Navigator.pushNamed(context, vipVisitorsListRoute);
     }
   }
@@ -748,16 +772,14 @@ class NavigationDrawer1 extends StatelessWidget {
       log('day pass registry index1');
       //day pass mng = 0
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(0, 'Day Pass Register', true)
+        "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
       });
     } else if (index == 2) {
       //visitor pass mng = 1
 
       log('visitor pass mangement index2');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails":
-            PassMngArguments(1, 'Visitor Pass Management', false)
+        "passMngDetails": PassMngArguments(1, 'Visitor Pass Management', false)
       });
     } else if (index == 3) {
       //visitor pass mng = 1
@@ -789,8 +811,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 7) {
       log('Sez pass registory index7');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(3, 'Sez Pass Register', true)
+        "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
       });
     }
   }
@@ -874,7 +895,7 @@ class NavigationDrawer1 extends StatelessWidget {
         securitySystemTicketsItems,
         title,
       );
-    } else if (title == Constants.keyManagementData) {
+    } else if (title == keyManagementDataTitle) {
       return _genericItemSelection(
         context,
         keyManagementDataItems,
