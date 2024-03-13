@@ -102,7 +102,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.vvipVisitors,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,

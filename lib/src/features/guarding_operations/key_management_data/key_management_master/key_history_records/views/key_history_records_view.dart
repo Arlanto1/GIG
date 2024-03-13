@@ -87,7 +87,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       : widget.type == ConstantsIntValue.keyDestroyHistoryInt
                           ? Constants.keyDestroyHistory
                           : 'Default Title',
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,

@@ -99,7 +99,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.violationPenalty,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,

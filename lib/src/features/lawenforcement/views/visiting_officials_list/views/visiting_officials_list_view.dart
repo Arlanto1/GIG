@@ -89,7 +89,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.visitingOfficials,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,
