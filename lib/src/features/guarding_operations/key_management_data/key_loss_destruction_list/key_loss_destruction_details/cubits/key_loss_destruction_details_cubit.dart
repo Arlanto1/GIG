@@ -94,7 +94,7 @@ class KeyLossDestructionDetailsCubit
 
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      // state.model.createdDate = Utils().getCurrentDate();
+      state.model.createdDate = Utils().getCurrentDate();
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -113,6 +113,7 @@ class KeyLossDestructionDetailsCubit
           labels: labels,
         ),
       );
+      isFormReadable();
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Key Loss Destruction Details Cubit');
@@ -123,6 +124,29 @@ class KeyLossDestructionDetailsCubit
         ),
       );
     }
+  }
+
+  Future<void> isFormReadable() async {
+
+    emit(state.copyWith( status: FormStatus.loading));
+    // if (state.model.status != ConstantsIntValue.submitted) {
+    //   emit(state.copyWith(
+    //     status: FormStatus.initial,
+    //   ));
+    //   return;
+    // }
+    bool isReadOnly;
+    if (state.model.createdBy!.userName
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
+      isReadOnly = false;
+    } else {
+      isReadOnly = true;
+    }
+
+    emit(state.copyWith(
+      isReadOnly: isReadOnly,
+      status: FormStatus.initial,
+    ));
   }
 
   void onModelValueChange(KeyLossDestructionListModel model) {
@@ -141,13 +165,11 @@ class KeyLossDestructionDetailsCubit
     Organisation? location,
     BaseUser? user,
     Organisation? doorType,
-    BaseUser? guard,
+    BaseUser? srh,
     List<Organisation>? entities,
     int? status,
-    int? systemAccess,
-    int? guardRank,
-    int? dutyType,
-    int? keyTagging,
+    int? keyType,
+    int? type,
     int? maritalStatus,
     int? typeOfDeployment,
     int? msgbFormBSubmitted,
@@ -166,7 +188,15 @@ class KeyLossDestructionDetailsCubit
       state.model.slNo = slNo.serialNo;
     }
 
-
+    if (srh != null) {
+      User userDetails = User(
+        name: srh.name,
+        userId: srh.id,
+        userName: srh.name,
+      );
+      state.model.srh = userDetails;
+    }
+    state.model.keyType = keyType ?? state.model.keyType;
     // if (entities != null) {
     //   state.model.entities = entities;
     // }
@@ -192,8 +222,8 @@ class KeyLossDestructionDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyLossDestructionRequest request =
     KeyLossDestructionRequest(keyLossGi: state.model);

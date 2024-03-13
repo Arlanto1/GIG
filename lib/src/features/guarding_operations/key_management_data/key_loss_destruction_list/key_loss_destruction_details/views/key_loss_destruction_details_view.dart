@@ -23,9 +23,9 @@ class _KeyLossDestructionDetailsViewState
     extends State<KeyLossDestructionDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  TextEditingController keyTaggingController = TextEditingController();
+  TextEditingController keyTypeController = TextEditingController();
   TextEditingController statusController = TextEditingController();
-  TextEditingController totalKeyController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
   final FocusNode floorFocusNode = FocusNode();
@@ -39,12 +39,6 @@ class _KeyLossDestructionDetailsViewState
     super.initState();
     BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
         .initializeValues();
-    // widget.model?.total ==
-    //     (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
-    //         .toString());
-    // totalKeyController.text =
-    // (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
-    //     .toString());
   }
 
   @override
@@ -56,7 +50,7 @@ class _KeyLossDestructionDetailsViewState
       listener: (context, state) {
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Key Management Master',
+            title: 'Key Loss Destruction List',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -74,9 +68,6 @@ class _KeyLossDestructionDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.error) {
           Validator().showToast(
@@ -89,6 +80,8 @@ class _KeyLossDestructionDetailsViewState
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
         //   isReadOnly = true;
         // }
+          isReadOnly = state.isReadOnly ?? true;
+
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -99,8 +92,8 @@ class _KeyLossDestructionDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+            showSaveButton: !isReadOnly,
+            showSubmitButton: !isReadOnly,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -143,6 +136,8 @@ class _KeyLossDestructionDetailsViewState
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
+              child: AbsorbPointer(
+                absorbing: isReadOnly,
               child: Form(
                 key: _formKey,
                 autovalidateMode: state.model.status == 4
@@ -179,21 +174,21 @@ class _KeyLossDestructionDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
-                            items: keyManagementStatus,
+                            items: keyManagementHistoryStatus,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
-                                  dropDownValues: statusDropDownValues
+                                  dropDownValues: keyManagementHistoryStatus
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        keyManagementHistoryStatus.firstWhere(
                                               (label) => label.key == value,
                                           orElse: () =>
                                           const Label(key: '', value: ''),
@@ -217,7 +212,7 @@ class _KeyLossDestructionDetailsViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model?.createdBy?.firstName ?? ''} ${state.model?.createdBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -228,8 +223,8 @@ class _KeyLossDestructionDetailsViewState
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDate().creationDateDisplay(
-                          //     state.model.createdDate ?? ''),
+                          BaseDate().creationDateDisplay(
+                              state.model.createdDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -242,205 +237,138 @@ class _KeyLossDestructionDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                          /// Key Type
+                          CommonWidgets.textDisplay(
+                            // state.labels?.locale.keyType ??
+                            //     state.labels?.defaultLocale.keyType ??
+                                Constants.keyType,
+                            isMandatory: true,
+                            Styles.textStyleBlack14,
+                          ),
+                          BaseDropDown().getDropDown(
+                              isDisabled: false,
+                              textController: keyTypeController,
+                              items: keyTypeDropDownValues,
+                              initialValue: state.model.keyType.toString(),
+                              onTap: () {
+                                // if (!isDisabled) {
+                                BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: keyTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          keyTypeDropDownValues.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<
+                                          KeyLossDestructionDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          keyType: int.tryParse(
+                                              selectedLabel.value));
+                                    });
+                                // }
+                              }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ///Type
+                          CommonWidgets.textDisplay(
+                            // state.labels?.locale.type ??
+                            //  state.labels?.defaultLocale.type ??
+                            Constants.type,
+                            isMandatory: true,
+                            Styles.textStyleBlack14,
+                          ),
+                          BaseDropDown().getDropDown(
+                              isDisabled: true,
+                              textController: typeController,
+                              items: typesDropDownValues,
+                              initialValue:
+                            '${state.model.type}',
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues: typesDropDownValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            typesDropDownValues.firstWhere(
+                                                  (label) => label.key == value,
+                                              orElse: () =>
+                                              const Label(key: '', value: ''),
+                                            );
+                                        BlocProvider.of<
+                                            KeyLossDestructionDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            type: int.tryParse(
+                                                selectedLabel.value));
+                                      });
+                                }
+                              }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          // /// Key Type
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.vendor ??
-                          //   //  state.labels?.defaultLocale.vendor ??
-                          //   Constants.keyType,
-                          //   isMandatory: true,
-                          //   Styles.textStyleBlack14,
-                          // ),
-                          // TextFieldAddButton(
-                          //   title: state.model.keyType?.name,
-                          //   height: 70,
-                          //   isDisableColor:
-                          //   state.model.status == 2 ? true : false,
-                          //   onTap: () {
-                          //     BaseOrganisationDialog().departmentDialog(
-                          //         context: context,
-                          //         organisations: state.departments,
-                          //         onTap: (Organisation department) {
-                          //           state.model.keyType?.name =
-                          //               department.name;
-                          //
-                          //           BlocProvider.of<
-                          //               KeyLossDestructionDetailsCubit>(
-                          //               context)
-                          //               .updateDropdownValues(
-                          //               doorType: department);
-                          //           FocusScope.of(context).requestFocus(
-                          //               keyDescriptionFocusNode);
-                          //         },
-                          //         orgName: 'EMPLOYEE_DEPARTMENTS',
-                          //         createEntity: false,
-                          //         title: 'Add Key Type',
-                          //         functionToCall: () {
-                          //           // refresh the list
-                          //           BlocProvider.of<
-                          //               KeyLossDestructionDetailsCubit>(
-                          //               context)
-                          //               .refreshList();
-                          //         });
-                          //
-                          //     // leodepartmentsDialog(state);
-                          //   },
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// SRH
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.srh ??
+                                //     state.labels?.defaultLocale.srh ??
+                                    Constants.srh,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.srh?.name,
+                              height: 60,
+                              isDisableColor: isReadOnly,
+                              onTap: () {
+                                BaseOrganisationDialog().userDialog(
+                                  context: context,
+                                  enabled: !isReadOnly,
+                                  users: state.users!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                        KeyLossDestructionDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      srh: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          // /// Key Description
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.employeeCode ??
-                          //   //state.labels?.defaultLocale.employeeCode ??
-                          //     Constants.keyDescription,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   textInputType: TextInputType.text,
-                          //   initialValue: state.model.doorName,
-                          //   textFormKey: Keys.guardingAgencyKey,
-                          //   hintText: '',
-                          //   focusNode: keyDescriptionFocusNode,
-                          //   isEnable: isDisabled,
-                          //   isDisableColor: false,
-                          //   onChange: (String value) {
-                          //     state.model.doorName = value;
-                          //     context
-                          //         .read<KeyLossDestructionDetailsCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          // /// Door Has Access Control
-                          // CommonWidgets.textDisplay(
-                          //   // state.labels?.locale.deploymentOrderSubmitted ??
-                          //   //   state.labels?.defaultLocale
-                          //   //     .deploymentOrderSubmitted ??
-                          //     Constants.doorHasAccessControl,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // RadioButtonsYesNo(
-                          //     status: state.model.status ?? 0,
-                          //     selectedValue:
-                          //     state.model.doorAccessControl ? 1 : 0,
-                          //     onChangedYes: widget.model?.status == 6
-                          //         ? null
-                          //         : (val) {
-                          //       state.model.doorAccessControl = true;
-                          //       BlocProvider.of<
-                          //           KeyLossDestructionDetailsCubit>(
-                          //           context)
-                          //           .onCheckBoxChange(state.model);
-                          //     },
-                          //     onChangedNo: widget.model?.status == 6
-                          //         ? null
-                          //         : (val) {
-                          //       state.model.doorAccessControl = false;
-                          //       BlocProvider.of<
-                          //           KeyLossDestructionDetailsCubit>(
-                          //           context)
-                          //           .onCheckBoxChange(state.model);
-                          //     }),
-
-                          // /// Door Has Lock And Key Mechanism
-                          // CommonWidgets.textDisplay(
-                          //   // state.labels?.locale.deploymentOrderSubmitted ??
-                          //   //   state.labels?.defaultLocale
-                          //   //     .deploymentOrderSubmitted ??
-                          //     Constants.doorHasLockAndKeyMechanism,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // RadioButtonsYesNo(
-                          //     status: state.model.status ?? 0,
-                          //     selectedValue: state.model.doorLockKey ? 1 : 0,
-                          //     onChangedYes: widget.model?.status == 6
-                          //         ? null
-                          //         : (val) {
-                          //       state.model.doorLockKey = true;
-                          //       BlocProvider.of<
-                          //           KeyLossDestructionDetailsCubit>(
-                          //           context)
-                          //           .onCheckBoxChange(state.model);
-                          //     },
-                          //     onChangedNo: widget.model?.status == 6
-                          //         ? null
-                          //         : (val) {
-                          //       state.model.doorLockKey = false;
-                          //       BlocProvider.of<
-                          //           KeyLossDestructionDetailsCubit>(
-                          //           context)
-                          //           .onCheckBoxChange(state.model);
-                          //     }),
-
-                          // /// Key No
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.employeeCode ??
-                          //   //state.labels?.defaultLocale.employeeCode ??
-                          //     Constants.keyNo,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   textInputType: TextInputType.number,
-                          //   initialValue: state.model.keyNo,
-                          //   textFormKey: Keys.guardingAgencyKey,
-                          //   hintText: '',
-                          //   isEnable: isDisabled,
-                          //   isDisableColor: false,
-                          //   onChange: (String value) {
-                          //     state.model.keyNo = value;
-                          //     context
-                          //         .read<KeyLossDestructionDetailsCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// Key Tagging Done?
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.gender ??
-                          //   //  state.labels?.defaultLocale.gender ??
-                          //     Constants.keyTaggingDone,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDropDown().getDropDown(
-                          //     isDisabled: state.model.status != 6,
-                          //     textController: keyTaggingController,
-                          //     items: keyTaggingDropDownValues,
-                          //     initialValue: state.model.keyTagging.toString(),
-                          //     onTap: () {
-                          //       //  if (isDisabled) {
-                          //       BaseDropDown().assetTypeDialog(
-                          //           context: context,
-                          //           dropDownValues: keyTaggingDropDownValues
-                          //               .map((label) => label.key)
-                          //               .toList(),
-                          //           onTap: (String value) {
-                          //             Label? selectedLabel;
-                          //             selectedLabel =
-                          //                 keyTaggingDropDownValues.firstWhere(
-                          //                       (label) => label.key == value,
-                          //                   orElse: () =>
-                          //                   const Label(key: '', value: ''),
-                          //                 );
-                          //             BlocProvider.of<
-                          //                 KeyLossDestructionDetailsCubit>(
-                          //                 context)
-                          //                 .updateDropdownValues(
-                          //                 keyTagging: int.tryParse(
-                          //                     selectedLabel.value));
-                          //           });
-                          //       FocusScope.of(context).requestFocus(
-                          //           noOfKeysFocusNode);
-                          //       //}
-                          //     }),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          /// Details of Lost Key
+                          CommonWidgets.textDisplay(
+                            // state.labels?.locale.additionalInformation ??
+                            //     state.labels?.defaultLocale
+                            //         .additionalInformation ??
+                              Constants.detailsOfLostKey,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            lineHeight: 6,
+                            initialValue: state.model.lostKeyDetails,
+                            textFormKey: Keys.additionInitiativesKey,
+                            hintText: Constants.informationhere,
+                            showBorder: true,
+                            isEnable: state.model.status != 6,
+                            isDisableColor: isReadOnly,
+                            onChange: (String value) {
+                              state.model.lostKeyDetails = value;
+                              context
+                                  .read<KeyLossDestructionDetailsCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// No. of  Keys
                           CommonWidgets.textDisplay(
@@ -457,7 +385,7 @@ class _KeyLossDestructionDetailsViewState
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
                             isEnable: isDisabled,
-                            isDisableColor: false,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
 
@@ -474,335 +402,110 @@ class _KeyLossDestructionDetailsViewState
                             validateTextField: (String? user) {},
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// Number of  Master Keys
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.employeeCode ??
-                          //   //state.labels?.defaultLocale.employeeCode ??
-                          //     Constants.noOfMasterKeys,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   textInputType: TextInputType.number,
-                          //   initialValue: '${state.model.noMasterKey ?? ''}',
-                          //   textFormKey: Keys.guardingAgencyKey,
-                          //   hintText: '',
-                          //   isEnable: isDisabled,
-                          //   isDisableColor: false,
-                          //   onChange: (String value) {
-                          //     state.model.noMasterKey = int.tryParse(value);
-                          //
-                          //     int noKeys = state.model.noKeys ?? 0;
-                          //     int noMasterKey = state.model.noMasterKey ?? 0;
-                          //     totalKeyController.text =
-                          //         (noKeys + noMasterKey).toString();
-                          //
-                          //     widget.model?.total =
-                          //         int.tryParse(totalKeyController.text);
-                          //     context
-                          //         .read<KeyLossDestructionDetailsCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// Total Keys
-                          // CommonWidgets.textDisplay(
-                          //   // state.labels?.locale.budget ??
-                          //   //     state.labels?.defaultLocale.budget ??
-                          //     Constants.totalKeys,
-                          //     Styles.textStyleBlack14,
-                          //     isMandatory: true),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   textInputType: TextInputType.number,
-                          //   controller: totalKeyController,
-                          //   // initialValue: (((state.model.noKeys ?? 0) +
-                          //   //         (state.model.noMasterKey ?? 0))
-                          //   //     .toString()),
-                          //   textFormKey: Keys.budgetKey,
-                          //   hintText: '',
-                          //   isEnable: !isDisabled,
-                          //   isDisableColor: isDisabled,
-                          //   onChange: (String value) {
-                          //     // state.model.total = value;
-                          //     // context
-                          //     //     .read<KeyManagementMasterDetailsCubit>()
-                          //     //     .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// How And Where The Keys Are Stored
-                          // CommonWidgets.textDisplay(
-                          //   //state.labels?.locale.employeeCode ??
-                          //   //state.labels?.defaultLocale.employeeCode ??
-                          //     Constants.howAndWhereTheKeysAreStored,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   textInputType: TextInputType.text,
-                          //   initialValue: state.model.keysStored,
-                          //   textFormKey: Keys.guardingAgencyKey,
-                          //   hintText: '',
-                          //   isEnable: isDisabled,
-                          //   isDisableColor: false,
-                          //   onChange: (String value) {
-                          //     state.model.keysStored = value;
-                          //     context
-                          //         .read<KeyLossDestructionDetailsCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          ///Lock Change History
-                          if (state.model.status == 1) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.lockChangeHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
+                          /// Additional Information
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.additionalInformation ??
+                              //     state.labels?.defaultLocale
+                              //         .additionalInformation ??
+                                  Constants.additionalinformation,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            lineHeight: 6,
+                            initialValue: state.model.additionalInformation,
+                            textFormKey: Keys.additionInitiativesKey,
+                            hintText: Constants.informationhere,
+                            showBorder: true,
+                            isDisableColor: isReadOnly,
+                            onChange: (String value) {
+                              state.model.additionalInformation = value;
+                              context
+                                  .read<KeyLossDestructionDetailsCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Investigation Required
+                          // if (widget.type ==
+                          //     ConstantsIntValue.keyLostHistoryInt ||
+                          //     widget.type ==
+                          //         ConstantsIntValue.keyDamageHistoryInt) ...[
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.investigationRequired ??
+                                //     state.labels?.defaultLocale
+                                //         .investigationRequired ??
+                                    Constants.investigationRequired,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            RadioButtonsYesNo(
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                state.model.investigationRequired ? 1 : 0,
+                                onChangedYes:isReadOnly
+                                    ? null
+                                    : (val) {
+                                  state.model.investigationRequired = true;
+                                  BlocProvider.of<
+                                      KeyLossDestructionDetailsCubit>(
+                                      context)
+                                      .onCheckBoxChange(state.model);
+                                },
+                                onChangedNo:isReadOnly
+                                    ? null
+                                    : (val) {
+                                  state.model.investigationRequired = false;
+                                  BlocProvider.of<
+                                      KeyLossDestructionDetailsCubit>(
+                                      context)
+                                      .onCheckBoxChange(state.model);
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          //],
+
+
+                          if (state.model.id != null) ...[
+                            /// Modified By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.modifiedBy ??
+                                //     state.labels?.defaultLocale.modifiedBy ??
+                                    Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.model?.modifiedBy ?? ''} '),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                    KeyLossDestructionDetailsCubit>(
-                                    context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                nav.pushNamed(
-                                  keyHistoryRecordsViewRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                    Constants.lockChangeHistory,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
-                                    ConstantsIntValue.lockChangeHistoryInt,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Lock Change History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Key Lost History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyLostHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                    KeyLossDestructionDetailsCubit>(
-                                    context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-
-                                nav.pushNamed(
-                                  keyHistoryRecordsViewRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                    Constants.keyLostHistory,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
-                                    ConstantsIntValue.keyLostHistoryInt,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Lost History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Key Damage History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyDamageHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                    KeyLossDestructionDetailsCubit>(
-                                    context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-                                log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-
-                                log('--state.model.id---${state.model.id}---');
-
-                                nav.pushNamed(
-                                  keyHistoryRecordsViewRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                    Constants.keyDamageHistory,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
-                                    ConstantsIntValue.keyDamageHistoryInt,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Damage History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Key Destroy History
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyDestroyHistory,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                    KeyLossDestructionDetailsCubit>(
-                                    context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-
-                                nav.pushNamed(
-                                  keyHistoryRecordsViewRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                    Constants.keyDestroyHistory,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
-                                    ConstantsIntValue.keyDestroyHistoryInt,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Destroy History(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            /// Modified On
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.modifiedDate ??
+                                //     state.labels?.defaultLocale.modifiedDate ??
+                                    Constants.modifiedOn,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDate().creationDateDisplay(
+                                state.model.modifiedDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
-
                           /// SubmitButton
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
+                              if(!isReadOnly)...[
                               submitButtonDisplay()
+    ],
                             ],
                           ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.04),
-                        ],
+                       ],
                       ),
                     ),
                   ],
                 ),
+              ),
               ),
             ),
           ],

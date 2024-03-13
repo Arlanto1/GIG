@@ -23,7 +23,7 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
       securityManager: json['securityManager'] == null
           ? null
           : User.fromJson(json['securityManager'] as Map<String, dynamic>),
-      investigationRequired: json['investigationRequired'] as bool?,
+      investigationRequired: json['investigationRequired'] as bool,
       lostKeyDetails: json['lostKeyDetails'] as String?,
       additionalInformation: json['additionalInformation'] as String?,
       destructionReason: json['destructionReason'],
