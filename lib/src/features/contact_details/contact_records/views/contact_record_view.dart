@@ -102,7 +102,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.contactDetails,
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,

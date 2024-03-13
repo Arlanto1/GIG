@@ -545,7 +545,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.email ?? ''} '),
+                              '${state.model?.modifiedBy ?? ''} '),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Modified On

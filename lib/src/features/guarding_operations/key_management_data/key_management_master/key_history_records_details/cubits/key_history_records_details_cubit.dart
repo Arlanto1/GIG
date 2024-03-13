@@ -109,9 +109,11 @@ class KeyHistoryRecordsDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy = loggedInUserDetails;
+      state.model.modifiedBy = loggedInUserDetails;
 
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
 
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
@@ -217,7 +219,8 @@ class KeyHistoryRecordsDetailsCubit
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
+    state.model.modifiedDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyHistoryRecordRequest request =
         KeyHistoryRecordRequest(keyLossGi: state.model);
