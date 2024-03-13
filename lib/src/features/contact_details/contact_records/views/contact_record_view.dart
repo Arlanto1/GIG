@@ -101,7 +101,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.contactDetails,
+          title: Constants.escalationMatrix,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
@@ -272,7 +272,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         contactDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.contactDetails,
+          "title": Constants.escalationMatrix,
         },
       );
     }

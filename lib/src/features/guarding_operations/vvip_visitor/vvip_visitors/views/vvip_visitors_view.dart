@@ -84,14 +84,14 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                     onPressed: () => {
                       Navigator.pushNamed(context, vipVisitorsDetailsRoute,
                           arguments: {
-                            "title": Constants.vvipVisitors,
+                            "title": Constants.vVipVisitors,
                           })
                     },
                   )
                 : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.vvipVisitors,
+          title: Constants.vVipVisitors,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
@@ -261,7 +261,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
         vipVisitorsDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.vvipVisitors,
+          "title": Constants.vVipVisitors,
         },
       );
     }
