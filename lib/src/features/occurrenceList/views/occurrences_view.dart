@@ -155,7 +155,9 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                         if (index < state.list.length) {
                           labels.add(
                             Label(
-                                key: 'Date of Creation',
+                                key: state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    'Date of Creation',
                                 value: state.list[index].inputDate != null
                                     ? Utils.timestamptoDateConversion(
                                         int.parse(
@@ -164,14 +166,20 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     : ''),
                           );
                           labels.add(Label(
-                              key: 'Region',
+                              key: state.labels?.locale.locationRegion ??
+                                  state.labels?.defaultLocale.locationRegion ??
+                                  'Region',
                               value: state.list[index].locationRegion?.name ??
                                   ''));
                           labels.add(Label(
-                              key: 'Location',
+                              key: state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  'Location',
                               value: state.list[index].location?.name ?? ''));
                           labels.add(Label(
-                              key: 'Shift Handed Over By',
+                              key: state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  'Shift Handed Over By',
                               value:
                                   state.list[index].entrySecurity?.name ?? ''));
                         }
