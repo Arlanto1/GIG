@@ -114,6 +114,8 @@ class _GuardingRatesState extends State<GuardingRates> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
+          excelAPIName: 'exportGMRateExcel',
+          pdfAPIName: 'exportGMRatePDF',
         ),
         body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {

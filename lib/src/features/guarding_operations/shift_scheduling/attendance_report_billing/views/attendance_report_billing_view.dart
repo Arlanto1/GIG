@@ -52,8 +52,8 @@ class _AttendanceReportBillingViewState extends State<AttendanceReportBillingVie
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportGMDataExcel',
-        pdfAPIName: 'exportGMDataPDF',
+        excelAPIName: 'exportAttdReportExcel',
+        pdfAPIName: 'exportAttdReportPDF',
       ),
       body: BlocBuilder<AttendanceReportBillingBloc, AttendanceReportBillingState>(
         builder: (context, state) {

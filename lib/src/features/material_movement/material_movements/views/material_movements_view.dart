@@ -102,8 +102,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportMMExcel',
-        pdfAPIName: 'exportMMPDF',
+        excelAPIName: 'exportMMExcel&mmType=${widget.isInward?1:0}',
+        pdfAPIName: 'exportMMPDF&mmType=${widget.isInward?1:0}',
       ),
       body: BlocConsumer<MaterialMovementBloc, MaterialMovementState>(
         listener: (context, state) {

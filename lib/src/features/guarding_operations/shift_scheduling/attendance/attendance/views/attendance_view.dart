@@ -52,8 +52,8 @@ class _AttendanceViewState extends State<AttendanceView> {
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportGMDataExcel',
-        pdfAPIName: 'exportGMDataPDF',
+        excelAPIName: 'exportAttendanceExcel',
+        pdfAPIName: 'exportAttendancePDF',
       ),
       body: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {

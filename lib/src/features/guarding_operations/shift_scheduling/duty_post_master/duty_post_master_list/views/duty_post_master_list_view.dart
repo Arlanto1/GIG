@@ -61,8 +61,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportDpmExcel',
+          pdfAPIName: 'exportDpmPDF',
         ),
         body: BlocBuilder<DutyPostMasterListBloc, DutyPostMasterListState>(
             builder: (context, state) {

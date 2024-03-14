@@ -113,8 +113,8 @@ class _PassManagementListViewState extends State<PassManagementListView> {
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportMMExcel',
-        pdfAPIName: 'exportMMPDF',
+        excelAPIName: 'exportPassMgmtExcel&passType=${widget.passId}&isList=1',
+        pdfAPIName: 'exportPassMgmtPDF&passType=${widget.passId}&isList=1',
       ),
       body: BlocConsumer<PassManagementListBloc, PassManagementListState>(
         listener: (context, state) {
