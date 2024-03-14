@@ -189,11 +189,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 return const BaseLoader();
               }
 
+              log('--passtypeTextController.text--------111-${passtypeTextController.text}----');
+
+              for(Organisation org in state.passTypes??[]){
+                log('--org 111pass type-${org.name}----');
+              }
               if (widget.model == null &&
                   widget.passId != ConstantsIntValue.passIdSez) {
                 passtypeTextController.text = state.passTypes!.first.name!;
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
+                for(Organisation org in state.passTypes??[]){
+                  log('--org pass type-${org.name}----');
+                }
                 Iterable<Organisation>? passes = state.passTypes?.where(
                         (element) => element.id == widget.model?.passType) ??
                     [];
@@ -204,6 +212,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 state.model.passType = widget.model?.passType;
                 // passtypeTextController.text = pass!.name!;
               }
+              log('--passtypeTextController.text--------222-${passtypeTextController.text}----');
 
               if (widget.model?.status != null &&
                   widget.model?.status != 0 &&
@@ -2142,6 +2151,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passtypeTextController.text = 'SEZ_PASS';
       }
 
+      log('--passtypeTextController.text--------popu-${passtypeTextController.text}----');
+
       if (widget.model?.idValidationType == 0) {
         photofidentityextController.text = 'Aadhaar Card';
       } else if (widget.model?.idValidationType == 1) {
@@ -3256,7 +3267,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     PassInfo passInfo =
         selectedPassInfo ?? widget.model?.passInfo ?? PassInfo();
 
-    passInfo.passType = state.model.passType;
+    passInfo.passType = state.model.passType??widget.passId;
 
     // For Day Pass and Sez Pass, Pass No is text field.
     if (widget.passId == ConstantsIntValue.passIdSez) {
@@ -3350,14 +3361,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //     entities.add(entity);
     //   }
     // }
-    Organisation? location = Organisation(
-        id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
-        name: state.location?.name ?? '');
+    Organisation? location = state.location;
 
     // Organisation? companyType = widget.model?.companyType;
-    Organisation? locationRegion = Organisation(
-        id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
-        name: state.location?.name ?? '');
+    Organisation? locationRegion = state.locationRegion;
 
     // Organisation? dept2 = widget.model?.department;
     // PassInfo info;
