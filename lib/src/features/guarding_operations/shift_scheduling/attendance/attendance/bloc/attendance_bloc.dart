@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'attendance_event.dart';
@@ -16,6 +17,10 @@ class AttendanceBloc
       _fetchList,
       transformer: droppable(),
     );
+    on<RefreshList>(
+      _refreshList,
+      transformer: droppable(),
+    );
   }
 
   final AttendanceServices _services =
@@ -25,14 +30,32 @@ class AttendanceBloc
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<AttendanceState> emit) async {
     try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.attendanceModuleCode);
+
+      List<Organisation> regions =
+      await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+      CommonFilters(regions: regions, statuses: statuses);
+
+      Locations locations =
+      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.guardingMasterModuleCode);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.attendanceModuleCode);
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
-          //labels: labels,
+          locations: locations,
+          regions: regions,
+          labels: labels,
+          statuses: statuses,
+          commonFilters: commonFilters,
           hasReachedMax: false,
+          status: FormStatus.initial,
         ),
       );
     } on Exception {
@@ -40,53 +63,134 @@ class AttendanceBloc
     }
   }
 
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<AttendanceState> emit) async {
+    try {
+      AttendanceResponse response;
+
+      response = await _services.getList(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+//   FutureOr<void> _fetchList(FetchAttendanceList event,
+//       Emitter<AttendanceState> emit) async {
+//     try {
+//       if (state.hasReachedMax) return;
+//
+//       if (state.status == FormStatus.initial) {
+//         AttendanceResponse getAttendanceLists =
+//         await _services.getList(
+//           startPosition: '${event.startPos}',
+//           maximumRecords: '${event.maxPos}',
+//         );
+//         return emit(
+//           state.copyWith(
+//             items: getAttendanceLists.items,
+//             hasReachedMax: false,
+//             status: FormStatus.success,
+//           ),
+//         );
+//       }
+//
+//       AttendanceResponse getAttendanceList =
+//       await _services.getList(
+//         startPosition: '${event.startPos}',
+//         maximumRecords: '${event.maxPos}',
+//       );
+//
+//       if (getAttendanceList.items?.isEmpty == true) {
+//         return emit(state.copyWith(hasReachedMax: true));
+//       }
+//       return emit(
+//         state.copyWith(
+//           items: List.of(state.items)
+//             ..addAll(getAttendanceList.items?.toList() ?? []),
+//           hasReachedMax: false,
+//         ),
+//       );
+//     }
+//     // on TokenExpiredException catch (e) {
+//     //   emit(
+//     //     state.copyWith(
+//     //       message: e.message,
+//     //       status: FormStatus.sessionExpired,
+//     //     ),
+//     //   );
+//     //   return;
+//     // }
+//     catch (e) {
+//       return emit(state.copyWith(status: FormStatus.failure));
+//     }
+//   }
+// }
   FutureOr<void> _fetchList(FetchAttendanceList event,
       Emitter<AttendanceState> emit) async {
-    try {
-      if (state.hasReachedMax) return;
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
 
-      if (state.status == FormStatus.initial) {
-        AttendanceResponse getAttendanceLists =
-        await _services.getList(
+    try {
+      // if (state.hasReachedMax) return;
+
+      if (state.status == FormStatus.initial || event.newSearch) {
+        AttendanceResponse response;
+        response = await _services.getList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
+          filters: event.filters,
         );
+
         return emit(
           state.copyWith(
-            items: getAttendanceLists.items,
+            items: response.items,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
         );
       }
 
-      AttendanceResponse getAttendanceList =
-      await _services.getList(
+      AttendanceResponse response;
+      response = await _services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        filters: event.filters,
       );
 
-      if (getAttendanceList.items?.isEmpty == true) {
+      if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)
-            ..addAll(getAttendanceList.items?.toList() ?? []),
+          items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
-    }
-    // on TokenExpiredException catch (e) {
-    //   emit(
-    //     state.copyWith(
-    //       message: e.message,
-    //       status: FormStatus.sessionExpired,
-    //     ),
-    //   );
-    //   return;
-    // }
-    catch (e) {
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

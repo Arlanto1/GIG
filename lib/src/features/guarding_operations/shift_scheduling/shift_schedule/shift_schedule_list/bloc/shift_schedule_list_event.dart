@@ -10,10 +10,17 @@ abstract class ShiftScheduleListEvent extends Equatable {
 class FetchShiftScheduleList extends ShiftScheduleListEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const FetchShiftScheduleList({required this.startPos, required this.maxPos});
+  const FetchShiftScheduleList({required this.startPos, required this.maxPos,required this.newSearch,
+    required this.filters});
 }
 
 class InitializeValues extends ShiftScheduleListEvent {
   const InitializeValues();
+}
+
+class RefreshList extends ShiftScheduleListEvent {
+  const RefreshList();
 }

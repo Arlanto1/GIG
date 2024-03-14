@@ -27,10 +27,14 @@ class ShiftScheduleServices {
   Future<ShiftScheduleResponse> getList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
+
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return ShiftScheduleResponse.fromJson(response);

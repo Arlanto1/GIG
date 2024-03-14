@@ -1274,8 +1274,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostMasterListBloc>(
                   create: (_) => DutyPostMasterListBloc()
-                    ..add(
-                        const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
+                    ..add(FetchDutyPostMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const DutyPostMasterListView(),
                 ));
 
@@ -1306,8 +1309,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostNameMasterListBloc>(
                   create: (_) => DutyPostNameMasterListBloc()
-                    ..add(const FetchDutyPostNameMasterList(
-                        startPos: 0, maxPos: 20)),
+                    ..add(FetchDutyPostNameMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const DutyPostNameMasterListView(),
                 ));
 
@@ -1338,7 +1344,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<AttendanceBloc>(
                   create: (_) => AttendanceBloc()
-                    ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
+                    ..add(FetchAttendanceList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const AttendanceView(),
                 ));
 
@@ -1389,8 +1399,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<arb.AttendanceReportBillingBloc>(
                   create: (_) => arb.AttendanceReportBillingBloc()
-                    ..add(
-                        const arb.FetchAttendanceList(startPos: 0, maxPos: 20)),
+                    ..add(arb.FetchAttendanceReportBillingList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const AttendanceReportBillingView(),
                 ));
 
@@ -1398,8 +1411,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ShiftScheduleListBloc>(
                   create: (_) => ShiftScheduleListBloc()
-                    ..add(
-                        const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
+                    ..add(FetchShiftScheduleList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const ShiftScheduleListView(),
                 ));
 
