@@ -119,8 +119,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportSSSLAExcel',
-          pdfAPIName: 'exportSSSLAPDF',
+          excelAPIName: 'exportSSSLAExcel?ticketType=${widget.isInternal?1:0}',
+          pdfAPIName: 'exportSSSLAPDF?ticketType=${widget.isInternal?1:0}',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {

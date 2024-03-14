@@ -95,8 +95,8 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportAFExcel',
-        pdfAPIName: 'exportAFPDF',
+        excelAPIName: 'exportFoundExcel',
+        pdfAPIName: 'exportFoundPDF',
       ),
       body: BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
         listener: (context, state) {

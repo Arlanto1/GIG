@@ -82,8 +82,8 @@ class _KeyLossDestructionListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKmKldExcel',
+          pdfAPIName: 'exportKmKldPDF',
         ),
         body: BlocBuilder<KeyLossDestructionListBloc,
             KeyLossDestructionListState>(builder: (context, state) {
