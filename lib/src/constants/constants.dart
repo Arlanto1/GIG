@@ -43,6 +43,10 @@ class Constants {
   static const String guardingMasterModuleCode = 'GM';
   static const String eventProtectionModuleCode = 'EP';
   static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
+  static const String shiftScheduleModuleCode = 'SS';
+  static const String dutyPostNameMasterModuleCode = 'SSDP';
+  static const String attendanceModuleCode = 'ATD';
+
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';

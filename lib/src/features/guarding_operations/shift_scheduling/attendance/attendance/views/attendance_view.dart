@@ -1,5 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class AttendanceView extends StatefulWidget {
   const AttendanceView({
@@ -13,10 +14,16 @@ class AttendanceView extends StatefulWidget {
 class _AttendanceViewState extends State<AttendanceView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
+    context.read<AttendanceBloc>().add(
+      const InitializeValues(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -36,12 +43,29 @@ class _AttendanceViewState extends State<AttendanceView> {
       pageNumber = pageNumber + 20;
       context
           .read<AttendanceBloc>()
-          .add(FetchAttendanceList(startPos: pageNumber, maxPos: 20));
+          .add(FetchAttendanceList(startPos: pageNumber, maxPos: 20, newSearch: true,
+          filters: BaseFilterModel()));
     }
   }
 
+  void _onRefresh() async {
+    context.read<AttendanceBloc>().add(
+      const RefreshList(),
+    );
+    await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
+  }
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       appBar: BaseAppBar().buildAppHeader(
@@ -57,12 +81,12 @@ class _AttendanceViewState extends State<AttendanceView> {
       ),
       body: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.items.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.items.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           // log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
             margin: allMargin16,
@@ -72,6 +96,44 @@ class _AttendanceViewState extends State<AttendanceView> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                BaseSearchWidget(
+                applySearchFilters: applySearchFilters,
+                applyFilters: applyFilters,
+                commonFilters: state.commonFilters ??
+                    CommonFilters(
+                      statuses: [],
+                      regions: [],
+                    ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.001),
+              if (state.status == FormStatus.loading) ...[
+          CommonWidgets.verticalSpacerWidget(height * 0.01),
+          const BaseLoader(),
+          CommonWidgets.verticalSpacerWidget(height * 0.01),
+          ],
+          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+          // Text('state.status=====${state.status}'),
+          if (state.items.isEmptyOrNull &&
+          state.status != FormStatus.loading) ...[
+          CommonWidgets.verticalSpacerWidget(height * 0.001),
+          const NoRecordFoundWidget(),
+          ],
+
+          Expanded(
+          child: SmartRefresher(
+          controller: refreshController,
+          enablePullDown: true,
+          physics: const BouncingScrollPhysics(),
+          header: const WaterDropHeader(
+          waterDropColor: AppColors.navigationSkybluecolor,
+          refresh: BaseLoader(),
+          ),
+          key: const Key(Keys.refreshKey),
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
@@ -90,7 +152,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                       key:
                           // state.labels?.locale.location ??
                           //     state.labels?.defaultLocale.location ??
-                          'Building Location ',
+                          'Location ',
                       value: state.items[index].location?.name ?? ''));
                   labels.add(Label(
                       key:
@@ -152,14 +214,14 @@ class _AttendanceViewState extends State<AttendanceView> {
                 return const Center(
                   child: SizedBox(),
                 );
-              },
-            ),
+              }),
+          ),
+          ),
+                ],
+              ),
           );
-        },
-      ),
-    );
+        }));
   }
-
   getById({
     required int id,
   }) async {
@@ -171,5 +233,29 @@ class _AttendanceViewState extends State<AttendanceView> {
         ConstantsArgument.title: Constants.editAttendance
       },
     );
+  }
+  void applySearchFilters(
+      FilterCriteria model,
+      ) {
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<AttendanceBloc>(context).add(
+      FetchAttendanceList(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+  }
+
+  void applyFilters(
+      Filters model,
+      ) {
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+
+    BlocProvider.of<AttendanceBloc>(context).add(
+      FetchAttendanceList(
+          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }
