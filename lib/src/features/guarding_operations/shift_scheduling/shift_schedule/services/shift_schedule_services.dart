@@ -27,10 +27,14 @@ class ShiftScheduleServices {
   Future<ShiftScheduleResponse> getList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
+
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return ShiftScheduleResponse.fromJson(response);
@@ -51,7 +55,7 @@ class ShiftScheduleServices {
     if (id == null) {
       return [];
     }
-    final String url = '${Apis._getDutyPostsById}/$id?dutyPost=$dutyType';
+    final String url = '${Apis._getDutyPostsById}/$id?dutyType=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -78,7 +82,7 @@ class ShiftScheduleServices {
     required int? dutyType,
   }) async {
     String url =
-        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyPost=$dutyType';
+        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyType=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );

@@ -119,8 +119,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportSSSLAExcel',
-          pdfAPIName: 'exportSSSLAPDF',
+          excelAPIName: 'exportSSSLAExcel?ticketType=${widget.isInternal?1:0}',
+          pdfAPIName: 'exportSSSLAPDF?ticketType=${widget.isInternal?1:0}',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
@@ -185,7 +185,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
 
                         if (index < state.items.length) {
                           labels.add(Label(
-                            key: 'Date of Creation',
+                            key: state.labels?.locale.createDate ??
+                                state.labels?.defaultLocale.createDate ??
+                                'Date of Creation',
                             value: state.items[index].createdDate != null
                                 ? Utils.timestamptoDateConversion(
                                     int.tryParse(
@@ -194,11 +196,15 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 : '',
                           ));
                           labels.add(Label(
-                            key: 'Location',
+                            key: state.labels?.locale.location ??
+                                state.labels?.defaultLocale.location ??
+                                'Location',
                             value: state.items[index].location?.name ?? '',
                           ));
                           labels.add(Label(
-                            key: 'Region',
+                            key: state.labels?.locale.region ??
+                                state.labels?.defaultLocale.region ??
+                                'Region',
                             value: state.items[index].region?.name ?? '',
                           ));
 

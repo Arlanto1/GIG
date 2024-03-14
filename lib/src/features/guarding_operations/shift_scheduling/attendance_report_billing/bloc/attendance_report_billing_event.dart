@@ -1,3 +1,4 @@
+
 part of 'attendance_report_billing_bloc.dart';
 
 abstract class AttendanceReportBillingEvent extends Equatable {
@@ -7,14 +8,20 @@ abstract class AttendanceReportBillingEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchAttendanceList extends AttendanceReportBillingEvent {
+class FetchAttendanceReportBillingList extends AttendanceReportBillingEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
-  const FetchAttendanceList(
-      {required this.startPos, required this.maxPos});
+  const FetchAttendanceReportBillingList({required this.startPos, required this.maxPos,required this.newSearch,
+    required this.filters});
 }
 
 class InitializeValues extends AttendanceReportBillingEvent {
   const InitializeValues();
+}
+
+class RefreshList extends AttendanceReportBillingEvent {
+  const RefreshList();
 }

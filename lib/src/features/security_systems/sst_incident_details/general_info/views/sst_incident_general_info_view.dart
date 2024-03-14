@@ -190,14 +190,18 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
-                                Constants.createdby,
+                                state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -246,7 +250,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                Constants.createDate,
+                                state.labels?.locale.createDate ??
+                                    state.labels?.defaultLocale.createDate ??
+                                    Constants.createDate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -256,7 +262,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Location
                             CommonWidgets.textDisplay(
-                                Constants.location,
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -279,14 +287,18 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                                Constants.slno,
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
                                 isMandatory: true,
                                 state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System
                             CommonWidgets.textDisplay(
-                                Constants.system,
+                                state.labels?.locale.system ??
+                                    state.labels?.defaultLocale.system ??
+                                    Constants.system,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -324,7 +336,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Vendor
                             CommonWidgets.textDisplay(
-                              Constants.vendor,
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -363,7 +377,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Vendor Poc
                             CommonWidgets.textDisplay(
-                                Constants.vendorPoc,
+                                state.labels?.locale.vendorPoc ??
+                                    state.labels?.defaultLocale.vendorPoc ??
+                                    Constants.vendorPoc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -389,7 +405,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 1 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation1Poc,
+                                state.labels?.locale.escalation1Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation1Poc ??
+                                    Constants.escalation1Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -414,7 +433,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 2 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation2Poc,
+                                state.labels?.locale.escalation2Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation2Poc ??
+                                    Constants.escalation2Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -439,7 +461,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 3 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation3Poc,
+                                state.labels?.locale.escalation3Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation3Poc ??
+                                    Constants.escalation3Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -464,7 +489,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// System Manager
                             CommonWidgets.textDisplay(
-                              Constants.systemManager,
+                              state.labels?.locale.sm ??
+                                  state.labels?.defaultLocale.sm ??
+                                  Constants.systemManager,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -499,7 +526,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Security Manager
                             CommonWidgets.textDisplay(
-                              Constants.securityManager,
+                              state.labels?.locale.ssm ??
+                                  state.labels?.defaultLocale.ssm ??
+                                  Constants.securityManager,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -535,7 +564,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Security Lead
                             CommonWidgets.textDisplay(
-                              Constants.securityLead,
+                              state.labels?.locale.asl ??
+                                  state.labels?.defaultLocale.asl ??
+                                  Constants.securityLead,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -571,7 +602,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Location Team
                             CommonWidgets.textDisplay(
-                              Constants.locationTeam,
+                              state.labels?.locale.lt ??
+                                  state.labels?.defaultLocale.lt ??
+                                  Constants.locationTeam,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -608,7 +641,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Short Description of Incident
                             CommonWidgets.textDisplay(
-                                Constants.shortIncidentDescription,
+                                state.labels?.locale.shortDecIncident ??
+                                    state.labels?.defaultLocale
+                                        .shortDecIncident ??
+                                    Constants.shortIncidentDescription,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -633,7 +669,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Detail Description
                             CommonWidgets.textDisplay(
-                                Constants.detailIncidentDescription,
+                                state.labels?.locale.detailDes ??
+                                    state.labels?.defaultLocale.detailDes ??
+                                    Constants.detailIncidentDescription,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -657,7 +695,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// IPB Area
                             CommonWidgets.textDisplay(
-                                Constants.ipbArea,
+                                state.labels?.locale.ipbArea ??
+                                    state.labels?.defaultLocale.ipbArea ??
+                                    Constants.ipbArea,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -689,7 +729,10 @@ class _SstIncidentGeneralInfoViewState
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                                Constants.attachments, Styles.textStyleBlack14),
+                                state.labels?.locale.attachment ??
+                                    state.labels?.defaultLocale.attachment ??
+                                    Constants.attachments,
+                                Styles.textStyleBlack14),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)

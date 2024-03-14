@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -146,12 +148,11 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             Styles.textStyleBlack14,
                           ),
                           BaseImageUpload().getAttachment(
-                            height: height,
-                            attachments: state.model.attachments,
-                            files: state.model.attachments,
-                            showDownloadIcon: true,
-                            moduleCode: state.model.moduleCode??''
-                          ),
+                              height: height,
+                              attachments: state.model.attachments,
+                              files: state.model.attachments,
+                              showDownloadIcon: true,
+                              moduleCode: state.model.moduleCode ?? ''),
                         ],
                         if (!state.model.moduleCode.isEmptyOrNull) ...[
                           submitButtonDisplay(state)
@@ -245,6 +246,19 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   'id': moduleId,
                   'isInternal': false,
                   "title": Constants.ticketLifeCycle,
+                },
+              );
+              break;
+            }
+          case 'KLD':
+            {
+              KeyLossDestructionListModel keyLossDestructionListModel =
+                  await KeyLossDestructionListServices().getById(moduleId);
+              nav.pushNamed(
+                keyLossDestructionListDetailsRoute,
+                arguments: {
+                  "keyLossGi": keyLossDestructionListModel,
+                  "title": Constants.editKeyLossDestruction
                 },
               );
               break;

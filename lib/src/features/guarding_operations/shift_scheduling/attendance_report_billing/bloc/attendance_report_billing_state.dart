@@ -1,30 +1,43 @@
 part of 'attendance_report_billing_bloc.dart';
 
 class AttendanceReportBillingState extends Equatable {
-  final List<AttendanceModel> items;
+  final List<AttendanceReportBillingModel> items;
   final bool hasReachedMax;
   final FormStatus status;
-
-  //final GmUiLabels? labels;
+  final String? message;
+  final CommonFilters? commonFilters;
+  final Locations? locations;
+  final SSUiLabels? labels;
 
   const AttendanceReportBillingState({
-    this.items = const <AttendanceModel>[],
+    this.items = const <AttendanceReportBillingModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    //this.labels
+    this.message,
+    this.labels,
+    this.locations,
+    this.commonFilters,
   });
 
   AttendanceReportBillingState copyWith({
-    List<AttendanceModel>? items,
+    List<AttendanceReportBillingModel>? items,
     bool? hasReachedMax,
+    String? message,
     FormStatus? status,
-    // GmUiLabels? labels,
+    SSUiLabels? labels,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return AttendanceReportBillingState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      // labels: labels ?? this.labels
+      labels: labels ?? this.labels,
+      message: message ?? this.message,
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,
     );
   }
 
