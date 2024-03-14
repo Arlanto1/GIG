@@ -76,7 +76,7 @@ class _AttendanceReportBillingViewState
         backgroundColor: AppColors.cardBgColor,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.attendance,
+          title: Constants.attendanceReportBilling,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
@@ -163,12 +163,17 @@ class _AttendanceReportBillingViewState
                                     'Location ',
                                 value:
                                     state.items[index].location?.name ?? ''));
-                            // labels.add(Label(
-                            //     key:
-                            //     // state.labels?.locale.locationRegion ??
-                            //     //  state.labels?.defaultLocale.locationRegion ??
-                            //     'SlNo',
-                            //     value: state.items[index].slNo ?? ''));
+                            labels.add(Label(
+                                key: 'Date',
+                                value: state.items[index].inputDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                    int.parse(
+                                        state.items[index].inputDate ?? '0'),
+                                    Constants.dateFormat)
+                                    : ''));
+                            labels.add(Label(
+                                key: 'Year',
+                                value: state.items[index].year.toString()));
                             return index >= state.items.length
                                 ? const BaseLoader()
                                 : BaseListTileItem(

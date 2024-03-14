@@ -14,13 +14,13 @@ class AttendanceReportBillingResponse {
   });
 
   AttendanceReportBillingResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['model'] as List?)?.map((dynamic e) => AttendanceReportBillingModel.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)?.map((dynamic e) => AttendanceReportBillingModel.fromJson(e as Map<String,dynamic>)).toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'model' : items?.map((e) => e.toJson()).toList(),
+    'data' : items?.map((e) => e.toJson()).toList(),
     'totalCount' : totalCount,
     'currentPageNo' : currentPageNo,
     'totalPageCount' : totalPageCount
