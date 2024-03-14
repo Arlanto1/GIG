@@ -55,7 +55,7 @@ class ShiftScheduleServices {
     if (id == null) {
       return [];
     }
-    final String url = '${Apis._getDutyPostsById}/$id?dutyPost=$dutyType';
+    final String url = '${Apis._getDutyPostsById}/$id?dutyType=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -82,7 +82,7 @@ class ShiftScheduleServices {
     required int? dutyType,
   }) async {
     String url =
-        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyPost=$dutyType';
+        '${Apis._getDutyPostsByLocationAndVendor}loc=$locationId&vend=$vendorId&dutyType=$dutyType';
     final response = await BaseApiService().getRequest(
       url: url,
     );
