@@ -33,7 +33,7 @@ class AttendanceReportBillingBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.shiftScheduleModuleCode);
+          module: Constants.attendanceModuleCode);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -46,7 +46,7 @@ class AttendanceReportBillingBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.shiftScheduleModuleCode);
+          moduleCode: Constants.attendanceModuleCode);
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
