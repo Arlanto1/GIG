@@ -445,10 +445,13 @@ class _KeyHistoryRecordsDetailsViewState
                         ],
 
                         if (widget.type ==
-                            ConstantsIntValue.lockChangeHistoryInt || widget.type ==
-                            ConstantsIntValue.keyDestroyHistoryInt|| widget.type ==
-                            ConstantsIntValue.keyDamageHistoryInt|| widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt) ...[
+                                ConstantsIntValue.lockChangeHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDestroyHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
                               state.labels?.locale.noOfKeys ??
@@ -545,7 +548,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,
                               isMandatory: true,
-                              '${state.model?.modifiedBy ?? ''} '),
+                              '${state.model.modifiedBy?.firstName ?? ''} ${state.model.modifiedBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Modified On
