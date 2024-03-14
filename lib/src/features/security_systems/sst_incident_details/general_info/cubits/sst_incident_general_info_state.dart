@@ -20,6 +20,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final SSLAUiLabels? labels;
 
   factory SstIncidentGeneralInfoState.initial({
     required SstIncident model,
@@ -140,6 +141,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.securityLeads,
     this.locationTeamUsers,
     this.securityManagers,
+    this.labels,
   });
 
   SstIncidentGeneralInfoState copyWith({

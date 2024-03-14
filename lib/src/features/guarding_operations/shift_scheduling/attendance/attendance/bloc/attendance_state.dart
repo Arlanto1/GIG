@@ -4,28 +4,40 @@ class AttendanceState extends Equatable {
   final List<AttendanceModel> items;
   final bool hasReachedMax;
   final FormStatus status;
-
-  //final GmUiLabels? labels;
+  final String? message;
+  final CommonFilters? commonFilters;
+  final Locations? locations;
+  final SSUiLabels? labels;
 
   const AttendanceState({
     this.items = const <AttendanceModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    //this.labels
+    this.labels,
+    this.message,
+    this.locations,
+    this.commonFilters,
   });
 
   AttendanceState copyWith({
     List<AttendanceModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    // GmUiLabels? labels,
+    SSUiLabels? labels,
+    String? message,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return AttendanceState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      // labels: labels ?? this.labels
-    );
+      labels: labels ?? this.labels,
+      message: message ?? this.message,
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,    );
   }
 
   @override

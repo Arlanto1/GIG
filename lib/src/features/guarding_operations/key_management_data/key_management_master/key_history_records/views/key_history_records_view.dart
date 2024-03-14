@@ -63,7 +63,14 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
           onPressed: () => {
             Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute,
                 arguments: {
-                  ConstantsArgument.title: Constants.createkeyManagementMaster,
+                  ConstantsArgument.title:  widget.type == ConstantsIntValue.lockChangeHistoryInt
+                      ? Constants.createLockChangeHistory
+                      : widget.type == ConstantsIntValue.keyLostHistoryInt
+                      ? Constants.createKeyLostHistory
+                      : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                      ? Constants.createKeyDamageHistory
+                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
+                      ? Constants.createKeyDestroyHistory : Constants.createkeyManagementMaster,
                   ConstantsArgument.id: widget.id,
                   ConstantsArgument.type: widget.type,
                 }),
@@ -80,7 +87,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       : widget.type == ConstantsIntValue.keyDestroyHistoryInt
                           ? Constants.keyDestroyHistory
                           : 'Default Title',
-          showPopUp: true,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,

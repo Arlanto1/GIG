@@ -82,8 +82,12 @@ import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst
     as sv;
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart'
     as kip;
 import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart';
@@ -1175,6 +1179,30 @@ class RouteGenerator {
                   child: const KeyLossDestructionListView(),
                 ));
 
+      case keyLossDestructionListDetailsRoute:
+        KeyLossDestructionListServices services =
+            KeyLossDestructionListServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyLossDestructionListModel? keyLossDestructionListModel =
+            arguments["keyLossGi"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyLossDestructionDetailsCubit>(
+            create: (_) => KeyLossDestructionDetailsCubit(
+              services: services,
+              model: keyLossDestructionListModel,
+              commonServices: commonServices,
+            ),
+            child: KeyLossDestructionDetailsView(
+              model: keyLossDestructionListModel,
+              title: title,
+            ),
+          ),
+        );
+
       case keyManagementIssuanceListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<KeyManagementIssuanceListBloc>(
@@ -1246,8 +1274,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostMasterListBloc>(
                   create: (_) => DutyPostMasterListBloc()
-                    ..add(
-                        const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
+                    ..add(FetchDutyPostMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const DutyPostMasterListView(),
                 ));
 
@@ -1278,8 +1309,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<DutyPostNameMasterListBloc>(
                   create: (_) => DutyPostNameMasterListBloc()
-                    ..add(const FetchDutyPostNameMasterList(
-                        startPos: 0, maxPos: 20)),
+                    ..add(FetchDutyPostNameMasterList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const DutyPostNameMasterListView(),
                 ));
 
@@ -1310,7 +1344,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<AttendanceBloc>(
                   create: (_) => AttendanceBloc()
-                    ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
+                    ..add(FetchAttendanceList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const AttendanceView(),
                 ));
 
@@ -1361,8 +1399,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<arb.AttendanceReportBillingBloc>(
                   create: (_) => arb.AttendanceReportBillingBloc()
-                    ..add(
-                        const arb.FetchAttendanceList(startPos: 0, maxPos: 20)),
+                    ..add(arb.FetchAttendanceReportBillingList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const AttendanceReportBillingView(),
                 ));
 
@@ -1370,8 +1411,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ShiftScheduleListBloc>(
                   create: (_) => ShiftScheduleListBloc()
-                    ..add(
-                        const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
+                    ..add(FetchShiftScheduleList(
+                        startPos: 0,
+                        maxPos: 20,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
                   child: const ShiftScheduleListView(),
                 ));
 

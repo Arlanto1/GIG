@@ -34,26 +34,26 @@ class KeyLossDestructionListResponse {
 
 @JsonSerializable()
 class KeyLossDestructionListModel extends BaseObject {
-  final String? keyManagementId;
-  final int? id;
-  final dynamic slNo;
-  final int? type;
-  final int? keyType;
-  final bool? hasLockChanged;
-  final dynamic keyDestructionProcess;
-  final dynamic hasKeyLost;
-  final User? srh;
-  final User? securityManager;
-  final bool? investigationRequired;
-  final String? lostKeyDetails;
-  final String? additionalInformation;
-  final dynamic destructionReason;
-  final int? status;
-  final int? noOfKeys;
-  final User? createdBy;
-  final int? createdDate;
-  final int? modifiedDate;
-  final String? modifiedBy;
+   String? keyManagementId;
+   int? id;
+   String? slNo;
+   int? type;
+   int? keyType;
+   bool? hasLockChanged;
+   dynamic keyDestructionProcess;
+   dynamic hasKeyLost;
+   User? srh;
+   dynamic securityManager;
+   bool investigationRequired;
+   String? lostKeyDetails;
+   String? additionalInformation;
+   dynamic destructionReason;
+   int? status;
+   int? noOfKeys;
+   User? createdBy;
+   String? createdDate;
+   String? modifiedDate;
+   String? modifiedBy;
 
   KeyLossDestructionListModel({
     this.keyManagementId,
@@ -66,7 +66,7 @@ class KeyLossDestructionListModel extends BaseObject {
     this.hasKeyLost,
     this.srh,
     this.securityManager,
-    this.investigationRequired,
+    this.investigationRequired = false,
     this.lostKeyDetails,
     this.additionalInformation,
     this.destructionReason,

@@ -22,12 +22,14 @@ class DutyPostMasterServices {
   Future<DutyPostMasterResponse> getList({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
-    required String locationId,
+    // required String locationId,
+    required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getDutyPostMaster}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
-    final response = await BaseApiService().getRequest(
+        '${Apis._getDutyPostMaster}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return DutyPostMasterResponse.fromJson(response);

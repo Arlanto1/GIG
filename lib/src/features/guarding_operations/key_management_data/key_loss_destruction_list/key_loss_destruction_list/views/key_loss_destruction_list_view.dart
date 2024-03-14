@@ -1,6 +1,7 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
@@ -81,8 +82,8 @@ class _KeyLossDestructionListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKmKldExcel',
+          pdfAPIName: 'exportKmKldPDF',
         ),
         body: BlocBuilder<KeyLossDestructionListBloc,
             KeyLossDestructionListState>(builder: (context, state) {
@@ -114,18 +115,18 @@ class _KeyLossDestructionListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                // if (state.list.isEmptyOrNull &&
+                //     state.status != FormStatus.loading&& state.status != FormStatus.initial) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                //   const NoRecordFoundWidget(),
+                // ],
 
                 Expanded(
                   child: SmartRefresher(
@@ -148,16 +149,19 @@ class _KeyLossDestructionListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              key: state.labels?.locale.createdDate ??
-                                  state.labels?.defaultLocale.createdDate ??
-                                  'Date of Creation',
-                              value: DateFormat('dd-MM-yyyy').format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      state.list[index].createdDate ??
-                                          0 * 1000))));
+                              // key: state.labels?.locale.locationRegion ??
+                              //  state.labels?.defaultLocale.locationRegion ??
+                              key: 'Created Date',
+                              value: state.list[index].createdDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                      int.parse(
+                                          state.list[index].createdDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''));
                           labels.add(Label(
-                              key: state.labels?.locale.createdBy ??
-                                  state.labels?.defaultLocale.createdBy ??
+                              key:
+                                  // state.labels?.locale.location ??
+                                  //state.labels?.defaultLocale.location ??
                                   'Created By',
                               value: state.list[index].createdBy?.name ?? ''));
                         }
@@ -194,7 +198,10 @@ class _KeyLossDestructionListViewState
                                     },
                                   );
                                 },
-                                showEditButton: false,
+                                onEditTap: (selectedIndex) {
+                                  getById(state.list[index].id ?? 0);
+                                },
+                                showEditButton: true,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
@@ -230,6 +237,28 @@ class _KeyLossDestructionListViewState
             ),
           );
         }));
+  }
+
+  getById(int id) async {
+    showLoadingDialog(context);
+
+    KeyLossDestructionListModel keyLossDestructionListModel =
+        await KeyLossDestructionListServices().getById(id);
+
+    editDataLoading(keyLossDestructionListModel);
+  }
+
+  void editDataLoading(
+    KeyLossDestructionListModel? keyLossDestructionListModel,
+  ) {
+    dismissLoadingDialog(context);
+    if (keyLossDestructionListModel != null) {
+      Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,
+          arguments: {
+            "keyLossGi": keyLossDestructionListModel,
+            "title": Constants.editKeyLossDestruction
+          });
+    }
   }
 
   void applySearchFilters(

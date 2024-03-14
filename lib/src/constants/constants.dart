@@ -27,6 +27,7 @@ class Constants {
   static const String slaViolationPenaltyDetailsModule = 'SVP';
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
+  static const String keyLossDestructionModule = 'KLD';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
@@ -42,6 +43,10 @@ class Constants {
   static const String guardingMasterModuleCode = 'GM';
   static const String eventProtectionModuleCode = 'EP';
   static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
+  static const String shiftScheduleModuleCode = 'SS';
+  static const String dutyPostNameMasterModuleCode = 'SSDP';
+  static const String attendanceModuleCode = 'ATD';
+
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -140,20 +145,21 @@ class Constants {
   static const String dashboard = 'Dashboard';
   static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
+  static const String costAndBilling = "Cost & Billing";
   static const String securitySystems = "Security System";
   static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articlefoundregister = 'Article Found Register';
-  static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
-  static const String eventprotectionlist = 'Event Protection List';
+  static const String articleFoundRegister = 'Article Found Register';
+  static const String lawEnforcementVisitsList = 'Law Enforcement Visits List';
+  static const String eventProtectionList = 'Event Protection List';
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Shift Occurrence';
+  static const String shiftOccurrence = 'Shift Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -181,7 +187,7 @@ class Constants {
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
 
-  static const String daypassmgmt = 'Day Pass Management';
+  static const String dayPassManagement = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
   static const String visitorpassmgmt = 'Visitor Pass Management';
   static const String visitorpassregister = 'Visitor Pass Register';
@@ -435,7 +441,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
-  static const String contactDetails = 'Escalation Matrix';
+  static const String escalationMatrix = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
@@ -731,6 +737,10 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String createLockChangeHistory = 'Create Lock Change History';
+  static const String createKeyLostHistory = ' Create Key Lost History';
+  static const String createKeyDamageHistory = 'Create Key Damage History';
+  static const String createKeyDestroyHistory = 'Create Key Destroy History';
   static const String editLockChangeHistory = ' Edit Lock Change History';
   static const String editKeyLostHistory = 'Edit Key Lost History';
   static const String editKeyDamageHistory = 'Edit Key Damage History';
@@ -777,6 +787,7 @@ class Constants {
   static const String keysDamaged = 'Keys Damaged';
   static const String noKeysIssued = 'No. Keys Issued';
   static const String handedOverDate = 'Handed Over Date';
+  static const String editKeyLossDestruction = 'Edit Key Loss Destruction';
 
   /// Duty Post Master
   static const String dutyPostMaster = 'Duty Post Master';
@@ -818,7 +829,7 @@ class Constants {
 
 
   ///VVIP Visitors
-  static const String vvipVisitors = 'VVIP Visitor';
+  static const String vVipVisitors = 'VVIP Visitor';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';

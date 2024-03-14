@@ -100,13 +100,13 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () => {
           Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-            "title": Constants.contactDetails,
+            "title": Constants.escalationMatrix,
           })
         },
       ),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: Constants.contactDetails,
+        title: Constants.escalationMatrix,
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
@@ -284,7 +284,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         contactDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.contactDetails,
+          "title": Constants.escalationMatrix,
         },
       );
     }

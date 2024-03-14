@@ -101,17 +101,20 @@ class KeyHistoryRecordsDetailsCubit
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
+        SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyManagementMasterModule,
+          moduleCode: Constants.keyLossDestructionModule,
+          type: type,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy = loggedInUserDetails;
-
+      state.model.modifiedBy = loggedInUserDetails;
+      state.model.type = type;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
+      state.model.modifiedDate = Utils().getCurrentDate();
 
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
@@ -162,9 +165,10 @@ class KeyHistoryRecordsDetailsCubit
     );
     ////Get Sl No from API
     if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
+      SerialNumberModel slNo = await commonServices.getKLDSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.keyManagementMasterModule,
+        moduleCode: Constants.keyLossDestructionModule,
+        type: type,
       );
 
       state.model.location = location;
@@ -217,7 +221,8 @@ class KeyHistoryRecordsDetailsCubit
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
+    state.model.modifiedDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyHistoryRecordRequest request =
         KeyHistoryRecordRequest(keyLossGi: state.model);

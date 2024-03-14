@@ -9,7 +9,7 @@ class KeyManagementMasterDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<Organisation>? listOfQualifications;
-   final List<Organisation> departments;
+  final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
   final List<Organisation>? getEntitiesResponse;
   final List<String>? participationDates;
@@ -26,7 +26,7 @@ class KeyManagementMasterDetailsState extends Equatable {
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
-     required final List<Organisation> departments,
+    required final List<Organisation> departments,
     required String errorMessage,
     User? createdBy,
     List<String>? participationDate,
@@ -37,7 +37,7 @@ class KeyManagementMasterDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       listOfEntities: listOfEntities,
-       departments: departments,
+      departments: departments,
       getEntitiesResponse: getEntitiesResponse,
       getQualificationsResponse: getQualificationsResponse,
       users: users,
@@ -51,7 +51,6 @@ class KeyManagementMasterDetailsState extends Equatable {
     log('-model.status---${model.status}--');
 
     // if (model.location == null) {
-    //   log('-model.location-----isValidDraft-');
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Location');
     // }
@@ -70,7 +69,53 @@ class KeyManagementMasterDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.location == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.createdDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Date of Creation');
+    }
+    if (model.createdBy == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Created By');
+    }
+    if (model.entities == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
+    }
+    if (model.floor == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Floor');
+    }
+    if (model.doorType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter KeyType');
+    }
+    if (model.doorName == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Description');
+    }
 
+    if (model.keyNo == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Key No');
+    }
+    if (model.keyTagging == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Tagging Done');
+    }
+    if (model.noKeys == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Number of Keys');
+    }
+    if (model.noMasterKey == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Number of Master Keys');
+    }
+    if (model.keysStored == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter How and Where The Keys are Stored');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -86,7 +131,7 @@ class KeyManagementMasterDetailsState extends Equatable {
     this.emailUsers,
     this.listOfEntities,
     this.listOfQualifications,
-     required this.departments,
+    required this.departments,
     this.getQualificationsResponse,
     this.getEntitiesResponse,
     this.participationDates,

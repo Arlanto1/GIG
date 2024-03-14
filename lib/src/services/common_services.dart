@@ -157,7 +157,6 @@ class CommonServices {
     );
     return User.fromJson(response);
   }
-
   Future<SerialNumberModel> getSlNo({
     required String locationId,
     required String moduleCode,
@@ -165,6 +164,21 @@ class CommonServices {
   }) async {
     String url =
         '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    log('--response--${response.toString()}----');
+
+    return SerialNumberModel.fromJson(response);
+  }
+  Future<SerialNumberModel> getKLDSlNo({
+    required String locationId,
+    required String moduleCode,
+    BuildContext? context,
+    int? type,
+  }) async {
+    String url =
+        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type';
     final response = await BaseApiService().getRequest(
       url: url,
     );

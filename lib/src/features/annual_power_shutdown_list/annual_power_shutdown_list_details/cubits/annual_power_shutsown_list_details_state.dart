@@ -17,8 +17,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final BudgetCostModel? budgetCost;
-
-  //final EpUiLabels? labels;
+  final APSUILabels? labels;
 
   factory AnnualPowerShutdownListDetailsState.initial({
     required AnnualPowerShutdownListModel model,
@@ -173,7 +172,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.budgetCost,
-    //this.labels,
+    this.labels,
   });
 
   AnnualPowerShutdownListDetailsState copyWith({
@@ -193,7 +192,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     String? message,
     List<User>? entrySecurities,
     BudgetCostModel? budgetCost,
-    // final EpUiLabels? labels,
+    final APSUILabels? labels,
   }) {
     return AnnualPowerShutdownListDetailsState(
       status: status ?? this.status,
@@ -212,7 +211,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       budgetCost: budgetCost ?? this.budgetCost,
-      //labels: labels ?? this.labels,
+      labels: labels ?? this.labels,
     );
   }
 }
