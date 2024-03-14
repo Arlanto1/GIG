@@ -19,6 +19,7 @@ import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -172,74 +173,98 @@ class _GuardingRatesState extends State<GuardingRates> {
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
                     child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1,
-                      itemBuilder: (context, index) {
-                        return index >= state.items.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.items[index].id,
-                                inputDate: state.items[index].inputDate,
-                                location: state.items[index].location,
-                                locationRegion:
-                                    state.items[index].locationRegion,
-                                vendors: state.items[index].vendor,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        inputDate: state
-                                            .items[selectedIndex].inputDate,
-                                        location:
-                                            state.items[selectedIndex].location,
-                                        locationRegion: state
-                                            .items[selectedIndex]
-                                            .locationRegion,
-                                        slNo: state.items[selectedIndex].slNo,
-                                        vendors:
-                                            state.items[selectedIndex].vendor,
+                        controller: _scrollController,
+                        itemCount: state.hasReachedMax
+                            ? state.items.length
+                            : state.items.length + 1,
+                        itemBuilder: (context, index) {
+                          List<Label> labels = [];
+                          if (index < state.items.length) {
+                            labels.add(Label(
+                                key: state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    'Date of Creation',
+                                value: state.items[index].inputDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            state.items[index].inputDate ??
+                                                '0'),
+                                        Constants.dateFormat)
+                                    : ''));
+                            labels.add(Label(
+                                key: state.labels?.locale.locationRegion ??
+                                    state
+                                        .labels?.defaultLocale.locationRegion ??
+                                    'Region',
+                                value:
+                                    state.items[index].locationRegion?.name ??
+                                        ''));
+                            labels.add(Label(
+                                key: state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    'Building Location',
+                                value:
+                                    state.items[index].locationRegion?.name ??
+                                        ''));
+                            labels.add(Label(
+                                key: state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    'SlNo',
+                                value: state.items[index].slNo ?? ''));
+                            return index >= state.items.length
+                                ? const BaseLoader()
+                                : BaseListTileItem(
+                                    id: state.items[index].id,
+                                    // inputDate: state.items[index].inputDate,
+                                    vendors: state.items[index].vendor,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                            // inputDate: state
+                                            //     .items[selectedIndex].inputDate,
+                                            // slNo:
+                                            //     state.items[selectedIndex].slNo,
+                                            vendors: state
+                                                .items[selectedIndex].vendor,
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getId(state.items[index].id ?? 0);
-                                },
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        inputDate: state
-                                            .items[selectedIndex].inputDate,
-                                        location:
-                                            state.items[selectedIndex].location,
-                                        locationRegion: state
-                                            .items[selectedIndex]
-                                            .locationRegion,
-                                        slNo: state.items[selectedIndex].slNo,
-                                        vendors:
-                                            state.items[selectedIndex].vendor,
+                                    onEditTap: (selectedIndex) {
+                                      getId(state.items[index].id ?? 0);
+                                    },
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            // inputDate: state
+                                            //     .items[selectedIndex].inputDate,
+                                            labels: labels,
+                                            // slNo:
+                                            //     state.items[selectedIndex].slNo,
+                                            vendors: state
+                                                .items[selectedIndex].vendor,
 
-                                        // status: state.items[selectedIndex].status
-                                        //     .toString(),
-                                        // entrySecurityName: state
-                                        //     .items[selectedIndex].entrySecurityName,
+                                            // status: state.items[selectedIndex].status
+                                            //     .toString(),
+                                            // entrySecurityName: state
+                                            //     .items[selectedIndex].entrySecurityName,
+                                          );
+                                        },
                                       );
                                     },
+                                    index: index,
                                   );
-                                },
-                                index: index,
-                              );
-                      },
-                    ),
+                          }
+                        }),
                   ),
                 ),
               ],

@@ -176,7 +176,8 @@ class _AnnualPowerShutdownListViewState
                         List<Label> labels = [];
                         if (index < state.items.length) {
                           labels.add(Label(
-                              key: 'Date of Creation',
+                              key: state.labels?.locale.inputDate ??
+                                  state.labels?.defaultLocale.inputDate ?? 'Date of Creation',
                               value: state.items[index].inputDate != null
                                   ? Utils.timestamptoDateConversion(
                                       int.tryParse(
@@ -184,11 +185,13 @@ class _AnnualPowerShutdownListViewState
                                       Constants.dateFormat)
                                   : ''));
                           labels.add(Label(
-                              key: 'Region',
+                              key: state.labels?.locale.locationRegion ??
+                                  state.labels?.defaultLocale.locationRegion ??'Region',
                               value: state.items[index].locationRegion?.name ??
                                   ''));
                           labels.add(Label(
-                              key: 'Location',
+                              key: state.labels?.locale.location??
+                                  state.labels?.defaultLocale.location ??'Location',
                               value: state.items[index].location?.name ?? ''));
 
                           return index >= state.items.length

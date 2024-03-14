@@ -107,9 +107,18 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Employee Id');
     }
-    if (model.handedOverTo == null) {
+    if (model.handedOverTo == null && model.employeeType != 3) {
       return const ErrorResponse(
           status: false, message: 'Please enter Handed Over To');
+    }
+    if (model.handedOverToCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Handed Over To');
+    }
+
+    if (model.dbSponsorCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter DB Sponsor of CWR T2');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

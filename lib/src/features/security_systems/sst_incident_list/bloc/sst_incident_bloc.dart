@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/token_expired.dart';
@@ -60,7 +61,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.securitySystemModule);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      SSLAUiLabels labels = SSLAUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -69,6 +70,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
         ),
       );
     } on Exception {

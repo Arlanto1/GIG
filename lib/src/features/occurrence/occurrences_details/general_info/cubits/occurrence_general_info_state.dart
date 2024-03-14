@@ -15,6 +15,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final bool? isReadOnly;
+  final OCCUiLabels? labels;
 
 
   factory OccurrenceGeneralInfoState.initial({
@@ -157,6 +158,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.isReadOnly,
+    this.labels
   });
 
   OccurrenceGeneralInfoState copyWith({

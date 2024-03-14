@@ -28,7 +28,8 @@ class GuardingRateDetailsView extends StatefulWidget {
   });
 
   @override
-  State<GuardingRateDetailsView> createState() => GuardingRateDetailsViewState();
+  State<GuardingRateDetailsView> createState() =>
+      GuardingRateDetailsViewState();
 }
 
 class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
@@ -97,7 +98,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
                           // GuardingRectangle(rate: widget.rate),
 
-                          buildTwoColumnLayout(),
+                          buildTwoColumnLayout(state),
                         ],
                       ),
                     ),
@@ -126,7 +127,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
     );
   }
 
-  Widget buildTwoColumnLayout() {
+  Widget buildTwoColumnLayout(PayRateState state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +161,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Guard',
+                text: state.labels?.locale.securityGuard ??
+                    state.labels?.defaultLocale.securityGuard ??
+                    'Security Guard',
                 bottomPadding: 22,
               ),
             ),
@@ -180,7 +183,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Supervisor',
+                text: state.labels?.locale.securitySupervisor ??
+                    state.labels?.defaultLocale.securitySupervisor ??
+                    'Security Supervisor',
                 // Add the text
                 bottomPadding: 22,
               ),
@@ -197,7 +202,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Officer',
+                text: state.labels?.locale.securityOfficer ??
+                    state.labels?.defaultLocale.securityOfficer ??
+                    'Security Officer',
                 bottomPadding: 22,
               ),
             ),
@@ -217,7 +224,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Facilitator',
+                text: state.labels?.locale.securityFacilitator ??
+                    state.labels?.defaultLocale.securityFacilitator ??
+                    'Security Facilitator',
                 bottomPadding: 22,
               ),
             ),
@@ -233,7 +242,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/securityGunMan.png',
-                text: 'Gun Man',
+                text: state.labels?.locale.gunMan ??
+                    state.labels?.defaultLocale.gunMan ??
+                    'Gun Man',
                 bottomPadding: 22,
               ),
             ),
@@ -254,17 +265,19 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Others',
+                text: state.labels?.locale.other ??
+                    state.labels?.defaultLocale.other ??
+                    'Others',
                 // Add the text
                 bottomPadding: 22,
               ),
             ),
           ],
         ),
-    // const SizedBox(height: 19), // Add spacing between the columns
-    //     Center(
-    //       child: submitButtonDisplay(),
-    //     ),
+        // const SizedBox(height: 19), // Add spacing between the columns
+        //     Center(
+        //       child: submitButtonDisplay(),
+        //     ),
       ],
     );
   }

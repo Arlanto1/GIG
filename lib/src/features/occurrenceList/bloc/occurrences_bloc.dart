@@ -12,6 +12,7 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../occurrence/occurrences_details/general_info/models/occ_ui_labels.dart';
 import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
 
@@ -54,7 +55,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.occurrenceModule);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      OCCUiLabels labels = OCCUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -63,6 +64,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
         ),
       );
     } on Exception {
@@ -93,6 +95,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchList(
       FetchData event, Emitter<OccurrencesState> emit) async {
     emit(
@@ -156,4 +159,3 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
     }
   }
 }
-

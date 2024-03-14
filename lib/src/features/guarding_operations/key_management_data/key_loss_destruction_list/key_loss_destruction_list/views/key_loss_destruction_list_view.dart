@@ -2,7 +2,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
@@ -150,13 +149,14 @@ class _KeyLossDestructionListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                            // key: state.labels?.locale.locationRegion ??
-                            //  state.labels?.defaultLocale.locationRegion ??
+                              // key: state.labels?.locale.locationRegion ??
+                              //  state.labels?.defaultLocale.locationRegion ??
                               key: 'Created Date',
                               value: state.list[index].createdDate != null
                                   ? Utils.timestamptoDateConversion(
-                                  int.parse(state.list[index].createdDate ?? '0'),
-                                  Constants.dateFormat)
+                                      int.parse(
+                                          state.list[index].createdDate ?? '0'),
+                                      Constants.dateFormat)
                                   : ''));
                           labels.add(Label(
                               key:
@@ -249,7 +249,8 @@ class _KeyLossDestructionListViewState
   }
 
   void editDataLoading(
-      KeyLossDestructionListModel? keyLossDestructionListModel) {
+    KeyLossDestructionListModel? keyLossDestructionListModel,
+  ) {
     dismissLoadingDialog(context);
     if (keyLossDestructionListModel != null) {
       Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,

@@ -101,9 +101,10 @@ class KeyHistoryRecordsDetailsCubit
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
+        SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
+          type: type,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
@@ -164,9 +165,10 @@ class KeyHistoryRecordsDetailsCubit
     );
     ////Get Sl No from API
     if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
+      SerialNumberModel slNo = await commonServices.getKLDSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.keyLossDestructionModule,
+        type: type,
       );
 
       state.model.location = location;

@@ -7,6 +7,7 @@ class OccurrencesState extends Equatable {
   final String? message;
   final Locations? locations;
   final CommonFilters? commonFilters;
+  final OCCUiLabels? labels;
 
   const OccurrencesState({
     this.list = const <Occurrence>[],
@@ -15,6 +16,7 @@ class OccurrencesState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.labels,
   });
 
   OccurrencesState copyWith({
@@ -26,6 +28,7 @@ class OccurrencesState extends Equatable {
     String? message,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    OCCUiLabels? labels,
   }) {
     return OccurrencesState(
       list: items ?? list,
@@ -34,6 +37,7 @@ class OccurrencesState extends Equatable {
       message: message ?? this.message,
       locations: locations ?? this.locations,
       commonFilters: commonFilters ?? this.commonFilters,
+      labels: labels ?? this.labels,
     );
   }
 
