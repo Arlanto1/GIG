@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/models/annual_power_shutdown_model.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/models/aps_ui_labels.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -55,7 +56,7 @@ class AnnualPowerShutdownListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      APSUILabels labels = APSUILabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,

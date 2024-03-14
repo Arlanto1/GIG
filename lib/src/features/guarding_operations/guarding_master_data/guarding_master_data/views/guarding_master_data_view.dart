@@ -95,12 +95,12 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         ),
         body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
             builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.list.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
+          // if (state.status == FormStatus.initial) {
+          //   return const BaseLoader();
+          // }
+          // if (state.list.isEmptyOrNull) {
+          //   return const NoRecordFoundWidget();
+          // }
           log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
             margin: allMargin16,
@@ -123,15 +123,16 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
+                    state.status != FormStatus.loading  &&
+                    state.status != FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],

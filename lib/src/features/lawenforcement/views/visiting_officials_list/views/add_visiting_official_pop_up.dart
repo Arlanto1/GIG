@@ -343,7 +343,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
           status: false, message: 'Please enter Office Address');
     }
     if ((!isNumeric(widget.model.contactNo!) ||
-            widget.model.contactNo?.length != 10) &&
+            widget.model.contactNo!.length < 10 && widget.model.contactNo!.length > 17) &&
         !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,
