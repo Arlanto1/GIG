@@ -220,7 +220,7 @@ class _KeyHistoryRecordsDetailsViewState
                         CommonWidgets.textDisplay(
                             state.labels?.locale.createdDate ??
                                 state.labels?.defaultLocale.createdDate ??
-                                Constants.dateofcreation,
+                                Constants.createOn,
                             isMandatory: true,
                             Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),

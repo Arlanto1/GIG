@@ -725,7 +725,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 initialValue: state.model.returnedByName,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                focusNode: employeeIdFocusNode,
+                                // focusNode: employeeIdFocusNode,
                                 isEnable:
                                     state.model.status == 1 ? true : false,
                                 isDisableColor:
