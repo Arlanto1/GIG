@@ -1643,7 +1643,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           (state.selectedCompanyType?.name ??
                                                       '')
                                                   .toLowerCase() !=
-                                              'exceptions',
+                                              'exceptions' || ( widget.model?.status != 0 &&  widget.model?.status != null) ,
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
