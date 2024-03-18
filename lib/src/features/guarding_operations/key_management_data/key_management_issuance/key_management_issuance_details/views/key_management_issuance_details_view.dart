@@ -392,14 +392,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 6,
+                                isDisabled: state.model.status != 0||state.model.status != null,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
                                 initialValue: state.model.keyHandingOverDuration
                                     .toString(),
                                 onTap: () {
-                                  if (!isReadOnly && state.model.status != 1) {
+                                  if (state.model.status == 0||state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues: keyHandingOverDuration
@@ -469,7 +469,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 initialValue:
                                     state.model.employeeType.toString(),
                                 onTap: () {
-                                  if (!isReadOnly && state.model.status != 1) {
+                                  if (state.model.status == 0||state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -701,7 +701,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               BaseDate().datePickerWidgetLoading(
                                 textController: keyReturnDateAndTimeController,
-                                isDisabled: false,
+                                isDisabled: state.model.status != 1,
                                 onlyDate: false,
                                 showPastDate: false,
                                 onChange: (String value) {
