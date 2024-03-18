@@ -252,28 +252,28 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              // if (!isDisabled) {
-                              BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: keyTypeDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        keyTypeDropDownValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            keyType: int.tryParse(
-                                                selectedLabel.value));
-                                  });
-                              // }
+                              if (widget.model?.status == 0) {
+                                BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: keyTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          keyTypeDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              keyType: int.tryParse(
+                                                  selectedLabel.value));
+                                    });
+                              }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -292,7 +292,7 @@ class _KeyHistoryRecordsDetailsViewState
                             initialValue:
                                 '${widget.type == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.type == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.type == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.type == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                             onTap: () {
-                              if (isDisabled) {
+                              if (widget.model?.status == 0) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: typesDropDownValues
@@ -465,8 +465,10 @@ class _KeyHistoryRecordsDetailsViewState
                             initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
+                            isEnable: widget.model?.status == 0 ||
+                                widget.model?.status == null,
+                            isDisableColor: widget.model?.status != 0 ||
+                                widget.model?.status != null,
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
                               context

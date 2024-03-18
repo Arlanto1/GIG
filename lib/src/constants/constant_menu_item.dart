@@ -14,8 +14,8 @@ const securityItems = [
 ];
 
 const costAndBillingExpansionTileDrawerItems = [
-  MenuItem(Constants.guardingRates, AppIcon.clipboardImage, 0),
   MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
+  MenuItem(Constants.guardingRates, AppIcon.clipboardImage, 0),
 ];
 const securitySystemExpansionTileDrawerItems = [
   MenuItem(Constants.securitySystemTickets, AppIcon.clipboardImage, 1),
@@ -67,12 +67,12 @@ const shiftSchedulingDataItems = [
 const passTileDrawerItems = [
   MenuItem(Constants.dayPassManagement, AppIcon.daypassmgmticon, 0),
   MenuItem(Constants.daypassregister, AppIcon.daypassregicon, 0),
-  MenuItem(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
-  MenuItem(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
-  MenuItem(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
-  MenuItem(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
   MenuItem(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
   MenuItem(Constants.sezpassregister, AppIcon.segpassregicon, 0),
+  MenuItem(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
+  MenuItem(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
+  MenuItem(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
+  MenuItem(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
 ];
 
 const sCRIItems = [

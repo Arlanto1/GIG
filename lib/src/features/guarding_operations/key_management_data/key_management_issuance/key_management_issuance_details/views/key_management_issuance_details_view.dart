@@ -201,6 +201,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
+                                isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -637,7 +638,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            if (state.model.status == 1) ...[
+                            if (state.model.status != 0 && state.model.status != null) ...[
                               /// Total Allocated
                               CommonWidgets.horizentaltextHandling(
                                   state.labels?.locale.totalAllocated ??
