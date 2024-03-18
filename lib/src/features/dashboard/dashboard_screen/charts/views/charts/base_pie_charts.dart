@@ -59,14 +59,14 @@ class BasePieChartState extends State<BasePieChart> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.cancel),
-                    onPressed: () {
-                      setState(() {
-                        isChartVisible = false;
-                      });
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: const Icon(Icons.cancel),
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       isChartVisible = false;
+                  //     });
+                  //   },
+                  // ),
                 ],
               ),
               Expanded(

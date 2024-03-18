@@ -89,7 +89,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.showSaveButton ,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
@@ -116,7 +116,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.showSaveButton,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-value--$value-');
@@ -140,8 +140,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                       TextFieldAddButton(
                         title: departmentController.text,
                         height: 70,
-                        isDisableColor: false,
+                        isDisableColor: !widget.showSaveButton,
                         onTap: () {
+                          if(widget.showSaveButton){
                           BaseOrganisationDialog().departmentDialog(
                               context: context,
                               organisations: widget.departments,
@@ -165,7 +166,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 BlocProvider.of<VisitingOfficialListBloc>(
                                         context)
                                     .refreshList();
-                              });
+                              });}
                         },
                       ),
 
@@ -182,7 +183,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         focusNode: officeAddressFocusNode,
-                        isEnable: true,
+                        isEnable: widget.showSaveButton,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-value--$value-');
@@ -209,7 +210,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.showSaveButton,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-value--$value-');
@@ -235,7 +236,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.showSaveButton,
                         characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
