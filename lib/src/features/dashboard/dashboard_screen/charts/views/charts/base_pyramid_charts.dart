@@ -60,14 +60,14 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.cancel),
-                        onPressed: () {
-                          setState(() {
-                            isChartVisible = false;
-                          });
-                        },
-                      ),
+                      // IconButton(
+                      //   icon: const Icon(Icons.cancel),
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       isChartVisible = false;
+                      //     });
+                      //   },
+                      // ),
                     ],
                   ),
                   Expanded(
