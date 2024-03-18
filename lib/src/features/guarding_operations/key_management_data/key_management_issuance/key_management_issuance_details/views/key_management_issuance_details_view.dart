@@ -201,6 +201,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
+                                isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
