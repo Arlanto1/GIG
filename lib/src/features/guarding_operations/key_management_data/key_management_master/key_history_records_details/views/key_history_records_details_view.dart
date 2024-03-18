@@ -180,7 +180,7 @@ class _KeyHistoryRecordsDetailsViewState
                           items: keyManagementHistoryStatus,
                           initialValue: '${state.model.status ?? 0}',
                           onTap: () {
-                            if (state.model.status == null) {
+                            if (!isDisabled) {
                               BaseDropDown().assetTypeDialog(
                                 context: context,
                                 dropDownValues: keyManagementHistoryStatus
@@ -252,7 +252,7 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (widget.model?.status == 0) {
+                              if (widget.model?.status == 0||widget.model?.status == null) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues
