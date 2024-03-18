@@ -88,10 +88,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == -1 ||
             state.model.status == 2 ||
             state.model.status == 3 ||
-            state.model.status == 4) {
+            state.model.status == 4||
+            state.model.status == 5||
+            state.model.status == 6||
+            state.model.status == 7||
+            state.model.status == 8||
+            state.model.status == 9||
+            state.model.status == 10||
+            state.model.status == 11) {
           isReadOnly = true;
         }
-        if (state.model.status == null) {
+        if (state.model.status == null||state.model.status == 0) {
           isReadOnly = false;
         }
         return Scaffold(
@@ -99,7 +106,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 && state.model.status != -1
+            showSaveButton: state.model.status == 0 || state.model.status == 1 || state.model.status == null
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -113,7 +120,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               );
             },
             showSubmitButton:
-                state.model.status != 4 && state.model.status != -1
+            state.model.status == 0 || state.model.status == 1 || state.model.status == null
                     ? true
                     : false,
             onTapSubmit: () {
@@ -305,7 +312,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly && state.model.status != 1,
+                              enabled: state.model.status == 0||state.model.status == null,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<
@@ -342,7 +349,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (!isReadOnly && state.model.status != 1) {
+                                if (state.model.status == 0 ||state.model.status == null) {
                                   // if (widget.materialMovement != null) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
@@ -385,14 +392,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 6,
+                                isDisabled: state.model.status != 0||state.model.status != null,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
                                 initialValue: state.model.keyHandingOverDuration
                                     .toString(),
                                 onTap: () {
-                                  if (!isReadOnly && state.model.status != 1) {
+                                  if (state.model.status == 0||state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues: keyHandingOverDuration
@@ -462,7 +469,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 initialValue:
                                     state.model.employeeType.toString(),
                                 onTap: () {
-                                  if (!isReadOnly && state.model.status != 1) {
+                                  if (state.model.status == 0||state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -694,7 +701,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               BaseDate().datePickerWidgetLoading(
                                 textController: keyReturnDateAndTimeController,
-                                isDisabled: false,
+                                isDisabled: state.model.status != 1,
                                 onlyDate: false,
                                 showPastDate: false,
                                 onChange: (String value) {
@@ -810,9 +817,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             ),
 
             /// SubmitButton
-            if ((state.model.status == 4 || state.model.status == -1)
-                ? false
-                : true) ...[
+            if ((state.model.status == 0 || state.model.status == 1)
+                ? true
+                : false) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -834,7 +841,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 ),
               ),
             ],
-            if (state.model.status == 4 || state.model.status == -1) ...[
+            if (state.model.status != 0  && state.model.status != 1 && state.model.status == 11) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

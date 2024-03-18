@@ -339,11 +339,11 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, keyManagementIssuanceListRoute,
           arguments: {"Key Management Issuance List": false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, keyReconciliationListRoute,
-          arguments: {"Key Reconciliation List": false});
-    } else if (index == 3) {
       Navigator.pushNamed(context, keyLossDestructionListRoute,
           arguments: {"Key Loss Destruction List": false});
+    } else if (index == 3) {
+      Navigator.pushNamed(context, keyReconciliationListRoute,
+          arguments: {"Key Reconciliation List": false});
     }
   }
 
@@ -355,24 +355,15 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(
-        context,
-        dutyPostMasterListRoute,
-      );
+      Navigator.pushNamed(context, attendanceListRoute);
     } else if (index == 1) {
-      Navigator.pushNamed(
-        context,
-        dutyPostNameMasterListRoute,
-      );
+      Navigator.pushNamed(context, dutyPostMasterListRoute);
     } else if (index == 2) {
-      Navigator.pushNamed(
-        context,
-        shiftScheduleListRoute,
-      );
+      Navigator.pushNamed(context, dutyPostNameMasterListRoute);
     } else if (index == 3) {
       Navigator.pushNamed(
         context,
-        attendanceListRoute,
+        shiftScheduleListRoute,
       );
     } else if (index == 4) {
       Navigator.pushNamed(
@@ -387,8 +378,8 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context,attendanceReportBillingListRoute);
-    }else if (index == 1) {
+      Navigator.pushNamed(context, attendanceReportBillingListRoute);
+    } else if (index == 1) {
       Navigator.pushNamed(context, guardingRatesRoute);
     }
   }
@@ -799,7 +790,7 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
       });
-    }  else if (index == 2) {
+    } else if (index == 2) {
       //vendor pass mng = 3
 
       log('Sez pass Management index6');
@@ -811,7 +802,7 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
       });
-    }else if (index == 4) {
+    } else if (index == 4) {
       log('vendor pass management index4');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
         "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
@@ -822,9 +813,9 @@ class NavigationDrawer1 extends StatelessWidget {
       log('vendor pass registory index5');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-        PassMngArguments(2, 'Vendor Pass Register', true)
+            PassMngArguments(2, 'Vendor Pass Register', true)
       });
-    }else if (index == 6) {
+    } else if (index == 6) {
       //visitor pass mng = 1
 
       log('visitor pass mangement index2');
