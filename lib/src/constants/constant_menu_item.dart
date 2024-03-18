@@ -52,15 +52,15 @@ const keyManagementDataItems = [
   MenuItem(Constants.keyManagementMaster, AppIcon.guardingMasterDataIcon, 0),
   MenuItem(
       Constants.keyManagementIssuance, AppIcon.guardingMasterReportIcon, 0),
-  MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
   MenuItem(Constants.keyLossDestructionList, AppIcon.femalePickUpDropIcon, 0),
+  MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
 ];
 
 const shiftSchedulingDataItems = [
+  MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.dutyPostMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
   MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
   // MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
 ];
 
