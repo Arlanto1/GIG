@@ -198,7 +198,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             items: dutyPostMasterStatusValues,
                             initialValue: '${state.model.status ?? 1}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: dutyPostMasterStatusValues
