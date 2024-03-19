@@ -1,6 +1,4 @@
-
-import '../../../../../../../index.dart';
-
+import 'package:db_atom/index.dart';
 
 class AddPOCPopUp extends StatefulWidget {
   const AddPOCPopUp({
@@ -56,7 +54,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                         lineHeight: 1,
                         controller: pocController,
                         textFormKey: Keys.equipmentNoKey,
-                        textCapitalization : false,
+                        textCapitalization: false,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
