@@ -34,7 +34,6 @@ class CommonServices {
     required String moduleCode,
     BuildContext? context,
   }) async {
-    log('---language--$language---');
     String url = '${Apis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,

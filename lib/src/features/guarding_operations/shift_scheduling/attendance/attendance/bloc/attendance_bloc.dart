@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
@@ -147,6 +148,8 @@ class AttendanceBloc
 
     try {
       // if (state.hasReachedMax) return;
+      log('---state.status-${state.status}--');
+      log('---event.newSearch-${event.newSearch}--');
 
       if (state.status == FormStatus.initial || event.newSearch) {
         AttendanceResponse response;
@@ -172,6 +175,7 @@ class AttendanceBloc
         filters: event.filters,
       );
 
+      log('---response.items-${response.items}--');
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }

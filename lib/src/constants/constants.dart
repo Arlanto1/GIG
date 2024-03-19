@@ -4,6 +4,9 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  /// Pagination
+  static const int maxResults = 20;
+
   /// Text Form Field Character Limit
   static const int characterLimitContactNo = 17;
   static const int characterLimitIdTextFormField = 250;
