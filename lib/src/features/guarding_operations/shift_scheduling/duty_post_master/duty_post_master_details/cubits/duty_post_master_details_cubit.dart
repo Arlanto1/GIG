@@ -212,6 +212,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

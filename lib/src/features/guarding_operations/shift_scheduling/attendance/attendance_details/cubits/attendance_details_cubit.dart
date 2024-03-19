@@ -176,6 +176,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
+        state.model.inputDate =
+            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
@@ -199,6 +201,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         }
         response = (await services.create(body: request, isSubmit: true));
       }
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

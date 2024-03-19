@@ -174,6 +174,8 @@ class DutyPostNameMasterDetailsCubit
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
+        state.model.inputDate =
+            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
@@ -188,6 +190,8 @@ class DutyPostNameMasterDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -199,6 +203,8 @@ class DutyPostNameMasterDetailsCubit
         response = (await services.create(
             body: request, isSubmit: true));
       }
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
