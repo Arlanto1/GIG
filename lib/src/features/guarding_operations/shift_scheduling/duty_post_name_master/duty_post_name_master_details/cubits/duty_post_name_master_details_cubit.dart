@@ -79,7 +79,8 @@ class DutyPostNameMasterDetailsCubit
 
       state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate ??= _getCurrentDate();
+        state.model?.inputDate =
+            DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
@@ -165,7 +166,7 @@ class DutyPostNameMasterDetailsCubit
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
+    //
     // Create/Update API Call
     DutyPostNameMasterRequest request =
         DutyPostNameMasterRequest(dutyPostNameMaster: state.model);

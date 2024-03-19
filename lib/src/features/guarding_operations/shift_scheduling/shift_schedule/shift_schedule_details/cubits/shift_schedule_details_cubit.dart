@@ -151,7 +151,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = _getCurrentDate();
+      model.inputDate =  DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
