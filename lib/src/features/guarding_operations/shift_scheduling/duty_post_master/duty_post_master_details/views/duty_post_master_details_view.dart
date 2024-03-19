@@ -256,7 +256,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
                           TextFieldAddButton(
                             title: state.model.dutyPostLocation?.name,
                             height: 70,
