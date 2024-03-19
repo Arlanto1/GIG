@@ -232,7 +232,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // locationWidgetDisplay(state),
                           BaseLocationDropdown().locationWidgetDisplay(
                               context: context,
                               locations: state.locations ?? Locations(),
@@ -242,9 +241,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                 BlocProvider.of<DutyPostMasterDetailsCubit>(
                                         context)
                                     .updateDropdownValues(location: location);
-                                // BlocProvider.of<DutyPostNameMasterDetailsCubit>(
-                                //     context)
-                                //     .updateDropdownValues(location: location);
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -534,38 +530,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         BlocProvider.of<DutyPostMasterDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
-    );
-  }
-
-  Widget locationWidgetDisplay(DutyPostMasterDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<DutyPostMasterDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

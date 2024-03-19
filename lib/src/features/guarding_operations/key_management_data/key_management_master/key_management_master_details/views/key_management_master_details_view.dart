@@ -239,7 +239,17 @@ class _KeyManagementMasterDetailsViewState
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetdislay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Entity
@@ -262,8 +272,8 @@ class _KeyManagementMasterDetailsViewState
                                   .updateDropdownValues(
                                       entities: selectedEntities);
                               Navigator.of(context).pop();
-                              FocusScope.of(context).requestFocus(
-                                  floorFocusNode);
+                              FocusScope.of(context)
+                                  .requestFocus(floorFocusNode);
                               // Close the dialog
                             },
                             orgName: 'ATOM_ENTITIES',
@@ -338,8 +348,8 @@ class _KeyManagementMasterDetailsViewState
                                             context)
                                         .updateDropdownValues(
                                             doorType: department);
-                                    FocusScope.of(context).requestFocus(
-                                        keyDescriptionFocusNode);
+                                    FocusScope.of(context)
+                                        .requestFocus(keyDescriptionFocusNode);
                                   },
                                   orgName: 'EMPLOYEE_DEPARTMENTS',
                                   createEntity: false,
@@ -505,8 +515,8 @@ class _KeyManagementMasterDetailsViewState
                                               keyTagging: int.tryParse(
                                                   selectedLabel.value));
                                     });
-                                FocusScope.of(context).requestFocus(
-                                    noOfKeysFocusNode);
+                                FocusScope.of(context)
+                                    .requestFocus(noOfKeysFocusNode);
                                 //}
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -583,7 +593,7 @@ class _KeyManagementMasterDetailsViewState
                               //     state.labels?.defaultLocale.budget ??
                               Constants.totalKeys,
                               Styles.textStyleBlack14,
-                          isMandatory: true),
+                              isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
@@ -915,38 +925,6 @@ class _KeyManagementMasterDetailsViewState
         BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
-    );
-  }
-
-  Widget locationWidgetdislay(KeyManagementMasterDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

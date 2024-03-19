@@ -12,15 +12,15 @@ part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final ShiftScheduleServices services = ShiftScheduleServices();
+  final ShiftScheduleModel? model;
 
   final CommonServices commonServices = CommonServices();
   final String id;
   final DutyPostModel? mainDutyPostModel;
 
-  ShiftScheduleDetailsCubit({
-    required this.id,
-    this.mainDutyPostModel,
-  }) : super(
+  ShiftScheduleDetailsCubit(
+      {required this.id, this.mainDutyPostModel, this.model})
+      : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
             locations: Locations(),
@@ -50,6 +50,29 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
+  void onCheckBoxChange(ShiftScheduleModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  void onAddPOC(String poc) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+    List<String>? pocs = state.pocs ?? [];
+    pocs.add(poc);
+    state.copyWith(
+      pocs: pocs,
+    );
+    state.model.poc = Utils().joinListWithComma(pocs);
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.initial,
+    ));
   }
 
   Future<void> refreshList() async {

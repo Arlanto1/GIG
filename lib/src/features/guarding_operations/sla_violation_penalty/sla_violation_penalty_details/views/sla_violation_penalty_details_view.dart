@@ -4,6 +4,7 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -12,6 +13,7 @@ import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -210,7 +212,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'    ,
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -258,8 +260,17 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
+                            BaseLocationDropdown().locationWidgetDisplay(
+                                context: context,
+                                locations: state.locations ?? Locations(),
+                                selectedLocationName:
+                                    state.model.location?.name ?? '',
+                                onTap: (Organisation? location) {
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(location: location);
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -598,7 +609,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-          updateRecordStatus(state);
+        updateRecordStatus(state);
       },
     );
   }
@@ -627,33 +638,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
         BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context).submitForm();
       },
-    );
-  }
-
-  Widget locationWidgetdislay(SLAViolationPenaltyDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.model.status == 0 || state.model.status == null) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                locationList: state.locations,
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
-
-                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 
@@ -704,9 +688,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       String poc = state.pocs![index]; // Access the POC at the current index
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
-    // for (String poc in state.pocs ?? []) {
-    //   TextEditingController pocController = TextEditingController();
-    //   pocController.text = poc;
+      // for (String poc in state.pocs ?? []) {
+      //   TextEditingController pocController = TextEditingController();
+      //   pocController.text = poc;
       widgets.add(
         Row(
           children: [
