@@ -44,8 +44,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     DutyPostModel dutyPostModel = await services.getDutyPostById(id: id);
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
-        seletedDutyPostModel: dutyPostModel,
-        status: FormStatus.navigateToNextScreen));
+      seletedDutyPostModel: dutyPostModel,
+      status: FormStatus.navigateToNextScreen,
+    ));
   }
 
   String _getCurrentDate() {
@@ -59,20 +60,31 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   }
 
   void onAddPOC(String poc) {
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.loading,
-    ));
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
     List<String>? pocs = state.pocs ?? [];
+
     pocs.add(poc);
+
     state.copyWith(
       pocs: pocs,
     );
+
+    log('---pocs-3333--${pocs.toString()}--');
+    log('---state.pocs.toString()-3333--${state.pocs.toString()}--');
     state.model.poc = Utils().joinListWithComma(pocs);
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.initial,
-    ));
+    log('--state.model.poc-2222-${state.model.poc}--');
+    emit(
+      state.copyWith(
+        model: state.model,
+        pocs: pocs,
+        status: FormStatus.initial,
+      ),
+    );
   }
 
   Future<void> refreshList() async {
@@ -246,6 +258,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   }
 
   Future<List<DutyPostModel>> getDutyPosts() async {
+    if (state.model.location == null ||
+        state.model.vendor == null ||
+        state.model.dutyType == null) {
+      return [];
+    }
     List<DutyPostModel> dutyPosts =
         await services.getDutyPostsByLocationAndVendor(
       locationId: state.model.location!.id ?? 0,

@@ -147,6 +147,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       state.model.dutyPostLocation = dutyPostName;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
           locationId: location.id.toString());
+      log('--dutyPosts-${dutyPosts.length}---');
+
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
