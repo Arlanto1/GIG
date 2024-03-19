@@ -131,7 +131,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading  &&
+                    state.status != FormStatus.loading &&
                     state.status != FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
@@ -168,71 +168,76 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                   state.labels?.defaultLocale.location ??
                                   'Building Location ',
                               value: state.list[index].location?.name ?? ''));
+                          return index >= state.list.length
+                              ? const BaseLoader()
+                              : BaseListTileItem(
+                                  id: state.list[index].id,
+                                  labels: labels,
+                                  status: state.list[index].status,
+                                  isMasterGuard: true,
+                                  guardRank: state.list[index].guardRank,
+                                  onTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.list[selectedIndex].id
+                                              .toString(),
+                                          slNo: state.list[selectedIndex].slNo,
+                                          guardRank: state
+                                              .list[selectedIndex].guardRank,
+                                          gender:
+                                              state.list[selectedIndex].gender,
+                                          dutyType: state
+                                              .list[selectedIndex].dutyType,
+                                          maritalStatus: state
+                                              .list[selectedIndex]
+                                              .maritalStatus,
+                                          labels: labels,
+                                          isMaterGuard: true,
+                                          //isEventProtectionStatus: false,
+                                          status:
+                                              state.list[selectedIndex].status,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  onEditTap: (selectedIndex) {
+                                    getById(state.list[index].id ?? 0);
+                                  },
+                                  showEditButton: true,
+                                  onViewTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.list[selectedIndex].id
+                                              .toString(),
+                                          slNo: state.list[selectedIndex].slNo,
+                                          guardRank: state
+                                              .list[selectedIndex].guardRank,
+                                          gender:
+                                              state.list[selectedIndex].gender,
+                                          dutyType: state
+                                              .list[selectedIndex].dutyType,
+                                          maritalStatus: state
+                                              .list[selectedIndex]
+                                              .maritalStatus,
+                                          labels: labels,
+                                          status:
+                                              state.list[selectedIndex].status,
+                                          isMaterGuard: true,
+                                          // isEventProtectionStatus: false,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  index: index,
+                                );
                         }
-                        return index >= state.list.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.list[index].id,
-                                labels: labels,
-                                status: state.list[index].status,
-                                isMasterGuard: true,
-                                guardRank: state.list[index].guardRank,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        guardRank:
-                                            state.list[selectedIndex].guardRank,
-                                        gender:
-                                            state.list[selectedIndex].gender,
-                                        dutyType:
-                                            state.list[selectedIndex].dutyType,
-                                        maritalStatus: state
-                                            .list[selectedIndex].maritalStatus,
-                                        labels: labels,
-                                        isMaterGuard: true,
-                                        //isEventProtectionStatus: false,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                      );
-                                    },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getById(state.list[index].id ?? 0);
-                                },
-                                showEditButton: true,
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        guardRank:
-                                            state.list[selectedIndex].guardRank,
-                                        gender:
-                                            state.list[selectedIndex].gender,
-                                        dutyType:
-                                            state.list[selectedIndex].dutyType,
-                                        maritalStatus: state
-                                            .list[selectedIndex].maritalStatus,
-                                        labels: labels,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        isMaterGuard: true,
-                                        // isEventProtectionStatus: false,
-                                      );
-                                    },
-                                  );
-                                },
-                                index: index,
-                              );
+                        return const Center(
+                          child: SizedBox(),
+                        );
                       },
                     ),
                   ),
