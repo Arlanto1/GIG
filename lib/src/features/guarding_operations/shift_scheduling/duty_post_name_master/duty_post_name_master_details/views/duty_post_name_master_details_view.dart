@@ -178,7 +178,7 @@ class _DutyPostNameMasterDetailsViewState
                             items: dutyPostNameMasterStatusValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: dutyPostNameMasterStatusValues
