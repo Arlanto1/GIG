@@ -79,7 +79,7 @@ class DutyPostNameMasterDetailsCubit
 
       state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      state.model.inputDate ??= _getCurrentDate();
 
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 

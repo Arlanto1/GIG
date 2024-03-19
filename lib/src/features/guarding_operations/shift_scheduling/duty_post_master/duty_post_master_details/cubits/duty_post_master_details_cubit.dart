@@ -171,9 +171,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       ),
     );
 
-    // if (state.model.status == 0 || state.model.status == null) {
-    //   state.model.status = 1;
-    // }
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 1;
+    }
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
