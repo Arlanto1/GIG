@@ -827,6 +827,10 @@ class Constants {
   static const String replacementFor = 'Replacement For';
   static const String replacementBy = 'Replacement By';
   static const String reason = 'Reason';
+  static const String poc = 'POC';
+  static const String addPOC = 'Add POC';
+
+
 
 
   ///VVIP Visitors

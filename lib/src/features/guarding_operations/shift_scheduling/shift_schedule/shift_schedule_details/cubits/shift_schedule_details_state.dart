@@ -13,6 +13,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final List<User>? entrySecurities;
   final List<DutyPostModel>? dutyPosts;
   final SSUiLabels? labels;
+  final List<String>? pocs;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -24,6 +25,7 @@ class ShiftScheduleDetailsState extends Equatable {
     required String errorMessage,
     List<User>? entrySecurities,
     final DutyPostModel? selectedDutyPostModel,
+    final List<String>? pocs,
   }) {
     return ShiftScheduleDetailsState(
       status: FormStatus.initial,
@@ -35,7 +37,8 @@ class ShiftScheduleDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       entrySecurities: entrySecurities,
-        selectedDutyPostModel: selectedDutyPostModel,
+      selectedDutyPostModel: selectedDutyPostModel,
+      pocs: pocs,
     );
   }
 
@@ -89,6 +92,7 @@ class ShiftScheduleDetailsState extends Equatable {
     this.dutyPosts,
     required this.vendors,
     this.labels,
+    this.pocs,
   });
 
   ShiftScheduleDetailsState copyWith({
@@ -104,6 +108,7 @@ class ShiftScheduleDetailsState extends Equatable {
     List<User>? entrySecurities,
     List<DutyPostModel>? dutyPosts,
     final SSUiLabels? labels,
+    List<String>? pocs,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
@@ -118,6 +123,7 @@ class ShiftScheduleDetailsState extends Equatable {
       entrySecurities: entrySecurities ?? this.entrySecurities,
       dutyPosts: dutyPosts ?? this.dutyPosts,
       labels: labels ?? this.labels,
+      pocs: pocs ?? this.pocs,
     );
   }
 }

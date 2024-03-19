@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/add_poc_pop_up.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
@@ -25,6 +26,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   bool isReadOnly = false;
 
   get guardingMasterData => null;
+
+  get model => null;
 
   @override
   void initState() {
@@ -353,6 +356,51 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                          /// POC
+                          CommonWidgets.textDisplay(
+                              // state.labels?.locale.poc ??
+                              //     state.labels?.defaultLocale.poc ??
+                              Constants.poc,
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () {
+                              log('--onTap------');
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return AddPOCPopUp(
+                                    model: model,
+                                    mainContext: context,
+                                  );
+                                },
+                              );
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                const SizedBox(width: 14),
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                // ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  Constants.addPOC,
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: getPOC(state, height),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                           /// From Date
                           CommonWidgets.textDisplay(
                             state.labels?.locale.fromDate ??
@@ -448,6 +496,63 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         return 'Week Off ';
       default:
         return 'Unknown Status';
+    }
+  }
+
+  List<Widget> getPOC(ShiftScheduleDetailsState state, double height) {
+    List<Widget> widgets = [];
+    for (int index = 0; index < (state.pocs?.length ?? 0); index++) {
+      String poc = state.pocs![index]; // Access the POC at the current index
+      TextEditingController pocController = TextEditingController();
+      pocController.text = poc;
+      // for (String poc in state.pocs ?? []) {
+      //   TextEditingController pocController = TextEditingController();
+      //   pocController.text = poc;
+      widgets.add(
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                poc,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close), // Cancel icon
+              onPressed: () {
+                // Remove the POC from the state
+                state.pocs?.removeAt(index);
+                // Trigger UI update
+                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                    .onCheckBoxChange(state.model);
+              },
+            ),
+          ],
+        ),
+      );
+
+      widgets.add(const SizedBox(height: 1));
+      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.001));
+    }
+    if (widgets.isNotEmpty) {
+      return [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.lightgreyBackground,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: widgets,
+            ),
+          ),
+        ),
+      ];
+    } else {
+      return []; // Or provide a default list based on your requirements
     }
   }
 
