@@ -227,7 +227,7 @@ class _DutyPostNameMasterDetailsViewState
                               .creationDateDisplay(state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Location
+                          ///Location
                           CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
@@ -239,13 +239,14 @@ class _DutyPostNameMasterDetailsViewState
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                                  state.model.location?.name ?? '',
+                              state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
                                 BlocProvider.of<DutyPostNameMasterDetailsCubit>(
-                                        context)
+                                    context)
                                     .updateDropdownValues(location: location);
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
