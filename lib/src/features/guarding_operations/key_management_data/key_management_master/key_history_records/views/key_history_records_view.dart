@@ -129,7 +129,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                         key: state.labels?.locale.createdBy ??
                             state.labels?.defaultLocale.createdBy ??
                             'Created By',
-                        value: state.list[index].createdBy?.name ?? ''));
+                        value:
+                        '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                     // labels.add(Label(
                     //     key: 'Date of Creation',
                     //     value: DateFormat('dd-MM-yyyy').format(
