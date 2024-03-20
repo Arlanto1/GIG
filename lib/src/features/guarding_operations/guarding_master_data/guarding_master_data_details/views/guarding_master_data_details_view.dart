@@ -148,7 +148,7 @@ class _GuardingMasterDataDetailsViewState
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
+  void initializeDates(GuardingMasterDataDetailsState state) {
     dateOfBirthController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
@@ -209,7 +209,7 @@ class _GuardingMasterDataDetailsViewState
   getBodybuilder(GuardingMasterDataDetailsState state, height) {
     //returnableTextController.text =
     // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
-
+    initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -849,11 +849,26 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
+                            // BaseDate().datePickerWidgetLoading(
+                            //   textController: dateOfBirthController,
+                            //   onlyDate: true,
+                            //   showFutureDate: false,
+                            //   onChange: (String value) {
+                            //     state.model.dateOfBirth =
+                            //         Utils().formatTime(value);
+                            //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                            //             context)
+                            //         .onModelValueChange(state.model);
+                            //   },
+                            //   context: context,
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
                             BaseDate().datePickerWidgetLoading(
                               textController: dateOfBirthController,
-                              onlyDate: true,
+                              onlyDate: false,
                               showFutureDate: false,
                               onChange: (String value) {
+                                log('---value-$value------');
                                 state.model.dateOfBirth =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
