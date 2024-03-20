@@ -349,8 +349,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     try {
       log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
-        state.model.inputDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           return emit(
             state.copyWith(

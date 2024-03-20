@@ -211,8 +211,6 @@ class KeyManagementMasterDetailsCubit
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.createdDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(

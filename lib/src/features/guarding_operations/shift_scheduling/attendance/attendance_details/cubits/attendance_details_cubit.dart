@@ -176,8 +176,6 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.inputDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(

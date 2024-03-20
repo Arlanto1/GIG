@@ -541,8 +541,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -557,8 +555,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -588,7 +584,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.error,
         ),
       );
-      return ;
+      return;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

@@ -413,8 +413,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.createdDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         response = await services.create(
           body: request,
           isSubmit: false,

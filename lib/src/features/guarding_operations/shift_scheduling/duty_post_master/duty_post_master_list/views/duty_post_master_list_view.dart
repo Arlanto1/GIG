@@ -174,6 +174,12 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                   'Location',
                               value: state.list[index].location?.name ?? ''));
                           labels.add(Label(
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
+                                  'Created By',
+                              value:
+                              '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                            labels.add(Label(
                               key: state.labels?.locale.shiftA ??
                                   state.labels?.defaultLocale.shiftA ??
                                   'Shift A',
@@ -193,7 +199,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                   state.labels?.defaultLocale.shiftG ??
                                   'Shift G',
                               value: state.list[index].shiftG.toString()));
-                        }
+                         }
                         return index >= state.list.length
                             ? const BaseLoader()
                             : BaseListTileItem(

@@ -151,7 +151,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate =  DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -341,8 +342,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.inputDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
@@ -357,8 +356,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,

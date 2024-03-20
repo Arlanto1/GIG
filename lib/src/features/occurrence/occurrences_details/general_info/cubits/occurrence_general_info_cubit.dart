@@ -375,7 +375,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.inputDate = Utils().getCurrentDate();
         if (!state.isValidDraft.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
