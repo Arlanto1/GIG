@@ -164,7 +164,8 @@ class _KeyManagementIssuanceListViewState
                               key: state.labels?.locale.createdBy ??
                                   state.labels?.defaultLocale.createdBy ??
                                   'Created By',
-                              value: state.list[index].createdBy?.name ?? ''));
+                              value:
+                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                           labels.add(Label(
                               key: state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??

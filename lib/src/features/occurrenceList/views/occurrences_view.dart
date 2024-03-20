@@ -181,7 +181,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                   state.labels?.defaultLocale.entrySecurity ??
                                   'Shift Handed Over By',
                               value:
-                                  state.list[index].entrySecurity?.name ?? ''));
+                                  '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()

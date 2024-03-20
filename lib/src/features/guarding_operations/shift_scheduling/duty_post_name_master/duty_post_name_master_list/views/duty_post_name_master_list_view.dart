@@ -171,6 +171,12 @@ class _DutyPostNameMasterListViewState
                                   state.labels?.defaultLocale.location ??
                                   'Location ',
                               value: state.list[index].location?.name ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  'Created By',
+                              value:
+                              '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()

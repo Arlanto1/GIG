@@ -206,7 +206,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                         value: state.items[index].location?.name ?? '',
                       ),
                     );
-
+                    labels.add(Label(
+                        key: state.labels?.locale.entrySecurity ??
+                            state.labels?.defaultLocale.entrySecurity ??
+                            'Created By',
+                        value:
+                            '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                     return index >= state.items.length
                         ? const BaseLoader()
                         : BaseListTileItem(

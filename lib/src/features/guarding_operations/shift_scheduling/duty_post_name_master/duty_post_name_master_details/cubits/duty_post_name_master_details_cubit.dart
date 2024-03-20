@@ -79,8 +79,8 @@ class DutyPostNameMasterDetailsCubit
 
       state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-        state.model?.inputDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model?.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
@@ -115,7 +115,7 @@ class DutyPostNameMasterDetailsCubit
     ));
 
     // state.model??=DutyPostNameMasterModel();
-    model?.dpName??=[];
+    model?.dpName ??= [];
     model?.dpName?.add(locationName);
 
     emit(state.copyWith(
@@ -174,9 +174,9 @@ class DutyPostNameMasterDetailsCubit
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        state.model.inputDate =
-            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -185,13 +185,10 @@ class DutyPostNameMasterDetailsCubit
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: false));
-      } else {
+        response = (await services.create(body: request, isSubmit: false));
+         } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -200,8 +197,7 @@ class DutyPostNameMasterDetailsCubit
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: true));
+        response = (await services.create(body: request, isSubmit: true));
       }
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -212,8 +208,10 @@ class DutyPostNameMasterDetailsCubit
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
-    } on Exception catch (e) {
+       } on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),
@@ -231,6 +229,7 @@ class DutyPostNameMasterDetailsCubit
       ),
     );
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.dutyPostNameMasterModule);

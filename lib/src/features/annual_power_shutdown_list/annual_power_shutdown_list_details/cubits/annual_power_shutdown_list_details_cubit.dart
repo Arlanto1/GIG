@@ -125,7 +125,7 @@ class AnnualPowerShutdownListDetailsCubit
         model.slNo = slNo.serialNo;
       }
       model.createdBy ??= loggedInUserDetails;
-      state.model.proposedVendors ??=[];
+      state.model.proposedVendors ??= [];
       // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
@@ -199,8 +199,8 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.epManager2 = userDetails;
     }
 
-    if(vendor != null) {
-      if(state.model.proposedVendors.isEmptyOrNull) {
+    if (vendor != null) {
+      if (state.model.proposedVendors.isEmptyOrNull) {
         state.model.proposedVendors = [];
       }
       state.model.proposedVendors?.clear();
@@ -386,6 +386,8 @@ class AnnualPowerShutdownListDetailsCubit
         response = (await services.createAnnualPowerShutdownList(
             body: request, isSubmit: true));
       }
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
