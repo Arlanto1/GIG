@@ -40,8 +40,8 @@ class KeyManagementMasterDetailsCubit
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    EmployeeDepartments departments =
-        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    List<Organisation>? departments =
+        await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DOOR_TYPE');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -52,7 +52,7 @@ class KeyManagementMasterDetailsCubit
         status: FormStatus.initial,
         users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
-        departments: departments.employeeDepartments,
+        departments: departments,
       ),
     );
   }

@@ -351,7 +351,7 @@ class _KeyManagementMasterDetailsViewState
                                     FocusScope.of(context)
                                         .requestFocus(keyDescriptionFocusNode);
                                   },
-                                  orgName: 'EMPLOYEE_DEPARTMENTS',
+                                  orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
                                   createEntity: false,
                                   title: 'Add Key Type',
                                   functionToCall: () {
