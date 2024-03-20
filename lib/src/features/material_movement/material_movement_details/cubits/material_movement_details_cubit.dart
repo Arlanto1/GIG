@@ -124,8 +124,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
@@ -539,6 +537,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: flow);
       }
+
       if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
@@ -580,6 +579,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -587,7 +588,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.error,
         ),
       );
-      return;
+      return ;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

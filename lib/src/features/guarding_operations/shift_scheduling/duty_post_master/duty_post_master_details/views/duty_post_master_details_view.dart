@@ -198,7 +198,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             items: dutyPostMasterStatusValues,
                             initialValue: '${state.model.status ?? 1}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: dutyPostMasterStatusValues
@@ -251,7 +251,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                   Constants.dutyPostName,
                               isMandatory: true,
                               Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           TextFieldAddButton(
                             title: state.model.dutyPostLocation?.name,

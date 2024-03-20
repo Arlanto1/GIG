@@ -147,6 +147,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       state.model.dutyPostLocation = dutyPostName;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
           locationId: location.id.toString());
+      log('--dutyPosts-${dutyPosts.length}---');
+
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
@@ -210,6 +212,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

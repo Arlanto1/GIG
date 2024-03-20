@@ -16,6 +16,10 @@ class Organisation {
   int? noKeysIssued;
   int? notReturned;
 
+  /// Duty Post Name
+  String? dutyPostName;
+  bool? transportShift;
+
   /// For Dropdown
   bool? isSelected;
 
@@ -28,6 +32,8 @@ class Organisation {
     this.noKeys,
     this.noKeysIssued,
     this.notReturned,
+    this.dutyPostName,
+    this.transportShift,
     this.isSelected = false,
   });
 
@@ -37,12 +43,15 @@ class Organisation {
 
   Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        name = json['name'] ?? json['keyDescription'] as String?,
+        name = json['name'] ?? json['keyDescription']?? json['dutyPostName'] as String?,
         description = json['description'] as String?,
         keyDescription = json['keyDescription'] as String?,
         noKeys = json['noKeys'] as int?,
         noKeysIssued = json['noKeysIssued'] as int?,
         notReturned = json['notReturned'] as int?,
+        dutyPostName = json['dutyPostName'] ?? json['dutyPostName'] as String?,
+        transportShift =
+            json['transportShift'] ?? json['transportShift'] as bool?,
         keyName = json['keyname'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -52,7 +61,8 @@ class Organisation {
         'keyDescription': keyDescription,
         'noKeys': noKeys,
         'noKeysIssued': noKeysIssued,
-        'notReturned': notReturned,
+        'dutyPostName': dutyPostName,
+        'transportShift': transportShift,
         'keyname': keyName,
       };
 }

@@ -757,7 +757,6 @@ class Constants {
   static const String detailsOfLostKey = 'Details of Lost Key';
   static const String modifiedBy = 'Modified By';
   static const String modifiedOn = 'Modified On';
-  static const String keyManageme = 'Modified On';
   static const String totalAllocated = 'Total Allocated';
   static const String returned = 'Returned';
   static const String notReturned = 'Not Returned';
@@ -832,9 +831,6 @@ class Constants {
   static const String reason = 'Reason';
   static const String poc = 'POC';
   static const String addPOC = 'Add POC';
-
-
-
 
   ///VVIP Visitors
   static const String vVipVisitors = 'VVIP Visitor';

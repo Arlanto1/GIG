@@ -377,6 +377,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   );
                                 },
                               );
+                              log('---state.model.poc---sdsad------${state.model.poc.toString()}------');
                             },
                             child: Row(
                               children: <Widget>[
@@ -397,7 +398,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             ),
                           ),
                           Column(
-                            children: getPOC(state, height),
+                            children: getPOCs(state, height),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -453,6 +454,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
                             onTap: (id) {
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                                  .submitForm(isSaveOnly: true);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)
                                   .getDutyPostById(id);
@@ -499,10 +502,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     }
   }
 
-  List<Widget> getPOC(ShiftScheduleDetailsState state, double height) {
+  List<Widget> getPOCs(ShiftScheduleDetailsState state, double height) {
+
+    log('-getPOCs-state.pocs--${state.pocs.toString()}--');
+
     List<Widget> widgets = [];
-    for (int index = 0; index < (state.pocs?.length ?? 0); index++) {
-      String poc = state.pocs![index]; // Access the POC at the current index
+    for (String poc in state.pocs??[]) {
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
       // for (String poc in state.pocs ?? []) {
@@ -521,7 +526,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               icon: const Icon(Icons.close), // Cancel icon
               onPressed: () {
                 // Remove the POC from the state
-                state.pocs?.removeAt(index);
+                state.pocs?.remove(poc);
                 // Trigger UI update
                 BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                     .onCheckBoxChange(state.model);

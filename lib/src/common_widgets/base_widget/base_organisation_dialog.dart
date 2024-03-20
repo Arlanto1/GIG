@@ -16,6 +16,7 @@ class BaseOrganisationDialog {
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
+        log('-organisations-----');
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
           leftImageName: functionToCall != null ? AppIcon.addicon : null,
