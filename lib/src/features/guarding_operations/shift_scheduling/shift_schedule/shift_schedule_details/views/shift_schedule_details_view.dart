@@ -199,7 +199,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             items: shiftScheduleStatusDropDownValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (state.model.id != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues:
@@ -454,7 +454,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
                             onTap: (id) {
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
                                   .submitForm(isSaveOnly: true);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)
@@ -503,11 +504,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   }
 
   List<Widget> getPOCs(ShiftScheduleDetailsState state, double height) {
-
     log('-getPOCs-state.pocs--${state.pocs.toString()}--');
 
     List<Widget> widgets = [];
-    for (String poc in state.pocs??[]) {
+    for (String poc in state.pocs ?? []) {
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
       // for (String poc in state.pocs ?? []) {
