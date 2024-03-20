@@ -41,8 +41,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> isFormReadable() async {
-
-    emit(state.copyWith( status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.loading));
     if (state.model.status != ConstantsIntValue.submitted) {
       emit(state.copyWith(
         status: FormStatus.initial,
@@ -143,13 +142,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
                     int.tryParse(powerFailureModel.powerFailureStartDate),
                     Constants.fulldateFormat);
 
-            if(model.powerFailures.isEmptyOrNull) {
+            if (model.powerFailures.isEmptyOrNull) {
               model.powerFailures = [];
             }
 
             model.powerFailures?.add(powerFailure);
             log('--model.powerFailures--${model.powerFailures?.length}-');
-
           }
         }
       }
@@ -377,6 +375,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
+        state.model.inputDate = Utils().getCurrentDate();
         if (!state.isValidDraft.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
@@ -408,6 +407,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
+      state.model.inputDate = Utils().getCurrentDate();
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

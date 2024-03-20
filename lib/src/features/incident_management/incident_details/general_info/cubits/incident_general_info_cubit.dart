@@ -18,6 +18,7 @@ import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
@@ -76,9 +77,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
     emit(
       state.copyWith(
         status: FormStatus.initial,
@@ -89,6 +90,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
   }
+
   Future<void> initializeValues() async {
     log('initializeValues---incidentGeneralCubit-occId---$occId--');
 
@@ -252,7 +254,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     state.model.status = status ?? state.model.status;
 
-
     // if (state.model.typeOfArticle != null) {
     //   state.model.typeOfArticle = typeOfArticle;
     // }
@@ -334,7 +335,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
@@ -349,6 +349,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     try {
       log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
+        state.model.inputDate =
+            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           return emit(
             state.copyWith(
@@ -375,6 +377,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         response = (await services.createIncidentManagement(
             body: request, isSubmit: true));
       }
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

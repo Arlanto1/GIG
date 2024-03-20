@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 
@@ -210,6 +211,8 @@ class KeyManagementMasterDetailsCubit
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
+        state.model.createdDate =
+            DateFormat(Constants.fulldateFormat).format(DateTime.now());
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
@@ -235,6 +238,8 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -264,6 +269,7 @@ class KeyManagementMasterDetailsCubit
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.keyManagementMasterModule);
