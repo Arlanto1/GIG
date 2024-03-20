@@ -57,7 +57,13 @@ class ShiftScheduleDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.dutyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Duty Type');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -65,9 +71,9 @@ class ShiftScheduleDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    // if (model.vendor == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
     if (model.dutyType == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Type of Duty');
