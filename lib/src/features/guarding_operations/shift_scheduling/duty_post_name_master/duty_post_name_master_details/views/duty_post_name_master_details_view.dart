@@ -28,7 +28,7 @@ class _DutyPostNameMasterDetailsViewState
 
   bool isDisabled = true;
   bool isReadOnly = false;
-
+bool showSaveSubmitButtons =false;
   get model => null;
 
   get guardingMasterData => null;
@@ -80,21 +80,28 @@ class _DutyPostNameMasterDetailsViewState
         }
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if ( state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if ( state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
           isReadOnly = false;
         }
 
+        showSaveSubmitButtons = state.model.status == 0 ||
+            state.model.status == 1 ||
+            state.model.status == null ||
+            isReadOnly == false;
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSubmitButton: state.model.status != 5 ? true : false,
-            showSaveButton: state.model.status != 5 ? true : false,
+            showSubmitButton:showSaveSubmitButtons,
+            showSaveButton: showSaveSubmitButtons,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -178,7 +185,7 @@ class _DutyPostNameMasterDetailsViewState
                             items: dutyPostNameMasterStatusValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: dutyPostNameMasterStatusValues
@@ -214,6 +221,18 @@ class _DutyPostNameMasterDetailsViewState
                               isMandatory: true,
                               '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          //
+                          // /// Date of creation
+                          // CommonWidgets.textDisplay(
+                          //     state.labels?.locale.inputDate ??
+                          //         state.labels?.defaultLocale.inputDate ??
+                          //         Constants.date,
+                          //     isMandatory: true,
+                          //     Styles.textStyleBlack14),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          // BaseDate()
+                          //     .creationDateDisplay(state.model.inputDate ?? ''),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
@@ -223,11 +242,11 @@ class _DutyPostNameMasterDetailsViewState
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate()
-                              .creationDateDisplay(state.model.inputDate ?? ''),
+                          BaseDate().creationDateDisplay(
+                              state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Location
+                          ///Location
                           CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
@@ -239,13 +258,14 @@ class _DutyPostNameMasterDetailsViewState
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                                  state.model.location?.name ?? '',
+                              state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
                                 BlocProvider.of<DutyPostNameMasterDetailsCubit>(
-                                        context)
+                                    context)
                                     .updateDropdownValues(location: location);
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
@@ -309,7 +329,9 @@ class _DutyPostNameMasterDetailsViewState
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
-                              submitButtonDisplay()
+                              if (showSaveSubmitButtons) ...[
+                                submitButtonDisplay()
+                              ],
                             ],
                           ),
 
@@ -333,14 +355,26 @@ class _DutyPostNameMasterDetailsViewState
     List<Widget> widgets = [];
     for (DpName dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
-          TextEditingController();
+      TextEditingController();
       dutyPostLocationNameController.text =
           dutyPostLocationName.dutyPostName ?? '';
+      bool isTransportShift = dutyPostLocationName.transportShift ?? false; // Add this line
       widgets.add(Row(
         children: [
           Text(
             dutyPostLocationName.dutyPostName ?? '',
             textAlign: TextAlign.start,
+          ),
+          Checkbox( // Add this Checkbox widget
+            value: isTransportShift,
+            activeColor: AppColors.navigationSkybluecolor,
+            focusColor: AppColors.navigationSkybluecolor,
+            onChanged: (value) {
+              // Implement logic to update the transport shift value
+              setState(() {
+                dutyPostLocationName.transportShift = value;
+              });
+            },
           ),
           GestureDetector(
             onTap: () {
@@ -379,6 +413,7 @@ class _DutyPostNameMasterDetailsViewState
       return []; // Or provide a default list based on your requirements
     }
   }
+
 
   void deleteDutyPostLocationName(
       DpName locationName, DutyPostNameMasterDetailsState state) {

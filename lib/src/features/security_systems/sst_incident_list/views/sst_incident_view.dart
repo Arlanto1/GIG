@@ -119,8 +119,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportSSSLAExcel?ticketType=${widget.isInternal?1:0}',
-          pdfAPIName: 'exportSSSLAPDF?ticketType=${widget.isInternal?1:0}',
+          excelAPIName:
+              'exportSSSLAExcel?ticketType=${widget.isInternal ? 1 : 0}',
+          pdfAPIName: 'exportSSSLAPDF?ticketType=${widget.isInternal ? 1 : 0}',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
@@ -207,7 +208,12 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 'Region',
                             value: state.items[index].region?.name ?? '',
                           ));
-
+                          labels.add(Label(
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
+                                  'Created By',
+                              value:
+                                  '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
                           return index >= state.items.length
                               ? const BaseLoader()
                               : BaseListTileItem(

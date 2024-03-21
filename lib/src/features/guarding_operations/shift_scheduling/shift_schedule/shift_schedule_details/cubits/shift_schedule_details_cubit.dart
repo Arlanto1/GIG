@@ -151,7 +151,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = _getCurrentDate();
+      model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -209,7 +210,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
-      state.model.location = location;
 
       // TODO: uncomment
       if (state.model.vendor != null) {
@@ -345,6 +345,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -358,6 +360,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -371,6 +375,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           isSubmit: true,
         ));
       }
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -378,6 +384,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
     } on Exception catch (e) {
       emit(

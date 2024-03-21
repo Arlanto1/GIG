@@ -114,11 +114,11 @@ class _KeyLossDestructionListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // ],
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&

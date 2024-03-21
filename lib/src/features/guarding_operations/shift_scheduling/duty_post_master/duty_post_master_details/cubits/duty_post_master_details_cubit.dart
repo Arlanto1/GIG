@@ -173,9 +173,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       ),
     );
 
-    // if (state.model.status == 0 || state.model.status == null) {
-    //   state.model.status = 1;
-    // }
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 1;
+    }
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -212,6 +212,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

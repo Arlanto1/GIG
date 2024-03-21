@@ -149,9 +149,10 @@ class _KeyLossDestructionListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              // key: state.labels?.locale.locationRegion ??
+                              key:
+                              // state.labels?.locale.reg ??
                               //  state.labels?.defaultLocale.locationRegion ??
-                              key: 'Created Date',
+                               'Created Date',
                               value: state.list[index].createdDate != null
                                   ? Utils.timestamptoDateConversion(
                                       int.parse(
@@ -159,11 +160,11 @@ class _KeyLossDestructionListViewState
                                       Constants.dateFormat)
                                   : ''));
                           labels.add(Label(
-                              key:
-                                  // state.labels?.locale.location ??
-                                  //state.labels?.defaultLocale.location ??
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   'Created By',
-                              value: state.list[index].createdBy?.name ?? ''));
+                              value:
+                              '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()

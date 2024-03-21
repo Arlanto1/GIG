@@ -199,7 +199,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             items: shiftScheduleStatusDropDownValues,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (state.model.id != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues:
@@ -367,16 +367,17 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           GestureDetector(
                             onTap: () {
                               log('--onTap------');
-
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return AddPOCPopUp(
-                                    model: model,
-                                    mainContext: context,
-                                  );
-                                },
-                              );
+if(state.model.status ==0 || state.model.status==null) {
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AddPOCPopUp(
+        model: model,
+        mainContext: context,
+      );
+    },
+  );
+}
                               log('---state.model.poc---sdsad------${state.model.poc.toString()}------');
                             },
                             child: Row(
@@ -416,6 +417,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             textController: fromDateController,
                             onlyDate: false,
                             showPastDate: false,
+                            isDisabled: state.model.status !=0 && state.model.status !=null,
                             onChange: (String value) {
                               state.model.fromDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -440,6 +442,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             textController: toDateController,
                             onlyDate: false,
                             showPastDate: false,
+                            isDisabled: state.model.status !=0 &&state.model.status !=null,
                             onChange: (String value) {
                               state.model.toDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -506,11 +509,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   }
 
   List<Widget> getPOCs(ShiftScheduleDetailsState state, double height) {
-
     log('-getPOCs-state.pocs--${state.pocs.toString()}--');
 
     List<Widget> widgets = [];
-    for (String poc in state.pocs??[]) {
+    for (String poc in state.pocs ?? []) {
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
       // for (String poc in state.pocs ?? []) {

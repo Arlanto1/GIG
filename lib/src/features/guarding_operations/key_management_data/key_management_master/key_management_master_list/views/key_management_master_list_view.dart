@@ -168,7 +168,8 @@ class _KeyManagementMasterListViewState
                               key: state.labels?.locale.createdBy ??
                                   state.labels?.defaultLocale.createdBy ??
                                   'Created By',
-                              value: state.list[index].createdBy?.name ?? ''));
+                              value:
+                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
 
                           return index >= state.list.length
                               ? const BaseLoader()

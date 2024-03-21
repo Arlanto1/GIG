@@ -167,8 +167,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         state.labels?.locale.entrySecurity ??
                             state.labels?.defaultLocale.entrySecurity ??
                             'Created By : ',
-                        widget.userItem?.entrySecurity?.userName.toString() ??
-                            " "),
+                        '${widget.userItem?.entrySecurity?.firstName.toString() ?? " "} ${widget.userItem?.entrySecurity?.lastName.toString() ?? " "}'),
                   ],
                 )
               : Container(),

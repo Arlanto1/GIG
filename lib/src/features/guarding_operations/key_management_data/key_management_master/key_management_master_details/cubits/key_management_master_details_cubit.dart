@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 
@@ -39,8 +40,8 @@ class KeyManagementMasterDetailsCubit
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    EmployeeDepartments departments =
-        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    List<Organisation>? departments =
+        await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DOOR_TYPE');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -51,7 +52,7 @@ class KeyManagementMasterDetailsCubit
         status: FormStatus.initial,
         users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
-        departments: departments.employeeDepartments,
+        departments: departments,
       ),
     );
   }
@@ -235,6 +236,8 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -264,6 +267,7 @@ class KeyManagementMasterDetailsCubit
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.keyManagementMasterModule);
