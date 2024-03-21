@@ -234,6 +234,7 @@ class KeyHistoryRecordsDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.createdDate = Utils().getCurrentDate();
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -296,6 +297,8 @@ class KeyHistoryRecordsDetailsCubit
           kmId: parentId.toString(),
         ));
       }
+      state.model.createdDate = Utils().getCurrentDate();
+
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
