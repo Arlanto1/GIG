@@ -75,6 +75,7 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
           locations: locations,
           regions: regions,
           statuses: statuses,
+          labels: labels,
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
@@ -148,12 +149,6 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
 
       if (state.status == FormStatus.initial || event.newSearch) {
         VVIPVisitorResponseModel response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
-
         response = await services.getGVVIP(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -169,7 +164,6 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
         );
       }
 
-      log('-_fetchMaterialMovements------##--');
       VVIPVisitorResponseModel response;
       response = await services.getGVVIP(
         startPosition: '${event.startPos}',

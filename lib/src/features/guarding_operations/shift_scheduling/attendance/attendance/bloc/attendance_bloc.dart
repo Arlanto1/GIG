@@ -28,6 +28,28 @@ class AttendanceBloc
   AttendanceServices();
   final CommonServices commonServices = CommonServices();
 
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<AttendanceState> emit) async {
+    try {
+      AttendanceResponse response;
+
+      response = await _services.getList(
+        startPosition: '${0}',
+        maximumRecords: '${20}',
+        filters: BaseFilterModel(),
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<AttendanceState> emit) async {
     try {
@@ -64,28 +86,6 @@ class AttendanceBloc
     }
   }
 
-  FutureOr<void> _refreshList(
-      RefreshList event, Emitter<AttendanceState> emit) async {
-    try {
-      AttendanceResponse response;
-
-      response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
-        filters: BaseFilterModel(),
-      );
-
-      return emit(
-        state.copyWith(
-          items: response.items,
-          hasReachedMax: false,
-          status: FormStatus.success,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
-    }
-  }
 
 //   FutureOr<void> _fetchList(FetchAttendanceList event,
 //       Emitter<AttendanceState> emit) async {
@@ -175,7 +175,6 @@ class AttendanceBloc
         filters: event.filters,
       );
 
-      log('---response.items-${response.items}--');
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
