@@ -96,8 +96,20 @@ class _KeyHistoryRecordsDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+            showSaveButton: state.model.status == 0 ||
+                    state.model.status == 2 ||
+                    state.model.status == 3 ||
+                    state.model.status == 7 ||
+                    state.model.status == null
+                ? true
+                : false,
+            showSubmitButton: state.model.status == 0 ||
+                    state.model.status == 2 ||
+                    state.model.status == 3 ||
+                    state.model.status == 7 ||
+                    state.model.status == null
+                ? true
+                : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -252,7 +264,8 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (widget.model?.status == 0||widget.model?.status == null) {
+                              if (widget.model?.status == 0 ||
+                                  widget.model?.status == null) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues
@@ -494,8 +507,18 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: state.model.status != 6,
-                          isDisableColor: state.model.status == 6,
+                          isEnable: state.model.status == 0 ||
+                              state.model.status == 2 ||
+                              state.model.status == 3 ||
+                              state.model.status == 7 ||
+                              state.model.status == null,
+                          isDisableColor: state.model.status == 0 ||
+                                  state.model.status == 2 ||
+                                  state.model.status == 3 ||
+                                  state.model.status == 7 ||
+                                  state.model.status == null
+                              ? false
+                              : true,
                           onChange: (String value) {
                             state.model.additionalInformation = value;
                             context
@@ -573,7 +596,16 @@ class _KeyHistoryRecordsDetailsViewState
                     /// SubmitButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [cancelButtonDisplay(), submitButtonDisplay()],
+                      children: [
+                        cancelButtonDisplay(),
+                        if (state.model.status == 0 ||
+                            state.model.status == 2 ||
+                            state.model.status == 3 ||
+                            state.model.status == 7 ||
+                            state.model.status == null) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
                     ),
 
                     CommonWidgets.verticalSpacerWidget(height * 0.04),
