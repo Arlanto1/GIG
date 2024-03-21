@@ -157,7 +157,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             height: 70,
                             isDisableColor: widget.parentStatus !=0 && widget.parentStatus !=null,
                             onTap: () {
-                              if(widget.parentStatus ==0 && widget.parentStatus ==null) {
+                              if(widget.parentStatus ==0 || widget.parentStatus ==null) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
@@ -207,7 +207,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          if(widget.parentStatus ==0 && widget.parentStatus ==null) {
+                          if(widget.parentStatus ==0 || widget.parentStatus ==null) {
                             BaseDropDown().assetTypeDialog(
                               context: context,
                               dropDownValues: keyTypeDropDownValues
