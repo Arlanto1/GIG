@@ -53,7 +53,7 @@ const keyManagementDataItems = [
   MenuItem(
       Constants.keyManagementIssuance, AppIcon.guardingMasterReportIcon, 0),
   MenuItem(Constants.keyLossDestructionList, AppIcon.femalePickUpDropIcon, 0),
-  MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
+  // MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
 ];
 
 const shiftSchedulingDataItems = [

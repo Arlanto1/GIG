@@ -88,17 +88,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == -1 ||
             state.model.status == 2 ||
             state.model.status == 3 ||
-            state.model.status == 4||
-            state.model.status == 5||
-            state.model.status == 6||
-            state.model.status == 7||
-            state.model.status == 8||
-            state.model.status == 9||
-            state.model.status == 10||
+            state.model.status == 4 ||
+            state.model.status == 5 ||
+            state.model.status == 6 ||
+            state.model.status == 7 ||
+            state.model.status == 8 ||
+            state.model.status == 9 ||
+            state.model.status == 10 ||
             state.model.status == 11) {
           isReadOnly = true;
         }
-        if (state.model.status == null||state.model.status == 0) {
+        if (state.model.status == null || state.model.status == 0) {
           isReadOnly = false;
         }
         return Scaffold(
@@ -106,7 +106,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status == 0 || state.model.status == 1 || state.model.status == null
+            showSaveButton: state.model.status == 0 ||
+                    state.model.status == 1 ||
+                    state.model.status == null
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -119,10 +121,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton:
-            state.model.status == 0 || state.model.status == 1 || state.model.status == null
-                    ? true
-                    : false,
+            showSubmitButton: state.model.status == 0 ||
+                    state.model.status == 1 ||
+                    state.model.status == null
+                ? true
+                : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
@@ -312,7 +315,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: state.model.status == 0||state.model.status == null,
+                              enabled: state.model.status == 0 ||
+                                  state.model.status == null,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<
@@ -349,7 +353,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ? false
                                   : true,
                               onTap: () {
-                                if (state.model.status == 0 ||state.model.status == null) {
+                                if (state.model.status == 0 ||
+                                    state.model.status == null) {
                                   // if (widget.materialMovement != null) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
@@ -392,14 +397,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0||state.model.status != null,
+                                isDisabled: state.model.status != 0 ||
+                                    state.model.status != null,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
                                 initialValue: state.model.keyHandingOverDuration
                                     .toString(),
                                 onTap: () {
-                                  if (state.model.status == 0||state.model.status == null) {
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues: keyHandingOverDuration
@@ -469,7 +476,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 initialValue:
                                     state.model.employeeType.toString(),
                                 onTap: () {
-                                  if (state.model.status == 0||state.model.status == null) {
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -617,35 +625,41 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               TextFieldAddButton(
                                 title: state.model.dbSponsorCwrT2?.name,
                                 height: 60,
-                                isDisableColor:
-                                    isReadOnly && state.model.status == 1,
+                                isDisableColor: state.model?.status != 0 &&
+                                        state.model?.status != null
+                                    ? true
+                                    : false,
                                 onTap: () {
-                                  BaseOrganisationDialog().userDialog(
-                                    context: context,
-                                    enabled:
-                                        !isReadOnly && state.model.status != 1,
-                                    users: state.users!,
-                                    onTap: (BaseUser user) {
-                                      BlocProvider.of<
-                                                  KeyManagementIssuanceDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                        dbSponsorCwrT2: user,
-                                      );
-                                    },
-                                    functionToCall: () {
-                                      // refresh the list
-                                      BlocProvider.of<
-                                                  KeyManagementIssuanceDetailsCubit>(
-                                              context)
-                                          .refreshList();
-                                    },
-                                  );
+                                  if (state.model?.status == 0 ||
+                                      state.model?.status == null) {
+                                    BaseOrganisationDialog().userDialog(
+                                      context: context,
+                                      enabled: state.model?.status == 0 ||
+                                          state.model?.status == null,
+                                      users: state.users!,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    KeyManagementIssuanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          dbSponsorCwrT2: user,
+                                        );
+                                      },
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    KeyManagementIssuanceDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            if (state.model.status != 0 && state.model.status != null) ...[
+                            if (state.model.status != 0 &&
+                                state.model.status != null) ...[
                               /// Total Allocated
                               CommonWidgets.horizentaltextHandling(
                                   state.labels?.locale.totalAllocated ??
@@ -841,7 +855,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 ),
               ),
             ],
-            if (state.model.status != 0  && state.model.status != 1 && state.model.status == 11) ...[
+            if (state.model.status != 0 &&
+                state.model.status != 1 &&
+                state.model.status == 11) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

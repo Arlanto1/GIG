@@ -155,35 +155,38 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
-                            isDisableColor: false,
+                            isDisableColor: widget.parentStatus !=0 && widget.parentStatus !=null,
                             onTap: () {
-                              BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: widget.keyDescriptions,
-                                onTap: (Organisation org) {
-                                  selectedKeyDescription = org;
-                                  keyDescriptionController.text =
-                                      org.keyDescription ?? '';
-                                  widget.model.kmId = org.id;
-
-                                  //TODO: need to set key description in model
-                                  // widget.model.
-                                  log('-org.keyName----${org.id}-');
-                                  log('-org.keyName----${org.keyDescription}-');
-                                  log('-org.keyName----${org.noKeys}-');
-                                  log('-org.keyName----${org.noKeysIssued}-');
-
-                                  keyDescriptionController.text =
-                                      org.keyDescription ?? '';
-
-                                  setState(() {
-                                    log('-setstate-');
+                              if(widget.parentStatus ==0 || widget.parentStatus ==null) {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: widget.keyDescriptions,
+                                  onTap: (Organisation org) {
+                                    selectedKeyDescription = org;
                                     keyDescriptionController.text =
                                         org.keyDescription ?? '';
-                                    selectedKeyDescription = org;
-                                  });
-                                },
-                              );
+                                    widget.model.kmId = org.id;
+
+                                    //TODO: need to set key description in model
+                                    // widget.model.
+                                    log('-org.keyName----${org.id}-');
+                                    log('-org.keyName----${org
+                                        .keyDescription}-');
+                                    log('-org.keyName----${org.noKeys}-');
+                                    log('-org.keyName----${org.noKeysIssued}-');
+
+                                    keyDescriptionController.text =
+                                        org.keyDescription ?? '';
+
+                                    setState(() {
+                                      log('-setstate-');
+                                      keyDescriptionController.text =
+                                          org.keyDescription ?? '';
+                                      selectedKeyDescription = org;
+                                    });
+                                  },
+                                );
+                              }
                             },
                           )
                         ],
@@ -204,62 +207,67 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          BaseDropDown().assetTypeDialog(
-                            context: context,
-                            dropDownValues: keyTypeDropDownValues
-                                .map((label) => label.key)
-                                .toList(),
-                            onTap: (String value) async {
-                              Label? selectedLabel;
-                              selectedLabel = keyTypeDropDownValues.firstWhere(
-                                (label) => label.key == value,
-                                orElse: () => const Label(key: '', value: ''),
-                              );
-                              keyTypeController.text = selectedLabel.key;
-                              widget.model.keyType =
-                                  int.tryParse(selectedLabel.value);
-                              // Call the API
-                              bool isMasterKey =
-                                  selectedLabel.value == '1' ? false : true;
-                              // Call the API
+                          if(widget.parentStatus ==0 || widget.parentStatus ==null) {
+                            BaseDropDown().assetTypeDialog(
+                              context: context,
+                              dropDownValues: keyTypeDropDownValues
+                                  .map((label) => label.key)
+                                  .toList(),
+                              onTap: (String value) async {
+                                Label? selectedLabel;
+                                selectedLabel =
+                                    keyTypeDropDownValues.firstWhere(
+                                          (label) => label.key == value,
+                                      orElse: () =>
+                                      const Label(key: '', value: ''),
+                                    );
+                                keyTypeController.text = selectedLabel.key;
+                                widget.model.keyType =
+                                    int.tryParse(selectedLabel.value);
+                                // Call the API
+                                bool isMasterKey =
+                                selectedLabel.value == '1' ? false : true;
+                                // Call the API
 
-                              log('---selectedKeyDescription---$selectedKeyDescription---');
+                                log(
+                                    '---selectedKeyDescription---$selectedKeyDescription---');
 
-                              if (selectedKeyDescription != null) {
-                                Organisation keyDescription =
-                                    await KeyManagementIssuanceServices()
-                                        .getKeyDescById(
-                                            id: selectedKeyDescription!.id ?? 0,
-                                            isMasterKey: isMasterKey);
+                                if (selectedKeyDescription != null) {
+                                  Organisation keyDescription =
+                                  await KeyManagementIssuanceServices()
+                                      .getKeyDescById(
+                                      id: selectedKeyDescription!.id ?? 0,
+                                      isMasterKey: isMasterKey);
 
-                                setState(() {
-                                  widget.model.notReturned =
-                                      keyDescription.notReturned;
+                                  setState(() {
+                                    widget.model.notReturned =
+                                        keyDescription.notReturned;
 
-                                  noOfKeysController.text =
-                                      keyDescription.noKeys.toString();
+                                    noOfKeysController.text =
+                                        keyDescription.noKeys.toString();
 
-                                  widget.model.noKeysIssued =
-                                      keyDescription.noKeysIssued;
-                                  alreadyIssuedKeysController.text =
-                                      keyDescription.noKeysIssued.toString();
+                                    widget.model.noKeysIssued =
+                                        keyDescription.noKeysIssued;
+                                    alreadyIssuedKeysController.text =
+                                        keyDescription.noKeysIssued.toString();
 
-                                  widget.model.available =
-                                      keyDescription.noKeys! -
-                                          keyDescription.noKeysIssued!;
-                                  availableKeysController.text =
-                                      (keyDescription.noKeys! -
-                                              keyDescription.noKeysIssued!)
-                                          .toString();
+                                    widget.model.available =
+                                        keyDescription.noKeys! -
+                                            keyDescription.noKeysIssued!;
+                                    availableKeysController.text =
+                                        (keyDescription.noKeys! -
+                                            keyDescription.noKeysIssued!)
+                                            .toString();
 
-                                  widget.model.notReturned =
-                                      keyDescription.notReturned;
-                                  notReturnedKeysController.text =
-                                      keyDescription.notReturned.toString();
-                                });
-                              }
-                            },
-                          );
+                                    widget.model.notReturned =
+                                        keyDescription.notReturned;
+                                    notReturnedKeysController.text =
+                                        keyDescription.notReturned.toString();
+                                  });
+                                }
+                              },
+                            );
+                          }
                         },
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -491,6 +499,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
+        if(widget.parentStatus==0 || widget.parentStatus==1||widget.parentStatus==null)
         saveButton(width, widget.onSubmit)
       ],
     );
