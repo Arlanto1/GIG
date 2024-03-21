@@ -43,10 +43,11 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<DutyPostMasterListBloc>().add(FetchDutyPostMasterList(
-          startPos: pageNumber,
-          maxPos: 20,
-          newSearch: true,
-          filters: BaseFilterModel()));
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -92,7 +93,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
         ),
         body: BlocBuilder<DutyPostMasterListBloc, DutyPostMasterListState>(
             builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
           // if (state.list.isEmptyOrNull) {
@@ -178,8 +179,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                   state.labels?.defaultLocale.createdBy ??
                                   'Created By',
                               value:
-                              '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                            labels.add(Label(
+                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                          labels.add(Label(
                               key: state.labels?.locale.shiftA ??
                                   state.labels?.defaultLocale.shiftA ??
                                   'Shift A',
@@ -199,7 +200,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                   state.labels?.defaultLocale.shiftG ??
                                   'Shift G',
                               value: state.list[index].shiftG.toString()));
-                         }
+                        }
                         return index >= state.list.length
                             ? const BaseLoader()
                             : BaseListTileItem(

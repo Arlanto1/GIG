@@ -45,12 +45,14 @@ class _DutyPostNameMasterListViewState
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<DutyPostNameMasterListBloc>().add(
-          FetchDutyPostNameMasterList(
-              startPos: pageNumber,
-              maxPos: 20,
-              newSearch: true,
-              filters: BaseFilterModel()));
+      context
+          .read<DutyPostNameMasterListBloc>()
+          .add(FetchDutyPostNameMasterList(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -94,12 +96,12 @@ class _DutyPostNameMasterListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportDpnExcel ',
+          excelAPIName: 'exportDpnExcel',
           pdfAPIName: 'exportDpnPDF',
         ),
         body: BlocBuilder<DutyPostNameMasterListBloc,
             DutyPostNameMasterListState>(builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
           // if (state.list.isEmptyOrNull) {
@@ -127,11 +129,11 @@ class _DutyPostNameMasterListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&
@@ -176,7 +178,7 @@ class _DutyPostNameMasterListViewState
                                   state.labels?.defaultLocale.entrySecurity ??
                                   'Created By',
                               value:
-                              '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
+                                  '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()

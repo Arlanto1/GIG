@@ -11,19 +11,21 @@ class ShiftScheduleListView extends StatefulWidget {
   State<ShiftScheduleListView> createState() => _ShiftScheduleListViewState();
 }
 
-class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
+
+class _ShiftScheduleListViewState
+    extends State<ShiftScheduleListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
   RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     context.read<ShiftScheduleListBloc>().add(
-          const InitializeValues(),
-        );
+      const InitializeValues(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -42,17 +44,18 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ShiftScheduleListBloc>().add(FetchShiftScheduleList(
-          startPos: pageNumber,
-          maxPos: 20,
-          newSearch: true,
-          filters: BaseFilterModel()));
+        startPos: pageNumber,
+        maxPos: 20,
+        newSearch: false,
+        filters: filters,
+      ));
     }
   }
 
   void _onRefresh() async {
     context.read<ShiftScheduleListBloc>().add(
-          const RefreshList(),
-        );
+      const RefreshList(),
+    );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
@@ -74,9 +77,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, shiftScheduleDetailsRoute, arguments: {
-              ConstantsArgument.title: Constants.createShiftSchedule,
-            }),
+            Navigator.pushNamed(context, shiftScheduleDetailsRoute,
+                arguments: {"title": Constants.createShiftSchedule}),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -90,12 +92,13 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
           excelAPIName: 'exportShiftSchdExcel',
           pdfAPIName: 'exportShiftSchdPDF',
         ),
-        body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
-            builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+        body: BlocBuilder<ShiftScheduleListBloc,
+            ShiftScheduleListState>(builder: (context, state) {
+
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
-          // if (state.items.isEmptyOrNull) {
+          // if (state.list.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -105,7 +108,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                 color: AppColors.backgroundWhitecolor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
+                  BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
@@ -120,16 +123,15 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
                     state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
 
@@ -146,103 +148,103 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
                     child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.hasReachedMax
-                            ? state.items.length
-                            : state.items.length + 1,
-                        itemBuilder: (context, index) {
-                          List<Label> labels = [];
-                          if (index < state.items.length) {
-                            labels.add(Label(
-                                key: state.labels?.locale.createdDate ??
-                                    state.labels?.defaultLocale.createdDate ??
-                                    'Date of Creation',
-                                value: state.items[index].inputDate != null
-                                    ? Utils.timestamptoDateConversion(
-                                        int.parse(
-                                            state.items[index].inputDate ??
-                                                '0'),
-                                        Constants.dateFormat)
-                                    : ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    'Created By',
-                                value:
-                                    '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1,
+                      itemBuilder: (context, index) {
+                        List<Label> labels = [];
+                        if (index < state.items.length) {
+                          labels.add(Label(
+                              key: state.labels?.locale.createdDate ??
+                                  state.labels?.defaultLocale.createdDate ??
+                                  'Date of Creation',
+                              value: state.items[index].inputDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                  int.parse(
+                                      state.items[index].inputDate ??
+                                          '0'),
+                                  Constants.dateFormat)
+                                  : ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  'Created By',
+                              value:
+                              '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
 
-                            labels.add(Label(
-                                key: state.labels?.locale.locationRegion ??
-                                    state
-                                        .labels?.defaultLocale.locationRegion ??
-                                    'Region',
-                                value:
-                                    state.items[index].locationRegion?.name ??
-                                        ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    'Location',
-                                value:
-                                    state.items[index].location?.name ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.locationRegion ??
+                                  state
+                                      .labels?.defaultLocale.locationRegion ??
+                                  'Region',
+                              value:
+                              state.items[index].locationRegion?.name ??
+                                  ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  'Location',
+                              value:
+                              state.items[index].location?.name ?? ''));
 
-                            return index >= state.items.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
-                                    id: state.items[index].id,
-                                    status: state.items[index].status,
-                                    isMasterGuard: false,
-                                    isShiftScheduleStatus: true,
-                                    isEventProtectionStatus: false,
+                          return index >= state.items.length
+                              ? const BaseLoader()
+                              : BaseListTileItem(
+                            id: state.items[index].id,
+                            status: state.items[index].status,
+                            isMasterGuard: false,
+                            isShiftScheduleStatus: true,
+                            isEventProtectionStatus: false,
+                            labels: labels,
+                            onTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
                                     labels: labels,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            slNo:
-                                                state.items[selectedIndex].slNo,
-                                            status: state
-                                                .items[selectedIndex].status,
-                                            isMasterGuard: false,
-                                            isEventProtectionStatus: false,
-                                            isShiftScheduleStatus: true,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      getById(id: state.items[index].id ?? 0);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            slNo:
-                                                state.items[selectedIndex].slNo,
-                                            status: state
-                                                .items[selectedIndex].status,
-                                            isMasterGuard: false,
-                                            isEventProtectionStatus: false,
-                                            isShiftScheduleStatus: true,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,
+                                    slNo:
+                                    state.items[selectedIndex].slNo,
+                                    status: state
+                                        .items[selectedIndex].status,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    isShiftScheduleStatus: true,
                                   );
-                          }
-                          return const Center(
-                            child: SizedBox(),
+                                },
+                              );
+                            },
+                            onEditTap: (selectedIndex) {
+                              getById(id: state.items[index].id ?? 0);
+                            },
+                            onViewTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
+                                    labels: labels,
+                                    slNo:
+                                    state.items[selectedIndex].slNo,
+                                    status: state
+                                        .items[selectedIndex].status,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    isShiftScheduleStatus: true,
+                                  );
+                                },
+                              );
+                            },
+                            index: index,
                           );
-                        }),
+                        }
+                        return const Center(
+                          child: SizedBox(),
+                        );
+                      }),
                   ),
                 ),
               ],
@@ -283,9 +285,10 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
     );
   }
 
+
   void applySearchFilters(
-    FilterCriteria model,
-  ) {
+      FilterCriteria model,
+      ) {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<ShiftScheduleListBloc>(context).add(
@@ -295,8 +298,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
   }
 
   void applyFilters(
-    Filters model,
-  ) {
+      Filters model,
+      ) {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<ShiftScheduleListBloc>(context).add(

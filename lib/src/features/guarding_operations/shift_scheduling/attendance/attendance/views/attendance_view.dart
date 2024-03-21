@@ -42,10 +42,11 @@ class _AttendanceViewState extends State<AttendanceView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<AttendanceBloc>().add(FetchAttendanceList(
-          startPos: pageNumber,
-          maxPos: 20,
-          newSearch: true,
-          filters: BaseFilterModel()));
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -83,10 +84,10 @@ class _AttendanceViewState extends State<AttendanceView> {
         ),
         body: BlocBuilder<AttendanceBloc, AttendanceState>(
             builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
-          // if (state.items.isEmptyOrNull) {
+          // if (state.list.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -111,7 +112,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
+                if (state.status == FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -120,10 +121,9 @@ class _AttendanceViewState extends State<AttendanceView> {
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
                     state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
-                // Text('state.hasReachedMax=====${state.hasReachedMax}'),
 
                 Expanded(
                   child: SmartRefresher(

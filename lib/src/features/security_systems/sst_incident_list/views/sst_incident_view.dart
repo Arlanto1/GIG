@@ -125,9 +125,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
+          if (state.status == FormStatus.loading) {
+            return const BaseLoader();
+          }
           // if (state.items.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
@@ -152,15 +152,16 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
+                    state.status != FormStatus.loading&&
+                    state.status != FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
