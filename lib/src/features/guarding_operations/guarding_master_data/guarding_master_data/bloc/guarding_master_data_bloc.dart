@@ -146,16 +146,8 @@ class GuardingMasterDataBloc
     );
 
     try {
-      // if (state.hasReachedMax) return;
-
       if (state.status == FormStatus.initial || event.newSearch) {
         GuardingMasterDataResponse response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
-
         response = await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',

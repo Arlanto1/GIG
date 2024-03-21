@@ -146,7 +146,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                 ],
                 if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
+                    state.status != FormStatus.loading&&
+                    state.status != FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
@@ -158,7 +159,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                     physics: const BouncingScrollPhysics(),
                     header: const WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh:BaseLoader(),
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,

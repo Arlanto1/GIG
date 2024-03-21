@@ -45,7 +45,7 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Guarding Agency POC
+                      ///Rejection Comment
                       CommonWidgets.textDisplay(
                         Constants.rejectedComment,
                         Styles.textStyleBlack14,

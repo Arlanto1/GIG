@@ -341,10 +341,11 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, keyLossDestructionListRoute,
           arguments: {"Key Loss Destruction List": false});
-    } else if (index == 3) {
-      Navigator.pushNamed(context, keyReconciliationListRoute,
-          arguments: {"Key Reconciliation List": false});
     }
+    // else if (index == 3) {
+    //   Navigator.pushNamed(context, keyReconciliationListRoute,
+    //       arguments: {"Key Reconciliation List": false});
+    // }
   }
 
   _onShiftScheduleItemSelected(int index, BuildContext context) async {
