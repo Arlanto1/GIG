@@ -367,18 +367,18 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           GestureDetector(
                             onTap: () {
                               log('--onTap------');
-if(state.model.status ==0 || state.model.status==null) {
-  showDialog(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      return AddPOCPopUp(
-        model: model,
-        mainContext: context,
-      );
-    },
-  );
-}
-                              log('---state.model.poc---sdsad------${state.model.poc.toString()}------');
+                              if (state.model.status == 0 ||
+                                  state.model.status == null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return AddPOCPopUp(
+                                      model: model,
+                                      mainContext: context,
+                                    );
+                                  },
+                                );
+                              }
                             },
                             child: Row(
                               children: <Widget>[
@@ -417,7 +417,8 @@ if(state.model.status ==0 || state.model.status==null) {
                             textController: fromDateController,
                             onlyDate: false,
                             showPastDate: false,
-                            isDisabled: state.model.status !=0 && state.model.status !=null,
+                            isDisabled: state.model.status != 0 &&
+                                state.model.status != null,
                             onChange: (String value) {
                               state.model.fromDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -442,7 +443,8 @@ if(state.model.status ==0 || state.model.status==null) {
                             textController: toDateController,
                             onlyDate: false,
                             showPastDate: false,
-                            isDisabled: state.model.status !=0 &&state.model.status !=null,
+                            isDisabled: state.model.status != 0 &&
+                                state.model.status != null,
                             onChange: (String value) {
                               state.model.toDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -457,10 +459,12 @@ if(state.model.status ==0 || state.model.status==null) {
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
                             onTap: (id) {
-                              if(state.model.id == null) {
+                              if (state.model.id == null) {
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                    context)
-                                    .submitForm(isSaveOnly: true, navigateToNextScreen: true);
+                                        context)
+                                    .submitForm(
+                                        isSaveOnly: true,
+                                        navigateToNextScreen: true);
                               }
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)

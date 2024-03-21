@@ -18,9 +18,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final String id;
   final DutyPostModel? mainDutyPostModel;
 
-  ShiftScheduleDetailsCubit(
-      {required this.id, this.mainDutyPostModel, this.model})
-      : super(
+  ShiftScheduleDetailsCubit({
+    required this.id,
+    this.mainDutyPostModel,
+    this.model,
+  }) : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
             locations: Locations(),
@@ -158,6 +160,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
+      List<String> pocs = Utils().splitStringAfterComma(model.poc ?? '');
 
       emit(
         state.copyWith(
@@ -171,6 +174,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
+          pocs: pocs
         ),
       );
     } catch (e) {
