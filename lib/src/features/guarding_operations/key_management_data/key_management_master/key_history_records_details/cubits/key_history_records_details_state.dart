@@ -98,6 +98,10 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter No.of Keys');
     }
+    // if (model.noOfKeys != null && model.keyType == 1 && model.noOfKeys != (model.noKeys??0) && model.noOfKeys! > (model.noKeys??0)) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Valid No.of Keys');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
