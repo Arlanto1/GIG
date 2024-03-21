@@ -207,6 +207,8 @@ class KeyHistoryRecordsDetailsCubit
 
   Future<bool> submitForm({
     bool isSaveOnly = false,
+    bool isRejectOnly = false,
+    bool isApprovedOnly = false,
     bool navigateToNextScreen = false,
   }) async {
     emit(
@@ -255,6 +257,38 @@ class KeyHistoryRecordsDetailsCubit
             ),
           );
           return false;
+        }
+        if (isRejectOnly) {
+          //Validating Fields
+          if (!state.isValidDraft.status) {
+            emit(
+              state.copyWith(
+                status: FormStatus.error,
+                message: state.isValidDraft.message,
+              ),
+            );
+            return false;
+          }
+          response = await services.createKeyHistoryRecord(
+            body: request,
+            isSubmit: true,
+            kmId: parentId.toString(),);
+        }
+        if (isApprovedOnly) {
+          //Validating Fields
+          if (!state.isValid.status) {
+            emit(
+              state.copyWith(
+                status: FormStatus.error,
+                message: state.isValid.message,
+              ),
+            );
+            return false;
+          }
+          response = await services.createKeyHistoryRecord(
+            body: request,
+            isSubmit: true,
+            kmId: parentId.toString(),);
         }
         response = (await services.createKeyHistoryRecord(
           body: request,

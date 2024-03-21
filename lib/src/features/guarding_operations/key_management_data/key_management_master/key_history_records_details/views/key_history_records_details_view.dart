@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 
+import '../../../../../material_movement/material_movement_details/views/addRejectionCommnetPopUp.dart';
 import '../cubits/key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
@@ -99,28 +100,60 @@ class _KeyHistoryRecordsDetailsViewState
             showSaveButton: state.model.status == 0 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
-                    state.model.status == 7 ||
                     state.model.status == null
                 ? true
                 : false,
-            showSubmitButton: state.model.status == 0 ||
-                    state.model.status == 2 ||
-                    state.model.status == 3 ||
-                    state.model.status == 7 ||
-                    state.model.status == null
-                ? true
-                : false,
-            showDisLikeButton: false,
-            showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
+            showSubmitButton: state.model.status == 0 ||
+                    state.model.status == 2 ||
+                    state.model.status == 3 ||
+                    state.model.status == null
+                ? true
+                : false,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: false);
+            },
+            showLikeButton: state.model.status == 7,
+            onTapLikeButton: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
+                  .submitForm(
+                isApprovedOnly: true,
+                isSaveOnly: false,
+                isRejectOnly: false,
+              );
+            },
+            showDisLikeButton: state.model.status == 7,
+            onTapDislikeButton: () {
+              // FocusScope.of(context).unfocus();
+              showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AddRejectionCommentPopUp(
+                    mainContext: context,
+                    onSubmit: (value) {
+                      log('--value--$value--');
+                      // state.model.rejectionComment = value;
+                      // BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
+                      //     .onAddRejectionComment(value);
+
+                      BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
+                          .submitForm(
+                        isRejectOnly: true,
+                        isSaveOnly: false,
+                        isApprovedOnly: false,
+                      );
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              );
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
@@ -377,21 +410,26 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.securityManager?.name,
                             height: 60,
-                            isDisableColor: isReadOnly,
+                            isDisableColor: state.model.status != 7 &&
+                                state.model.status != null &&
+                                state.model.status != 0,
                             onTap: () {
-                              BaseOrganisationDialog().userDialog(
-                                context: context,
-                                enabled: !isReadOnly,
-                                users: state.users!,
-                                onTap: (BaseUser user) {
-                                  BlocProvider.of<
-                                              KeyHistoryRecordsDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                    securityManager: user,
-                                  );
-                                },
-                              );
+                              if (state.model?.status == 0 ||
+                                  state.model.status == null ||
+                                  state.model?.status == 7) {
+                                BaseOrganisationDialog().userDialog(
+                                  context: context,
+                                  users: state.users!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                      securityManager: user,
+                                    );
+                                  },
+                                );
+                              }
                             },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -407,19 +445,25 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
-                            isDisableColor: false,
+                            isDisableColor: state.model.status != 7 &&
+                                state.model.status != null &&
+                                state.model.status != 0,
                             onTap: () {
-                              BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: state.destructionReasons,
-                                onTap: (Organisation department) {
-                                  BlocProvider.of<
-                                              KeyHistoryRecordsDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          destructionReason: department);
-                                },
-                              );
+                              if (state.model.status == 7 ||
+                                  state.model.status == 0 ||
+                                  state.model.status == null) {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.destructionReasons,
+                                  onTap: (Organisation department) {
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            destructionReason: department);
+                                  },
+                                );
+                              }
                             },
                           ),
 
@@ -601,7 +645,6 @@ class _KeyHistoryRecordsDetailsViewState
                         if (state.model.status == 0 ||
                             state.model.status == 2 ||
                             state.model.status == 3 ||
-                            state.model.status == 7 ||
                             state.model.status == null) ...[
                           submitButtonDisplay()
                         ],
