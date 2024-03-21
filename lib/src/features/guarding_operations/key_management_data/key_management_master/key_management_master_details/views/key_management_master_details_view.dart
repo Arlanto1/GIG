@@ -641,7 +641,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Lock Change History
-                          if (state.model.status == 1) ...[
+                          if (widget.model?.noKeys != null && widget.model?.noMasterKey != null && state.model?.status != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
