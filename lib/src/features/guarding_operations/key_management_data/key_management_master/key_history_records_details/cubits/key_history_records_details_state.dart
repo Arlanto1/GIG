@@ -67,7 +67,37 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.keyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Type');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.securityManager == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Manager');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.destructionReason == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Reason for Key Destruction');
+    }
 
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.srh == null) {
+      return const ErrorResponse(status: false, message: 'Please enter SRH');
+    }
+
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.lostKeyDetails == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Details of Lost key');
+    }
+    if (model.noOfKeys == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No.of Keys');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
