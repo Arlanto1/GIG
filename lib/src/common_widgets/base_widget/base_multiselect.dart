@@ -143,7 +143,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
               //   validateTextField: (String? user) {},
               // ),
               SizedBox(
-                width: 300,
+                width: 280,
                 child: TextField(
                   controller: _customValueController,
                   decoration: InputDecoration(

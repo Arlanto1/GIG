@@ -379,7 +379,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   },
                                 );
                               }
-                              log('---state.model.poc---sdsad------${state.model.poc.toString()}------');
                             },
                             child: Row(
                               children: <Widget>[
@@ -483,9 +482,13 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
                             onTap: (id) {
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .submitForm(isSaveOnly: true);
+                              if (state.model.id == null) {
+                                BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                        isSaveOnly: true,
+                                        navigateToNextScreen: true);
+                              }
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
                                       context)
                                   .getDutyPostById(id);

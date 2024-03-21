@@ -18,9 +18,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final String id;
   final DutyPostModel? mainDutyPostModel;
 
-  ShiftScheduleDetailsCubit(
-      {required this.id, this.mainDutyPostModel, this.model})
-      : super(
+  ShiftScheduleDetailsCubit({
+    required this.id,
+    this.mainDutyPostModel,
+    this.model,
+  }) : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
             locations: Locations(),
@@ -159,6 +161,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
+      List<String> pocs = Utils().splitStringAfterComma(model.poc ?? '');
 
       emit(
         state.copyWith(
@@ -172,6 +175,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
+          pocs: pocs
         ),
       );
     } catch (e) {
@@ -321,7 +325,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -368,8 +375,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           );
           return;
         }
-        response =
-            (await services.createShiftSchedule(body: request, isSubmit: true));
+        response = (await services.createShiftSchedule(
+          body: request,
+          isSubmit: true,
+        ));
       }
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -397,7 +406,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
   }
