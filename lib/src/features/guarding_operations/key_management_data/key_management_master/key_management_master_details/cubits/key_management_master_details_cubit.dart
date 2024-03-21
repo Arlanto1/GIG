@@ -101,9 +101,11 @@ class KeyManagementMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
+      state.model.modifiedBy ??= loggedInUserDetails;
+
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
-
+      state.model.modifiedDate = Utils().getCurrentDate();
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       emit(

@@ -323,6 +323,29 @@ bool showSaveSubmitButtons =false;
                                 state.model.dpName ?? [], height, state),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.03),
+                          if (widget.model?.id != null) ...[
+                            /// Modified Date
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.date ??
+                              //     state.labels?.defaultLocale.date ??
+                              Constants.modifiedOn,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDate().creationDateDisplay(
+                                state.model.modifiedDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Modified By
+                            CommonWidgets.horizentaltextHandling(
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.model.modifiedBy}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
 
                           /// SubmitButton
                           Row(
