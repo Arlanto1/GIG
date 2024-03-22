@@ -1835,7 +1835,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            widget.model == null
+                                        ( widget.model == null || widget.model?.status ==0)
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale.visitorImage ??
                                                 state.labels?.defaultLocale
@@ -1846,14 +1846,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            widget.model == null
+                                        ( widget.model == null || widget.model?.status ==0)
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            widget.model == null
+                                        ( widget.model == null || widget.model?.status ==0)
                                         ? uploadWidget(state, true)
                                         : Container(),
 
@@ -1868,7 +1868,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     ///upload
-                                    widget.model == null
+                                    widget.model == null ||widget.model?.status ==0
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale.evidenceInfo ??
                                                 state.labels?.defaultLocale
@@ -1876,11 +1876,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 Constants.evidenceDocuments,
                                             Styles.textStyleBlack14)
                                         : Container(),
-                                    widget.model == null
+                                    widget.model == null||widget.model?.status ==0
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
-                                    widget.model == null
+                                    widget.model == null||widget.model?.status ==0
                                         ? uploadWidget(state, false)
                                         : Container(),
 
@@ -2668,7 +2668,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget uploadWidget(CreatePassMgmtState state, bool isPhotoType) {
     return // upload
-        widget.model == null
+         widget.model == null || widget.model?.status ==0
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(

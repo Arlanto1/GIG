@@ -11,6 +11,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final String title;
   final int type;
   final int parentId;
+  final int? id;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -18,6 +19,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     required this.title,
     required this.type,
     required this.parentId,
+    this.id,
   });
 
   @override
@@ -700,7 +702,7 @@ class _KeyHistoryRecordsDetailsViewState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        cancelButtonDisplay(),
+                        cancelButtonDisplay(state),
                         if (state.model.status == 0 ||
                             state.model.status == 2 ||
                             state.model.status == 3 ||
@@ -721,7 +723,7 @@ class _KeyHistoryRecordsDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(KeyHistoryRecordsDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -730,10 +732,21 @@ class _KeyHistoryRecordsDetailsViewState
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        // updateRecordStatus(state);
         Navigator.pop(context);
       },
     );
   }
+
+  // void updateRecordStatus(KeyHistoryRecordsDetailsState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
+  //         .updateStatus(id: state.model.keyManagementId.toString(),type: widget.type);
+  //     Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay() {
     return AppButton(

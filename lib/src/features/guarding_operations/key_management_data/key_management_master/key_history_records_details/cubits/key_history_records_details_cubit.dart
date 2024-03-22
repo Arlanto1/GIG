@@ -326,4 +326,8 @@ class KeyHistoryRecordsDetailsCubit
     );
     return true;
   }
+  void updateStatus({required String id,required int type}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyLossDestructionModule,status: 11,type:type);
+  }
 }
