@@ -454,7 +454,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             context: context,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          if (state.model?.id != null) ...[
+                          if (state.model.id != null) ...[
                             /// Modified Date
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.date ??
@@ -470,8 +470,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,
                                 isMandatory: true,
                                 '${state.model.modifiedBy}'),
@@ -480,20 +480,27 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           /// List of Duty Posts
                           DutyPostListWidget(
-                            dutyPosts: state.dutyPosts ?? [],
-                            onTap: (id) {
-                              if (state.model.id == null) {
-                                BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                        isSaveOnly: true,
-                                        navigateToNextScreen: true);
-                              }
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .getDutyPostById(id);
-                            },
-                          ),
+                              dutyPosts: state.dutyPosts ?? [],
+                              onTap: (int? id, int? dustyPostNameId) {
+
+                                log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+
+                                if ( dustyPostNameId != null) {
+                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                    dutyPostNameId: dustyPostNameId,
+                                  );
+                                }
+
+                                if (id != null) {
+                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                          context)
+                                      .getDutyPostById(id);
+                                }
+                              }),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 

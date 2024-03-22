@@ -6,6 +6,8 @@ part 'duty_post_model.g.dart';
 
 class DutyPostModel {
   int? id;
+  int? dutyPostNameId;
+
   String? name;
   List<Rank>? ranks;
 
@@ -17,17 +19,22 @@ class DutyPostModel {
 
   DutyPostModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
+        dutyPostNameId = json['dutyPostNameId'] as int?,
         name = json['name'] as String?,
         ranks = (json['ranks'] as List?)
             ?.map((dynamic e) => Rank.fromJson(e as Map<String, dynamic>))
             .toList();
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'ranks': ranks?.map((e) => e.toJson()).toList()};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'dutyPostNameId': dutyPostNameId,
+        'name': name,
+        'ranks': ranks?.map((e) => e.toJson()).toList(),
+      };
 
   @override
   String toString() {
-    return 'DutyPostModel{id: $id, name: $name, ranks: $ranks}';
+    return 'DutyPostModel{id: $id, dutyPostNameId: $dutyPostNameId, name: $name, ranks: $ranks}';
   }
 }
 

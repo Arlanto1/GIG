@@ -333,6 +333,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   void submitForm({
     bool isSaveOnly = false,
     bool navigateToNextScreen = false,
+    int? dutyPostNameId,
   }) async {
     emit(
       state.copyWith(
@@ -411,9 +412,21 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
     log('---response--msg--${response.message}---');
 
+    DutyPostModel selectedDutyPostModel = DutyPostModel();
+    if (dutyPostNameId != null &&
+        navigateToNextScreen &&
+        !response.id.isEmptyOrNull) {
+      selectedDutyPostModel =
+          await services.getDutyPostByShiftIdAndDutyPostNameId(
+        dutyPostId: dutyPostNameId,
+        shiftId: int.tryParse(response.id!) ?? 0,
+      );
+    }
+
     emit(
       state.copyWith(
         message: response.message,
+        seletedDutyPostModel: selectedDutyPostModel,
         status: navigateToNextScreen
             ? FormStatus.navigateToNextScreen
             : FormStatus.success,
@@ -421,8 +434,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     );
   }
 
-  void submitDutyPost(
-      {bool isSaveOnly = false, required DutyPostModel model}) async {
+  void submitDutyPost({
+    bool isSaveOnly = false,
+    required DutyPostModel model,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,

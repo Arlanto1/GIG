@@ -64,15 +64,15 @@ class ShiftScheduleDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Duty Type');
     }
-    if (model.poc == null) {
+    if (model.poc.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please add Poc');
     }
-    if (model.fromDate == null) {
+    if (model.fromDate.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter From Date');
     }
-    if (model.toDate == null) {
+    if (model.toDate.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter To Date');
     }
@@ -90,15 +90,15 @@ class ShiftScheduleDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Duty Type');
     }
-    if (model.poc == null) {
+    if (model.poc.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please add Poc');
     }
-    if (model.fromDate == null) {
+    if (model.fromDate.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter From Date');
     }
-    if (model.toDate == null) {
+    if (model.toDate.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter To Date');
     }
