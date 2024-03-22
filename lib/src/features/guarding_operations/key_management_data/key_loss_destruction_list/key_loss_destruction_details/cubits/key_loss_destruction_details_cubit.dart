@@ -93,12 +93,16 @@ class KeyLossDestructionDetailsCubit
       Organisation? defaultLocation = futures[10];
 
       state.model.createdBy ??= loggedInUserDetails;
+      state.model.modifiedBy ??= loggedInUserDetails.userName;
+
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
-
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
@@ -138,8 +142,9 @@ class KeyLossDestructionDetailsCubit
     //   return;
     // }
     bool isReadOnly;
-    if (state.model.createdBy!.userName
-        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
+    if ((state.model.createdBy!.userName
+            .equalsIgnoreCase(state.loggedInUserDetails?.userName)) ||
+        (state.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;
@@ -212,6 +217,8 @@ class KeyLossDestructionDetailsCubit
 
   Future<bool> submitForm({
     bool isSaveOnly = false,
+    bool isRejectOnly = false,
+    bool isApprovedOnly = false,
     bool navigateToNextScreen = false,
   }) async {
     emit(
@@ -246,7 +253,10 @@ class KeyLossDestructionDetailsCubit
           return false;
         }
         response = (await services.createKeyLossDestruction(
-            body: request, isSubmit: false, kmld: 501));
+          body: request,
+          isSubmit: false,
+          kmId: state.model.keyManagementId,
+        ));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -262,7 +272,44 @@ class KeyLossDestructionDetailsCubit
           return false;
         }
         response = (await services.createKeyLossDestruction(
-            body: request, isSubmit: true, kmld: 501));
+          body: request,
+          isSubmit: true,
+          kmId: state.model.keyManagementId,
+        ));
+      }
+      if (isRejectOnly) {
+        //Validating Fields
+        if (!state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return false;
+        }
+        response = await services.createKeyLossDestruction(
+          body: request,
+          isSubmit: true,
+          kmId: state.model.keyManagementId,
+        );
+      }
+      if (isApprovedOnly) {
+        //Validating Fields
+        if (!state.isValid.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return false;
+        }
+        response = await services.createKeyLossDestruction(
+          body: request,
+          isSubmit: true,
+          kmId: state.model.keyManagementId,
+        );
       }
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
@@ -274,6 +321,9 @@ class KeyLossDestructionDetailsCubit
           status: FormStatus.error,
         ),
       );
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
       return false;
     } on Exception catch (e) {
       emit(

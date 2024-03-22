@@ -46,10 +46,10 @@ class KeyLossDestructionListServices {
   Future<GenericResponse> createKeyLossDestruction({
     required KeyLossDestructionRequest body,
     required bool isSubmit,
-    required int kmld,
+    required String? kmId,
   }) async {
     final String url =
-        "${Apis._createKeyLossDes}&kmld=$kmld&isSubmit=$isSubmit";
+        "${Apis._createKeyLossDes}&kmId=$kmId&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

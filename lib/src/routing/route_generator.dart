@@ -1184,9 +1184,11 @@ class RouteGenerator {
             KeyLossDestructionListServices();
         CommonServices commonServices = CommonServices();
         String title;
+        int type=0;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
+        type = arguments[ConstantsArgument.type] ?? 0;
         KeyLossDestructionListModel? keyLossDestructionListModel =
             arguments["keyLossGi"];
         return MaterialPageRoute(
@@ -1199,6 +1201,7 @@ class RouteGenerator {
             child: KeyLossDestructionDetailsView(
               model: keyLossDestructionListModel,
               title: title,
+              type: type,
             ),
           ),
         );
