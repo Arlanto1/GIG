@@ -43,11 +43,11 @@ class KeyLossDestructionListModel extends BaseObject {
    dynamic keyDestructionProcess;
    dynamic hasKeyLost;
    User? srh;
-   dynamic securityManager;
+   User? securityManager;
    bool investigationRequired;
    String? lostKeyDetails;
    String? additionalInformation;
-   dynamic destructionReason;
+   Organisation? destructionReason;
    int? status;
    int? noOfKeys;
    User? createdBy;
