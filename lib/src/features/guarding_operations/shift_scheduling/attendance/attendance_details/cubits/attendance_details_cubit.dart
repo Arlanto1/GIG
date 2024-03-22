@@ -77,7 +77,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       }
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = _getCurrentDate();
+      // model.inputDate = _getCurrentDate();
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -117,10 +120,6 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
   Future<void> updateDropdownValues({
@@ -199,8 +198,9 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         }
         response = (await services.create(body: request, isSubmit: true));
       }
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -231,8 +231,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
   Future<void> navigateToNextScreen(String id) async {
     log('-navigateToNextScreen---');
     emit(state.copyWith(status: FormStatus.loading));
-    emit(state.copyWith(status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
+    emit(state.copyWith(
+        status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.attendanceModule);

@@ -110,8 +110,12 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
 
-      model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      log('input date ---${model.inputDate}');
+      // model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
       log('-loggedInUserDetails-${loggedInUserDetails.name}----');
       model.createdBy ??= loggedInUserDetails;
@@ -382,6 +386,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         response = (await services.createEventGeneralInfo(
             body: request, isSubmit: true));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -400,8 +407,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     log('---response--msg--${response.message}---');
-    state.model.inputDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    state.model.inputDate = state.model.inputDate == null
+        ? Utils().getCurrentDate()
+        : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
     emit(
       state.copyWith(
         message: response.message,

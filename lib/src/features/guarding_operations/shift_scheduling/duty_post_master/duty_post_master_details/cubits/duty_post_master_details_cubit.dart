@@ -95,7 +95,10 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       }
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.createdDate = _getCurrentDate();
+      // state.model.createdDate = _getCurrentDate();
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
 
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       emit(
@@ -212,8 +215,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

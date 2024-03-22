@@ -136,7 +136,8 @@ class GuardingMasterDataDetailsCubit
       }
       state.model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      // state.model.inputDate = _getCurrentDate();
+      state.model.inputDate = state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipations ?? '');

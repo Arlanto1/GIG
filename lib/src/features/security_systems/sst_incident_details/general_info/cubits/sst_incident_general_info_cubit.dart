@@ -104,7 +104,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-      model.createdDate = Utils().getCurrentDate();
+      // model.createdDate = Utils().getCurrentDate();
+      model.createdDate = model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.createdDate ?? '');
 
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -433,8 +436,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           isSubmit: true,
         );
       }
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

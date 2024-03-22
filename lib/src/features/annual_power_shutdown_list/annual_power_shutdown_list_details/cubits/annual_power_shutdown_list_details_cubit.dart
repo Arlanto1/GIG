@@ -113,8 +113,11 @@ class AnnualPowerShutdownListDetailsCubit
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
 
-      model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -386,8 +389,9 @@ class AnnualPowerShutdownListDetailsCubit
         response = (await services.createAnnualPowerShutdownList(
             body: request, isSubmit: true));
       }
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

@@ -113,7 +113,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       // Get Date of Creation
-      model.inputDate = Utils().getCurrentDate();
+      // model.inputDate = Utils().getCurrentDate();
+     model.inputDate =model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '') ;
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -406,7 +407,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
-      state.model.inputDate = Utils().getCurrentDate();
+      state.model.inputDate =state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

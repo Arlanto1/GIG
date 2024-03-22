@@ -104,8 +104,15 @@ class KeyManagementIssuanceDetailsCubit
       }
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
-      state.model.keyHandOverDate = Utils().getCurrentDate();
+      // state.model.createdDate = Utils().getCurrentDate();
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.keyHandOverDate = state.model.keyHandOverDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
+
+      // state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
@@ -242,8 +249,10 @@ class KeyManagementIssuanceDetailsCubit
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.createdDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -257,8 +266,10 @@ class KeyManagementIssuanceDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.createdDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -288,8 +299,9 @@ class KeyManagementIssuanceDetailsCubit
               : FormStatus.success,
         ),
       );
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

@@ -375,8 +375,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         response = (await services.createIncidentManagement(
             body: request, isSubmit: true));
       }
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

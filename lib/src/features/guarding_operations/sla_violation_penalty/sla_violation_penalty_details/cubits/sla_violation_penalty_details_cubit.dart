@@ -116,7 +116,10 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      // state.model.inputDate = Utils().getCurrentDate();
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
@@ -139,7 +142,7 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity  ??= loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -251,8 +254,9 @@ class SLAViolationPenaltyDetailsCubit
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -266,8 +270,9 @@ class SLAViolationPenaltyDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -299,8 +304,9 @@ class SLAViolationPenaltyDetailsCubit
                   : FormStatus.success,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       return true;
     } on GenericResponse catch (e) {
       emit(
@@ -311,8 +317,9 @@ class SLAViolationPenaltyDetailsCubit
       );
       return false;
     } on Exception catch (e) {
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       emit(
         state.copyWith(
           message: e.toString(),
@@ -322,6 +329,7 @@ class SLAViolationPenaltyDetailsCubit
       return false;
     }
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.slaViolationPenaltyDetailsModule);

@@ -153,10 +153,16 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      model.modifiedDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
+      // model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // model.modifiedDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
@@ -165,18 +171,17 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       emit(
         state.copyWith(
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: model,
-          users: users.t1Analyst,
-          vendors: vendors.items,
-          entrySecurities: entrySecurities,
-          dutyPosts: dutyPosts,
-          emailUsers: emailUsers.atomStaticUser,
-          labels: labels,
-          pocs: pocs
-        ),
+            locations: getLocationsData,
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: model,
+            users: users.t1Analyst,
+            vendors: vendors.items,
+            entrySecurities: entrySecurities,
+            dutyPosts: dutyPosts,
+            emailUsers: emailUsers.atomStaticUser,
+            labels: labels,
+            pocs: pocs),
       );
     } catch (e) {
       log('Initialization issue',
@@ -350,8 +355,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -365,8 +371,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -380,8 +387,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           isSubmit: true,
         ));
       }
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
