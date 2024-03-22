@@ -4,7 +4,7 @@ import 'package:db_atom/index.dart';
 
 class DutyPostListWidget extends StatelessWidget {
   final List<DutyPostModel> dutyPosts;
-  final Function(int id) onTap;
+  final Function(int? id, int? dutyPostNameId) onTap;
 
   const DutyPostListWidget({
     super.key,
@@ -25,7 +25,7 @@ class DutyPostListWidget extends StatelessWidget {
           onTap: () {
             log('-dutyPosts[index].id--${dutyPosts[index].id}---');
             log('-dutyPosts[index].id--${dutyPosts[index].name}---');
-            onTap(dutyPosts[index].id ?? 0);
+            onTap(dutyPosts[index].id, dutyPosts[index].dutyPostNameId);
           },
         );
       },

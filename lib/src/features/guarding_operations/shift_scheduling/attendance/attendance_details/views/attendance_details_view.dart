@@ -369,7 +369,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           /// List of Duty Posts
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
-                            onTap: (id) {
+                            onTap: (int? id, int? dutyPostNameId) {
                               BlocProvider.of<AttendanceDetailsCubit>(context)
                                   .navigateToNextScreen(id.toString());
                             },

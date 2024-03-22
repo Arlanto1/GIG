@@ -231,7 +231,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         IconButton(
           onPressed: () {
             if (selectedGuard != null &&
-                !destinationList.contains(selectedGuard)) {
+                destinationList.contains(selectedGuard)) {
               onAdd(selectedGuard!);
             }
           },
