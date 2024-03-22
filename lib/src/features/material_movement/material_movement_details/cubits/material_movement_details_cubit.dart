@@ -123,8 +123,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       List<Organisation> quantityUnits = futures[7];
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
-
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
         state.model.approvedDate =
@@ -508,8 +509,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -523,8 +525,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -575,8 +579,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -586,8 +591,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
       return;
     } on Exception catch (e) {
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
       emit(
         state.copyWith(
           message: e.toString(),

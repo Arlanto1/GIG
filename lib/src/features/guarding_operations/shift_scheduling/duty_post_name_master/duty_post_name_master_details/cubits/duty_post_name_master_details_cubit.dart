@@ -78,12 +78,17 @@ class DutyPostNameMasterDetailsCubit
       // }
 
       state.model.entrySecurity ??= loggedInUserDetails;
-
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       // Get Date of Creation
-      state.model?.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      state.model?.modifiedDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // state.model?.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // state.model?.modifiedDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
       emit(
@@ -177,8 +182,9 @@ class DutyPostNameMasterDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -188,7 +194,7 @@ class DutyPostNameMasterDetailsCubit
           return;
         }
         response = (await services.create(body: request, isSubmit: false));
-         } else {
+      } else {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
@@ -201,8 +207,9 @@ class DutyPostNameMasterDetailsCubit
         }
         response = (await services.create(body: request, isSubmit: true));
       }
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -213,7 +220,7 @@ class DutyPostNameMasterDetailsCubit
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
-       } on Exception catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),

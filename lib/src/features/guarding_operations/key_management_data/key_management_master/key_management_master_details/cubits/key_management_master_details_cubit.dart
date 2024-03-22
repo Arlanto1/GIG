@@ -102,10 +102,16 @@ class KeyManagementMasterDetailsCubit
       }
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
 
       // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
-      state.model.modifiedDate = Utils().getCurrentDate();
+      // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.modifiedDate = Utils().getCurrentDate();
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       emit(
@@ -238,8 +244,12 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

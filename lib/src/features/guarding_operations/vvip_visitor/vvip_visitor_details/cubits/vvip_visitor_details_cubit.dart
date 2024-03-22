@@ -83,7 +83,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
-      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") + (loggedInUserDetails.lastName ?? "");
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
+          (loggedInUserDetails.lastName ?? "");
 
       emit(
         state.copyWith(
@@ -172,8 +173,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -187,8 +189,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -218,8 +221,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
               : FormStatus.success,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       return true;
     } on GenericResponse catch (e) {
       emit(
@@ -230,8 +234,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       );
       return false;
     } on Exception catch (e) {
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       emit(
         state.copyWith(
           message: e.toString(),
@@ -241,6 +246,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       return false;
     }
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.vipVisitorsDetailsModule);

@@ -20,29 +20,29 @@ class KeyLossDestructionDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-    KeyLossDestructionDetailsState.initial(
-        model: model ?? KeyLossDestructionListModel(),
-        locations: Locations(),
-        loggedInUserDetails: User(),
-        users: const [],
-        emailUsers: const [],
-        errorMessage: '',
-        listOfEntities: const [],
-        getEntitiesResponse: null,
-        departments: const [],
-        getQualificationsResponse: null),
-  );
+          KeyLossDestructionDetailsState.initial(
+              model: model ?? KeyLossDestructionListModel(),
+              locations: Locations(),
+              loggedInUserDetails: User(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              listOfEntities: const [],
+              getEntitiesResponse: null,
+              departments: const [],
+              getQualificationsResponse: null),
+        );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
@@ -94,7 +94,10 @@ class KeyLossDestructionDetailsCubit
 
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
+      // state.model.createdDate = Utils().getCurrentDate();
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
 
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
@@ -127,8 +130,7 @@ class KeyLossDestructionDetailsCubit
   }
 
   Future<void> isFormReadable() async {
-
-    emit(state.copyWith( status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.loading));
     // if (state.model.status != ConstantsIntValue.submitted) {
     //   emit(state.copyWith(
     //     status: FormStatus.initial,
@@ -226,12 +228,15 @@ class KeyLossDestructionDetailsCubit
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyLossDestructionRequest request =
-    KeyLossDestructionRequest(keyLossGi: state.model);
+        KeyLossDestructionRequest(keyLossGi: state.model);
 
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -245,6 +250,9 @@ class KeyLossDestructionDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -256,6 +264,9 @@ class KeyLossDestructionDetailsCubit
         response = (await services.createKeyLossDestruction(
             body: request, isSubmit: true, kmld: 501));
       }
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -285,6 +296,7 @@ class KeyLossDestructionDetailsCubit
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.keyLossDestructionModule);

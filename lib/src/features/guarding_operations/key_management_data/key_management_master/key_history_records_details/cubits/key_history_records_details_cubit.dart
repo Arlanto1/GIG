@@ -1,9 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/constants/constant_drop_down_values.dart';
-import 'package:db_atom/src/constants/constant_drop_down_values.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/kld_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -328,5 +325,9 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
     return true;
+  }
+  void updateStatus({required String id,required int type}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.keyLossDestructionModule,status: 11,type:type);
   }
 }
