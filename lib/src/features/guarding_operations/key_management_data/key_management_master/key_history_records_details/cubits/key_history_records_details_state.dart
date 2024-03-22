@@ -15,6 +15,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final String? message;
   final User? createdBy;
   final KLDUiLabels? labels;
+  final bool? isReadOnly;
 
   factory KeyHistoryRecordsDetailsState.initial({
     required KeyManagementMasterModel model,
@@ -123,6 +124,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.message,
     this.createdBy,
     this.labels,
+    this.isReadOnly,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
@@ -139,6 +141,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     String? message,
     User? createdBy,
     final KLDUiLabels? labels,
+    bool? isReadOnly,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
@@ -153,6 +156,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,
       destructionReasons: destructionReasons ?? this.destructionReasons,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
     );
   }
 }

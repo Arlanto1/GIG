@@ -111,8 +111,8 @@ class KeyHistoryRecordsDetailsCubit
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
-      state.model.modifiedBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
+      state.model.modifiedBy ??= loggedInUserDetails;
       state.model.type = type;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
@@ -191,7 +191,7 @@ class KeyHistoryRecordsDetailsCubit
       User userDetails = User(
         name: securityManager.name,
         userId: securityManager.id,
-        userName: securityManager.name,
+        userName: securityManager.email,
       );
       state.model.securityManager = userDetails;
     }
