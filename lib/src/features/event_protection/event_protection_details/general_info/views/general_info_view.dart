@@ -1568,7 +1568,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                             if (!disableForm) ...[
                               submitButtonDisplay(onTap: () {
                                 FocusScope.of(context).unfocus();
@@ -1583,7 +1583,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            cancelButtonDisplay(),
+                            cancelButtonDisplay(state),
                           ],
                         ),
                       ],
@@ -1597,7 +1597,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(GeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -1606,9 +1606,19 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(GeneralInfoState state) {
+    if (state.model.id != null && state.model?.status != -1) {
+      BlocProvider.of<GeneralInfoCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, eventProtectionListRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay(

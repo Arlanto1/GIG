@@ -195,7 +195,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0,
+                                isDisabled: true,
                                 textController: statusController,
                                 items: incidentManagementStatus,
                                 initialValue: '${state.model.status ?? 0}',
@@ -711,8 +711,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             /// Incident Manager
                             CommonWidgets.textDisplay(
                               state.labels?.locale.incidentManager ??
-                                  state
-                                      .labels?.defaultLocale.incidentManager??
+                                  state.labels?.defaultLocale.incidentManager ??
                                   Constants.incidentManager,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -857,7 +856,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(),
+                          cancelButtonDisplay(state),
                           if (state.model.status == 0) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
@@ -878,7 +877,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     );
   }
 
-  Widget cancelButtonDisplay() {
+  Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
       width: 150,
@@ -887,9 +886,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        Navigator.pop(context);
+        updateRecordStatus(state);
       },
     );
+  }
+
+  void updateRecordStatus(IncidentGeneralInfoState state) {
+    if (state.model.id != null && state.model.id != 0) {
+      BlocProvider.of<IncidentGeneralInfoCubit>(context)
+          .updateStatus(id: state.model.id.toString());
+      Navigator.popAndPushNamed(context, incidentManagementsRoute);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget submitButtonDisplay(

@@ -418,4 +418,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.eventProtectionModule,aps: 0);
+  }
+
 }

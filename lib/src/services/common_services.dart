@@ -318,9 +318,10 @@ class CommonServices {
     required String module,
     int? status = -1,
     int? type,
+    int? aps,
     BuildContext? context,
   }) async {
-    String url = '${Apis._updateRecordStatus}$id?module=$module&status=$status&type=$type';
+    String url = '${Apis._updateRecordStatus}$id?module=$module&status=$status&type=$type&aps=$aps';
     await BaseApiService().patchRequest(
       url: url,
     );

@@ -135,6 +135,7 @@ const List<Label> eventProtectionGiStatus = [
   Label(key: 'Invoice Raised', value: '28'),
   Label(key: 'Invoice Submitted', value: '29'),
   Label(key: 'Closed', value: '30'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> guardRankDropDownValues = [

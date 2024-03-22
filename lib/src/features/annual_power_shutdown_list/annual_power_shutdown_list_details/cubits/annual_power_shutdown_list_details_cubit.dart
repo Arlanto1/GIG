@@ -421,7 +421,7 @@ class AnnualPowerShutdownListDetailsCubit
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.eventProtectionModule);
+        id: id, module: Constants.eventProtectionModule,aps: 1);
   }
 
   Future<void> getEpGuardBudgetCost(BudgetCostModel budgetCost) async {

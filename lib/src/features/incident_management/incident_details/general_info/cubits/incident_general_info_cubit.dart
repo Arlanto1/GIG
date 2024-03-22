@@ -109,8 +109,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-      model.inputDate = Utils().getCurrentDate();
-
+      // model.inputDate = Utils().getCurrentDate();
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
@@ -375,9 +377,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         response = (await services.createIncidentManagement(
             body: request, isSubmit: true));
       }
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -404,4 +406,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
   }
+  void updateStatus({required String id}) {
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.incidentManagementModule,status: 40);
+  }
+
 }
