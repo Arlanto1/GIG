@@ -426,11 +426,11 @@ class _KeyLossDestructionDetailsViewState
                                 height: 70,
                                 isDisableColor: state.model.status != null &&
                                     state.model.status != 0 &&
-                                    !isReadOnly,
+                                    isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null ||
-                                      isReadOnly) {
+                                      !isReadOnly) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
                                       users: state.users!,
@@ -461,11 +461,11 @@ class _KeyLossDestructionDetailsViewState
                                 height: 70,
                                 isDisableColor: state.model.status != null &&
                                     state.model.status != 0 &&
-                                    !isReadOnly,
+                                    isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null ||
-                                      isReadOnly) {
+                                      !isReadOnly) {
                                     BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.destructionReasons,
