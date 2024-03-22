@@ -46,9 +46,7 @@ class _KeyHistoryRecordsDetailsViewState
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
@@ -87,13 +85,16 @@ class _KeyHistoryRecordsDetailsViewState
         }
       },
       builder: (context, state) {
-        if (state.model.status == null||state.model.status == 0 || state.model.status == 2 ||
+        if (state.model.status == null ||
+            state.model.status == 0 ||
+            state.model.status == 2 ||
             state.model.status == 3) {
           isReadOnly = false;
         }
         showLikeDisLikeButtons = (state.model.status == 7 &&
-            widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
-             state.loggedInUserDetails!.userName.equalsIgnoreCase(state.model.securityManager?.userName);
+                widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+            state.loggedInUserDetails!.userName
+                .equalsIgnoreCase(state.model.securityManager?.userName);
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -101,24 +102,26 @@ class _KeyHistoryRecordsDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status == 0 ||
-                state.model.status == 2 ||
-                state.model.status == 3 ||
-                (state.model.status == 7 &&
-                    widget.type != ConstantsIntValue.keyDestroyHistoryInt)||
-            state.model.status == null
-          ? true
-              : false,
+                    state.model.status == 2 ||
+                    state.model.status == 3 ||
+                    (state.model.status == 7 &&
+                        widget.type !=
+                            ConstantsIntValue.keyDestroyHistoryInt) ||
+                    state.model.status == null
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
             showSubmitButton: state.model.status == 0 ||
-                state.model.status == 2 ||
-                state.model.status == 3 ||
-                (state.model.status == 7 &&
-                    widget.type != ConstantsIntValue.keyDestroyHistoryInt) ||
-                state.model.status == null
+                    state.model.status == 2 ||
+                    state.model.status == 3 ||
+                    (state.model.status == 7 &&
+                        widget.type !=
+                            ConstantsIntValue.keyDestroyHistoryInt) ||
+                    state.model.status == null
                 ? true
                 : false,
             onTapSubmit: () {
@@ -126,7 +129,7 @@ class _KeyHistoryRecordsDetailsViewState
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            showLikeButton:  showLikeDisLikeButtons,
+            showLikeButton: showLikeDisLikeButtons,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
@@ -190,7 +193,7 @@ class _KeyHistoryRecordsDetailsViewState
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Form(
                 key: _formKey,
@@ -242,16 +245,16 @@ class _KeyHistoryRecordsDetailsViewState
                                   Label? selectedLabel;
                                   selectedLabel =
                                       keyManagementHistoryStatus.firstWhere(
-                                            (label) => label.key == value,
-                                        orElse: () =>
+                                    (label) => label.key == value,
+                                    orElse: () =>
                                         const Label(key: '', value: ''),
-                                      );
+                                  );
                                   BlocProvider.of<
-                                      KeyHistoryRecordsDetailsCubit>(
-                                      context)
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(
-                                      status: int.tryParse(
-                                          selectedLabel.value));
+                                          status: int.tryParse(
+                                              selectedLabel.value));
                                 },
                               );
                             }
@@ -265,8 +268,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 state.labels?.defaultLocale.createdBy ??
                                 Constants.createdby,
                             isMandatory: true,
-                            '${state.model.createdBy?.firstName ?? ''} ${state
-                                .model.createdBy?.lastName ?? ''}'),
+                            '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Date of creation
@@ -316,16 +318,16 @@ class _KeyHistoryRecordsDetailsViewState
                                       Label? selectedLabel;
                                       selectedLabel =
                                           keyTypeDropDownValues.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
+                                        (label) => label.key == value,
+                                        orElse: () =>
                                             const Label(key: '', value: ''),
-                                          );
+                                      );
                                       BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit>(
-                                          context)
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          keyType: int.tryParse(
-                                              selectedLabel.value));
+                                              keyType: int.tryParse(
+                                                  selectedLabel.value));
                                     });
                               }
                             }),
@@ -344,16 +346,7 @@ class _KeyHistoryRecordsDetailsViewState
                             textController: typeController,
                             items: typesDropDownValues,
                             initialValue:
-                            '${widget.type ==
-                                ConstantsIntValue.lockChangeHistoryInt ? state
-                                .model.type ?? 0 : widget.type ==
-                                ConstantsIntValue.keyLostHistoryInt ? state
-                                .model.type ?? 1 : widget.type ==
-                                ConstantsIntValue.keyDamageHistoryInt ? state
-                                .model.type ?? 2 : widget.type ==
-                                ConstantsIntValue.keyDestroyHistoryInt ? state
-                                .model.type ?? 3 : state.model.type
-                                .toString()}',
+                                '${widget.type == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.type == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.type == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.type == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                             onTap: () {
                               if (widget.model?.status == 0) {
                                 BaseDropDown().assetTypeDialog(
@@ -365,26 +358,25 @@ class _KeyHistoryRecordsDetailsViewState
                                       Label? selectedLabel;
                                       selectedLabel =
                                           typesDropDownValues.firstWhere(
-                                                (label) => label.key == value,
-                                            orElse: () =>
+                                        (label) => label.key == value,
+                                        orElse: () =>
                                             const Label(key: '', value: ''),
-                                          );
+                                      );
                                       BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit>(
-                                          context)
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          type: int.tryParse(
-                                              selectedLabel.value));
+                                              type: int.tryParse(
+                                                  selectedLabel.value));
                                     });
                               }
                             }),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         if (widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt ||
+                                ConstantsIntValue.keyLostHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDamageHistoryInt) ...[
-
                           /// SRH
                           CommonWidgets.textDisplay(
                               state.labels?.locale.srh ??
@@ -403,8 +395,8 @@ class _KeyHistoryRecordsDetailsViewState
                                 users: state.users!,
                                 onTap: (BaseUser user) {
                                   BlocProvider.of<
-                                      KeyHistoryRecordsDetailsCubit>(
-                                      context)
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(
                                     srh: user,
                                   );
@@ -417,7 +409,6 @@ class _KeyHistoryRecordsDetailsViewState
 
                         if (widget.type ==
                             ConstantsIntValue.keyDestroyHistoryInt) ...[
-
                           /// Security Manager
                           CommonWidgets.textDisplay(
                             state.labels?.locale.securityManager ??
@@ -429,19 +420,20 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.securityManager?.userName,
                             height: 60,
-                            isDisableColor:
-                                state.model.status != null &&
-                                state.model.status != 0 && !showLikeDisLikeButtons ,
+                            isDisableColor: state.model.status != null &&
+                                state.model.status != 0 &&
+                                !showLikeDisLikeButtons,
                             onTap: () {
                               if (state.model.status == 0 ||
-                                  state.model.status == null || showLikeDisLikeButtons) {
+                                  state.model.status == null ||
+                                  showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.users!,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit>(
-                                        context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
                                       securityManager: user,
                                     );
@@ -463,22 +455,22 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
-                            isDisableColor:
-                                state.model.status != null &&
-                                state.model.status != 0 && !showLikeDisLikeButtons,
+                            isDisableColor: state.model.status != null &&
+                                state.model.status != 0 &&
+                                !showLikeDisLikeButtons,
                             onTap: () {
-                              if (
-                                  state.model.status == 0 ||
-                                  state.model.status == null || showLikeDisLikeButtons) {
+                              if (state.model.status == 0 ||
+                                  state.model.status == null ||
+                                  showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: state.destructionReasons,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit>(
-                                        context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                        destructionReason: department);
+                                            destructionReason: department);
                                   },
                                 );
                               }
@@ -490,7 +482,7 @@ class _KeyHistoryRecordsDetailsViewState
 
                         /// Details of Lost Keys
                         if (widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt ||
+                                ConstantsIntValue.keyLostHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
@@ -520,14 +512,13 @@ class _KeyHistoryRecordsDetailsViewState
                         ],
 
                         if (widget.type ==
-                            ConstantsIntValue.lockChangeHistoryInt ||
+                                ConstantsIntValue.lockChangeHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDestroyHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDamageHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyLostHistoryInt) ...[
-
                           /// No Of Keys
                           CommonWidgets.textDisplay(
                               state.labels?.locale.noOfKeys ??
@@ -573,13 +564,13 @@ class _KeyHistoryRecordsDetailsViewState
                           isEnable: state.model.status == 0 ||
                               state.model.status == 2 ||
                               state.model.status == 3 ||
-                              showLikeDisLikeButtons||
-                              state.model.status == null ,
+                              showLikeDisLikeButtons ||
+                              state.model.status == null,
                           isDisableColor: state.model.status == 0 ||
-                              state.model.status == 2 ||
-                              state.model.status == 3 ||
-                              showLikeDisLikeButtons||
-                              state.model.status == null
+                                  state.model.status == 2 ||
+                                  state.model.status == 3 ||
+                                  showLikeDisLikeButtons ||
+                                  state.model.status == null
                               ? false
                               : true,
                           onChange: (String value) {
@@ -594,7 +585,7 @@ class _KeyHistoryRecordsDetailsViewState
 
                         /// Investigation Required
                         if (widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt ||
+                                ConstantsIntValue.keyLostHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDamageHistoryInt) ...[
                           CommonWidgets.textDisplay(
@@ -607,25 +598,25 @@ class _KeyHistoryRecordsDetailsViewState
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue:
-                              state.model.investigationRequired ? 1 : 0,
+                                  state.model.investigationRequired ? 1 : 0,
                               onChangedYes: widget.model?.status == 6
                                   ? null
                                   : (val) {
-                                state.model.investigationRequired = true;
-                                BlocProvider.of<
-                                    KeyHistoryRecordsDetailsCubit>(
-                                    context)
-                                    .onCheckBoxChange(state.model);
-                              },
+                                      state.model.investigationRequired = true;
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .onCheckBoxChange(state.model);
+                                    },
                               onChangedNo: widget.model?.status == 6
                                   ? null
                                   : (val) {
-                                state.model.investigationRequired = false;
-                                BlocProvider.of<
-                                    KeyHistoryRecordsDetailsCubit>(
-                                    context)
-                                    .onCheckBoxChange(state.model);
-                              }),
+                                      state.model.investigationRequired = false;
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .onCheckBoxChange(state.model);
+                                    }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
                         if (state.model.investigationRequired) ...[
@@ -641,7 +632,7 @@ class _KeyHistoryRecordsDetailsViewState
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess = await BlocProvider.of<
-                                  KeyHistoryRecordsDetailsCubit>(context)
+                                      KeyHistoryRecordsDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -679,16 +670,13 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
                         if (state.model.id != null) ...[
-
                           /// Modified By
                           CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.modifiedBy ??
                                   state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,
                               isMandatory: true,
-                              '${state.model.modifiedBy?.firstName ??
-                                  ''} ${state.model.modifiedBy?.lastName ??
-                                  ''}'),
+                              '${state.model.modifiedBy?.firstName ?? ''} ${state.model.modifiedBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Modified On
