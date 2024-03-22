@@ -42,10 +42,11 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ShiftScheduleListBloc>().add(FetchShiftScheduleList(
-          startPos: pageNumber,
-          maxPos: 20,
-          newSearch: true,
-          filters: BaseFilterModel()));
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -74,9 +75,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, shiftScheduleDetailsRoute, arguments: {
-              ConstantsArgument.title: Constants.createShiftSchedule,
-            }),
+            Navigator.pushNamed(context, shiftScheduleDetailsRoute,
+                arguments: {"title": Constants.createShiftSchedule}),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -92,10 +92,10 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
         ),
         body: BlocBuilder<ShiftScheduleListBloc, ShiftScheduleListState>(
             builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
-          // if (state.items.isEmptyOrNull) {
+          // if (state.list.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -120,16 +120,16 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    state.status != FormStatus.loading &&
+                    state.status != FormStatus.initial) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
 

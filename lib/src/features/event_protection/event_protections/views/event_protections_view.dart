@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../services/event_protection_services.dart';
 import '../bloc/event_protections_bloc.dart';
 
 class EventProtectionsView extends StatefulWidget {
@@ -21,14 +20,14 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
   RefreshController refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     context.read<EventProtectionsBloc>().add(
-      const InitializeValuesEP(),
-    );
+          const InitializeValuesEP(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -40,6 +39,22 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     super.dispose();
   }
 
+  // void _onScroll() {
+  //   if (!_scrollController.hasClients) return;
+  //   final maxScroll = _scrollController.position.maxScrollExtent;
+  //   final currentScroll = _scrollController.position.pixels;
+  //
+  //   // Set a threshold value, e.g., 100 pixels from the end
+  //   const threshold = 1000.0;
+  //
+  //   if (maxScroll - currentScroll <= threshold) {
+  //     pageNumber = pageNumber + 20;
+  //     context
+  //         .read<EventProtectionsBloc>()
+  //         .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+  //   }
+  // }
+
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     final maxScroll = _scrollController.position.maxScrollExtent;
@@ -47,18 +62,18 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<EventProtectionsBloc>().add(FetchData(
-        startPos: pageNumber,
-        maxPos: 20,
-        newSearch: false,
-        filters: filters,
-      ));
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
   void _onRefresh() async {
     context.read<EventProtectionsBloc>().add(
-      const RefreshList(),
-    );
+          const RefreshList(),
+        );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
@@ -94,8 +109,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         showSubmitButton: false,
         showDisLikeButton: false,
         showLikeButton: false,
-        excelAPIName: 'exportVipExcel',
-        pdfAPIName: 'exportVipPDF',
+        excelAPIName: 'exportEPExcel?aps=0',
+        pdfAPIName: 'exportEPPDF?aps=0',
       ),
       body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
         builder: (context, state) {
@@ -111,7 +126,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                 color: AppColors.backgroundWhitecolor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20.0)),
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
@@ -164,9 +179,9 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                   'Date of Creation',
                               value: state.items[index].inputDate != null
                                   ? Utils.timestamptoDateConversion(
-                                  int.parse(
-                                      state.items[index].inputDate ?? '0'),
-                                  Constants.dateFormat)
+                                      int.parse(
+                                          state.items[index].inputDate ?? '0'),
+                                      Constants.dateFormat)
                                   : ''));
                           labels.add(Label(
                               key: state.labels?.locale.locationRegion ??
@@ -183,60 +198,60 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                           return index >= state.items.length
                               ? const BaseLoader()
                               : BaseListTileItem(
-                            id: state.items[index].id,
-                            labels: labels,
-                            status: state.items[index].status,
-                            isMasterGuard: false,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status:
-                                    state.items[selectedIndex].status,
-                                    isMasterGuard: false,
-                                    epManager1Name: state
-                                        .items[selectedIndex]
-                                        .epManager1Name,
-                                    eventType: state
-                                        .items[selectedIndex].eventType,
-                                  );
-                                },
-                              );
-                            },
-                            onEditTap: (selectedIndex) {
-                              getById(
-                                  id: state.items[index].id ?? 0,
-                                  eventStatus:
-                                  state.items[index].status ?? 0);
-                            },
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    isMasterGuard: false,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status:
-                                    state.items[selectedIndex].status,
-                                    epManager1Name: state
-                                        .items[selectedIndex]
-                                        .epManager1Name,
-                                    eventType: state
-                                        .items[selectedIndex].eventType,
-                                  );
-                                },
-                              );
-                            },
-                            index: index,
-                          );
+                                  id: state.items[index].id,
+                                  labels: labels,
+                                  status: state.items[index].status,
+                                  isMasterGuard: false,
+                                  onTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          slNo: state.items[selectedIndex].slNo,
+                                          status:
+                                              state.items[selectedIndex].status,
+                                          isMasterGuard: false,
+                                          epManager1Name: state
+                                              .items[selectedIndex]
+                                              .epManager1Name,
+                                          eventType: state
+                                              .items[selectedIndex].eventType,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  onEditTap: (selectedIndex) {
+                                    getById(
+                                        id: state.items[index].id ?? 0,
+                                        eventStatus:
+                                            state.items[index].status ?? 0);
+                                  },
+                                  onViewTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          isMasterGuard: false,
+                                          slNo: state.items[selectedIndex].slNo,
+                                          status:
+                                              state.items[selectedIndex].status,
+                                          epManager1Name: state
+                                              .items[selectedIndex]
+                                              .epManager1Name,
+                                          eventType: state
+                                              .items[selectedIndex].eventType,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  index: index,
+                                );
                         }
                         return const Center(
                           child: SizedBox(),
@@ -260,7 +275,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     log('-----');
     var nav = Navigator.of(context);
     ShowEPGridsModel showEPGridsModel =
-    await EventProtectionServices().showEpGrids(id);
+        await EventProtectionServices().showEpGrids(id);
     nav.pushNamed(
       eventProtectionDetailsTabRoute,
       arguments: {
@@ -270,9 +285,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       },
     );
   }
+
   void applySearchFilters(
-      FilterCriteria model,
-      ) {
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<EventProtectionsBloc>(context).add(
@@ -281,9 +299,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   }
 
   void applyFilters(
-      Filters model,
-      ) {
+    Filters model,
+  ) {
+    log('Applying Filters');
+
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<EventProtectionsBloc>(context).add(
       FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),

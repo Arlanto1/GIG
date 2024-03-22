@@ -78,10 +78,12 @@ class DutyPostNameMasterDetailsCubit
       // }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+
       // Get Date of Creation
       state.model?.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
-
+      state.model?.modifiedDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
       emit(

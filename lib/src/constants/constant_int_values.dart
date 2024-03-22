@@ -39,7 +39,8 @@ class ConstantsIntValue {
   /// Shift Occurence
   static const int submitted = 1;
 
-
+///Key Management Master
+  static const int destroyInitiated = 7;
 
   static const int genderMale = 1;
   static const int genderFemale = 2;

@@ -44,12 +44,14 @@ class _AttendanceReportBillingViewState
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<AttendanceReportBillingBloc>().add(
-          FetchAttendanceReportBillingList(
-              startPos: pageNumber,
-              maxPos: 20,
-              newSearch: true,
-              filters: BaseFilterModel()));
+      context
+          .read<AttendanceReportBillingBloc>()
+          .add(FetchAttendanceReportBillingList(
+            startPos: pageNumber,
+            maxPos: 20,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -82,15 +84,15 @@ class _AttendanceReportBillingViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportAttendanceExcel',
-          pdfAPIName: 'exportAttendancePDF',
+          excelAPIName: 'exportKmiExcel',
+          pdfAPIName: 'exportKmiPDF',
         ),
         body: BlocBuilder<AttendanceReportBillingBloc,
             AttendanceReportBillingState>(builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
+          // if (state.status == FormStatus.loading) {
           //   return const BaseLoader();
           // }
-          // if (state.items.isEmptyOrNull) {
+          // if (state.list.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
           // log('--labels-${state.labels?.locale.locationRegion}');
@@ -115,7 +117,7 @@ class _AttendanceReportBillingViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
+                if (state.status == FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -124,7 +126,7 @@ class _AttendanceReportBillingViewState
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
                     state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
 
@@ -167,9 +169,10 @@ class _AttendanceReportBillingViewState
                                 key: 'Date',
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestamptoDateConversion(
-                                    int.parse(
-                                        state.items[index].inputDate ?? '0'),
-                                    Constants.dateFormat)
+                                        int.parse(
+                                            state.items[index].inputDate ??
+                                                '0'),
+                                        Constants.dateFormat)
                                     : ''));
                             labels.add(Label(
                                 key: 'Year',

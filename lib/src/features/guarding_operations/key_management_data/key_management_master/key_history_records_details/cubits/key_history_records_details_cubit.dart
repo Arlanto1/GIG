@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/constants/constant_drop_down_values.dart';
+import 'package:db_atom/src/constants/constant_drop_down_values.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/kld_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
@@ -102,15 +104,15 @@ class KeyHistoryRecordsDetailsCubit
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyLossDestructionModule,
-          type: type,
-        );
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.keyLossDestructionModule,
+            type: type,
+            kmId: parentId);
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
-      state.model.createdBy = loggedInUserDetails;
-      state.model.modifiedBy = loggedInUserDetails;
+      state.model.createdBy ??= loggedInUserDetails;
+      state.model.modifiedBy ??= loggedInUserDetails;
       state.model.type = type;
       // Get Date of Creation
       state.model.createdDate = Utils().getCurrentDate();
@@ -166,10 +168,10 @@ class KeyHistoryRecordsDetailsCubit
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getKLDSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.keyLossDestructionModule,
-        type: type,
-      );
+          locationId: location.id.toString(),
+          moduleCode: Constants.keyLossDestructionModule,
+          type: type,
+          kmId: parentId);
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -189,7 +191,7 @@ class KeyHistoryRecordsDetailsCubit
       User userDetails = User(
         name: securityManager.name,
         userId: securityManager.id,
-        userName: securityManager.name,
+        userName: securityManager.email,
       );
       state.model.securityManager = userDetails;
     }
@@ -234,6 +236,7 @@ class KeyHistoryRecordsDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.createdDate = Utils().getCurrentDate();
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -272,7 +275,8 @@ class KeyHistoryRecordsDetailsCubit
           response = await services.createKeyHistoryRecord(
             body: request,
             isSubmit: true,
-            kmId: parentId.toString(),);
+            kmId: parentId.toString(),
+          );
         }
         if (isApprovedOnly) {
           //Validating Fields
@@ -288,7 +292,8 @@ class KeyHistoryRecordsDetailsCubit
           response = await services.createKeyHistoryRecord(
             body: request,
             isSubmit: true,
-            kmId: parentId.toString(),);
+            kmId: parentId.toString(),
+          );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
@@ -296,6 +301,7 @@ class KeyHistoryRecordsDetailsCubit
           kmId: parentId.toString(),
         ));
       }
+      state.model.createdDate = Utils().getCurrentDate();
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

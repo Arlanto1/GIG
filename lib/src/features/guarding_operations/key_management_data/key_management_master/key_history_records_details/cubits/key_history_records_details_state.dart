@@ -15,6 +15,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final String? message;
   final User? createdBy;
   final KLDUiLabels? labels;
+  final bool? isReadOnly;
 
   factory KeyHistoryRecordsDetailsState.initial({
     required KeyManagementMasterModel model,
@@ -67,7 +68,41 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.keyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Type');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.securityManager == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Manager');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.destructionReason == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Reason for Key Destruction');
+    }
 
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.srh == null) {
+      return const ErrorResponse(status: false, message: 'Please enter SRH');
+    }
+
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.lostKeyDetails == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Details of Lost key');
+    }
+    if (model.noOfKeys == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No.of Keys');
+    }
+    // if (model.noOfKeys != null && model.keyType == 1 && model.noOfKeys != (model.noKeys??0) && model.noOfKeys! > (model.noKeys??0)) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Valid No.of Keys');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -89,6 +124,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.message,
     this.createdBy,
     this.labels,
+    this.isReadOnly,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
@@ -105,6 +141,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     String? message,
     User? createdBy,
     final KLDUiLabels? labels,
+    bool? isReadOnly,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
@@ -119,6 +156,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,
       destructionReasons: destructionReasons ?? this.destructionReasons,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
     );
   }
 }

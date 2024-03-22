@@ -215,7 +215,7 @@ const List<Label> keyTaggingDropDownValues = [
 ];
 const List<Label> keyManagementStatus = [
   Label(key: 'Cancelled', value: '-1'),
-  Label(key: 'Created', value: '0'),
+  Label(key: 'Draft', value: '0'),
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
 ];

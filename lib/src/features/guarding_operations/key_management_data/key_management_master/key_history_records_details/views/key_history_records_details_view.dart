@@ -34,6 +34,7 @@ class _KeyHistoryRecordsDetailsViewState
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
+  bool showLikeDisLikeButtons = false;
 
   get guardingMasterData => null;
 
@@ -84,13 +85,16 @@ class _KeyHistoryRecordsDetailsViewState
         }
       },
       builder: (context, state) {
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
-        if (state.model.status == null) {
+        if (state.model.status == null ||
+            state.model.status == 0 ||
+            state.model.status == 2 ||
+            state.model.status == 3) {
           isReadOnly = false;
         }
-
+        showLikeDisLikeButtons = (state.model.status == 7 &&
+                widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+            state.loggedInUserDetails!.userName
+                .equalsIgnoreCase(state.model.securityManager?.userName);
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -100,6 +104,9 @@ class _KeyHistoryRecordsDetailsViewState
             showSaveButton: state.model.status == 0 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
+                    (state.model.status == 7 &&
+                        widget.type !=
+                            ConstantsIntValue.keyDestroyHistoryInt) ||
                     state.model.status == null
                 ? true
                 : false,
@@ -111,6 +118,9 @@ class _KeyHistoryRecordsDetailsViewState
             showSubmitButton: state.model.status == 0 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
+                    (state.model.status == 7 &&
+                        widget.type !=
+                            ConstantsIntValue.keyDestroyHistoryInt) ||
                     state.model.status == null
                 ? true
                 : false,
@@ -119,7 +129,7 @@ class _KeyHistoryRecordsDetailsViewState
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            showLikeButton: state.model.status == 7,
+            showLikeButton: showLikeDisLikeButtons,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
@@ -129,7 +139,7 @@ class _KeyHistoryRecordsDetailsViewState
                 isRejectOnly: false,
               );
             },
-            showDisLikeButton: state.model.status == 7,
+            showDisLikeButton: showLikeDisLikeButtons,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -408,15 +418,15 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                           ),
                           TextFieldAddButton(
-                            title: state.model.securityManager?.name,
+                            title: state.model.securityManager?.userName,
                             height: 60,
-                            isDisableColor: state.model.status != 7 &&
-                                state.model.status != null &&
-                                state.model.status != 0,
+                            isDisableColor: state.model.status != null &&
+                                state.model.status != 0 &&
+                                !showLikeDisLikeButtons,
                             onTap: () {
-                              if (state.model?.status == 0 ||
+                              if (state.model.status == 0 ||
                                   state.model.status == null ||
-                                  state.model?.status == 7) {
+                                  showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.users!,
@@ -445,13 +455,13 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
-                            isDisableColor: state.model.status != 7 &&
-                                state.model.status != null &&
-                                state.model.status != 0,
+                            isDisableColor: state.model.status != null &&
+                                state.model.status != 0 &&
+                                !showLikeDisLikeButtons,
                             onTap: () {
-                              if (state.model.status == 7 ||
-                                  state.model.status == 0 ||
-                                  state.model.status == null) {
+                              if (state.model.status == 0 ||
+                                  state.model.status == null ||
+                                  showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: state.destructionReasons,
@@ -554,12 +564,12 @@ class _KeyHistoryRecordsDetailsViewState
                           isEnable: state.model.status == 0 ||
                               state.model.status == 2 ||
                               state.model.status == 3 ||
-                              state.model.status == 7 ||
+                              showLikeDisLikeButtons ||
                               state.model.status == null,
                           isDisableColor: state.model.status == 0 ||
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
-                                  state.model.status == 7 ||
+                                  showLikeDisLikeButtons ||
                                   state.model.status == null
                               ? false
                               : true,
@@ -609,7 +619,56 @@ class _KeyHistoryRecordsDetailsViewState
                                     }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
-
+                        if (state.model.investigationRequired) ...[
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.incident,
+                              style: Styles.styleHeaderGreyText16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess = await BlocProvider.of<
+                                      KeyHistoryRecordsDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              nav.pushNamed(
+                                incidentManagementDetailsRoute,
+                                arguments: {
+                                  ConstantsArgument.title: Constants.incident,
+                                  ConstantsArgument.id: state.model.id,
+                                  // ConstantsArgument.type:
+                                  //     ConstantsIntValue.lockChangeHistoryInt,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Incident(S)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
                         if (state.model.id != null) ...[
                           /// Modified By
                           CommonWidgets.horizentaltextHandling(
