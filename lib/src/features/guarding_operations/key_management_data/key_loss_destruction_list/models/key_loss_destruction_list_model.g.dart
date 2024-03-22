@@ -20,11 +20,16 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
       srh: json['srh'] == null
           ? null
           : User.fromJson(json['srh'] as Map<String, dynamic>),
-      securityManager: json['securityManager'],
+      securityManager: json['securityManager'] == null
+          ? null
+          : User.fromJson(json['securityManager'] as Map<String, dynamic>),
       investigationRequired: json['investigationRequired'] as bool? ?? false,
       lostKeyDetails: json['lostKeyDetails'] as String?,
       additionalInformation: json['additionalInformation'] as String?,
-      destructionReason: json['destructionReason'],
+      destructionReason: json['destructionReason'] == null
+          ? null
+          : Organisation.fromJson(
+              json['destructionReason'] as Map<String, dynamic>),
       status: json['status'] as int?,
       noOfKeys: json['noOfKeys'] as int?,
       createdBy: json['createdBy'] == null

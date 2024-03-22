@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: Menu">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="shift schedule redirect">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/views/contact_record_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/views/contact_record_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrenceList/views/occurrences_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrenceList/views/occurrences_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="labelsUi-IM" />
+        <entry key="$PROJECT_DIR$" value="shift" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -92,7 +84,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "menu",
+    "git-widget-placeholder": "keyMM__bugs",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/lawenforcement/views",
@@ -145,6 +137,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
     </recent_temporary>
@@ -501,7 +494,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="274" />
+    <option name="localTasksCounter" value="283" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -538,14 +531,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="password input" />
-    <MESSAGE value="mm loading issue" />
-    <MESSAGE value="focus handled for MM" />
-    <MESSAGE value="minor" />
-    <MESSAGE value="article found list bloc" />
-    <MESSAGE value="pass management list bloc" />
-    <MESSAGE value="annual power shutdown issue fixed" />
-    <MESSAGE value="list cache issue" />
     <MESSAGE value="validation for pass management handled from backend only" />
     <MESSAGE value="article found listing page" />
     <MESSAGE value="pass management blank screen on back button fixed" />
@@ -563,7 +548,15 @@
     <MESSAGE value="duty post name add" />
     <MESSAGE value="download image module code added." />
     <MESSAGE value="WIP: Menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Menu" />
+    <MESSAGE value="sez pass managment issue fixed" />
+    <MESSAGE value="WIP" />
+    <MESSAGE value="guarding master list pagination" />
+    <MESSAGE value="shift schedule poc added" />
+    <MESSAGE value="duty post name dropdown issue" />
+    <MESSAGE value="WIP: submit" />
+    <MESSAGE value="poc list" />
+    <MESSAGE value="shift schedule redirect" />
+    <option name="LAST_COMMIT_MESSAGE" value="shift schedule redirect" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
