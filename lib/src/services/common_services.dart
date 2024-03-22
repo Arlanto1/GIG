@@ -173,11 +173,12 @@ class CommonServices {
   Future<SerialNumberModel> getKLDSlNo({
     required String locationId,
     required String moduleCode,
+    required int? kmId,
     BuildContext? context,
     int? type,
   }) async {
     String url =
-        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type';
+        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type&kmId=$kmId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

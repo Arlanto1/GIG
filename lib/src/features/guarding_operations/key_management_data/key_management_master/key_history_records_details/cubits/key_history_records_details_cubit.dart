@@ -104,10 +104,10 @@ class KeyHistoryRecordsDetailsCubit
       Organisation? defaultLocation = futures[10];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyLossDestructionModule,
-          type: type,
-        );
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.keyLossDestructionModule,
+            type: type,
+            kmId: parentId);
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
@@ -168,10 +168,10 @@ class KeyHistoryRecordsDetailsCubit
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getKLDSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.keyLossDestructionModule,
-        type: type,
-      );
+          locationId: location.id.toString(),
+          moduleCode: Constants.keyLossDestructionModule,
+          type: type,
+          kmId: parentId);
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -275,7 +275,8 @@ class KeyHistoryRecordsDetailsCubit
           response = await services.createKeyHistoryRecord(
             body: request,
             isSubmit: true,
-            kmId: parentId.toString(),);
+            kmId: parentId.toString(),
+          );
         }
         if (isApprovedOnly) {
           //Validating Fields
@@ -291,7 +292,8 @@ class KeyHistoryRecordsDetailsCubit
           response = await services.createKeyHistoryRecord(
             body: request,
             isSubmit: true,
-            kmId: parentId.toString(),);
+            kmId: parentId.toString(),
+          );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
@@ -300,7 +302,6 @@ class KeyHistoryRecordsDetailsCubit
         ));
       }
       state.model.createdDate = Utils().getCurrentDate();
-
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
