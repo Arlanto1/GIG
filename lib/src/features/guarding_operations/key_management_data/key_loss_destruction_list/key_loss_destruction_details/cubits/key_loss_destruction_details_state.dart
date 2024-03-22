@@ -17,7 +17,7 @@ class KeyLossDestructionDetailsState extends Equatable {
   final User? createdBy;
   final GmUiLabels? labels;
   final bool? isReadOnly;
-
+  final List<Organisation> destructionReasons;
 
   factory KeyLossDestructionDetailsState.initial({
     required KeyLossDestructionListModel model,
@@ -46,6 +46,7 @@ class KeyLossDestructionDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       createdBy: createdBy,
+      destructionReasons: departments,
     );
   }
 
@@ -139,7 +140,7 @@ class KeyLossDestructionDetailsState extends Equatable {
     this.createdBy,
     this.labels,
     this.isReadOnly,
-
+    required this.destructionReasons,
   });
 
   KeyLossDestructionDetailsState copyWith({
@@ -157,7 +158,7 @@ class KeyLossDestructionDetailsState extends Equatable {
     User? createdBy,
     final GmUiLabels? labels,
     bool? isReadOnly,
-
+    List<Organisation>? destructionReasons,
   }) {
     return KeyLossDestructionDetailsState(
       status: status ?? this.status,
@@ -173,6 +174,7 @@ class KeyLossDestructionDetailsState extends Equatable {
       labels: labels ?? this.labels,
       departments: departments ?? this.departments,
       isReadOnly: isReadOnly ?? this.isReadOnly,
+      destructionReasons: destructionReasons ?? this.destructionReasons,
     );
   }
 }

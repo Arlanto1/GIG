@@ -351,10 +351,8 @@ class _KeyLossDestructionDetailsViewState
                                   }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (widget.type ==
-                                    ConstantsIntValue.keyLostHistoryInt ||
-                                widget.type ==
-                                    ConstantsIntValue.keyDamageHistoryInt) ...[
+                            if (state.model.type ==
+                                ConstantsIntValue.keyDamageHistoryInt ) ...[
                               /// SRH
                               CommonWidgets.textDisplay(
                                   // state.labels?.locale.srh ??
@@ -382,13 +380,11 @@ class _KeyLossDestructionDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                               /// Details of Lost Key
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.additionalInformation ??
-                                  //     state.labels?.defaultLocale
-                                  //         .additionalInformation ??
+                                // state.labels?.locale.additionalInformation ??
+                                //     state.labels?.defaultLocale
+                                //         .additionalInformation ??
                                   Constants.detailsOfLostKey,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -411,6 +407,84 @@ class _KeyLossDestructionDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              if (state.model?.type ==
+                                  ConstantsIntValue.keyDestroyHistoryInt) ...[
+                                /// Security Manager
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.securityManager ??
+                                  //     state.labels?.defaultLocale.securityManager ??
+                                  Constants.securityManager,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                TextFieldAddButton(
+                                  title: '${state.model.securityManager?.userName}',
+                                  height: 70,
+                                  isDisableColor: state.model.status != null &&
+                                      state.model.status != 0 &&
+                                      !isReadOnly,
+                                  onTap: () {
+                                    if (state.model.status == 0 ||
+                                        state.model.status == null ||
+                                        isReadOnly) {
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        users: state.users!,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      KeyLossDestructionDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                            securityManager: user,
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Reason for Key Destruction
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.destructionReason ??
+                                  //     state.labels?.defaultLocale.destructionReason ??
+                                  Constants.destructionReason,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14,
+                                ),
+                                TextFieldAddButton(
+                                  title: '${state.model.destructionReason}',
+                                  height: 70,
+                                  isDisableColor: state.model.status != null &&
+                                      state.model.status != 0 &&
+                                      !isReadOnly,
+                                  onTap: () {
+                                    if (state.model.status == 0 ||
+                                        state.model.status == null ||
+                                        isReadOnly) {
+                                      BaseOrganisationDialog().departmentDialog(
+                                        context: context,
+                                        organisations: state.destructionReasons,
+                                        onTap: (Organisation department) {
+                                          BlocProvider.of<
+                                                      KeyLossDestructionDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  destructionReason:
+                                                      department);
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
 
                             /// No. of  Keys
                             CommonWidgets.textDisplay(

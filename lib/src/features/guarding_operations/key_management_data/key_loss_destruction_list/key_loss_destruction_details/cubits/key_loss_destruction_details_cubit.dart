@@ -173,6 +173,7 @@ class KeyLossDestructionDetailsCubit
     BaseUser? user,
     Organisation? doorType,
     BaseUser? srh,
+    BaseUser? securityManager,
     List<Organisation>? entities,
     int? status,
     int? keyType,
@@ -180,6 +181,8 @@ class KeyLossDestructionDetailsCubit
     int? maritalStatus,
     int? typeOfDeployment,
     int? msgbFormBSubmitted,
+    Organisation? destructionReason,
+
   }) async {
     emit(
       state.copyWith(
@@ -202,6 +205,17 @@ class KeyLossDestructionDetailsCubit
         userName: srh.name,
       );
       state.model.srh = userDetails;
+    }
+    if (securityManager != null) {
+      User userDetails = User(
+        name: securityManager.name,
+        userId: securityManager.id,
+        userName: securityManager.email,
+      );
+      state.model.securityManager = userDetails;
+    }
+    if (destructionReason != null) {
+      state.model.destructionReason = destructionReason;
     }
     state.model.keyType = keyType ?? state.model.keyType;
     // if (entities != null) {
