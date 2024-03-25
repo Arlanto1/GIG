@@ -39,6 +39,8 @@ class _KeyHistoryRecordsDetailsViewState
   bool showLikeDisLikeButtons = false;
 
   get guardingMasterData => null;
+  final FocusNode noOfKeysFocusNode = FocusNode();
+  final FocusNode detailsOfLostkeyFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -88,29 +90,33 @@ class _KeyHistoryRecordsDetailsViewState
       },
       builder: (context, state) {
         if (state.model.status == null ||
-            state.model.status == 0 ||
-            state.model.status == 1 ||
-            state.model.status == 2 ||
-            state.model.status == 3 ||
-            state.model.status == 4) {
+            state.model.status == ConstantsIntValue.created ||
+            state.model.status == ConstantsIntValue.lockChangeInitiated ||
+            state.model.status == ConstantsIntValue.lostInitiated ||
+            state.model.status == ConstantsIntValue.damagedInitiated ||
+            state.model.status == ConstantsIntValue.lostApproved) {
           isReadOnly = false;
         }
-        showLikeDisLikeButtons = (state.model.status == 7 &&
-                widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
-            state.loggedInUserDetails!.userName
-                .equalsIgnoreCase(state.model.securityManager?.userName);
+        showLikeDisLikeButtons =
+            (state.model.status == ConstantsIntValue.destroyInitiated &&
+                    widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                state.loggedInUserDetails!.userName
+                    .equalsIgnoreCase(state.model.securityManager?.userName);
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status == 0 ||
-                    state.model.status == 1 ||
-                    state.model.status == 2 ||
-                    state.model.status == 3 ||
-                    state.model.status == 4 ||
-                    (state.model.status == 7 &&
+            showSaveButton: state.model.status == ConstantsIntValue.created ||
+                    state.model.status ==
+                        ConstantsIntValue.lockChangeInitiated ||
+                    state.model.status == ConstantsIntValue.lostInitiated ||
+                    state.model.status == ConstantsIntValue.damagedInitiated ||
+                    state.model.status == ConstantsIntValue.lostApproved ||
+                    state.model.status == ConstantsIntValue.destroyRejected ||
+                    state.model.status == ConstantsIntValue.destroyApproved ||
+                    (state.model.status == ConstantsIntValue.destroyInitiated &&
                         widget.type !=
                             ConstantsIntValue.keyDestroyHistoryInt) ||
                     state.model.status == null
@@ -121,12 +127,15 @@ class _KeyHistoryRecordsDetailsViewState
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
-            showSubmitButton: state.model.status == 0 ||
-                    state.model.status == 1 ||
-                    state.model.status == 2 ||
-                    state.model.status == 3 ||
-                    state.model.status == 4 ||
-                    (state.model.status == 7 &&
+            showSubmitButton: state.model.status == ConstantsIntValue.created ||
+                    state.model.status ==
+                        ConstantsIntValue.lockChangeInitiated ||
+                    state.model.status == ConstantsIntValue.lostInitiated ||
+                    state.model.status == ConstantsIntValue.damagedInitiated ||
+                    state.model.status == ConstantsIntValue.lostApproved ||
+                    state.model.status == ConstantsIntValue.destroyRejected ||
+                    state.model.status == ConstantsIntValue.destroyApproved ||
+                    (state.model.status == ConstantsIntValue.destroyInitiated &&
                         widget.type !=
                             ConstantsIntValue.keyDestroyHistoryInt) ||
                     state.model.status == null
@@ -315,7 +324,8 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (widget.model?.status == 0 ||
+                              if (widget.model?.status ==
+                                      ConstantsIntValue.created ||
                                   widget.model?.status == null) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
@@ -436,10 +446,12 @@ class _KeyHistoryRecordsDetailsViewState
                             title: state.model.securityManager?.userName,
                             height: 60,
                             isDisableColor: state.model.status != null &&
-                                state.model.status != 0 &&
+                                state.model.status !=
+                                    ConstantsIntValue.created &&
                                 !showLikeDisLikeButtons,
                             onTap: () {
-                              if (state.model.status == 0 ||
+                              if (state.model.status ==
+                                      ConstantsIntValue.created ||
                                   state.model.status == null ||
                                   showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().userDialog(
@@ -478,10 +490,12 @@ class _KeyHistoryRecordsDetailsViewState
                             title: state.model.destructionReason?.name,
                             height: 60,
                             isDisableColor: state.model.status != null &&
-                                state.model.status != 0 &&
+                                state.model.status !=
+                                    ConstantsIntValue.created &&
                                 !showLikeDisLikeButtons,
                             onTap: () {
-                              if (state.model.status == 0 ||
+                              if (state.model.status ==
+                                      ConstantsIntValue.created ||
                                   state.model.status == null ||
                                   showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().departmentDialog(
@@ -493,6 +507,8 @@ class _KeyHistoryRecordsDetailsViewState
                                               context)
                                           .updateDropdownValues(
                                               destructionReason: department);
+                                      FocusScope.of(context)
+                                          .requestFocus(noOfKeysFocusNode);
                                     },
                                     orgName:
                                         'KEY_MANAGEMENT_DESTRUCTION_REASON',
@@ -564,9 +580,12 @@ class _KeyHistoryRecordsDetailsViewState
                             initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
-                            isEnable: widget.model?.status == 0 ||
+                            focusNode: noOfKeysFocusNode,
+                            isEnable: widget.model?.status ==
+                                    ConstantsIntValue.created ||
                                 widget.model?.status == null,
-                            isDisableColor: widget.model?.status != 0 ||
+                            isDisableColor: widget.model?.status !=
+                                    ConstantsIntValue.created ||
                                 widget.model?.status != null,
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
@@ -593,18 +612,24 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: state.model.status == 0 ||
-                              state.model.status == 2 ||
-                              state.model.status == 3 ||
-                              showLikeDisLikeButtons ||
-                              state.model.status == null,
-                          isDisableColor: state.model.status == 0 ||
-                                  state.model.status == 2 ||
-                                  state.model.status == 3 ||
+                          isEnable:
+                              state.model.status == ConstantsIntValue.created ||
+                                  state.model.status ==
+                                      ConstantsIntValue.lostInitiated ||
+                                  state.model.status ==
+                                      ConstantsIntValue.damagedInitiated ||
                                   showLikeDisLikeButtons ||
-                                  state.model.status == null
-                              ? false
-                              : true,
+                                  state.model.status == null,
+                          isDisableColor:
+                              state.model.status == ConstantsIntValue.created ||
+                                      state.model.status ==
+                                          ConstantsIntValue.lostInitiated ||
+                                      state.model.status ==
+                                          ConstantsIntValue.damagedInitiated ||
+                                      showLikeDisLikeButtons ||
+                                      state.model.status == null
+                                  ? false
+                                  : true,
                           onChange: (String value) {
                             state.model.additionalInformation = value;
                             context
@@ -733,11 +758,19 @@ class _KeyHistoryRecordsDetailsViewState
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(state),
-                        if (state.model.status == 0 ||
-                            state.model.status == 1 ||
-                            state.model.status == 2 ||
-                            state.model.status == 3 ||
-                            state.model.status == 4 ||
+                        if (state.model.status == ConstantsIntValue.created ||
+                            state.model.status ==
+                                ConstantsIntValue.lockChangeInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.damagedInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostApproved ||
+                            state.model.status ==
+                                ConstantsIntValue.destroyRejected ||
+                            state.model.status ==
+                                ConstantsIntValue.destroyApproved ||
                             state.model.status == null) ...[
                           submitButtonDisplay()
                         ],
