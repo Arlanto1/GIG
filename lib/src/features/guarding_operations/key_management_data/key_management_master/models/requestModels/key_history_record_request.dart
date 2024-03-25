@@ -1,7 +1,7 @@
 import 'package:db_atom/index.dart';
 
 class KeyHistoryRecordRequest {
-  KeyManagementMasterModel? keyLossGi;
+  KeyHistoryModel? keyLossGi;
 
   KeyHistoryRecordRequest({
     this.keyLossGi,
@@ -9,7 +9,7 @@ class KeyHistoryRecordRequest {
 
   KeyHistoryRecordRequest.fromJson(Map<String, dynamic> json)
       : keyLossGi = (json['keyLossGi'] as Map<String, dynamic>?) != null
-            ? KeyManagementMasterModel.fromJson(
+            ? KeyHistoryModel.fromJson(
                 json['keyLossGi'] as Map<String, dynamic>)
             : null;
 
