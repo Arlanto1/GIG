@@ -402,8 +402,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
-                                initialValue: state.model.keyHandingOverDuration
-                                    .toString(),
+                                initialValue: '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null) {
@@ -444,7 +443,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: keyReturnDueDateController,
-                              isDisabled: true,
+                              isDisabled: state.model.keyHandingOverDuration ==  2 ? false :true,
                               onlyDate: false,
                               onChange: (String value) {
                                 state.model.keyHandOverDue =
