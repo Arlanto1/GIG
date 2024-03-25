@@ -35,8 +35,8 @@ class KeyManagementIssuanceDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -44,7 +44,7 @@ class KeyManagementIssuanceDetailsCubit
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
     );
@@ -77,7 +77,7 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -90,7 +90,7 @@ class KeyManagementIssuanceDetailsCubit
       Analyst users = futures[2];
       AddEntities entities = futures[3];
       List<User> entrySecurities = futures[4];
-      GetDepositor emailUsers = futures[5];
+      List<BaseUser> emailUsers = futures[5];
       EmployeeDepartments departments = futures[6];
       dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
@@ -124,7 +124,7 @@ class KeyManagementIssuanceDetailsCubit
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
           listOfEntities: entities.atomEntities,
-          emailUsers: emailUsers.atomStaticUser,
+          emailUsers: emailUsers,
           //labels: labels,
         ),
       );

@@ -728,7 +728,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
-                                    users: state.emailUsers!,
+                                    users: state.incidentManager,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -768,7 +768,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
-                                    users: state.emailUsers!,
+                                    users: state.incidentOwner,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)

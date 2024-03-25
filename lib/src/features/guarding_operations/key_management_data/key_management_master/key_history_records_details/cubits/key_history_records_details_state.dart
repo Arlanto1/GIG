@@ -6,7 +6,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? emailUsers;
+  final List<BaseUser>? securityManager;
+  final List<BaseUser>? srh;
   final List<Organisation>? departments;
   final List<Organisation>? listOfQualifications;
   final List<Organisation> destructionReasons;
@@ -22,7 +23,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
-    final List<BaseUser>? emailUsers,
+    final List<BaseUser>? securityManager,
+    final List<BaseUser>? srh,
     // required final List<Organisation>? departments,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
@@ -39,7 +41,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       destructionReasons: departments,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
-      emailUsers: emailUsers,
+      securityManager: securityManager,
+      srh: srh,
       message: errorMessage,
       createdBy: createdBy,
     );
@@ -115,7 +118,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.users,
-    this.emailUsers,
+    this.srh,
+    this.securityManager,
     this.departments,
     this.listOfQualifications,
     required this.destructionReasons,
@@ -133,7 +137,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? emailUsers,
+    List<BaseUser>? securityManager,
+    List<BaseUser>? srh,
     List<Organisation>? departments,
     List<Organisation>? destructionReasons,
     AddEntities? getEntitiesResponse,
@@ -149,7 +154,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
+      securityManager: securityManager ?? this.securityManager,
+      srh: srh ?? this.srh,
       departments: departments ?? this.departments,
       participationDates: participationDates ?? this.participationDates,
       message: message ?? this.message,

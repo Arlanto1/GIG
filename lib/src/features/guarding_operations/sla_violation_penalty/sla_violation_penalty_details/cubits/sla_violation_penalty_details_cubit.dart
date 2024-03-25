@@ -70,8 +70,8 @@ class SLAViolationPenaltyDetailsCubit
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
 
     TypeOfServices typeOfService = await commonServices.getTypeOfService(
         name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
@@ -82,7 +82,7 @@ class SLAViolationPenaltyDetailsCubit
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         vendors: vendors.items,
         typeOfServices: typeOfService.items,
       ),
@@ -112,8 +112,9 @@ class SLAViolationPenaltyDetailsCubit
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+
+      List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_STATIC_USER');
 
       // Get Date of Creation
       // state.model.inputDate = Utils().getCurrentDate();
@@ -149,7 +150,7 @@ class SLAViolationPenaltyDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
+          emailUsers: emailUsers,
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
           typeOfServices: typeOfService.items,

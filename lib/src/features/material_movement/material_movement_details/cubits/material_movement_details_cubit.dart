@@ -42,15 +42,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
         loadAttachments: state.model.images,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
@@ -109,7 +109,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
@@ -119,7 +119,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments = futures[3];
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
-      GetDepositor emailUsers = futures[6];
+      List<BaseUser> emailUsers = futures[6];
       List<Organisation> quantityUnits = futures[7];
 
       // Get Date of Creation
@@ -158,7 +158,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
-      log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: locations,
@@ -167,9 +166,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           model: state.model,
           users: users.t1Analyst,
           loadAttachments: state.model.images,
-          emailUsers: emailUsers.atomStaticUser,
-          approver1Users: emailUsers.atomStaticUser,
-          approver2Users: emailUsers.atomStaticUser,
+          emailUsers: emailUsers,
+          approver1Users: emailUsers,
+          approver2Users: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
           labels: labels,

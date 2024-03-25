@@ -6,6 +6,8 @@ class GeneralInfoState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
+  final List<BaseUser>? epm;
+  final List<BaseUser>? lsm;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? epOfficers;
   final List<Organisation>? listOfEntities;
@@ -18,13 +20,14 @@ class GeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
   final EpUiLabels? labels;
 
-
   factory GeneralInfoState.initial({
     required EventProtectionGi model,
     required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? epm,
+    final List<BaseUser>? lsm,
     final List<BaseUser>? epOfficers,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? getEntitiesResponse,
@@ -44,6 +47,8 @@ class GeneralInfoState extends Equatable {
       departments: departments,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
+      epm: epm,
+      lsm: lsm,
       users: users,
       emailUsers: emailUsers,
       epOfficers: epOfficers,
@@ -133,6 +138,8 @@ class GeneralInfoState extends Equatable {
     this.locations,
     this.users,
     this.emailUsers,
+    this.epm,
+    this.lsm,
     this.epOfficers,
     this.listOfEntities,
     required this.departments,
@@ -144,7 +151,6 @@ class GeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.labels,
-
   });
 
   GeneralInfoState copyWith({
@@ -153,6 +159,8 @@ class GeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
+    List<BaseUser>? epm,
+    List<BaseUser>? lsm,
     List<BaseUser>? emailUsers,
     List<BaseUser>? epOfficers,
     List<Organisation>? listOfEntities,
@@ -164,7 +172,6 @@ class GeneralInfoState extends Equatable {
     String? message,
     List<User>? entrySecurities,
     final EpUiLabels? labels,
-
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
@@ -172,6 +179,8 @@ class GeneralInfoState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
+      epm: epm ?? this.epm,
+      lsm: lsm ?? this.lsm,
       emailUsers: emailUsers ?? this.emailUsers,
       epOfficers: epOfficers ?? this.epOfficers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
@@ -183,7 +192,6 @@ class GeneralInfoState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,
-
     );
   }
 }

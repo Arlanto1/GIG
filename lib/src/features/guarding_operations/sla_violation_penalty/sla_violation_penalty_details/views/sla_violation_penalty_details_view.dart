@@ -404,7 +404,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !isReadOnly,
-                                  users: state.users!,
+                                  users: state.emailUsers,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(

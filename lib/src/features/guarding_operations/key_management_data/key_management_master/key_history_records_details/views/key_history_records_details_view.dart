@@ -410,7 +410,7 @@ class _KeyHistoryRecordsDetailsViewState
                               BaseOrganisationDialog().userDialog(
                                 context: context,
                                 enabled: !isReadOnly,
-                                users: state.users!,
+                                users: state.srh,
                                 onTap: (BaseUser user) {
                                   BlocProvider.of<
                                               KeyHistoryRecordsDetailsCubit>(
@@ -456,7 +456,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
-                                  users: state.users!,
+                                  users: state.securityManager,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(

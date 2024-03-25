@@ -78,15 +78,21 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+    List<BaseUser> incidentManager =
+    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Senior_Security_Manager');
+    List<BaseUser> incidentOwner =
+    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
+        incidentManager: incidentManager,
+        incidentOwner: incidentOwner,
         getEntitiesResponse: entities,
         listOfEntities: entities,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
       ),
     );
   }
@@ -120,9 +126,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           await commonServices.getUserDetails(userId: userId);
       model.entrySecurity ??= loggedInUserDetails;
 
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+      List<BaseUser> emailUsers =
+      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+      List<BaseUser> incidentManager =
+      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Senior_Security_Manager');
+      List<BaseUser> incidentOwner =
+      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
@@ -153,7 +162,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           articleType: getArticleType.articleList,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          emailUsers: emailUsers.atomStaticUser,
+          incidentOwner: incidentOwner,
+          incidentManager: incidentManager,
+          emailUsers: emailUsers,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
@@ -217,7 +228,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentManager != null) {
-      state.emailUsers?.remove(incidentManager);
+      state.incidentManager?.remove(incidentManager);
       User userDetails = User(
         name: incidentManager.name,
         userId: incidentManager.id,
@@ -227,7 +238,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentOwner != null) {
-      state.emailUsers?.remove(incidentOwner);
+      state.incidentOwner?.remove(incidentOwner);
       User userDetails = User(
         name: incidentOwner.name,
         userId: incidentOwner.id,

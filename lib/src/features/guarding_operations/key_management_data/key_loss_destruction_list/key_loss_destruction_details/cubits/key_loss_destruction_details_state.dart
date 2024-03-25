@@ -7,6 +7,8 @@ class KeyLossDestructionDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? securityManager;
+  final List<BaseUser>? srh;
   final List<Organisation>? listOfEntities;
   final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
@@ -25,6 +27,8 @@ class KeyLossDestructionDetailsState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? securityManager,
+    final List<BaseUser>? srh,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
@@ -44,6 +48,8 @@ class KeyLossDestructionDetailsState extends Equatable {
       getQualificationsResponse: getQualificationsResponse,
       users: users,
       emailUsers: emailUsers,
+      securityManager: securityManager,
+      srh: srh,
       message: errorMessage,
       createdBy: createdBy,
       destructionReasons: departments,
@@ -130,6 +136,8 @@ class KeyLossDestructionDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
+    this.securityManager,
+    this.srh,
     this.listOfEntities,
     this.listOfQualifications,
     required this.departments,
@@ -150,6 +158,8 @@ class KeyLossDestructionDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? securityManager,
+    List<BaseUser>? srh,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? getEntitiesResponse,
@@ -167,6 +177,8 @@ class KeyLossDestructionDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      securityManager: securityManager ?? this.securityManager,
+      srh: srh ?? this.srh,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       participationDates: participationDates ?? this.participationDates,
       message: message ?? this.message,

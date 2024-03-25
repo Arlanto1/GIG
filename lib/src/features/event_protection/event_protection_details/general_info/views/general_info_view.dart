@@ -395,6 +395,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         subRegionalHead1: user,
                                       );
                                     },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -421,6 +426,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         subRegionalHead2: user,
                                       );
                                     },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -442,12 +452,17 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !disableForm,
-                                    users: state.emailUsers!,
+                                    users: state.epm,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         epManager1: user,
                                       );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .refreshList();
                                     },
                                   );
                                 },
@@ -468,12 +483,17 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.epm,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         epManager2: user,
                                       );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .refreshList();
                                     },
                                   );
                                 },
@@ -495,7 +515,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
-                                  users: state.emailUsers!,
+                                  users: state.lsm,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -503,6 +523,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     );
                                     FocusScope.of(context)
                                         .requestFocus(lSM1ContactNoFocusNode);
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -550,7 +575,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
-                                  users: state.emailUsers!,
+                                  users: state.lsm,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -558,6 +583,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     );
                                     FocusScope.of(context)
                                         .requestFocus(lSM2ContactNoFocusNode);
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -612,6 +642,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     );
                                     FocusScope.of(context)
                                         .requestFocus(pocContactNoFocusNode);
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .refreshList();
                                   },
                                 );
                               },
@@ -668,6 +703,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     );
                                     FocusScope.of(context).requestFocus(
                                         pocEscalationContactNoFocusNode);
+                                  },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .refreshList();
                                   },
                                 );
                               },

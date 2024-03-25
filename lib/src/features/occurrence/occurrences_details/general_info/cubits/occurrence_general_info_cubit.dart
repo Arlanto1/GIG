@@ -25,7 +25,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             model: OccurrenceModel(),
             locations: Locations(),
             users: const [],
-            emailUsers: const [],
+            shiftTakenOverBy: const [],
             errorMessage: '',
             loadAttachments: const [],
             eventId: null,
@@ -71,14 +71,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Guarding_Staff');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        shiftTakenOverBy: shiftTakenOverBy,
       ),
     );
   }
@@ -109,12 +109,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      List<BaseUser>? shiftTakenOverBy = await commonServices
+          .getBaseUsersByRoles(roleNames: 'ATOM_Guarding_Staff');
 
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
-     model.inputDate =model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '') ;
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -166,7 +168,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-          emailUsers: emailUsers.atomStaticUser,
+          shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
@@ -407,7 +409,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
-      state.model.inputDate =state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

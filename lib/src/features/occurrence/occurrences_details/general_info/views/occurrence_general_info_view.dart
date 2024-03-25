@@ -259,7 +259,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   if (state.model.status != 1) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      users: state.emailUsers!,
+                                      users: state.shiftTakenOverBy,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     OccurrenceGeneralInfoCubit>(
