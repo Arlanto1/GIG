@@ -247,9 +247,6 @@ class KeyManagementMasterDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
-      state.model.modifiedDate = state.model.modifiedDate == null
-          ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
