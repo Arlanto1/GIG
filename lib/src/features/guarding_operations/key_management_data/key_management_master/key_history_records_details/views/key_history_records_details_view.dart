@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 
 import '../../../../../material_movement/material_movement_details/views/addRejectionCommnetPopUp.dart';
 import '../cubits/key_history_records_details_cubit.dart';
@@ -119,7 +119,8 @@ class _KeyHistoryRecordsDetailsViewState
                     .equalsIgnoreCase(state.model.createdBy?.userName)) ||
             ((state.model.status != ConstantsIntValue.created ||
                 state.model.status != null) &&
-                (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                (widget.type == ConstantsIntValue.keyDestroyHistoryInt ||
+                    widget.type == ConstantsIntValue.keyLostHistoryInt) &&
                 state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.srh?.userName)) ||
             ((state.model.status == ConstantsIntValue.created ||
@@ -467,7 +468,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         .keyDamageHistoryInt ||
                                     widget.type ==
                                         ConstantsIntValue
-                                            .keyDestroyHistoryInt) &&
+                                            .keyLostHistoryInt) &&
                                 state.loggedInUserDetails!.userName
                                     .equalsIgnoreCase(
                                     state.model.createdBy?.userName) ||
@@ -475,7 +476,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.keyDamageHistoryInt ||
                                     widget.type ==
                                         ConstantsIntValue
-                                            .keyDestroyHistoryInt) &&
+                                            .keyLostHistoryInt) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
                                         state.model.securityManager?.userName)
@@ -957,9 +958,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,
                               isMandatory: true,
-                              '${state.model.modifiedBy?.firstName ??
-                                  ''} ${state.model.modifiedBy?.lastName ??
-                                  ''}'),
+                              '${state.model.modifiedBy}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Modified On
@@ -1037,38 +1036,6 @@ class _KeyHistoryRecordsDetailsViewState
         BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
-    );
-  }
-
-  Widget locationWidgetdislay(KeyHistoryRecordsDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

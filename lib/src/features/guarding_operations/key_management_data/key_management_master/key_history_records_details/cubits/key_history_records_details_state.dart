@@ -3,16 +3,12 @@ part of 'key_history_records_details_cubit.dart';
 class KeyHistoryRecordsDetailsState extends Equatable {
   final FormStatus status;
   final KeyHistoryModel model;
-  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? securityManager;
   final List<BaseUser>? srh;
   final List<Organisation>? departments;
-  final List<Organisation>? listOfQualifications;
   final List<Organisation> destructionReasons;
-  final AddEntities? getEntitiesResponse;
-  final List<String>? participationDates;
   final String? message;
   final User? createdBy;
   final KLDUiLabels? labels;
@@ -20,13 +16,10 @@ class KeyHistoryRecordsDetailsState extends Equatable {
 
   factory KeyHistoryRecordsDetailsState.initial({
     required KeyHistoryModel model,
-    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? securityManager,
     final List<BaseUser>? srh,
-    // required final List<Organisation>? departments,
-    required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
     required String errorMessage,
     User? createdBy,
@@ -35,11 +28,9 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
       model: model,
-      locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       departments: departments,
       destructionReasons: departments,
-      getEntitiesResponse: getEntitiesResponse,
       users: users,
       securityManager: securityManager,
       srh: srh,
@@ -126,16 +117,12 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   const KeyHistoryRecordsDetailsState({
     required this.status,
     required this.model,
-    this.locations,
     this.loggedInUserDetails,
     this.users,
     this.srh,
     this.securityManager,
     this.departments,
-    this.listOfQualifications,
     required this.destructionReasons,
-    this.getEntitiesResponse,
-    this.participationDates,
     this.message,
     this.createdBy,
     this.labels,
@@ -162,13 +149,11 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       securityManager: securityManager ?? this.securityManager,
       srh: srh ?? this.srh,
       departments: departments ?? this.departments,
-      participationDates: participationDates ?? this.participationDates,
       message: message ?? this.message,
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,

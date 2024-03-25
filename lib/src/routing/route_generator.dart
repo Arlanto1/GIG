@@ -37,7 +37,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_history_record_request.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
@@ -1185,7 +1185,7 @@ class RouteGenerator {
             KeyLossDestructionListServices();
         CommonServices commonServices = CommonServices();
         String title;
-        int type=0;
+        int type = 0;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];

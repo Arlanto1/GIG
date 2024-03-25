@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -208,19 +209,19 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   getById(int id) async {
     showLoadingDialog(context);
 
-    KeyHistoryModel keyManagementMasterModel =
+    KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyManagementMasterModel);
+    editDataLoading(keyHistoryModel);
   }
 
-  void editDataLoading(KeyHistoryModel keyManagementMasterModel) {
+  void editDataLoading(KeyHistoryModel keyHistoryModel) {
     dismissLoadingDialog(context);
     Navigator.pushNamed(
       context,
       keyHistoryRecordsDetailsRoute,
       arguments: {
-        ConstantsArgument.model: keyManagementMasterModel,
+        ConstantsArgument.model: keyHistoryModel,
         ConstantsArgument.title:
             widget.type == ConstantsIntValue.lockChangeHistoryInt
                 ? Constants.editLockChangeHistory
