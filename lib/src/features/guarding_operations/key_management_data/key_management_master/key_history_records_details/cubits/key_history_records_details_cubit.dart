@@ -98,9 +98,9 @@ class KeyHistoryRecordsDetailsCubit
       List<Organisation> destructionReasons = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
+      if (state.model.location == null && defaultLocation != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-            locationId: defaultLocation.id.toString(),
+            locationId:defaultLocation.id.toString(),
             moduleCode: Constants.keyLossDestructionModule,
             type: type,
             kmId: parentId);

@@ -89,8 +89,10 @@ class _KeyHistoryRecordsDetailsViewState
       builder: (context, state) {
         if (state.model.status == null ||
             state.model.status == 0 ||
+            state.model.status == 1 ||
             state.model.status == 2 ||
-            state.model.status == 3) {
+            state.model.status == 3 ||
+            state.model.status == 4) {
           isReadOnly = false;
         }
         showLikeDisLikeButtons = (state.model.status == 7 &&
@@ -107,6 +109,7 @@ class _KeyHistoryRecordsDetailsViewState
                     state.model.status == 1 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
+                    state.model.status == 4 ||
                     (state.model.status == 7 &&
                         widget.type !=
                             ConstantsIntValue.keyDestroyHistoryInt) ||
@@ -122,6 +125,7 @@ class _KeyHistoryRecordsDetailsViewState
                     state.model.status == 1 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
+                    state.model.status == 4 ||
                     (state.model.status == 7 &&
                         widget.type !=
                             ConstantsIntValue.keyDestroyHistoryInt) ||
@@ -733,6 +737,7 @@ class _KeyHistoryRecordsDetailsViewState
                             state.model.status == 1 ||
                             state.model.status == 2 ||
                             state.model.status == 3 ||
+                            state.model.status == 4 ||
                             state.model.status == null) ...[
                           submitButtonDisplay()
                         ],
