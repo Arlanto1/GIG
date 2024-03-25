@@ -32,7 +32,6 @@ class KeyHistoryRecordsDetailsCubit
             users: const [],
             emailUsers: const [],
             errorMessage: '',
-            listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
           ),
@@ -126,7 +125,6 @@ class KeyHistoryRecordsDetailsCubit
           users: users.t1Analyst,
           //createdBy: createdBy,
           emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
           destructionReasons: destructionReasons,
           labels: labels,
@@ -144,6 +142,24 @@ class KeyHistoryRecordsDetailsCubit
     }
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    List<Organisation>? departments =
+    await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments,
+      ),
+    );
+  }
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? securityManager,

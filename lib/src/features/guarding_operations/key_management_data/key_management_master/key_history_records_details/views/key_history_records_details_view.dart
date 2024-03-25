@@ -405,6 +405,13 @@ class _KeyHistoryRecordsDetailsViewState
                                     srh: user,
                                   );
                                 },
+                                functionToCall: () {
+                                  // refresh the list
+                                  BlocProvider.of<
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
                               );
                             },
                           ),
@@ -442,6 +449,13 @@ class _KeyHistoryRecordsDetailsViewState
                                       securityManager: user,
                                     );
                                   },
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .refreshList();
+                                  },
                                 );
                               }
                             },
@@ -467,16 +481,26 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.model.status == null ||
                                   showLikeDisLikeButtons) {
                                 BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.destructionReasons,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<
-                                                KeyHistoryRecordsDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            destructionReason: department);
-                                  },
-                                );
+                                    context: context,
+                                    organisations: state.destructionReasons,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              destructionReason: department);
+                                    },
+                                    orgName:
+                                        'KEY_MANAGEMENT_DESTRUCTION_REASON',
+                                    createEntity: false,
+                                    title: 'Add Reason for Key Destruction',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  KeyHistoryRecordsDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
                               }
                             },
                           ),
