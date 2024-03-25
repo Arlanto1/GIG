@@ -63,14 +63,17 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
           onPressed: () => {
             Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute,
                 arguments: {
-                  ConstantsArgument.title:  widget.type == ConstantsIntValue.lockChangeHistoryInt
+                  ConstantsArgument.title: widget.type ==
+                          ConstantsIntValue.lockChangeHistoryInt
                       ? Constants.createLockChangeHistory
                       : widget.type == ConstantsIntValue.keyLostHistoryInt
-                      ? Constants.createKeyLostHistory
-                      : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                      ? Constants.createKeyDamageHistory
-                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
-                      ? Constants.createKeyDestroyHistory : Constants.createkeyManagementMaster,
+                          ? Constants.createKeyLostHistory
+                          : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                              ? Constants.createKeyDamageHistory
+                              : widget.type ==
+                                      ConstantsIntValue.keyDestroyHistoryInt
+                                  ? Constants.createKeyDestroyHistory
+                                  : Constants.createkeyManagementMaster,
                   ConstantsArgument.id: widget.id,
                   ConstantsArgument.type: widget.type,
                 }),
@@ -130,7 +133,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             state.labels?.defaultLocale.createdBy ??
                             'Created By',
                         value:
-                        '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                            '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                     // labels.add(Label(
                     //     key: 'Date of Creation',
                     //     value: DateFormat('dd-MM-yyyy').format(
@@ -205,34 +208,32 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   getById(int id) async {
     showLoadingDialog(context);
 
-    KeyManagementMasterModel keyManagementMasterModel =
+    KeyHistoryModel keyManagementMasterModel =
         await KeyManagementMasterServices().getKHById(id);
 
     editDataLoading(keyManagementMasterModel);
   }
 
-  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
+  void editDataLoading(KeyHistoryModel keyManagementMasterModel) {
     dismissLoadingDialog(context);
-    if (keyManagementMasterModel != null) {
-      Navigator.pushNamed(
-        context,
-        keyHistoryRecordsDetailsRoute,
-        arguments: {
-          "keyMgmtGi": keyManagementMasterModel,
-          ConstantsArgument.title: widget.type ==
-                  ConstantsIntValue.lockChangeHistoryInt
-              ? Constants.editLockChangeHistory
-              : widget.type == ConstantsIntValue.keyLostHistoryInt
-                  ? Constants.editKeyLostHistory
-                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                      ? Constants.editKeyDamageHistory
-                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
-                          ? Constants.editKeyDestroyHistory
-                          : 'Default Title',
-          ConstantsArgument.id: widget.id,
-          ConstantsArgument.type: widget.type,
-        },
-      );
-    }
+    Navigator.pushNamed(
+      context,
+      keyHistoryRecordsDetailsRoute,
+      arguments: {
+        ConstantsArgument.model: keyManagementMasterModel,
+        ConstantsArgument.title:
+            widget.type == ConstantsIntValue.lockChangeHistoryInt
+                ? Constants.editLockChangeHistory
+                : widget.type == ConstantsIntValue.keyLostHistoryInt
+                    ? Constants.editKeyLostHistory
+                    : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                        ? Constants.editKeyDamageHistory
+                        : widget.type == ConstantsIntValue.keyDestroyHistoryInt
+                            ? Constants.editKeyDestroyHistory
+                            : 'Default Title',
+        ConstantsArgument.id: widget.id,
+        ConstantsArgument.type: widget.type,
+      },
+    );
   }
 }

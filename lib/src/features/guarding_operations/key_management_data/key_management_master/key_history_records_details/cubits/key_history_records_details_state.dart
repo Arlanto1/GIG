@@ -2,7 +2,7 @@ part of 'key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsState extends Equatable {
   final FormStatus status;
-  final KeyManagementMasterModel model;
+  final KeyHistoryModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -19,7 +19,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final bool? isReadOnly;
 
   factory KeyHistoryRecordsDetailsState.initial({
-    required KeyManagementMasterModel model,
+    required KeyHistoryModel model,
     required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
@@ -144,7 +144,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
 
   KeyHistoryRecordsDetailsState copyWith({
     FormStatus? status,
-    KeyManagementMasterModel? model,
+    KeyHistoryModel? model,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,

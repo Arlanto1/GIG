@@ -13,7 +13,7 @@ part 'key_history_records_details_state.dart';
 class KeyHistoryRecordsDetailsCubit
     extends Cubit<KeyHistoryRecordsDetailsState> {
   final KeyManagementMasterServices services;
-  final KeyManagementMasterModel? model;
+  final KeyHistoryModel? model;
   final CommonServices commonServices;
   final int parentId;
   final int type;
@@ -26,7 +26,7 @@ class KeyHistoryRecordsDetailsCubit
     required this.model,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
-            model: model ?? KeyManagementMasterModel(),
+            model: model ?? KeyHistoryModel(),
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
@@ -37,12 +37,12 @@ class KeyHistoryRecordsDetailsCubit
           ),
         );
 
-  void onModelValueChange(KeyManagementMasterModel model) {
+  void onModelValueChange(KeyHistoryModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(KeyManagementMasterModel model) {
+  void onCheckBoxChange(KeyHistoryModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -56,10 +56,6 @@ class KeyHistoryRecordsDetailsCubit
     state.copyWith(
       participationDates: dates,
     );
-  }
-
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
   Future<void> initializeValues() async {

@@ -7,7 +7,7 @@ import '../../../../../material_movement/material_movement_details/views/addReje
 import '../cubits/key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
-  final KeyManagementMasterModel? model;
+  final KeyHistoryModel? model;
   final String title;
   final int type;
   final int parentId;
@@ -834,7 +834,9 @@ class _KeyHistoryRecordsDetailsViewState
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue:
-                              state.model.investigationRequired ? 1 : 0,
+                              state.model.investigationRequired ?? false
+                                  ? 1
+                                  : 0,
                               onChangedYes: !((state.model.status == null ||
                                   state.model.status ==
                                       ConstantsIntValue.created) &&
@@ -897,7 +899,7 @@ class _KeyHistoryRecordsDetailsViewState
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
-                        if (state.model.investigationRequired) ...[
+                        if (state.model.investigationRequired ?? false) ...[
                           Container(
                             alignment: Alignment.topLeft,
                             child: Text(
