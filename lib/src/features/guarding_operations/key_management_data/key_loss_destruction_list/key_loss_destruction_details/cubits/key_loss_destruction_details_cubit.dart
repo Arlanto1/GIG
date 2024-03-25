@@ -41,16 +41,21 @@ class KeyLossDestructionDetailsCubit
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+    List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Security_Manager');
+    List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        securityManager:securityManager,
+        srh:srh,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
     );
@@ -73,13 +78,16 @@ class KeyLossDestructionDetailsCubit
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -87,10 +95,12 @@ class KeyLossDestructionDetailsCubit
       Analyst users = futures[2];
       List<Organisation>? entities = futures[3];
       List<User> createdBy = futures[4];
-      GetDepositor emailUsers = futures[6];
+      List<BaseUser> emailUsers = futures[6];
       KeyType departments = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
+      List<BaseUser> securityManager = futures[11];
+      List<BaseUser> srh = futures[12];
 
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.userName;
@@ -113,7 +123,9 @@ class KeyLossDestructionDetailsCubit
           model: state.model,
           users: users.t1Analyst,
           //createdBy: createdBy,
-          emailUsers: emailUsers.atomStaticUser,
+          securityManager:securityManager,
+          srh: srh,
+          emailUsers: emailUsers,
           listOfEntities: entities,
           getEntitiesResponse: entities,
           departments: departments.items,

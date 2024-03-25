@@ -30,7 +30,7 @@ class KeyHistoryRecordsDetailsCubit
             locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
-            emailUsers: const [],
+            securityManager: const [],
             errorMessage: '',
             getEntitiesResponse: null,
             departments: const [],
@@ -79,7 +79,7 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -87,6 +87,7 @@ class KeyHistoryRecordsDetailsCubit
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
       ]);
 
       Locations getLocationsData = futures[0];
@@ -94,13 +95,17 @@ class KeyHistoryRecordsDetailsCubit
       Analyst users = futures[2];
       AddEntities entities = futures[3];
       List<User> createdBy = futures[4];
-      GetDepositor emailUsers = futures[6];
+      List<BaseUser> securityManager = futures[6];
       List<Organisation> destructionReasons = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null && state.model.slNo == null) {
+      List<BaseUser> srh = futures[11];
+
+      if (state.model.location == null &&
+          defaultLocation != null &&
+          state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-            locationId:defaultLocation.id.toString(),
+            locationId: defaultLocation.id.toString(),
             moduleCode: Constants.keyLossDestructionModule,
             type: type,
             kmId: parentId);
@@ -124,7 +129,8 @@ class KeyHistoryRecordsDetailsCubit
           model: state.model,
           users: users.t1Analyst,
           //createdBy: createdBy,
-          emailUsers: emailUsers.atomStaticUser,
+          securityManager: securityManager,
+          srh: srh,
           getEntitiesResponse: entities,
           destructionReasons: destructionReasons,
           labels: labels,
@@ -146,20 +152,24 @@ class KeyHistoryRecordsDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    List<Organisation>? departments =
-    await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
-    GetDepositor emailUsers =
-    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<Organisation>? departments = await commonServices.getOrganisations(
+        name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
+    List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Security_Manager');
+    List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        securityManager: securityManager,
+        srh: srh,
         departments: departments,
       ),
     );
   }
+
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? securityManager,
@@ -342,8 +352,12 @@ class KeyHistoryRecordsDetailsCubit
     );
     return true;
   }
-  void updateStatus({required String id,required int type}) {
+
+  void updateStatus({required String id, required int type}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.keyLossDestructionModule,status: 11,type:type);
+        id: id,
+        module: Constants.keyLossDestructionModule,
+        status: 11,
+        type: type);
   }
 }

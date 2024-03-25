@@ -57,6 +57,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> epm =
+    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> lsm =
+    await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Senior_Security_Manager');
 
     emit(
       state.copyWith(
@@ -64,6 +69,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
+        epm:epm,
+        lsm:lsm,
         emailUsers: emailUsers.atomStaticUser,
         departments: departments.employeeDepartments,
       ),
@@ -96,6 +103,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Senior_Security_Manager'),
       ]);
 
       // Assign results to variables with explicit data types
@@ -109,6 +119,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       Vendors vendors = results[7];
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
+      List<BaseUser>? epm = results[10];
+      List<BaseUser>? lsm = results[11];
 
       log('input date ---${model.inputDate}');
       // model.inputDate =
@@ -136,6 +148,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         loggedInUserDetails: loggedInUserDetails,
         status: FormStatus.initial,
         users: users.t1Analyst,
+        epm: epm,
+        lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
         epOfficers: emailUsers.atomStaticUser,
         departments: departments.employeeDepartments,
@@ -207,7 +221,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         requesterDepartment ?? state.model.requesterDepartment;
 
     if (epManager1 != null) {
-      state.emailUsers?.remove(epManager1);
+      state.epm?.remove(epManager1);
       User userDetails = User(
         name: epManager1.name,
         userId: epManager1.id,
@@ -217,7 +231,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     if (epManager2 != null) {
-      state.emailUsers?.remove(epManager2);
+      state.epm?.remove(epManager2);
       User userDetails = User(
         name: epManager2.name,
         userId: epManager2.id,
@@ -265,7 +279,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
-      state.emailUsers?.remove(locationSecurityManager1);
+      state.lsm?.remove(locationSecurityManager1);
       User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
@@ -273,7 +287,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
-      state.emailUsers?.remove(locationSecurityManager2);
+      state.lsm?.remove(locationSecurityManager2);
       User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,
@@ -418,9 +432,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.eventProtectionModule,aps: 0);
+        id: id, module: Constants.eventProtectionModule, aps: 0);
   }
-
 }

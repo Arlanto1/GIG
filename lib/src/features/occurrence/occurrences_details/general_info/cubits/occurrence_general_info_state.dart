@@ -6,7 +6,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? emailUsers;
+  final List<BaseUser>? shiftTakenOverBy;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
@@ -23,7 +23,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
-    final List<BaseUser>? emailUsers,
+    final List<BaseUser>? shiftTakenOverBy,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
@@ -41,7 +41,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
-      emailUsers: emailUsers,
+      shiftTakenOverBy: shiftTakenOverBy,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
@@ -148,7 +148,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required this.model,
     this.locations,
     this.users,
-    this.emailUsers,
+    this.shiftTakenOverBy,
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
@@ -167,7 +167,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? emailUsers,
+    List<BaseUser>? shiftTakenOverBy,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
@@ -183,7 +183,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
+      shiftTakenOverBy: shiftTakenOverBy ?? this.shiftTakenOverBy,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,

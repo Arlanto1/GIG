@@ -5,6 +5,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   final AnnualPowerShutdownListModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
+  final List<BaseUser>? srh;
+  final List<BaseUser>? lsm;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? epOfficers;
@@ -22,6 +24,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   factory AnnualPowerShutdownListDetailsState.initial({
     required AnnualPowerShutdownListModel model,
     required Locations locations,
+    List<BaseUser>? srh,
+    List<BaseUser>? lsm,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
@@ -40,6 +44,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       status: FormStatus.initial,
       model: model,
       locations: locations,
+      srh: srh,
+      lsm: lsm,
       listOfEntities: listOfEntities,
       departments: departments,
       vendors: vendors,
@@ -120,33 +126,43 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Enter Guarding Vendor ID');
     }
-    if (model.extraSecurityDeployed == true && model.guardingVendorPoc == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.guardingVendorPoc == null) {
       return const ErrorResponse(
           status: false, message: 'Enter Guarding Agency POC');
     }
-    if (model.extraSecurityDeployed == true && model.securityOfficerCount == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securityOfficerCount == null) {
       return const ErrorResponse(
           status: false, message: 'Enter No. Of Security Officers');
     }
-    if (model.extraSecurityDeployed == true && model.securityOfficerCountHrs == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securityOfficerCountHrs == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Total Duty Hours for Security Officers');
+          status: false,
+          message: 'Enter Total Duty Hours for Security Officers');
     }
-    if (model.extraSecurityDeployed == true && model.securitySupervisorCount == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securitySupervisorCount == null) {
       return const ErrorResponse(
           status: false, message: 'Enter No. Of Security Supervisor');
     }
-    if (model.extraSecurityDeployed == true && model.securitySupervisorCountHrs == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securitySupervisorCountHrs == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Total Duty Hours for Security Supervisor');
+          status: false,
+          message: 'Enter Total Duty Hours for Security Supervisor');
     }
-    if (model.extraSecurityDeployed == true && model.securityGuardCount == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securityGuardCount == null) {
       return const ErrorResponse(
           status: false, message: 'Enter No. Of Security Facilitators');
     }
-    if (model.extraSecurityDeployed == true && model.securityGuardCountHrs == null) {
+    if (model.extraSecurityDeployed == true &&
+        model.securityGuardCountHrs == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Total Duty Hours for Security Facilitators');
+          status: false,
+          message: 'Enter Total Duty Hours for Security Facilitators');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
@@ -159,6 +175,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
+    this.srh,
+    this.lsm,
     this.users,
     this.emailUsers,
     this.epOfficers,
@@ -180,6 +198,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     AnnualPowerShutdownListModel? model,
     Locations? locations,
     User? loggedInUserDetails,
+    List<BaseUser>? srh,
+    List<BaseUser>? lsm,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<BaseUser>? epOfficers,
@@ -200,6 +220,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
+      srh: srh ?? this.srh,
+      lsm: lsm ?? this.lsm,
       emailUsers: emailUsers ?? this.emailUsers,
       epOfficers: epOfficers ?? this.epOfficers,
       listOfEntities: listOfEntities ?? this.listOfEntities,

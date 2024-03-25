@@ -368,7 +368,7 @@ class _KeyLossDestructionDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     enabled: !isReadOnly,
-                                    users: state.users!,
+                                    users: state.srh,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   KeyLossDestructionDetailsCubit>(
@@ -376,6 +376,13 @@ class _KeyLossDestructionDetailsViewState
                                           .updateDropdownValues(
                                         srh: user,
                                       );
+                                    },
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  KeyLossDestructionDetailsCubit>(
+                                              context)
+                                          .refreshList();
                                     },
                                   );
                                 },
@@ -433,7 +440,7 @@ class _KeyLossDestructionDetailsViewState
                                       !isReadOnly) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      users: state.users!,
+                                      users: state.securityManager,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     KeyLossDestructionDetailsCubit>(
@@ -441,6 +448,13 @@ class _KeyLossDestructionDetailsViewState
                                             .updateDropdownValues(
                                           securityManager: user,
                                         );
+                                      },
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    KeyLossDestructionDetailsCubit>(
+                                                context)
+                                            .refreshList();
                                       },
                                     );
                                   }
