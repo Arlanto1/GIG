@@ -63,7 +63,14 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-
+    // if (model.noOfKeys != null && model.keyType == 1 && model.noOfKeys! > (model.noKeys??0)) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Valid No.of Keys');
+    // }
+    // if (model.noOfKeys != null && model.keyType == 2 && model.noOfKeys! > (model.noMasterKey??0)) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Valid No.of Keys');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -102,7 +109,11 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter No.of Keys');
     }
-    // if (model.noOfKeys != null && model.keyType == 1 && model.noOfKeys != (model.noKeys??0) && model.noOfKeys! > (model.noKeys??0)) {
+    // if (model.noOfKeys != null && model.keyType == 1 && model.noOfKeys! > (model.noKeys??0)) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Valid No.of Keys');
+    // }
+    // if (model.noOfKeys != null && model.keyType == 2 && model.noOfKeys! > (model.noMasterKey??0)) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Valid No.of Keys');
     // }
