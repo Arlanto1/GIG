@@ -352,7 +352,7 @@ class _KeyHistoryRecordsDetailsViewState
                             initialValue:
                                 '${widget.type == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.type == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.type == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.type == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                             onTap: () {
-                              if (widget.model?.status == 0) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: typesDropDownValues
