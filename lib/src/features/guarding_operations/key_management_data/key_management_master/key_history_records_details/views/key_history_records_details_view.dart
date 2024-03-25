@@ -104,6 +104,7 @@ class _KeyHistoryRecordsDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status == 0 ||
+                    state.model.status == 1 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
                     (state.model.status == 7 &&
@@ -118,6 +119,7 @@ class _KeyHistoryRecordsDetailsViewState
                   .submitForm(isSaveOnly: true);
             },
             showSubmitButton: state.model.status == 0 ||
+                    state.model.status == 1 ||
                     state.model.status == 2 ||
                     state.model.status == 3 ||
                     (state.model.status == 7 &&
@@ -704,6 +706,7 @@ class _KeyHistoryRecordsDetailsViewState
                       children: [
                         cancelButtonDisplay(state),
                         if (state.model.status == 0 ||
+                            state.model.status == 1 ||
                             state.model.status == 2 ||
                             state.model.status == 3 ||
                             state.model.status == null) ...[
