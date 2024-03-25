@@ -32,7 +32,6 @@ class KeyHistoryRecordsDetailsCubit
             users: const [],
             emailUsers: const [],
             errorMessage: '',
-            listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
           ),
@@ -99,9 +98,9 @@ class KeyHistoryRecordsDetailsCubit
       List<Organisation> destructionReasons = futures[7];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
+      if (state.model.location == null && defaultLocation != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-            locationId: defaultLocation.id.toString(),
+            locationId:defaultLocation.id.toString(),
             moduleCode: Constants.keyLossDestructionModule,
             type: type,
             kmId: parentId);
@@ -126,7 +125,6 @@ class KeyHistoryRecordsDetailsCubit
           users: users.t1Analyst,
           //createdBy: createdBy,
           emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
           destructionReasons: destructionReasons,
           labels: labels,
@@ -144,6 +142,24 @@ class KeyHistoryRecordsDetailsCubit
     }
   }
 
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    List<Organisation>? departments =
+    await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
+    GetDepositor emailUsers =
+    await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        users: users.t1Analyst,
+        emailUsers: emailUsers.atomStaticUser,
+        departments: departments,
+      ),
+    );
+  }
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? securityManager,

@@ -7,7 +7,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Organisation>? listOfEntities;
+  final List<Organisation>? departments;
   final List<Organisation>? listOfQualifications;
   final List<Organisation> destructionReasons;
   final AddEntities? getEntitiesResponse;
@@ -23,7 +23,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Organisation>? listOfEntities,
+    // required final List<Organisation>? departments,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
     required String errorMessage,
@@ -35,7 +35,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       model: model,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
-      listOfEntities: listOfEntities,
+      departments: departments,
       destructionReasons: departments,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
@@ -116,7 +116,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
-    this.listOfEntities,
+    this.departments,
     this.listOfQualifications,
     required this.destructionReasons,
     this.getEntitiesResponse,
@@ -134,7 +134,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Organisation>? listOfEntities,
+    List<Organisation>? departments,
     List<Organisation>? destructionReasons,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
@@ -150,7 +150,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
+      departments: departments ?? this.departments,
       participationDates: participationDates ?? this.participationDates,
       message: message ?? this.message,
       createdBy: createdBy ?? this.createdBy,
