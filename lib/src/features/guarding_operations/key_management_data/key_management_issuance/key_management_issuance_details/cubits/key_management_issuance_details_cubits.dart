@@ -302,6 +302,9 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.keyHandOverDate = state.model.keyHandOverDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

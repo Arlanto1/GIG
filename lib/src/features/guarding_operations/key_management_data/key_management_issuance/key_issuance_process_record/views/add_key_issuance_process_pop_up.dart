@@ -89,7 +89,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     numberOfKeysIssuedController.text = widget.model.returned == null
         ? '0'
         : widget.model.noKeysIssued.toString();
-    widget.model.returned = int.tryParse(numberOfKeysIssuedController.text);
+    // widget.model.returned = int.tryParse(numberOfKeysIssuedController.text);
 
     returnedKeysController.text =
         widget.model.returned == null ? '0' : widget.model.returned.toString();

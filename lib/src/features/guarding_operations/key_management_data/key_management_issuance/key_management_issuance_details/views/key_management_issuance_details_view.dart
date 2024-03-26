@@ -5,11 +5,13 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
+  final KeyIssuanceProcessRecord? keyIssuanceProcessModel;
   final String title;
 
   const KeyManagementIssuanceDetailsView({
     super.key,
     this.model,
+    this.keyIssuanceProcessModel,
     required this.title,
   });
 
@@ -272,7 +274,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (state.model.status == 1) ...[
+                            if (state.model.status != null && state.model.status != 0) ...[
                               /// Handed Over Date
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.handedOverDate ??
