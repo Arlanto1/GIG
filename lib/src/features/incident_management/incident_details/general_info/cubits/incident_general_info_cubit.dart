@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
@@ -37,6 +38,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final String id;
   final String occId;
   final int occType;
+  final int kldId;
   final CommonServices commonServices;
 
   IncidentGeneralInfoCubit({
@@ -45,6 +47,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     required this.commonServices,
     required this.id,
     required this.occType,
+    required this.kldId,
   }) : super(
           IncidentGeneralInfoState.initial(
             model: IncidentModel(),
@@ -351,6 +354,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
+    // KeyHistoryModel kldId ??= KeyHistoryModel();
+     state.model.kldId ??=kldId;
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');
 

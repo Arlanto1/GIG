@@ -14,6 +14,7 @@ class KeyHistoryModel {
   Organisation? destructionReason;
   int? noOfKeys;
   String? additionalInformation;
+  String? comment;
   bool? investigationRequired;
   String? modifiedDate;
   String? modifiedBy;
@@ -34,7 +35,8 @@ class KeyHistoryModel {
       this.additionalInformation,
       this.investigationRequired = false,
       this.modifiedDate,
-      this.modifiedBy});
+      this.modifiedBy,
+      this.comment});
 
   KeyHistoryModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
@@ -61,6 +63,7 @@ class KeyHistoryModel {
                 : null,
         noOfKeys = json['noOfKeys'] as int?,
         additionalInformation = json['additionalInformation'] as String?,
+        comment = json['comment'] as String?,
         investigationRequired = json['investigationRequired'] as bool?,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?;
@@ -79,6 +82,7 @@ class KeyHistoryModel {
         'destructionReason': destructionReason?.toJson(),
         'noOfKeys': noOfKeys,
         'additionalInformation': additionalInformation,
+        'comment': comment,
         'investigationRequired': investigationRequired,
         'modifiedDate': modifiedDate,
         'modifiedBy': modifiedBy,

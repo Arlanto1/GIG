@@ -1,3 +1,4 @@
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
 import '../../../models/history.dart';
@@ -19,7 +20,8 @@ class IncidentsResponse {
 
   IncidentsResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) => IncidentModel.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) =>
+                IncidentModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
@@ -109,6 +111,7 @@ class IncidentModel {
   List<dynamic>? images;
   OccurrenceModel? occurrence;
   int? occType;
+  int? kldId;
   String? entrySecurityName;
   String? systemReviewerName;
   String? incidentManagerName;
@@ -195,6 +198,7 @@ class IncidentModel {
     this.images,
     this.occType,
     this.occurrence,
+    this.kldId,
     this.entrySecurityName,
     this.systemReviewerName,
     this.incidentManagerName,
@@ -220,7 +224,8 @@ class IncidentModel {
                 : null,
         workflowId = json['workflowId'] as int?,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         status = json['status'] as int?,
         incidentType = json['incidentType'] as int?,
@@ -312,8 +317,15 @@ class IncidentModel {
         images = json['images'] as List?,
         occType = json['occType'] as int?,
         occurrence = (json['occurrence'] as Map<String, dynamic>?) != null
-            ? OccurrenceModel.fromJson(json['occurrence'] as Map<String, dynamic>)
+            ? OccurrenceModel.fromJson(
+                json['occurrence'] as Map<String, dynamic>)
             : null,
+        // kmlId =
+        //     (json['keyHistoryModel'] as Map<String, dynamic>?) != null
+        //         ? KeyHistoryModel.fromJson(
+        //             json['keyHistoryModel'] as Map<String, dynamic>)
+        //         : null,
+        kldId = json['kldId'] as int?,
         entrySecurityName = json['entrySecurityName'] as String?,
         systemReviewerName = json['systemReviewerName'] as String?,
         incidentManagerName = json['incidentManagerName'] as String?,
@@ -400,6 +412,7 @@ class IncidentModel {
         'images': images,
         'occType': occType,
         'occurrence': occurrence?.toJson(),
+        'kldId': kldId,
         'entrySecurityName': entrySecurityName,
         'systemReviewerName': systemReviewerName,
         'incidentManagerName': incidentManagerName,

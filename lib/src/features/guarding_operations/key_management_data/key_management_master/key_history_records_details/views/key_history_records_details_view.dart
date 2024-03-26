@@ -190,10 +190,9 @@ class _KeyHistoryRecordsDetailsViewState
                     mainContext: context,
                     onSubmit: (value) {
                       log('--value--$value--');
-                      // state.model.rejectionComment = value;
+                      state.model.comment = value;
                       // BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                       //     .onAddRejectionComment(value);
-
                       BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                           .submitForm(
                         isRejectOnly: true,
@@ -872,12 +871,12 @@ class _KeyHistoryRecordsDetailsViewState
                                 return;
                               }
                               nav.pushNamed(
-                                incidentManagementDetailsRoute,
+                                incidentManagementsRoute,
                                 arguments: {
                                   ConstantsArgument.title: Constants.incident,
                                   ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.type:
-                                  //     ConstantsIntValue.lockChangeHistoryInt,
+                                  ConstantsArgument.kldId:
+                                      state.model.id,
                                 },
                               );
                             },
