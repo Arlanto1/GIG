@@ -394,6 +394,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
     } on Exception catch (e) {
       emit(
