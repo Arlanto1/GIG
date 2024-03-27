@@ -37,6 +37,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
@@ -1137,18 +1138,18 @@ class RouteGenerator {
         title = arguments[ConstantsArgument.title];
         parentId = arguments[ConstantsArgument.id];
         type = arguments[ConstantsArgument.type];
-        KeyManagementMasterModel? keyMgmtGi = arguments["keyMgmtGi"];
+        KeyHistoryModel? model = arguments[ConstantsArgument.model];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
               services: services,
-              model: keyMgmtGi,
+              model: model,
               parentId: parentId,
               commonServices: commonServices,
               type: type,
             ),
             child: KeyHistoryRecordsDetailsView(
-              model: keyMgmtGi,
+              model: model,
               title: title,
               parentId: parentId,
               type: type,
@@ -1184,7 +1185,7 @@ class RouteGenerator {
             KeyLossDestructionListServices();
         CommonServices commonServices = CommonServices();
         String title;
-        int type=0;
+        int type = 0;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];

@@ -1,19 +1,18 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/kld_ui_labels.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../models/requestModels/key_history_record_request.dart';
 
 part 'key_history_records_details_state.dart';
 
 class KeyHistoryRecordsDetailsCubit
     extends Cubit<KeyHistoryRecordsDetailsState> {
   final KeyManagementMasterServices services;
-  final KeyManagementMasterModel? model;
+  final KeyHistoryModel? model;
   final CommonServices commonServices;
   final int parentId;
   final int type;
@@ -26,40 +25,24 @@ class KeyHistoryRecordsDetailsCubit
     required this.model,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
-            model: model ?? KeyManagementMasterModel(),
-            locations: Locations(),
+            model: model ?? KeyHistoryModel(),
             loggedInUserDetails: User(),
             users: const [],
             securityManager: const [],
             errorMessage: '',
-            getEntitiesResponse: null,
             departments: const [],
           ),
         );
 
-  void onModelValueChange(KeyManagementMasterModel model) {
+  void onModelValueChange(KeyHistoryModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(KeyManagementMasterModel model) {
+  void onCheckBoxChange(KeyHistoryModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void onAddParticipationDate(String participationDate) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    List<String>? dates = state.participationDates ?? [];
-    dates.add(participationDate);
-
-    state.copyWith(
-      participationDates: dates,
-    );
-  }
-
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
   Future<void> initializeValues() async {
@@ -73,16 +56,10 @@ class KeyHistoryRecordsDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
-        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
@@ -90,18 +67,14 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
       ]);
 
-      Locations getLocationsData = futures[0];
-      User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      AddEntities entities = futures[3];
-      List<User> createdBy = futures[4];
-      List<BaseUser> securityManager = futures[6];
-      List<Organisation> destructionReasons = futures[7];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
-      List<BaseUser> srh = futures[11];
+      User loggedInUserDetails = futures[0];
+      List<BaseUser> securityManager = futures[1];
+      List<Organisation> destructionReasons = futures[2];
+      dynamic responseLabels = futures[3];
+      Organisation? defaultLocation = futures[4];
+      List<BaseUser> srh = futures[5];
 
-      if (state.model.location == null &&
+      if (
           defaultLocation != null &&
           state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
@@ -109,29 +82,29 @@ class KeyHistoryRecordsDetailsCubit
             moduleCode: Constants.keyLossDestructionModule,
             type: type,
             kmId: parentId);
-        state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
-      state.model.modifiedBy ??= loggedInUserDetails;
+      state.model.modifiedBy ??= loggedInUserDetails.userName;
       state.model.type = type;
       // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
-      state.model.modifiedDate = Utils().getCurrentDate();
-
+      // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.modifiedDate = Utils().getCurrentDate();
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
-          locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
-          //createdBy: createdBy,
           securityManager: securityManager,
           srh: srh,
-          getEntitiesResponse: entities,
           destructionReasons: destructionReasons,
           labels: labels,
         ),
@@ -174,10 +147,7 @@ class KeyHistoryRecordsDetailsCubit
     Organisation? location,
     BaseUser? securityManager,
     List<Organisation>? doorType,
-    List<Organisation>? entities,
     int? status,
-    int? systemAccess,
-    int? dutyType,
     int? keyType,
     int? type,
     Organisation? destructionReason,
@@ -195,8 +165,6 @@ class KeyHistoryRecordsDetailsCubit
           moduleCode: Constants.keyLossDestructionModule,
           type: type,
           kmId: parentId);
-
-      state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     if (destructionReason != null) {
@@ -253,7 +221,7 @@ class KeyHistoryRecordsDetailsCubit
     // Create/Update API Call
     KeyHistoryRecordRequest request =
         KeyHistoryRecordRequest(keyLossGi: state.model);
-    state.model.keyManagementId = parentId.toString();
+    // state.model.keyManagementId = parentId.toString();
 
     GenericResponse response = GenericResponse();
     try {
@@ -324,7 +292,12 @@ class KeyHistoryRecordsDetailsCubit
           kmId: parentId.toString(),
         ));
       }
-      state.model.createdDate = Utils().getCurrentDate();
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

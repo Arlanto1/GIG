@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
-
-import '../models/requestModels/key_history_record_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -97,12 +96,12 @@ class KeyManagementMasterServices {
   //   return ContactListResponseModel.fromJson(response);
   // }
 
-  Future<KeyManagementMasterModel> getKHById(int id) async {
+  Future<KeyHistoryModel> getKHById(int id) async {
     final String url = '${Apis._getKeyHistoryDetailsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return KeyManagementMasterModel.fromJson(response);
+    return KeyHistoryModel.fromJson(response);
   }
 
   Future<GenericResponse> deleteKHdById(int id) async {

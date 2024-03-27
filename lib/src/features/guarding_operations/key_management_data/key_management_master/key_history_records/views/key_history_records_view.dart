@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -63,14 +64,17 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
           onPressed: () => {
             Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute,
                 arguments: {
-                  ConstantsArgument.title:  widget.type == ConstantsIntValue.lockChangeHistoryInt
+                  ConstantsArgument.title: widget.type ==
+                          ConstantsIntValue.lockChangeHistoryInt
                       ? Constants.createLockChangeHistory
                       : widget.type == ConstantsIntValue.keyLostHistoryInt
-                      ? Constants.createKeyLostHistory
-                      : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                      ? Constants.createKeyDamageHistory
-                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
-                      ? Constants.createKeyDestroyHistory : Constants.createkeyManagementMaster,
+                          ? Constants.createKeyLostHistory
+                          : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                              ? Constants.createKeyDamageHistory
+                              : widget.type ==
+                                      ConstantsIntValue.keyDestroyHistoryInt
+                                  ? Constants.createKeyDestroyHistory
+                                  : Constants.createkeyManagementMaster,
                   ConstantsArgument.id: widget.id,
                   ConstantsArgument.type: widget.type,
                 }),
@@ -130,7 +134,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             state.labels?.defaultLocale.createdBy ??
                             'Created By',
                         value:
-                        '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                            '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                     // labels.add(Label(
                     //     key: 'Date of Creation',
                     //     value: DateFormat('dd-MM-yyyy').format(
@@ -205,34 +209,32 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   getById(int id) async {
     showLoadingDialog(context);
 
-    KeyManagementMasterModel keyManagementMasterModel =
+    KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyManagementMasterModel);
+    editDataLoading(keyHistoryModel);
   }
 
-  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
+  void editDataLoading(KeyHistoryModel keyHistoryModel) {
     dismissLoadingDialog(context);
-    if (keyManagementMasterModel != null) {
-      Navigator.pushNamed(
-        context,
-        keyHistoryRecordsDetailsRoute,
-        arguments: {
-          "keyMgmtGi": keyManagementMasterModel,
-          ConstantsArgument.title: widget.type ==
-                  ConstantsIntValue.lockChangeHistoryInt
-              ? Constants.editLockChangeHistory
-              : widget.type == ConstantsIntValue.keyLostHistoryInt
-                  ? Constants.editKeyLostHistory
-                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                      ? Constants.editKeyDamageHistory
-                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
-                          ? Constants.editKeyDestroyHistory
-                          : 'Default Title',
-          ConstantsArgument.id: widget.id,
-          ConstantsArgument.type: widget.type,
-        },
-      );
-    }
+    Navigator.pushNamed(
+      context,
+      keyHistoryRecordsDetailsRoute,
+      arguments: {
+        ConstantsArgument.model: keyHistoryModel,
+        ConstantsArgument.title:
+            widget.type == ConstantsIntValue.lockChangeHistoryInt
+                ? Constants.editLockChangeHistory
+                : widget.type == ConstantsIntValue.keyLostHistoryInt
+                    ? Constants.editKeyLostHistory
+                    : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                        ? Constants.editKeyDamageHistory
+                        : widget.type == ConstantsIntValue.keyDestroyHistoryInt
+                            ? Constants.editKeyDestroyHistory
+                            : 'Default Title',
+        ConstantsArgument.id: widget.id,
+        ConstantsArgument.type: widget.type,
+      },
+    );
   }
 }
