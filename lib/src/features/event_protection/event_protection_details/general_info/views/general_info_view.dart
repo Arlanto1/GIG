@@ -1652,7 +1652,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   }
 
   void updateRecordStatus(GeneralInfoState state) {
-    if (state.model.id != null && state.model?.status != -1) {
+    if (state.model.id != null && state.model.status != -1) {
       BlocProvider.of<GeneralInfoCubit>(context)
           .updateStatus(id: state.model.id.toString());
       Navigator.popAndPushNamed(context, eventProtectionListRoute);

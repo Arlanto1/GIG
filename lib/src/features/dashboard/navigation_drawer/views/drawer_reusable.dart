@@ -748,7 +748,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onExpansionSelectItem(int index, BuildContext context) async {
-    log('---_onExpansionSelectItem--${index}-');
+    log('---_onExpansionSelectItem--$index-');
     _menuScaffoldKey.currentState!.closeDrawer();
     _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);

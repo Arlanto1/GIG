@@ -111,7 +111,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    KeyIssuanceProcessRecordState state = KeyIssuanceProcessRecordState();
+    KeyIssuanceProcessRecordState state = const KeyIssuanceProcessRecordState();
     log('no of keys issued ${widget.model.noKeysIssued}---');
     log('--keyDescriptions----${widget.keyDescriptions.length}--');
     return AlertDialog(
@@ -155,9 +155,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
-                            isDisableColor: widget.parentStatus !=0 && widget.parentStatus !=null,
+                            isDisableColor: widget.parentStatus !=0,
                             onTap: () {
-                              if(widget.parentStatus ==0 || widget.parentStatus ==null) {
+                              if(widget.parentStatus ==0) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
@@ -207,7 +207,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          if(widget.parentStatus ==0 || widget.parentStatus ==null) {
+                          if(widget.parentStatus ==0) {
                             BaseDropDown().assetTypeDialog(
                               context: context,
                               dropDownValues: keyTypeDropDownValues
@@ -499,7 +499,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if(widget.parentStatus==0 || widget.parentStatus==1||widget.parentStatus==null)
+        if(widget.parentStatus==0 || widget.parentStatus==1)
         saveButton(width, widget.onSubmit)
       ],
     );

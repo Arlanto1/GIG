@@ -627,17 +627,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               TextFieldAddButton(
                                 title: state.model.dbSponsorCwrT2?.name,
                                 height: 60,
-                                isDisableColor: state.model?.status != 0 &&
-                                        state.model?.status != null
+                                isDisableColor: state.model.status != 0 &&
+                                        state.model.status != null
                                     ? true
                                     : false,
                                 onTap: () {
-                                  if (state.model?.status == 0 ||
-                                      state.model?.status == null) {
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      enabled: state.model?.status == 0 ||
-                                          state.model?.status == null,
+                                      enabled: state.model.status == 0 ||
+                                          state.model.status == null,
                                       users: state.users!,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<

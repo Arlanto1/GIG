@@ -667,7 +667,7 @@ class _KeyManagementMasterDetailsViewState
                           ///Lock Change History
                           if (widget.model?.noKeys != null &&
                               widget.model?.noMasterKey != null &&
-                              state.model?.status != null) ...[
+                              state.model.status != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(

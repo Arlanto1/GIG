@@ -2835,7 +2835,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
                         title: Constants.addcompanytype,
-                        createpassmgmtstate: state);
+                        createPassmgmtState: state);
                   });
             },
             onTap: (Organisation organisation) {
@@ -2877,7 +2877,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         title: widget.passId == ConstantsIntValue.passIdDayPass
                             ? Constants.addreasonfordaypass
                             : Constants.addreasonforvendorpass,
-                        createpassmgmtstate: state,
+                        createPassmgmtState: state,
                       );
                     });
               }
@@ -2932,7 +2932,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         title: widget.passId == ConstantsIntValue.passIdVendor
                             ? Constants.addreasonforvendorpass
                             : Constants.addreasonforvendorpass,
-                        createpassmgmtstate: state,
+                        createPassmgmtState: state,
                       );
                     });
               }

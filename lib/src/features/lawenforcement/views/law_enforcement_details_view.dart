@@ -1514,7 +1514,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
                         title: Constants.addpurposeofvisittype,
-                        lawstate: state);
+                        lawEnforcementState: state);
                   });
             },
             onTap: (Organisation list) {
@@ -1569,7 +1569,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
-                        title: Constants.addleoofficialtype, lawstate: state);
+                        title: Constants.addleoofficialtype, lawEnforcementState: state);
                   });
             },
             onTap: (Organisation list) {
