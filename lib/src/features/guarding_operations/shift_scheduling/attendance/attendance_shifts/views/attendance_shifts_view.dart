@@ -88,12 +88,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void submitDutyPost(BuildContext context, {required bool isSaveOnly}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
-    // BlocProvider.of<AttendanceShiftsCubit>(context)
-    //     .submitDutyPost(model: widget.model, isSaveOnly: isSaveOnly);
+    BlocProvider.of<AttendanceShiftsCubit>(context)
+        .submitForm(isSaveOnly: isSaveOnly);
   }
 
   List<Widget> getBody(
-      AttendanceShiftsState state, double height, DutyPostModel model) {
+    AttendanceShiftsState state,
+    double height,
+    DutyPostModel model,
+  ) {
     log('--model.name-${model.name}-');
     log('--model.ranks-${model.ranks?.length}-');
     return [
@@ -239,8 +242,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         ),
         IconButton(
           onPressed: () {
-            if (selectedGuard != null &&
-                sourceList.contains(selectedGuard)) {
+            if (selectedGuard != null && sourceList.contains(selectedGuard)) {
               onRemove(selectedGuard!);
             }
           },
@@ -249,7 +251,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       ],
     );
   }
-
 
   BaseUser? selectedGuard;
 
@@ -508,7 +509,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           return GestureDetector(
             onTap: () => handleUserTap(element),
             child: Card(
-              color: selectedGuard == element ? AppColors.navigationSkybluecolor : null,
+              color: selectedGuard == element
+                  ? AppColors.navigationSkybluecolor
+                  : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(

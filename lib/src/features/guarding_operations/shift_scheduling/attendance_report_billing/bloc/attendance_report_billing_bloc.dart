@@ -12,7 +12,7 @@ part 'attendance_report_billing_state.dart';
 
 class AttendanceReportBillingBloc
     extends Bloc<AttendanceReportBillingEvent, AttendanceReportBillingState> {
-  AttendanceReportBillingBloc() : super(AttendanceReportBillingState()) {
+  AttendanceReportBillingBloc() : super(const AttendanceReportBillingState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchAttendanceReportBillingList>(
       _fetchList,

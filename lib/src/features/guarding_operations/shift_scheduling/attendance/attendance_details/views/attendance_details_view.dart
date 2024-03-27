@@ -78,7 +78,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context,
             attendanceShiftsRoute,
             arguments: {
-              ConstantsArgument.id: state.selectedDutyTypeId,
+              ConstantsArgument.parentId: state.parentId,
+              ConstantsArgument.selectedDutyPostNameId: state.selectedDutyPostNameId,
             },
           );
         }
@@ -221,7 +222,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           CommonWidgets.textDisplay(
                               // state.labels?.locale.inputDate ??
                               //     state.labels?.defaultLocale.inputDate ??
-                                  Constants.date,
+                              Constants.date,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -369,9 +370,11 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           /// List of Duty Posts
                           DutyPostListWidget(
                             dutyPosts: state.dutyPosts ?? [],
-                            onTap: (int? id, int? dutyPostNameId) {
+                            onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis, int? dutyPostNameId) {
                               BlocProvider.of<AttendanceDetailsCubit>(context)
-                                  .navigateToNextScreen(id.toString());
+                                  .navigateToNextScreen(
+                                dutyPostNameId: dutyPostNameId!,
+                              );
                             },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -381,7 +384,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
-                               submitButtonDisplay()
+                              submitButtonDisplay()
                             ],
                           ),
 
@@ -487,15 +490,20 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       },
     );
   }
+
   void updateRecordStatus(AttendanceDetailsState state) {
     if (state.model.id != null) {
       BlocProvider.of<AttendanceDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, attendanceListRoute,);
+      Navigator.popAndPushNamed(
+        context,
+        attendanceListRoute,
+      );
     } else {
       Navigator.pop(context);
     }
   }
+
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,

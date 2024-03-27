@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'attendance_details_state.dart';
 
@@ -228,11 +227,11 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
   }
 
-  Future<void> navigateToNextScreen(String id) async {
-    log('-navigateToNextScreen---');
+  Future<void> navigateToNextScreen({ required int dutyPostNameId}) async {
+    log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(
-        status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
+        status: FormStatus.navigateToNextScreen, parentId: state.model.id, selectedDutyPostNameId: dutyPostNameId));
   }
 
   void updateStatus({required String id}) {
