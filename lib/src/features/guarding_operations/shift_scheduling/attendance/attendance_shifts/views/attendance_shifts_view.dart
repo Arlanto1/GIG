@@ -1,9 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_multiselect.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
@@ -142,7 +139,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             MediaQuery.of(context).size.height * 0.01),
         buildTextWithLabel('Attendance Status:', shift.attdStatus.toString()),
         Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftColumn(
               shift: shift,
@@ -151,16 +148,37 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               isSourceList: true,
               label: 'Select For \nAttendance: \n${shift.shift}',
             ),
-            buildArrowButtons(
-              sourceList: shift.selectForAttendance ?? [],
-              destinationList: shift.attended ?? [],
-              onAdd: (BaseUser guard) {
-                shift.attended?.add(guard);
-              },
-              onRemove: (BaseUser guard) {
-                shift.attended?.remove(guard);
-              },
+
+            Column(
+              children: [
+                buildArrowButton(
+                  icon: Icons.arrow_right,
+                  destinationList: shift.attended ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.attended?.add(guard);
+                    shift.selectForAttendance?.remove(guard);
+                  },
+                ),
+                buildArrowButton(
+                  icon: Icons.arrow_left,
+                  destinationList: shift.selectForAttendance ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.selectForAttendance?.add(guard);
+                    shift.attended?.remove(guard);
+                  },
+                ),
+              ],
             ),
+            // buildArrowButtons(
+            //   sourceList: shift.selectForAttendance ?? [],
+            //   destinationList: shift.attended ?? [],
+            //   onAdd: (BaseUser guard) {
+            //     shift.attended?.add(guard);
+            //   },
+            //   onRemove: (BaseUser guard) {
+            //     shift.attended?.remove(guard);
+            //   },
+            // ),
             buildShiftColumn(
               shift: shift,
               guards: shift.attended ?? [],
@@ -168,15 +186,25 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               isSourceList: false,
               label: 'Attended\n\n',
             ),
-            buildArrowButtons(
-              sourceList: shift.selectForAttendance ?? [],
-              destinationList: shift.attended ?? [],
-              onAdd: (BaseUser guard) {
-                shift.attended?.add(guard);
-              },
-              onRemove: (BaseUser guard) {
-                shift.attended?.remove(guard);
-              },
+            Column(
+              children: [
+                buildArrowButton(
+                  icon: Icons.arrow_right,
+                  destinationList: shift.previousShift ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.previousShift?.add(guard);
+                    shift.attended?.remove(guard);
+                  },
+                ),
+                buildArrowButton(
+                  icon: Icons.arrow_left,
+                  destinationList: shift.attended ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.attended?.add(guard);
+                    shift.previousShift?.remove(guard);
+                  },
+                ),
+              ],
             ),
             buildShiftColumn(
               shift: shift,
@@ -222,39 +250,28 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     ];
   }
 
-  Widget buildArrowButtons({
-    required List<BaseUser> sourceList,
+  Widget buildArrowButton({
+    required IconData icon,
     required List<BaseUser> destinationList,
     required void Function(BaseUser guard) onAdd,
-    required void Function(BaseUser guard) onRemove,
+    // required void Function(BaseUser guard) onRemove,
   }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          onPressed: () {
-            if (selectedGuard != null &&
-                destinationList.contains(selectedGuard)) {
-              onAdd(selectedGuard!);
-            }
-          },
-          icon: const Icon(Icons.arrow_right),
-        ),
-        IconButton(
-          onPressed: () {
-            if (selectedGuard != null && sourceList.contains(selectedGuard)) {
-              onRemove(selectedGuard!);
-            }
-          },
-          icon: const Icon(Icons.arrow_left),
-        ),
-      ],
+    return IconButton(
+      iconSize: 30,
+      onPressed: () {
+        if (selectedGuard != null && !destinationList.contains(selectedGuard)) {
+          log('--onPressed----');
+          onAdd(selectedGuard!);
+          setState(() {});
+        }
+      },
+      icon: Icon(icon),
     );
   }
 
   BaseUser? selectedGuard;
 
-  Column buildShiftColumn({
+  Widget buildShiftColumn({
     required Shift shift,
     required List<BaseUser> guards,
     required bool isSourceList,
@@ -500,7 +517,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         color: AppColors.disabletextfieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
-      width: MediaQuery.of(context).size.width / 5.3,
+      width: MediaQuery.of(context).size.width / 4.7,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
