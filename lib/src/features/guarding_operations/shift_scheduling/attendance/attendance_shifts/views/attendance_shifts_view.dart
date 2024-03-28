@@ -40,8 +40,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                shiftScheduleListRoute,
-                arguments: {},
+                attendanceListRoute,
               );
             },
           );
