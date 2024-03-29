@@ -767,7 +767,7 @@ class _SstIncidentGeneralInfoViewState
                               files: uploadFiles,
                               showDownloadIcon:
                                   widget.model != null ? true : false,
-                              moduleCode: Constants.guardingMasterModuleCode,
+                              moduleCode: Constants.securitySystemModule,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),

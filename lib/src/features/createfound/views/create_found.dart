@@ -1718,7 +1718,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// upload
-                                  widget.model == null
+                                  widget.model == null|| widget.model?.status == 0
                                       ? Container(
                                           height: 60,
                                           decoration: BoxDecoration(

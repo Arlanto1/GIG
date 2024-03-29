@@ -1893,7 +1893,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           getAttachments.isNotEmpty
                                               ? true
                                               : false,
-                                      moduleCode: Constants.guardingMasterModuleCode,
+                                      moduleCode: Constants.passManagementModuleCode,
                                     ),
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
@@ -3491,7 +3491,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : state.nameResponse?.name ?? '',
         employeeId: employeeIdTextController.text,
         employee: widget.passId == ConstantsIntValue.passIdDayPass &&
-                companyType?.name != 'FTE'
+                companyType?.name == 'FTE'
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
@@ -3559,7 +3559,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : state.nameResponse?.name ?? '',
           employeeId: employeeIdTextController.text,
           employee: widget.passId == ConstantsIntValue.passIdDayPass &&
-                  companyType?.name != 'FTE'
+                  companyType?.name == 'FTE'
               ? User(
                   userId: state.nameResponse?.id,
                   name: state.nameResponse?.name,

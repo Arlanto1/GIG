@@ -246,7 +246,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               onTap: (Organisation? location) {
                                 BlocProvider.of<AttendanceDetailsCubit>(context)
                                     .updateDropdownValues(location: location);
-                              }),
+                              }
+                              ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -270,8 +271,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
-                            isDisableColor: false,
+                            isDisableColor: true,
                             onTap: () {
+                              if(state.model.status == null){
                               BaseOrganisationDialog().departmentDialog(
                                 context: context,
                                 organisations: state.vendors,
@@ -280,7 +282,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                           context)
                                       .updateDropdownValues(vendor: department);
                                 },
-                              );
+                              );}
                             },
                           ),
 
@@ -294,12 +296,12 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: state.model.status != null,
                               textController: dutyTypeController,
                               items: shiftDutyTypeDropDownValues,
                               initialValue: state.model.dutyType.toString(),
                               onTap: () {
-                                if (isDisabled) {
+                                if (state.model.status == null) {
                                   BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues:

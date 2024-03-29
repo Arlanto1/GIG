@@ -679,16 +679,25 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   // ),
 
                                   // Upload
-                                  widget.model == null
+                                  widget.model == null ||
+                                          widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model?.status == 2
                                       ? CommonWidgets.textDisplay(
                                           Constants.upload,
                                           Styles.textStyleBlack14)
                                       : Container(),
-                                  widget.model == null
+                                  widget.model == null ||
+                                          widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model?.status == 2
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
                                       : Container(),
-                                  widget.model == null
+                                  widget.model == null ||
+                                          widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model?.status == 2
                                       ? uploadWidget(state)
                                       : Container(),
 
@@ -1068,7 +1077,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      widget.model?.slNo ?? await lawEnforcementCubit.getSerialnumberDetails(
+      widget.model?.slNo ??
+          await lawEnforcementCubit.getSerialnumberDetails(
               (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
@@ -1413,7 +1423,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Widget uploadWidget(LawEnforcementState state) {
     return // upload
-        widget.model == null
+        widget.model == null ||
+                widget.model?.status == 0 ||
+                widget.model?.status == 1 ||
+                widget.model?.status == 2
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -1569,7 +1582,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
-                        title: Constants.addleoofficialtype, lawEnforcementState: state);
+                        title: Constants.addleoofficialtype,
+                        lawEnforcementState: state);
                   });
             },
             onTap: (Organisation list) {
@@ -2120,7 +2134,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                           color: AppColors.boldgreyBackground),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imageData1?.id ?? 0, imageData1?.title ?? '',
+                      context,
+                      imageData1?.id ?? 0,
+                      imageData1?.title ?? '',
                       Constants.leoModuleCode,
                     );
                   },
@@ -2144,8 +2160,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         selectedValues: widget.model?.mailList ?? [],
         all: state.groups?.distributionGroups ?? [],
-        enabled:
-    widget.model?.status == 1||widget.model?.status == 2,
+        enabled: widget.model?.status == 1 || widget.model?.status == 2,
         onTap: (List<Organisation> selectedEntities) {
           log('--selectedEntities----${selectedEntities.length}');
 

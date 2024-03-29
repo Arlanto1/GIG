@@ -112,7 +112,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.initial) ...[
+                if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -167,7 +167,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                                     'SlNo',
                                 value: state.items[index].slNo ?? ''));
                             return index >= state.items.length
-                                ? const BaseLoader()
+                                ? null
                                 : BaseListTileItem(
                                     id: state.items[index].id,
                                     labels: labels,
