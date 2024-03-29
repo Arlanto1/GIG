@@ -113,14 +113,9 @@ class _KeyHistoryRecordsDetailsViewState
             (state.model.status == ConstantsIntValue.destroyInitiated &&
                 widget.type !=
                     ConstantsIntValue.keyDestroyHistoryInt)) &&
-            ((state.model.status == ConstantsIntValue.damagedInitiated &&
-                widget.type == ConstantsIntValue.keyDamageHistoryInt ||
-                widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.srh?.userName)) ||
-            ((state.model.status == ConstantsIntValue.created ||
+            ((state.model.status != ConstantsIntValue.created ||
                 state.model.status == null) &&
-                (state.model.srh?.userName == null &&
+                (
                     widget.type == ConstantsIntValue.keyDamageHistoryInt ||
                     widget.type == ConstantsIntValue.keyLostHistoryInt) &&
                 state.loggedInUserDetails!.userName
@@ -442,7 +437,6 @@ class _KeyHistoryRecordsDetailsViewState
                             ConstantsIntValue.keyLostHistoryInt ||
                             widget.type ==
                                 ConstantsIntValue.keyDamageHistoryInt) ...[
-
                           /// SRH
                           CommonWidgets.textDisplay(
                               state.labels?.locale.srh ??
@@ -789,7 +783,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   : 0,
                               onChangedYes: !(((state.model.status == null ||
                                   state.model.status ==
-                                      ConstantsIntValue.created) && state.model.srh?.userName == null &&
+                                      ConstantsIntValue.created) &&
                                   (widget.type ==
                                       ConstantsIntValue.keyDamageHistoryInt ||
                                       widget.type ==
@@ -797,18 +791,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyLostHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)) ||
-                                  ((state.model.status != null ||
-                                      state.model.status !=
-                                          ConstantsIntValue.created) &&
-                                      (widget.type == ConstantsIntValue
-                                          .keyDamageHistoryInt ||
-                                          widget.type ==
-                                              ConstantsIntValue
-                                                  .keyLostHistoryInt) &&
-                                      state.loggedInUserDetails!.userName
-                                          .equalsIgnoreCase(
-                                          state.model.srh?.userName)))
+                                      state.model.createdBy?.userName)))
                                   ? null
                                   : (val) {
                                 state.model.investigationRequired = true;
@@ -819,7 +802,7 @@ class _KeyHistoryRecordsDetailsViewState
                               },
                               onChangedNo: !(((state.model.status == null ||
                                   state.model.status ==
-                                      ConstantsIntValue.created) && state.model.srh?.userName == null &&
+                                      ConstantsIntValue.created) &&
                                   (widget.type ==
                                       ConstantsIntValue.keyDamageHistoryInt ||
                                       widget.type ==
@@ -827,18 +810,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyLostHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)) ||
-                                  ((state.model.status != null ||
-                                      state.model.status !=
-                                          ConstantsIntValue.created) &&
-                                      (widget.type == ConstantsIntValue
-                                          .keyDamageHistoryInt ||
-                                          widget.type ==
-                                              ConstantsIntValue
-                                                  .keyLostHistoryInt) &&
-                                      state.loggedInUserDetails!.userName
-                                          .equalsIgnoreCase(
-                                          state.model.srh?.userName)))
+                                      state.model.createdBy?.userName)) )
                                   ? null
                                   : (val) {
                                 state.model.investigationRequired = false;
