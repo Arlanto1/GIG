@@ -1893,7 +1893,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           getAttachments.isNotEmpty
                                               ? true
                                               : false,
-                                      moduleCode: Constants.guardingMasterModuleCode,
+                                      moduleCode: Constants.passManagementModuleCode,
                                     ),
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
