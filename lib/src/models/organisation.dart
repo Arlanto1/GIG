@@ -65,4 +65,35 @@ class Organisation {
         'transportShift': transportShift,
         'keyname': keyName,
       };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Organisation &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          keyName == other.keyName &&
+          description == other.description &&
+          keyDescription == other.keyDescription &&
+          noKeys == other.noKeys &&
+          noKeysIssued == other.noKeysIssued &&
+          notReturned == other.notReturned &&
+          dutyPostName == other.dutyPostName &&
+          transportShift == other.transportShift &&
+          isSelected == other.isSelected;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      name.hashCode ^
+      keyName.hashCode ^
+      description.hashCode ^
+      keyDescription.hashCode ^
+      noKeys.hashCode ^
+      noKeysIssued.hashCode ^
+      notReturned.hashCode ^
+      dutyPostName.hashCode ^
+      transportShift.hashCode ^
+      isSelected.hashCode;
 }
