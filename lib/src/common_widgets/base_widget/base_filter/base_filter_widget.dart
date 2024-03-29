@@ -451,6 +451,13 @@ class DropdownWidgetState extends State<DropdownWidget> {
             child: Text(region.name ?? ''),
           );
         }).toList(),
+        decoration: const InputDecoration(
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: AppColors.navigationSkybluecolor,
+            ),
+          ),
+        ),
       ),
     );
   }
