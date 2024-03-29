@@ -8,7 +8,10 @@ class BaseFilterCubit extends Cubit<BaseFilterState> {
       : super(const BaseFilterState(status: FormStatus.loading, locations: []));
 
   Future<void> getRegionsOrLocationsByRegionId({required int id}) async {
-    emit(state.copyWith(status: FormStatus.loading));
+    emit(state.copyWith(
+      status: FormStatus.loading,
+      locations: [],
+    ));
     List<Organisation> locations = [];
     locations = await CommonServices().getRegionsOrLocationsByRegionId(id: id);
 
