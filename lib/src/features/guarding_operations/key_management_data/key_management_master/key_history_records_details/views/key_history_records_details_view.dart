@@ -875,8 +875,8 @@ class _KeyHistoryRecordsDetailsViewState
                                 arguments: {
                                   ConstantsArgument.title: Constants.incident,
                                   ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.kldId:
-                                      state.model.id,
+                                  // ConstantsArgument.kldId:
+                                  //     state.model.id,
                                 },
                               );
                             },

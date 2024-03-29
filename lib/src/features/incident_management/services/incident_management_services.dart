@@ -37,7 +37,7 @@ class IncidentManagementServices {
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId&occType=$occType';
     }
-    else if (kldId !=null) {
+    else if (kldId !=0) {
       url = '$url&kldId=$kldId';
     }
     var response = await BaseApiService().postRequest(
