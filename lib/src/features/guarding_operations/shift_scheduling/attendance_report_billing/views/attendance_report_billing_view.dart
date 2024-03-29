@@ -168,7 +168,7 @@ class _AttendanceReportBillingViewState
                             labels.add(Label(
                                 key: 'Date',
                                 value: state.items[index].inputDate != null
-                                    ? Utils.timestamptoDateConversion(
+                                    ? Utils.timestampToDateConversion(
                                         int.parse(
                                             state.items[index].inputDate ??
                                                 '0'),

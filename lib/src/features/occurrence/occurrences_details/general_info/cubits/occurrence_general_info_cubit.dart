@@ -141,7 +141,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           if (powerFailureModel.powerFailureStartDate != null) {
             PowerFailure powerFailure = PowerFailure();
             powerFailure.powerFailureStartDate =
-                Utils.timestamptoDateConversion(
+                Utils.timestampToDateConversion(
                     int.tryParse(powerFailureModel.powerFailureStartDate),
                     Constants.fulldateFormat);
 

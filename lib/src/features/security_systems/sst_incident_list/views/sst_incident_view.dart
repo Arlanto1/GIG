@@ -191,7 +191,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 state.labels?.defaultLocale.createDate ??
                                 'Date of Creation',
                             value: state.items[index].createdDate != null
-                                ? Utils.timestamptoDateConversion(
+                                ? Utils.timestampToDateConversion(
                                     int.tryParse(
                                         state.items[index].createdDate ?? '0'),
                                     Constants.dateFormat)

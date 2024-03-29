@@ -113,7 +113,7 @@ class _LawEnforcementCustomPopUpListState
               textHandling(
                   'TimeOfVisit : ',
                   widget.userItem?.timeOfVisit != null
-                      ? Utils.timestamptoDateConversion(
+                      ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.timeOfVisit ?? '0'),
                           Constants.dateFormat)
                       : ''),
@@ -142,7 +142,7 @@ class _LawEnforcementCustomPopUpListState
               textHandling(
                   'Date Of Creation : ',
                   widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
+                      ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.inputDate ?? '0'),
                           Constants.dateFormat)
                       : ''),

@@ -226,14 +226,14 @@ class _MaterialMovementDetailsViewState
   void initializeDates(MaterialMovementDetailsState state) {
     log('-widget.materialMovement?.expectedDateOfReturn--${widget.model?.expectedDateOfReturn}--');
     if (state.model.expectedDateOfReturn != null) {
-      expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
+      expectedDateOfReturnController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
-    actualDateOfReturnController.text = Utils.timestamptoDateConversion(
+    actualDateOfReturnController.text = Utils.timestampToDateConversion(
         int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
         Constants.dateFormat);
-    takenOutOnDateController.text = Utils.timestamptoDateConversion(
+    takenOutOnDateController.text = Utils.timestampToDateConversion(
         int.tryParse(widget.model?.takenOutDate ?? '0'), Constants.dateFormat);
   }
 

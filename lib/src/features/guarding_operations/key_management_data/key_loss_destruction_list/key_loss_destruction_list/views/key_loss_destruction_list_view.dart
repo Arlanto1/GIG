@@ -154,7 +154,7 @@ class _KeyLossDestructionListViewState
                               //  state.labels?.defaultLocale.locationRegion ??
                                'Created Date',
                               value: state.list[index].createdDate != null
-                                  ? Utils.timestamptoDateConversion(
+                                  ? Utils.timestampToDateConversion(
                                       int.parse(
                                           state.list[index].createdDate ?? '0'),
                                       Constants.dateFormat)

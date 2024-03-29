@@ -104,7 +104,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                             textHandling(
                                 'Expiry Date: ',
                                 widget.userItem.expiryDate != null
-                                    ? Utils.timestamptoDateConversion(
+                                    ? Utils.timestampToDateConversion(
                                         int.tryParse(
                                             widget.userItem.expiryDate ?? '0'),
                                         Constants.dateFormat)

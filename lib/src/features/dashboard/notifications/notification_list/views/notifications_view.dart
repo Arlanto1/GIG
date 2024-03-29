@@ -267,7 +267,7 @@ class NotificationTile extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        Utils.timestamptoDateConversion(
+                        Utils.timestampToDateConversion(
                           int.tryParse(item.createdDate ?? ''),
                           Constants.dateFormat,
                         ),
@@ -285,7 +285,7 @@ class NotificationTile extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        Utils.timestamptoDateConversion(
+                        Utils.timestampToDateConversion(
                           int.tryParse(item.createdDate ?? ''),
                           Constants.timeFormat,
                         ),

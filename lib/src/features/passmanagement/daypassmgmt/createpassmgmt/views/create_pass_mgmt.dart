@@ -1613,7 +1613,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         onlyDate: false,
                                         onChange: (String value) {
                                           passValidFromTextController.text =
-                                              Utils.timestamptoDateConversion(
+                                              Utils.timestampToDateConversion(
                                                   int.parse(
                                                       widget.model?.startTime ??
                                                           '0'),
@@ -1658,7 +1658,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             !widget.model!.companyType!.name!
                                                 .contains('Exceptions')) {
                                           passValidUntilTextController.text =
-                                              Utils.timestamptoDateConversion(
+                                              Utils.timestampToDateConversion(
                                                   int.parse(
                                                       widget.model?.endTime ??
                                                           '0'),
@@ -2108,26 +2108,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createPassMgmtCubit.getNameUsersResponseData(name1);
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
       passValidFromTextController.text =
           widget.model?.startTime != null && widget.model?.startTime != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.startTime ?? '0'),
                   Constants.fulldateFormat)
               : passValidFromTextController.text;
       passValidUntilTextController.text = widget.model?.endTime != null &&
               widget.model?.endTime != '0'
-          ? Utils.timestamptoDateConversion(
+          ? Utils.timestampToDateConversion(
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passValidUntilTextController.text;
 
       passReturnedTextController.text = widget.model?.status == 2 &&
               (widget.model?.returnedTime != null &&
                   widget.model?.returnedTime != '0')
-          ? Utils.timestamptoDateConversion(
+          ? Utils.timestampToDateConversion(
               int.parse(widget.model?.returnedTime ?? '0'),
               Constants.fulldateFormat)
           : passReturnedTextController.text;
@@ -2445,7 +2445,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //             name: 'ATOM_SEZ_COMPANY_TYPES',
             //             filter: value == 'Permanent' ? '1' : '0');
 
-            passValidUntilDate = Utils.timestamptoDateConversion(
+            passValidUntilDate = Utils.timestampToDateConversion(
                 int.tryParse(passValidUntilDate), Constants.dateFormat);
 
             if (value.equalsIgnoreCase('Permanent')) {

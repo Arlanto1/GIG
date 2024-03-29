@@ -116,12 +116,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     log('--sdd--${state.model.eventStartDate}-------');
     log('--sdd-eventEndDate-${state.model.eventEndDate}-------');
     if (state.model.eventStartDate != null) {
-      eventStartDateController.text = Utils.timestamptoDateConversion(
+      eventStartDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.eventStartDate ?? '0'),
           Constants.fulldateFormat);
     }
     if (state.model.eventEndDate != null) {
-      eventEndDateController.text = Utils.timestamptoDateConversion(
+      eventEndDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.eventEndDate ?? '0'),
           Constants.fulldateFormat);
     }

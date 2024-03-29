@@ -128,12 +128,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
   void initializeDates(ShiftScheduleDetailsState state) {
     if (state.model.fromDate != null) {
-      fromDateController.text = Utils.timestamptoDateConversion(
+      fromDateController.text = Utils.timestampToDateConversion(
           int.parse(state.model.fromDate ?? '0'), Constants.dateFormat);
     }
 
     if (state.model.toDate != null) {
-      toDateController.text = Utils.timestamptoDateConversion(
+      toDateController.text = Utils.timestampToDateConversion(
           int.parse(state.model.toDate ?? '0'), Constants.dateFormat);
     }
   }

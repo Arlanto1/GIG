@@ -456,14 +456,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   'Replacement By:', replacement.replacementBy?.name),
               buildTextWithLabel(
                 'From Date:',
-                Utils.timestamptoDateConversion(
+                Utils.timestampToDateConversion(
                   int.parse(replacement.fromDate ?? '0'),
                   Constants.dateFormat,
                 ),
               ),
               buildTextWithLabel(
                 'To Date:',
-                Utils.timestamptoDateConversion(
+                Utils.timestampToDateConversion(
                   int.parse(replacement.toDate ?? '0'),
                   Constants.dateFormat,
                 ),

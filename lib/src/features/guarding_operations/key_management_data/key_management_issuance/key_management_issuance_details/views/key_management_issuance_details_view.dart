@@ -147,11 +147,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
 
-    keyReturnDueDateController.text = Utils.timestamptoDateConversion(
+    keyReturnDueDateController.text = Utils.timestampToDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
 
     if (state.model.keyReturnDateTime != null) {
-      keyReturnDateAndTimeController.text = Utils.timestamptoDateConversion(
+      keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyReturnDateTime ?? '0'),
           Constants.fulldateFormat);
     }
