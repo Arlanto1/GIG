@@ -153,7 +153,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = state.model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.inputDate ?? '');
      model.modifiedDate = state.model.modifiedDate == null
