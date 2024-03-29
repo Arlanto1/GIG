@@ -262,9 +262,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               selectedLocationName:
                                   state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
+                                if(state.model.status == 0 || state.model.status == null){
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
                                         context)
-                                    .updateDropdownValues(location: location);
+                                    .updateDropdownValues(location: location);}
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -291,6 +292,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
+                              if(state.model.status ==0 || state.model.status == null){
                               BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: state.vendors,
@@ -308,7 +310,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     BlocProvider.of<ShiftScheduleDetailsCubit>(
                                             context)
                                         .refreshList();
-                                  });
+                                });}
                             },
                           ),
 

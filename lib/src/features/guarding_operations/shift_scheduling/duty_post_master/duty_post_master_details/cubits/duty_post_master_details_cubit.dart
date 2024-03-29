@@ -225,6 +225,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           status: FormStatus.error,
         ),
       );
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
       return;
     } on Exception catch (e) {
       emit(

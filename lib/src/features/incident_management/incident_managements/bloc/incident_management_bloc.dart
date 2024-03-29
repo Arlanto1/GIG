@@ -23,10 +23,12 @@ class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
   final String? occId;
   final int? occType;
+  final int? kldId;
 
   IncidentManagementsBloc(
     this.occType,
     this.occId,
+      this.kldId,
   ) : super(const IncidentManagementsState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
@@ -86,7 +88,7 @@ class IncidentManagementsBloc
       response = await _services.getIncidents(
         startPosition: '${0}',
         maximumRecords: '${20}',
-        userId: '7',
+        // userId: '7',
         filters: BaseFilterModel(),
       );
 
@@ -161,9 +163,10 @@ class IncidentManagementsBloc
         response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
+          // userId: '7',
           occId: occId,
           occType: occType,
+          kldId: kldId,
           filters: event.filters,
         );
 
@@ -180,9 +183,10 @@ class IncidentManagementsBloc
       response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
+        // userId: '7',
         occId: occId,
         occType: occType,
+        kldId: kldId,
         filters: event.filters,
       );
 
