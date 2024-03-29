@@ -367,17 +367,20 @@ class RouteGenerator {
       case incidentManagementsRoute:
         String occId = '';
         int occType = 0;
+        int kldId=0;
 
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
+          kldId = arguments['kldId'] ?? 0;
+
         }
         log('--occId-router-im list-$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
-            create: (_) => im.IncidentManagementsBloc(occType, occId)
+            create: (_) => im.IncidentManagementsBloc(occType, occId,kldId)
               ..add(im.FetchData(
                   startPos: 0,
                   maxPos: 20,
@@ -386,6 +389,7 @@ class RouteGenerator {
             child: IncidentManagementsView(
               occId: occId,
               occType: occType,
+                kldId:kldId,
             ),
           ),
         );
@@ -394,12 +398,14 @@ class RouteGenerator {
         String id = '';
         String occId = '';
         int occType = 0;
+        int kldId = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'] ?? '';
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
+          kldId = arguments['kldId'] ?? 0;
         }
         log('--occId-router--$occId--');
         return MaterialPageRoute(
@@ -410,6 +416,7 @@ class RouteGenerator {
               id: id,
               occId: occId,
               occType: occType,
+              kldId: kldId,
             ),
             child: IncidentGeneralInfoView(
               viaOccurrence: !occId.isEmptyOrNull ? true : false,

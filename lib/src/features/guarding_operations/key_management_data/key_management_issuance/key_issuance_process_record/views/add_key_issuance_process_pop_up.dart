@@ -66,7 +66,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       // availableKeysController.text = (selectedKeyDescription!.noKeys! -
       //         selectedKeyDescription!.noKeysIssued!)
       //     .toString();
-      availableKeysController.text = widget.model.available.toString();
+
+      num sum = (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
+      // availableKeysController.text = sum.toString();
+widget.model.available = sum.toInt() ;
+      // availableKeysController.text = widget.model.available.toString();
       noOfKeysController.text =
           widget.selectedKeyDescription!.noKeys.toString();
       // noOfKeysIssuedController.text= widget.model.noKeysIssued.toString();
@@ -258,7 +262,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                         (keyDescription.noKeys! -
                                             keyDescription.noKeysIssued!)
                                             .toString();
-
                                     widget.model.notReturned =
                                         keyDescription.notReturned;
                                     notReturnedKeysController.text =
@@ -330,7 +333,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -381,7 +385,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.noKeysIssued = int.tryParse(value);
-                        },
+                          num sum = (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
+                        availableKeysController.text = sum.toString();
+                          },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),

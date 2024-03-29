@@ -1900,7 +1900,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
-                                    if (widget.model?.status == 2) ...[
+                                    if (widget.model?.status == 2||widget.model?.status == 8||widget.model?.status == 9) ...[
                                       /// Pass Collected By
                                       CommonWidgets.horizentaltextHandling(
                                         state.labels?.locale.handoverSecurity ??

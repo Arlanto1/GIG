@@ -559,7 +559,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   if (!isReadOnly && state.model.status != 1) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      users: state.users!,
+                                      users: state.emailUsers!,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     KeyManagementIssuanceDetailsCubit>(

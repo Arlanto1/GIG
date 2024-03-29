@@ -7,6 +7,7 @@ class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
     required this.viaOccurrence,
+
   });
 
   final bool viaOccurrence;

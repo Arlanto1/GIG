@@ -156,7 +156,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.inputDate ?? '');
-     model.modifiedDate = model.modifiedDate == null
+     model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.modifiedDate ?? '');
       // model.inputDate =
@@ -394,6 +394,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
     } on Exception catch (e) {
       emit(

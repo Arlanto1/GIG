@@ -281,7 +281,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           parentStatus: parentStatus,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
-            FocusScope.of(context).unfocus();
+            // FocusScope.of(context).unfocus();
 
             log('-widget.title---${widget.title}----');
 
