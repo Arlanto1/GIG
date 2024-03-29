@@ -134,7 +134,7 @@ class _DayPassInfoCustomPopUpListState
                 textHandling(
                     'Expiry Date : ',
                     widget.userItem.expiryDate != null
-                        ? Utils.timestamptoDateConversion(
+                        ? Utils.timestampToDateConversion(
                             int.parse(widget.userItem.expiryDate ?? '0'),
                             Constants.dateFormat)
                         : ''),

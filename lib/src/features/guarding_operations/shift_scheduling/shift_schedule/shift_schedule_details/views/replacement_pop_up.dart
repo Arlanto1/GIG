@@ -35,10 +35,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
       replacementForController.text = widget.model.replacedFor?.name ?? '';
       replacementByController.text = widget.model.replacementBy?.name ?? '';
-      fromDateController.text = Utils.timestamptoDateConversion(
+      fromDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.fromDate ?? '0'), Constants.dateFormat);
 
-      toDateController.text = Utils.timestamptoDateConversion(
+      toDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
 
@@ -95,9 +95,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               // );
                               replacementForController.text = user.name ?? '';
                               widget.model.replacedFor = user;
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      widget.mainContext)
-                                  .updateReplacement(widget.model);
+                              // BlocProvider.of<ShiftScheduleDetailsCubit>(
+                              //         widget.mainContext)
+                              //     .updateReplacement(widget.model);
 
                               setState(() {
                                 log('-setstate-');
@@ -128,10 +128,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                             users: widget.availableGuards,
                             onTap: (BaseUser user) {
                               replacementByController.text = user.name ?? '';
-                              widget.model.replacedFor = user;
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      widget.mainContext)
-                                  .updateReplacement(widget.model);
+                              widget.model.replacementBy = user;
+                              // BlocProvider.of<ShiftScheduleDetailsCubit>(
+                              //         widget.mainContext)
+                              //     .updateReplacement(widget.model);
 
                               setState(() {
                                 replacementByController.text = user.name ?? '';
@@ -255,6 +255,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       textStyle: Styles.styleHeaderGreyText16,
       boarderColor: AppColors.textgreyThemecolor,
       onTap: () {
+
+
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
       },

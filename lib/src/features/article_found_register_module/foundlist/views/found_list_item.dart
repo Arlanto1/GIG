@@ -94,7 +94,7 @@ class _FoundListItemState extends State<FoundListItem> {
                         Utils().textHandling(
                             'Date : ',
                             widget.userItem.inputDate != null
-                                ? Utils.timestamptoDateConversion(
+                                ? Utils.timestampToDateConversion(
                                     int.tryParse(
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)

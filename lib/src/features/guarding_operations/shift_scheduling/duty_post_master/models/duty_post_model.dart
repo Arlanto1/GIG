@@ -143,28 +143,26 @@ class Shift {
   }
 
 // Shift.fromJson(Map<String, dynamic> json)
-  //     : shift = json['shift'] as String?,
-  //       allowed = json['allowed'] as int?,
-  //       selectedGuards = (json['selectedGuards'] as List?)
-  //           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
-  //           .toList(),
-  //       availableGuards = (json['availableGuards'] as List?)
-  //           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
-  //           .toList(),
-  //       replacements = (json['replacements'] as List?)
-  //           ?.map(
-  //               (dynamic e) => Replacement.fromJson(e as Map<String, dynamic>))
-  //           .toList();
-  //
-  // Map<String, dynamic> toJson() => {
-  //       'shift': shift,
-  //       'allowed': allowed,
-  //       'selectedGuards': selectedGuards?.map((e) => e.toJson()).toList(),
-  //       'availableGuards': availableGuards?.map((e) => e.toJson()).toList(),
-  //       'replacement': replacement
-  //     };
-
-
+//     : shift = json['shift'] as String?,
+//       allowed = json['allowed'] as int?,
+//       selectedGuards = (json['selectedGuards'] as List?)
+//           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
+//           .toList(),
+//       availableGuards = (json['availableGuards'] as List?)
+//           ?.map((dynamic e) => BaseUser.fromJson(e as Map<String, dynamic>))
+//           .toList(),
+//       replacements = (json['replacements'] as List?)
+//           ?.map(
+//               (dynamic e) => Replacement.fromJson(e as Map<String, dynamic>))
+//           .toList();
+//
+// Map<String, dynamic> toJson() => {
+//       'shift': shift,
+//       'allowed': allowed,
+//       'selectedGuards': selectedGuards?.map((e) => e.toJson()).toList(),
+//       'availableGuards': availableGuards?.map((e) => e.toJson()).toList(),
+//       'replacement': replacement
+//     };
 }
 
 @JsonSerializable()
@@ -203,28 +201,6 @@ class Replacement {
   }
 
   Map<String, dynamic> toJson() => _$ReplacementToJson(this);
-
-  //
-  // Replacement.fromJson(Map<String, dynamic> json)
-  //     : id = json['id'] as int?,
-  //       replacedFor = (json['replacedFor'] as Map<String, dynamic>?) != null
-  //           ? BaseUser.fromJson(json['replacedFor'] as Map<String, dynamic>)
-  //           : null,
-  //       replacementBy = (json['replacementBy'] as Map<String, dynamic>?) != null
-  //           ? BaseUser.fromJson(json['replacementBy'] as Map<String, dynamic>)
-  //           : null,
-  //       fromDate = json['fromDate'] as String?,
-  //       toDate = json['toDate'] as String?,
-  //       status = json['status'] as int?;
-  //
-  // Map<String, dynamic> toJson() => {
-  //       'id': id,
-  //       'replacedFor': replacedFor?.toJson(),
-  //       'replacementBy': replacementBy?.toJson(),
-  //       'fromDate': fromDate,
-  //       'toDate': toDate,
-  //       'status': status
-  //     };
 
   @override
   String toString() {

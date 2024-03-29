@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
 class DutyPostDetailsView extends StatefulWidget {
   final DutyPostModel model;
@@ -24,6 +23,13 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
         log('----state.status--${state.status}--');
+
+        if (state.status == FormStatus.error) {
+          Validator().showToast(
+            context,
+            state.message ?? 'Invalid Information',
+          );
+        }
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -88,30 +94,32 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     return [
       for (Rank rank in widget.model.ranks ?? [])
         IntrinsicHeight(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                    style: Styles.textStyleNavigator16,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                  style: Styles.textStyleNavigator16,
+                ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.01),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children:
+                        buildDutyPostSelectionWidget(rank.shifts ?? [], height),
                   ),
                 ),
-                CommonWidgets.verticalSpacerWidget(height * 0.01),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: buildDutyPostSelectionWidget(rank.shifts ?? [], height),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
         ),
     ];
   }
+
   List<Widget> buildDutyPostSelectionWidget(List<Shift> shifts, double height) {
     return [
       for (Shift shift in shifts) ...[
@@ -134,7 +142,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   Column buildShiftColumn({required Shift shift, required bool isSourceList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize:MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
           'Select For Shift: ${shift.shift}',
@@ -202,13 +210,11 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
           ),
         ),
         if (shift.replacements != null && shift.replacements!.isNotEmpty) ...[
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: buildReplacements(shift),
-              ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: buildReplacements(shift),
             ),
           ),
           CommonWidgets.verticalSpacerWidget(
@@ -228,28 +234,37 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             availableGuards: shift.availableGuards ?? [],
             selectedGuards: shift.selectedGuards ?? [],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTextWithLabel(
-                  'Replacement For:', replacement.replacedFor?.name),
-              buildTextWithLabel(
-                  'Replacement By:', replacement.replacementBy?.name),
-              buildTextWithLabel(
-                'From Date:',
-                Utils.timestamptoDateConversion(
-                  int.parse(replacement.fromDate ?? '0'),
-                  Constants.dateFormat,
-                ),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildTextWithLabel(
+                      'Replacement For:', replacement.replacedFor?.name),
+                  buildTextWithLabel(
+                      'Replacement By:', replacement.replacementBy?.name),
+                  buildTextWithLabel(
+                    'From Date:',
+                    replacement.fromDate != null
+                        ? Utils.timestampToDateConversion(
+                            int.tryParse(replacement.fromDate ?? '0'),
+                            Constants.dateFormat,
+                          )
+                        : '',
+                  ),
+                  buildTextWithLabel(
+                    'To Date:',
+                    replacement.toDate != null
+                        ? Utils.timestampToDateConversion(
+                            int.parse(replacement.toDate ?? '0'),
+                            Constants.dateFormat,
+                          )
+                        : '',
+                  ),
+                ],
               ),
-              buildTextWithLabel(
-                'To Date:',
-                Utils.timestamptoDateConversion(
-                  int.parse(replacement.toDate ?? '0'),
-                  Constants.dateFormat,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
     ];
@@ -355,6 +370,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
   }) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AddReplacementPopUp(
           model: model,

@@ -106,7 +106,7 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                 state.labels?.defaultLocale.inputDate ??
                                 'Date of Creation : ',
                             widget.userItem.inputDate != null
-                                ? Utils.timestamptoDateConversion(
+                                ? Utils.timestampToDateConversion(
                                     int.tryParse(
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)

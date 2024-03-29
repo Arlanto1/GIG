@@ -1026,13 +1026,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               : '';
       actualDateTextController.text =
           widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
               : actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;

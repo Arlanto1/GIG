@@ -94,7 +94,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                         Utils().textHandling(
                             'Date : ',
                             widget.userItem.inputDate != null
-                                ? Utils.timestamptoDateConversion(
+                                ? Utils.timestampToDateConversion(
                                 int.tryParse(
                                     widget.userItem.inputDate ?? '0'),
                                 Constants.dateFormat)

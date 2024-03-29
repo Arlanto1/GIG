@@ -40,7 +40,7 @@ class BaseDate {
     log('--datePickerWidgetLoading---');
     // Convert Date Time if String
     if (isTimestamp(textController.text)) {
-      textController.text = Utils.timestamptoDateConversion(
+      textController.text = Utils.timestampToDateConversion(
           int.tryParse(textController.text),
           onlyDate ? Constants.dateFormat : Constants.fulldateFormat);
     }

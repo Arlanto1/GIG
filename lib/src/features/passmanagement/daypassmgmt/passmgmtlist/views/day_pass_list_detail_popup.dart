@@ -149,7 +149,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                             state.labels?.defaultLocale.inputDate ??
                             'DateOfCreation : ',
                         widget.userItem?.inputDate != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.inputDate ?? '0'),
                                 Constants.dateFormat)
                             : ''),
@@ -273,7 +273,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                             state.labels?.defaultLocale.startTime ??
                             'Pass Valid From : ',
                         widget.userItem?.startTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.startTime ?? '0'),
                                 Constants.fulldateFormat)
                             : ''),
@@ -292,7 +292,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                             state.labels?.defaultLocale.endTime ??
                             'Pass Valid Until : ',
                         widget.userItem?.endTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.endTime ?? '0'),
                                 (Constants.fulldateFormat))
                             : ''),
@@ -326,7 +326,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                             state.labels?.defaultLocale.returnedTime ??
                             'Pass Returened on: ',
                         widget.userItem?.returnedTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.returnedTime ?? '0'),
                                 Constants.dateFormat)
                             : ''),

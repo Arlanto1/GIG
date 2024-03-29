@@ -24,7 +24,7 @@ class Utils {
     return base64Url.encode(values);
   }
 
-  static String timestamptoDateConversion(int? timestamp, String format) {
+  static String timestampToDateConversion(int? timestamp, String format) {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
     // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);

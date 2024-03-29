@@ -94,7 +94,7 @@ class _EventInfoViewState extends State<EventInfoView> {
         }
       },
       builder: (context, state) {
-        dateController.text = Utils.timestamptoDateConversion(
+        dateController.text = Utils.timestampToDateConversion(
             int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
 
         if (state.model.status != 4 && widget.editForm) {

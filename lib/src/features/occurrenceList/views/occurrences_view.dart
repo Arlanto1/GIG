@@ -159,7 +159,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     state.labels?.defaultLocale.inputDate ??
                                     'Date of Creation',
                                 value: state.list[index].inputDate != null
-                                    ? Utils.timestamptoDateConversion(
+                                    ? Utils.timestampToDateConversion(
                                         int.parse(
                                             state.list[index].inputDate ?? '0'),
                                         Constants.dateFormat)

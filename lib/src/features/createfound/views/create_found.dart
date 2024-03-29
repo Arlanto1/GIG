@@ -139,13 +139,13 @@ class _CreateFoundState extends State<CreateFound> {
               : '';
       foundDateTextController.text =
           widget.model?.foundDate != null && widget.model?.foundDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.tryParse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
@@ -184,7 +184,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.model?.claimantDepartmentName ?? ''
           : '';
       handedoverdatedateTextController.text = widget.model?.handoverDate != null
-          ? Utils.timestamptoDateConversion(
+          ? Utils.timestampToDateConversion(
               int.parse(widget.model?.handoverDate ?? '0'),
               Constants.fulldateFormat)
           : handedoverdatedateTextController.text.isEmpty

@@ -179,7 +179,7 @@ class _AnnualPowerShutdownListViewState
                               key: state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ?? 'Date of Creation',
                               value: state.items[index].inputDate != null
-                                  ? Utils.timestamptoDateConversion(
+                                  ? Utils.timestampToDateConversion(
                                       int.tryParse(
                                           state.items[index].inputDate ?? '0'),
                                       Constants.dateFormat)

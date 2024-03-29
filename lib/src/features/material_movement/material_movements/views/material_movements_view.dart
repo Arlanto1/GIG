@@ -175,7 +175,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                           labels.add(Label(
                               key: 'Date',
                               value: state.items[index].inputDate != null
-                                  ? Utils.timestamptoDateConversion(
+                                  ? Utils.timestampToDateConversion(
                                       int.parse(
                                           state.items[index].inputDate ?? '0'),
                                       Constants.dateFormat)

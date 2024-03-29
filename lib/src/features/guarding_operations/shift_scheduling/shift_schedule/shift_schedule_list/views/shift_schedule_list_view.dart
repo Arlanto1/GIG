@@ -158,7 +158,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                     state.labels?.defaultLocale.createdDate ??
                                     'Date of Creation',
                                 value: state.items[index].inputDate != null
-                                    ? Utils.timestamptoDateConversion(
+                                    ? Utils.timestampToDateConversion(
                                         int.parse(
                                             state.items[index].inputDate ??
                                                 '0'),
