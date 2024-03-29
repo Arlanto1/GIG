@@ -1384,11 +1384,13 @@ class RouteGenerator {
         );
 
       case attendanceShiftsRoute:
-        String id = '';
+        int? attInfoId;
+        int? selectedDutyPostNameId;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          id = arguments[ConstantsArgument.id] ?? '';
+          attInfoId = arguments[ConstantsArgument.parentId];
+          selectedDutyPostNameId = arguments[ConstantsArgument.selectedDutyPostNameId];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1397,7 +1399,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AttendanceShiftsCubit>(
             create: (_) => AttendanceShiftsCubit(
-              id: id,
+              attInfoId: attInfoId!,
+              selectedDutyPostNameId: selectedDutyPostNameId!,
               services: services,
               commonServices: commonServices,
               slaServices: slaServices,

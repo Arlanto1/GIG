@@ -19,13 +19,11 @@ import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/get_articletype_model.dart';
-import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';

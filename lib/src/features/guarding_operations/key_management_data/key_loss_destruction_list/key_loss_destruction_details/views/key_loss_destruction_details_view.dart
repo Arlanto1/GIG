@@ -249,7 +249,7 @@ class _KeyLossDestructionDetailsViewState
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
                                 isMandatory: true,
-                                '${state.model?.createdBy?.firstName ?? ''} ${state.model?.createdBy?.lastName ?? ''}'),
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
@@ -417,7 +417,7 @@ class _KeyLossDestructionDetailsViewState
                             ],
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (state.model?.type ==
+                            if (state.model.type ==
                                 ConstantsIntValue.keyDestroyHistoryInt) ...[
                               /// Security Manager
                               CommonWidgets.textDisplay(
@@ -656,7 +656,7 @@ class _KeyLossDestructionDetailsViewState
                                   //     state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,
                                   isMandatory: true,
-                                  '${state.model?.modifiedBy ?? ''} '),
+                                  '${state.model.modifiedBy ?? ''} '),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Modified On

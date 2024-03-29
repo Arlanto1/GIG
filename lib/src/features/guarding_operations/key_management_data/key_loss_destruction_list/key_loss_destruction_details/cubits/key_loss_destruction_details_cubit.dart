@@ -156,7 +156,7 @@ class KeyLossDestructionDetailsCubit
     bool isReadOnly;
     if ((state.model.createdBy!.userName
             .equalsIgnoreCase(state.loggedInUserDetails?.userName)) ||
-        (state.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
+        (state.model.type == ConstantsIntValue.keyDestroyHistoryInt)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;

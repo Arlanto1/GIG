@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/attendance_duty_post_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -71,10 +72,10 @@ class AttendanceServices {
   }
 
   Future<DutyPostModel> getDutyPostById({
-    required int? id,
-    BuildContext? context,
+    required int? attInfoId,
+    required int? dutyPostNameId,
   }) async {
-    final String url = '${Apis._getDutyPostById}/$id';
+    final String url = '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -84,6 +85,18 @@ class AttendanceServices {
 
   Future<GenericResponse> create({
     required AttendanceRequest body,
+    required bool isSubmit,
+  }) async {
+    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> createAttendanceShiftDutyPost({
+    required AttendanceShiftDutyPostRequest body,
     required bool isSubmit,
   }) async {
     final String url = "${Apis._create}&isSubmit=$isSubmit";

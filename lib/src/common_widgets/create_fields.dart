@@ -2,22 +2,22 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 
 class AddNewFields extends StatefulWidget {
-  AddNewFields({
+  const AddNewFields({
     super.key,
     required this.title,
-    this.lawstate,
-    this.createoundstate,
-    this.createpassmgmtstate,
+    this.lawEnforcementState,
+    this.createFoundState,
+    this.createPassmgmtState,
     this.payRateState,
     this.entityFun,
   });
 
   final String title;
-  LawEnforcementState? lawstate;
-  CreateFoundState? createoundstate;
-  CreatePassMgmtState? createpassmgmtstate;
-  PayRateState? payRateState;
-  Function? entityFun;
+  final LawEnforcementState? lawEnforcementState;
+  final CreateFoundState? createFoundState;
+  final CreatePassMgmtState? createPassmgmtState;
+  final PayRateState? payRateState;
+  final Function? entityFun;
 
   @override
   State<AddNewFields> createState() => AddNewFieldsState();
@@ -39,7 +39,7 @@ class AddNewFieldsState extends State<AddNewFields> {
 
   void _addCompany(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawEnforcementState != null) {
       if (widget.title == Constants.addcompanytype) {
         await lawEnforcementCubit.createOrganisation(
             name, 'ATOM_COMPANY_TYPES', context, widget.title);
@@ -57,7 +57,7 @@ class AddNewFieldsState extends State<AddNewFields> {
         await lawEnforcementCubit.createOrganisation(
             name, 'ATOM_LEO_DEPARTMENTS', context, widget.title);
       }
-    } else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassmgmtState != null) {
       if (widget.title == Constants.addcompanytype) {
         await createPassMgmtCubit.createOrganisation(
             name, 'ATOM_COMPANY_TYPES', context, widget.title);
@@ -77,13 +77,13 @@ class AddNewFieldsState extends State<AddNewFields> {
 
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawEnforcementState != null) {
       await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    } else if (widget.createoundstate != null) {
+    } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    } else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassmgmtState != null) {
       await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }

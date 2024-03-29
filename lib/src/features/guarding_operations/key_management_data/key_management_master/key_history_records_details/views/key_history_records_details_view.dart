@@ -471,7 +471,6 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                 );
                               }
-                              ;
                             },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),

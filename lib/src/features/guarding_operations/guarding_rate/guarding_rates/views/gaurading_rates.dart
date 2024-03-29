@@ -264,6 +264,7 @@ class _GuardingRatesState extends State<GuardingRates> {
                                     index: index,
                                   );
                           }
+                          return null;
                         }),
                   ),
                 ),

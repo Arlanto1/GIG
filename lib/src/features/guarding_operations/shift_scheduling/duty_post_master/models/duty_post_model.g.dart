@@ -25,6 +25,7 @@ Map<String, dynamic> _$RankToJson(Rank instance) => <String, dynamic>{
 Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
       shift: json['shift'] as String?,
       allowed: json['allowed'] as int?,
+      attendanceShiftId: json['attendanceShiftId'] as int?,
       attdStatus: json['attdStatus'] as int?,
       activeShift: json['activeShift'] as bool? ?? false,
       selectedGuards: (json['selectedGuards'] as List<dynamic>?)
@@ -50,6 +51,7 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
 
 Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
       'shift': instance.shift,
+      'attendanceShiftId': instance.attendanceShiftId,
       'allowed': instance.allowed,
       'attdStatus': instance.attdStatus,
       'activeShift': instance.activeShift,

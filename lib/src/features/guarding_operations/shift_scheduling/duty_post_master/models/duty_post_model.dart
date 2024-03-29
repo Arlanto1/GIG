@@ -90,6 +90,7 @@ class Rank {
 @JsonSerializable()
 class Shift {
   String? shift;
+  int? attendanceShiftId;
   int? allowed;
   int? attdStatus;
   bool activeShift;
@@ -105,6 +106,7 @@ class Shift {
   Shift({
     this.shift,
     this.allowed,
+    this.attendanceShiftId,
     this.attdStatus,
     this.activeShift = false,
     this.selectedGuards,
@@ -135,7 +137,12 @@ class Shift {
 
   Map<String, dynamic> toJson() => _$ShiftToJson(this);
 
-  // Shift.fromJson(Map<String, dynamic> json)
+  @override
+  String toString() {
+    return 'Shift{shift: $shift, attendanceShiftId: $attendanceShiftId, allowed: $allowed, attdStatus: $attdStatus, activeShift: $activeShift, selectedGuards: $selectedGuards, availableGuards: $availableGuards, replacements: $replacements, selectForAttendance: $selectForAttendance, attended: $attended, previousShift: $previousShift, briefingPoints: $briefingPoints}';
+  }
+
+// Shift.fromJson(Map<String, dynamic> json)
   //     : shift = json['shift'] as String?,
   //       allowed = json['allowed'] as int?,
   //       selectedGuards = (json['selectedGuards'] as List?)
@@ -157,10 +164,7 @@ class Shift {
   //       'replacement': replacement
   //     };
 
-  @override
-  String toString() {
-    return 'Shift{shift: $shift, allowed: $allowed, selectedGuards: $selectedGuards, availableGuards: $availableGuards, replacements: $replacements}';
-  }
+
 }
 
 @JsonSerializable()

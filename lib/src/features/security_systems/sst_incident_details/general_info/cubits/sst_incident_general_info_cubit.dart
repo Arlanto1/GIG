@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';

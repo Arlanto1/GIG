@@ -2772,7 +2772,7 @@ class _GuardingMasterDataDetailsViewState
             showDialog(
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return AddNewFields(
+                  return const AddNewFields(
                     title: Constants.addQualificationType,
                   );
                 });
