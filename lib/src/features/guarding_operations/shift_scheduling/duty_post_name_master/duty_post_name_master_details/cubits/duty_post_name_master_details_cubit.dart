@@ -182,9 +182,6 @@ class DutyPostNameMasterDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
