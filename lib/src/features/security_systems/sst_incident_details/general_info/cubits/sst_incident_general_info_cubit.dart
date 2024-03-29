@@ -226,14 +226,14 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       if (!emails.isEmptyOrNull) {
         log('--emails?[0]-${emails?[0]}-');
         state.model.vendorPoc = emails?[0].trim();
-        if (!emails![1].isEmptyOrNull) {
+        if (!emails.isEmptyOrNull && emails!.length>1 &&!emails[1].isEmptyOrNull) {
           state.model.escalation1Poc =
               !emails[1].isEmptyOrNull ? emails[1].trim() : '';
         }
 
-        log('--emails.length-${emails.length}-');
+        log('--emails.length-${emails?.length}-');
 
-        if (emails.length >= 3) {
+        if (emails!.length >= 3) {
           state.model.escalation2Poc =
               !emails[2].isEmptyOrNull ? emails[2].trim() : '';
         }
