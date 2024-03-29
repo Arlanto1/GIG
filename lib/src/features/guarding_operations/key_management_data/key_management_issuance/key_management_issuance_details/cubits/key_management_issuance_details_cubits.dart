@@ -320,6 +320,9 @@ class KeyManagementIssuanceDetailsCubit
           status: FormStatus.error,
         ),
       );
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
       return false;
     }
     log('--response.id----${response.id}--');
