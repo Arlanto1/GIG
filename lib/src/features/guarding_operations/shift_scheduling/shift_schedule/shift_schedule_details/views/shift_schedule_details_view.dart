@@ -262,7 +262,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               selectedLocationName:
                                   state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
-                                if(state.model.status == 0 || state.model.status == null){
+                                if(state.model.status == 1 ||state.model.status == null ){
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
                                         context)
                                     .updateDropdownValues(location: location);}
@@ -290,7 +290,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
-                            isDisableColor: false,
+                            isDisableColor: state.model.status ==0 || state.model.status == null ?false:true,
                             onTap: () {
                               if(state.model.status ==0 || state.model.status == null){
                               BaseOrganisationDialog().departmentDialog(
@@ -566,12 +566,13 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             IconButton(
               icon: const Icon(Icons.close), // Cancel icon
               onPressed: () {
-                // Remove the POC from the state
-                state.pocs?.remove(poc);
-                // Trigger UI update
-                BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                    .onCheckBoxChange(state.model);
-              },
+                if(state.model.status ==0 || state.model.status == null) {
+                  // Remove the POC from the state
+                  state.pocs?.remove(poc);
+                  // Trigger UI update
+                  BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                      .onCheckBoxChange(state.model);
+                } },
             ),
           ],
         ),
