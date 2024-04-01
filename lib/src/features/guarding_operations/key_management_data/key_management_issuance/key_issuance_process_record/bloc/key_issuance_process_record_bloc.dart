@@ -12,12 +12,12 @@ class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
   final int locationId;
   final int parentId;
-  final bool? isMasterKey;
+  final bool isMasterKey;
 
   KeyIssuanceProcessRecordBloc({
     required this.locationId,
     required this.parentId,
-    this.isMasterKey,
+    required this.isMasterKey,
   }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,

@@ -367,7 +367,7 @@ class RouteGenerator {
       case incidentManagementsRoute:
         String occId = '';
         int occType = 0;
-        int kldId=0;
+        int kldId = 0;
 
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -375,12 +375,11 @@ class RouteGenerator {
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
           kldId = arguments['kldId'] ?? 0;
-
         }
         log('--occId-router-im list-$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
-            create: (_) => im.IncidentManagementsBloc(occType, occId,kldId)
+            create: (_) => im.IncidentManagementsBloc(occType, occId, kldId)
               ..add(im.FetchData(
                   startPos: 0,
                   maxPos: 20,
@@ -389,7 +388,7 @@ class RouteGenerator {
             child: IncidentManagementsView(
               occId: occId,
               occType: occType,
-                kldId:kldId,
+              kldId: kldId,
             ),
           ),
         );
@@ -1254,6 +1253,7 @@ class RouteGenerator {
         int parentId = 0;
         int parentStatus = 0;
         int locationId = 0;
+        bool isMasterKey = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1261,12 +1261,15 @@ class RouteGenerator {
           parentId = arguments[ConstantsArgument.parentId];
           parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
+          isMasterKey = arguments[ConstantsArgument.isMasterKey];
         }
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
               locationId: locationId,
               parentId: parentId,
+              isMasterKey : isMasterKey ? true :false,
             )..add(kip.FetchData(
                 id: parentId,
                 startPos: 0,
@@ -1277,6 +1280,7 @@ class RouteGenerator {
               parentStatus: parentStatus,
               locationId: locationId,
               title: title,
+              isMasterKey: isMasterKey,
             ),
           ),
         );
@@ -1390,7 +1394,8 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           attInfoId = arguments[ConstantsArgument.parentId];
-          selectedDutyPostNameId = arguments[ConstantsArgument.selectedDutyPostNameId];
+          selectedDutyPostNameId =
+              arguments[ConstantsArgument.selectedDutyPostNameId];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
