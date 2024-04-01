@@ -364,7 +364,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.noKeysIssued = int.tryParse(value);
-                          num sum = (widget.model.available ?? 0) -
+                          num sum = (selectedKeyDescription!.noKeys ?? 0) -
                               (widget.model.noKeysIssued ?? 0);
                           availableKeysController.text = sum.toString();
                           widget.model.available = sum.toInt();
