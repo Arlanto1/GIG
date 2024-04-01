@@ -117,7 +117,7 @@ class _AttendanceReportBillingViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.initial) ...[
+                if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
