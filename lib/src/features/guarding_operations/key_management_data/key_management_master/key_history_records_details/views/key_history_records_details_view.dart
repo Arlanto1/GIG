@@ -100,26 +100,24 @@ class _KeyHistoryRecordsDetailsViewState
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = (state.model.status == null ||
-                    state.model.status == ConstantsIntValue.created ||
-                    state.model.status ==
-                        ConstantsIntValue.lockChangeInitiated ||
-                    state.model.status == ConstantsIntValue.lostInitiated ||
-                    state.model.status == ConstantsIntValue.damagedInitiated ||
-                    state.model.status == ConstantsIntValue.lostApproved ||
-                    state.model.status == ConstantsIntValue.destroyRejected ||
-                    state.model.status == ConstantsIntValue.destroyApproved ||
-                    (state.model.status == ConstantsIntValue.destroyInitiated &&
-                        widget.type !=
-                            ConstantsIntValue.keyDestroyHistoryInt))||
+                state.model.status == ConstantsIntValue.created ||
+                state.model.status == ConstantsIntValue.lockChangeInitiated ||
+                state.model.status == ConstantsIntValue.lostInitiated ||
+                state.model.status == ConstantsIntValue.damagedInitiated ||
+                state.model.status == ConstantsIntValue.lostApproved ||
+                state.model.status == ConstantsIntValue.destroyRejected ||
+                state.model.status == ConstantsIntValue.destroyApproved ||
+                (state.model.status == ConstantsIntValue.destroyInitiated &&
+                    widget.type != ConstantsIntValue.keyDestroyHistoryInt)) ||
             ((state.model.status == null ||
-            state.model.status == ConstantsIntValue.created) &&
-            (widget.type == ConstantsIntValue.lockChangeHistoryInt))||
-                ((state.model.status != ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                    (widget.type == ConstantsIntValue.keyDamageHistoryInt ||
-                        widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                    state.loggedInUserDetails!.userName
-                        .equalsIgnoreCase(state.model.createdBy?.userName)) ||
+                    state.model.status == ConstantsIntValue.created) &&
+                (widget.type == ConstantsIntValue.lockChangeHistoryInt)) ||
+            ((state.model.status != ConstantsIntValue.created ||
+                    state.model.status == null) &&
+                (widget.type == ConstantsIntValue.keyDamageHistoryInt ||
+                    widget.type == ConstantsIntValue.keyLostHistoryInt) &&
+                state.loggedInUserDetails!.userName
+                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||
             ((state.model.status == ConstantsIntValue.created ||
                     state.model.status == null) &&
                 (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
@@ -435,7 +433,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           TextFieldAddButton(
-                            title: state.model.srh?.name,
+                            title: state.model.srh?.firstName,
                             height: 70,
                             isDisableColor: !showSaveAndSubmitButtons,
                             onTap: () {
