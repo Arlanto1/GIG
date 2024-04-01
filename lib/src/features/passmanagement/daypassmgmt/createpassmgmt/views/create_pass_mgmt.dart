@@ -2124,7 +2124,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passValidUntilTextController.text;
 
-      passReturnedTextController.text = widget.model?.status == 2 &&
+      passReturnedTextController.text = widget.model?.status == 2 || widget.model?.status == 8 ||widget.model?.status == 9&&
               (widget.model?.returnedTime != null &&
                   widget.model?.returnedTime != '0')
           ? Utils.timestampToDateConversion(
