@@ -65,53 +65,66 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
-      return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.showSaveButton
-            ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkybluecolor,
-                foregroundColor: AppColors.backgroundWhitecolor,
-                onPressed: () {
-                  showAddContactPopUp(
-                    context: context,
-                    visitingOfficialDetails: LawVisitingOfficial(
-                      id: null,
-                      email: '',
-                      contactNo: '',
-                      department: Organisation(),
-                      designation: '',
-                    ),
-                    departments: state.departments,
-                  );
-                },
-              )
-            : Container(),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.visitingOfficials,
-          showPopUp: false,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          popAndReplace: () async {
-            log('--popAndReplace-----');
-            // Navigator.pop(context);
-            var nav = Navigator.of(context);
-
-            LawEnforcementDetailsModel? model =
-                await lawEnforcementListCubit.getById(widget.id, context);
-
-            nav.pop();
-            nav.pushReplacementNamed(lawEnforcementDetailsViewRoute,
-                arguments: {"UserElement": model});
-          },
-          showLikeButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
+      return PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) async {
+          if (didPop) {
+            return;
+          }
+          await backButtonFunction(context);
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.cardBgColor,
+          floatingActionButton: widget.showSaveButton
+              ? Flutterfloatingbutton(
+                  backgroundColor: AppColors.navigationSkybluecolor,
+                  foregroundColor: AppColors.backgroundWhitecolor,
+                  onPressed: () {
+                    showAddContactPopUp(
+                      context: context,
+                      visitingOfficialDetails: LawVisitingOfficial(
+                        id: null,
+                        email: '',
+                        contactNo: '',
+                        department: Organisation(),
+                        designation: '',
+                      ),
+                      departments: state.departments,
+                    );
+                  },
+                )
+              : Container(),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: Constants.visitingOfficials,
+            showPopUp: false,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            popAndReplace: () async {
+              log('--popAndReplace-----');
+              // Navigator.pop(context);
+              await backButtonFunction(context);
+            },
+            showLikeButton: false,
+            excelAPIName: 'exportMMExcel',
+            pdfAPIName: 'exportMMPDF',
+          ),
+          body: getBody(state),
         ),
-        body: getBody(state),
       );
     });
+  }
+
+  Future<void> backButtonFunction(BuildContext context) async {
+    var nav = Navigator.of(context);
+
+    LawEnforcementDetailsModel? model =
+        await lawEnforcementListCubit.getById(widget.id, context);
+
+    nav.pop();
+    nav.pushReplacementNamed(lawEnforcementDetailsViewRoute,
+        arguments: {"UserElement": model});
   }
 
   getBody(VisitingOfficialListState state) {
