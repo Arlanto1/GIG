@@ -116,6 +116,10 @@ class SstIncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Detail Description');
     }
 
+    if (model.ipbArea == null) {
+      return const ErrorResponse(status: false, message: 'Please enter IPB Area');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
