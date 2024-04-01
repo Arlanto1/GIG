@@ -268,6 +268,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     //  for(KeyDescription keyDescription in keyDescriptions) {
     //    orgs.add(Organisation(name: keyDescription.keyDescription));
     // }
+    log('keyIssuanceProcessRecord-------${keyIssuanceProcessRecord.available}-----');
 
     showDialog(
       context: context,
