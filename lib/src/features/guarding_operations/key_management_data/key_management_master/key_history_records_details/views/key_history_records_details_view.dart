@@ -452,6 +452,7 @@ class _KeyHistoryRecordsDetailsViewState
                                       srh: user,
                                     );
                                   },
+                                  roleName: 'ATOM_Sub_Regional_Head',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -527,6 +528,7 @@ class _KeyHistoryRecordsDetailsViewState
                                       securityManager: user,
                                     );
                                   },
+                                  roleName: 'ATOM_Security_Manager',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<

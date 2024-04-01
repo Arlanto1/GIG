@@ -58,6 +58,7 @@ class ArticleFoundBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
         ),
       );
     } on Exception {

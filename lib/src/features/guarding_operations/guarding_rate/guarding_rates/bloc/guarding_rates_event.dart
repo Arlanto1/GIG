@@ -7,13 +7,13 @@ abstract class GuardingRatesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchList extends GuardingRatesEvent {
+class FetchData extends GuardingRatesEvent {
   final int startPos;
   final int maxPos;
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchList(
+  const FetchData(
       {required this.startPos,
       required this.maxPos,
       required this.newSearch,

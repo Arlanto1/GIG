@@ -891,7 +891,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
             create: (_) => guarding.GuardingRatesBloc()
-              ..add(guarding.FetchList(
+              ..add(guarding.FetchData(
                   startPos: 0,
                   maxPos: 20,
                   newSearch: true,

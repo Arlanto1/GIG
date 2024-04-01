@@ -20,18 +20,6 @@ class AnnualPowerShutdownListServices {
     return email;
   }
 
-  Future<AnnualPowerShutDownResponse> getAnnualPowerShutdownList({
-    required String startPosition,
-    required String maximumRecords,
-    required String userId,
-  }) async {
-    String url =
-        '${Apis._getAnnualPowerShutdownList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return AnnualPowerShutDownResponse.fromJson(response);
-  }
   Future<AnnualPowerShutDownResponse> getAnnualPowerShutdownListWithFilters({
     required String startPosition,
     required String maximumRecords,
