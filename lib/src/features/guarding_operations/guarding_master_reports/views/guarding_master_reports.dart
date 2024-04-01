@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class GuardingMasterReport extends StatefulWidget {
@@ -15,14 +18,14 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
   RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     context.read<GuardingMasterReportBloc>().add(
-          const InitializeValuesGMR(),
-        );
+      const InitializeValuesGMR(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -41,18 +44,18 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<GuardingMasterReportBloc>().add(FetchReportList(
-            startPos: pageNumber,
-            maxPos: 20,
-            newSearch: true,
-            filters: BaseFilterModel(),
-          ));
+        startPos: pageNumber,
+        maxPos: 20,
+        newSearch: false,
+        filters: filters,
+      ));
     }
   }
 
   void _onRefresh() async {
     context.read<GuardingMasterReportBloc>().add(
-          const RefreshListGMR(),
-        );
+      const RefreshListGMR(),
+    );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
@@ -70,6 +73,15 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     double height = size.height;
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
+        // floatingActionButton: Flutterfloatingbutton(
+        //   backgroundColor: AppColors.navigationSkybluecolor,
+        //   foregroundColor: AppColors.backgroundWhitecolor,
+        //   onPressed: () => {
+        //     Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+        //         arguments: {"title": Constants.createGuardingMasterData}),
+        //   },
+        // ),
+
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.guardingMasterReportTitle,
@@ -83,65 +95,71 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
         ),
         body: BlocBuilder<GuardingMasterReportBloc, GuardingMasterReportState>(
             builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
-          // if (state.list.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
+              // if (state.status == FormStatus.initial) {
+              //   return const BaseLoader();
+              // }
+              // if (state.list.isEmptyOrNull) {
+              //   return const NoRecordFoundWidget();
+              // }
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                    color: AppColors.backgroundWhitecolor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                    )),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
                     ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      itemBuilder: (context, index) {
-                        return index >= state.list.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    if (state.list.isEmptyOrNull &&
+                        state.status != FormStatus.loading &&
+                        state.status != FormStatus.initial) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: const WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: BaseLoader(),
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.list.length
+                              : state.list.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.list.length) {
+
+                              return index >= state.list.length
+                                  ? const BaseLoader()
+                                  : BaseListTileItem(
                                 id: state.list[index].id,
                                 vendor: state.list[index].vendor,
                                 region: state.list[index].region,
@@ -157,18 +175,18 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                                         id: state.list[selectedIndex].id
                                             .toString(),
                                         vendor:
-                                            state.list[selectedIndex].vendor,
+                                        state.list[selectedIndex].vendor,
                                         region: state.list[index].region,
                                         guardCount:
-                                            state.list[index].guardCount,
+                                        state.list[index].guardCount,
                                         pvcExpired:
-                                            state.list[index].pvcExpired,
+                                        state.list[index].pvcExpired,
                                         msgbExempted:
-                                            state.list[index].msgbExempted,
+                                        state.list[index].msgbExempted,
                                         mcNotSubmitted: state
                                             .list[selectedIndex].mcNotSubmitted,
                                         mcExpired:
-                                            state.list[selectedIndex].mcExpired,
+                                        state.list[selectedIndex].mcExpired,
                                         systemAccess: state
                                             .list[selectedIndex].systemAccess,
                                         trainingCertPending: state
@@ -187,15 +205,15 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                                         id: state.list[selectedIndex].id
                                             .toString(),
                                         vendor:
-                                            state.list[selectedIndex].vendor,
+                                        state.list[selectedIndex].vendor,
                                         region:
-                                            state.list[selectedIndex].region,
+                                        state.list[selectedIndex].region,
                                         guardCount: state
                                             .list[selectedIndex].guardCount,
                                         mcNotSubmitted: state
                                             .list[selectedIndex].mcNotSubmitted,
                                         mcExpired:
-                                            state.list[selectedIndex].mcExpired,
+                                        state.list[selectedIndex].mcExpired,
                                         photoNotSubmitted: state
                                             .list[selectedIndex]
                                             .photoNotSubmitted,
@@ -242,36 +260,45 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                                     },
                                   );
                                 },
+                                index: index,
                               );
-                      },
+                            }
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }));
+              );
+            }));
   }
 
+
   void applySearchFilters(
-    FilterCriteria model,
-  ) {
+      FilterCriteria model,
+      ) {
+    log('Applying Search Filters');
+
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<GuardingMasterReportBloc>(context).add(
-      FetchReportList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchReportList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
   }
 
   void applyFilters(
-    Filters model,
-  ) {
+      Filters model,
+      ) {
+    log('Applying Filters');
+
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<GuardingMasterReportBloc>(context).add(
-      FetchReportList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchReportList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

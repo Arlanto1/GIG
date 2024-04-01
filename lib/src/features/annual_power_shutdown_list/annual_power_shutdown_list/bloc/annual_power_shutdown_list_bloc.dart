@@ -38,6 +38,7 @@ class AnnualPowerShutdownListBloc
   final AnnualPowerShutdownListServices _services =
       AnnualPowerShutdownListServices();
   final CommonServices commonServices = CommonServices();
+
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<AnnualPowerShutdownListState> emit) async {
     try {

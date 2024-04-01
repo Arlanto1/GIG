@@ -103,8 +103,16 @@ class _GuardingRatesState
           excelAPIName: 'exportGMRateExcel',
           pdfAPIName: 'exportGMRatePDF',
         ),
-        body: BlocBuilder<GuardingRatesBloc,
+        body: BlocConsumer<GuardingRatesBloc,
             GuardingRatesState>(
+            listener: (context, state) {
+              if (state.status == FormStatus.sessionExpired) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.message ?? 'Session Expired...')));
+                Validator.logoutAction(context);
+              }
+            },
             builder: (context, state) {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
@@ -196,9 +204,7 @@ class _GuardingRatesState
                                         state.labels?.defaultLocale.slNo ??
                                         'SlNo',
                                     value: state.items[index].slNo ?? ''));
-                                return index >= state.items.length
-                                    ? const BaseLoader()
-                                    : BaseListTileItem(
+                                return BaseListTileItem(
                                   id: state.items[index].id,
                                   // inputDate: state.items[index].inputDate,
                                   vendors: state.items[index].vendor,

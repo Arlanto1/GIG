@@ -166,7 +166,6 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                       itemBuilder: (context, index) {
                         if (index < state.items.length) {
                           FoundModel user = state.items[index];
-
                           return FoundListItem(
                             userItem: user,
                             onTap: (selectedIndex) {
