@@ -1857,7 +1857,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1879,7 +1879,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
