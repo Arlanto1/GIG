@@ -224,7 +224,7 @@ class RouteGenerator {
               ..add(
                 af.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel(),
                 ),
@@ -320,12 +320,12 @@ class RouteGenerator {
                 pm.PassManagementListBloc(passId: passMngArguments!.passType)
                   ..add(pm.FetchData(
                       startPos: 0,
-                      maxPos: 20,
+                      maxPos: Constants.maxResults,
                       newSearch: true,
                       filters: BaseFilterModel())),
             child: PassManagementListView(
               passId: passMngArguments!.passType,
-              title: passMngArguments.title ?? '',
+              title: passMngArguments.title,
             ),
           ),
         );
@@ -354,7 +354,7 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (context) => CreatePassManagement(
               passId: passMngArguments.passType,
-              title: passMngArguments.title ?? '',
+              title: passMngArguments.title,
               model: passMngArguments.model,
             ),
           );
@@ -382,7 +382,7 @@ class RouteGenerator {
             create: (_) => im.IncidentManagementsBloc(occType, occId, kldId)
               ..add(im.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: IncidentManagementsView(
@@ -440,7 +440,7 @@ class RouteGenerator {
               occId: occId,
             )..add(sv.FetchData(
                 startPos: 0,
-                maxPos: 20,
+                maxPos: Constants.maxResults,
                 newSearch: true,
                 filters: BaseFilterModel())),
             child: SstIncidentView(isInternal: isInternal),
@@ -487,7 +487,7 @@ class RouteGenerator {
             create: (_) => ocb.OccurrencesBloc()
               ..add(ocb.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const OccurrencesView(),
@@ -538,7 +538,7 @@ class RouteGenerator {
             create: (_) => sla.SLAViolationPenaltyListBloc()
               ..add(sla.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const SLAViolationPenaltyListView(),
@@ -632,7 +632,7 @@ class RouteGenerator {
             create: (_) => cd.ContactDetailsListBloc()
               ..add(cd.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const ContactDetailsListView(),
@@ -700,7 +700,7 @@ class RouteGenerator {
             create: (_) => ep.EventProtectionsBloc()
               ..add(ep.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const EventProtectionsView(),
@@ -836,7 +836,7 @@ class RouteGenerator {
             create: (_) => mm.MaterialMovementBloc(isInward: isInward)
               ..add(mm.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: MaterialMovementsView(
@@ -893,10 +893,10 @@ class RouteGenerator {
             create: (_) => guarding.GuardingRatesBloc()
               ..add(guarding.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
-            child: const GuardingRates(),
+            child: const GuardingRatesView(),
           ),
         );
 
@@ -906,7 +906,7 @@ class RouteGenerator {
                   create: (_) => GuardingMasterReportBloc()
                     ..add(FetchReportList(
                       startPos: 0,
-                      maxPos: 20,
+                      maxPos: Constants.maxResults,
                       newSearch: true,
                       filters: BaseFilterModel(),
                     )),
@@ -919,7 +919,7 @@ class RouteGenerator {
                   create: (_) => GuardingMasterDataBloc()
                     ..add(FetchDataList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const GuardingMasterDataView(),
@@ -1044,7 +1044,7 @@ class RouteGenerator {
             create: (_) => asp.AnnualPowerShutdownListBloc()
               ..add(asp.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const AnnualPowerShutdownListView(),
@@ -1076,7 +1076,7 @@ class RouteGenerator {
                   create: (_) => KeyManagementMasterListBloc()
                     ..add(FetchKeyMasterList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const KeyManagementMasterListView(),
@@ -1168,7 +1168,7 @@ class RouteGenerator {
                   create: (_) => KeyReconciliationListBloc()
                     ..add(FetchKeyReconciliationList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const KeyReconciliationListView(),
@@ -1180,7 +1180,7 @@ class RouteGenerator {
                   create: (_) => KeyLossDestructionListBloc()
                     ..add(FetchKeyLossList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const KeyLossDestructionListView(),
@@ -1219,7 +1219,7 @@ class RouteGenerator {
                   create: (_) => KeyManagementIssuanceListBloc()
                     ..add(FetchKeyIssuanceList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const KeyManagementIssuanceListView(),
@@ -1291,7 +1291,7 @@ class RouteGenerator {
                   create: (_) => DutyPostMasterListBloc()
                     ..add(FetchDutyPostMasterList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const DutyPostMasterListView(),
@@ -1326,7 +1326,7 @@ class RouteGenerator {
                   create: (_) => DutyPostNameMasterListBloc()
                     ..add(FetchDutyPostNameMasterList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const DutyPostNameMasterListView(),
@@ -1361,7 +1361,7 @@ class RouteGenerator {
                   create: (_) => AttendanceBloc()
                     ..add(FetchAttendanceList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const AttendanceView(),
@@ -1420,7 +1420,7 @@ class RouteGenerator {
                   create: (_) => arb.AttendanceReportBillingBloc()
                     ..add(arb.FetchAttendanceReportBillingList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const AttendanceReportBillingView(),
@@ -1432,7 +1432,7 @@ class RouteGenerator {
                   create: (_) => ShiftScheduleListBloc()
                     ..add(FetchShiftScheduleList(
                         startPos: 0,
-                        maxPos: 20,
+                        maxPos: Constants.maxResults,
                         newSearch: true,
                         filters: BaseFilterModel())),
                   child: const ShiftScheduleListView(),
@@ -1460,7 +1460,7 @@ class RouteGenerator {
             create: (_) => vip.VVIPVisitorsBloc()
               ..add(vip.FetchData(
                   startPos: 0,
-                  maxPos: 20,
+                  maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel())),
             child: const VVIPVisitorsView(),

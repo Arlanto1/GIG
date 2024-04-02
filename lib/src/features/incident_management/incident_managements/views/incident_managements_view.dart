@@ -67,7 +67,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       pageNumber = pageNumber + 20;
       context.read<IncidentManagementsBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -303,7 +303,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -316,7 +316,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

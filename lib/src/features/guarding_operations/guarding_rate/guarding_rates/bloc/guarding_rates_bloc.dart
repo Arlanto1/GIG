@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -27,6 +28,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
 
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<GuardingRatesState> emit) async {
+    log('--_refreshList---');
     try {
       RatesResponse response;
 
@@ -50,6 +52,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
 
   FutureOr<void> _initializeValues(
       InitializeValuesGR event, Emitter<GuardingRatesState> emit) async {
+    log('--_initializeValues---');
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
@@ -85,6 +88,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<GuardingRatesState> emit) async {
+    log('--_fetchList---');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -108,6 +112,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
           ),
         );
       }
+      log('--after if---');
 
       RatesResponse response;
       response = await _services.getRates(
@@ -117,7 +122,9 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
+        return emit(state.copyWith(hasReachedMax: true,
+          status: FormStatus.success,
+        ));
       }
       return emit(
         state.copyWith(

@@ -129,9 +129,11 @@ class _NotificationsViewState extends State<NotificationsView> {
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,

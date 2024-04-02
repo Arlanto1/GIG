@@ -63,7 +63,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
       pageNumber = pageNumber + 20;
       context.read<SstIncidentBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -170,9 +170,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -305,7 +307,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<SstIncidentBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -315,7 +317,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<SstIncidentBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

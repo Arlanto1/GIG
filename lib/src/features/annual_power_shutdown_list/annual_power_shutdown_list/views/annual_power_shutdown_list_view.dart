@@ -47,7 +47,7 @@
         pageNumber = pageNumber + 20;
         context.read<AnnualPowerShutdownListBloc>().add(FetchData(
               startPos: pageNumber,
-              maxPos: 20,
+              maxPos: Constants.maxResults,
               newSearch: false,
               filters: filters,
             ));
@@ -269,7 +269,7 @@
       filters = BaseFilterModel(filterCriteria: model);
 
       BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
-        FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+        FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
       );
     }
 
@@ -282,7 +282,7 @@
       log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
       BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
-        FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+        FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
       );
       // _scrollController = ScrollController()..addListener(_onScroll);
 
