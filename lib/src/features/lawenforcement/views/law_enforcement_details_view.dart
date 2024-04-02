@@ -2090,7 +2090,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
                   (attachmentListviews?.length ?? 0)
-              ? attachmentListviews1?.length
+              ? attachmentListviews1?.length ?? 0
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             ImageContent? imageData;
