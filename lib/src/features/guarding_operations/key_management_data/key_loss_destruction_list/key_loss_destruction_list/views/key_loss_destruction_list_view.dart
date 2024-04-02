@@ -47,7 +47,7 @@ class _KeyLossDestructionListViewState
       pageNumber = pageNumber + 20;
       context.read<KeyLossDestructionListBloc>().add(FetchKeyLossList(
           startPos: pageNumber,
-          maxPos: 20,
+          maxPos: Constants.maxResults,
           newSearch: true,
           filters: BaseFilterModel()));
     }
@@ -133,9 +133,11 @@ class _KeyLossDestructionListViewState
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -269,7 +271,7 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -280,7 +282,7 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -137,6 +137,7 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
+      log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
 
       var response = await http.post(
@@ -145,10 +146,10 @@ class BaseApiService {
         body: json.encode(requestedData),
       );
 
-      log("API URL: $url");
       log("HTTP Status Code: ${response.statusCode}");
-       log("Response: ${response.body}");
-
+      if (!url.contains('get')) {
+        log("Response: ${response.body}");
+      }
       var responseBody;
       if (!response.body.isEmptyOrNull) {
         responseBody = json.decode(response.body);
@@ -157,7 +158,7 @@ class BaseApiService {
       // responseBody = json.decode(response.body);
 
       if (response.statusCode == HttpStatus.ok) {
-        return responseBody??'';
+        return responseBody ?? '';
       } else if (response.statusCode == 449) {
         // Token Expired
         return await _refreshTokenAndRetry(

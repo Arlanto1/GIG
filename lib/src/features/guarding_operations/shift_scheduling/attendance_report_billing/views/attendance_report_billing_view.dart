@@ -48,7 +48,7 @@ class _AttendanceReportBillingViewState
           .read<AttendanceReportBillingBloc>()
           .add(FetchAttendanceReportBillingList(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -135,9 +135,11 @@ class _AttendanceReportBillingViewState
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -262,7 +264,7 @@ class _AttendanceReportBillingViewState
 
     BlocProvider.of<AttendanceReportBillingBloc>(context).add(
       FetchAttendanceReportBillingList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -273,7 +275,7 @@ class _AttendanceReportBillingViewState
 
     BlocProvider.of<AttendanceReportBillingBloc>(context).add(
       FetchAttendanceReportBillingList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

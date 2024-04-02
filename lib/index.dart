@@ -142,7 +142,7 @@ export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details_view.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
-export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
+export 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates_view.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/drop_pick_up_response.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/physically_fit_model.dart';
 export 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';

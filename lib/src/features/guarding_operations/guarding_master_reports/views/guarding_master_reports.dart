@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class GuardingMasterReport extends StatefulWidget {
@@ -45,7 +44,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
       pageNumber = pageNumber + 20;
       context.read<GuardingMasterReportBloc>().add(FetchReportList(
         startPos: pageNumber,
-        maxPos: 20,
+        maxPos: Constants.maxResults,
         newSearch: false,
         filters: filters,
       ));
@@ -285,7 +284,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<GuardingMasterReportBloc>(context).add(
-      FetchReportList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchReportList(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -298,7 +297,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<GuardingMasterReportBloc>(context).add(
-      FetchReportList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchReportList(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

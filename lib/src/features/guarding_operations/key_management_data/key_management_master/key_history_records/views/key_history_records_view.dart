@@ -48,7 +48,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<KeyHistoryRecordBloc>().add(FetchData(
-          startPos: pageNumber, maxPos: 20, id: widget.id, type: widget.type));
+          startPos: pageNumber, maxPos: Constants.maxResults, id: widget.id, type: widget.type));
     }
   }
 
