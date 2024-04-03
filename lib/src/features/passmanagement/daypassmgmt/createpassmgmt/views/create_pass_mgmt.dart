@@ -4043,28 +4043,28 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.model?.status == null || widget.model?.status == 0
+                  trailing: widget.model?.status == null
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // IconButton(
-                            //   icon: const Icon(Icons.delete),
-                            //   onPressed: () {
-                            //     // Delete logic here
-                            //     if (imageData1 != null) {
-                            //       // Implement delete functionality for attachmentListviews1
-                            //       setState(() {
-                            //         attachmentListviews1!.removeAt(index);
-                            //       });
-                            //     }
-                            //     if (imageData != null) {
-                            //       // Implement delete functionality for attachmentListviews1
-                            //       setState(() {
-                            //         attachmentListviews!.removeAt(index);
-                            //       });
-                            //     }
-                            //   },
-                            // ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                // Delete logic here
+                                if (imageData1 != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews1!.removeAt(index);
+                                  });
+                                }
+                                if (imageData != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                            ),
                             SvgPicture.asset(AppIcon.download,
                                 color: AppColors.boldgreyBackground),
                           ],
