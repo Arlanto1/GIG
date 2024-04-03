@@ -15,6 +15,8 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
+import '../../passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
+
 class CreateFoundNewUser extends StatefulWidget {
   //const CreateFoundNewUser({super.key});
   CreateFoundNewUser(
@@ -22,7 +24,8 @@ class CreateFoundNewUser extends StatefulWidget {
       required this.title,
       this.lawstate,
       this.createoundstate,
-      this.createpassmgmtstate});
+      this.createpassmgmtstate,
+     });
 
   final String title;
   LawEnforcementState? lawstate;
@@ -39,6 +42,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   TextEditingController lastnameTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
 
+  CreatePassMgmtService createpassmgmtServices = CreatePassMgmtService();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,10 +57,11 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       await createFoundArticleCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
-    // else if (widget.createpassmgmtstate != null) {
-    //    await CreatePassMgmtCubit.createUser(
-    //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    // }
+    else if (widget.createpassmgmtstate != null) {
+      CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(createpassmgmtServices: createpassmgmtServices); // Instantiate CreatePassMgmtCubit
+      await createPassMgmtCubit.createUser(
+        firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    }
     else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
