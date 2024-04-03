@@ -570,6 +570,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           handedOverTo: user,
                                         );
                                       },
+                                      roleName: 'ATOM_STATIC_USER',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<

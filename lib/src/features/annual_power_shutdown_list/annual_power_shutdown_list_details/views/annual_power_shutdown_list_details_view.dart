@@ -393,6 +393,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         subRegionalHead1: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Sub_Regional_Head',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -428,6 +429,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         subRegionalHead2: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Sub_Regional_Head',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -465,6 +467,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(lSM1ContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_Senior_Security_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -533,6 +536,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(lSM2ContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_Senior_Security_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -602,6 +606,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(pocContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_STATIC_USER',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -670,6 +675,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context).requestFocus(
                                           pocEscalationContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_STATIC_USER',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<

@@ -76,11 +76,16 @@ class DutyPostNameMasterDetailsCubit
       //   state.model.location = defaultLocation;
       //   state.model.slNo = slNo.serialNo;
       // }
-
+log('input Date ${state.model.inputDate}');
       state.model.entrySecurity ??= loggedInUserDetails;
+
+      // state.model?.inputDate = state.model?.inputDate != null
+      //     ? Utils().formatUnixTimestamp(state.model?.inputDate ?? '') : Utils().getCurrentDate();
+
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
@@ -173,7 +178,7 @@ class DutyPostNameMasterDetailsCubit
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    //
+
     // Create/Update API Call
     DutyPostNameMasterRequest request =
         DutyPostNameMasterRequest(dutyPostNameMaster: state.model);
@@ -207,6 +212,7 @@ class DutyPostNameMasterDetailsCubit
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -214,8 +220,6 @@ class DutyPostNameMasterDetailsCubit
           status: FormStatus.error,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return;
     } on Exception catch (e) {
       emit(

@@ -7,6 +7,7 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -51,9 +52,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       await createFoundArticleCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
-    // else if (widget.createpassmgmtstate != null)
-    // {
-    //    await createpassmgmtCubit.createUser(
+    // else if (widget.createpassmgmtstate != null) {
+    //    await CreatePassMgmtCubit.createUser(
     //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
     // }
     else if (widget.lawstate != null) {

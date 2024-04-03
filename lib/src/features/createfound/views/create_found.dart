@@ -1787,20 +1787,27 @@ class _CreateFoundState extends State<CreateFound> {
                                         )
                                       : Container(),
 
-                                  getFiles.isNotEmpty ||
-                                          getAttachments.isNotEmpty
-                                      ? CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01)
-                                      : Container(),
-                                  (getAttachments.isEmpty ||
-                                          widget.model == null)
-                                      ? getFiles.isEmpty
-                                          ? Container()
-                                          : attachmentListviews(
-                                              getFiles, getAttachments)
-                                      : attachmentListviews(
-                                          getFiles, getAttachments),
-
+                                  // getFiles.isNotEmpty ||
+                                  //         getAttachments.isNotEmpty
+                                  //     ? CommonWidgets.verticalSpacerWidget(
+                                  //         height * 0.01)
+                                  //     : Container(),
+                                  // (getAttachments.isEmpty ||
+                                  //         widget.model == null)
+                                  //     ? getFiles.isEmpty
+                                  //         ? Container()
+                                  //         : attachmentListviews(
+                                  //             getFiles, getAttachments)
+                                  //     : attachmentListviews(
+                                  //         getFiles, getAttachments),
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.loadAttachments,
+                                    files: getFiles,
+                                    showDownloadIcon:
+                                    widget.model == null || widget.model?.status == 0 ,
+                                    moduleCode: Constants.articleFoundModuleCode,
+                                  ),
                                   // TODO: Need to use this to view the attachments
                                   // if (!getAttachments.isEmptyOrNull ) ...[
                                   //   BaseImageUpload().getAttachment(
@@ -2273,18 +2280,19 @@ class _CreateFoundState extends State<CreateFound> {
                               color: AppColors.boldgreyBackground),
                         ],
                       )
-                    : SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground),
-                onTap: () {
-                  if (imageData1?.id != null) {
+                    :   GestureDetector(
+                  onTap: () {
+                    // Add your download functionality here
                     DownloadImage().saveImage(
                       context,
-                      imageData1?.id ?? 1,
-                      imageData1?.title ?? '',
+                      imageData?.id ?? 0,
+                      imageData?.title ?? '',
                       Constants.articleFoundModuleCode,
                     );
-                  }
-                },
+                  },
+                  child: SvgPicture.asset(AppIcon.download,
+                      color: AppColors.boldgreyBackground),
+                ),
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')
                     : Text(imageData?.title ?? ''),

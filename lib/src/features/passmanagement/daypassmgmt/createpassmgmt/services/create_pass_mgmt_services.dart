@@ -17,7 +17,7 @@ class Apis {
 class CreatePassMgmtService {
   final endpoint = Environment().config.apiHost;
 
-  // Create user api call
+  //Create user api call
   Future<CreateUserModel> createUser(
     String firstName,
     String lastName,
@@ -32,7 +32,16 @@ class CreatePassMgmtService {
     );
     return CreateUserModel.fromJson(response);
   }
-
+  Future<GetDepositor> getAnalyst(
+      String roleName,
+      BuildContext? context,
+      ) async {
+    String url = '${Apis._getUsersByRole}$roleName';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetDepositor.fromJson(response);
+  }
   Future<CreatePassMgmtResponse> createPass({
     required CreatePassMgmtBody requestBody,
     required bool isSubmit,
