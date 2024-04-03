@@ -83,8 +83,7 @@ class KeyHistoryRecordsDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
-      state.model.modifiedBy ??=
-          '${loggedInUserDetails.firstName} ${loggedInUserDetails.lastName}';
+      state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
