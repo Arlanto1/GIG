@@ -38,6 +38,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             (widget.model?.shiftC ?? 0) +
             (widget.model?.shiftG ?? 0))
         .toString());
+    widget.model?.total =
+        int.tryParse(totalController.text);
     BlocProvider.of<DutyPostMasterDetailsCubit>(context).initializeValues();
   }
 
