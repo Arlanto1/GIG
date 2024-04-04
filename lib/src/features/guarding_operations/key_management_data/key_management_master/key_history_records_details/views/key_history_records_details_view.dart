@@ -433,7 +433,7 @@ class _KeyHistoryRecordsDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           TextFieldAddButton(
-                            title: state.model.srh?.firstName,
+                            title: state.model.srh?.name,
                             height: 70,
                             isDisableColor: !showSaveAndSubmitButtons,
                             onTap: () {
