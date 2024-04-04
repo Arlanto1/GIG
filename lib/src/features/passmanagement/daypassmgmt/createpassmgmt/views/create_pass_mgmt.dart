@@ -191,7 +191,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
               log('--passtypeTextController.text--------111-${passtypeTextController.text}----');
 
-              for(Organisation org in state.passTypes??[]){
+              for (Organisation org in state.passTypes ?? []) {
                 log('--org 111pass type-${org.name}----');
               }
               if (widget.model == null &&
@@ -199,7 +199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 passtypeTextController.text = state.passTypes!.first.name!;
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
-                for(Organisation org in state.passTypes??[]){
+                for (Organisation org in state.passTypes ?? []) {
                   log('--org pass type-${org.name}----');
                 }
                 Iterable<Organisation>? passes = state.passTypes?.where(
@@ -1641,9 +1641,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     BaseDate().datePickerWidgetLoading(
                                       isDisabled:
                                           (state.selectedCompanyType?.name ??
-                                                      '')
-                                                  .toLowerCase() !=
-                                              'exceptions' || ( widget.model?.status != 0 &&  widget.model?.status != null) ,
+                                                          '')
+                                                      .toLowerCase() !=
+                                                  'exceptions' ||
+                                              (widget.model?.status != 0 &&
+                                                  widget.model?.status != null),
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
@@ -1835,7 +1837,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                        ( widget.model == null || widget.model?.status ==0)
+                                            (widget.model == null ||
+                                                widget.model?.status == 0)
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale.visitorImage ??
                                                 state.labels?.defaultLocale
@@ -1846,14 +1849,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                        ( widget.model == null || widget.model?.status ==0)
+                                            (widget.model == null ||
+                                                widget.model?.status == 0)
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                        ( widget.model == null || widget.model?.status ==0)
+                                            (widget.model == null ||
+                                                widget.model?.status == 0)
                                         ? uploadWidget(state, true)
                                         : Container(),
 
@@ -1868,7 +1873,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     ///upload
-                                    widget.model == null ||widget.model?.status ==0
+                                    widget.model == null ||
+                                            widget.model?.status == 0
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale.evidenceInfo ??
                                                 state.labels?.defaultLocale
@@ -1876,31 +1882,35 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 Constants.evidenceDocuments,
                                             Styles.textStyleBlack14)
                                         : Container(),
-                                    widget.model == null||widget.model?.status ==0
+                                    widget.model == null ||
+                                            widget.model?.status == 0
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
-                                    widget.model == null||widget.model?.status ==0
+                                    widget.model == null ||
+                                            widget.model?.status == 0
                                         ? uploadWidget(state, false)
                                         : Container(),
 
                                     /// Attachments
-                                    BaseImageUpload().getAttachment(
-                                      height: height,
-                                      attachments: state.loadAttachments,
-                                      files: getFiles,
-                                      showDownloadIcon:
-                                          getAttachments.isNotEmpty
-                                              ? true
-                                              : false,
-                                      moduleCode: Constants.passManagementModuleCode,
-                                    ),
-                                    // getSpaceattchment(height),
-                                    // getAttachement(height),
+                                    // BaseImageUpload().getAttachment(
+                                    //   height: height,
+                                    //   attachments: state.loadAttachments,
+                                    //   files: getFiles,
+                                    //   showDownloadIcon:
+                                    //       getAttachments.isNotEmpty
+                                    //           ? true
+                                    //           : false,
+                                    //   moduleCode: Constants.passManagementModuleCode,
+                                    // ),
+                                    getSpaceattchment(height),
+                                    getAttachement(height),
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
-                                    if (widget.model?.status == 2||widget.model?.status == 8||widget.model?.status == 9) ...[
+                                    if (widget.model?.status == 2 ||
+                                        widget.model?.status == 8 ||
+                                        widget.model?.status == 9) ...[
                                       /// Pass Collected By
                                       CommonWidgets.horizentaltextHandling(
                                         state.labels?.locale.handoverSecurity ??
@@ -2124,9 +2134,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passValidUntilTextController.text;
 
-      passReturnedTextController.text = widget.model?.status == 2 || widget.model?.status == 8 ||widget.model?.status == 9&&
-              (widget.model?.returnedTime != null &&
-                  widget.model?.returnedTime != '0')
+      passReturnedTextController.text = widget.model?.status == 2 ||
+              widget.model?.status == 8 ||
+              widget.model?.status == 9 &&
+                  (widget.model?.returnedTime != null &&
+                      widget.model?.returnedTime != '0')
           ? Utils.timestampToDateConversion(
               int.parse(widget.model?.returnedTime ?? '0'),
               Constants.fulldateFormat)
@@ -2668,7 +2680,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget uploadWidget(CreatePassMgmtState state, bool isPhotoType) {
     return // upload
-         widget.model == null || widget.model?.status ==0
+        widget.model == null || widget.model?.status == 0
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -3267,7 +3279,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     PassInfo passInfo =
         selectedPassInfo ?? widget.model?.passInfo ?? PassInfo();
 
-    passInfo.passType = state.model.passType??widget.passId;
+    passInfo.passType = state.model.passType ?? widget.passId;
 
     // For Day Pass and Sez Pass, Pass No is text field.
     if (widget.passId == ConstantsIntValue.passIdSez) {
@@ -4065,21 +4077,34 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 }
                               },
                             ),
-                            SvgPicture.asset(AppIcon.download,
-                                color: AppColors.boldgreyBackground),
+                            GestureDetector(
+                              onTap: () {
+                                // Add your download functionality here
+                                DownloadImage().saveImage(
+                                  context,
+                                  imageData?.id ?? 0,
+                                  imageData?.title ?? '',
+                                  Constants.passManagementModuleCode,
+                                );
+                              },
+                              child: SvgPicture.asset(AppIcon.download,
+                                  color: AppColors.boldgreyBackground),
+                            )
                           ],
                         )
-                      :
-                  SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                      context,
-                      imageData1?.id ?? 0,
-                      imageData1?.title ?? '',
-                      Constants.passManagementModuleCode,
-                    );
-                  },
+                      : GestureDetector(
+                          onTap: () {
+                            // Add your download functionality here
+                            DownloadImage().saveImage(
+                              context,
+                              imageData?.id ?? 0,
+                              imageData?.title ?? '',
+                              Constants.passManagementModuleCode,
+                            );
+                          },
+                          child: SvgPicture.asset(AppIcon.download,
+                              color: AppColors.boldgreyBackground),
+                        ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
                       : Text(imageData?.title ?? ''),
