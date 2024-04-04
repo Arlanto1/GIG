@@ -211,12 +211,12 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 0,
+                                  isDisabled: true,
                                   textController: statusController,
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
                                   onTap: () {
-                                    if (state.model.id != null) {
+                                    if (!disableForm) {
                                       BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues: eventProtectionGiStatus
