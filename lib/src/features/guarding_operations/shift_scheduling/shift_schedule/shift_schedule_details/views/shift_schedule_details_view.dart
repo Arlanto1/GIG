@@ -256,17 +256,17 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseLocationDropdown().locationWidgetDisplay(
-                              context: context,
-                              locations: state.locations ?? Locations(),
-                              selectedLocationName:
+                          AbsorbPointer(
+                              absorbing: state.model.status == null || state.model.status==0 ? false:true,
+                              child:BaseLocationDropdown().locationWidgetDisplay(
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
                                   state.model.location?.name ?? '',
-                              onTap: (Organisation? location) {
-                                if(state.model.status == 1 ||state.model.status == null ){
-                                BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(location: location);}
-                              }),
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                                        .updateDropdownValues(location: location);
+                                  })),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
