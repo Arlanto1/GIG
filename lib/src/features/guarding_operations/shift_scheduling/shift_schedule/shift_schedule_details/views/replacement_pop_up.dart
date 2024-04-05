@@ -42,12 +42,12 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
 
-    if (widget.model.status != null) {
-      Label matchingLabel = reasonDropDownValues
-          .firstWhere((label) => label.value == widget.model.status.toString());
-
-      reasonController.text = matchingLabel.key;
-    }
+    // if (widget.model.status != null) {
+    //   Label matchingLabel = reasonDropDownValues
+    //       .firstWhere((label) => label.value == widget.model.status.toString());
+    //
+    //   reasonController.text = matchingLabel.key;
+    // }
   }
 
   @override
