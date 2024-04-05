@@ -366,7 +366,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          if(state.model.status ==null && state.model.status ==ConstantsIntValue.draft)...[
+                          if(state.model.status ==null || state.model.status ==ConstantsIntValue.draft)...[
                           GestureDetector(
                             onTap: () {
                               log('--onTap------');

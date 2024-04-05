@@ -57,7 +57,7 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: AppIcon.addicon,
+          leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
