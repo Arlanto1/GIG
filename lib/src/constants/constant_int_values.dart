@@ -57,4 +57,12 @@ class ConstantsIntValue {
   static const int destroyRejected = 8;
   static const int destroyApproved = 9;
   static const int closed = 10;
+
+  ///Shift Schedule status
+  static const int draft = 0;
+  static const int active = 1;
+  static const int inActive= 2;
+  static const int cancelled = -1;
+
+
 }
