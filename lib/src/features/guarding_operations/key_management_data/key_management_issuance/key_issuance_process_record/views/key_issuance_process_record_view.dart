@@ -28,7 +28,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     required this.locationId,
     required this.title,
     this.model,
-    this.isMasterKey,
+    required this.isMasterKey,
   });
 
   final int parentId;
@@ -36,7 +36,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int locationId;
   final String title;
   final KeyIssuanceProcessRecord? model;
-  final bool? isMasterKey;
+  final bool isMasterKey;
 
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
@@ -268,6 +268,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     //  for(KeyDescription keyDescription in keyDescriptions) {
     //    orgs.add(Organisation(name: keyDescription.keyDescription));
     // }
+    log('keyIssuanceProcessRecord-------${keyIssuanceProcessRecord.available}-----');
 
     showDialog(
       context: context,

@@ -7,12 +7,14 @@ class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
   final KeyIssuanceProcessRecord? keyIssuanceProcessModel;
   final String title;
+  final bool isMasterKey;
 
   const KeyManagementIssuanceDetailsView({
     super.key,
     this.model,
     this.keyIssuanceProcessModel,
     required this.title,
+    this.isMasterKey = false,
   });
 
   @override
@@ -568,6 +570,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           handedOverTo: user,
                                         );
                                       },
+                                      roleName: 'ATOM_STATIC_USER',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -801,6 +804,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.status,
                                     ConstantsArgument.locationId:
                                         state.model.location?.id,
+                                ConstantsArgument.isMasterKey: widget.isMasterKey,
                                   },
                                 );
                               },

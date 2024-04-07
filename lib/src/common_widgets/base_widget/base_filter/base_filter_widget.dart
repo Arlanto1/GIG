@@ -189,8 +189,8 @@ class BaseFilterSheet extends StatefulWidget {
 class _BaseFilterSheetState extends State<BaseFilterSheet> {
   @override
   void initState() {
-    BlocProvider.of<BaseFilterCubit>(context)
-        .getRegionsOrLocationsByRegionId(id: widget.regions.first.id ?? 0);
+    // BlocProvider.of<BaseFilterCubit>(context)
+    //     .getRegionsOrLocationsByRegionId(id: widget.regions.first.id ?? 0);
     super.initState();
   }
 
@@ -206,6 +206,7 @@ class _BaseFilterSheetState extends State<BaseFilterSheet> {
     Organisation? selectedStatus = Organisation();
     List<Organisation> locations = [];
     Filters filtersModel = Filters();
+    bool isInitial = true;
 
     final size = MediaQuery.of(context).size;
     double height = size.height;
@@ -354,6 +355,7 @@ class _BaseFilterSheetState extends State<BaseFilterSheet> {
                   DropdownWidget(
                     label: 'Select Region',
                     items: widget.regions,
+                    isInitial: isInitial,
                     onChange: (value) async {
                       selectedRegion = value;
                       log('---onChange-region-----');
@@ -433,12 +435,14 @@ class DropdownWidget extends StatefulWidget {
   final List<Organisation> items;
   final void Function(Organisation?)? onChange;
   final String label;
+  final bool? isInitial;
 
   const DropdownWidget({
     super.key,
     required this.items,
     required this.onChange,
     required this.label,
+     this.isInitial,
   });
 
   @override
@@ -452,7 +456,11 @@ class DropdownWidgetState extends State<DropdownWidget> {
   Widget build(BuildContext context) {
     return Expanded(
       child: DropdownButtonFormField<Organisation>(
-        value: !widget.items.isEmptyOrNull ? widget.items.first : null,
+        value: widget.isInitial ?? false
+            ? null
+            : !widget.items.isEmptyOrNull
+                ? widget.items.first
+                : null,
         hint: Text(widget.label),
         onChanged: widget.onChange,
         items: widget.items.map((item) {

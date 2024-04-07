@@ -48,7 +48,7 @@ class _DutyPostNameMasterListViewState
           .read<DutyPostNameMasterListBloc>()
           .add(FetchDutyPostNameMasterList(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -146,9 +146,11 @@ class _DutyPostNameMasterListViewState
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -264,7 +266,7 @@ class _DutyPostNameMasterListViewState
 
     BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
       FetchDutyPostNameMasterList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -275,7 +277,7 @@ class _DutyPostNameMasterListViewState
 
     BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
       FetchDutyPostNameMasterList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

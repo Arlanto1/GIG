@@ -47,7 +47,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
       pageNumber = pageNumber + 20;
       context.read<MaterialMovementBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -307,7 +307,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<MaterialMovementBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -320,7 +320,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<MaterialMovementBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

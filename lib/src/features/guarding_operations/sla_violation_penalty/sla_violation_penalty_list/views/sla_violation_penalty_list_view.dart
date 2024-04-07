@@ -46,7 +46,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
       pageNumber = pageNumber + 20;
       context.read<SLAViolationPenaltyListBloc>().add(FetchData(
           startPos: pageNumber,
-          maxPos: 20,
+          maxPos: Constants.maxResults,
           newSearch: true,
           filters: BaseFilterModel()));
     }
@@ -141,9 +141,11 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -275,7 +277,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -285,7 +287,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

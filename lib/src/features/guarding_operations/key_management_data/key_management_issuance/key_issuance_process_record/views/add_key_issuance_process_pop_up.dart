@@ -47,8 +47,13 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   @override
   void initState() {
     super.initState();
+    log('--widget.model.available--111-${widget.model.available}-----');
 
     selectedKeyDescription = widget.selectedKeyDescription;
+    log('--widget.model.available---${widget.model.available}-----');
+    availableKeysController.text =
+    widget.model.available == null ? '0' : widget.model.available.toString();
+    widget.model.available = int.tryParse(availableKeysController.text);
 
     log('--selectedKeyDescription---${selectedKeyDescription?.noKeys}---');
     if (selectedKeyDescription != null) {
@@ -67,9 +72,13 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       //         selectedKeyDescription!.noKeysIssued!)
       //     .toString();
 
-      num sum = (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
+      // num sum =
+      //     (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
+      // widget.model.available = sum.toInt();
+
+
       // availableKeysController.text = sum.toString();
-widget.model.available = sum.toInt() ;
+
       // availableKeysController.text = widget.model.available.toString();
       noOfKeysController.text =
           widget.selectedKeyDescription!.noKeys.toString();
@@ -159,9 +168,9 @@ widget.model.available = sum.toInt() ;
                           TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
-                            isDisableColor: widget.parentStatus !=0,
+                            isDisableColor: widget.parentStatus != 0,
                             onTap: () {
-                              if(widget.parentStatus ==0) {
+                              if (widget.parentStatus == 0) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
@@ -174,8 +183,7 @@ widget.model.available = sum.toInt() ;
                                     //TODO: need to set key description in model
                                     // widget.model.
                                     log('-org.keyName----${org.id}-');
-                                    log('-org.keyName----${org
-                                        .keyDescription}-');
+                                    log('-org.keyName----${org.keyDescription}-');
                                     log('-org.keyName----${org.noKeys}-');
                                     log('-org.keyName----${org.noKeysIssued}-');
 
@@ -211,7 +219,7 @@ widget.model.available = sum.toInt() ;
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          if(widget.parentStatus ==0) {
+                          if (widget.parentStatus == 0) {
                             BaseDropDown().assetTypeDialog(
                               context: context,
                               dropDownValues: keyTypeDropDownValues
@@ -221,27 +229,26 @@ widget.model.available = sum.toInt() ;
                                 Label? selectedLabel;
                                 selectedLabel =
                                     keyTypeDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                      orElse: () =>
-                                      const Label(key: '', value: ''),
-                                    );
+                                  (label) => label.key == value,
+                                  orElse: () => const Label(key: '', value: ''),
+                                );
                                 keyTypeController.text = selectedLabel.key;
                                 widget.model.keyType =
                                     int.tryParse(selectedLabel.value);
                                 // Call the API
                                 bool isMasterKey =
-                                selectedLabel.value == '1' ? false : true;
+                                    selectedLabel.value == '1' ? false : true;
                                 // Call the API
 
-                                log(
-                                    '---selectedKeyDescription---$selectedKeyDescription---');
+                                log('---selectedKeyDescription---$selectedKeyDescription---');
 
                                 if (selectedKeyDescription != null) {
                                   Organisation keyDescription =
-                                  await KeyManagementIssuanceServices()
-                                      .getKeyDescById(
-                                      id: selectedKeyDescription!.id ?? 0,
-                                      isMasterKey: isMasterKey);
+                                      await KeyManagementIssuanceServices()
+                                          .getKeyDescById(
+                                              id: selectedKeyDescription!.id ??
+                                                  0,
+                                              isMasterKey: isMasterKey);
 
                                   setState(() {
                                     widget.model.notReturned =
@@ -258,9 +265,10 @@ widget.model.available = sum.toInt() ;
                                     widget.model.available =
                                         keyDescription.noKeys! -
                                             keyDescription.noKeysIssued!;
+
                                     availableKeysController.text =
                                         (keyDescription.noKeys! -
-                                            keyDescription.noKeysIssued!)
+                                                keyDescription.noKeysIssued!)
                                             .toString();
                                     widget.model.notReturned =
                                         keyDescription.notReturned;
@@ -333,8 +341,7 @@ widget.model.available = sum.toInt() ;
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {
-                        },
+                        onChange: (String value) {},
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -348,34 +355,6 @@ widget.model.available = sum.toInt() ;
                         isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      // FlutterInputField(
-                      //   // initialValue: '${widget.model.totalViolations ?? ''}',
-                      //   textInputType: TextInputType.number,
-                      //   controller: numberOfKeysController,
-                      //   textFormKey: Keys.phoneNumberKey,
-                      //   hintText: '',
-                      //   isEnable: widget.parentStatus == 0,
-                      //
-                      //   isDisableColor: false,
-                      //   onChange: (String value) {
-                      //     // widget.model.totalViolations = num.parse(value);
-                      //     //
-                      //     // num sum = (widget.model.penaltyAmount ?? 0) *
-                      //     //     num.parse(value);
-                      //     // log('--sum-----$sum---');
-                      //     // totalPenaltyAmountController.text = sum.toString();
-                      //     //
-                      //     // widget.model.totalPenaltyAmount = sum;
-                      //     // numberOfKeysController.text = value;
-                      //     // log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
-                      //     //
-                      //     // setState(() {
-                      //     //   // totalPenaltyAmountController.text = sum.toString();
-                      //     // });
-                      //   },
-                      //   validateTextField: (String? user) {},
-                      // ),
-                      // CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
@@ -385,9 +364,11 @@ widget.model.available = sum.toInt() ;
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.noKeysIssued = int.tryParse(value);
-                          num sum = (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
-                        availableKeysController.text = sum.toString();
-                          },
+                          num sum = (selectedKeyDescription!.noKeys ?? 0) -
+                              (widget.model.noKeysIssued ?? 0);
+                          availableKeysController.text = sum.toString();
+                          widget.model.available = sum.toInt();
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -505,8 +486,8 @@ widget.model.available = sum.toInt() ;
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if(widget.parentStatus==0 || widget.parentStatus==1)
-        saveButton(width, widget.onSubmit)
+        if (widget.parentStatus == 0 || widget.parentStatus == 1)
+          saveButton(width, widget.onSubmit)
       ],
     );
   }

@@ -123,17 +123,17 @@ class BaseImageUpload {
                           color: AppColors.boldgreyBackground),
                     ),
                     const SizedBox(width: 10),
-                    // IconButton(
-                    //   icon: const Icon(Icons.delete),
-                    //   onPressed: () {
-                    //     // Delete logic here
-                    //     if (imageData != null) {
-                    //       //setState(() {
-                    //       attachmentListviews!.removeAt(index);
-                    //       //});
-                    //     }
-                    //   },
-                    // ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        // Delete logic here
+                        if (imageData != null) {
+                          //setState(() {
+                          attachmentListviews!.removeAt(index);
+                          //});
+                        }
+                      },
+                    ),
                   ],
                 ),
                 title: FlutterInputField(

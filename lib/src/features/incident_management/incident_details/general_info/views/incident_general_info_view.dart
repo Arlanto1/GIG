@@ -503,6 +503,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       FocusScope.of(context).requestFocus(
                                           complainantEmpIdFocusNode);
                                     },
+                                    roleName: 'ATOM_STATIC_USER',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -633,6 +634,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       complainantHR: user,
                                     );
                                   },
+                                  roleName: 'ATOM_STATIC_USER',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -737,6 +739,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         incidentManager: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Senior_Security_Manager',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -779,6 +782,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       FocusScope.of(context).requestFocus(
                                           incidentDescriptionFocusNode);
                                     },
+                                    roleName: 'ATOM_Sub_Regional_Head',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(

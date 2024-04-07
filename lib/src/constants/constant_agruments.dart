@@ -18,7 +18,5 @@ class ConstantsArgument {
   static const String showSaveButton = "showSaveButton";
   static const String kldId = "kldId";
   static const String selectedDutyPostNameId = "selectedDutyPostNameId";
-
-
-
+  static const String isMasterKey = "isMasterKey";
 }

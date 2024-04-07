@@ -701,9 +701,17 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       ? uploadWidget(state)
                                       : Container(),
 
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.loadAttachments,
+                                    files: getFiles,
+                                    showDownloadIcon:
+                                    widget.model == null || widget.model?.status == 0 ,
+                                    moduleCode: Constants.leoModuleCode,
+                                  ),
                                   // Attachments
-                                  getSpaceattchment(height),
-                                  getAttachement(height),
+                                  // getSpaceattchment(height),
+                                  // getAttachement(height),
 
                                   if (widget.model?.status == 1 ||
                                       widget.model?.status == 2 ||
@@ -1857,7 +1865,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1879,7 +1887,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2090,7 +2098,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
                   (attachmentListviews?.length ?? 0)
-              ? attachmentListviews1?.length
+              ? attachmentListviews1?.length ?? 0
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             ImageContent? imageData;
@@ -2126,20 +2134,34 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 }
                               },
                             ),
-                            SvgPicture.asset(AppIcon.download,
-                                color: AppColors.boldgreyBackground),
+                            GestureDetector(
+                              onTap: () {
+                                // Add your download functionality here
+                                DownloadImage().saveImage(
+                                  context,
+                                  imageData?.id ?? 0,
+                                  imageData?.title ?? '',
+                                    Constants.leoModuleCode,
+                                );
+                              },
+                              child: SvgPicture.asset(AppIcon.download,
+                                  color: AppColors.boldgreyBackground),
+                            ),
                           ],
                         )
-                      : SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                      context,
-                      imageData1?.id ?? 0,
-                      imageData1?.title ?? '',
-                      Constants.leoModuleCode,
-                    );
-                  },
+                      :  GestureDetector(
+                    onTap: () {
+                      // Add your download functionality here
+                      DownloadImage().saveImage(
+                        context,
+                        imageData?.id ?? 0,
+                        imageData?.title ?? '',
+                        Constants.leoModuleCode,
+                      );
+                    },
+                    child: SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground),
+                  ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
                       : Text(imageData?.title ?? ''),

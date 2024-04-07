@@ -1,39 +1,21 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_filter/base_filter_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-class GuardingRates extends StatefulWidget {
-  const GuardingRates({
+import '../../services/guarding_services.dart';
+import '../bloc/guarding_rates_bloc.dart';
+
+class GuardingRatesView extends StatefulWidget {
+  const GuardingRatesView({
     super.key,
   });
 
   @override
-  State<GuardingRates> createState() => _GuardingRatesState();
+  State<GuardingRatesView> createState() => _GuardingRatesViewState();
 }
 
-class _GuardingRatesState extends State<GuardingRates> {
+class _GuardingRatesViewState extends State<GuardingRatesView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
@@ -58,17 +40,20 @@ class _GuardingRatesState extends State<GuardingRates> {
   }
 
   void _onScroll() {
+    log('---_onScroll----');
     if (!_scrollController.hasClients) return;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<GuardingRatesBloc>().add(FetchList(
-            startPos: pageNumber,
-            maxPos: 20,
-            newSearch: false,
-            filters: filters,
-          ));
+      context.read<GuardingRatesBloc>().add(
+            FetchData(
+              startPos: pageNumber,
+              maxPos: Constants.maxResults,
+              newSearch: false,
+              filters: filters,
+            ),
+          );
     }
   }
 
@@ -118,8 +103,15 @@ class _GuardingRatesState extends State<GuardingRates> {
           excelAPIName: 'exportGMRateExcel',
           pdfAPIName: 'exportGMRatePDF',
         ),
-        body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
-            builder: (context, state) {
+        body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
+            listener: (context, state) {
+          if (state.status == FormStatus.sessionExpired) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(state.message ?? 'Session Expired...')));
+            Validator.logoutAction(context);
+          }
+        }, builder: (context, state) {
           // if (state.status == FormStatus.initial) {
           //   return const BaseLoader();
           // }
@@ -147,6 +139,7 @@ class _GuardingRatesState extends State<GuardingRates> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
+                // Text('-state.status-${state.status}----'),
                 if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
@@ -159,15 +152,16 @@ class _GuardingRatesState extends State<GuardingRates> {
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
                 ],
-
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -211,60 +205,60 @@ class _GuardingRatesState extends State<GuardingRates> {
                                     state.labels?.defaultLocale.slNo ??
                                     'SlNo',
                                 value: state.items[index].slNo ?? ''));
-                            return index >= state.items.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
-                                    id: state.items[index].id,
-                                    // inputDate: state.items[index].inputDate,
-                                    vendors: state.items[index].vendor,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            // inputDate: state
-                                            //     .items[selectedIndex].inputDate,
-                                            // slNo:
-                                            //     state.items[selectedIndex].slNo,
-                                            vendors: state
-                                                .items[selectedIndex].vendor,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      getId(state.items[index].id ?? 0);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            // inputDate: state
-                                            //     .items[selectedIndex].inputDate,
-                                            labels: labels,
-                                            // slNo:
-                                            //     state.items[selectedIndex].slNo,
-                                            vendors: state
-                                                .items[selectedIndex].vendor,
+                            return BaseListTileItem(
+                              id: state.items[index].id,
+                              // inputDate: state.items[index].inputDate,
+                              vendors: state.items[index].vendor,
+                              onTap: (selectedIndex) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return BasePopUpItems(
+                                      id: state.items[selectedIndex].id
+                                          .toString(),
+                                      labels: labels,
+                                      // inputDate: state
+                                      //     .items[selectedIndex].inputDate,
+                                      // slNo:
+                                      //     state.items[selectedIndex].slNo,
+                                      vendors:
+                                          state.items[selectedIndex].vendor,
+                                    );
+                                  },
+                                );
+                              },
+                              onEditTap: (selectedIndex) {
+                                getId(state.items[index].id ?? 0);
+                              },
+                              onViewTap: (selectedIndex) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return BasePopUpItems(
+                                      id: state.items[selectedIndex].id
+                                          .toString(),
+                                      // inputDate: state
+                                      //     .items[selectedIndex].inputDate,
+                                      labels: labels,
+                                      // slNo:
+                                      //     state.items[selectedIndex].slNo,
+                                      vendors:
+                                          state.items[selectedIndex].vendor,
 
-                                            // status: state.items[selectedIndex].status
-                                            //     .toString(),
-                                            // entrySecurityName: state
-                                            //     .items[selectedIndex].entrySecurityName,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,
-                                  );
+                                      // status: state.items[selectedIndex].status
+                                      //     .toString(),
+                                      // entrySecurityName: state
+                                      //     .items[selectedIndex].entrySecurityName,
+                                    );
+                                  },
+                                );
+                              },
+                              index: index,
+                            );
                           }
-                          return null;
+                          return const Center(
+                            child: SizedBox(),
+                          );
                         }),
                   ),
                 ),
@@ -302,11 +296,10 @@ class _GuardingRatesState extends State<GuardingRates> {
     FilterCriteria model,
   ) {
     log('Applying Search Filters');
-
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<GuardingRatesBloc>(context).add(
-      FetchList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -319,7 +312,7 @@ class _GuardingRatesState extends State<GuardingRates> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<GuardingRatesBloc>(context).add(
-      FetchList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

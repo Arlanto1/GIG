@@ -141,6 +141,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
+      log('--model.inputDate--${model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
 
       log('--model.location--${model.location?.id}--');
       if (model.location == null && defaultLocation != null) {
@@ -153,7 +156,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = model.inputDate == null
+     model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.inputDate ?? '');
      model.modifiedDate = state.model.modifiedDate == null

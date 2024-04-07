@@ -221,18 +221,6 @@ bool showSaveSubmitButtons =false;
                               isMandatory: true,
                               '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// Date of creation
-                          // CommonWidgets.textDisplay(
-                          //     state.labels?.locale.inputDate ??
-                          //         state.labels?.defaultLocale.inputDate ??
-                          //         Constants.date,
-                          //     isMandatory: true,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // BaseDate()
-                          //     .creationDateDisplay(state.model.inputDate ?? ''),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
                           CommonWidgets.textDisplay(

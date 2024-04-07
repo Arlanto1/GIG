@@ -256,17 +256,17 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseLocationDropdown().locationWidgetDisplay(
-                              context: context,
-                              locations: state.locations ?? Locations(),
-                              selectedLocationName:
+                          AbsorbPointer(
+                              absorbing: state.model.status == null || state.model.status == ConstantsIntValue.draft ? false:true,
+                              child:BaseLocationDropdown().locationWidgetDisplay(
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
                                   state.model.location?.name ?? '',
-                              onTap: (Organisation? location) {
-                                if(state.model.status == 1 ||state.model.status == null ){
-                                BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(location: location);}
-                              }),
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                                        .updateDropdownValues(location: location);
+                                  })),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -290,9 +290,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
-                            isDisableColor: state.model.status ==0 || state.model.status == null ?false:true,
+                            isDisableColor: state.model.status ==null || state.model.status == ConstantsIntValue.draft ?false:true,
                             onTap: () {
-                              if(state.model.status ==0 || state.model.status == null){
+                              if(state.model.status ==null || state.model.status == ConstantsIntValue.draft){
                               BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: state.vendors,
@@ -366,11 +366,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          if(state.model.status ==null || state.model.status ==ConstantsIntValue.draft)...[
                           GestureDetector(
                             onTap: () {
                               log('--onTap------');
-                              if (state.model.status == 0 ||
-                                  state.model.status == null) {
+                              if (state.model.status == null ||
+                                  state.model.status == ConstantsIntValue.draft) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext dialogContext) {
@@ -399,7 +400,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 ),
                               ],
                             ),
-                          ),
+                          ),],
                           Column(
                             children: getPOCs(state, height),
                           ),
@@ -419,8 +420,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             textController: fromDateController,
                             onlyDate: false,
                             showPastDate: false,
-                            isDisabled: state.model.status != 0 &&
-                                state.model.status != null,
+                            isDisabled: state.model.status != null &&
+                                state.model.status != ConstantsIntValue.draft,
                             onChange: (String value) {
                               state.model.fromDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -445,8 +446,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             textController: toDateController,
                             onlyDate: false,
                             showPastDate: false,
-                            isDisabled: state.model.status != 0 &&
-                                state.model.status != null,
+                            isDisabled: state.model.status != null &&
+                                state.model.status != ConstantsIntValue.draft,
                             onChange: (String value) {
                               state.model.toDate = Utils().formatTime(value);
                               BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -529,21 +530,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     );
   }
 
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
-  }
-
   List<Widget> getPOCs(ShiftScheduleDetailsState state, double height) {
     log('-getPOCs-state.pocs--${state.pocs.toString()}--');
 
@@ -563,17 +549,18 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 textAlign: TextAlign.start,
               ),
             ),
-            IconButton(
+            if(state.model.status== null || state.model.status == ConstantsIntValue.draft)...[
+              IconButton(
               icon: const Icon(Icons.close), // Cancel icon
               onPressed: () {
-                if(state.model.status ==0 || state.model.status == null) {
+                if(state.model.status ==null || state.model.status == ConstantsIntValue.draft) {
                   // Remove the POC from the state
                   state.pocs?.remove(poc);
                   // Trigger UI update
                   BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                       .onCheckBoxChange(state.model);
                 } },
-            ),
+            ),]
           ],
         ),
       );

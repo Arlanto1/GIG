@@ -410,7 +410,10 @@ class AnnualPowerShutdownListDetailsCubit
           message: e.message,
           status: FormStatus.error,
         ),
-      );
+      ); state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
       return;
     } on Exception catch (e) {
       emit(
@@ -419,6 +422,9 @@ class AnnualPowerShutdownListDetailsCubit
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
     }
 
     log('---response--msg--${response.message}---');

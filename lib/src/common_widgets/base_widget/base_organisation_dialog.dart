@@ -48,7 +48,7 @@ class BaseOrganisationDialog {
     required Function onTap,
     Function? functionToCall,
     bool enabled = true,
-    String roleName = 'ATOM_STATIC_USER',
+    String? roleName,
   }) {
     showDialog(
       context: context,
@@ -57,7 +57,7 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: AppIcon.addicon,
+          leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -66,7 +66,7 @@ class BaseOrganisationDialog {
                 builder: (BuildContext dialogContext) {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
-                    roleName: roleName,
+                    roleName: roleName ?? '',
                     functionToCall: functionToCall ?? () {},
                   );
                 });

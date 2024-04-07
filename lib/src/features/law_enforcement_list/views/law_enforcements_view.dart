@@ -16,7 +16,7 @@ class LawEnforcementsView extends StatelessWidget {
     return BlocProvider<LawEnforcementListBloc>(
       create: (_) => LawEnforcementListBloc()
         ..add(LawEnforcementFetch(
-            startPos: 0, maxPos: 20, newSearch: false, filters: filters)),
+            startPos: 0, maxPos: Constants.maxResults, newSearch: false, filters: filters)),
       child: const LnPage(),
     );
   }
@@ -61,7 +61,7 @@ class _LnPageState extends State<LnPage> {
       pageNumber = pageNumber + 20;
       context.read<LawEnforcementListBloc>().add(LawEnforcementFetch(
           startPos: pageNumber,
-          maxPos: 20,
+          maxPos: Constants.maxResults,
           newSearch: false,
           filters: filters));
     }
@@ -101,7 +101,7 @@ class _LnPageState extends State<LnPage> {
               //localfoundlist?.clear();
               pageNumber = 0;
               bloc.add(LawEnforcementFetch(
-                  startPos: 0, maxPos: 20, newSearch: false, filters: filters));
+                  startPos: 0, maxPos: Constants.maxResults, newSearch: false, filters: filters));
             }
           });
         },
@@ -270,7 +270,7 @@ class _LnPageState extends State<LnPage> {
 
     BlocProvider.of<LawEnforcementListBloc>(context).add(
       LawEnforcementFetch(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
   }
 
@@ -284,7 +284,7 @@ class _LnPageState extends State<LnPage> {
 
     BlocProvider.of<LawEnforcementListBloc>(context).add(
       LawEnforcementFetch(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 
