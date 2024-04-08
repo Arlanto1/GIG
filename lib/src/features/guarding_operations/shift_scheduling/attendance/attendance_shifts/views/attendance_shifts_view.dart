@@ -231,7 +231,12 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         ),
         MultiSelectDropdown(
           briefingPoints: state.briefingPoints ?? [],
-          selectedPoints: shift.briefingPoints?.split(';') ?? [],
+          selectedPoints: shift.briefingPoints?.split(',') ?? [],
+          updatedBriefingPoints: (List<String> points){
+            shift.briefingPoints = Utils().joinListWithComma(points);
+            // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+
+          },
         ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
