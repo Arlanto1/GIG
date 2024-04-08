@@ -129,8 +129,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  void updateBriefingPoints(DutyPostModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
