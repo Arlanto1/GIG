@@ -230,8 +230,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Styles.textStyleBlack14,
         ),
         MultiSelectDropdown(
-            briefingPoints: state.briefingPoints ?? [],
-            selectedPoints: shift.briefingPoints?.split(';') ?? []),
+          briefingPoints: state.briefingPoints ?? [],
+          selectedPoints: shift.briefingPoints?.split(';') ?? [],
+        ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
 

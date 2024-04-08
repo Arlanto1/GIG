@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 
 class MultiSelectDropdown extends StatefulWidget {
-  const MultiSelectDropdown({super.key, required this.briefingPoints, required this.selectedPoints});
+  const MultiSelectDropdown({
+    super.key,
+    required this.briefingPoints,
+    required this.selectedPoints,
+  });
 
   final List<String> briefingPoints;
   final List<String> selectedPoints;
@@ -26,7 +32,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
       padding: const EdgeInsets.all(1.0),
       child: Column(
         children: [
-          if (!widget.selectedPoints.isEmptyOrNull) ...[
+          if (!widget.selectedPoints.isEmptyOrNull || !_customValues.isEmptyOrNull) ...[
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.gerylightBackground),
@@ -67,8 +73,11 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                     ..._customValues.map(
                       (customValue) => InkWell(
                         onTap: () {
+                          log('----onTap----');
+                          log('----onTap-widget.selectedPoints-${widget.selectedPoints}--');
+
                           setState(() {
-                            widget.selectedPoints.remove(customValue);
+                            _customValues.remove(customValue);
                           });
                         },
                         child: Chip(
