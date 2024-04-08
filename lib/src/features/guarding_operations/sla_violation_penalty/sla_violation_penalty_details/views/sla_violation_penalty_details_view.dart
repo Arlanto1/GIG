@@ -395,8 +395,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.approver?.name,
-                              height: 60,
+                              title:state.model.approver?.name,
+                              height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
@@ -411,6 +411,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                       user: user,
                                     );
                                   },
+                                  roleName: 'ATOM_STATIC_USER',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<

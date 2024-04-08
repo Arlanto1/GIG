@@ -2191,12 +2191,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     : Organisation();
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
-
-      await createPassMgmtCubit.getSerialnumberDetails(
-        (widget.model?.location?.id ?? 0).toString(),
-        widget.passId,
-      );
-
+      widget.model?.slNo ??
+          await createPassMgmtCubit.getSerialnumberDetails(
+            (widget.model?.location?.id ?? 0).toString(),
+            widget.passId,
+          );
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
       Organisation active = Organisation(
           id: widget.model?.passInfo?.id ?? 0,
@@ -3181,10 +3180,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
                 onTap: (Organisation org) async {
-                  await createPassMgmtCubit.getSerialnumberDetails(
-                    org.id.toString() ?? '',
-                    widget.passId,
-                  );
+                  // await createPassMgmtCubit.getSerialnumberDetails(
+                  //   org.id.toString() ?? '',
+                  //   widget.passId,
+                  // );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)
                       .getPassTypes(locationId: org.id!, passId: widget.passId);
 
@@ -4055,11 +4054,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.model?.status == null
+                  trailing: widget.model == null || widget.model?.status ==0
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            IconButton(
+                            imageData1 != null ? IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () {
                                 // Delete logic here
@@ -4076,8 +4075,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   });
                                 }
                               },
-                            ),
-                            GestureDetector(
+                            )
+                            : GestureDetector(
                               onTap: () {
                                 // Add your download functionality here
                                 DownloadImage().saveImage(
