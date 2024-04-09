@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attend
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'attendance_shifts_state.dart';
 
@@ -35,7 +34,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         );
 
   Future<void> initializeValues() async {
-    log('--initializeValues--');
+    log('--initializeValues-@@@-');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -48,7 +47,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       dutyPostNameId: selectedDutyPostNameId,
     );
 
-    log('--model----${model.name}--');
+    log('--model-@@@@---${model.name}--');
     // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
@@ -66,13 +65,21 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             moduleCode: Constants.attendanceModule), // 6
         SharedPrefs.getDefaultLocation(), // 7
         services.getBriefingPoints(), // 8
-        slaServices.getGSvp(
+      ]);
+      List<SlaList> slaList = [];
+
+      for (Rank rank in model.ranks ?? []) {
+        for (Shift shift in rank.attendanceShift ?? []) {
+          SLAViolationPenaltyResponseModel list =
+              await SLAViolationPenaltyServices().getSvpList(
             startPosition: '0',
             maximumRecords: '100',
-            attInfoId: attInfoId,
-            filters: BaseFilterModel()), // 9
-      ]);
-
+            attInfoId: shift.attendanceShiftId!,
+          );
+          slaList.add(
+              SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
+        }
+      }
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
@@ -83,7 +90,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       Organisation? defaultLocation = futures[7];
       List<String> briefingPoints = futures[8];
       briefingPoints.add('');
-      SLAViolationPenaltyResponseModel slaResponse = futures[9];
 
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
@@ -104,7 +110,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           briefingPoints: briefingPoints,
-          slaList: slaResponse.items,
+          shiftSlaList: slaList,
           labels: labels,
         ),
       );
@@ -124,12 +130,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
   void onCheckBoxChange(DutyPostModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-
-    emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void updateBriefingPoints(DutyPostModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -201,4 +201,11 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       ),
     );
   }
+}
+
+class SlaList {
+  final int attInfoId;
+  final List<SLAViolationPenaltyModel>? items;
+
+  SlaList({required this.attInfoId, required this.items});
 }

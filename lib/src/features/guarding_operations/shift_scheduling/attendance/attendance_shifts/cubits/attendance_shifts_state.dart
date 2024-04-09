@@ -12,8 +12,8 @@ class AttendanceShiftsState extends Equatable {
   final List<String>? locationNames;
   final List<User>? entrySecurities;
   final List<String>? briefingPoints;
-  final List<SLAViolationPenaltyModel>? slaList;
   final GmUiLabels? labels;
+  final List<SlaList>? shiftSlaList;
 
   factory AttendanceShiftsState.initial({
     required DutyPostModel model,
@@ -59,12 +59,12 @@ class AttendanceShiftsState extends Equatable {
     this.users,
     this.emailUsers,
     this.locationNames,
-    this.slaList,
     this.message,
     this.briefingPoints,
     this.entrySecurities,
     this.labels,
     required this.departments,
+    this.shiftSlaList,
   });
 
   AttendanceShiftsState copyWith({
@@ -78,7 +78,7 @@ class AttendanceShiftsState extends Equatable {
     List<Organisation>? vendors,
     String? message,
     List<String>? briefingPoints,
-    List<SLAViolationPenaltyModel>? slaList,
+    List<SlaList>? shiftSlaList,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
   }) {
@@ -94,8 +94,8 @@ class AttendanceShiftsState extends Equatable {
       entrySecurities: entrySecurities ?? this.entrySecurities,
       briefingPoints: briefingPoints ?? this.briefingPoints,
       labels: labels ?? this.labels,
-      slaList: slaList ?? this.slaList,
       departments: vendors ?? departments,
+      shiftSlaList: shiftSlaList ?? shiftSlaList,
     );
   }
 }

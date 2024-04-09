@@ -36,11 +36,13 @@ import 'add_poc_pop_up.dart';
 class SLAViolationPenaltyDetailsView extends StatefulWidget {
   final SLAViolationPenaltyModel? model;
   final String title;
+  final bool viaAttendance;
 
   const SLAViolationPenaltyDetailsView({
     super.key,
     this.model,
     required this.title,
+    required this.viaAttendance,
   });
 
   @override
@@ -260,6 +262,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 context: context,
+                                isEnabled: !widget.viaAttendance,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
                                     state.model.location?.name ?? '',
@@ -283,18 +286,19 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Vendor
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.vendor ??
-                                    state.labels?.defaultLocale.vendor ??
-                                    Constants.vendor,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
                               selectedValues: state.model.vendor ?? [],
                               all: state.vendors,
-                              enabled: !isReadOnly,
+                              enabled: !widget.viaAttendance && !isReadOnly,
                               onTap: (List<Organisation> selectedVendors) {
                                 BlocProvider.of<
                                             SLAViolationPenaltyDetailsCubit>(
@@ -395,7 +399,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title:state.model.approver?.name,
+                              title: state.model.approver?.name,
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
