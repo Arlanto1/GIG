@@ -76,6 +76,21 @@ class SLAViolationPenaltyServices {
     return SLAViolationPenaltyResponseModel.fromJson(response);
   }
 
+  Future<SLAViolationPenaltyResponseModel> getSvpList({
+    required String startPosition,
+    required String maximumRecords,
+    required int attInfoId,
+  }) async {
+    String url =
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$attInfoId';
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return SLAViolationPenaltyResponseModel.fromJson(response);
+  }
+
+
   Future<SLAViolationPenaltyModel> getGvpById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(

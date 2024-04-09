@@ -2223,9 +2223,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
+      List<ImageContent>? attachmentListviews,
+      List<ImageContent>? attachmentListviews1,
+      ) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -2237,75 +2237,88 @@ class _CreateFoundState extends State<CreateFound> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: (attachmentListviews1?.length ?? 0) >
-                (attachmentListviews?.length ?? 0)
-            ? attachmentListviews1?.length
-            : attachmentListviews?.length ?? 0,
-        itemBuilder: (BuildContext context, int index) {
-          ImageContent? imageData;
-          ImageContent? imageData1;
-          if (widget.model != null) {
-            imageData1 = attachmentListviews1?[index];
-          } else {
-            imageData = attachmentListviews?[index];
-          }
-          return Column(
-            children: <Widget>[
-              ListTile(
-                trailing: widget.model == null || widget.model?.status == 0
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // Delete logic here
-                              if (imageData1 != null) {
-                                // Implement delete functionality for attachmentListviews1
-                                setState(() {
-                                  attachmentListviews1!.removeAt(index);
-                                });
-                              }
-                              if (imageData != null) {
-                                // Implement delete functionality for attachmentListviews1
-                                setState(() {
-                                  attachmentListviews!.removeAt(index);
-                                });
-                              }
-                            },
-                          ),
-                          SvgPicture.asset(AppIcon.download,
-                              color: AppColors.boldgreyBackground),
-                        ],
-                      )
-                    :   GestureDetector(
-                  onTap: () {
-                    // Add your download functionality here
-                    DownloadImage().saveImage(
-                      context,
-                      imageData?.id ?? 0,
-                      imageData?.title ?? '',
-                      Constants.articleFoundModuleCode,
-                    );
-                  },
-                  child: SvgPicture.asset(AppIcon.download,
-                      color: AppColors.boldgreyBackground),
-                ),
-                title: widget.model != null
-                    ? Text(imageData1?.title ?? '')
-                    : Text(imageData?.title ?? ''),
-              ),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: (attachmentListviews1?.length ?? 0) >
+              (attachmentListviews?.length ?? 0)
+              ? attachmentListviews1?.length
+              : attachmentListviews?.length ?? 0,
+          itemBuilder: (BuildContext context, int index) {
+            ImageContent? imageData;
+            ImageContent? imageData1;
+            if (widget.model != null) {
+              imageData1 = attachmentListviews1?[index];
+            } else {
+              imageData = attachmentListviews?[index];
+            }
+            log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
+            log('--attachmentListviews?.length--${attachmentListviews?.length}');
 
-              const Divider(
-                color: Color(0xFFCACACA),
-                thickness: 1,
-              ), //                           <-- Divider
-            ],
-          );
-        },
-      ),
+            return Column(
+              children: <Widget>[
+                ListTile(
+                  trailing: widget.model?.status == null
+                      ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          // Delete logic here
+                          if (imageData1 != null) {
+                            // Implement delete functionality for attachmentListviews1
+                            setState(() {
+                              attachmentListviews1!.removeAt(index);
+                            });
+                          }
+                          if (imageData != null) {
+                            // Implement delete functionality for attachmentListviews1
+                            setState(() {
+                              attachmentListviews!.removeAt(index);
+                            });
+                          }
+                        },
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Add your download functionality here
+                          DownloadImage().saveImage(
+                            context,
+                            imageData?.id ?? 0,
+                            imageData?.title ?? '',
+                            Constants.articleFoundModuleCode,
+                          );
+                        },
+                        child: SvgPicture.asset(AppIcon.download,
+                            color: AppColors.boldgreyBackground),
+                      )
+                    ],
+                  )
+                      : GestureDetector(
+                    onTap: () {
+                      // Add your download functionality here
+                      DownloadImage().saveImage(
+                        context,
+                        imageData?.id ?? 0,
+                        imageData?.title ?? '',
+                        Constants.articleFoundModuleCode,
+                      );
+                    },
+                    child: SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground),
+                  ),
+                  title: widget.model != null
+                      ? Text(imageData1?.title ?? '')
+                      : Text(imageData?.title ?? ''),
+                ),
+
+                const Divider(
+                  color: Color(0xFFCACACA),
+                  thickness: 1,
+                ), //                           <-- Divider
+              ],
+            );
+          }),
     );
   }
 }

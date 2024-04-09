@@ -81,6 +81,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
               ConstantsArgument.parentId: state.parentId,
               ConstantsArgument.selectedDutyPostNameId:
                   state.selectedDutyPostNameId,
+              ConstantsArgument.location: state.model.location,
+              ConstantsArgument.locationRegion: state.model.locationRegion,
+              ConstantsArgument.vendor: state.model.vendor,
             },
           );
         }

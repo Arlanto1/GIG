@@ -2,36 +2,36 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart'
-    as asp;
+as asp;
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
-    as af;
+as af;
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
-    as cd;
+as cd;
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
-    as cr;
+as cr;
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
-    as nb;
+as nb;
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
-    as ep;
+as ep;
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
-    as guarding;
+as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart'
-    as kh;
+as kh;
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
@@ -41,8 +41,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart'
     as arb;
@@ -101,6 +99,7 @@ import '../features/guarding_operations/key_management_data/key_management_maste
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart';
 import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
@@ -550,11 +549,19 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         String? attdInfoId = '';
+        Organisation? location;
+        Organisation? locationRegion;
+        Organisation? vendor;
+        bool viaAttendance = false;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         attdInfoId = arguments['attdInfoId'] ?? '';
-        SLAViolationPenaltyModel? model = arguments["model"];
+        SLAViolationPenaltyModel? model = arguments[ConstantsArgument.model];
+        location = arguments[ConstantsArgument.location];
+        locationRegion = arguments[ConstantsArgument.locationRegion];
+        vendor = arguments[ConstantsArgument.vendor];
+        viaAttendance = location != null? true: false;
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
             create: (_) => SLAViolationPenaltyDetailsCubit(
@@ -562,10 +569,14 @@ class RouteGenerator {
               model: model,
               commonServices: commonServices,
               attdInfoId: attdInfoId,
+              location: location,
+              locationRegion: locationRegion,
+              vendor: vendor,
             ),
             child: SLAViolationPenaltyDetailsView(
               model: model,
               title: title,
+              viaAttendance: viaAttendance,
             ),
           ),
         );
@@ -1269,7 +1280,7 @@ class RouteGenerator {
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
               locationId: locationId,
               parentId: parentId,
-              isMasterKey : isMasterKey ? true :false,
+              isMasterKey: isMasterKey ? true : false,
             )..add(kip.FetchData(
                 id: parentId,
                 startPos: 0,
@@ -1390,12 +1401,18 @@ class RouteGenerator {
       case attendanceShiftsRoute:
         int? attInfoId;
         int? selectedDutyPostNameId;
+        Organisation? location;
+        Organisation? locationRegion;
+        Organisation? vendor;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           attInfoId = arguments[ConstantsArgument.parentId];
           selectedDutyPostNameId =
               arguments[ConstantsArgument.selectedDutyPostNameId];
+          location = arguments[ConstantsArgument.location];
+          locationRegion = arguments[ConstantsArgument.locationRegion];
+          vendor = arguments[ConstantsArgument.vendor];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1410,7 +1427,11 @@ class RouteGenerator {
               commonServices: commonServices,
               slaServices: slaServices,
             ),
-            child: const AttendanceShiftsView(),
+            child: AttendanceShiftsView(
+              location: location!,
+              locationRegion: locationRegion!,
+              vendor: vendor!,
+            ),
           ),
         );
 

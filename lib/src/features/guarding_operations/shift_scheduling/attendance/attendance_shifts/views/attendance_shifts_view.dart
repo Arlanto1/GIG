@@ -5,7 +5,14 @@ import 'package:db_atom/index.dart';
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
     super.key,
+    required this.location,
+    required this.locationRegion,
+    required this.vendor,
   });
+
+  final Organisation location;
+  final Organisation locationRegion;
+  final Organisation vendor;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -232,10 +239,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         MultiSelectDropdown(
           briefingPoints: state.briefingPoints ?? [],
           selectedPoints: shift.briefingPoints?.split(',') ?? [],
-          updatedBriefingPoints: (List<String> points){
+          updatedBriefingPoints: (List<String> points) {
             shift.briefingPoints = Utils().joinListWithComma(points);
             // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
-
           },
         ),
         CommonWidgets.verticalSpacerWidget(
@@ -248,8 +254,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         //   Styles.textStyleBlack14,
         // ),
 
-        if (!state.slaList.isEmptyOrNull) ...[
-          buildSlaListColumn(state: state, slaList: state.slaList ?? [])
+        if (!state.shiftSlaList.isEmptyOrNull) ...[
+          buildSlaListColumn(
+            state: state,
+            shift: shift,
+          )
         ],
       ],
     ];
@@ -307,8 +316,18 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
   Column buildSlaListColumn({
     required AttendanceShiftsState state,
-    required List<SLAViolationPenaltyModel> slaList,
+    required Shift shift,
   }) {
+    List<SLAViolationPenaltyModel> slaList = [];
+
+    log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
+
+    if (!state.shiftSlaList.isEmptyOrNull) {
+      SlaList? sla = state.shiftSlaList?.firstWhere(
+          (element) => element.attInfoId == shift.attendanceShiftId);
+      slaList = sla?.items ?? [];
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -320,6 +339,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               arguments: {
                 "title": Constants.slaViolationPenalty,
                 "attdInfoId": state.model.id.toString(),
+                ConstantsArgument.location: widget.location,
+                ConstantsArgument.locationRegion: widget.locationRegion,
+                ConstantsArgument.vendor: widget.vendor,
               },
             );
           },

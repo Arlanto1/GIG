@@ -13,13 +13,21 @@ class SLAViolationPenaltyDetailsCubit
   final SLAViolationPenaltyServices services;
   final SLAViolationPenaltyModel? model;
   final CommonServices commonServices;
+
+  /// Via Attendance
   final String? attdInfoId;
+  final Organisation? location;
+  final Organisation? locationRegion;
+  final Organisation? vendor;
 
   SLAViolationPenaltyDetailsCubit({
     required this.services,
     required this.commonServices,
     this.model,
     this.attdInfoId,
+    required this.location,
+    required this.locationRegion,
+    required this.vendor,
   }) : super(
           SLAViolationPenaltyDetailsState.initial(
             model: model ?? SLAViolationPenaltyModel(),
@@ -115,6 +123,19 @@ class SLAViolationPenaltyDetailsCubit
       List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
           roleNames: 'ATOM_STATIC_USER');
 
+      if (location != null) {
+        state.model.location = location;
+      }
+      if (locationRegion != null) {
+        state.model.locationRegion = locationRegion;
+      }
+      if (vendor != null) {
+        if(state.model.vendor.isEmptyOrNull) {
+          state.model.vendor = [];
+        }
+
+        state.model.vendor?.add(vendor!);
+      }
       // Get Date of Creation
       // state.model.inputDate = Utils().getCurrentDate();
       state.model.inputDate = state.model.inputDate == null
