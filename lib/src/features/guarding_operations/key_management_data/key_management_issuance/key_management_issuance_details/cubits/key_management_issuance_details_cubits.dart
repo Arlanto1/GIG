@@ -4,6 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'key_management_issuance_details_state.dart';
 
@@ -104,9 +105,15 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
@@ -229,8 +236,13 @@ class KeyManagementIssuanceDetailsCubit
 
     log('--state.model.entities?.length---${state.model.entities?.length}----');
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.createdDate = inputDate.toString();
     state.model.keyHandOverDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     state.model.keyReturnDateTime =
@@ -250,8 +262,9 @@ class KeyManagementIssuanceDetailsCubit
         if (!state.isValidDraft.status) {
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
-
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -267,8 +280,9 @@ class KeyManagementIssuanceDetailsCubit
         if (!state.isValid.status) {
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
-
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -300,7 +314,9 @@ class KeyManagementIssuanceDetailsCubit
       );
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
@@ -313,7 +329,9 @@ class KeyManagementIssuanceDetailsCubit
       );
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

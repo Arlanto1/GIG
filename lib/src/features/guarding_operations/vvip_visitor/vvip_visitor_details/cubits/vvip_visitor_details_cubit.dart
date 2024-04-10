@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/requestModels/vvip_visitor_request.dart';
 import '../../models/vvip_visitor_response_model.dart';
@@ -58,8 +59,14 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
+
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      // state.model.inputDate = Utils().getCurrentDate();
       state.model.modifiedDate = Utils().getCurrentDate();
 
       // state.model.inputDate =
@@ -159,9 +166,13 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
     );
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
     // Create/Update API Call
     VVIPVisitorRequest request = VVIPVisitorRequest(vvip: state.model);
 
@@ -174,7 +185,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
         if (!state.isValidDraft.status) {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -190,7 +203,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
         if (!state.isValid.status) {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -222,7 +237,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       emit(
@@ -235,7 +252,9 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

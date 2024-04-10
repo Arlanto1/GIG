@@ -96,9 +96,15 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       // state.model.createdDate = _getCurrentDate();
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
 
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       emit(
@@ -180,9 +186,13 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.createdDate = inputDate.toString();
     // Create/Update API Call
     DutyPostMasterRequest request =
         DutyPostMasterRequest(dutyPostMaster: state.model);
@@ -217,7 +227,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       }
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -227,7 +239,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       );
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
