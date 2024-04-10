@@ -25,6 +25,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     required String errorMessage,
     User? createdBy,
     List<String>? participationDate,
+    KeyManagementMasterModel? keyManagementMasterModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
@@ -41,12 +42,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    log('-model.status---${model.status}--');
-    log('-Poooo---${
-        model.keyType == 1 &&
-        ((model.noOfKeys??0) > (keyManagementMasterModel?.noKeys ?? 0))}--');
     log('-noOfKeys---${(model.noOfKeys ?? 0) }--');
-    log('-noKeys---${(keyManagementMasterModel?.noKeys ?? 0) }--');
+    log('-noKeys---${(keyManagementMasterModel?.noKeys) }--');
     log('-greater---${((model.noOfKeys ?? 0) > (keyManagementMasterModel?.noKeys??0))}--');
     // if (model.location == null) {
     //   log('-model.location-----isValidDraft-');
