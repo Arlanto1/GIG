@@ -38,7 +38,6 @@ class _KeyHistoryRecordsDetailsViewState
   bool isReadOnly = false;
   bool showLikeDisLikeButtons = false;
   bool showSaveAndSubmitButtons = false;
-  bool enableFields = false;
 
   get guardingMasterData => null;
   final FocusNode noOfKeysFocusNode = FocusNode();
@@ -93,23 +92,22 @@ class _KeyHistoryRecordsDetailsViewState
       builder: (context, state) {
         if (state.model.status == null ||
             state.model.status == ConstantsIntValue.created ||
-            state.model.status == ConstantsIntValue.lockChangeInitiated ||
             state.model.status == ConstantsIntValue.lostInitiated ||
             state.model.status == ConstantsIntValue.damagedInitiated ||
             state.model.status == ConstantsIntValue.lostApproved) {
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = (state.model.status == null ||
-                state.model.status == ConstantsIntValue.created ||
-                state.model.status == ConstantsIntValue.lockChangeInitiated ||
                 state.model.status == ConstantsIntValue.damagedInitiated ||
                 state.model.status == ConstantsIntValue.destroyRejected ||
                 state.model.status == ConstantsIntValue.destroyApproved ||
                 (state.model.status == ConstantsIntValue.destroyInitiated &&
                     widget.type != ConstantsIntValue.keyDestroyHistoryInt)) ||
-            ((state.model.status == null ||
-                    state.model.status == ConstantsIntValue.created) &&
-                (widget.type == ConstantsIntValue.lockChangeHistoryInt)) ||
+            ((
+                    state.model.status == ConstantsIntValue.created||
+            state.model.status == ConstantsIntValue.lockChangeInitiated) &&
+                (widget.type == ConstantsIntValue.lockChangeHistoryInt) && (state.loggedInUserDetails!.userName
+                .equalsIgnoreCase(state.model.createdBy?.userName))) ||
             ((state.model.status != ConstantsIntValue.created ||
                     state.model.status != null) &&
                 (widget.type == ConstantsIntValue.keyDamageHistoryInt ) &&
@@ -137,16 +135,6 @@ class _KeyHistoryRecordsDetailsViewState
                 state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.securityManager?.userName);
 
-        enableFields = (state.model.status == null ||
-                    state.model.status == ConstantsIntValue.created) &&
-                (widget.type == ConstantsIntValue.lockChangeHistoryInt ||
-                    widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName) ||
-            (widget.type == ConstantsIntValue.keyDamageHistoryInt ||
-                    widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
-                state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.securityManager?.userName);
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
