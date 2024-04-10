@@ -76,15 +76,20 @@ class DutyPostNameMasterDetailsCubit
       //   state.model.location = defaultLocation;
       //   state.model.slNo = slNo.serialNo;
       // }
-log('input Date ${state.model.inputDate}');
+      log('input Date ${state.model.inputDate}');
       state.model.entrySecurity ??= loggedInUserDetails;
 
       // state.model?.inputDate = state.model?.inputDate != null
       //     ? Utils().formatUnixTimestamp(state.model?.inputDate ?? '') : Utils().getCurrentDate();
 
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
@@ -176,8 +181,13 @@ log('input Date ${state.model.inputDate}');
     state.model.status = !isSaveOnly ? 1 : (state.model.status ?? 0);
     //state.model.status ??= 0;
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     // Create/Update API Call
     DutyPostNameMasterRequest request =
@@ -211,8 +221,9 @@ log('input Date ${state.model.inputDate}');
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

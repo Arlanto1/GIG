@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/requestModels/sla_violation_penalty_request.dart';
 import '../../services/sla_violation_penalty_services.dart';
@@ -130,17 +131,21 @@ class SLAViolationPenaltyDetailsCubit
         state.model.locationRegion = locationRegion;
       }
       if (vendor != null) {
-        if(state.model.vendor.isEmptyOrNull) {
+        if (state.model.vendor.isEmptyOrNull) {
           state.model.vendor = [];
         }
 
         state.model.vendor?.add(vendor!);
       }
-      // Get Date of Creation
-      // state.model.inputDate = Utils().getCurrentDate();
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
+      // Get Date of Creation
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
@@ -258,8 +263,13 @@ class SLAViolationPenaltyDetailsCubit
     );
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     if (!attdInfoId.isEmptyOrNull) {
       state.model.attdInfoId = attdInfoId;
@@ -277,7 +287,9 @@ class SLAViolationPenaltyDetailsCubit
         if (!state.isValidDraft.status) {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -293,7 +305,9 @@ class SLAViolationPenaltyDetailsCubit
         if (!state.isValid.status) {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -327,7 +341,9 @@ class SLAViolationPenaltyDetailsCubit
       );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       emit(
@@ -340,7 +356,9 @@ class SLAViolationPenaltyDetailsCubit
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
 
@@ -124,7 +125,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          :  Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
+
+      // if (state.model.inputDate != null) {
+      //   Utils.timestampToDateConversion(
+      //       int.tryParse(state.model?.inputDate ?? '0'),
+      //       Constants.fulldateFormat);
+      // } else {
+      //   Utils().getCurrentDate();
+      // }
+
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
         state.model.approvedDate =
@@ -480,9 +492,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ),
     );
 
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
+
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -507,9 +523,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -523,10 +536,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -579,7 +588,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          :  Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -591,8 +602,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-
+          :  Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

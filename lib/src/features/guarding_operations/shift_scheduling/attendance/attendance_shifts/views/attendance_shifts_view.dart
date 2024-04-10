@@ -143,7 +143,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       for (Shift shift in shifts) ...[
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
-        buildTextWithLabel('Attendance Status:', shift.attdStatus.toString()),
+        buildTextWithLabel(
+            'Attendance Status:',
+            Utils()
+                .buildAttendanceStatusRow(status: shift.attdStatus ?? 0, returnTextOnly: true)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

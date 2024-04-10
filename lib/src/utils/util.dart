@@ -347,7 +347,7 @@ class Utils {
       ],
     );
   }
-  Row buildAttendanceStatusRow(int status) {
+  dynamic buildAttendanceStatusRow({required int status, bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -366,7 +366,9 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-
+    if(returnTextOnly??false) {
+      return statusText;
+    }
     return Row(
       children: [
         textHandling('Status: ', statusText),

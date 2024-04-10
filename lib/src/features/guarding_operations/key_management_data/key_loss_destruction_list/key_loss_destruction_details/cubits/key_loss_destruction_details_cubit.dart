@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/requestModels/key_loss_destruction_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 
@@ -53,8 +54,8 @@ class KeyLossDestructionDetailsCubit
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
-        securityManager:securityManager,
-        srh:srh,
+        securityManager: securityManager,
+        srh: srh,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
@@ -87,7 +88,6 @@ class KeyLossDestructionDetailsCubit
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
-
       ]);
 
       Locations getLocationsData = futures[0];
@@ -107,9 +107,14 @@ class KeyLossDestructionDetailsCubit
 
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
@@ -123,7 +128,7 @@ class KeyLossDestructionDetailsCubit
           model: state.model,
           users: users.t1Analyst,
           //createdBy: createdBy,
-          securityManager:securityManager,
+          securityManager: securityManager,
           srh: srh,
           emailUsers: emailUsers,
           listOfEntities: entities,
@@ -194,7 +199,6 @@ class KeyLossDestructionDetailsCubit
     int? typeOfDeployment,
     int? msgbFormBSubmitted,
     Organisation? destructionReason,
-
   }) async {
     emit(
       state.copyWith(
@@ -257,8 +261,12 @@ class KeyLossDestructionDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.createdDate = inputDate.toString();
     // Create/Update API Call
     KeyLossDestructionRequest request =
         KeyLossDestructionRequest(keyLossGi: state.model);
@@ -269,7 +277,9 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValidDraft.status) {
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -288,7 +298,9 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValid.status) {
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
-              : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model?.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -339,7 +351,9 @@ class KeyLossDestructionDetailsCubit
       }
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -349,7 +363,9 @@ class KeyLossDestructionDetailsCubit
       );
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

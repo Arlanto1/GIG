@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'attendance_details_state.dart';
 
@@ -77,9 +78,15 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       // model.inputDate = _getCurrentDate();
-      model.inputDate = model.inputDate == null
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -165,9 +172,13 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    DateTime dateTime =
+    DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
     // Create/Update API Call
     AttendanceRequest request = AttendanceRequest(requestModel: state.model);
 
@@ -199,7 +210,9 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

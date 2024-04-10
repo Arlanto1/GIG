@@ -19,6 +19,7 @@ import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
@@ -81,10 +82,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers =
         await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
-    List<BaseUser> incidentManager =
-    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Senior_Security_Manager');
-    List<BaseUser> incidentOwner =
-    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> incidentManager = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Senior_Security_Manager');
+    List<BaseUser> incidentOwner = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
     emit(
       state.copyWith(
         status: FormStatus.initial,
@@ -116,10 +117,15 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-      // model.inputDate = Utils().getCurrentDate();
-      model.inputDate = model.inputDate == null
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
+      // model.inputDate = Utils().getCurrentDate();
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
@@ -127,12 +133,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           await commonServices.getUserDetails(userId: userId);
       model.entrySecurity ??= loggedInUserDetails;
 
-      List<BaseUser> emailUsers =
-      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
-      List<BaseUser> incidentManager =
-      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Senior_Security_Manager');
-      List<BaseUser> incidentOwner =
-      await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
+      List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_STATIC_USER');
+      List<BaseUser> incidentManager = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_Senior_Security_Manager');
+      List<BaseUser> incidentOwner = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_Sub_Regional_Head');
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
@@ -346,14 +352,19 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     );
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
     // KeyHistoryModel kldId ??= KeyHistoryModel();
-     state.model.kldId ??=kldId;
+    state.model.kldId ??= kldId;
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');
 
@@ -393,7 +404,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -420,9 +433,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.incidentManagementModule,status: 40);
+        id: id, module: Constants.incidentManagementModule, status: 40);
   }
-
 }

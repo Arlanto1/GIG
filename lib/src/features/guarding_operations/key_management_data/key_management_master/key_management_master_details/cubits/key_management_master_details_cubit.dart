@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 
@@ -101,9 +102,15 @@ class KeyManagementMasterDetailsCubit
       }
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
+
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
@@ -209,8 +216,14 @@ class KeyManagementMasterDetailsCubit
 
     state.model.status ??= 0;
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.createdDate = inputDate.toString();
+
     // Create/Update API Call
     KeyManagementMasterRequest request =
         KeyManagementMasterRequest(keyMgmtGi: state.model);
@@ -245,7 +258,9 @@ class KeyManagementMasterDetailsCubit
       }
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

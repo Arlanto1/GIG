@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'occurrence_general_info_state.dart';
 
@@ -114,9 +115,15 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
-      model.inputDate = model.inputDate == null
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -367,8 +374,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
@@ -411,7 +423,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

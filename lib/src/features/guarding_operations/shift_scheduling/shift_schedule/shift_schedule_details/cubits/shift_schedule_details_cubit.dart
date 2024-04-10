@@ -141,9 +141,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
-      log('--model.inputDate--${model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
+      log('--model.inputDate--${model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
 
       log('--model.location--${model.location?.id}--');
       if (model.location == null && defaultLocation != null) {
@@ -156,10 +154,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       // Get Date of Creation
-     model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.inputDate ?? '');
-     model.modifiedDate = state.model.modifiedDate == null
+      model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.modifiedDate ?? '');
       // model.inputDate =
@@ -350,8 +348,13 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.model.status = 0;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     // Create/Update API Call
     ShiftScheduleRequest request =
@@ -389,7 +392,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -397,8 +402,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           status: FormStatus.error,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

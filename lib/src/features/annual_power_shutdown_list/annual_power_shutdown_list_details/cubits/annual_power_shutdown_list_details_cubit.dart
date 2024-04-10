@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:db_atom/src/features/annual_power_shutdown_list/models/aps_ui_labels.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../index.dart';
 
@@ -58,11 +59,10 @@ class AnnualPowerShutdownListDetailsCubit
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-    List<BaseUser> srh =
-    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
-        List<BaseUser> lsm =
-        await commonServices.getBaseUsersByRoles(
-    roleNames: 'ATOM_Senior_Security_Manager');
+    List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Senior_Security_Manager');
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
@@ -123,11 +123,15 @@ class AnnualPowerShutdownListDetailsCubit
       List<BaseUser>? srh = results[10];
       List<BaseUser>? lsm = results[11];
 
-      // model.inputDate =
-      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      model.inputDate = model.inputDate == null
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -363,8 +367,13 @@ class AnnualPowerShutdownListDetailsCubit
     state.model.status ??= 0;
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     /// Create/Update API Call
     AnnualPowerShutdownListRequest request =
@@ -403,17 +412,21 @@ class AnnualPowerShutdownListDetailsCubit
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
           status: FormStatus.error,
         ),
-      ); state.model.inputDate = state.model.inputDate == null
+      );
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
@@ -424,7 +437,9 @@ class AnnualPowerShutdownListDetailsCubit
       );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     }
 
     log('---response--msg--${response.message}---');

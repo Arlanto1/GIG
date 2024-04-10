@@ -5,6 +5,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'general_info_state.dart';
 
@@ -56,10 +57,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-    List<BaseUser> epm =
-    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head');
-    List<BaseUser> lsm =
-    await commonServices.getBaseUsersByRoles(
+    List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Senior_Security_Manager');
 
     emit(
@@ -68,8 +68,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
-        epm:epm,
-        lsm:lsm,
+        epm: epm,
+        lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
         departments: departments.employeeDepartments,
       ),
@@ -124,9 +124,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       log('input date ---${model.inputDate}');
       // model.inputDate =
       //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      model.inputDate = model.inputDate == null
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       log('-loggedInUserDetails-${loggedInUserDetails.name}----');
       model.createdBy ??= loggedInUserDetails;
@@ -361,8 +367,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.status = 0;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime =
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    state.model.inputDate = inputDate.toString();
 
     /// Create/Update API Call
     GeneralInfoRequest request =
@@ -401,7 +412,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -422,8 +435,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     log('---response--msg--${response.message}---');
     state.model.inputDate = state.model.inputDate == null
         ? Utils().getCurrentDate()
-        : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-
+        : Utils.timestampToDateConversion(
+            int.tryParse(state.model?.inputDate ?? '0'),
+            Constants.fulldateFormat);
     emit(
       state.copyWith(
         message: response.message,
