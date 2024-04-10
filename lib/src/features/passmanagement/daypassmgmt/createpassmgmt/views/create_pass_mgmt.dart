@@ -1393,7 +1393,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .visitingDepartment ??
                                                     "Visiting Department"
                                                 : Constants.department,
-                                            isMandatory: true,
+                                            isMandatory:(state.selectedCompanyType?.name ?? '')
+                                                .toLowerCase() ==
+                                                'exceptions' ? false :true,
                                             Styles.textStyleBlack14),
                                     widget.passId == ConstantsIntValue.passIdSez
                                         ? Container()
