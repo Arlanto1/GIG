@@ -656,7 +656,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       context: context,
                                       enabled: state.model.status == 0 ||
                                           state.model.status == null,
-                                      users: state.users!,
+                                      users: state.emailUsers!,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     KeyManagementIssuanceDetailsCubit>(
@@ -665,6 +665,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           dbSponsorCwrT2: user,
                                         );
                                       },
+                                      roleName: 'ATOM_STATIC_USER',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
