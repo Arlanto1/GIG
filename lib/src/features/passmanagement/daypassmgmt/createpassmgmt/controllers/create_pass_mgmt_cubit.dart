@@ -147,8 +147,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData = await createpassmgmtServices.createUser(
-          firstName, lastName, email, role, context);
+      CreateUserModel createUserData = await CommonServices().createUser(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        role: role,
+        context: context,
+      );
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -730,7 +735,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           moduleCode = Constants.passManagementSEZModule;
         }
 
-        if(model.slNo.isEmptyOrNull) {
+        if (model.slNo.isEmptyOrNull) {
           serialNumberResponse = await commonServices.getSlNo(
             locationId: defaultLocation!.id.toString(),
             moduleCode: moduleCode,
@@ -739,13 +744,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
         // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
 
-        passTypes = await createpassmgmtServices
-            .getPassTypes(passId: passId, locationId: defaultLocation!.id!);
+        passTypes = await createpassmgmtServices.getPassTypes(
+            passId: passId, locationId: defaultLocation!.id!);
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
-        companyTypes = await createpassmgmtServices
-            .getPassNo(passType: passId, locationId: defaultLocation.id!);
-
+        companyTypes = await createpassmgmtServices.getPassNo(
+            passType: passId, locationId: defaultLocation.id!);
       }
 
       List<Organisation> updateStatuses = [];
@@ -946,7 +950,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.failure,
         ),
       );
-
 
       // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   dismissLoadingDialog(context);
