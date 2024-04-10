@@ -149,13 +149,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
 
-    if (state.model.keyHandingOverDuration !=1 && DateTime.now().month < 6) {
+    if (state.model.keyHandingOverDuration != 1 && DateTime.now().month < 6) {
       // Set to July 1st of the current year
       dateTime = DateTime(DateTime.now().year, 7, 1);
-    } else if(state.model.keyHandingOverDuration !=1 && DateTime.now().month > 6){
+    } else if (state.model.keyHandingOverDuration != 1 &&
+        DateTime.now().month > 6) {
       // Set to December 31st of the current year
       dateTime = DateTime(DateTime.now().year, 12, 31);
-    }else {
+    } else {
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
           DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
     }
@@ -286,7 +287,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (state.model.status != null && state.model.status != 0) ...[
+                            if (state.model.status != null &&
+                                state.model.status != 0) ...[
                               /// Handed Over Date
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.handedOverDate ??
@@ -416,7 +418,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
-                                initialValue: '${state.model.keyHandingOverDuration ?? 1}',
+                                initialValue:
+                                    '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null) {
@@ -457,7 +460,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: keyReturnDueDateController,
-                              isDisabled: state.model.keyHandingOverDuration ==  2 ? false :true,
+                              isDisabled:
+                                  state.model.keyHandingOverDuration == 2
+                                      ? false
+                                      : true,
                               onlyDate: false,
                               onChange: (String value) {
                                 state.model.keyHandOverDue =
@@ -813,7 +819,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.status,
                                     ConstantsArgument.locationId:
                                         state.model.location?.id,
-                                ConstantsArgument.isMasterKey: widget.isMasterKey,
+                                    ConstantsArgument.isMasterKey:
+                                        widget.isMasterKey,
                                   },
                                 );
                               },
