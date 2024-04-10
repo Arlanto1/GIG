@@ -65,10 +65,10 @@ class BaseImageUpload {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
-          _attachmentListviews(
+          AttachmentListView(
             attachmentListviews: files ?? attachments,
             showDownloadIcon: showDownloadIcon,
-              moduleCode: moduleCode,
+            moduleCode: moduleCode,
           ),
         ],
       );
@@ -79,12 +79,27 @@ class BaseImageUpload {
       width: 0,
     );
   }
+}
 
-  Widget _attachmentListviews({
-    List<ImageContent>? attachmentListviews,
-    required bool showDownloadIcon,
-    required String moduleCode,
-  }) {
+class AttachmentListView extends StatefulWidget {
+  final List<ImageContent>? attachmentListviews;
+  final bool showDownloadIcon;
+  final String moduleCode;
+
+  const AttachmentListView({
+    super.key,
+    this.attachmentListviews,
+    required this.showDownloadIcon,
+    required this.moduleCode,
+  });
+
+  @override
+  AttachmentListViewState createState() => AttachmentListViewState();
+}
+
+class AttachmentListViewState extends State<AttachmentListView> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -98,9 +113,9 @@ class BaseImageUpload {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: attachmentListviews?.length ?? 0,
+        itemCount: widget.attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          ImageContent? imageData = attachmentListviews?[index];
+          ImageContent? imageData = widget.attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
           imageNameController.text = imageData?.title ?? '';
           return Column(
@@ -116,21 +131,20 @@ class BaseImageUpload {
                           context,
                           imageData?.id ?? 0,
                           imageData?.title ?? '',
-                          moduleCode,
+                          widget.moduleCode,
                         );
                       },
-                      child: SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
+                      child: BaseIcons().downloadIcon(),
                     ),
                     const SizedBox(width: 10),
                     IconButton(
-                      icon: const Icon(Icons.delete),
+                      icon: BaseIcons().deleteIcon(),
                       onPressed: () {
                         // Delete logic here
                         if (imageData != null) {
-                          //setState(() {
-                          attachmentListviews!.removeAt(index);
-                          //});
+                          setState(() {
+                            widget.attachmentListviews!.removeAt(index);
+                          });
                         }
                       },
                     ),

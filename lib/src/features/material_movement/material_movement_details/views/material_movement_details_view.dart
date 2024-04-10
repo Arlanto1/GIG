@@ -2903,8 +2903,7 @@ class _MaterialMovementDetailsViewState
             children: <Widget>[
               ListTile(
                 trailing: widget.model != null
-                    ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
+                    ? BaseIcons().deleteIcon()
                     : const SizedBox(
                         height: 0,
                         width: 0,
