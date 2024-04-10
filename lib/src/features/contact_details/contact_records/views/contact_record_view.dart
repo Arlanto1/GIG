@@ -154,19 +154,35 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Rank',
+                key:  widget.rankType ==
+                    Constants.contactZone
+                    ? Constants.zone
+                    : widget.rankType ==
+                    Constants.contactGeneralRank
+                    ? Constants.rank
+                    : widget.rankType ==
+                    Constants
+                        .contactSystemEscalationRank
+                    ?Constants.systemSiEscalationMatrixRank
+                    : widget.rankType ==
+                    Constants
+                        .contactSupervisorRank
+                    ? Constants.supervisorRank
+                    : Constants.guardingAgencyRank,
                 value: state.items![index].rank?.name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Name',
+                key:  widget.rankType ==
+                    Constants.contactZone
+                    ? Constants.areaNameManager :Constants.name,
                 value: state.items![index].email ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Phone Number',
+                key: Constants.phoneNumber,
                 value: state.items![index].contactNo ?? '',
               ),
             );

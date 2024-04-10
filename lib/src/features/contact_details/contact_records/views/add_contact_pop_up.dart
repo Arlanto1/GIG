@@ -151,19 +151,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   createEntity: false,
                                   title: widget.rankType ==
                                           Constants.contactZone
-                                      ? 'Add Zone'
+                                      ? Constants.zone
                                       : widget.rankType ==
                                               Constants.contactGeneralRank
-                                          ? 'Add Rank'
+                                          ? Constants.rank
                                           : widget.rankType ==
                                                   Constants
                                                       .contactSystemEscalationRank
-                                              ? 'Add System Escalation Matrix'
+                                              ? Constants
+                                                  .systemSiEscalationMatrixRank
                                               : widget.rankType ==
                                                       Constants
                                                           .contactSupervisorRank
-                                                  ? 'Add Supervisor Rank'
-                                                  : 'Add Guarding Agency Escalation Matrix',
+                                                  ? Constants.supervisorRank
+                                                  : Constants
+                                                      .guardingAgencyRank,
                                   functionToCall: () {
                                     BlocProvider.of<ContactRecordBloc>(context)
                                         .refreshList();
@@ -385,7 +387,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     }
 
     if ((!isNumeric(widget.model.contactNo!) ||
-        (widget.model.contactNo!.length > 17 && widget.model.contactNo!.length < 10))&&
+            (widget.model.contactNo!.length > 17 &&
+                widget.model.contactNo!.length < 10)) &&
         !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,
