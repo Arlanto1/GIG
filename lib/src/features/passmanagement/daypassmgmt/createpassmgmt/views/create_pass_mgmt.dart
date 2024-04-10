@@ -4089,8 +4089,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         Constants.passManagementModuleCode,
                                       );
                                     },
-                                    child: SvgPicture.asset(AppIcon.download,
-                                        color: AppColors.boldgreyBackground),
+                                    child: BaseIcons().deleteIcon(),
                                   )
                           ],
                         )
@@ -4104,8 +4103,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                               Constants.passManagementModuleCode,
                             );
                           },
-                          child: SvgPicture.asset(AppIcon.download,
-                              color: AppColors.boldgreyBackground),
+                          child: BaseIcons().deleteIcon(),
                         ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')

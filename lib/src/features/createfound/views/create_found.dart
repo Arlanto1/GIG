@@ -2289,8 +2289,7 @@ class _CreateFoundState extends State<CreateFound> {
                             Constants.articleFoundModuleCode,
                           );
                         },
-                        child: SvgPicture.asset(AppIcon.download,
-                            color: AppColors.boldgreyBackground),
+                        child: BaseIcons().deleteIcon(),
                       )
                     ],
                   )
@@ -2304,8 +2303,7 @@ class _CreateFoundState extends State<CreateFound> {
                         Constants.articleFoundModuleCode,
                       );
                     },
-                    child: SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground),
+                    child: BaseIcons().deleteIcon(),
                   ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')

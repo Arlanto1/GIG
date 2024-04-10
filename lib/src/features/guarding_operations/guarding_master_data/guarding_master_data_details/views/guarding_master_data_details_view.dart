@@ -2700,8 +2700,7 @@ class _GuardingMasterDataDetailsViewState
               children: <Widget>[
                 ListTile(
                   trailing: widget.guardingMasterData != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
+                      ? BaseIcons().downloadIcon()
                       : const SizedBox(
                           height: 0,
                           width: 0,

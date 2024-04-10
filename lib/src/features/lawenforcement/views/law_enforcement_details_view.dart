@@ -2144,8 +2144,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Constants.leoModuleCode,
                                 );
                               },
-                              child: SvgPicture.asset(AppIcon.download,
-                                  color: AppColors.boldgreyBackground),
+                              child: BaseIcons().deleteIcon(),
                             ),
                           ],
                         )
@@ -2159,8 +2158,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                         Constants.leoModuleCode,
                       );
                     },
-                    child: SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground),
+                    child: BaseIcons().deleteIcon(),
                   ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
