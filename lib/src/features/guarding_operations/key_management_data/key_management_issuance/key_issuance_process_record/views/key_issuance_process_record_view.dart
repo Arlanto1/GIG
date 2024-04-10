@@ -160,28 +160,22 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+            state.hasReachedMax ? state.items.length : state.items.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Violation',
-            //     value: state.items![index].violation?.name ?? '',
-            //   ),
-            // );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'No.keys issued',
+                value: state.items![index].noKeysIssued.toString(),
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Available ',
+                value: state.items![index].available.toString(),
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(

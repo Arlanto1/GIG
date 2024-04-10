@@ -1,7 +1,7 @@
 part of 'key_issuance_process_record_bloc.dart';
 
 class KeyIssuanceProcessRecordState extends Equatable {
-  final List<KeyIssuanceProcessRecord>? items;
+  final List<KeyIssuanceProcessRecord> items;
   final bool hasReachedMax;
   final FormStatus status;
   final List<Organisation>? keyDescriptions;

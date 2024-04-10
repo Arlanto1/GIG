@@ -149,6 +149,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
 
+    if (state.model.keyHandingOverDuration !=1 && DateTime.now().month < 6) {
+      // Set to July 1st of the current year
+      dateTime = DateTime(DateTime.now().year, 7, 1);
+    } else if(state.model.keyHandingOverDuration !=1 && DateTime.now().month > 6){
+      // Set to December 31st of the current year
+      dateTime = DateTime(DateTime.now().year, 12, 31);
+    }else {
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+    }
     keyReturnDueDateController.text = Utils.timestampToDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
 
@@ -406,8 +416,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
-                                initialValue: state.model.keyHandingOverDuration
-                                    .toString(),
+                                initialValue: '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null) {
@@ -448,7 +457,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: keyReturnDueDateController,
-                              isDisabled: true,
+                              isDisabled: state.model.keyHandingOverDuration ==  2 ? false :true,
                               onlyDate: false,
                               onChange: (String value) {
                                 state.model.keyHandOverDue =
