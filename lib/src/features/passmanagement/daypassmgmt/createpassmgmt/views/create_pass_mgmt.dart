@@ -3009,18 +3009,46 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
+
     return TextFieldAddButton(
-      title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
+      title: state.hostResponse?.name,
       height: 60,
       isDisableColor: widget.model?.status == 0 || widget.model?.status == null
           ? false
           : true,
       onTap: () {
-        if (widget.model?.status == 0 || widget.model?.status == null) {
-          hostTypeDialog(state);
-        }
+        BaseOrganisationDialog().userDialog(
+          context: context,
+          users: state.getDepositorResponse?.atomStaticUser!,
+            functionToCall: (){
+              BlocProvider.of<
+                  CreatePassMgmtCubit>(
+                  context)
+                  .refreshList();
+            },
+          onTap: (BaseUser user) {
+            // BlocProvider.of<CreatePassMgmtCubit>(context)
+            //     .updateDropdownValues(
+            //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+            // );
+            createPassMgmtCubit.gethostUsersResponseData(
+                User(userId: user.id, name: user.name));
+          },
+        );
       },
     );
+    // return TextFieldAddButton(
+    //   title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
+    //   height: 60,
+    //   isDisableColor: widget.model?.status == 0 || widget.model?.status == null
+    //       ? false
+    //       : true,
+    //   onTap: () {
+    //     if (widget.model?.status == 0 || widget.model?.status == null) {
+    //       hostTypeDialog(state);
+    //     }
+    //   },
+    // );
   }
 
   hostTypeDialog(CreatePassMgmtState state) {
