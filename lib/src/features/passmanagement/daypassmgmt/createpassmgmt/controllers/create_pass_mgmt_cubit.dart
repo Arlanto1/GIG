@@ -730,15 +730,17 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           moduleCode = Constants.passManagementSEZModule;
         }
 
-        serialNumberResponse = await commonServices.getSlNo(
-          locationId: defaultLocation!.id.toString(),
-          moduleCode: moduleCode,
-        );
+        if(model.slNo.isEmptyOrNull) {
+          serialNumberResponse = await commonServices.getSlNo(
+            locationId: defaultLocation!.id.toString(),
+            moduleCode: moduleCode,
+          );
+        }
 
         // await getSerialnumberDetails(defaultLocation.id.toString(), passId);
 
         passTypes = await createpassmgmtServices
-            .getPassTypes(passId: passId, locationId: defaultLocation.id!);
+            .getPassTypes(passId: passId, locationId: defaultLocation!.id!);
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
         companyTypes = await createpassmgmtServices
