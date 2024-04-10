@@ -176,7 +176,9 @@ class AttendanceBloc
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
+        return emit(state.copyWith(hasReachedMax: true,
+          status: FormStatus.success,
+        ));
       }
       return emit(
         state.copyWith(
