@@ -69,7 +69,7 @@ class ShiftScheduleServices {
     required int shiftId,
     required int dutyPostId,
   }) async {
-    final String url = '${Apis._getDutyPostAssignedId}?shiftInfo=$shiftId&dutyPost=$dutyPostId';
+    final String url = '${Apis._getDutyPostAssignedId}?shiftInfoId=$shiftId&dutyPostId=$dutyPostId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

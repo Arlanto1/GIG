@@ -49,7 +49,7 @@ class CreatePassMgmtService {
     var getUsername = await SharedPrefs.getUserId();
 
     final String url =
-        "${Apis._createPass}userEmail=$getUsername&isSubmit=$isSubmit";
+        "${Apis._createPass}isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),
