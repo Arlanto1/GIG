@@ -177,8 +177,7 @@ class KeyManagementIssuanceDetailsCubit
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration =
-        keyHandingOverDuration ??1;
+    state.model.keyHandingOverDuration ??= 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
