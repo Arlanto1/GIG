@@ -1,11 +1,8 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/kld_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-
-import '../../../../../../../index.dart';
 
 part 'key_history_records_details_state.dart';
 
@@ -52,6 +49,8 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
 
+    KeyManagementMasterModel parentModel = await services.getById(parentId);
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -76,10 +75,11 @@ class KeyHistoryRecordsDetailsCubit
 
       if (defaultLocation != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.keyLossDestructionModule,
-            type: type,
-            kmId: parentId);
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.keyLossDestructionModule,
+          type: type,
+          kmId: parentId,
+        );
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
@@ -105,6 +105,7 @@ class KeyHistoryRecordsDetailsCubit
           srh: srh,
           destructionReasons: destructionReasons,
           labels: labels,
+          keyManagementMasterModel: parentModel,
         ),
       );
     } catch (e) {
@@ -221,6 +222,8 @@ class KeyHistoryRecordsDetailsCubit
     KeyHistoryRecordRequest request =
         KeyHistoryRecordRequest(keyLossGi: state.model);
     // state.model.keyManagementId = parentId.toString();
+
+    log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
     try {

@@ -42,9 +42,9 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    log('-noOfKeys---${(model.noOfKeys ?? 0) }--');
-    log('-noKeys---${(keyManagementMasterModel?.noKeys) }--');
-    log('-greater---${((model.noOfKeys ?? 0) > (keyManagementMasterModel?.noKeys??0))}--');
+    log('-noOfKeys---${(model.noOfKeys ?? 0)}--');
+    log('-keyManagementMasterModel?.noKeys---${(keyManagementMasterModel?.noKeys)}--');
+    log('-greater---${((model.noOfKeys ?? 0) > (keyManagementMasterModel?.noKeys ?? 0))}--');
     // if (model.location == null) {
     //   log('-model.location-----isValidDraft-');
     //   return const ErrorResponse(
@@ -155,6 +155,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     User? createdBy,
     final KLDUiLabels? labels,
     bool? isReadOnly,
+    keyManagementMasterModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
@@ -169,6 +170,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       labels: labels ?? this.labels,
       destructionReasons: destructionReasons ?? this.destructionReasons,
       isReadOnly: isReadOnly ?? this.isReadOnly,
+      keyManagementMasterModel:
+          keyManagementMasterModel ?? this.keyManagementMasterModel,
     );
   }
 }
