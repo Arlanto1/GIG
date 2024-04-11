@@ -61,6 +61,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         KeyManagementIssuanceDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -150,7 +151,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
     if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
       // Set to July 1st of the current year
-      dateTime = DateTime(DateTime.now().year, 7, 1);
+      dateTime = DateTime(DateTime.now().year, 6, 30);
     } else if (state.model.keyHandingOverDuration == 2 &&
         DateTime.now().month > 6) {
       // Set to December 31st of the current year
@@ -413,7 +414,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0 ||
-                                    state.model.status != null,
+                                    state.model.status != null ? true : false,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,

@@ -19,13 +19,13 @@ import '../../passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgm
 
 class CreateFoundNewUser extends StatefulWidget {
   //const CreateFoundNewUser({super.key});
-  CreateFoundNewUser(
-      {super.key,
-      required this.title,
-      this.lawstate,
-      this.createoundstate,
-      this.createpassmgmtstate,
-     });
+  CreateFoundNewUser({
+    super.key,
+    required this.title,
+    this.lawstate,
+    this.createoundstate,
+    this.createpassmgmtstate,
+  });
 
   final String title;
   LawEnforcementState? lawstate;
@@ -56,13 +56,13 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     if (widget.createoundstate != null) {
       await createFoundArticleCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    }
-    else if (widget.createpassmgmtstate != null) {
-      CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(createpassmgmtServices: createpassmgmtServices); // Instantiate CreatePassMgmtCubit
+    } else if (widget.createpassmgmtstate != null) {
+      CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(
+          createpassmgmtServices:
+              createpassmgmtServices); // Instantiate CreatePassMgmtCubit
       await createPassMgmtCubit.createUser(
-        firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    }
-    else if (widget.lawstate != null) {
+          firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    } else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
@@ -222,7 +222,6 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           }
         }
       },
-
     );
   }
 }

@@ -116,7 +116,9 @@ class KeyManagementIssuanceDetailsCubit
               Constants.fulldateFormat);
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.keyHandOverDate ?? '0'),
+          Constants.fulldateFormat);
 
       // state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
@@ -176,7 +178,7 @@ class KeyManagementIssuanceDetailsCubit
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
     state.model.keyHandingOverDuration =
-        keyHandingOverDuration ?? state.model.keyHandingOverDuration;
+        keyHandingOverDuration ??1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -320,7 +322,9 @@ class KeyManagementIssuanceDetailsCubit
               Constants.fulldateFormat);
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
-          : Utils().formatUnixTimestamp(state.model.keyHandOverDate ?? '');
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.keyHandOverDate ?? '0'),
+          Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
