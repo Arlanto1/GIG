@@ -15,7 +15,7 @@ enum CreatePassMgmtStateType {
 class CreatePassMgmtState extends Equatable {
   final PassManagementModel model;
   final List<Organisation>? updateStatuses;
-  GetDepositor? getDepositorResponse;
+  List<BaseUser>? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
@@ -45,6 +45,7 @@ class CreatePassMgmtState extends Equatable {
   VendorPassReason? vendorPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
+  final List<BaseUser>? emailUsers;
   User? t1hostanalyst;
   User? t1dbsponsoranalyst;
   Organisation? selectedPassInfo;
@@ -110,6 +111,7 @@ class CreatePassMgmtState extends Equatable {
     this.dbsponsorResponse,
     this.nameResponse,
     this.labels,
+    this.emailUsers,
   });
 
   factory CreatePassMgmtState.initial({
@@ -133,7 +135,7 @@ class CreatePassMgmtState extends Equatable {
     Organisation? location,
     Organisation? locationRegion,
     SerialNumberModel? serialnumberResponse,
-    GetDepositor? getDepositorResponse,
+    List<BaseUser>? getDepositorResponse,
     BaseUser? getuserResponse,
     List<Organisation>? passTypes,
     bool? showIdentifiedFields,
@@ -169,6 +171,7 @@ class CreatePassMgmtState extends Equatable {
     String? passValidUntilDate,
     List<Organisation>? updateStatuses,
     PMUiLabels? labels,
+    List<BaseUser>? emailUsers,
   }) {
     return CreatePassMgmtState(
       model: model ?? this.model,
@@ -179,7 +182,7 @@ class CreatePassMgmtState extends Equatable {
       message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
-          getSerialnumberResponse ?? this.getSerialnumberResponse,
+      getSerialnumberResponse ?? this.getSerialnumberResponse,
       selectedEntities: selectedEntities ?? this.selectedEntities,
       location: location ?? this.location,
       passTypes: passTypes ?? this.passTypes,
@@ -192,31 +195,31 @@ class CreatePassMgmtState extends Equatable {
       showIdentifiedFields: showIdentifiedFields ?? this.showIdentifiedFields,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
-          getUserDetailsResponse ?? this.getUserDetailsResponse,
+      getUserDetailsResponse ?? this.getUserDetailsResponse,
       getHandOverDetailsResponse:
-          getHandOverDetailsResponse ?? this.getHandOverDetailsResponse,
+      getHandOverDetailsResponse ?? this.getHandOverDetailsResponse,
       lawcreateFoundresponse:
-          lawcreateFoundresponse ?? this.lawcreateFoundresponse,
+      lawcreateFoundresponse ?? this.lawcreateFoundresponse,
       createEmployeeDepartments:
-          createEmployeeDepartments ?? this.createEmployeeDepartments,
+      createEmployeeDepartments ?? this.createEmployeeDepartments,
       createOrganisationResponse:
-          createOrganisationResponse ?? this.createOrganisationResponse,
+      createOrganisationResponse ?? this.createOrganisationResponse,
       companyTypes: companyTypes ?? this.companyTypes,
       selectedCompanyType: selectedCompanyType ?? this.selectedCompanyType,
       createpassFoundresponse:
-          createpassFoundresponse ?? this.createpassFoundresponse,
+      createpassFoundresponse ?? this.createpassFoundresponse,
       dayPassReason: dayPassReason ?? this.dayPassReason,
       vendorPassReason: vendorPassReason ?? this.vendorPassReason,
       dayPasselementReason: dayPasselementReason ?? this.dayPasselementReason,
       vendorPasselementReason:
-          vendorPasselementReason ?? this.vendorPasselementReason,
+      vendorPasselementReason ?? this.vendorPasselementReason,
       t1nameanalyst: t1nameanalyst ?? this.t1nameanalyst,
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
       t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
       selectedPassInfo: selectedPassInfo ?? selectedPassInfo,
       passnumbelistresponse:
-          passnumbelistresponse ?? this.passnumbelistresponse,
+      passnumbelistresponse ?? this.passnumbelistresponse,
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
       exceptionalApproval: exceptionalApproval ?? this.exceptionalApproval,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
@@ -227,52 +230,54 @@ class CreatePassMgmtState extends Equatable {
       nameResponse: nameResponse ?? this.nameResponse,
       passValidUntilDate: passValidUntilDate ?? this.passValidUntilDate,
       labels: labels ?? this.labels,
+      emailUsers: emailUsers ?? this.emailUsers,
     );
   }
 
   @override
   List<Object?> get props => [
-        getEntitiesResponse,
-        eventId,
-        stateType,
-        message,
-        getLocationsResponse,
-        getSerialnumberResponse,
-        selectedEntities,
-        location,
-        locationRegion,
-        serialnumberResponse,
-        getDepositorResponse,
-        getuserResponse,
-        employeeDepartment,
-        selectedDepartment,
-        loadAttachments,
-        getUserDetailsResponse,
-        getHandOverDetailsResponse,
-        lawcreateFoundresponse,
-        createEmployeeDepartments,
-        createOrganisationResponse,
-        companyTypes,
-        selectedCompanyType,
-        createpassFoundresponse,
-        dayPassReason,
-        vendorPassReason,
-        dayPasselementReason,
-        vendorPasselementReason,
-        t1nameanalyst,
-        t1hostanalyst,
-        analyst,
-        t1dbsponsoranalyst,
-        selectedPassInfo,
-        passnumbelistresponse,
-        escortedbyhost,
-        exceptionalApproval,
-        radioButtonItem,
-        photoAttachments,
-        createUserResponse,
-        hostResponse,
-        dbsponsorResponse,
-        nameResponse,
-        labels,
-      ];
+    getEntitiesResponse,
+    eventId,
+    stateType,
+    message,
+    getLocationsResponse,
+    getSerialnumberResponse,
+    selectedEntities,
+    location,
+    locationRegion,
+    serialnumberResponse,
+    getDepositorResponse,
+    getuserResponse,
+    employeeDepartment,
+    selectedDepartment,
+    loadAttachments,
+    getUserDetailsResponse,
+    getHandOverDetailsResponse,
+    lawcreateFoundresponse,
+    createEmployeeDepartments,
+    createOrganisationResponse,
+    companyTypes,
+    selectedCompanyType,
+    createpassFoundresponse,
+    dayPassReason,
+    vendorPassReason,
+    dayPasselementReason,
+    vendorPasselementReason,
+    t1nameanalyst,
+    t1hostanalyst,
+    analyst,
+    t1dbsponsoranalyst,
+    selectedPassInfo,
+    passnumbelistresponse,
+    escortedbyhost,
+    exceptionalApproval,
+    radioButtonItem,
+    photoAttachments,
+    createUserResponse,
+    hostResponse,
+    dbsponsorResponse,
+    nameResponse,
+    labels,
+    emailUsers,
+  ];
 }
