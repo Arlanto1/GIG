@@ -1393,9 +1393,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .visitingDepartment ??
                                                     "Visiting Department"
                                                 : Constants.department,
-                                            isMandatory:(state.selectedCompanyType?.name ?? '')
-                                                .toLowerCase() ==
-                                                'exceptions' ? false :true,
+                                            isMandatory:
+                                                (state.selectedCompanyType
+                                                                    ?.name ??
+                                                                '')
+                                                            .toLowerCase() ==
+                                                        'exceptions'
+                                                    ? false
+                                                    : true,
                                             Styles.textStyleBlack14),
                                     widget.passId == ConstantsIntValue.passIdSez
                                         ? Container()
@@ -2967,14 +2972,31 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor:
           widget.model?.status != 0 || widget.model != null ? false : true,
       onTap: () {
-        if (widget.model == null ||
-            (state.nameResponse != null &&
-                ((state.nameResponse?.name ?? '').isEmpty))) {
-          //   articleTypeDialog(state);
-          // leodepartmentsDialog(state, 0);
-          nameTypeDialog(state);
-        }
+        BaseOrganisationDialog().userDialog(
+          context: context,
+          users: state.emailUsers!,
+          roleName: 'ATOM_STATIC_USER',
+          functionToCall: () {
+            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+          },
+          onTap: (BaseUser user) {
+            // BlocProvider.of<CreatePassMgmtCubit>(context)
+            //     .updateDropdownValues(
+            //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+            // );
+            createPassMgmtCubit.getNameUsersResponseData(user);
+          },
+        );
       },
+      // onTap: () {
+      //   if (widget.model == null ||
+      //       (state.nameResponse != null &&
+      //           ((state.nameResponse?.name ?? '').isEmpty))) {
+      //     //   articleTypeDialog(state);
+      //     // leodepartmentsDialog(state, 0);
+      //     nameTypeDialog(state);
+      //   }
+      // },
     );
   }
 
@@ -3009,7 +3031,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
-
     return TextFieldAddButton(
       title: state.hostResponse?.name,
       height: 60,
@@ -3021,12 +3042,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           context: context,
           users: state.emailUsers!,
           roleName: 'ATOM_STATIC_USER',
-            functionToCall: (){
-              BlocProvider.of<
-                  CreatePassMgmtCubit>(
-                  context)
-                  .refreshList();
-            },
+          functionToCall: () {
+            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+          },
           onTap: (BaseUser user) {
             // BlocProvider.of<CreatePassMgmtCubit>(context)
             //     .updateDropdownValues(
@@ -3089,10 +3107,28 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
-        if (widget.model == null || widget.model?.status == 0) {
-          dbsponsorTypeDialog(state);
-        }
+        BaseOrganisationDialog().userDialog(
+          context: context,
+          users: state.emailUsers!,
+          roleName: 'ATOM_STATIC_USER',
+          functionToCall: () {
+            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+          },
+          onTap: (BaseUser user) {
+            // BlocProvider.of<CreatePassMgmtCubit>(context)
+            //     .updateDropdownValues(
+            //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+            // );
+            createPassMgmtCubit.getdbsponsorUsersResponseData(
+                User(userId: user.id, name: user.name));
+          },
+        );
       },
+      // onTap: () {
+      //   if (widget.model == null || widget.model?.status == 0) {
+      //     dbsponsorTypeDialog(state);
+      //   }
+      // },
     );
   }
 
