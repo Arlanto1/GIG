@@ -113,7 +113,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     }
 
     if (model.keyType == 2 &&
-        ((model.noOfKeys!) > (keyManagementMasterModel?.noMasterKey ?? 0))) {
+        ((model.noOfKeys!) > (keyManagementMasterModel!.noMasterKey!))) {
       return const ErrorResponse(
           status: false, message: 'Please enter Valid No.of Keys');
     }

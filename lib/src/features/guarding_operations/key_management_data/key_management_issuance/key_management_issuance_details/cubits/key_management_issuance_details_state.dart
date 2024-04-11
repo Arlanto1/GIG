@@ -131,7 +131,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Department');
     }
-    if (model.keyHandingOverDuration == null) {
+    if (model.keyHandingOverDuration == null  || model.keyHandingOverDuration == 0) {
       return const ErrorResponse(
           status: false, message: 'Please enter Key Handing Over Duration');
     }
