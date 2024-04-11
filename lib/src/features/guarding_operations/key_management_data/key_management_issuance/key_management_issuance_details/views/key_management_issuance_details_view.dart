@@ -61,6 +61,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         KeyManagementIssuanceDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -413,7 +414,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0 ||
-                                    state.model.status != null,
+                                    state.model.status != null ? true : false,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDuration,
