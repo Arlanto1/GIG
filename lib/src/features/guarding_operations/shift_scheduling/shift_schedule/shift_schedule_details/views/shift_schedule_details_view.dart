@@ -418,8 +418,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           BaseDate().datePickerWidgetLoading(
                             textController: fromDateController,
-                            onlyDate: false,
+                            onlyDate: true,
                             showPastDate: false,
+                            startDate: state.availableDate?.fromDate,
                             isDisabled: state.model.status != null &&
                                 state.model.status != ConstantsIntValue.draft,
                             onChange: (String value) {
@@ -444,8 +445,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                           BaseDate().datePickerWidgetLoading(
                             textController: toDateController,
-                            onlyDate: false,
+                            onlyDate: true,
                             showPastDate: false,
+                            startDate: state.availableDate?.toDate,
                             isDisabled: state.model.status != null &&
                                 state.model.status != ConstantsIntValue.draft,
                             onChange: (String value) {

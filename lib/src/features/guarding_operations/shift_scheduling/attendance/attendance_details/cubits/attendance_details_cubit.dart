@@ -82,11 +82,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
-     model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(model?.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(model?.inputDate ?? '0'), Constants.fulldateFormat);
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -176,7 +175,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     DateTime dateTime =
-    DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
     state.model.inputDate = inputDate.toString();
     // Create/Update API Call
@@ -211,8 +210,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -240,11 +239,13 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
   }
 
-  Future<void> navigateToNextScreen({ required int dutyPostNameId}) async {
+  Future<void> navigateToNextScreen({required int dutyPostNameId}) async {
     log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(
-        status: FormStatus.navigateToNextScreen, parentId: state.model.id, selectedDutyPostNameId: dutyPostNameId));
+        status: FormStatus.navigateToNextScreen,
+        parentId: state.model.id,
+        selectedDutyPostNameId: dutyPostNameId));
   }
 
   void updateStatus({required String id}) {

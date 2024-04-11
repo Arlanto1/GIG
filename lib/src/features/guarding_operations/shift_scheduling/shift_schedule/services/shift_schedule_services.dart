@@ -17,6 +17,8 @@ class Apis {
 
   static final String _createShiftSchedule = '$baseUrl/createSsGi?';
   static final String _assignGuards = '$baseUrl/assignGuards?';
+  static final String _getNextAvailableDate = '$baseUrl/getNextAvailableDate?';
+
 }
 
 class ShiftScheduleServices {
@@ -129,5 +131,20 @@ class ShiftScheduleServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+
+  Future<NextAvailableDate> getNextAvailableDate({
+    required int locationId,
+    required int vendorId,
+  }) async {
+    String url =
+        '${Apis._getNextAvailableDate}locationId=$locationId&vendorId=$vendorId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return NextAvailableDate.fromJson(response);
+
   }
 }

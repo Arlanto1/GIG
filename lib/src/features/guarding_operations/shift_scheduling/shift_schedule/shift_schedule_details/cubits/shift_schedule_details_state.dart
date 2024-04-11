@@ -14,6 +14,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final List<DutyPostModel>? dutyPosts;
   final SSUiLabels? labels;
   final List<String>? pocs;
+  final NextAvailableDate? availableDate;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -123,6 +124,7 @@ class ShiftScheduleDetailsState extends Equatable {
     required this.vendors,
     this.labels,
     this.pocs,
+    this.availableDate,
   });
 
   ShiftScheduleDetailsState copyWith({
@@ -139,6 +141,7 @@ class ShiftScheduleDetailsState extends Equatable {
     List<DutyPostModel>? dutyPosts,
     final SSUiLabels? labels,
     List<String>? pocs,
+    NextAvailableDate? availableDate,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
@@ -154,6 +157,7 @@ class ShiftScheduleDetailsState extends Equatable {
       dutyPosts: dutyPosts ?? this.dutyPosts,
       labels: labels ?? this.labels,
       pocs: pocs ?? this.pocs,
+      availableDate: availableDate ?? this.availableDate,
     );
   }
 }

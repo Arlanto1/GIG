@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/attendance_duty_post_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
