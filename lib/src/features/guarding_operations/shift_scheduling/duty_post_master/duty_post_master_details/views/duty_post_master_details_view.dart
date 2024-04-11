@@ -343,7 +343,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               totalController.text =
                                   (shiftA + shiftB + shiftC + shiftG)
                                       .toString();
-                              widget.model?.total =
+                              state.model.total =
                                   int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
@@ -377,7 +377,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               totalController.text =
                                   (shiftA + shiftB + shiftC + shiftG)
                                       .toString();
-                              widget.model?.total =
+                              state.model.total =
                                   int.tryParse(totalController.text);
                               context
                                   .read<DutyPostMasterDetailsCubit>()
@@ -411,7 +411,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               totalController.text =
                                   (shiftA + shiftB + shiftC + shiftG)
                                       .toString();
-                              widget.model?.total =
+                              state.model.total =
                                   int.tryParse(totalController.text);
                               // context
                               //     .read<DutyPostMasterDetailsCubit>()
@@ -445,7 +445,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               totalController.text =
                                   (shiftA + shiftB + shiftC + shiftG)
                                       .toString();
-                              widget.model?.total =
+                              state.model.total =
                                   int.tryParse(totalController.text);
                               // context
                               //     .read<DutyPostMasterDetailsCubit>()
