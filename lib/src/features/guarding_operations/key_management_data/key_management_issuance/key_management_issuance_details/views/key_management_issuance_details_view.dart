@@ -146,19 +146,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   }
 
   void initializeDates(KeyManagementIssuanceDetailsState state) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-        DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+    DateTime dateTime;
 
-    if (state.model.keyHandingOverDuration != 1 && DateTime.now().month < 6) {
+    if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
       // Set to July 1st of the current year
       dateTime = DateTime(DateTime.now().year, 7, 1);
-    } else if (state.model.keyHandingOverDuration != 1 &&
+    } else if (state.model.keyHandingOverDuration == 2 &&
         DateTime.now().month > 6) {
       // Set to December 31st of the current year
       dateTime = DateTime(DateTime.now().year, 12, 31);
     } else {
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+      dateTime = DateTime.fromMillisecondsSinceEpoch(
+          DateTime.now().millisecondsSinceEpoch + 42 * 3600 * 1000);
     }
     keyReturnDueDateController.text = Utils.timestampToDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
