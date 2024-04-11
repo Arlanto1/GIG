@@ -118,7 +118,8 @@ class AttendanceDetailsState extends Equatable {
       labels: labels ?? this.labels,
       vendors: vendors ?? this.vendors,
       parentId: parentId ?? this.parentId,
-      selectedDutyPostNameId: selectedDutyPostNameId ?? this.selectedDutyPostNameId,
+      selectedDutyPostNameId:
+          selectedDutyPostNameId ?? this.selectedDutyPostNameId,
     );
   }
 }
