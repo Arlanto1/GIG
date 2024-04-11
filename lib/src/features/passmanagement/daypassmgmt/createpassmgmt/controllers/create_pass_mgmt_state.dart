@@ -15,7 +15,7 @@ enum CreatePassMgmtStateType {
 class CreatePassMgmtState extends Equatable {
   final PassManagementModel model;
   final List<Organisation>? updateStatuses;
-  GetDepositor? getDepositorResponse;
+  List<BaseUser>? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
@@ -135,7 +135,7 @@ class CreatePassMgmtState extends Equatable {
     Organisation? location,
     Organisation? locationRegion,
     SerialNumberModel? serialnumberResponse,
-    GetDepositor? getDepositorResponse,
+    List<BaseUser>? getDepositorResponse,
     BaseUser? getuserResponse,
     List<Organisation>? passTypes,
     bool? showIdentifiedFields,

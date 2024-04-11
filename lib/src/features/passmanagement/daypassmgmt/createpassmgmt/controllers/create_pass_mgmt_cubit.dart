@@ -75,7 +75,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
       emit(
         state.copyWith(
-          getDepositorResponse: getDepositorData,
+          getDepositorResponse: getDepositorData.atomStaticUser,
           // stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -1028,6 +1028,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         stateType: CreatePassMgmtStateType.initial,
         // users: users.t1Analyst,
          emailUsers: emailUsers,
+          getDepositorResponse: emailUsers,
         // departments: departments.employeeDepartments,
       ),
     );

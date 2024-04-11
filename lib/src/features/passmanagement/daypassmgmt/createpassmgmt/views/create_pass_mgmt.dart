@@ -3006,8 +3006,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             //duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            duplicateDepostorList:
-                state.getDepositorResponse?.atomStaticUser ?? [],
+            duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -3040,7 +3039,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
-          users: state.emailUsers!,
+          users: state.getDepositorResponse!,
           roleName: 'ATOM_STATIC_USER',
           functionToCall: () {
             BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
@@ -3075,7 +3074,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateDepostorList: state.getDepositorResponse?.atomStaticUser ??
+            duplicateDepostorList: state.getDepositorResponse ??
                 [], //state.analyst?.t1Analyst ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
@@ -3138,8 +3137,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             //duplicatet1Analyst:
-            duplicateDepostorList: state.getDepositorResponse?.atomStaticUser ??
-                [], //state.analyst?.t1Analyst ?? [],
+            duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
