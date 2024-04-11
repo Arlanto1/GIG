@@ -127,7 +127,7 @@ class _KeyHistoryRecordsDetailsViewState
                     state.model.status == null) &&
                 (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
                 (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName)));
+                    .equalsIgnoreCase(state.model.createdBy?.userName))) || ((state.model.status == null || state.model.status == ConstantsIntValue.created)  && widget.type == ConstantsIntValue.keyLostHistoryInt);
 
         showLikeDisLikeButtons =
             (state.model.status == ConstantsIntValue.destroyInitiated &&
