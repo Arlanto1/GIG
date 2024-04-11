@@ -45,6 +45,7 @@ class CreatePassMgmtState extends Equatable {
   VendorPassReason? vendorPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
+  final List<BaseUser>? emailUsers;
   User? t1hostanalyst;
   User? t1dbsponsoranalyst;
   Organisation? selectedPassInfo;
@@ -110,6 +111,7 @@ class CreatePassMgmtState extends Equatable {
     this.dbsponsorResponse,
     this.nameResponse,
     this.labels,
+    this.emailUsers,
   });
 
   factory CreatePassMgmtState.initial({
@@ -169,6 +171,7 @@ class CreatePassMgmtState extends Equatable {
     String? passValidUntilDate,
     List<Organisation>? updateStatuses,
     PMUiLabels? labels,
+    List<BaseUser>? emailUsers,
   }) {
     return CreatePassMgmtState(
       model: model ?? this.model,
@@ -227,6 +230,7 @@ class CreatePassMgmtState extends Equatable {
       nameResponse: nameResponse ?? this.nameResponse,
       passValidUntilDate: passValidUntilDate ?? this.passValidUntilDate,
       labels: labels ?? this.labels,
+      emailUsers: emailUsers ?? this.emailUsers,
     );
   }
 
@@ -274,5 +278,6 @@ class CreatePassMgmtState extends Equatable {
         dbsponsorResponse,
         nameResponse,
         labels,
+        emailUsers,
       ];
 }

@@ -3019,7 +3019,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
-          users: state.getDepositorResponse?.atomStaticUser!,
+          users: state.emailUsers!,
+            roleName: 'ATOM_STATIC_USER',
             functionToCall: (){
               BlocProvider.of<
                   CreatePassMgmtCubit>(

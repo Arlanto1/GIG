@@ -1014,30 +1014,23 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> refreshList() async {
-    // emit(state.copyWith(status: FormStatus.loading));
-    // List<Organisation>? entities =
-    // await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    //
-    // Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    // EmployeeDepartments departments =
-    // await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    // GetDepositor emailUsers =
-    // await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-    // List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-    //     roleNames: 'ATOM_Sub_Regional_Head');
-    // List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-    //     roleNames: 'ATOM_Senior_Security_Manager');
-    // emit(
-    //   state.copyWith(
-    //     getEntitiesResponse: entities,
-    //     listOfEntities: entities,
-    //     status: FormStatus.initial,
-    //     users: users.t1Analyst,
-    //     srh: srh,
-    //     lsm: lsm,
-    //     emailUsers: emailUsers.atomStaticUser,
-    //     departments: departments.employeeDepartments,
-    //   ),
-    // );
+    emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    EmployeeDepartments departments =
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    List<BaseUser> emailUsers =
+    await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+
+    emit(
+      state.copyWith(
+        // getEntitiesResponse: entities,
+        // listOfEntities: entities,
+        stateType: CreatePassMgmtStateType.initial,
+        // users: users.t1Analyst,
+         emailUsers: emailUsers,
+        // departments: departments.employeeDepartments,
+      ),
+    );
   }
 }
