@@ -153,6 +153,15 @@ class SLAViolationPenaltyDetailsCubit
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
+      if (location != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location!.id.toString(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModule,
+        );
+        state.model.location = location;
+        state.model.slNo = slNo.serialNo;
+      }
+
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {

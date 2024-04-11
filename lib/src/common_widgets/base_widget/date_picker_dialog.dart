@@ -109,31 +109,30 @@ class BaseDate {
     DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
     log('-startDate---$startDate-');
     log('--minTime-1-$minTime--');
-    // if (!startDate.isEmptyOrNull) {
-    //   minTime = DateTime.fromMillisecondsSinceEpoch(
-    //       (startDate.toIntOrNull()! * 1000));
-    // }
 
     if (!startDate.isEmptyOrNull) {
       log('-startDate-@@-${startDate.toString()}-is not empty-');
-      // Parse the startDate as an int and convert it to milliseconds
-      int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
-      log('-millisecondsSinceEpoch---${millisecondsSinceEpoch.toString()}-');
+      if (startDate!.contains('-')) {
+         minTime = DateTime.parse(startDate);
+      } else {
+        // Parse the startDate as an int and convert it to milliseconds
+        int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
+        log('-millisecondsSinceEpoch---${millisecondsSinceEpoch.toString()}-');
 
-      // Check if the parsed value is valid
-      if (millisecondsSinceEpoch > 0) {
-        // Convert milliseconds since epoch to DateTime
-        minTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch * 1000);
-        log('-minTime---${minTime.toString()}-');
+        // Check if the parsed value is valid
+        if (millisecondsSinceEpoch > 0) {
+          // Convert milliseconds since epoch to DateTime
+          minTime = DateTime.fromMillisecondsSinceEpoch(
+              millisecondsSinceEpoch * 1000);
+          log('-minTime---${minTime.toString()}-');
 
-        log('-startDate---currentTime--${currentTime.toString()}-----minTime${minTime.toString()}');
+          log('-startDate---currentTime--${currentTime.toString()}-----minTime${minTime.toString()}');
 
-        // Ensure minTime is not before the current time
-        minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
+          // Ensure minTime is not before the current time
+          minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
+        }
       }
     }
-
-    log('--minTime-2-$minTime--');
 
     log('-onlyDate---$onlyDate-');
     if (onlyDate) {
