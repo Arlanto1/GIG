@@ -3020,7 +3020,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         BaseOrganisationDialog().userDialog(
           context: context,
           users: state.emailUsers!,
-            roleName: 'ATOM_STATIC_USER',
+          roleName: 'ATOM_STATIC_USER',
             functionToCall: (){
               BlocProvider.of<
                   CreatePassMgmtCubit>(

@@ -1021,7 +1021,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers =
     await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
-
     emit(
       state.copyWith(
         // getEntitiesResponse: entities,
