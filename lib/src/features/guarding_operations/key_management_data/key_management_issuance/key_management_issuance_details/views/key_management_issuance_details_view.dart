@@ -152,16 +152,23 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
       // Set to July 1st of the current year
       dateTime = DateTime(DateTime.now().year, 6, 30);
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
     } else if (state.model.keyHandingOverDuration == 2 &&
         DateTime.now().month > 6) {
       // Set to December 31st of the current year
       dateTime = DateTime(DateTime.now().year, 12, 31);
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
     } else {
       dateTime = DateTime.fromMillisecondsSinceEpoch(
           DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
     }
-    keyReturnDueDateController.text = Utils.timestampToDateConversion(
-        dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+
+    state.model.keyHandOverDue =
+        Utils().formatTime(keyReturnDueDateController.text);
 
     if (state.model.keyReturnDateTime != null) {
       keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
@@ -414,10 +421,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0 ||
-                                    state.model.status != null ? true : false,
+                                        state.model.status != null
+                                    ? true
+                                    : false,
                                 textController:
                                     keyHandlingOverDurationController,
-                                items: keyHandingOverDuration,
+                                items: keyHandingOverDurationValues,
                                 initialValue:
                                     '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
@@ -425,13 +434,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
-                                        dropDownValues: keyHandingOverDuration
-                                            .map((label) => label.key)
-                                            .toList(),
+                                        dropDownValues:
+                                            keyHandingOverDurationValues
+                                                .map((label) => label.key)
+                                                .toList(),
                                         onTap: (String value) {
                                           Label? selectedLabel;
                                           selectedLabel =
-                                              keyHandingOverDuration.firstWhere(
+                                              keyHandingOverDurationValues
+                                                  .firstWhere(
                                             (label) => label.key == value,
                                             orElse: () =>
                                                 const Label(key: '', value: ''),

@@ -186,7 +186,7 @@ const List<Label> employeeTypeDropDownValues = [
   Label(key: 'CWR T2', value: '3'),
 ];
 
-const List<Label> keyHandingOverDuration = [
+const List<Label> keyHandingOverDurationValues = [
   Label(key: 'Daily', value: '1'),
   Label(key: 'More than One Day', value: '2'),
 ];

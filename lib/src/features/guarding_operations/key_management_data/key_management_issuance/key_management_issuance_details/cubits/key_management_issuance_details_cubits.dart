@@ -114,11 +114,13 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model?.createdDate ?? '0'),
               Constants.fulldateFormat);
-      if(state.model.status== 1) { state.model.keyHandOverDate = state.model.keyHandOverDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.keyHandOverDate ?? '0'),
-          Constants.fulldateFormat);}
+      if (state.model.status == 1) {
+        state.model.keyHandOverDate = state.model.keyHandOverDate == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+                int.tryParse(state.model?.keyHandOverDate ?? '0'),
+                Constants.fulldateFormat);
+      }
 
       // state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
@@ -177,7 +179,7 @@ class KeyManagementIssuanceDetailsCubit
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration ??= 1;
+    state.model.keyHandingOverDuration = keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -244,14 +246,17 @@ class KeyManagementIssuanceDetailsCubit
         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
     state.model.createdDate = inputDate.toString();
-    if(state.model.status == 1){
+    if (state.model.status == 1) {
       state.model.keyHandOverDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
-    if(state.model.status == 1){
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    }
+    if (state.model.status == 1) {
       state.model.keyReturnDateTime =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    }
+    if(state.model.keyHandOverDue == null){
     state.model.keyHandOverDue =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
@@ -323,8 +328,8 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.keyHandOverDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model?.keyHandOverDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
