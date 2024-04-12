@@ -879,7 +879,7 @@ class NavigationDrawer1 extends StatelessWidget {
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
-        message: Constants.logoutvalidation,
+        message: Constants.logoutValidation,
         onPositivePressed: () {
           InactivityFunctions().logoutUser(navigatorKey);
         },
