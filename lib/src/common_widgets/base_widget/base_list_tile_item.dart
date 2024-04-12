@@ -42,6 +42,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
   final bool isAttendanceStatus;
+  final bool? showDutyPostEditButton;
 
   const BaseListTileItem({
     super.key,
@@ -84,6 +85,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
     this.vendors,
+    this.showDutyPostEditButton =false,
   });
 
   @override
@@ -353,36 +355,46 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           : null;
                     },
                     icon: (widget.isMaterialMovementStatus &&
-                                (widget.status == 10 || widget.status == -1)) ||
-                            (widget.isSLAViolationStatus &&
-                                (widget.status == 2 || widget.status == -1)) ||
-                            (widget.isContactDetailsStatus &&
-                                widget.status == -1) ||
-                            (widget.isKeyManagementStatus &&
-                                (widget.status == -1 || widget.status == 2)) ||
-                            (widget.isKeyManagementIssuanceStatus &&
-                                widget.status == 2) ||
-                            (widget.isEventProtectionStatus &&
-                                (widget.status != 0)) ||
-                            (widget.isDutyPostNameMasterStatus &&
-                                widget.status == -1) ||
-                            (widget.isShiftScheduleStatus &&
-                                widget.status == -1) ||
-                            (widget.isIncident &&
-                                widget.status != 0) ||
-                            (widget.isMasterGuard &&
-                                (widget.status != 1 ||
-                                    widget.status != 2 ||
-                                    widget.status != 3 ||
-                                    widget.status != 4)) ||
-                            (widget.isVipStatus && (widget.status != 0)||
-                                (widget.isOccurrenceStatus &&
-                                    widget.status == 1))||(widget.isKeyManagementIssuanceStatus &&
-    widget.status != 0 && widget.status != 1) ||( widget.isKeyManagementHistoryStatus && (widget.status == 10 || widget.status==11)||
-    ( widget.isSecuritySystemSLA && (widget.status != 1 || widget.status!=null))
-    )
+                        (widget.status == 10 || widget.status == -1)) ||
+                        (widget.isSLAViolationStatus &&
+                            (widget.status == 2 || widget.status == -1)) ||
+                        (widget.isContactDetailsStatus &&
+                            widget.status == -1) ||
+                        (widget.isKeyManagementStatus &&
+                            (widget.status == -1 || widget.status == 2)) ||
+                        (widget.isKeyManagementIssuanceStatus &&
+                            widget.status == 2) ||
+                        (widget.isEventProtectionStatus &&
+                            (widget.status != 0)) ||
+                        (widget.isDutyPostNameMasterStatus &&
+                            widget.status == -1) ||
+                        (widget.isShiftScheduleStatus &&
+                            widget.status == -1) ||
+                        (widget.isIncident &&
+                            widget.status != 0) ||
+                        (widget.isMasterGuard &&
+                            (widget.status != 1 ||
+                                widget.status != 2 ||
+                                widget.status != 3 ||
+                                widget.status != 4)) ||
+                        (widget.isVipStatus && (widget.status != 0)||
+                            (widget.isOccurrenceStatus &&
+                                widget.status == 1))||(widget.isKeyManagementIssuanceStatus &&
+                        widget.status != 0 && widget.status != 1)
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
+                  ),
+                ],
+                if (widget.showDutyPostEditButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      //do action on view
+                      widget.onEditTap != null
+                          ? widget.onEditTap!(widget.index)
+                          : null;
+                    },
+                    icon:
+                    const Icon(Icons.edit),
                   ),
                 ],
                 IconButton(
@@ -402,7 +414,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onDeleteTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.delete),
+                    icon: const Icon(Icons.delete) ,
                   ),
                 ],
               ],
@@ -414,6 +426,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
 
     return widgets;
   }
+
 
   Widget getLabelWidgets(List<Label>? labels) {
     List<Widget> widgets = [];

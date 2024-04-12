@@ -114,11 +114,11 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model?.createdDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.keyHandOverDate = state.model.keyHandOverDate == null
+      if(state.model.status== 1) { state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model?.keyHandOverDate ?? '0'),
-          Constants.fulldateFormat);
+          Constants.fulldateFormat);}
 
       // state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
@@ -177,8 +177,7 @@ class KeyManagementIssuanceDetailsCubit
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration =
-        keyHandingOverDuration ??1;
+    state.model.keyHandingOverDuration ??= 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -245,8 +244,9 @@ class KeyManagementIssuanceDetailsCubit
         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
     state.model.createdDate = inputDate.toString();
-    state.model.keyHandOverDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    if(state.model.status == 1){
+      state.model.keyHandOverDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
     if(state.model.status == 1){
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}

@@ -158,7 +158,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       dateTime = DateTime(DateTime.now().year, 12, 31);
     } else {
       dateTime = DateTime.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch + 42 * 3600 * 1000);
+          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
     }
     keyReturnDueDateController.text = Utils.timestampToDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);

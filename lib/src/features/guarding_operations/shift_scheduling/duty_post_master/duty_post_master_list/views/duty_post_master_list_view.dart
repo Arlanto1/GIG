@@ -226,7 +226,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                 onEditTap: (selectedIndex) {
                                   getById(state.list[index].id ?? 0);
                                 },
-                                showEditButton: true,
+                          showDutyPostEditButton: true,
+                          showEditButton: false,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
