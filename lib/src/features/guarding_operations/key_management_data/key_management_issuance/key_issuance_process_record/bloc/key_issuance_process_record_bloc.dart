@@ -44,7 +44,7 @@ class KeyIssuanceProcessRecordBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          moduleCode: Constants.keyManagementIssuanceModule);
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       return emit(
