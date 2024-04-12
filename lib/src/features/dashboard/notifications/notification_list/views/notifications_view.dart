@@ -53,8 +53,17 @@ class _NotificationsViewState extends State<NotificationsView> {
   }
 
   void deleteAllNotification() {
-    BlocProvider.of<nb.NotificationsBloc>(context)
-        .add(const nb.DeleteAllRecords());
+    var dialog = CustomAlertDialog(
+        title: Constants.logout,
+        message: Constants.deleteAllNotificationWarningMessage,
+        onPositivePressed: () {
+          BlocProvider.of<nb.NotificationsBloc>(context)
+              .add(const nb.DeleteAllRecords());
+          Navigator.pop(context);
+        },
+        positiveBtnText: Constants.yes,
+        negativeBtnText: Constants.no);
+    showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
   void _onRefresh() async {

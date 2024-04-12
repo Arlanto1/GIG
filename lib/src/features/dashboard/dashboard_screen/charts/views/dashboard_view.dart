@@ -156,7 +156,7 @@ class DashboardViewState extends State<DashboardView>
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
-        message: Constants.logoutvalidation,
+        message: Constants.logoutValidation,
         onPositivePressed: () {
           Validator.logoutAction(context);
         },

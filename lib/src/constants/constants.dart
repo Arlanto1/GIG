@@ -80,7 +80,7 @@ class Constants {
   static const String enterValidEmail = 'Please enter valid email';
 
   static const String invalidusername = 'Invalid username';
-  static const String logoutvalidation =
+  static const String logoutValidation =
       "Are you  sure, do you want to logout?";
 
   // Sharedpreferences keys
@@ -167,6 +167,7 @@ class Constants {
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
+  static const String deleteAllNotificationWarningMessage = 'Are you sure, do you want to delete all notifications';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
   static const String lawEnforcementVisitsByEntity =
