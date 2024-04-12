@@ -233,6 +233,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
+                showDeleteButton : widget.parentStatus ==0 || widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<KeyIssuanceProcessRecordBloc>(context)
