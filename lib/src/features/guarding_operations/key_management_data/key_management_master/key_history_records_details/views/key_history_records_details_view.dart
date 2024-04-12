@@ -98,7 +98,6 @@ class _KeyHistoryRecordsDetailsViewState
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = (state.model.status == null ||
-                state.model.status == ConstantsIntValue.damagedInitiated ||
                 state.model.status == ConstantsIntValue.destroyRejected ||
                 state.model.status == ConstantsIntValue.destroyApproved ||
                 (state.model.status == ConstantsIntValue.destroyInitiated &&
@@ -108,8 +107,8 @@ class _KeyHistoryRecordsDetailsViewState
             state.model.status == ConstantsIntValue.lockChangeInitiated) &&
                 (widget.type == ConstantsIntValue.lockChangeHistoryInt) && (state.loggedInUserDetails!.userName
                 .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-            ((state.model.status != ConstantsIntValue.created ||
-                    state.model.status != null) &&
+            ((state.model.status == ConstantsIntValue.created ||
+                    state.model.status == null) &&
                 (widget.type == ConstantsIntValue.keyDamageHistoryInt ) &&
                 state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.createdBy?.userName)) ||
@@ -118,16 +117,21 @@ class _KeyHistoryRecordsDetailsViewState
                 (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
                 (state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-            ((state.model.status == ConstantsIntValue.lostInitiated ||
+            ((state.model.status == ConstantsIntValue.damagedApproved ||
+                state.model.status == ConstantsIntValue.damagedInitiated||
+                state.model.status == ConstantsIntValue.lostInitiated ||
                 state.model.status == ConstantsIntValue.lostApproved) &&
-                (widget.type == ConstantsIntValue.keyLostHistoryInt||widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
+                (widget.type == ConstantsIntValue.keyLostHistoryInt||
+                    widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
                 (state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.srh?.userName)))||
             ((state.model.status == ConstantsIntValue.created ||
                     state.model.status == null) &&
                 (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
                 (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))) || ((state.model.status == null || state.model.status == ConstantsIntValue.created)  && widget.type == ConstantsIntValue.keyLostHistoryInt);
+                    .equalsIgnoreCase(state.model.createdBy?.userName))) ||
+            ((state.model.status == null || state.model.status == ConstantsIntValue.created)
+                && widget.type == ConstantsIntValue.keyLostHistoryInt);
 
         showLikeDisLikeButtons =
             (state.model.status == ConstantsIntValue.destroyInitiated &&
