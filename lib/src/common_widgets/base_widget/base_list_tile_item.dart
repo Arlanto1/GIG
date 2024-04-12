@@ -42,6 +42,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
   final bool isAttendanceStatus;
+  final bool? showDutyPostEditButton;
 
   const BaseListTileItem({
     super.key,
@@ -84,6 +85,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
     this.vendors,
+    this.showDutyPostEditButton =false,
   });
 
   @override
@@ -381,6 +383,18 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         widget.status != 0 && widget.status != 1)
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
+                  ),
+                ],
+                if (widget.showDutyPostEditButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      //do action on view
+                      widget.onEditTap != null
+                          ? widget.onEditTap!(widget.index)
+                          : null;
+                    },
+                    icon:
+                    const Icon(Icons.edit),
                   ),
                 ],
                 IconButton(
