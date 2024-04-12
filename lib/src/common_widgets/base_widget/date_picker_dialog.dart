@@ -113,7 +113,7 @@ class BaseDate {
     if (!startDate.isEmptyOrNull) {
       log('-startDate-@@-${startDate.toString()}-is not empty-');
       if (startDate!.contains('-')) {
-         minTime = DateTime.parse(startDate);
+        minTime = DateTime.parse(startDate);
       } else {
         // Parse the startDate as an int and convert it to milliseconds
         int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
@@ -156,6 +156,7 @@ class BaseDate {
         locale: LocaleType.en,
       );
     } else {
+      log('--else@@@@@@--');
       // Ensure minTime is set to the current time if showPastDate is false
       // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
 
@@ -166,7 +167,8 @@ class BaseDate {
       // I want to show minTime as some date in future based on startDate parameter
       // showDatePicker is working fine with same logic
       // Using package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart
-      DatePicker.showDateTimePicker(
+
+      DatePicker.showDatePicker(
         context,
         showTitleActions: true,
         minTime: minTime,
@@ -177,15 +179,37 @@ class BaseDate {
         },
         onConfirm: (date) {
           pickedDate = date;
-          log('--pickedDate--confirm---$pickedDate--');
-
+          log('confirm $date');
           if (pickedDate != null) {
+            showTimePicker(context);
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
         currentTime: currentTime,
         locale: LocaleType.en,
       );
+
+
+      // DatePicker.showDateTimePicker(
+      //   context,
+      //   showTitleActions: true,
+      //   minTime: minTime,
+      //   maxTime: maxTime,
+      //   onChanged: (date) {
+      //     pickedDate = date;
+      //     log('change $date');
+      //   },
+      //   onConfirm: (date) {
+      //     pickedDate = date;
+      //     log('--pickedDate--confirm---$pickedDate--');
+      //
+      //     if (pickedDate != null) {
+      //       return setDateTime(pickedDate!, onlyDate, textController, onChange);
+      //     }
+      //   },
+      //   currentTime: currentTime,
+      //   locale: LocaleType.en,
+      // );
     }
 
     if (pickedDate != null) {
@@ -194,6 +218,16 @@ class BaseDate {
       // Handle the case where the user cancels the picker
       return ''; // You can modify the return value accordingly
     }
+  }
+
+  void showTimePicker(BuildContext context) {
+    DatePicker.showTimePicker(
+      context,
+      showSecondsColumn: false,
+      showTitleActions: true,
+      onChanged: (time) {},
+      onConfirm: (time) {},
+    );
   }
 
   String setDateTime(DateTime? pickedDate, bool onlyDate,

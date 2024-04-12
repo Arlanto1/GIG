@@ -332,11 +332,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   log('---value-$value------');
                                   state.model.eventStartDate =
                                       Utils().formatTime(value);
+                                  log('---Utils().formatTime(value)-${Utils().formatTime(value)}------');
                                   log('---value11-${state.model.eventStartDate}------');
                                   BlocProvider.of<
                                               AnnualPowerShutdownListDetailsCubit>(
                                           context)
-                                      .onModelValueChange(state.model);
+                                      .onCheckBoxChange(state.model);
                                 },
                                 context: context,
                               ),
@@ -357,6 +358,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 textController: eventEndDateController,
                                 //onlyDate: false,
                                 showPastDate: false,
+                                startDate: state.model.eventStartDate,
                                 onChange: (String value) {
                                   state.model.eventEndDate =
                                       Utils().formatTime(value);
