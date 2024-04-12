@@ -163,6 +163,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     keyReturnDueDateController.text = Utils.timestampToDateConversion(
         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
 
+    // TODO: fix the below line
+    // state.model.keyHandOverDue = Utils().formatTime(dateTimeString);
+
     if (state.model.keyReturnDateTime != null) {
       keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyReturnDateTime ?? '0'),
@@ -417,7 +420,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     state.model.status != null ? true : false,
                                 textController:
                                     keyHandlingOverDurationController,
-                                items: keyHandingOverDuration,
+                                items: keyHandingOverDurationValues,
                                 initialValue:
                                     '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
@@ -425,13 +428,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       state.model.status == null) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
-                                        dropDownValues: keyHandingOverDuration
+                                        dropDownValues: keyHandingOverDurationValues
                                             .map((label) => label.key)
                                             .toList(),
                                         onTap: (String value) {
                                           Label? selectedLabel;
                                           selectedLabel =
-                                              keyHandingOverDuration.firstWhere(
+                                              keyHandingOverDurationValues.firstWhere(
                                             (label) => label.key == value,
                                             orElse: () =>
                                                 const Label(key: '', value: ''),
