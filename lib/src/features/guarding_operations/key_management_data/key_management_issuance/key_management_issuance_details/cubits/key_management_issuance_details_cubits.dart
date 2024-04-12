@@ -179,22 +179,7 @@ class KeyManagementIssuanceDetailsCubit
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration ??= 1;
-
-    if(state.model.keyHandingOverDuration == null || state.model.keyHandingOverDuration == 1) {
-      state.model.keyHandingOverDuration = 1;
-      // TODO: fix the below line
-      // state.model.keyHandOverDue = Utils().formatTime(dateTimeString);
-
-    } else {
-      state.model.keyHandingOverDuration = 2;
-      // TODO: fix the below line
-      // state.model.keyHandOverDue = Utils().formatTime(dateTimeString);
-
-
-
-    }
-
+    state.model.keyHandingOverDuration = keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -269,8 +254,9 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
+    if(state.model.keyHandOverDue == null){
     state.model.keyHandOverDue =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
