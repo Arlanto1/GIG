@@ -384,6 +384,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -398,6 +403,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         ));
       } else {
         if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.inputDate ?? '0'),
+              Constants.fulldateFormat);
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
@@ -422,8 +432,18 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
