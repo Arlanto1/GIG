@@ -109,11 +109,28 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
+        if (!isFormValid.status) {
+          Validator().showToast(
+            context,
+            isFormValid.message,
+          );
+          return;
+        }
         widget.model?.poc = pocController.text;
         BlocProvider.of<ShiftScheduleDetailsCubit>(widget.mainContext)
             .onAddPOC(pocController.text);
         Navigator.pop(context);
       },
     );
+  }
+  ErrorResponse get isFormValid {
+    if (!pocController.text.isEmptyOrNull &&
+        !Validator.isValidEmail(pocController.text)) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Valid POC Email');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
