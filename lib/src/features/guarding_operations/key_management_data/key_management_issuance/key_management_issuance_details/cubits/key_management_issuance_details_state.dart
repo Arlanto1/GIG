@@ -165,6 +165,10 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Returned By Name');
     }
+    if (model.id == null ) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Issuance process');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
