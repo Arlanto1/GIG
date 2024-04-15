@@ -27,6 +27,7 @@ class BaseListTileItem extends StatefulWidget {
   final int? index;
   final bool? showEditButton;
   final bool? showDeleteButton;
+  final bool? showEmailButton;
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
   final bool isEventProtectionStatus;
@@ -87,7 +88,8 @@ class BaseListTileItem extends StatefulWidget {
     this.isAttendanceStatus = false,
     this.vendors,
     this.showDutyPostEditButton =false,
-    this.showDeleteButton = true
+    this.showDeleteButton = true,
+    this.showEmailButton = false,
   });
 
   @override
@@ -382,7 +384,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         (widget.isVipStatus && (widget.status != 0)||
                             (widget.isOccurrenceStatus &&
                                 widget.status == 1))||(widget.isKeyManagementIssuanceStatus &&
-                        widget.status != 0 && widget.status != 1)
+                        widget.status != 0 && widget.status != 1) ||  (widget.isKeyManagementHistoryStatus && (widget.status == 10 ||widget.status == 11))
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
@@ -408,6 +410,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   },
                   icon: const Icon(Icons.remove_red_eye),
                 ),
+                if (widget.showEmailButton ?? true) ...[
+                    IconButton(
+                      onPressed: () {
+                      },
+                      icon: const Icon(Icons.email) ,
+                    ),
+                 ],
     if (widget.showDeleteButton ?? true) ...[
     if (widget.onDeleteTap != null) ...[
                   IconButton(
