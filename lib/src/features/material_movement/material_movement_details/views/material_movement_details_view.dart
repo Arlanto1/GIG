@@ -2015,7 +2015,6 @@ class _MaterialMovementDetailsViewState
                                       height * 0.01),
                                 ],
                               ),
-                              if (!state.model.originalReceiver) ...[],
 
                               /// Received for Employee Id
                               CommonWidgets.textDisplay(
@@ -2099,6 +2098,37 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Received for Employee Id
+                            CommonWidgets.textDisplay(
+                              !state.model.originalReceiver
+                                  ? state.labels?.locale.receiverEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .receiverEmployeeId ??
+                                      Constants.receivedForEmployeeId
+                                  : state.labels?.locale
+                                          .otherReceiverEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .otherReceiverEmployeeId ??
+                                      Constants.receiverEmployeeId,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            FlutterInputField(
+                              initialValue: state.model.receiverEmployeeId,
+                              textFormKey: Keys.claimantEmpIdTextController,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              hintText: '',
+                              onChange: (String value) {
+                                state.model.receiverEmployeeId = value;
+                                context
+                                    .read<MaterialMovementDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (state.model.originalReceiver) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
@@ -2178,35 +2208,36 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
+
+                              /// Received by Employee Id
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.otherReceiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .otherReceiverEmployeeId ??
+                                    Constants.receiverEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+
+                              FlutterInputField(
+                                initialValue: state.model.requestorEmployeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.otherReceiverEmployeeId = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Received by Employee Id
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.otherReceiverEmployeeId ??
-                                  state.labels?.defaultLocale
-                                      .otherReceiverEmployeeId ??
-                                  Constants.receiverEmployeeId,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-
-                            FlutterInputField(
-                              initialValue: state.model.otherReceiverEmployeeId,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.otherReceiverEmployeeId = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             //],
 
                             /// Receiver Signature test
