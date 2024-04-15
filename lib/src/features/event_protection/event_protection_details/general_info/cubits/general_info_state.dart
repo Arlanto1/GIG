@@ -100,27 +100,53 @@ class GeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Event End Date');
     }
+    if (model.epManager1 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event Protection Manager 1');
+    }
+    if (model.epManager2 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event Protection Manager 2');
+    }
 
     if (model.lsm1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 1');
+          status: false, message: 'Please enter Location Security Manager 1');
+    }
+    if (model.lsm1ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter LSM 1 Contact No');
     }
 
     if (model.lsm2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 2');
+          status: false, message: 'Please enter Location Security Manager 2');
+    }
+
+    if (model.lsm2ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter LSM 2 Contact No');
     }
 
     if (model.bu1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC');
+          status: false, message: 'Please enter Business POC');
     }
 
+    if (model.bu1ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Business POC Contact No');
+    }
     if (model.bu2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC Escalation');
+          status: false, message: 'Please enter Business POC Escalation');
     }
 
+    if (model.bu2ContactNo == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Business POC Escalation Contact No');
+    }
     if (model.requesterDepartment == null) {
       return const ErrorResponse(
           status: false, message: 'Enter Requester Department');

@@ -117,10 +117,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-      state.model.inputDate = state.model.inputDate == null
+    model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(model?.inputDate ?? '0'),
               Constants.fulldateFormat);
       // model.inputDate = Utils().getCurrentDate();
       // model.inputDate = model.inputDate == null
