@@ -98,71 +98,142 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           status: false, message: 'Please enter Event End Date');
     }
 
+    if (model.srh1 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sub Regional Head(SRH) 1');
+    }
+
+    if (model.srh2 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sub Regional Head(SRH) 2');
+    }
     if (model.lsm1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 1');
+          status: false, message: 'Please enter Location Security Manager 1');
+    }
+    if (model.lsm1ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter LSM 1 Contact No');
     }
 
     if (model.lsm2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 2');
+          status: false, message: 'Please enter Location Security Manager 2');
     }
 
+    if (model.lsm2ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter LSM 2 Contact No');
+    }
     if (model.bu1 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC');
+          status: false, message: 'Please enter Business POC');
+    }
+    if (model.bu1ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Business POC Contact No');
     }
 
     if (model.bu2 == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC');
+          status: false, message: 'Please enter  Business POC Escalation');
+    }
+    if (model.bu2ContactNo == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Business POC Escalation Contact No');
     }
 
+    if (model.bu1Dept == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Business POC Department');
+    }
+
+    if (model.bu2Dept == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Business POC Escalation Department');
+    }
+
+    if (model.systemVendor1 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter System Vendor 1 Email');
+    }
+
+    if (model.systemVendor1 != null &&
+        !Validator.isValidEmail(model.systemVendor1)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid System Vendor 1 Email');
+    }
+
+    if (model.systemVendor1ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Vendor 1 Contact');
+    }
+    if (model.systemVendor2 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter System Vendor 2 Email');
+    }
+
+    if (model.systemVendor2 != null &&
+        !Validator.isValidEmail(model.systemVendor2)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid System Vendor 2 Email');
+    }
+    if (model.systemVendor2ContactNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Vendor 2 Contact');
+    }
+    if (model.systemVendor3 != null &&
+        !Validator.isValidEmail(model.systemVendor3)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid System Vendor 3 Email');
+    }
     if (model.requesterDepartment == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Requester Department');
+          status: false, message: 'Please enter Requester Department');
     }
     if (model.extraSecurityDeployed == true && model.vendorId == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Guarding Vendor ID');
+          status: false, message: 'Please enter Guarding Vendor ID');
     }
     if (model.extraSecurityDeployed == true &&
         model.guardingVendorPoc == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Guarding Agency POC');
+          status: false, message: 'Please enter Guarding Agency POC');
     }
     if (model.extraSecurityDeployed == true &&
         model.securityOfficerCount == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter No. Of Security Officers');
+          status: false, message: 'Please enter No. Of Security Officers');
     }
     if (model.extraSecurityDeployed == true &&
         model.securityOfficerCountHrs == null) {
       return const ErrorResponse(
           status: false,
-          message: 'Enter Total Duty Hours for Security Officers');
+          message: 'Please enter Total Duty Hours for Security Officers');
     }
     if (model.extraSecurityDeployed == true &&
         model.securitySupervisorCount == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter No. Of Security Supervisor');
+          status: false, message: 'Please enter No. Of Security Supervisor');
     }
     if (model.extraSecurityDeployed == true &&
         model.securitySupervisorCountHrs == null) {
       return const ErrorResponse(
           status: false,
-          message: 'Enter Total Duty Hours for Security Supervisor');
+          message: 'Please enter Total Duty Hours for Security Supervisor');
     }
     if (model.extraSecurityDeployed == true &&
         model.securityGuardCount == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter No. Of Security Facilitators');
+          status: false, message: 'Please enter No. Of Security Facilitators');
     }
     if (model.extraSecurityDeployed == true &&
         model.securityGuardCountHrs == null) {
       return const ErrorResponse(
           status: false,
-          message: 'Enter Total Duty Hours for Security Facilitators');
+          message: 'Please enter Total Duty Hours for Security Facilitators');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
