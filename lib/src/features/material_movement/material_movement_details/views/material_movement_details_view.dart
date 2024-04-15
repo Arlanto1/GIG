@@ -47,6 +47,7 @@ class _MaterialMovementDetailsViewState
       TextEditingController();
 
   final FocusNode requestorEmployeeIdFocusNode = FocusNode();
+  final FocusNode receivedForEmployeeIdFocusNode = FocusNode();
   final FocusNode sentToFocusNode = FocusNode();
   final FocusNode receivedByFocusNode = FocusNode();
 
@@ -2000,6 +2001,8 @@ class _MaterialMovementDetailsViewState
                                                       context)
                                                   .updateDropdownValues(
                                                       receiverEmailUser: user);
+                                              FocusScope.of(context)
+                                                  .requestFocus(receivedForEmployeeIdFocusNode);
                                             },
                                             functionToCall: () {
                                               // refresh the list
@@ -2031,6 +2034,7 @@ class _MaterialMovementDetailsViewState
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
+                                focusNode: receivedForEmployeeIdFocusNode,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.receiverEmployeeId = value;
@@ -2756,7 +2760,6 @@ class _MaterialMovementDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-
         BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
           receiverSignatureController: receiverSignatureController,
           securitySignatureController: securitySignatureController,
