@@ -840,6 +840,16 @@ class _KeyHistoryRecordsDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
+                        if(state.model.status == ConstantsIntValue.destroyRejected)...[
+                        /// Rejection Comment
+                        CommonWidgets.horizentaltextHandling(
+                            state.labels?.locale.statusDestroyReject ??
+                                state.labels?.defaultLocale.statusDestroyReject ??
+                                Constants.rejectionComment,
+                            isMandatory: true,
+                            '${state.model.comment}'),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ],
                         if (state.model.id != null) ...[
                           /// Modified By
                           CommonWidgets.horizentaltextHandling(
