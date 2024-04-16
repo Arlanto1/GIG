@@ -115,7 +115,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
-
+      state.model.incidentType ??= 0;
       // Get Date of Creation
     model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
@@ -210,7 +210,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    state.model.incidentType = incidentType ?? state.model.incidentType;
+
+
+      state.model.incidentType = incidentType ?? state.model.incidentType;
+
+    // state.model.incidentType = incidentType ?? state.model.incidentType ?? 0;
+
     log('--incidentType----$incidentType--');
 
     state.model.typeOfAsset = typeOfAsset ?? state.model.typeOfAsset;
@@ -350,6 +355,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
+
+    state.model.incidentType ??= 0;
 
     // Setting time in milliseconds
     // state.model.inputDate =
