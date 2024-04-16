@@ -212,7 +212,9 @@ class KeyHistoryRecordsDetailsCubit
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 0;
     }
-
+    state.model.comment = !isApprovedOnly
+        ? state.model.comment = null :
+    state.model.comment;
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -280,7 +282,7 @@ class KeyHistoryRecordsDetailsCubit
                 message: state.isValid.message,
               ),
             );
-            return false;
+    return false;
           }
           response = await services.createKeyHistoryRecord(
             body: request,
