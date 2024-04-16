@@ -80,6 +80,7 @@ class _GuardingMasterDataDetailsViewState
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Guarding Master Data',
@@ -104,12 +105,7 @@ class _GuardingMasterDataDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {

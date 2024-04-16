@@ -54,6 +54,7 @@ class _SstIncidentGeneralInfoViewState
       listener: (context, state) {
         log('--state.status---${state.status}---');
         log('--state.message---${state.message}---');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,

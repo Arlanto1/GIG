@@ -53,6 +53,7 @@ class _KeyManagementMasterDetailsViewState
     return BlocConsumer<KeyManagementMasterDetailsCubit,
         KeyManagementMasterDetailsState>(
       listener: (context, state) {
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Master',
@@ -76,12 +77,6 @@ class _KeyManagementMasterDetailsViewState
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {

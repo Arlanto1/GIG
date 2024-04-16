@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -62,6 +63,7 @@ class _LoginState extends State<Login> {
       backgroundColor: AppColors.cardBgColor,
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
             //_showCustomPop(context, );

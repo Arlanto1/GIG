@@ -51,6 +51,8 @@ class _KeyLossDestructionDetailsViewState
     return BlocConsumer<KeyLossDestructionDetailsCubit,
         KeyLossDestructionDetailsState>(
       listener: (context, state) {
+        Utils().errorAndLogout(state, context);
+
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Loss Destruction List',
@@ -71,12 +73,6 @@ class _KeyLossDestructionDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {

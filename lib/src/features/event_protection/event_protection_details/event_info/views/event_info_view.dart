@@ -70,6 +70,7 @@ class _EventInfoViewState extends State<EventInfoView> {
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -86,12 +87,7 @@ class _EventInfoViewState extends State<EventInfoView> {
             arguments: {'eventId': state.model.id},
           );
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         dateController.text = Utils.timestampToDateConversion(

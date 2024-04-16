@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
@@ -58,14 +59,8 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
       ),
       body: BlocConsumer<PayRateCubit, PayRateState>(
         listener: (context, state) {
-          if (state.status == FormStatus.error) {
-            log('--if-ssss--${state.status}-----');
+          Utils().errorAndLogout(state, context);
 
-            Validator().showToast(
-              context,
-              state.message ?? 'Invalid Information',
-            );
-          }
 
           if (state.status == FormStatus.success) {
             Navigator.pop(context);

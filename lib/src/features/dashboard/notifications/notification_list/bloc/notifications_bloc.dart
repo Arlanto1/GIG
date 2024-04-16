@@ -39,6 +39,14 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
           hasReachedMax: false,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -47,23 +55,23 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<NotificationsState> emit) async {
     try {
-      NotificationsResponseModel response =
-      await services.getNotificationList(
+      NotificationsResponseModel response = await services.getNotificationList(
         startPosition: '${0}',
         maximumRecords: '${20}',
       );
 
       return emit(
         state.copyWith(
-        items: response.items,
-        hasReachedMax: false,
-        status: FormStatus.success,
-      ),
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
       );
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<NotificationsState> emit) async {
     try {

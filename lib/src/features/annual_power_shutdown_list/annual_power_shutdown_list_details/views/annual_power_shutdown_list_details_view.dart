@@ -59,6 +59,7 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -85,12 +86,7 @@ class _AnnualPowerShutdownListDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         budgetController.text =

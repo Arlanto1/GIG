@@ -39,12 +39,8 @@ class _RatesInfoState extends State<RatesInfo> {
         if (state.status == FormStatus.success) {
           Utils.dynamicAlert(context, state.message ?? '', 'Guard Rates', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+        Utils().errorAndLogout(state, context);
+
       },
       builder: (context, state) {
         return Scaffold(

@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/login/models/login_model.dart';
@@ -23,7 +25,10 @@ enum RequestType {
 class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-
+    Position position= await determinePosition();
+    position.latitude;
+    headers.addAll({"Latitude": position.latitude.toString()});
+    headers.addAll({"Longitude": position.longitude.toString()});
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");
@@ -32,6 +37,7 @@ class BaseApiService {
       }
       headers.addAll({"Authorization": 'Bearer $token'});
     }
+    log("headers: $headers");
     return headers;
   }
 
@@ -50,9 +56,10 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
+      log('response.body----${response.body}');
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        // log('response.body----${response.body}');
+        log('response.body----${response.body}');
         // log('responseBody----$responseBody');
         return responseBody;
       } else {

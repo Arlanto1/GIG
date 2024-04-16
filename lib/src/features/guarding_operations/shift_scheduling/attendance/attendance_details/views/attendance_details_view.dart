@@ -40,6 +40,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     return BlocConsumer<AttendanceDetailsCubit, AttendanceDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -65,12 +66,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
 
         if (state.status == FormStatus.navigateToNextScreen) {
           log('Navigating to Next Screen');

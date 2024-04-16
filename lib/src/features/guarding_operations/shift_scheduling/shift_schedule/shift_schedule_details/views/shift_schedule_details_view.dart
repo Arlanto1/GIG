@@ -42,6 +42,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Message',
@@ -83,12 +84,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             ),
           );
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {

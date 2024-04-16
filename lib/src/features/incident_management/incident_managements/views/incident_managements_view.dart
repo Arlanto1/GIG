@@ -92,7 +92,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        Utils().errorAndLogout(state, context);
+      },
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,

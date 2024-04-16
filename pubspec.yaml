@@ -117,6 +117,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.1.0
   pull_to_refresh_flutter3: ^2.0.2
   analyzer: ^5.4.0
+  geolocator: ^11.0.0
 
 dev_dependencies:
 #  flutter_launcher_icons:

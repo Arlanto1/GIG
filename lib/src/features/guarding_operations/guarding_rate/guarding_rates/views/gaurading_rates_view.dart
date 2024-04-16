@@ -105,6 +105,8 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
         ),
         body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
             listener: (context, state) {
+          Utils().errorAndLogout(state, context);
+
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,
@@ -299,7 +301,11 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<GuardingRatesBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -312,7 +318,11 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<GuardingRatesBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

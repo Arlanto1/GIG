@@ -46,6 +46,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       listener: (context, state) {
         log('State Status: ${state.status}');
         // log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -70,12 +71,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         initializeDates();

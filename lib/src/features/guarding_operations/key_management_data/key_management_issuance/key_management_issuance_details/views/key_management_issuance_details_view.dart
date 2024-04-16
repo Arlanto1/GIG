@@ -62,6 +62,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -81,12 +82,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {

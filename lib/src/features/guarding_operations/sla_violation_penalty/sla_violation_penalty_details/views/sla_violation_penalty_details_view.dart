@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -79,6 +80,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.popOnly) {
           Navigator.pop(context);
           return;
@@ -103,12 +105,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {

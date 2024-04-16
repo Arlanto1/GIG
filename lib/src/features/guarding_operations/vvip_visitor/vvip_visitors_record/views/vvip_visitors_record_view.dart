@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
@@ -78,27 +79,26 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
   Widget build(BuildContext context) {
     return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
         listener: (context, state) {
-      // TODO: implement listener
+          Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
-
-
-      if (widget.vvipModel?.status == 1 ) {
+      if (widget.vvipModel?.status == 1) {
         isReadOnly = true;
       }
 
-
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton:widget.vvipModel?.status ==0 ? Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-              showAddVVIPVisitorsPopUp(
-                context: context,
-                contact: VIVPVisitorRecordModel(),
-              );
-          },
-        ):null,
+        floatingActionButton: widget.vvipModel?.status == 0
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () {
+                  showAddVVIPVisitorsPopUp(
+                    context: context,
+                    contact: VIVPVisitorRecordModel(),
+                  );
+                },
+              )
+            : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.vVipVisitors,
@@ -121,8 +121,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       return const BaseLoader();
     }
 
-
-    if (state.items!.isEmptyOrNull&& !isPopUpShown) {
+    if (state.items!.isEmptyOrNull && !isPopUpShown) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddVVIPVisitorsPopUp(
@@ -201,12 +200,15 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-                    onDeleteTap:widget.vvipModel?.status == 0 ? (selectedIndex) async {
-                      // Call Delete API
-                      BlocProvider.of<VVIPVisitorsRecordBloc>(context).add(
-                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                              widget.id));
-                    } : null,
+                    onDeleteTap: widget.vvipModel?.status == 0
+                        ? (selectedIndex) async {
+                            // Call Delete API
+                            BlocProvider.of<VVIPVisitorsRecordBloc>(context)
+                                .add(DeleteRecord(
+                                    state.items![selectedIndex].id!.toInt(),
+                                    widget.id));
+                          }
+                        : null,
                     index: index,
                   );
           }

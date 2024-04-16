@@ -36,6 +36,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     return BlocConsumer<NotificationDetailsCubit, NotificationDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           Navigator.pop(context);
@@ -57,12 +58,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         return Scaffold(
