@@ -35,6 +35,7 @@ class _AnnualPowerShutdownListDetailsViewState
       TextEditingController();
 
   bool disableForm = false;
+  bool isReadOnly = true;
 
   final FocusNode lSM1ContactNoFocusNode = FocusNode();
   final FocusNode lSM2ContactNoFocusNode = FocusNode();
@@ -215,31 +216,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   textController: statusController,
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {
-                                    if (!disableForm) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: eventProtectionGiStatus
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              eventProtectionGiStatus
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  status: int.tryParse(
-                                                      selectedLabel.value));
-                                        },
-                                      );
-                                    }
-                                  }),
+                                  onTap: () {}),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
