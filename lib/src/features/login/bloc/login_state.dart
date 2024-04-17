@@ -5,12 +5,20 @@ abstract class LoginState {}
 
 abstract class LoginActionState extends LoginState {}
 
-class LoginLoadingState extends LoginState {}
+class LoginLoadingState extends LoginState {
+  final FormStatus status;
+
+  LoginLoadingState({required this.status});
+}
 
 class LoginSuccessState extends LoginActionState {
   final String message;
+  final FormStatus status;
 
-  LoginSuccessState({required this.message});
+  LoginSuccessState({
+    required this.message,
+    required this.status,
+  });
 }
 
 class UpdatePasswordState extends LoginActionState {}
@@ -21,6 +29,10 @@ class ForgotPwdActionState extends LoginActionState {}
 
 class LoginFailureState extends LoginState {
   final String message;
+  final FormStatus status;
 
-  LoginFailureState({required this.message});
+  LoginFailureState({
+    required this.message,
+    required this.status,
+  });
 }
