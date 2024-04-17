@@ -31,6 +31,7 @@ class AppIcon {
   static const String galleryIcon = 'assets/images/gallery.svg';
   static const String documentsIcon = 'assets/images/documents.svg';
   static const String securityprotection = 'assets/images/securityprotection.png';
+  static const String securityFunctions = 'assets/images/securityFunctions.png';
   static const String clipboardImage = 'assets/images/clipboard.png';
   static const String materialMovement = 'assets/images/materialmovement.png';
   static const String lawenforcement = 'assets/images/lawenforcement.png';
@@ -68,6 +69,9 @@ class AppIcon {
   static const String visitorpassmgmticon = 'assets/images/visitorpassmgmt.png';
   static const String visitorpassregicon = 'assets/images/visitorpassreg.png';
 
+
+  static const String annualPowerShutdownIcon='assets/images/annualPowerShutdown.png';
+  static const String articleFoundRegisterIcon='assets/images/articleFoundRegisterIcon.png';
 
 
 }

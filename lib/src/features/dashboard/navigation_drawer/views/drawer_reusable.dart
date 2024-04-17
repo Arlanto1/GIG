@@ -27,11 +27,11 @@ class NavigationDrawer1 extends StatelessWidget {
     List<MenuItem> expansionTileDrawerItems = [];
     if (displayMenu.aps ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
+          Constants.annualPowerShutdownList, AppIcon.annualPowerShutdownIcon, 0));
     }
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.articleFoundRegister, AppIcon.clipboardImage, 0));
+          Constants.articleFoundRegister, AppIcon.articleFoundRegisterIcon, 0));
     }
     if (displayMenu.eP ?? false) {
       expansionTileDrawerItems.add(
@@ -498,7 +498,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       leading: SizedBox(
                           width: 20,
                           height: 20,
-                          child: Image.asset(AppIcon.securityprotection,
+                          child: Image.asset(AppIcon.securityFunctions,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
                                   ? AppColors.navigationSkybluecolor

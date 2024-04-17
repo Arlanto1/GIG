@@ -2,7 +2,7 @@ import 'package:db_atom/index.dart';
 
 const mainDrawerItems = [
   MenuItem(Constants.dashboard, AppIcon.dashboardselect, 0),
-  MenuItem(Constants.securityFunctions, AppIcon.securityprotection, 1),
+  MenuItem(Constants.securityFunctions, AppIcon.securityFunctions, 1),
   //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
   //const MenuItem(Constants.settings, AppIcon.settings, 0),
   MenuItem(Constants.logout, AppIcon.logout, 0),
