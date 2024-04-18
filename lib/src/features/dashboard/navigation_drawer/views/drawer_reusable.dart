@@ -35,7 +35,7 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     if (displayMenu.eP ?? false) {
       expansionTileDrawerItems.add(
-          const MenuItem(Constants.eventProtectionList, AppIcon.tasklist, 0));
+          const MenuItem(Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
     if (displayMenu.gM ?? false) {
@@ -45,11 +45,11 @@ class NavigationDrawer1 extends StatelessWidget {
 
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.incidentManagement, AppIcon.materialMovement, 0));
+          Constants.incidentManagement, AppIcon.incidentManagementIcon, 0));
     }
     // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems.add(const MenuItem(
-        keyManagementDataTitle, AppIcon.keyManagementListIcon, 1));
+        keyManagementDataTitle, AppIcon.keyManagementDataIcon, 1));
     // }
     if (displayMenu.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
@@ -58,7 +58,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     if (displayMenu.mM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.materialMovement, AppIcon.materialMovement, 1));
+          Constants.materialMovement, AppIcon.materialMovementIcon, 1));
     }
     if (displayMenu.pM ?? false) {
       expansionTileDrawerItems.add(
@@ -67,12 +67,12 @@ class NavigationDrawer1 extends StatelessWidget {
 
     // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems.add(
-        const MenuItem(shiftSchedulingTitle, AppIcon.keyManagementListIcon, 1));
+        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
     // }
 
     // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems.add(
-        const MenuItem(vVipVisitorsTitle, AppIcon.keyManagementListIcon, 0));
+        const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     // }
 
     // if (displayMenu. ?? false) {

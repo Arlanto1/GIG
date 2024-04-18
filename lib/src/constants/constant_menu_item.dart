@@ -8,14 +8,14 @@ const mainDrawerItems = [
   MenuItem(Constants.logout, AppIcon.logout, 0),
 ];
 const securityItems = [
-  MenuItem(Constants.operations, AppIcon.operatingsystem, 1),
-  MenuItem(Constants.costAndBilling, AppIcon.operatingsystem, 1),
-  MenuItem(Constants.securitySystems, AppIcon.operatingsystem, 1),
+  MenuItem(Constants.operations, AppIcon.operationsIcon, 1),
+  MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1),
+  MenuItem(Constants.securitySystems, AppIcon.securitySystemIcon, 1),
 ];
 
 const costAndBillingExpansionTileDrawerItems = [
   MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.guardingRates, AppIcon.clipboardImage, 0),
+  MenuItem(Constants.guardingRates, AppIcon.guardingRatesIcon, 0),
 ];
 const securitySystemExpansionTileDrawerItems = [
   MenuItem(Constants.securitySystemTickets, AppIcon.clipboardImage, 1),
@@ -29,7 +29,7 @@ const materialMovementDrawerItems = [
 ];
 
 const securitySystemTicketsItems = [
-  MenuItem(Constants.incident, AppIcon.materialMovementOutwardIcon, 0),
+  MenuItem(Constants.incident, AppIcon.incidentIcon, 0),
 ];
 const securitySystemTicketsIncidentItems = [
   MenuItem(Constants.ticketLifeCycle, AppIcon.materialMovementOutwardIcon, 0),
@@ -37,44 +37,44 @@ const securitySystemTicketsIncidentItems = [
 ];
 
 const guardingOperationDrawerItems = [
-  MenuItem(Constants.escalationMatrix, AppIcon.guardingMasterRatesIcon, 0),
+  MenuItem(Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0),
   MenuItem(Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0),
   MenuItem(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
   // MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
-  MenuItem(Constants.shiftOccurrence, AppIcon.occurence, 0),
-  MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
+  MenuItem(Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0),
+  MenuItem(Constants.slaViolationPenalty, AppIcon.slaViolationPenaltyIcon, 0),
   //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
   // MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
   // MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
 ];
 
 const keyManagementDataItems = [
-  MenuItem(Constants.keyManagementMaster, AppIcon.guardingMasterDataIcon, 0),
+  MenuItem(Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0),
   MenuItem(
-      Constants.keyManagementIssuance, AppIcon.guardingMasterReportIcon, 0),
-  MenuItem(Constants.keyLossDestructionList, AppIcon.femalePickUpDropIcon, 0),
+      Constants.keyManagementIssuance, AppIcon.keyManagementIssuanceIcon, 0),
+  MenuItem(Constants.keyLossDestructionList, AppIcon.keyLossDestructionListIcon, 0),
   // MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
 ];
 
 const shiftSchedulingDataItems = [
-  MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.dutyPostMaster, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
-  MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0),
+  MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0),
+  MenuItem(Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0),
+  MenuItem(Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0),
+  MenuItem(Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0),
   // MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
 ];
 
 const passTileDrawerItems = [
-  MenuItem(Constants.dayPassManagement, AppIcon.daypassmgmticon, 0),
-  MenuItem(Constants.daypassregister, AppIcon.daypassregicon, 0),
-  MenuItem(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
-  MenuItem(Constants.sezpassregister, AppIcon.segpassregicon, 0),
+  MenuItem(Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0),
+  MenuItem(Constants.daypassregister, AppIcon.dayPassManagementRegisterIcon, 0),
+  MenuItem(Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0),
+  MenuItem(Constants.sezpassregister, AppIcon.sezPassManagementRegisterIcon, 0),
   MenuItem(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
-  MenuItem(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
-  MenuItem(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
-  MenuItem(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
+  MenuItem(Constants.vendorpassregister, AppIcon.vendorpassmgmticon, 0),
+  MenuItem(Constants.visitorpassmgmt, AppIcon.visitorPassManagementRegisterIcon, 0),
+  MenuItem(Constants.visitorpassregister, AppIcon.visitorPassManagementRegisterIcon, 0),
 ];
 
 const sCRIItems = [
-  MenuItem(Constants.vVipVisitors, AppIcon.materialMovementOutwardIcon, 0),
+  MenuItem(Constants.vVipVisitors, AppIcon.incidentIcon, 0),
 ];

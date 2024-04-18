@@ -34,7 +34,7 @@ class AppIcon {
   static const String securityFunctions = 'assets/images/securityFunctions.png';
   static const String clipboardImage = 'assets/images/clipboard.png';
   static const String materialMovement = 'assets/images/materialmovement.png';
-  static const String lawenforcement = 'assets/images/lawenforcement.png';
+  static const String lawenforcement = 'assets/images/lawEnforcement.png';
   static const String passmanagement = 'assets/images/passmanagement.png';
   static const String moreicon = 'assets/images/moreicon.svg';
   static const String dropdownicon = 'assets/images/dropdown.svg';
@@ -47,12 +47,10 @@ class AppIcon {
   static const String questionmark = 'assets/images/questionmark.svg';
   static const String download = 'assets/images/download.svg';
   static const String pluscircle = 'assets/images/pluscircle.svg';
-  static const String materialMovementIcon='assets/images/material_movement_icon.png';
-  static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
-  static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
-  static const String guardingOperationIcon = 'assets/images/guardingOperation.png';
-  static const String guardingMasterDataIcon = 'assets/images/guardingMasterData.png';
-  static const String guardingMasterReportIcon = 'assets/images/guardingMasterReport.png';
+  // static const String materialMovementIcon='assets/images/material_movement_icon.png';
+   // static const String guardingOperationIcon = 'assets/images/guardingOperation.png';
+  // static const String guardingMasterDataIcon = 'assets/images/guardingMasterData.png';
+  // static const String guardingMasterReportIcon = 'assets/images/guardingMasterReport.png';
   static const String guardingMasterRatesIcon = 'assets/images/guardingMasterRates.png';
   static const String femalePickUpDropIcon = 'assets/images/femalePickUpDrop.png';
   static const String keyManagementListIcon = 'assets/images/keyManagementList.png';
@@ -69,9 +67,35 @@ class AppIcon {
   static const String visitorpassmgmticon = 'assets/images/visitorpassmgmt.png';
   static const String visitorpassregicon = 'assets/images/visitorpassreg.png';
 
-
+  static const String operationsIcon='assets/images/operations.png';
+  static const String costBillingIcon='assets/images/costBilling.png';
+  static const String securitySystemIcon='assets/images/securitySystem.png';
   static const String annualPowerShutdownIcon='assets/images/annualPowerShutdown.png';
   static const String articleFoundRegisterIcon='assets/images/articleFoundRegisterIcon.png';
-
+  static const String incidentManagementIcon='assets/images/incidentManagement.png';
+  static const String eventProtectionIcon='assets/images/eventProtection.png';
+  static const String guardingOperationIcon='assets/images/guardingOperations.png';
+  static const String escalationMatrixIcon='assets/images/escalationMatrix.png';
+  static const String guardingMasterDataIcon = 'assets/images/guardingMasterData.png';
+  static const String guardingMasterReportIcon = 'assets/images/guardingMasterReport.png';
+  static const String shiftOccurrenceIcon = 'assets/images/shiftOccurrence.png';
+  static const String slaViolationPenaltyIcon = 'assets/images/slaViolationPenalty.png';
+  static const String keyManagementDataIcon='assets/images/keyManagementData.png';
+  static const String keyManagementIssuanceIcon='assets/images/keyManagementIssuance.png';
+  static const String keyLossDestructionListIcon='assets/images/keyLossDestructionList.png';
+  static const String materialMovementIcon='assets/images/materialMovement.png';
+  static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
+  static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
+  static const String dayPassManagementRegisterIcon='assets/images/dayPassManagement_Register.png';
+  static const String sezPassManagementRegisterIcon='assets/images/sezPassManagement_Register.png';
+  static const String visitorPassManagementRegisterIcon='assets/images/visitorPassManagement_Register.png';
+  static const String attendanceIcon='assets/images/attendance.png';
+  static const String dutyPostMasterIcon='assets/images/dutyPostMaster.png';
+  static const String dutyPostNameMasterIcon='assets/images/dutyPostNameMaster.png';
+  static const String shiftScheduleIcon='assets/images/shiftSchedule.png';
+  static const String vvipVisitorIcon='assets/images/vvipVisitor.png';
+  static const String attendanceReportBillingIcon='assets/images/attendanceReportBilling.png';
+  static const String guardingRatesIcon='assets/images/guardingRates.png';
+  static const String incidentIcon='assets/images/incident.png';
 
 }
