@@ -98,5 +98,4 @@ class AppIcon {
   static const String attendanceReportBillingIcon='assets/images/attendanceReportBilling.png';
   static const String guardingRatesIcon='assets/images/guardingRates.png';
   static const String incidentIcon='assets/images/incident.png';
-
 }
