@@ -53,7 +53,7 @@ class NavigationDrawer1 extends StatelessWidget {
     // }
     if (displayMenu.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.lawEnforcementVisitsList, AppIcon.lawenforcement, 0));
+          Constants.lawEnforcementVisitsList, AppIcon.lawEnforcementIcon, 0));
     }
 
     if (displayMenu.mM ?? false) {
@@ -62,7 +62,7 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     if (displayMenu.pM ?? false) {
       expansionTileDrawerItems.add(
-          const MenuItem(Constants.passManagement, AppIcon.passmanagement, 1));
+          const MenuItem(Constants.passManagement, AppIcon.passManagementIcon, 1));
     }
 
     // if (displayMenu.gM ?? false) {
@@ -498,7 +498,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       leading: SizedBox(
                           width: 20,
                           height: 20,
-                          child: Image.asset(AppIcon.securityFunctions,
+                          child: Image.asset(AppIcon.securityFunctionsIcon,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
                                   ? AppColors.navigationSkybluecolor
@@ -589,7 +589,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     leading: SizedBox(
                       width: 20,
                       height: 20,
-                      child: Image.asset(AppIcon.operatingsystem,
+                      child: Image.asset(i==0? AppIcon.operationsIcon : i==1 ?AppIcon.costBillingIcon :AppIcon.securitySystemIcon ,
                           fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
                               ? AppColors.navigationSkybluecolor
