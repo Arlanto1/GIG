@@ -1788,27 +1788,20 @@ class _CreateFoundState extends State<CreateFound> {
                                         )
                                       : Container(),
 
-                                  // getFiles.isNotEmpty ||
-                                  //         getAttachments.isNotEmpty
-                                  //     ? CommonWidgets.verticalSpacerWidget(
-                                  //         height * 0.01)
-                                  //     : Container(),
-                                  // (getAttachments.isEmpty ||
-                                  //         widget.model == null)
-                                  //     ? getFiles.isEmpty
-                                  //         ? Container()
-                                  //         : attachmentListviews(
-                                  //             getFiles, getAttachments)
-                                  //     : attachmentListviews(
-                                  //         getFiles, getAttachments),
-                                  BaseImageUpload().getAttachment(
-                                    height: height,
-                                    attachments: state.loadAttachments,
-                                    files: getFiles,
-                                    showDownloadIcon:
-                                    widget.model == null || widget.model?.status == 0 ,
-                                    moduleCode: Constants.articleFoundModuleCode,
-                                  ),
+                                  getFiles.isNotEmpty ||
+                                          getAttachments.isNotEmpty
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01)
+                                      : Container(),
+                                  (getAttachments.isEmpty ||
+                                          widget.model == null)
+                                      ? getFiles.isEmpty
+                                          ? Container()
+                                          : attachmentListviews(
+                                              getFiles, getAttachments)
+                                      : attachmentListviews(
+                                          getFiles, getAttachments),
+
                                   // TODO: Need to use this to view the attachments
                                   // if (!getAttachments.isEmptyOrNull ) ...[
                                   //   BaseImageUpload().getAttachment(
@@ -1817,6 +1810,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   //     files: getFiles,
                                   //     showDownloadIcon:
                                   //         widget.model != null ? true : false,
+                                  //     moduleCode: Constants.articleFoundModuleCode,
                                   //   ),
                                   // ],
 
@@ -2290,7 +2284,7 @@ class _CreateFoundState extends State<CreateFound> {
                             Constants.articleFoundModuleCode,
                           );
                         },
-                        child: BaseIcons().deleteIcon(),
+                        child: BaseIcons().downloadIcon(),
                       )
                     ],
                   )
@@ -2304,7 +2298,7 @@ class _CreateFoundState extends State<CreateFound> {
                         Constants.articleFoundModuleCode,
                       );
                     },
-                    child: BaseIcons().deleteIcon(),
+                    child: BaseIcons().downloadIcon(),
                   ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
