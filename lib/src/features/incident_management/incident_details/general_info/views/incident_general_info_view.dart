@@ -316,7 +316,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isDisabled: state.model.status != 6,
                               textController: incidentTypeController,
                               items: incidentTypeValues,
-                              initialValue: state.model.incidentType.toString(),
+                              initialValue: '${state.model.incidentType ?? 0}',
                               onTap: () {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,

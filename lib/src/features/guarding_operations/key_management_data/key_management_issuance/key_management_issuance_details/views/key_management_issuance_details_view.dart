@@ -836,6 +836,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
