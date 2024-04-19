@@ -124,15 +124,18 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     }
 
     if (state.model.closureTargetDate != null) {
-      closureTargetDateController.text = Utils.timestampToDateConversion(
-          int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.fulldateFormat);
-    } else {
       DateTime currentDate = DateTime.now();
       DateTime futureDate = currentDate.add(const Duration(days: 14));
       String formattedDate =
           DateFormat(Constants.fulldateFormat).format(futureDate);
       closureTargetDateController.text = formattedDate;
+      state.model.closureTargetDate = closureTargetDateController.text;
+    }
+    else{
+      closureTargetDateController.text = Utils.timestampToDateConversion(
+          int.tryParse(state.model.closureTargetDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.closureTargetDate = closureTargetDateController.text;
     }
   }
 
@@ -343,7 +346,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Asset Type
-                            if (state.model.incidentType == 0 ||
+                            if (state.model.incidentType == null ||state.model.incidentType == 0 ||
                                 state.model.incidentType == 1) ...[
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.typeOfAsset ??
