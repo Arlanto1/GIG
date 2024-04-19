@@ -20,6 +20,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onViewTap;
   final Function? onDeleteTap;
   final Function? onEmailTap;
+  final Function? onLinkOffTap;
   final int? incidentType;
   final bool isIncident;
   final Organisation? vendors;
@@ -29,6 +30,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool? showEditButton;
   final bool? showDeleteButton;
   final bool? showEmailButton;
+  final bool? showLinkOffButton;
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
   final bool isEventProtectionStatus;
@@ -58,6 +60,7 @@ class BaseListTileItem extends StatefulWidget {
     this.onEditTap,
     this.onViewTap,
     this.onEmailTap,
+    this.onLinkOffTap,
     this.index,
     this.region,
     this.vendor,
@@ -92,6 +95,7 @@ class BaseListTileItem extends StatefulWidget {
     this.showDutyPostEditButton = false,
     this.showDeleteButton = true,
     this.showEmailButton = false,
+    this.showLinkOffButton =false,
   });
 
   @override
@@ -425,6 +429,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       icon: const Icon(Icons.email),
                     ),
                   ],
+                ],
+                if (widget.showLinkOffButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      widget.onLinkOffTap != null
+                          ? widget.onLinkOffTap!(widget.index)
+                          : null;
+                    },
+                    icon: const Icon(Icons.link_off),
+                  ),
                 ],
                 if (widget.showDeleteButton ?? true) ...[
                   if (widget.onDeleteTap != null) ...[

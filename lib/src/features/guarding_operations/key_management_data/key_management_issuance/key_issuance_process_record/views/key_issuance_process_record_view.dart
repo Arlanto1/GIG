@@ -225,17 +225,19 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       );
                     },
                     onViewTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
-                            labels: labels,
-                          );
-                        },
-                      );
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext dialogContext) {
+                      //     return BasePopUpItems(
+                      //       id: state.items?[selectedIndex].id.toString(),
+                      //       labels: labels,
+                      //     );
+                      //   },
+                      // );
                     },
-                showDeleteButton : widget.parentStatus ==0 || widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
+              showLinkOffButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
+              onLinkOffTap:(selectedIndex) async {},
+                showDeleteButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<KeyIssuanceProcessRecordBloc>(context)
