@@ -270,6 +270,19 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                       },
                                     );
                                   },
+                            showEmailButton: true,
+                            onEmailTap: (selectedIndex) {
+                                var dialog = CustomAlertDialog(
+                                    // title: Constants.logout,
+                                    // message: Constants.logoutValidation,
+                                    onPositivePressed: () {
+                                      // Validator.logoutAction(context);
+                                    },
+                                    // positiveBtnText: Constants.yes,
+                                    negativeBtnText: Constants.ok
+                                );
+                                showDialog(context: context, builder: (BuildContext context) => dialog);
+                            },
                                   index: index,
                                 );
                         }
