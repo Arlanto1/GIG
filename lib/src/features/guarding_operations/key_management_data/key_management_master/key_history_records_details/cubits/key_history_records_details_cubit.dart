@@ -209,6 +209,9 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
 
+    if(isApprovedOnly == true){
+      state.model.comment == null;
+    }
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 0;
     }

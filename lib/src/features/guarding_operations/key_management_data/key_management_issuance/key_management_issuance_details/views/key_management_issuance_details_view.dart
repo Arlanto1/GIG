@@ -85,8 +85,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == -1 ||
-            state.model.status == 2 ||
+        if (state.model.status == -1  ||
             state.model.status == 3 ||
             state.model.status == 4 ||
             state.model.status == 5 ||
@@ -108,6 +107,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             showPopUp: false,
             showSaveButton: state.model.status == 0 ||
                     state.model.status == 1 ||
+                state.model.status == 2||
                     state.model.status == null
                 ? true
                 : false,
@@ -123,6 +123,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             },
             showSubmitButton: state.model.status == 0 ||
                     state.model.status == 1 ||
+                state.model.status == 2||
                     state.model.status == null
                 ? true
                 : false,
@@ -742,7 +743,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               BaseDate().datePickerWidgetLoading(
                                 textController: keyReturnDateAndTimeController,
-                                isDisabled: state.model.status != 1,
+                                isDisabled: state.model.status != 1 && state.model.status != 2,
                                 onlyDate: false,
                                 showPastDate: false,
                                 onChange: (String value) {
@@ -776,9 +777,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
                                 isEnable:
-                                    state.model.status == 1 ? true : false,
+                                    state.model.status == 1 ||
+                                        state.model.status == 2? true : false,
                                 isDisableColor:
-                                    state.model.status != 1 ? false : true,
+                                    state.model.status != 1 &&
+                              state.model.status != 2? false : true,
                                 onChange: (String value) {
                                   state.model.returnedByName = value;
                                   context
@@ -861,7 +864,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             ),
 
             /// SubmitButton
-            if ((state.model.status == 0 || state.model.status == 1)
+            if ((state.model.status == 0 || state.model.status == 1 ||
+                state.model.status == 2)
                 ? true
                 : false) ...[
               Container(
