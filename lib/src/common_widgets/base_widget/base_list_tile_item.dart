@@ -367,7 +367,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         (widget.isKeyManagementStatus &&
                             (widget.status == -1 || widget.status == 2)) ||
                         (widget.isKeyManagementIssuanceStatus &&
-                            widget.status == 2) ||
+                            widget.status != 0 && widget.status != 1 && widget.status != 2) ||
                         (widget.isEventProtectionStatus &&
                             (widget.status != 0)) ||
                         (widget.isDutyPostNameMasterStatus &&
@@ -383,8 +383,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 widget.status != 4)) ||
                         (widget.isVipStatus && (widget.status != 0)||
                             (widget.isOccurrenceStatus &&
-                                widget.status == 1))||(widget.isKeyManagementIssuanceStatus &&
-                        widget.status != 0 && widget.status != 1) ||  (widget.isKeyManagementHistoryStatus && (widget.status == 10 ||widget.status == 11))
+                                widget.status == 1)) ||  (widget.isKeyManagementHistoryStatus && (widget.status == 10 ||widget.status == 11))
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
