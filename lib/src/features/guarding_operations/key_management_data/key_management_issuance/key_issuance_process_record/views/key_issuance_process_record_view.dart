@@ -13,11 +13,14 @@ import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../../index.dart';
+import '../../../key_management_master/services/key_management_master_services.dart';
 import 'add_key_issuance_process_pop_up.dart';
 
 class KeyIssuanceProcessRecordsView extends StatefulWidget {
@@ -225,25 +228,39 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       );
                     },
                     onViewTap: (selectedIndex) {
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (BuildContext dialogContext) {
-                      //     return BasePopUpItems(
-                      //       id: state.items?[selectedIndex].id.toString(),
-                      //       labels: labels,
-                      //     );
-                      //   },
-                      // );
+                      getById(state.items?[index].kmId);
                     },
               showLinkOffButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
-              onLinkOffTap:(selectedIndex) async {},
+              onLinkOffTap:(selectedIndex) async {
+                // NavigatorState nav = Navigator.of(context);
+                // bool isSaveSuccess = await BlocProvider.of<
+                //     KeyManagementMasterDetailsCubit>(
+                //     context)
+                //     .submitForm(
+                //   isSaveOnly: true,
+                //   navigateToNextScreen: true,
+                // );
+                // if (!isSaveSuccess) {
+                //   return;
+                // }
+                // nav.pushNamed(
+                //   keyHistoryRecordsViewRoute,
+                //   arguments: {
+                //     ConstantsArgument.title:
+                //     Constants.keyLostHistory,
+                //     ConstantsArgument.id: widget.model?.kmId,
+                //     ConstantsArgument.type:
+                //     ConstantsIntValue.keyLostHistoryInt,
+                //   },
+                // );
+              },
                 showDeleteButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
-                      BlocProvider.of<KeyIssuanceProcessRecordBloc>(context)
-                          .add(DeleteRecord(
-                              state.items![selectedIndex].id!.toInt(),
-                              widget.parentId));
+                      // BlocProvider.of<KeyIssuanceProcessRecordBloc>(context)
+                      //     .add(DeleteRecord(
+                      //         state.items![selectedIndex].id!.toInt(),
+                      //         widget.parentId));
                     },
                     index: index,
                   );
@@ -252,6 +269,26 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         },
       ),
     );
+  }
+
+  getById(int? kmId) async {
+
+    showLoadingDialog(context);
+
+    KeyManagementMasterModel keyManagementMasterModel =
+    await KeyManagementMasterServices().getById(kmId!);
+
+    editDataLoading(keyManagementMasterModel);
+  }
+
+  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
+    dismissLoadingDialog(context);
+    if (keyManagementMasterModel != null) {
+      Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
+        "keyMgmtGi": keyManagementMasterModel,
+        "title": Constants.editkeyManagementMaster
+      });
+    }
   }
 
   showAddKeyIssuanceProcessPopUp({

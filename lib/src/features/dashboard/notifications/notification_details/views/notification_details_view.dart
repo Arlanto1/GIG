@@ -216,6 +216,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   });
               break;
             }
+
           case 'LEO':
             {
               LawEnforcementDetailsModel? model =
