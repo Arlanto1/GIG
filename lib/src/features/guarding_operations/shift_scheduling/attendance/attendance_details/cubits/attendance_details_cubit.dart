@@ -187,7 +187,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -199,7 +199,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

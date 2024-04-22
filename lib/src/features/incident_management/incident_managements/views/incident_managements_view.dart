@@ -93,6 +93,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   Widget build(BuildContext context) {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {

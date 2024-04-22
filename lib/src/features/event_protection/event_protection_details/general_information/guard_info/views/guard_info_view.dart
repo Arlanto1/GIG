@@ -39,6 +39,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
     return BlocConsumer<GuardInfoCubit, GuardInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

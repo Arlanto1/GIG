@@ -63,7 +63,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
   Widget build(BuildContext context) {
     return BlocConsumer<VisitingOfficialListBloc, VisitingOfficialListState>(
         listener: (context, state) {
-      Utils().errorAndLogout(state, context);
+      Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return PopScope(
         canPop: false,

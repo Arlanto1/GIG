@@ -105,7 +105,8 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
         ),
         body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
             listener: (context, state) {
-          Utils().errorAndLogout(state, context);
+          Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

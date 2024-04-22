@@ -204,7 +204,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

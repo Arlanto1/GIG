@@ -24,6 +24,15 @@ class Utils {
     return base64Url.encode(values);
   }
 
+  bool isTimestamp(String str) {
+    try {
+      DateTime.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   static String timestampToDateConversion(int? timestamp, String format) {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
     // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
@@ -1452,6 +1461,15 @@ class Utils {
 
   String getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
+  void formError(dynamic state, BuildContext context) {
+    if (state.status == FormStatus.formError) {
+      Validator().showToast(
+        context,
+        state.message ?? 'Invalid Information',
+      );
+    }
   }
 
   void errorAndLogout(dynamic state, BuildContext context) {

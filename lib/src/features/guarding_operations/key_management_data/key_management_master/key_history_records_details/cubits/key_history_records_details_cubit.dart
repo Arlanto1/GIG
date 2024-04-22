@@ -232,7 +232,7 @@ class KeyHistoryRecordsDetailsCubit
           state.model.createdDate = Utils().getCurrentDate();
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -248,7 +248,7 @@ class KeyHistoryRecordsDetailsCubit
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -259,7 +259,7 @@ class KeyHistoryRecordsDetailsCubit
           if (!state.isValidDraft.status) {
             emit(
               state.copyWith(
-                status: FormStatus.error,
+                status: FormStatus.formError,
                 message: state.isValidDraft.message,
               ),
             );
@@ -276,7 +276,7 @@ class KeyHistoryRecordsDetailsCubit
           if (!state.isValid.status) {
             emit(
               state.copyWith(
-                status: FormStatus.error,
+                status: FormStatus.formError,
                 message: state.isValid.message,
               ),
             );

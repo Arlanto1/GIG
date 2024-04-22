@@ -118,7 +118,8 @@ class _PassManagementListViewState extends State<PassManagementListView> {
       ),
       body: BlocConsumer<PassManagementListBloc, PassManagementListState>(
         listener: (context, state) {
-          Utils().errorAndLogout(state, context);
+          Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,

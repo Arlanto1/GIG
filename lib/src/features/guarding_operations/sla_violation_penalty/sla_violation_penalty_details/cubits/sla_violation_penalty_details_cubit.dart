@@ -301,7 +301,7 @@ class SLAViolationPenaltyDetailsCubit
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -319,7 +319,7 @@ class SLAViolationPenaltyDetailsCubit
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

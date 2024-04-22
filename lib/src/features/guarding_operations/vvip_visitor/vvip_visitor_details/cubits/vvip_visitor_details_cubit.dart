@@ -190,7 +190,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -208,7 +208,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

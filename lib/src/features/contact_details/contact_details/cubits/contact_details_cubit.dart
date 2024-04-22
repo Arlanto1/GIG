@@ -187,7 +187,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -200,7 +200,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

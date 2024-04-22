@@ -59,6 +59,7 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

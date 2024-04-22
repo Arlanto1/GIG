@@ -38,6 +38,7 @@ class DashboardViewState extends State<DashboardView>
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.sessionExpired) {

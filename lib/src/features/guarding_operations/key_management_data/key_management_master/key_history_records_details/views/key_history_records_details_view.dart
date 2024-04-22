@@ -57,6 +57,7 @@ class _KeyHistoryRecordsDetailsViewState
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
         log('--widget.type--${widget.type}--');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

@@ -45,6 +45,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

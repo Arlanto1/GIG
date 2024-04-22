@@ -46,6 +46,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       listener: (context, state) {
         log('State Status: ${state.status}');
         // log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

@@ -51,6 +51,7 @@ class _KeyLossDestructionDetailsViewState
     return BlocConsumer<KeyLossDestructionDetailsCubit,
         KeyLossDestructionDetailsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

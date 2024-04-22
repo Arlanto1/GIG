@@ -525,7 +525,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -538,7 +538,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -554,7 +554,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -568,7 +568,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

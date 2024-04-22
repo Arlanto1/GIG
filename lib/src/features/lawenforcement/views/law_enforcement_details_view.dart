@@ -159,7 +159,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       backgroundColor: AppColors.backgroundWhitecolor,
       body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
         listener: (context, state) {
-          Utils().errorAndLogout(state, context);
+          Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
           if (state.stateType == FormStatus.successFormSubmit) {
             var dialog = CustomAlertDialog(
               title: 'Law Enforcement',

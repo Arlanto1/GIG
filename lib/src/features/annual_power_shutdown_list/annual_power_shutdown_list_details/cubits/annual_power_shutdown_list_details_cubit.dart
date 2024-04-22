@@ -386,7 +386,7 @@ class AnnualPowerShutdownListDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -401,7 +401,7 @@ class AnnualPowerShutdownListDetailsCubit
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

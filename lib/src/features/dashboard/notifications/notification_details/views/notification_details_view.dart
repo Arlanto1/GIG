@@ -36,6 +36,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     return BlocConsumer<NotificationDetailsCubit, NotificationDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

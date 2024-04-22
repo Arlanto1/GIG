@@ -379,7 +379,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         if (!state.isValidDraft.status) {
           return emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -393,7 +393,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           log('---submit-1---');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

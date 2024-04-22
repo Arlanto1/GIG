@@ -62,6 +62,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

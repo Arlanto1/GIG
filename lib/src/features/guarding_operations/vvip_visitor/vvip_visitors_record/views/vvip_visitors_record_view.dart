@@ -79,7 +79,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
   Widget build(BuildContext context) {
     return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
         listener: (context, state) {
-          Utils().errorAndLogout(state, context);
+          Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       if (widget.vvipModel?.status == 1) {
         isReadOnly = true;

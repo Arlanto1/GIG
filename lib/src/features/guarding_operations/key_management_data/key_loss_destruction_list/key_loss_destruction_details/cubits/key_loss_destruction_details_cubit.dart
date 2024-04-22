@@ -278,11 +278,11 @@ class KeyLossDestructionDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -299,11 +299,11 @@ class KeyLossDestructionDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -320,7 +320,7 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -337,7 +337,7 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
