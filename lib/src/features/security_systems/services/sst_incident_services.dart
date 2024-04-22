@@ -15,6 +15,8 @@ class Apis {
 
   static final String _getDetails = '$baseUrl/getSSSLAById';
   static final String _create = '$baseUrl/createSSSLA?';
+  static final String _sendReminder = '$baseUrl/sendReminder';
+
 }
 
 class SstIncidentServices {
@@ -66,6 +68,18 @@ class SstIncidentServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
+
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> sendRemainder({
+    required SecuritySystemTicketIncidentRequest body,
+  }) async {
+    final String url = Apis._sendReminder;
 
     final response = await BaseApiService().postRequest(
       url: url,

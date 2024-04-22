@@ -95,7 +95,7 @@ class BaseListTileItem extends StatefulWidget {
     this.showDutyPostEditButton = false,
     this.showDeleteButton = true,
     this.showEmailButton = false,
-    this.showLinkOffButton =false,
+    this.showLinkOffButton = false,
   });
 
   @override
@@ -390,7 +390,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                     widget.status == 1)) ||
                             (widget.isKeyManagementIssuanceStatus &&
                                 widget.status != 0 &&
-                                widget.status != 1 && widget.status != 2) ||
+                                widget.status != 1 &&
+                                widget.status != 2) ||
                             (widget.isKeyManagementHistoryStatus &&
                                 (widget.status == 10 || widget.status == 11))
                         ? const Icon(Icons.edit_off_outlined)
@@ -417,8 +418,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   },
                   icon: const Icon(Icons.remove_red_eye),
                 ),
-                if (widget.isSecuritySystemSLA == true &&
-                    widget.status == 2) ...[
+                if (widget.isSecuritySystemSLA == true && widget.status == 2 ||
+                    widget.status == 3 ||
+                    widget.status == 4 ||
+                    widget.status == 5 ||
+                    widget.status == 8 ||
+                    widget.status == 10 ||
+                    widget.status == 12) ...[
                   if (widget.showEmailButton ?? true) ...[
                     IconButton(
                       onPressed: () {

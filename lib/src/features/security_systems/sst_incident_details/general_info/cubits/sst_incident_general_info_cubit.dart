@@ -109,10 +109,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.createdDate ?? '');
 
-      state.model.createdDate = state.model.createdDate == null
+      model.createdDate = model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(model?.createdDate ?? '0'),
               Constants.fulldateFormat);
 
       Locations getLocationsData =
