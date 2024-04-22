@@ -25,7 +25,7 @@ enum RequestType {
 class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Position position= await determinePosition();
+    Position position = await determinePosition();
     position.latitude;
     headers.addAll({"Latitude": position.latitude.toString()});
     headers.addAll({"Longitude": position.longitude.toString()});
@@ -46,7 +46,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log('url--getData---$url');
+      log('GET API URL: $url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -56,7 +56,9 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
-      log('response.body----${response.body}');
+      if (!url.contains('getLabels')) {
+        log('response.body----${response.body}');
+      }
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         log('response.body----${response.body}');
@@ -74,8 +76,8 @@ class BaseApiService {
         }
 
         if (response.statusCode.toString() == "401") {
-          log("will log out now${response.statusCode}");
-          // TODO: Need to handle the logout case
+          log("Will log out now ${response.statusCode}, API URL: $url");
+          log('Error Response: ${response.body}');
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
@@ -144,7 +146,7 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
-      log("API URL: $url");
+      log(" POST API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
 
       var response = await http.post(
@@ -213,7 +215,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log('url--patch---$url');
+      log("PATCH API URL: $url");
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -243,8 +245,8 @@ class BaseApiService {
           throw GenericResponse.fromJson(responseBody);
         }
         if (response.statusCode.toString() == "401") {
-          log("will log out now${response.statusCode}");
-          // TODO: Need to handle the logout case
+          log("Will log out now ${response.statusCode}, API URL: $url");
+          log('Error Response: ${response.body}');
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
@@ -262,7 +264,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log('url--delete---$url');
+      log("DELETE API URL: $url");
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -292,8 +294,8 @@ class BaseApiService {
           throw GenericResponse.fromJson(responseBody);
         }
         if (response.statusCode.toString() == "401") {
-          log("will log out now${response.statusCode}");
-          // TODO: Need to handle the logout case
+          log("Will log out now ${response.statusCode}, API URL: $url");
+          log('Error Response: ${response.body}');
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
