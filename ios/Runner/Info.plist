@@ -69,6 +69,8 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>FLTEnableImpeller</key>
+        <false />
 		<key>io.flutter.embedded_views_preview</key>
 		<string>YES</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
