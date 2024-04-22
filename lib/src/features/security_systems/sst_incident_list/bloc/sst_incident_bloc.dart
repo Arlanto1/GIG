@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
@@ -13,6 +14,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../models/requestModel/general_info_request.dart';
 import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
@@ -23,9 +25,11 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
   final int ticketType;
   final int staffType;
   final String? occId;
+  final SstIncident? model;
+
 
   SstIncidentBloc(
-      {required this.ticketType, required this.staffType, this.occId})
+      {required this.ticketType, required this.staffType, this.occId,this.model})
       : super(const SstIncidentState()) {
     on<InitializeValues>(_initializeValues);
 
@@ -41,6 +45,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
   final SstIncidentServices _services = SstIncidentServices();
   final CommonServices commonServices = CommonServices();
+
 
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<SstIncidentState> emit) async {
@@ -73,6 +78,14 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           labels: labels,
         ),
       );
+    }on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -166,5 +179,45 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
+  }
+  void sendRemainder(SstIncident model) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    SstIncidentServices services = SstIncidentServices();
+    SecuritySystemTicketIncidentRequest request =
+    SecuritySystemTicketIncidentRequest(sstIncident: model);
+
+    GenericResponse response;
+    try {
+      response = await services.sendRemainder(
+        body: request,
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    }
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
   }
 }

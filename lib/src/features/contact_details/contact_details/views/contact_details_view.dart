@@ -66,6 +66,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     return BlocConsumer<ContactDetailsCubit, ContactDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -90,12 +91,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {

@@ -7,6 +7,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
+
 class NotificationDetailsView extends StatefulWidget {
   const NotificationDetailsView({
     super.key,
@@ -36,6 +38,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     return BlocConsumer<NotificationDetailsCubit, NotificationDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           Navigator.pop(context);
@@ -57,12 +60,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         return Scaffold(
@@ -218,6 +216,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   });
               break;
             }
+
           case 'LEO':
             {
               LawEnforcementDetailsModel? model =

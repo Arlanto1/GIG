@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -66,6 +67,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     return BlocConsumer<VVIPVisitorDetailsCubit, VVIPVisitorDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'VVIP Visitors',
@@ -86,12 +88,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {

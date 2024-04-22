@@ -38,6 +38,8 @@ class DashboardViewState extends State<DashboardView>
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
+        Utils().errorAndLogout(state, context);
+
         if (state.status == FormStatus.sessionExpired) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.red,

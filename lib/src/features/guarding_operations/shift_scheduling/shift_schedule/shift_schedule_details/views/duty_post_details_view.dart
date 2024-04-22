@@ -23,13 +23,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
         log('----state.status--${state.status}--');
-
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

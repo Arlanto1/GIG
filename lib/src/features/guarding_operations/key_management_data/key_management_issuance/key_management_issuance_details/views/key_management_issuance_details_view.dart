@@ -62,6 +62,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -82,15 +83,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
       },
       builder: (context, state) {
-        if (state.model.status == -1 ||
+        if (state.model.status == -1  ||
             state.model.status == 3 ||
             state.model.status == 4 ||
             state.model.status == 5 ||
@@ -111,8 +106,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status == 0 ||
-                state.model.status == 1 ||
-                    state.model.status == 2 ||
+                    state.model.status == 1 ||
+                state.model.status == 2||
                     state.model.status == null
                 ? true
                 : false,
@@ -128,7 +123,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             },
             showSubmitButton: state.model.status == 0 ||
                     state.model.status == 1 ||
-          state.model.status == 2||
+                state.model.status == 2||
                     state.model.status == null
                 ? true
                 : false,
@@ -782,9 +777,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
                                 isEnable:
-                                    state.model.status == 1||state.model.status == 2 ? true : false,
+                                    state.model.status == 1 ||
+                                        state.model.status == 2? true : false,
                                 isDisableColor:
-                                    state.model.status != 1&& state.model.status != 2 ? false : true,
+                                    state.model.status != 1 &&
+                              state.model.status != 2? false : true,
                                 onChange: (String value) {
                                   state.model.returnedByName = value;
                                   context
@@ -807,7 +804,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
 
@@ -843,6 +839,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -867,7 +864,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             ),
 
             /// SubmitButton
-            if ((state.model.status == 0 || state.model.status == 1)
+            if ((state.model.status == 0 || state.model.status == 1 ||
+                state.model.status == 2)
                 ? true
                 : false) ...[
               Container(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -68,6 +69,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       backgroundColor: AppColors.cardBgColor,
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, 'Something went wrong');

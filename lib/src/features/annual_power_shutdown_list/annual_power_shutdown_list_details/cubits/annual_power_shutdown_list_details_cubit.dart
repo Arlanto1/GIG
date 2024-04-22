@@ -370,9 +370,8 @@ class AnnualPowerShutdownListDetailsCubit
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-
     DateTime dateTime =
-    DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
     state.model.inputDate = inputDate.toString();
 
@@ -385,11 +384,6 @@ class AnnualPowerShutdownListDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
-              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -404,11 +398,6 @@ class AnnualPowerShutdownListDetailsCubit
         ));
       } else {
         if (!state.isValid.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
-              Constants.fulldateFormat);
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(

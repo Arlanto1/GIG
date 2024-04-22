@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
@@ -75,7 +76,15 @@ class IncidentManagementsBloc
           labels: labels,
         ),
       );
-    } on Exception {
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    }on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

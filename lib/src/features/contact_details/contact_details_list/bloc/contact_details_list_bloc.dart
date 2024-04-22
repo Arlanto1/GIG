@@ -73,7 +73,15 @@ class ContactDetailsListBloc
           status: FormStatus.initial,
         ),
       );
-    } on Exception {
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    }on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

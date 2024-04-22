@@ -5,7 +5,8 @@ class AppColors {
   static const Color textgreyThemecolor = Color(0xFF5A585D);
   static const Color backgroundWhitecolor = Color(0xFFFFFFFF);
   static const Color dividelineGreycolor = Color(0xFFDFE7ED);
-  static const Color navigationSkybluecolor = Color(0xFF2CAAE0);
+  // static const Color navigationSkybluecolor = Color(0xFF2CAAE0);
+  static const Color navigationSkybluecolor = Color(0xFF425563);
   static const Color cardBorder = Color(0XFFF0F0F0);
   static const Color black = Color(0xFF000000);
   static const Color textColor = Color(0xFF6B6B6B);

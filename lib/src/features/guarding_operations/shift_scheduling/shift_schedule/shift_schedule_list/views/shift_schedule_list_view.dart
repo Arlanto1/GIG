@@ -120,10 +120,10 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                // ],
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
@@ -189,7 +189,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                     state.items[index].location?.name ?? ''));
 
                             return index >= state.items.length
-                                ? const BaseLoader()
+                                ? null
                                 : BaseListTileItem(
                                     id: state.items[index].id,
                                     status: state.items[index].status,

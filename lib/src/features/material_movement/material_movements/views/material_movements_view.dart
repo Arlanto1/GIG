@@ -107,6 +107,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
       ),
       body: BlocConsumer<MaterialMovementBloc, MaterialMovementState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,

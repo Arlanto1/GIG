@@ -117,6 +117,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
       ),
       body: BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
+
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,

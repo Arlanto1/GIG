@@ -11,6 +11,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/services/day_passlist_services.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -73,6 +74,14 @@ class PassManagementListBloc
           labels: labels,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }

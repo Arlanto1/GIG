@@ -86,17 +86,16 @@ class MaterialMovementDetailsState extends Equatable {
 
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
+      if (model.materialComingFrom.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Sender\'s Name');
+      }
       if (model.materialFromAddress.isEmptyOrNull &&
           model.status != 0 &&
           model.status != null) {
         return const ErrorResponse(
             status: false,
             message: 'Please enter Material coming from (Brief address)');
-      }
-
-      if (model.materialComingFrom.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Sender\'s Name');
       }
 
       if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {

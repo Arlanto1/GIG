@@ -1453,4 +1453,14 @@ class Utils {
   String getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
+
+  void errorAndLogout(dynamic state, BuildContext context) {
+    if (state.status == FormStatus.error) {
+      InactivityFunctions().logoutUser(navigatorKey);
+      Validator().showToast(
+        context,
+        state.message ?? 'Invalid Information',
+      );
+    }
+  }
 }

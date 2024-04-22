@@ -35,7 +35,6 @@ class _AnnualPowerShutdownListDetailsViewState
       TextEditingController();
 
   bool disableForm = false;
-  bool isReadOnly = true;
 
   final FocusNode lSM1ContactNoFocusNode = FocusNode();
   final FocusNode lSM2ContactNoFocusNode = FocusNode();
@@ -60,6 +59,7 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -86,12 +86,7 @@ class _AnnualPowerShutdownListDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         budgetController.text =
@@ -216,7 +211,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   textController: statusController,
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {}),
+                                  onTap: () {
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By

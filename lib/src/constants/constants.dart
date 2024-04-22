@@ -841,6 +841,15 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitor';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
+
+  ///Ticket Life Cycle
+  static const String sentReminder = 'Reminder Sent';
+
+
+  /// Deutsche-Bank Fonts
+  // static const String customFontFamily = 'Deutsche Bank Text';
+  // static const String customFontItalicFamily1 = 'Deutsche Bank Text-Italic';
+  // static const String customFontRegularFamily = 'Deutsche Bank Text-Regular';
 }
 
 //static const String height = 'Height(cm)';
@@ -873,3 +882,4 @@ const hintTextStyle = TextStyle(
     fontSize: 18, color: Colors.black38, fontWeight: FontWeight.normal);
 
 /// Quill Html Editor
+

@@ -49,6 +49,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
     final height = size.height;
     return BlocConsumer<DutyPostMasterDetailsCubit, DutyPostMasterDetailsState>(
       listener: (context, state) {
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Duty Post Master',
@@ -73,12 +74,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+
       },
       builder: (context, state) {
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {

@@ -117,6 +117,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.1.0
   pull_to_refresh_flutter3: ^2.0.2
   analyzer: ^5.4.0
+  geolocator: ^11.0.0
 
 dev_dependencies:
 #  flutter_launcher_icons:
@@ -170,6 +171,7 @@ flutter:
     - assets/translation/
   
   fonts:
+
     - family: Poppins-Black
       fonts:
         - asset: assets/fonts/Poppins-Black.ttf
@@ -242,6 +244,22 @@ flutter:
     - family: Poppins-ThinItalic
       fonts:
         - asset: assets/fonts/Poppins-ThinItalic.ttf
+
+    - family: Deutsche Bank Text-Regular
+      fonts:
+        - asset: assets/fonts/DeutscheBankText-Regular.ttf
+
+    - family: Deutsche Bank Text-Italic
+      fonts:
+        - asset: assets/fonts/DeutscheBankText-Italic.ttf
+
+#          fonts:
+#            - family: Poppins-Black
+#              fonts:
+#                - asset: assets/fonts/Poppins-Black.ttf
+
+
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -46,3 +46,13 @@ class GetKeyDescription extends KeyIssuanceProcessRecordEvent {
 
   const GetKeyDescription(this.keyDescriptionId, this.isMasterKey);
 }
+
+class SaveKeyLostRecord extends KeyIssuanceProcessRecordEvent {
+  final KeyHistoryModel keyHistoryModel;
+  final int kmId;
+
+  const SaveKeyLostRecord(
+      this.keyHistoryModel,
+      this.kmId,
+      );
+}

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../bloc/visiting_officials_list_bloc.dart';
 
@@ -64,7 +63,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
   Widget build(BuildContext context) {
     return BlocConsumer<VisitingOfficialListBloc, VisitingOfficialListState>(
         listener: (context, state) {
-      // TODO: implement listener
+      Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return PopScope(
         canPop: false,
@@ -199,8 +198,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-              showEditButton:false,
-              showDutyPostEditButton: true,
+                    showEditButton: false,
+                    showDutyPostEditButton: true,
                     onEditTap: (selectedIndex) async {
                       LawVisitingOfficial model = await LawEnforcementServices()
                           .getLeoVisitingOfficialById(
@@ -245,7 +244,6 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
     required BuildContext context,
     required LawVisitingOfficial visitingOfficialDetails,
     required final List<Organisation> departments,
-
   }) {
     log('--.departments--llen--${departments.length}---');
     showDialog(

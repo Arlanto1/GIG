@@ -57,6 +57,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       backgroundColor: AppColors.cardBgColor,
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, state.message);

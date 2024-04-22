@@ -115,7 +115,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
-      state.model.incidentType ??= 0;
+
       // Get Date of Creation
     model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
@@ -126,7 +126,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
-      Locations getLocationsData =
+      state.model.incidentType ??= 0;
+    Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -210,12 +211,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-
-
-      state.model.incidentType = incidentType ?? state.model.incidentType;
-
-    // state.model.incidentType = incidentType ?? state.model.incidentType ?? 0;
-
+    state.model.incidentType = incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
     state.model.typeOfAsset = typeOfAsset ?? state.model.typeOfAsset;
@@ -356,8 +352,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
 
-    state.model.incidentType ??= 0;
-
     // Setting time in milliseconds
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -367,6 +361,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
     state.model.inputDate = inputDate.toString();
 
+    state.model.incidentType ??= 0;
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;

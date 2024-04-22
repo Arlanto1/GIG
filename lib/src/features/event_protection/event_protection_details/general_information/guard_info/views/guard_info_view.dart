@@ -1,28 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
-import '../../../../../../common_widgets/new_search_textfield.dart';
-import '../../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../../models/organisation.dart';
-import '../cubits/guard_info_cubit.dart';
+import 'package:db_atom/index.dart';
 
 class GuardInfoView extends StatefulWidget {
   final GuardInfoModel? guardInfoModel;
@@ -61,6 +39,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
     return BlocConsumer<GuardInfoCubit, GuardInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -82,15 +61,6 @@ class _GuardInfoViewState extends State<GuardInfoView> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {
@@ -164,7 +134,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                       /*   /// Status
+                          /*   /// Status
                           CommonWidgets.textDisplay(
                               Constants.status, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -200,6 +170,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 */
+
                           ///Guarding Vendor Id
                           CommonWidgets.textDisplay(Constants.guardingVendorId,
                               Styles.textStyleBlack14),
@@ -446,7 +417,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           FlutterInputField(
                             textInputType: TextInputType.number,
                             initialValue:
-                            '${state.guardInfoModel.securityGuardCountHrs??''}',
+                                '${state.guardInfoModel.securityGuardCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecurityGuardsHrsKey,
                             hintText: '',
                             isEnable: widget.guardInfoModel == null
@@ -510,7 +481,6 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                           ///Total Duty Hours
                           CommonWidgets.textDisplay(Constants.totalDutyHours,
                               Styles.textStyleBlack14),
@@ -518,21 +488,21 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           FlutterInputField(
                             textInputType: TextInputType.number,
                             initialValue:
-                            '${state.guardInfoModel.securityFacilitatorCountHrs ?? ''}',
+                                '${state.guardInfoModel.securityFacilitatorCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
                             hintText: '',
                             isEnable: widget.guardInfoModel == null
                                 ? true
                                 : (widget.guardInfoModel != null &&
-                                (widget.guardInfoModel
-                                    ?.securityFacilitatorCountHrs ==
-                                    null))
-                                ? false
-                                : true,
+                                        (widget.guardInfoModel
+                                                ?.securityFacilitatorCountHrs ==
+                                            null))
+                                    ? false
+                                    : true,
                             isDisableColor: (widget.guardInfoModel != null &&
-                                (widget.guardInfoModel
-                                    ?.securityFacilitatorCountHrs !=
-                                    null))
+                                    (widget.guardInfoModel
+                                            ?.securityFacilitatorCountHrs !=
+                                        null))
                                 ? true
                                 : false,
                             onChange: (int value) {
@@ -546,14 +516,14 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
-                     /// Proposed Vendor
+                          /// Proposed Vendor
                           CommonWidgets.textDisplay(
                             Constants.proposedVendors,
                             Styles.textStyleBlack14,
                           ),
                           TextFieldAddButton(
-                            title:'${state.guardInfoModel.proposedVendors??''}',
+                            title:
+                                '${state.guardInfoModel.proposedVendors ?? ''}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -563,8 +533,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                                 onTap: (List<Organisation> proposedVendors) {
                                   BlocProvider.of<GuardInfoCubit>(context)
                                       .updateDropdownValues(
-                                      proposedVendors: proposedVendors
-                                          );
+                                          proposedVendors: proposedVendors);
                                 },
                               );
                             },

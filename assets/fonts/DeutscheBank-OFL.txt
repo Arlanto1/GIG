@@ -1,0 +1,25 @@
+==Release notes_Deutsche Bank Text==
+
+Compiler of release notes: Dalton Maag
+Designer: Dalton Maag
+Designer URL: daltonmaag.com
+
+Date of creation: 2018-03-09
+
+Changes since previous release:
+- Added small figures: superiors, inferiors, denominators and numerators.
+
+Basic information 
+1 Font name: Deutsche Bank Text
+2 TrueType Version record: 1.100
+3 Regional package: Latin
+4 Supported scripts: Latin
+5 Number of glyphs: 478
+6 Weights/Styles: Regular, Italic
+7 Usage: Text
+
+Technology 
+1 File formats: The files have been delivered in the TrueType-based OpenType format, for use in all major Operating Systems, and also as TTF for use in apps, and in web font format: EOT; WOFF; WOFF2.
+2 Embedding settings: Editing of the document is allowed (editable mode), subsetting is allowed.
+3 Hinting information: All glyphs are manually hinted for optimized rasterization in Microsoft ClearType or for other LCD devices.
+4 Default numerals: Tabular. Proportional figures accessible via OpenType features. 

@@ -197,11 +197,6 @@ class DutyPostNameMasterDetailsCubit
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.inputDate ?? '0'),
-                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -214,11 +209,6 @@ class DutyPostNameMasterDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.inputDate ?? '0'),
-                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -241,11 +231,6 @@ class DutyPostNameMasterDetailsCubit
           status: FormStatus.error,
         ),
       );
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
-              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

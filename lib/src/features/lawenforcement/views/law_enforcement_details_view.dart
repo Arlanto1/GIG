@@ -129,6 +129,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             visible: widget.model?.status != -1,
             child: GestureDetector(
               onTap: () async {
+                // Navigator.pop(context);
+
                 //loginFormKey.currentState!.validate();
                 FocusScope.of(context).unfocus();
                 try {
@@ -159,6 +161,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       backgroundColor: AppColors.backgroundWhitecolor,
       body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
         listener: (context, state) {
+          Utils().errorAndLogout(state, context);
           if (state.stateType == FormStatus.successFormSubmit) {
             var dialog = CustomAlertDialog(
               title: 'Law Enforcement',
