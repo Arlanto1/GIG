@@ -18,15 +18,6 @@ class BaseDate {
     );
   }
 
-  bool isTimestamp(String str) {
-    try {
-      DateTime.parse(str);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
@@ -39,7 +30,7 @@ class BaseDate {
   }) {
     log('--datePickerWidgetLoading---');
     // Convert Date Time if String
-    if (isTimestamp(textController.text)) {
+    if (Utils().isTimestamp(textController.text)) {
       textController.text = Utils.timestampToDateConversion(
           int.tryParse(textController.text),
           onlyDate ? Constants.dateFormat : Constants.fulldateFormat);
@@ -181,7 +172,7 @@ class BaseDate {
           pickedDate = date;
           log('confirm $date');
           if (pickedDate != null) {
-            showTimePicker(context);
+            showTimePicker(context,  pickedDate!, onlyDate, textController, onChange);
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
@@ -220,13 +211,19 @@ class BaseDate {
     }
   }
 
-  void showTimePicker(BuildContext context) {
+  void showTimePicker(BuildContext context, DateTime pickedDate, onlyDate, textController, onChange) {
     DatePicker.showTimePicker(
       context,
+      currentTime: pickedDate,
       showSecondsColumn: false,
       showTitleActions: true,
       onChanged: (time) {},
-      onConfirm: (time) {},
+      onConfirm: (time) {
+        log('--time--${time.toString()}--');
+        // pickedDate.add(duration)
+
+        setDateTime(time, onlyDate, textController, onChange);
+      },
     );
   }
 

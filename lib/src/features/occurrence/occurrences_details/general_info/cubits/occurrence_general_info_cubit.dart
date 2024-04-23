@@ -377,10 +377,15 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    state.model.inputDate = inputDate.toString();
+    log('-state.model.inputDate---${state.model.inputDate}----');
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
@@ -394,7 +399,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -409,7 +414,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

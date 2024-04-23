@@ -7,6 +7,7 @@ enum FormStatus {
   success,
   successFormSubmit,
   failure,
+  formError,
   error,
   createArticleFound,
   invalidEmail,

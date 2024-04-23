@@ -40,6 +40,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     return BlocConsumer<AttendanceDetailsCubit, AttendanceDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {

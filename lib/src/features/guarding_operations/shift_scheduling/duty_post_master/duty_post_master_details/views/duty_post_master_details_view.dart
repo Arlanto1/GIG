@@ -49,6 +49,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
     final height = size.height;
     return BlocConsumer<DutyPostMasterDetailsCubit, DutyPostMasterDetailsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

@@ -367,12 +367,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime =
-    DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-    int inputDate = dateTime
-        .toUtc()
-        .millisecondsSinceEpoch ~/ 1000;
-    state.model.inputDate = inputDate.toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     // Create/Update API Call
     ShiftScheduleRequest request =
@@ -384,7 +387,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -397,7 +400,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

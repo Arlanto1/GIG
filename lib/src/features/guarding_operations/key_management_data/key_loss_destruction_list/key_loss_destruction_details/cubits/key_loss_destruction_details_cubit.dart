@@ -261,12 +261,13 @@ class KeyLossDestructionDetailsCubit
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    DateTime dateTime =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
-    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    state.model.createdDate = inputDate.toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
     // Create/Update API Call
     KeyLossDestructionRequest request =
         KeyLossDestructionRequest(keyLossGi: state.model);
@@ -278,11 +279,11 @@ class KeyLossDestructionDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -299,11 +300,11 @@ class KeyLossDestructionDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -320,7 +321,7 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -337,7 +338,7 @@ class KeyLossDestructionDetailsCubit
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

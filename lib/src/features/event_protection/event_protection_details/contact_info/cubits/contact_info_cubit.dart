@@ -351,7 +351,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

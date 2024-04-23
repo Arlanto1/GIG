@@ -66,6 +66,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     return BlocConsumer<ContactDetailsCubit, ContactDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
@@ -338,6 +339,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -403,6 +405,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -467,6 +470,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -530,6 +534,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -594,6 +599,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(

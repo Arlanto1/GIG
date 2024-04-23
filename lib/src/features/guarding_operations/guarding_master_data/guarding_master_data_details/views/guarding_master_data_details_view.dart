@@ -80,6 +80,7 @@ class _GuardingMasterDataDetailsViewState
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-deploymentOrderSubmitted---${state.model.deploymentOrderSubmitted}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

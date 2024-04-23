@@ -59,6 +59,7 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
@@ -212,6 +213,29 @@ class _AnnualPowerShutdownListDetailsViewState
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
                                   onTap: () {
+                                    if (!disableForm) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues: eventProtectionGiStatus
+                                            .map((label) => label.key)
+                                            .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              eventProtectionGiStatus
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<GeneralInfoCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  status: int.tryParse(
+                                                      selectedLabel.value));
+                                        },
+                                      );
+                                    }
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1153,6 +1177,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         const SizedBox(width: 14),
                                         SvgPicture.asset(
                                           AppIcon.pluscircle,
+                                          color: AppColors.navigationSkybluecolor,
                                         ),
                                         const SizedBox(width: 10),
                                         const Text(

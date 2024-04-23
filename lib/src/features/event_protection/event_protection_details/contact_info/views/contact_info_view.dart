@@ -68,6 +68,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
     return BlocConsumer<ContactInfoCubit, ContactInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
