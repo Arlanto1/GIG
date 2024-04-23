@@ -358,7 +358,7 @@ class _KeyLossDestructionDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh?.name,
+                                title: state.model.srh?.userInfo,
                                 height: 60,
                                 isDisableColor: isReadOnly,
                                 onTap: () {

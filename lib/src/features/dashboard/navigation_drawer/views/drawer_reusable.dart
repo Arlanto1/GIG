@@ -366,7 +366,8 @@ class NavigationDrawer1 extends StatelessWidget {
         context,
         shiftScheduleListRoute,
       );
-    } else if (index == 4) {
+    }
+    else if (index == 4) {
       Navigator.pushNamed(
         context,
         attendanceReportBillingListRoute,
@@ -379,8 +380,6 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, attendanceReportBillingListRoute);
-    } else if (index == 1) {
       Navigator.pushNamed(context, guardingRatesRoute);
     }
   }

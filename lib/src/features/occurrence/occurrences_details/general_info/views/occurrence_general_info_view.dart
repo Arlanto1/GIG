@@ -249,7 +249,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                                title: state.model.handoverSecurity?.name,
+                                title: state.model.handoverSecurity?.userInfo,
                                 height: 70,
                                 isDisableColor: state.model.status == 1,
                                 onTap: () {

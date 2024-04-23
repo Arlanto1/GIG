@@ -19,6 +19,8 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onEditTap;
   final Function? onViewTap;
   final Function? onDeleteTap;
+  final Function? onEmailTap;
+  final Function? onLinkOffTap;
   final int? incidentType;
   final bool isIncident;
   final Organisation? vendors;
@@ -28,6 +30,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool? showEditButton;
   final bool? showDeleteButton;
   final bool? showEmailButton;
+  final bool? showLinkOffButton;
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
   final bool isEventProtectionStatus;
@@ -56,6 +59,8 @@ class BaseListTileItem extends StatefulWidget {
     this.onTap,
     this.onEditTap,
     this.onViewTap,
+    this.onEmailTap,
+    this.onLinkOffTap,
     this.index,
     this.region,
     this.vendor,
@@ -87,9 +92,10 @@ class BaseListTileItem extends StatefulWidget {
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
     this.vendors,
-    this.showDutyPostEditButton =false,
+    this.showDutyPostEditButton = false,
     this.showDeleteButton = true,
     this.showEmailButton = false,
+    this.showLinkOffButton = false,
   });
 
   @override
@@ -250,7 +256,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       if (widget.status != null &&
                           widget.isAttendanceStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildAttendanceStatusRow(status: widget.status ?? 0),
+                        Utils().buildAttendanceStatusRow(
+                            status: widget.status ?? 0),
                       ],
                       if (widget.status != null &&
                           widget.isKeyManagementStatus) ...[
@@ -359,31 +366,34 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           : null;
                     },
                     icon: (widget.isMaterialMovementStatus &&
-                        (widget.status == 10 || widget.status == -1)) ||
-                        (widget.isSLAViolationStatus &&
-                            (widget.status == 2 || widget.status == -1)) ||
-                        (widget.isContactDetailsStatus &&
-                            widget.status == -1) ||
-                        (widget.isKeyManagementStatus &&
-                            (widget.status == -1 || widget.status == 2)) ||
-                        (widget.isKeyManagementIssuanceStatus &&
-                            widget.status != 0 && widget.status != 1 && widget.status != 2) ||
-                        (widget.isEventProtectionStatus &&
-                            (widget.status != 0)) ||
-                        (widget.isDutyPostNameMasterStatus &&
-                            widget.status == -1) ||
-                        (widget.isShiftScheduleStatus &&
-                            widget.status == -1) ||
-                        (widget.isIncident &&
-                            widget.status != 0) ||
-                        (widget.isMasterGuard &&
-                            (widget.status != 1 ||
-                                widget.status != 2 ||
-                                widget.status != 3 ||
-                                widget.status != 4)) ||
-                        (widget.isVipStatus && (widget.status != 0)||
-                            (widget.isOccurrenceStatus &&
-                                widget.status == 1)) ||  (widget.isKeyManagementHistoryStatus && (widget.status == 10 ||widget.status == 11))
+                                (widget.status == 10 || widget.status == -1)) ||
+                            (widget.isSLAViolationStatus &&
+                                (widget.status == 2 || widget.status == -1)) ||
+                            (widget.isContactDetailsStatus &&
+                                widget.status == -1) ||
+                            (widget.isKeyManagementStatus &&
+                                (widget.status == -1 || widget.status == 2)) ||
+                            (widget.isEventProtectionStatus &&
+                                (widget.status != 0)) ||
+                            (widget.isDutyPostNameMasterStatus &&
+                                widget.status == -1) ||
+                            (widget.isShiftScheduleStatus &&
+                                widget.status == -1) ||
+                            (widget.isIncident && widget.status != 0) ||
+                            (widget.isMasterGuard &&
+                                (widget.status != 1 ||
+                                    widget.status != 2 ||
+                                    widget.status != 3 ||
+                                    widget.status != 4)) ||
+                            (widget.isVipStatus && (widget.status != 0) ||
+                                (widget.isOccurrenceStatus &&
+                                    widget.status == 1)) ||
+                            (widget.isKeyManagementIssuanceStatus &&
+                                widget.status != 0 &&
+                                widget.status != 1 &&
+                                widget.status != 2) ||
+                            (widget.isKeyManagementHistoryStatus &&
+                                (widget.status == 10 || widget.status == 11))
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
@@ -396,8 +406,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onEditTap!(widget.index)
                           : null;
                     },
-                    icon:
-                    const Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                   ),
                 ],
                 IconButton(
@@ -409,26 +418,47 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   },
                   icon: const Icon(Icons.remove_red_eye),
                 ),
-                if (widget.showEmailButton ?? true) ...[
+                if (widget.isSecuritySystemSLA == true && widget.status == 2 ||
+                    widget.status == 3 ||
+                    widget.status == 4 ||
+                    widget.status == 5 ||
+                    widget.status == 8 ||
+                    widget.status == 10 ||
+                    widget.status == 12) ...[
+                  if (widget.showEmailButton ?? true) ...[
                     IconButton(
                       onPressed: () {
+                        widget.onEmailTap != null
+                            ? widget.onEmailTap!(widget.index)
+                            : null;
                       },
-                      icon: const Icon(Icons.email) ,
+                      icon: const Icon(Icons.email),
                     ),
-                 ],
-    if (widget.showDeleteButton ?? true) ...[
-    if (widget.onDeleteTap != null) ...[
+                  ],
+                ],
+                if (widget.showLinkOffButton ?? true) ...[
                   IconButton(
                     onPressed: () {
-                      //do action on view
-                      widget.onDeleteTap != null
-                          ? widget.onDeleteTap!(widget.index)
+                      widget.onLinkOffTap != null
+                          ? widget.onLinkOffTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.delete) ,
+                    icon: const Icon(Icons.link_off),
                   ),
-                ]
-    ],
+                ],
+                if (widget.showDeleteButton ?? true) ...[
+                  if (widget.onDeleteTap != null) ...[
+                    IconButton(
+                      onPressed: () {
+                        //do action on view
+                        widget.onDeleteTap != null
+                            ? widget.onDeleteTap!(widget.index)
+                            : null;
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ]
+                ],
               ],
             ),
           ),
@@ -438,7 +468,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
 
     return widgets;
   }
-
 
   Widget getLabelWidgets(List<Label>? labels) {
     List<Widget> widgets = [];

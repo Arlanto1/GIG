@@ -379,7 +379,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh1?.name,
+                                title: state.model.srh1?.userInfo,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -411,7 +411,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh2?.name,
+                                title: state.model.srh2?.userInfo,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -444,7 +444,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.epManager1?.name,
+                                title: state.model.epManager1?.userInfo,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -477,7 +477,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.epManager2?.name,
+                                title: state.model.epManager2?.userInfo,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -510,7 +510,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.lsm1?.name,
+                              title: state.model.lsm1?.userInfo,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -571,7 +571,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.lsm2?.name,
+                              title: state.model.lsm2?.userInfo,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -631,7 +631,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.bu1?.name,
+                              title: state.model.bu1?.userInfo,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -693,7 +693,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.bu2?.name,
+                              title: state.model.bu2?.userInfo,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {

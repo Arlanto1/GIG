@@ -404,7 +404,7 @@ class _GuardingMasterDataDetailsViewState
                                   Styles.textStyleBlack14,
                                 ),
                                 TextFieldAddButton(
-                                  title: state.model.guard?.name,
+                                  title: state.model.guard?.userInfo,
                                   height: 70,
                                   isDisableColor: true,
                                   onTap: () {

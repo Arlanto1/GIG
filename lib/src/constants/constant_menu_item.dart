@@ -14,7 +14,7 @@ const securityItems = [
 ];
 
 const costAndBillingExpansionTileDrawerItems = [
-  MenuItem(Constants.attendanceReportBilling, AppIcon.attendanceReportBillingIcon, 0),
+  // MenuItem(Constants.attendanceReportBilling, AppIcon.attendanceReportBillingIcon, 0),
   MenuItem(Constants.guardingRates, AppIcon.guardingRatesIcon, 0),
 ];
 const securitySystemExpansionTileDrawerItems = [

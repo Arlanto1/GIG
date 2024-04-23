@@ -192,7 +192,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Guarding Master Data Details Cubit');
+          error: e, name: 'Shift Schedule Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,

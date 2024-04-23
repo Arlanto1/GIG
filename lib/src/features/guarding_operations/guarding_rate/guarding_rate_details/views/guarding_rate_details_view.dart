@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/app.dart';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -293,7 +294,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.4),
+            color: AppColors.navigationSkybluecolor.withOpacity(0.5),
             spreadRadius: 1.0,
             blurRadius: 4.0,
             offset: const Offset(0, 0),

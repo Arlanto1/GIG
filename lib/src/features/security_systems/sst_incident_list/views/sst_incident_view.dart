@@ -1,14 +1,19 @@
 import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../models/requestModel/general_info_request.dart';
+import '../../models/sst_incident_response.dart';
+import '../../services/sst_incident_services.dart';
 import '../bloc/sst_incident_bloc.dart';
 
 class SstIncidentView extends StatefulWidget {
   final bool isInternal;
+  final SstIncident? model;
 
   const SstIncidentView({
     super.key,
     required this.isInternal,
+    this.model,
   });
 
   @override
@@ -123,8 +128,29 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               'exportSSSLAExcel?ticketType=${widget.isInternal ? 1 : 0}',
           pdfAPIName: 'exportSSSLAPDF?ticketType=${widget.isInternal ? 1 : 0}',
         ),
-        body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
-            builder: (context, state) {
+        body: BlocListener<SstIncidentBloc, SstIncidentState>(
+            listener: (context, state) {
+          if (state.status == FormStatus.success && !state.message.isEmptyOrNull ) {
+            var dialog = CustomAlertDialog(
+              title: Constants.sentReminder,
+              message: state.message,
+              positiveBtnText: Constants.ok,
+              onPositivePressed: () {
+                Navigator.popAndPushNamed(
+                  context,
+                  sstIncidentListRoute,
+                  arguments: {"isInternal": widget.isInternal},
+                );
+              },
+            );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog,
+            );
+          }
+        }, child: BlocBuilder<SstIncidentBloc, SstIncidentState>(
+                builder: (context, state) {
           if (state.status == FormStatus.loading) {
             return const BaseLoader();
           }
@@ -160,7 +186,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading&&
+                    state.status != FormStatus.loading &&
                     state.status != FormStatus.initial) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   const NoRecordFoundWidget(),
@@ -270,6 +296,19 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                       },
                                     );
                                   },
+                                  showEmailButton: true,
+                                  onEmailTap: (selectedIndex) async {
+                                    FocusScope.of(context).unfocus();
+                                    int? id = state.items[index].id;
+                                    SstIncident selectedIncident;
+                                    selectedIncident = state.items.firstWhere(
+                                      (incident) => incident.id == id,
+                                    );
+
+                                    BlocProvider.of<SstIncidentBloc>(context)
+                                        .sendRemainder(selectedIncident);
+                                  },
+
                                   index: index,
                                 );
                         }
@@ -281,7 +320,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               ],
             ),
           );
-        }));
+        })));
   }
 
   getId({
@@ -307,7 +346,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<SstIncidentBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -317,7 +360,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<SstIncidentBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

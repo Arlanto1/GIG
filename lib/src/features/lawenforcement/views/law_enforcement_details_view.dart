@@ -129,6 +129,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             visible: widget.model?.status != -1,
             child: GestureDetector(
               onTap: () async {
+                // Navigator.pop(context);
+
                 //loginFormKey.currentState!.validate();
                 FocusScope.of(context).unfocus();
                 try {

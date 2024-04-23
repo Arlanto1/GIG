@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../key_management_master/services/key_management_master_services.dart';
+
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
 
@@ -13,11 +15,13 @@ class KeyIssuanceProcessRecordBloc
   final int locationId;
   final int parentId;
   final bool isMasterKey;
+  final KeyManagementMasterModel? keyManagementMasterModel;
 
   KeyIssuanceProcessRecordBloc({
     required this.locationId,
     required this.parentId,
     required this.isMasterKey,
+    this.keyManagementMasterModel,
   }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,

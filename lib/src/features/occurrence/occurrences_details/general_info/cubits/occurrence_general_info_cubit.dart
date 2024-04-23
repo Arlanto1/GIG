@@ -119,10 +119,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
-      state.model.inputDate = state.model.inputDate == null
+   model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(model?.inputDate ?? '0'),
               Constants.fulldateFormat);
 
       AddEntities entities =
