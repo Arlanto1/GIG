@@ -69,6 +69,7 @@ class Constants {
   // static const String customFontRegularFamily = 'Poppins-Regular';
   // static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
   // static const String customFontMixedFamily = 'Poppins-Mixed';
+
   ///DeutscheBank Font
   static const String customFontFamily = 'DeutscheBankDisplay_A';
   static const String customFontMediumFamily = 'DeutscheBankDisplay_A_Rg';

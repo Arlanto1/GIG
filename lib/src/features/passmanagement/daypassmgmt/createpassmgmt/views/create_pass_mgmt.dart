@@ -3036,7 +3036,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.hostResponse?.name,
+      title: state.hostResponse?.userInfo,
       height: 60,
       isDisableColor: widget.model?.status == 0 || widget.model?.status == null
           ? false
@@ -3106,7 +3106,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget dbsponsoraddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.dbsponsorResponse?.name ?? '',
+      title: state.dbsponsorResponse?.userInfo ?? '',
       height: 60,
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
@@ -3599,8 +3599,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         returnedTime:
             widget.model?.status == 1 ? passReturnedOn.toString() : null,
         hostName: dbsponsorTextController.text.isEmpty
-            ? state.hostResponse?.name ?? ''
-            : state.dbsponsorResponse?.name ?? '',
+            ? state.hostResponse?.userInfo ?? ''
+            : state.dbsponsorResponse?.userInfo ?? '',
         companyType: companyType,
         evidenceDocuments: evidenceDocuments,
         entities: entities,
@@ -3664,8 +3664,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           returnedTime:
               widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
-              ? state.hostResponse?.name ?? ''
-              : state.dbsponsorResponse?.name ?? '',
+              ? state.hostResponse?.userInfo ?? ''
+              : state.dbsponsorResponse?.userInfo ?? '',
           companyType: companyType,
           evidenceDocuments: evidenceDocuments,
           entities: entities,

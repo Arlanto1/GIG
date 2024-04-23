@@ -497,7 +497,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.systemManager?.name,
+                              title: state.model.systemManager?.userInfo,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -534,7 +534,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lsm?.name,
+                              title: state.model.lsm?.userInfo,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -572,7 +572,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.asl?.name,
+                              title: state.model.asl?.userInfo,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -610,7 +610,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lt?.name,
+                              title: state.model.lt?.userInfo,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {

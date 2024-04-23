@@ -13,6 +13,7 @@ class User {
   List<dynamic>? notApprovedRoles;
   List<dynamic>? notApprovedRoleExtensions;
   String? name;
+  String? userInfo;
   String? userStatus;
 
   User({
@@ -27,6 +28,7 @@ class User {
     this.notApprovedRoles,
     this.notApprovedRoleExtensions,
     this.name,
+    this.userInfo,
     this.userStatus,
   });
 
@@ -47,6 +49,7 @@ class User {
         notApprovedRoles = json['notApprovedRoles'] as List?,
         notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
         name = json['name'] as String?,
+        userInfo = json['userInfo'] as String?,
         userStatus = json['userStatus'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +64,7 @@ class User {
         'notApprovedRoles': notApprovedRoles,
         'notApprovedRoleExtensions': notApprovedRoleExtensions,
         'name': name,
+        'userInfo': userInfo,
         'userStatus': userStatus
       };
 }
