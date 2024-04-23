@@ -66,14 +66,14 @@ class Styles {
   static const TextStyle textStyleRegularNormalGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
-    fontWeight: FontWeight.w200,
+    fontWeight: FontWeight.w400,
     color: AppColors.textgreyThemecolor,
   );
 
   static const TextStyle textStyleRegularNormalWhite18 = TextStyle(
     fontSize: 18,
     fontFamily: Constants.customFontRegularFamily,
-    fontWeight: FontWeight.w200,
+    fontWeight: FontWeight.w700,
     color: AppColors.backgroundWhitecolor,
   );
   static const TextStyle textStyleRegularNormalWhite12 = TextStyle(
