@@ -245,13 +245,13 @@ flutter:
       fonts:
         - asset: assets/fonts/Poppins-ThinItalic.ttf
 
-    - family: Deutsche Bank Text-Regular
+    - family: DeutscheBankDisplay_A_Rg
       fonts:
-        - asset: assets/fonts/DeutscheBankText-Regular.ttf
+        - asset: assets/fonts/DeutscheBankText_A_Rg.ttf
 
-    - family: Deutsche Bank Text-Italic
+    - family: DeutscheBankDisplay_A_It
       fonts:
-        - asset: assets/fonts/DeutscheBankText-Italic.ttf
+        - asset: assets/fonts/DeutscheBankText_A_It.ttf
 
 #          fonts:
 #            - family: Poppins-Black

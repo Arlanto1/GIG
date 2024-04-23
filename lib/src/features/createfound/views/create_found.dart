@@ -95,7 +95,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? BaseUser(
               email: widget.model?.depositor?.email ?? "",
               id: widget.model?.depositor?.userId ?? 0,
-              name: widget.model?.depositor?.name ?? "")
+              name: widget.model?.depositor?.userInfo ?? "")
           : BaseUser();
       selectedArtclelist = widget.model?.typeOfArticle != null
           ? Organisation(
@@ -112,9 +112,9 @@ class _CreateFoundState extends State<CreateFound> {
               userId: widget.model?.handoverSecurity?.userId ?? 1,
               lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
-      createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
+      createdByValue = userDetails?.userInfo != null ? userDetails?.userInfo ?? '' : '';
       handOverByValue =
-          handOverSecurity?.name != null ? handOverSecurity?.name ?? '' : '';
+          handOverSecurity?.userInfo != null ? handOverSecurity?.userInfo ?? '' : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       locationSelectedlist = widget.model?.location != null
           ? Organisation(
@@ -195,8 +195,8 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.model?.claimant?.lastName ?? ''
           : '';
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
-      claimantTextController.text = widget.model?.claimant?.name != null
-          ? widget.model?.claimant?.name ?? ''
+      claimantTextController.text = widget.model?.claimant?.userInfo != null
+          ? widget.model?.claimant?.userInfo ?? ''
           : '';
       claimantTextController.text = widget.model?.claimantName != null
           ? widget.model?.claimantName ?? ""
@@ -210,7 +210,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? BaseUser(
               email: widget.model?.claimant?.email ?? "",
               id: widget.model?.claimant?.userId ?? 0,
-              name: widget.model?.claimant?.lastName ?? "")
+              name: widget.model?.claimant?.userInfo ?? "")
           : BaseUser();
     }
   }

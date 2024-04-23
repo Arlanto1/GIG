@@ -485,7 +485,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.complainant?.name,
+                                title: state.model.complainant?.userInfo,
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -618,7 +618,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.complainantHr?.name,
+                              title: state.model.complainantHr?.userInfo,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -719,7 +719,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentManager?.name,
+                              title: state.model.incidentManager?.userInfo,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null
@@ -760,7 +760,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentOwner?.name,
+                              title: state.model.incidentOwner?.userInfo,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null
