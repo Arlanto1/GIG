@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:geolocator/geolocator.dart';
@@ -8,9 +9,9 @@ Future<Position> determinePosition() async {
 
   // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  
-  if(serviceEnabled) {
-    return await getPosition();
+
+  if (serviceEnabled) {
+    return await getLocation();
   }
   if (!serviceEnabled) {
     // Location services are not enabled don't continue
@@ -40,21 +41,57 @@ Future<Position> determinePosition() async {
 
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
-  return await getPosition();
+  return await getLocation();
 }
 
-Future<Position> getPosition() async {
-  log('Will get Current Position now.');
-  late Position position;
-  try {
-    position = await Geolocator.getCurrentPosition(
-      forceAndroidLocationManager: false,
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-        timeLimit: const Duration(seconds: 20),
-    );
-    log('Current Position: ${position.latitude}, ${position.longitude}');
-  } on Exception catch (e) {
-    log('location fetch error: ${e.toString()}');
+Future<Position>? _positionFuture;
+
+Future<Position> getLocation() async {
+  if (_positionFuture != null) {
+    // If a future is already in progress, return it directly
+    log('---_positionFuture---');
+    return _positionFuture!;
+  } else {
+    log('---_positionFuture--2-');
+    // If no future is in progress, start a new one
+    Completer<Position> completer = Completer<Position>();
+    _positionFuture = completer.future;
+
+    // Fetch the current position
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.medium,
+      );
+      log('---_positionFuture--22-');
+
+      // Complete the future with the fetched position
+      completer.complete(position);
+    } catch (e) {
+      log('---_positionFuture--22---${e.toString()}');
+      // Handle any errors and complete the future with an error
+      completer.completeError(e);
+    } finally {
+      log('---_positionFuture--22---finally=---}');
+      // Reset _positionFuture to allow subsequent calls to getLocation()
+      // _positionFuture = null;
+    }
+
+    // Wait for the future to complete and then return its result
+    return await _positionFuture!;
   }
-  return position;
 }
+// Future<Position> getPosition() async {
+//   log('Will get Current Position now.');
+//   late Position position;
+//   try {
+//     position = await Geolocator.getCurrentPosition(
+//       forceAndroidLocationManager: false,
+//       desiredAccuracy: LocationAccuracy.bestForNavigation,
+//       timeLimit: const Duration(seconds: 20),
+//     );
+//     log('Current Position: ${position.latitude}, ${position.longitude}');
+//   } on Exception catch (e) {
+//     log('location fetch error: ${e.toString()}');
+//   }
+//   return position;
+// }
