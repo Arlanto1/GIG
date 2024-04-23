@@ -63,12 +63,19 @@ class Constants {
   static const String userRoles = 'userRoles';
   static const String defaultLocation = 'defaultLocation';
 
-  static const String customFontFamily = 'Poppins';
-  static const String customFontMediumFamily = 'Poppins-Medium';
-  static const String customFontBoldFamily = 'Poppins-Bold';
-  static const String customFontRegularFamily = 'Poppins-Regular';
-  static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
-  static const String customFontMixedFamily = 'Poppins-Mixed';
+  // static const String customFontFamily = 'Poppins';
+  // static const String customFontMediumFamily = 'Poppins-Medium';
+  // static const String customFontBoldFamily = 'Poppins-Bold';
+  // static const String customFontRegularFamily = 'Poppins-Regular';
+  // static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
+  // static const String customFontMixedFamily = 'Poppins-Mixed';
+  ///DeutscheBank Font
+  static const String customFontFamily = 'DeutscheBankDisplay_A';
+  static const String customFontMediumFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontBoldFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontRegularFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontSemiBoldFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontMixedFamily = 'DeutscheBankDisplay_A_Rg';
   static const String appname = 'AtomEdge';
   static const String unsaveddata = 'Unsaved Data';
   static const String unsaveddatadesc =
@@ -845,11 +852,6 @@ class Constants {
   ///Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
 
-
-  /// Deutsche-Bank Fonts
-  // static const String customFontFamily = 'Deutsche Bank Text';
-  // static const String customFontItalicFamily1 = 'Deutsche Bank Text-Italic';
-  // static const String customFontRegularFamily = 'Deutsche Bank Text-Regular';
 }
 
 //static const String height = 'Height(cm)';
