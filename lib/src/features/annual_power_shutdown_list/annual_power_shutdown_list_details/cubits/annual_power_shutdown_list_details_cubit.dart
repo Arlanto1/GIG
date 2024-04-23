@@ -370,11 +370,13 @@ class AnnualPowerShutdownListDetailsCubit
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    state.model.inputDate = inputDate.toString();
-
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
     /// Create/Update API Call
     AnnualPowerShutdownListRequest request =
         AnnualPowerShutdownListRequest(annualPowerShutdown: state.model);

@@ -219,10 +219,15 @@ class KeyManagementMasterDetailsCubit
     // state.model.createdDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
-    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    state.model.createdDate = inputDate.toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
 
     // Create/Update API Call
     KeyManagementMasterRequest request =

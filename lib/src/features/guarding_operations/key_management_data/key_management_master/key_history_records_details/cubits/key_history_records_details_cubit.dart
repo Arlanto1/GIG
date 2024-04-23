@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'key_history_records_details_state.dart';
 
@@ -217,8 +218,15 @@ class KeyHistoryRecordsDetailsCubit
     }
 
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
     state.model.modifiedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
