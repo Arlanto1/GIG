@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:geolocator/geolocator.dart';
 
 Future<Position> determinePosition() async {
@@ -6,6 +8,10 @@ Future<Position> determinePosition() async {
 
   // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  
+  if(serviceEnabled) {
+    return await getPosition();
+  }
   if (!serviceEnabled) {
     // Location services are not enabled don't continue
     // accessing the position and request users of the
@@ -34,5 +40,21 @@ Future<Position> determinePosition() async {
 
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
-  return await Geolocator.getCurrentPosition();
+  return await getPosition();
+}
+
+Future<Position> getPosition() async {
+  log('Will get Current Position now.');
+  late Position position;
+  try {
+    position = await Geolocator.getCurrentPosition(
+      forceAndroidLocationManager: false,
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+        timeLimit: const Duration(seconds: 20),
+    );
+    log('Current Position: ${position.latitude}, ${position.longitude}');
+  } on Exception catch (e) {
+    log('location fetch error: ${e.toString()}');
+  }
+  return position;
 }

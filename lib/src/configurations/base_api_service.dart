@@ -26,12 +26,11 @@ class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
     Position position = await determinePosition();
-    position.latitude;
     headers.addAll({"Latitude": position.latitude.toString()});
     headers.addAll({"Longitude": position.longitude.toString()});
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
-      log("token is:$token");
+      // log("token is:$token");
       if (token.isEmptyOrNull) {
         throw TokenExpiredException(message: 'Session has Expired');
       }
@@ -61,7 +60,7 @@ class BaseApiService {
       }
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        log('response.body----${response.body}');
+        // log('response.body----${response.body}');
         // log('responseBody----$responseBody');
         return responseBody;
       } else {
