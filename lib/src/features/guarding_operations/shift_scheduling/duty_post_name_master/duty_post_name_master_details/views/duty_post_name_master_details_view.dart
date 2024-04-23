@@ -290,6 +290,7 @@ bool showSaveSubmitButtons =false;
                                 const SizedBox(width: 14),
                                 SvgPicture.asset(
                                   AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
                                 ),
                                 // ),
                                 const SizedBox(width: 10),
