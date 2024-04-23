@@ -26,11 +26,12 @@ class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
     Position position = await determinePosition();
+    position.latitude;
     headers.addAll({"Latitude": position.latitude.toString()});
     headers.addAll({"Longitude": position.longitude.toString()});
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
-      // log("token is:$token");
+      log("token is:$token");
       if (token.isEmptyOrNull) {
         throw TokenExpiredException(message: 'Session has Expired');
       }
@@ -45,7 +46,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log('GET API URL: $url');
+      log('url--getData---$url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -75,8 +76,8 @@ class BaseApiService {
         }
 
         if (response.statusCode.toString() == "401") {
-          log("Will log out now ${response.statusCode}, API URL: $url");
-          log('Error Response: ${response.body}');
+          log("will log out now${response.statusCode}");
+          // TODO: Need to handle the logout case
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
@@ -145,7 +146,7 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
-      log(" POST API URL: $url");
+      log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
 
       var response = await http.post(
@@ -175,14 +176,18 @@ class BaseApiService {
           requestedData: requestedData,
         );
       } else if (response.statusCode == 400) {
-        final responseBody = json.decode(response.body);
+        // final responseBody = json.decode(response.body);
         log("User is unauthorized. Logging out...");
         log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-        throw GenericResponse.fromJson(responseBody);
+        Map<String, dynamic> json = responseBody;
+        json.putIfAbsent('statusCode', () => '400');
+        throw GenericResponse.fromJson(json);
       } else if (response.statusCode == 401) {
         // Unauthorized
         log("User is unauthorized. Logging out...");
-        throw GenericResponse.fromJson(responseBody);
+        Map<String, dynamic> json = responseBody;
+        json.putIfAbsent('statusCode', () => '401');
+        throw GenericResponse.fromJson(json);
       }
 
       if (response.statusCode != HttpStatus.ok) {
@@ -214,7 +219,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log("PATCH API URL: $url");
+      log('url--patch---$url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -244,8 +249,8 @@ class BaseApiService {
           throw GenericResponse.fromJson(responseBody);
         }
         if (response.statusCode.toString() == "401") {
-          log("Will log out now ${response.statusCode}, API URL: $url");
-          log('Error Response: ${response.body}');
+          log("will log out now${response.statusCode}");
+          // TODO: Need to handle the logout case
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
@@ -263,7 +268,7 @@ class BaseApiService {
     bool? isAuthenticated,
   }) async {
     try {
-      log("DELETE API URL: $url");
+      log('url--delete---$url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
@@ -293,8 +298,8 @@ class BaseApiService {
           throw GenericResponse.fromJson(responseBody);
         }
         if (response.statusCode.toString() == "401") {
-          log("Will log out now ${response.statusCode}, API URL: $url");
-          log('Error Response: ${response.body}');
+          log("will log out now${response.statusCode}");
+          // TODO: Need to handle the logout case
           throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);

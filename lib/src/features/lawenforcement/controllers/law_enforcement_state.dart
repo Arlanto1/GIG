@@ -10,7 +10,7 @@ class LawEnforcementState extends Equatable {
   LeoDepartments? departmentResponse;
   LeoPurposeVisit? getLeopurposeResponse;
   late final int? eventId;
-  final FormStatus stateType;
+  final FormStatus status;
   String? message;
   Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
@@ -48,7 +48,7 @@ class LawEnforcementState extends Equatable {
     this.departmentResponse,
     this.getLeopurposeResponse,
     this.eventId,
-    required this.stateType,
+    required this.status,
     this.message,
     this.getLocationsResponse,
     this.getSerialnumberResponse,
@@ -84,7 +84,7 @@ class LawEnforcementState extends Equatable {
     LeoDepartments? getLeodepartmentsResponse,
     LeoPurposeVisit? getLeopurposeResponse,
     final int? eventId,
-    FormStatus? stateType,
+    FormStatus? status,
     String? message,
     Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
@@ -122,7 +122,7 @@ class LawEnforcementState extends Equatable {
       getLeopurposeResponse:
           getLeopurposeResponse ?? this.getLeopurposeResponse,
       eventId: eventId ?? this.eventId,
-      stateType: stateType ?? this.stateType,
+      status: status ?? this.status,
       message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
@@ -170,7 +170,7 @@ class LawEnforcementState extends Equatable {
         departmentResponse,
         getLeopurposeResponse,
         eventId,
-        stateType,
+        status,
         message,
         getLocationsResponse,
         getSerialnumberResponse,
