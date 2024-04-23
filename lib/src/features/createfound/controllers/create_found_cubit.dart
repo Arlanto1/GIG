@@ -95,12 +95,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       // }
     } on GenericResponse catch (e) {
       log('--e.message--${e.message}--');
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return;
     } on Exception catch (e) {
       log('--e.eeee--${e.toString()}--');
@@ -143,12 +138,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         });
       }
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return;
     } on Exception catch (e) {
       emit(
