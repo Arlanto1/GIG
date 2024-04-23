@@ -418,12 +418,7 @@ class AnnualPowerShutdownListDetailsCubit
               int.tryParse(state.model?.inputDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

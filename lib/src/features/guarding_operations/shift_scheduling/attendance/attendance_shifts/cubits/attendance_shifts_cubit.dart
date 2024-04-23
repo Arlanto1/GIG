@@ -176,12 +176,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             body: request, isSubmit: true));
       }
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return;
     } on Exception catch (e) {
       emit(
