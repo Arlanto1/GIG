@@ -153,7 +153,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -166,7 +166,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

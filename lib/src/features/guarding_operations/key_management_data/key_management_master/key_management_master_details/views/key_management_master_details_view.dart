@@ -53,6 +53,7 @@ class _KeyManagementMasterDetailsViewState
     return BlocConsumer<KeyManagementMasterDetailsCubit,
         KeyManagementMasterDetailsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

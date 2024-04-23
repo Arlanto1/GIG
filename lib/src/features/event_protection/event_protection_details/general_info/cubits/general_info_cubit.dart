@@ -370,10 +370,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-    int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    state.model.inputDate = inputDate.toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     /// Create/Update API Call
     GeneralInfoRequest request =
@@ -386,7 +389,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -401,7 +404,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

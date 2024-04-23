@@ -67,6 +67,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     return BlocConsumer<VVIPVisitorDetailsCubit, VVIPVisitorDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(

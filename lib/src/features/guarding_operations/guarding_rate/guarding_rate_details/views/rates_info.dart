@@ -39,6 +39,7 @@ class _RatesInfoState extends State<RatesInfo> {
         if (state.status == FormStatus.success) {
           Utils.dynamicAlert(context, state.message ?? '', 'Guard Rates', '');
         }
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
       },

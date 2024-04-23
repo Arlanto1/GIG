@@ -40,6 +40,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     return BlocConsumer<GeneralInfoCubit, GeneralInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
@@ -1167,6 +1168,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
+                                        color: AppColors.navigationSkybluecolor,
                                       ),
                                       const SizedBox(width: 10),
                                       const Text(

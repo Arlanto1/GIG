@@ -1,3 +1,9 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+}
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -6,10 +12,10 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
+//def flutterRoot = localProperties.getProperty('flutter.sdk')
+//if (flutterRoot == null) {
+//    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+//}
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
@@ -21,12 +27,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0.1'
 }
 
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
 // END: FlutterFire Configuration
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+//apply plugin: 'kotlin-android'
+//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     signingConfigs {
@@ -70,7 +76,6 @@ android {
     // compileSdkVersion flutter.compileSdkVersion
     // ndkVersion flutter.ndkVersion
 
-   
 
     // compileOptions {
     //     sourceCompatibility JavaVersion.VERSION_1_8
@@ -104,24 +109,24 @@ android {
     //     }
     // }
     lintOptions {
-    disable 'InvalidPackage'
-    checkReleaseBuilds false
-    abortOnError false
-}
-defaultConfig {
-    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-    applicationId "com.arlanto.atomedge"
-    minSdkVersion 26
-    targetSdkVersion 34
-//    compileSdkVersion 34
-    defaultConfig {
-        compileSdk 34
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
+        abortOnError false
     }
-    versionCode 3
-    versionName flutterVersionName
-    multiDexEnabled true
-    resValue "string", "app_name", "AtomEdge"
-}
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.arlanto.atomedge"
+        minSdkVersion 26
+        targetSdkVersion 34
+//    compileSdkVersion 34
+        defaultConfig {
+            compileSdk 34
+        }
+        versionCode 3
+        versionName flutterVersionName
+        multiDexEnabled true
+        resValue "string", "app_name", "AtomEdge"
+    }
 // signingConfigs {
 //     release {
 //         storeFile file("release.jks")
@@ -130,16 +135,16 @@ defaultConfig {
 //         keyPassword "4ua2sD7cit9AM7zEO6FyMu8E9DWFDYxBz1EAHznAPPxrzVwPWUqUhitwdLOMwIy"
 //     }
 // }
-buildTypes {
-    release {
-        // TODO: Add your own signing config for the release build.
-        // Signing with the debug keys for now, so `flutter run --release` works.
-       // signingConfig signingConfigs.release
-        minifyEnabled true
-        shrinkResources true
-        // proguardFile 'proguard-project.txt'
-        debuggable false
-        signingConfig signingConfigs.debug
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            // signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            // proguardFile 'proguard-project.txt'
+            debuggable false
+            signingConfig signingConfigs.debug
 //        splits {
 //            abi {
 //                enable true
@@ -148,11 +153,11 @@ buildTypes {
 //                universalApk true
 //            }
 //        }
+        }
+        debug {
+            multiDexEnabled true
+        }
     }
-    debug {
-        multiDexEnabled true
-    }
-}
 }
 
 flutter {
@@ -162,5 +167,5 @@ flutter {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

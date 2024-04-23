@@ -100,7 +100,8 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
       ),
       body: BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
         listener: (context, state) {
-          Utils().errorAndLogout(state, context);
+          Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

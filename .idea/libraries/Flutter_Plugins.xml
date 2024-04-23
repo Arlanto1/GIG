@@ -61,6 +61,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.27.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.5+21" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.19" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_web-3.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_android-4.5.4" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator-11.0.0" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

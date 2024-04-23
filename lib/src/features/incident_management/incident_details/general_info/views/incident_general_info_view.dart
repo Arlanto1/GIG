@@ -45,6 +45,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
+        Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -319,7 +320,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isDisabled: state.model.status != 6,
                               textController: incidentTypeController,
                               items: incidentTypeValues,
-                              initialValue: '${state.model.incidentType ?? 0}',
+                              initialValue: state.model.incidentType.toString(),
                               onTap: () {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
