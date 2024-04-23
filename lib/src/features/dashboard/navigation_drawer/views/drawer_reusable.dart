@@ -366,8 +366,7 @@ class NavigationDrawer1 extends StatelessWidget {
         context,
         shiftScheduleListRoute,
       );
-    }
-    else if (index == 4) {
+    } else if (index == 4) {
       Navigator.pushNamed(
         context,
         attendanceReportBillingListRoute,
@@ -382,6 +381,9 @@ class NavigationDrawer1 extends StatelessWidget {
     if (index == 0) {
       Navigator.pushNamed(context, guardingRatesRoute);
     }
+    // else if (index == 1) {
+    //   Navigator.pushNamed(context, guardingRatesRoute);
+    // }
   }
 
   // TODO: Fix the Drawer Index
@@ -625,7 +627,7 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.securitySystems:
         return _genericItemExpandable(
           context,
-          securitySystemExpansionTileDrawerItems,
+          securitySystemTicketsItems,
           Constants.securitySystems,
         );
       default:
