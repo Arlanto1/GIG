@@ -324,6 +324,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(

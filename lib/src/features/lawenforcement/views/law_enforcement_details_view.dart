@@ -162,8 +162,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
         listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
-          if (state.stateType == FormStatus.successFormSubmit) {
+          Utils().errorAndLogout(state, context);
+          if (state.status == FormStatus.successFormSubmit) {
             var dialog = CustomAlertDialog(
               title: 'Law Enforcement',
               message: state.message ?? '',
@@ -188,7 +188,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             // Utils.dynamicAlert(
             //     context, state.message ?? '', 'Material Movement', '');
           }
-          if (state.stateType == FormStatus.failure) {
+          if (state.status == FormStatus.failure) {
             Validator().showToast(
               context,
               state.message ?? 'Invalid Information',
@@ -202,7 +202,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               //leoDepartmentsResponse = state.getLeodepartmentsResponse;
               // leoPurposeVisitResponse = state.getLeopurposeResponse;
 
-              if (state.stateType == FormStatus.loading) {
+              if (state.status == FormStatus.loading) {
                 return const BaseLoader();
               }
 
@@ -213,7 +213,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
               }
               globalState = state;
-              if (state.stateType == FormStatus.addAttachment) {
+              if (state.status == FormStatus.addAttachment) {
                 getFiles = state.loadAttachments ?? [];
               }
               initiallyLocationandSerialnumberdataset(state);
@@ -612,6 +612,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       children: <Widget>[
                                         SvgPicture.asset(
                                           AppIcon.pluscircle,
+                                          color: AppColors
+                                              .navigationSkybluecolor,
                                         ),
                                         const SizedBox(width: 10),
                                         const Text(
@@ -709,8 +711,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     height: height,
                                     attachments: state.loadAttachments,
                                     files: getFiles,
-                                    showDownloadIcon:
-                                    widget.model == null || widget.model?.status == 0 ,
+                                    showDownloadIcon: widget.model == null ||
+                                        widget.model?.status == 0,
                                     moduleCode: Constants.leoModuleCode,
                                   ),
                                   // Attachments
@@ -2145,25 +2147,25 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   context,
                                   imageData?.id ?? 0,
                                   imageData?.title ?? '',
-                                    Constants.leoModuleCode,
+                                  Constants.leoModuleCode,
                                 );
                               },
                               child: BaseIcons().deleteIcon(),
                             ),
                           ],
                         )
-                      :  GestureDetector(
-                    onTap: () {
-                      // Add your download functionality here
-                      DownloadImage().saveImage(
-                        context,
-                        imageData?.id ?? 0,
-                        imageData?.title ?? '',
-                        Constants.leoModuleCode,
-                      );
-                    },
-                    child: BaseIcons().deleteIcon(),
-                  ),
+                      : GestureDetector(
+                          onTap: () {
+                            // Add your download functionality here
+                            DownloadImage().saveImage(
+                              context,
+                              imageData?.id ?? 0,
+                              imageData?.title ?? '',
+                              Constants.leoModuleCode,
+                            );
+                          },
+                          child: BaseIcons().deleteIcon(),
+                        ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
                       : Text(imageData?.title ?? ''),

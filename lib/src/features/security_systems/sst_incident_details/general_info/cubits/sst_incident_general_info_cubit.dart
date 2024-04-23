@@ -460,12 +460,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
               int.tryParse(state.model?.createdDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.createdDate ?? '0'),
+          Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       log('--e.message-Exception-${e.toString()}---');

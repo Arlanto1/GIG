@@ -312,12 +312,7 @@ class KeyHistoryRecordsDetailsCubit
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return false;
     } on Exception catch (e) {
       emit(

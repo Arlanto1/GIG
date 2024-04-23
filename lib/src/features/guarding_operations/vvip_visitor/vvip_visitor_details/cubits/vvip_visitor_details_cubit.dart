@@ -247,12 +247,12 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
               Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model?.inputDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null

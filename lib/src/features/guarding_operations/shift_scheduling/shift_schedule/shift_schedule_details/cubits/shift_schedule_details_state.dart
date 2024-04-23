@@ -46,11 +46,11 @@ class ShiftScheduleDetailsState extends Equatable {
   ErrorResponse get isValidDraft {
     log('-model.status---${model.status}--');
 
-    // if (model.location == null) {
-    //   log('-model.location-----isValidDraft-');
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Location');
-    // }
+    if (model.location == null) {
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
     if (model.entrySecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entry Security');

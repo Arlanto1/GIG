@@ -236,12 +236,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
               int.tryParse(state.model?.createdDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

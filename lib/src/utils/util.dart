@@ -356,7 +356,9 @@ class Utils {
       ],
     );
   }
-  dynamic buildAttendanceStatusRow({required int status, bool? returnTextOnly}) {
+
+  dynamic buildAttendanceStatusRow(
+      {required int status, bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -375,7 +377,7 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    if(returnTextOnly??false) {
+    if (returnTextOnly ?? false) {
       return statusText;
     }
     return Row(
@@ -384,6 +386,7 @@ class Utils {
       ],
     );
   }
+
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
@@ -410,7 +413,7 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
-    if(returnTextOnly??false) {
+    if (returnTextOnly ?? false) {
       return guardRankText;
     }
 
@@ -739,28 +742,28 @@ class Utils {
   }
 
   Widget buildOccurrenceStatus(int status) {
-      String statusText;
+    String statusText;
 
-      switch (status) {
-        case 0:
-          statusText = 'Created';
-          break;
-        case 1:
-          statusText = 'Submitted';
-          break;
-        case -1:
-          statusText = 'Cancelled';
-          break;
-        default:
-          statusText = ''; // Handle the default case if needed
-      }
-      return IntrinsicWidth(
-        child: Row(
-          children: [
-            textHandling('Status: ', statusText),
-          ],
-        ),
-      );
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
   }
 
   Widget keyLossDestructionStatus(int status) {
@@ -814,6 +817,7 @@ class Utils {
       ),
     );
   }
+
   Widget keyManagementStatus(int status) {
     String statusText;
 
@@ -951,6 +955,7 @@ class Utils {
       ),
     );
   }
+
   Widget buildIncidentStatus(int status) {
     String statusText;
 
@@ -1272,6 +1277,7 @@ class Utils {
       ),
     );
   }
+
   Widget employeeTypeValues(int employeeType) {
     String employeeTypeText;
 
@@ -1358,6 +1364,7 @@ class Utils {
       ),
     );
   }
+
   Widget vIPVisitorStatusRow(int status) {
     String statusText;
 
@@ -1410,6 +1417,7 @@ class Utils {
       ),
     );
   }
+
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
@@ -1480,5 +1488,18 @@ class Utils {
         state.message ?? 'Invalid Information',
       );
     }
+  }
+
+  void emitErrorState(
+    GenericResponse e,
+    dynamic emit,
+    dynamic state,
+  ) {
+    emit(
+      state.copyWith(
+        message: e.message,
+        status: e.statusCode == '400' ? FormStatus.formError : FormStatus.error,
+      ),
+    );
   }
 }
