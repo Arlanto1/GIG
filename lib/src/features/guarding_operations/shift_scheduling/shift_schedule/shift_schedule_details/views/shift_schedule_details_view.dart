@@ -384,6 +384,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 const SizedBox(width: 14),
                                 SvgPicture.asset(
                                   AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
                                 ),
                                 // ),
                                 const SizedBox(width: 10),
