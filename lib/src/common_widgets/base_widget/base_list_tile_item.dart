@@ -387,7 +387,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                     widget.status != 4)) ||
                             (widget.isVipStatus && (widget.status != 0) ||
                                 (widget.isOccurrenceStatus &&
-                                    widget.status == 1)) ||
+                                    (widget.status == 1 ||
+                                    widget.status == -1))) ||
                             (widget.isKeyManagementIssuanceStatus &&
                                 widget.status != 0 &&
                                 widget.status != 1 &&

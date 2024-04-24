@@ -80,6 +80,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == null || state.model.status == 0) {
           isReadOnly = false;
         }
+        if (state.model.status == -1) {
+          isReadOnly = true;
+        }
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
@@ -251,7 +254,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             TextFieldAddButton(
                                 title: state.model.handoverSecurity?.userInfo,
                                 height: 70,
-                                isDisableColor: state.model.status == 1,
+                                isDisableColor: state.model.status == -1 || state.model.status == 1,
                                 onTap: () {
                                   if (state.model.status != 1) {
                                     BaseOrganisationDialog().userDialog(
