@@ -112,6 +112,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -122,9 +125,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
+            state.model.status != 2 &&state.model.status != -1 && !isReadOnly ? true : false,
             showSubmitButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
+                state.model.status != 2 &&state.model.status != -1&& !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -549,15 +552,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 2) ? false : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
+                  if ((state.model.status == 2 || state.model.status == -1) ? false : true) ...[
                             submitButtonDisplay()
-                          ],
+                          ], ],
                         ),
-                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
