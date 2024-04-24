@@ -18,7 +18,6 @@ class DrawerHeaderWidget extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () async {
-          // await SharedPrefs.setToken('');
           // Navigator.pushNamed(
           //   context,
           //   resetPwdScreenRoute,
