@@ -929,12 +929,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          stateType: CreatePassMgmtStateType.failure,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return;
     } on Exception catch (e) {
       emit(

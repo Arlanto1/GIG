@@ -642,6 +642,9 @@ class Utils {
       case 30:
         statusText = 'Closed';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }

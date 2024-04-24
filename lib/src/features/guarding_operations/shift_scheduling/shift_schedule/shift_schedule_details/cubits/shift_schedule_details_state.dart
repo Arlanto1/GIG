@@ -46,63 +46,63 @@ class ShiftScheduleDetailsState extends Equatable {
   ErrorResponse get isValidDraft {
     log('-model.status---${model.status}--');
 
-    // if (model.location == null) {
-    //   log('-model.location-----isValidDraft-');
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Location');
-    // }
-    // if (model.entrySecurity == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Entry Security');
-    // }
-    // if (model.status == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Status');
-    // }
-    // if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
-    // if (model.dutyType == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Duty Type');
-    // }
-    // if (model.poc.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please add Poc');
-    // }
-    // if (model.fromDate.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter From Date');
-    // }
-    // if (model.toDate.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter To Date');
-    // }
+    if (model.location == null) {
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.dutyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Duty Type');
+    }
+    if (model.poc.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Poc');
+    }
+    if (model.fromDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (model.toDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter To Date');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   ErrorResponse get isValid {
-    // if (model.status == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Status');
-    // }
-    // if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
-    // if (model.dutyType == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Duty Type');
-    // }
-    // if (model.poc.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please add Poc');
-    // }
-    // if (model.fromDate.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter From Date');
-    // }
-    // if (model.toDate.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter To Date');
-    // }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.dutyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Duty Type');
+    }
+    if (model.poc.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Poc');
+    }
+    if (model.fromDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (model.toDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter To Date');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

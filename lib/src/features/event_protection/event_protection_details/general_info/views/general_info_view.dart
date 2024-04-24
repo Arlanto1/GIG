@@ -71,10 +71,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 30 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
-
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
         if (state.model.status == null) {
           disableForm = false;
         }

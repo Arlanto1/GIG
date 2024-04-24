@@ -93,7 +93,10 @@ class _AnnualPowerShutdownListDetailsViewState
         budgetController.text =
             state.model.budget != null ? state.model.budget.toString() : '';
 
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 30 || !state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
 
@@ -1683,7 +1686,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   title:
                                       '${!state.model.proposedVendors.isEmptyOrNull ? state.model.proposedVendors?.first.name : ''}',
                                   height: 60,
-                                  isDisableColor: false,
+                                  isDisableColor: disableForm,
                                   onTap: () {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,

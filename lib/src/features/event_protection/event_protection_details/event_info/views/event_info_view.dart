@@ -212,7 +212,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    //color: AppColors.navigationSkybluecolor,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),

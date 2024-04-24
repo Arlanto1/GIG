@@ -632,6 +632,7 @@ class _KeyLossDestructionDetailsViewState
                                   children: <Widget>[
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
+                                      color: AppColors.navigationSkybluecolor,
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(

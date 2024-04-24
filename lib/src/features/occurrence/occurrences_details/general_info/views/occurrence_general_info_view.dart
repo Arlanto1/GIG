@@ -677,6 +677,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
+                                      color: AppColors.navigationSkybluecolor,
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(
@@ -985,6 +986,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
+                                      color: AppColors.navigationSkybluecolor,
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(

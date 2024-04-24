@@ -453,6 +453,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
@@ -528,6 +529,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
