@@ -23,5 +23,6 @@ class ConstantsArgument {
   static const String selectedDutyPostNameId = "selectedDutyPostNameId";
   static const String isMasterKey = "isMasterKey";
   static const String viaAttendance = "viaAttendance";
+  static const String extraProperties = "extraParameters";
 
 }

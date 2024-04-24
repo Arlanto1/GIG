@@ -49,10 +49,8 @@ Future<Position>? _positionFuture;
 Future<Position> getLocation() async {
   if (_positionFuture != null) {
     // If a future is already in progress, return it directly
-    log('---_positionFuture---');
     return _positionFuture!;
   } else {
-    log('---_positionFuture--2-');
     // If no future is in progress, start a new one
     Completer<Position> completer = Completer<Position>();
     _positionFuture = completer.future;
@@ -62,20 +60,12 @@ Future<Position> getLocation() async {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium,
       );
-      log('---_positionFuture--22-');
-
       // Complete the future with the fetched position
       completer.complete(position);
     } catch (e) {
-      log('---_positionFuture--22---${e.toString()}');
       // Handle any errors and complete the future with an error
       completer.completeError(e);
-    } finally {
-      log('---_positionFuture--22---finally=---}');
-      // Reset _positionFuture to allow subsequent calls to getLocation()
-      // _positionFuture = null;
     }
-
     // Wait for the future to complete and then return its result
     return await _positionFuture!;
   }

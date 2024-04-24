@@ -6,15 +6,13 @@ import 'package:db_atom/src/features/article_found_register_module/foundlist/mod
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'article_found_event.dart';
 part 'article_found_state.dart';
 
-class ArticleFoundBloc
-    extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
-
-  ArticleFoundBloc()
-      : super(const ArticleFoundState()) {
+class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
+  ArticleFoundBloc() : super(const ArticleFoundState()) {
     on<InitializeValuesAF>(_initializeValues);
     on<FetchData>(
       _fetchArticleFound,
@@ -49,6 +47,12 @@ class ArticleFoundBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.articleFoundModuleCode);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.articleFoundModuleCode,
+        commonServices: commonServices,
+      );
       AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -59,6 +63,7 @@ class ArticleFoundBloc
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {
@@ -69,7 +74,7 @@ class ArticleFoundBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
