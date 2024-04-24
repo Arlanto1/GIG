@@ -112,13 +112,13 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
       if (state.model.status != 0) {
         state.model.keyHandOverDate = state.model.keyHandOverDate == null
             ? Utils().getCurrentDate()
             : Utils.timestampToDateConversion(
-                int.tryParse(state.model?.keyHandOverDate ?? '0'),
+                int.tryParse(state.model.keyHandOverDate ?? '0'),
                 Constants.fulldateFormat);
       }
 
@@ -258,9 +258,7 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
-    if(state.model.keyHandOverDue == null){
-    state.model.keyHandOverDue =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();}
+    state.model.keyHandOverDue ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
@@ -275,7 +273,7 @@ class KeyManagementIssuanceDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -293,7 +291,7 @@ class KeyManagementIssuanceDetailsCubit
           state.model.createdDate = state.model.createdDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.createdDate ?? '0'),
+                  int.tryParse(state.model.createdDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -327,19 +325,19 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
       state.model.keyHandOverDate = state.model.keyHandOverDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.keyHandOverDate ?? '0'),
+              int.tryParse(state.model.keyHandOverDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {

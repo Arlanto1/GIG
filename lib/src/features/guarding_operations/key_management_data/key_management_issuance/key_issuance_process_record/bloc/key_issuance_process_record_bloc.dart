@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../key_management_master/services/key_management_master_services.dart';
 
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
@@ -44,7 +43,7 @@ class KeyIssuanceProcessRecordBloc
       //     await commonServices.getOrganisations(name: violationDescription);
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId,isMasterKey: isMasterKey!);
+          .getKeyDescriptions(locationId: locationId,isMasterKey: isMasterKey);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),

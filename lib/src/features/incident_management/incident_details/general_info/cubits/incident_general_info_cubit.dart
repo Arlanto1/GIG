@@ -8,7 +8,6 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
@@ -120,7 +119,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.inputDate ?? '0'),
+              int.tryParse(model.inputDate ?? '0'),
               Constants.fulldateFormat);
       // model.inputDate = Utils().getCurrentDate();
       // model.inputDate = model.inputDate == null
@@ -411,14 +410,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.inputDate ?? '0'),
+          int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
       return;
     } on Exception catch (e) {

@@ -108,7 +108,7 @@ class KeyManagementMasterDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
 
       state.model.modifiedDate = state.model.modifiedDate == null
@@ -264,14 +264,14 @@ class KeyManagementMasterDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.createdDate ?? '0'),
+          int.tryParse(state.model.createdDate ?? '0'),
           Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
