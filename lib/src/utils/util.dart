@@ -1089,6 +1089,9 @@ class Utils {
       case 40:
         statusText = 'Cancelled';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }

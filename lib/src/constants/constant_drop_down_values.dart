@@ -103,6 +103,7 @@ const List<Label> incidentManagementStatus = [
   Label(key: 'Investigation Done', value: '38'),
   Label(key: 'Closed', value: '39'),
   Label(key: 'Cancelled', value: '40'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> eventProtectionGiStatus = [
