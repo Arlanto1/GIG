@@ -322,12 +322,20 @@ class _CreateFoundState extends State<CreateFound> {
     CreateFoundState? state,
   }) async {
     log('-createRequestBody-----');
-    int foundDate = Utils.dateToTimestampConversion(
+
+    int? foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    // int inputDate = Utils.dateToTimestampConversion(
+    if (foundDate == 0) {
+      foundDate = null;
+    } // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int? handoverDate;
+    if(widget.model?.status == ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
+      handoverDate = (DateTime
+          .now()
+          .millisecondsSinceEpoch ~/ 1000);
+    }
     // Utils.dateToTimestampConversion(
     //     handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
@@ -881,7 +889,7 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
-                  handOverSecurity = state.loggedInUser ?? User();
+                  handOverSecurity = User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
