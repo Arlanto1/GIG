@@ -294,6 +294,9 @@ class Utils {
       case 4:
         statusText = 'WeekOff';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }

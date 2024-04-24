@@ -759,6 +759,8 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          ExtraProperties? extraProperties =
+          arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GeneralInfoCubit>(
@@ -767,7 +769,8 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const GeneralInfoView(),
+            child: const GeneralInfoView(
+            ),
           ),
         );
 
@@ -1066,10 +1069,12 @@ class RouteGenerator {
 
       case annualPowerShutdownListDetailsRoute:
         String id = '';
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) =>
@@ -1079,7 +1084,9 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const AnnualPowerShutdownListDetailsView(),
+            child: AnnualPowerShutdownListDetailsView(
+              extraProperties: extraProperties,
+            ),
           ),
         );
 

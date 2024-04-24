@@ -92,10 +92,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
@@ -107,16 +112,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
-                    // state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
-            showSubmitButton: state.model.status != 6 &&
-                    // state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
+            showSaveButton:
+                 !isReadOnly ? true : false,
+            showSubmitButton:
+                 !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             popAndReplace: () {
@@ -206,7 +205,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,isMandatory: true,
+                                    Constants.createdby,
+                                isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -267,28 +267,31 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if(state.model.status!=null)...[
-                            /// Modified Date
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.date ??
-                              //     state.labels?.defaultLocale.date ??
-                                  Constants.modifiedOn,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.modifiedDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.status != null) ...[
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.date ??
+                                //     state.labels?.defaultLocale.date ??
+                                Constants.modifiedOn,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datecreateWidgetdisplay(
+                                  state.model.modifiedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
                                   // state.labels?.locale.entrySecurity ??
                                   //     state.labels?.defaultLocale.entrySecurity ??
-                                      Constants.modifiedBy,isMandatory: true,
+                                  Constants.modifiedBy,
+                                  isMandatory: true,
                                   '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             ],
+
                             /// General Contact
                             Container(
                               alignment: Alignment.topLeft,
@@ -301,56 +304,54 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              GestureDetector(
+                                onTap: () async {
+                                  NavigatorState nav = Navigator.of(context);
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                          ContactDetailsCubit>(context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
+                                  log('--state.model.id---${state.model.id}--');
+                                  List<Organisation> ranks =
+                                      await CommonServices().getOrganisations(
+                                          name: Constants.contactGeneralRank);
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants.contactGeneralRank);
-
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.generalContact,
-                                    ConstantsArgument.type: 0,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactGeneralRank,
-                                    ConstantsArgument.ranks: ranks,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Contact(s)',
-                                    style: TextStyle(
+                                  nav.pushNamed(
+                                    contactRecordsRoute,
+                                    arguments: {
+                                      ConstantsArgument.title:
+                                          Constants.generalContact,
+                                      ConstantsArgument.type: 0,
+                                      ConstantsArgument.id: state.model.id,
+                                      ConstantsArgument.rankType:
+                                          Constants.contactGeneralRank,
+                                      ConstantsArgument.ranks: ranks,
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
                                       color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add/View Contact(s)',
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkybluecolor,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -367,7 +368,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
@@ -618,19 +618,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6) ? false : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                            // if ((state.model.status != 1
-                            // || state.model.status == 1
-                            // )) ...[
+                      // if ((state.model.status == -1) ? false : true) ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(state),
+                          if ((state.model.status != -1)) ...[
                             submitButtonDisplay(),
-                            // ],
                           ],
-                        ),
-                      ],
+                        ],
+                      ),
+                      // ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
@@ -649,6 +647,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
         return 'Draft';
       case 1:
         return 'Active';
+      case -1:
+        return 'Cancelled';
       default:
         return '';
     }
