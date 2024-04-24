@@ -173,8 +173,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
-              child: AbsorbPointer(
-                absorbing: isReadOnly,
+              // child: AbsorbPointer(
+              //   absorbing: isReadOnly,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -633,7 +633,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     ],
                   ),
                 ),
-              ),
+             // ),
             ),
           ],
         ),
