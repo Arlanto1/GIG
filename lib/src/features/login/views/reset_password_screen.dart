@@ -3,18 +3,17 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 
-
-class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (_) => LoginBloc(loginService: LoginService()),
-      child: const ResetPasswordView(viaNavigationDrawer: false),
-    );
-  }
-}
+// class ResetPasswordScreen extends StatelessWidget {
+//   const ResetPasswordScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider<LoginBloc>(
+//       create: (_) => LoginBloc(loginService: LoginService()),
+//       child: const ResetPasswordView(viaNavigationDrawer: false),
+//     );
+//   }
+// }
 
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key, required this.viaNavigationDrawer});
@@ -58,7 +57,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, state.message);
@@ -183,8 +182,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           }),
                                           onFieldSubmitted: (term) {
                                             oldPasswordFocus.unfocus();
-                                            FocusScope.of(context).requestFocus(
-                                                newPasswordFocus);
+                                            FocusScope.of(context)
+                                                .requestFocus(newPasswordFocus);
                                           },
                                           onChange: (String password) {
                                             oldPassword = password;
@@ -225,8 +224,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           try {
                                             if (loginFormKey.currentState!
                                                 .validate()) {
-                                              log(
-                                                  'username $username password $oldPassword');
+                                              log('username $username password $oldPassword');
                                               // bloc.add(LoginVerifyEvent(
                                               //     requestModel:
                                               //     prepareLoginRequestBody(

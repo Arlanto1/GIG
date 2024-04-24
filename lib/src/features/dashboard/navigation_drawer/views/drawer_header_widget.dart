@@ -19,11 +19,11 @@ class DrawerHeaderWidget extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           // await SharedPrefs.setToken('');
-          Navigator.pushNamed(
-            context,
-            resetPwdScreenRoute,
-            arguments: {'viaNavigationDrawer': true},
-          );
+          // Navigator.pushNamed(
+          //   context,
+          //   resetPwdScreenRoute,
+          //   arguments: {'viaNavigationDrawer': true},
+          // );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -38,7 +38,7 @@ class DrawerHeaderWidget extends StatelessWidget {
                   child: CircleAvatar(
                       backgroundColor: AppColors.dividelineGreycolor,
                       radius: 40,
-                      backgroundImage: AssetImage(Constants.bg))),
+                      backgroundImage: AssetImage(AppIcon.userImage))),
 
               // NetworkImage("Your Photo Url"), // for Network image
             ),

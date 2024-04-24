@@ -1,26 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
-import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
-import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdatePasswordScreen extends StatelessWidget {
   const UpdatePasswordScreen({super.key});
@@ -70,7 +51,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, 'Something went wrong');
