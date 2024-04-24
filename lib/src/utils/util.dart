@@ -1475,6 +1475,7 @@ class Utils {
   }
 
   void formError(dynamic state, BuildContext context) {
+    log('STATUS: ${state.status}');
     if (state.status == FormStatus.formError) {
       Validator().showToast(
         context,
