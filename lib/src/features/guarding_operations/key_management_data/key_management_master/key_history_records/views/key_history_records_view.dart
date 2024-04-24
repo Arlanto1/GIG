@@ -12,10 +12,12 @@ class KeyHistoryRecordsView extends StatefulWidget {
     super.key,
     required this.id,
     required this.type,
+    this.model,
   });
 
   final int id;
   final int type;
+  final KeyManagementMasterModel? model;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -58,7 +60,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton: widget.model?.status == 0 || widget.model?.status == 1 || widget.model?.status == 2 ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
@@ -79,7 +81,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                   ConstantsArgument.type: widget.type,
                 }),
           },
-        ),
+        ): const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.type == ConstantsIntValue.lockChangeHistoryInt
