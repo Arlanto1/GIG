@@ -29,14 +29,14 @@ class DrawerHeaderWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(
-              radius: 45.0,
+              radius: 30.0,
               backgroundColor: AppColors.navigationSkybluecolor,
               child: CircleAvatar(
                   backgroundColor: AppColors.backgroundWhitecolor,
-                  radius: 43.0,
+                  radius: 28.0,
                   child: CircleAvatar(
                       backgroundColor: AppColors.dividelineGreycolor,
-                      radius: 40,
+                      radius: 25,
                       backgroundImage: AssetImage(AppIcon.userImage))),
 
               // NetworkImage("Your Photo Url"), // for Network image
