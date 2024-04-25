@@ -7,6 +7,7 @@ class KeyManagementIssuanceListState extends Equatable {
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
+  final ExtraProperties? extraProperties;
 
   final KMUiLabels? labels;
 
@@ -17,7 +18,8 @@ class KeyManagementIssuanceListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
-    this.labels
+    this.labels,
+    this.extraProperties,
   });
 
   KeyManagementIssuanceListState copyWith({
@@ -30,6 +32,7 @@ class KeyManagementIssuanceListState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     KMUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return KeyManagementIssuanceListState(
       list: items ?? list,
@@ -38,7 +41,8 @@ class KeyManagementIssuanceListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
-      labels: labels ?? this.labels
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

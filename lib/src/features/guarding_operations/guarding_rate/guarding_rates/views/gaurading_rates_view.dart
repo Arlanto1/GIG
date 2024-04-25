@@ -106,7 +106,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
         body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
             listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
 
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -231,7 +231,10 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                 );
                               },
                               onEditTap: (selectedIndex) {
-                                getId(state.items[index].id ?? 0);
+                                getId(
+                                    state.extraProperties?.hasWritePermission ??
+                                        false,
+                                    state.items[index].id ?? 0);
                               },
                               onViewTap: (selectedIndex) {
                                 showDialog(
@@ -271,17 +274,17 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
         }));
   }
 
-  getId(int id) async {
+  getId(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     GMRate response = await GuardingServices().getRate(id);
 
     log('----response sgr--------${response.securityGuardRates?.length}---');
 
-    editDataLoading(response);
+    editDataLoading(response, hasWritePermission);
   }
 
-  void editDataLoading(GMRate? rate) {
+  void editDataLoading(GMRate? rate, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (rate != null) {
       Navigator.pushNamed(
@@ -290,6 +293,8 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
         arguments: {
           "title": Constants.createGuardingRatingCards,
           "gmRate": rate,
+          ConstantsArgument.extraProperties:
+              ExtraProperties(hasWritePermission: hasWritePermission),
         },
       );
     }

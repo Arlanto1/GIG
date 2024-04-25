@@ -8,6 +8,7 @@ class GuardingMasterDataState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final String? message;
+  final ExtraProperties? extraProperties;
 
   const GuardingMasterDataState({
     this.list = const <GuardingMastersDataModel>[],
@@ -17,6 +18,7 @@ class GuardingMasterDataState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   GuardingMasterDataState copyWith({
@@ -29,6 +31,7 @@ class GuardingMasterDataState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return GuardingMasterDataState(
       list: items ?? list,
@@ -38,6 +41,7 @@ class GuardingMasterDataState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

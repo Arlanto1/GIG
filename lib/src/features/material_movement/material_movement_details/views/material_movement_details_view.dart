@@ -10,12 +10,14 @@ class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? model;
   final bool isInward;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const MaterialMovementDetailsView({
     super.key,
     this.model,
     required this.isInward,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -109,7 +111,6 @@ class _MaterialMovementDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
@@ -135,6 +136,10 @@ class _MaterialMovementDetailsViewState
         }
         if (state.model.status == ConstantsIntValue.businessUserReview) {
           isReadOnly = state.isReadOnly ?? false;
+        }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
         }
 
         showSaveSubmitButtons = state.model.status == 0 ||
@@ -172,7 +177,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: state.model.status == 3 ? true : false,
+            showLikeButton:
+                state.model.status == 3 && !isReadOnly ? true : false,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -183,7 +189,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton: state.model.status == 3 ? true : false,
+            showDisLikeButton:
+                state.model.status == 3 && !isReadOnly ? true : false,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -1998,8 +2005,8 @@ class _MaterialMovementDetailsViewState
                                                       context)
                                                   .updateDropdownValues(
                                                       receiverEmailUser: user);
-                                              FocusScope.of(context)
-                                                  .requestFocus(receivedForEmployeeIdFocusNode);
+                                              FocusScope.of(context).requestFocus(
+                                                  receivedForEmployeeIdFocusNode);
                                             },
                                             functionToCall: () {
                                               // refresh the list
@@ -2018,10 +2025,10 @@ class _MaterialMovementDetailsViewState
 
                               /// Received for Employee Id
                               CommonWidgets.textDisplay(
-                              state.labels?.locale.receiverEmployeeId ??
-                                        state.labels?.defaultLocale
-                                            .receiverEmployeeId ??
-                                        Constants.receivedForEmployeeId,
+                                state.labels?.locale.receiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .receiverEmployeeId ??
+                                    Constants.receivedForEmployeeId,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -2043,6 +2050,7 @@ class _MaterialMovementDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             /// Receiver Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.receiverDepartment ??
@@ -2167,7 +2175,8 @@ class _MaterialMovementDetailsViewState
                               ),
 
                               FlutterInputField(
-                                initialValue: state.model.otherReceiverEmployeeId,
+                                initialValue:
+                                    state.model.otherReceiverEmployeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
@@ -2186,34 +2195,34 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             //],
-    if (state.model.originalReceiver == true) ...[
-                            /// Received by Employee Id
-                            CommonWidgets.textDisplay(
-                           state.labels?.locale
-                                          .otherReceiverEmployeeId ??
-                                      state.labels?.defaultLocale
-                                          .otherReceiverEmployeeId ??
-                                      Constants.receiverEmployeeId,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: state.model.receiverEmployeeId,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.receiverEmployeeId = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
- ],
+                            if (state.model.originalReceiver == true) ...[
+                              /// Received by Employee Id
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.otherReceiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .otherReceiverEmployeeId ??
+                                    Constants.receiverEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              FlutterInputField(
+                                initialValue: state.model.receiverEmployeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.receiverEmployeeId = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
                             /// Receiver Signature test
                             buildSignature(
                               controller: receiverSignatureController,

@@ -6,6 +6,7 @@ class VVIPVisitorsRecordState extends Equatable {
   final FormStatus status;
   final String? message;
   final SlaUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const VVIPVisitorsRecordState({
     this.message,
@@ -13,6 +14,7 @@ class VVIPVisitorsRecordState extends Equatable {
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.labels,
+    this.extraProperties,
   });
 
   VVIPVisitorsRecordState copyWith({
@@ -21,17 +23,18 @@ class VVIPVisitorsRecordState extends Equatable {
     FormStatus? status,
     String? message,
     SlaUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return VVIPVisitorsRecordState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       message: message ?? this.message,
-      labels: labels??this.labels,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [items, hasReachedMax, status];
+  List<Object?> get props => [items, hasReachedMax, status];
 }

@@ -8,6 +8,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
   final Organisation? keyDescription;
   final String? message;
   final KMUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const KeyIssuanceProcessRecordState({
     this.message,
@@ -17,6 +18,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
     this.keyDescriptions,
     this.keyDescription,
     this.labels,
+    this.extraProperties,
   });
 
   KeyIssuanceProcessRecordState copyWith({
@@ -27,20 +29,20 @@ class KeyIssuanceProcessRecordState extends Equatable {
     Organisation? keyDescription,
     String? message,
     KMUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return KeyIssuanceProcessRecordState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      keyDescriptions:
-      keyDescriptions ?? this.keyDescriptions,
+      keyDescriptions: keyDescriptions ?? this.keyDescriptions,
       keyDescription: keyDescription ?? this.keyDescription,
       message: message ?? this.message,
       labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [items, hasReachedMax, status];
+  List<Object?> get props => [items, hasReachedMax, status];
 }

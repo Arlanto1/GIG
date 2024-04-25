@@ -6,11 +6,13 @@ import 'package:intl/intl.dart';
 class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const GuardingMasterDataDetailsView({
     super.key,
     this.guardingMasterData,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -114,6 +116,11 @@ class _GuardingMasterDataDetailsViewState
         }
         if (state.model.status == null) {
           isReadOnly = false;
+        }
+
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
         }
 
         return Scaffold(

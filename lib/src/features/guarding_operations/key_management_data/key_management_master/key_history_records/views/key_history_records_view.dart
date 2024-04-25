@@ -49,7 +49,10 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<KeyHistoryRecordBloc>().add(FetchData(
-          startPos: pageNumber, maxPos: Constants.maxResults, id: widget.id, type: widget.type));
+          startPos: pageNumber,
+          maxPos: Constants.maxResults,
+          id: widget.id,
+          type: widget.type));
     }
   }
 
@@ -57,167 +60,193 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   Widget build(BuildContext context) {
     log('--widget.type---${widget.type}---');
     log('--status.type---${widget.model?.status}---');
-
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.model?.status != -1 ? Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute,
-                arguments: {
-                  ConstantsArgument.title: widget.type ==
-                          ConstantsIntValue.lockChangeHistoryInt
-                      ? Constants.createLockChangeHistory
-                      : widget.type == ConstantsIntValue.keyLostHistoryInt
-                          ? Constants.createKeyLostHistory
-                          : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                              ? Constants.createKeyDamageHistory
-                              : widget.type ==
-                                      ConstantsIntValue.keyDestroyHistoryInt
-                                  ? Constants.createKeyDestroyHistory
-                                  : Constants.createkeyManagementMaster,
-                  ConstantsArgument.id: widget.id,
-                  ConstantsArgument.type: widget.type,
-                }),
-          },
-        ): const SizedBox(),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: widget.type == ConstantsIntValue.lockChangeHistoryInt
-              ? Constants.lockChangeHistory
-              : widget.type == ConstantsIntValue.keyLostHistoryInt
-                  ? Constants.keyLostHistory
-                  : widget.type == ConstantsIntValue.keyDamageHistoryInt
-                      ? Constants.keyDamageHistory
-                      : widget.type == ConstantsIntValue.keyDestroyHistoryInt
-                          ? Constants.keyDestroyHistory
-                          : 'Default Title',
-          showPopUp: false,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<KeyHistoryRecordBloc, KeyHistoryRecordState>(
-            builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.list.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: ListView.builder(
-                controller: _scrollController,
-                itemCount: state.hasReachedMax
-                    ? state.list.length
-                    : state.list.length + 1,
-                itemBuilder: (context, index) {
-                  List<Label> labels = [];
-                  if (index < state.list.length) {
-                    labels.add(Label(
-                        key: state.labels?.locale.floor ??
-                            state.labels?.defaultLocale.floor ??
-                            'Floor',
-                        value: state.list[index].floor.toString()));
-                    labels.add(Label(
-                        key: state.labels?.locale.createdBy ??
-                            state.labels?.defaultLocale.createdBy ??
-                            'Created By',
-                        value:
-                            '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                    // labels.add(Label(
-                    //     key: 'Date of Creation',
-                    //     value: DateFormat('dd-MM-yyyy').format(
-                    //         DateTime.fromMillisecondsSinceEpoch(
-                    //             state.list[index].createdDate ?? 0 * 1000))));
-                    return index >= state.list.length
-                        ? const BaseLoader()
-                        : BaseListTileItem(
-                            id: state.list[index].id,
-                            labels: labels,
-                            status: state.list[index].status,
-                            isKeyManagementHistoryStatus: true,
-                            isEventProtectionStatus: false,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.list[selectedIndex].id.toString(),
-                                    slNo: state.list[selectedIndex].slNo,
-                                    labels: labels,
-                                    status: state.list[selectedIndex].status,
-                                    keyNo: state.list[selectedIndex].keyNo,
-                                    keyTagging:
-                                        state.list[selectedIndex].keyTagging,
-                                    doorName:
-                                        state.list[selectedIndex].doorName,
-                                    isEventProtectionStatus: false,
-                                    isKeyManagementHistoryStatus: true,
-                                    isMasterGuard: false,
+    return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: AppColors.cardBgColor,
+            floatingActionButton: (state.extraProperties?.hasWritePermission ??
+                        false) &&
+                    widget.model?.status != -1
+                ? Flutterfloatingbutton(
+                    backgroundColor: AppColors.navigationSkybluecolor,
+                    foregroundColor: AppColors.backgroundWhitecolor,
+                    onPressed: () => {
+                      Navigator.pushNamed(
+                          context, keyHistoryRecordsDetailsRoute,
+                          arguments: {
+                            ConstantsArgument.title: widget.type ==
+                                    ConstantsIntValue.lockChangeHistoryInt
+                                ? Constants.createLockChangeHistory
+                                : widget.type ==
+                                        ConstantsIntValue.keyLostHistoryInt
+                                    ? Constants.createKeyLostHistory
+                                    : widget.type ==
+                                            ConstantsIntValue
+                                                .keyDamageHistoryInt
+                                        ? Constants.createKeyDamageHistory
+                                        : widget.type ==
+                                                ConstantsIntValue
+                                                    .keyDestroyHistoryInt
+                                            ? Constants.createKeyDestroyHistory
+                                            : Constants
+                                                .createkeyManagementMaster,
+                            ConstantsArgument.id: widget.id,
+                            ConstantsArgument.type: widget.type,
+                          }),
+                    },
+                  )
+                : const SizedBox(),
+            appBar: BaseAppBar().buildAppHeader(
+              context: context,
+              title: widget.type == ConstantsIntValue.lockChangeHistoryInt
+                  ? Constants.lockChangeHistory
+                  : widget.type == ConstantsIntValue.keyLostHistoryInt
+                      ? Constants.keyLostHistory
+                      : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                          ? Constants.keyDamageHistory
+                          : widget.type ==
+                                  ConstantsIntValue.keyDestroyHistoryInt
+                              ? Constants.keyDestroyHistory
+                              : 'Default Title',
+              showPopUp: false,
+              showSaveButton: false,
+              showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              excelAPIName: 'exportGMDataExcel',
+              pdfAPIName: 'exportGMDataPDF',
+            ),
+            body: BlocBuilder<KeyHistoryRecordBloc, KeyHistoryRecordState>(
+                builder: (context, state) {
+              if (state.status == FormStatus.initial) {
+                return const BaseLoader();
+              }
+              if (state.list.isEmptyOrNull) {
+                return const NoRecordFoundWidget();
+              }
+              // log('--labels-${state.labels?.locale.locationRegion}');
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                    color: AppColors.backgroundWhitecolor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20.0)),
+                    )),
+                child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.hasReachedMax
+                        ? state.list.length
+                        : state.list.length + 1,
+                    itemBuilder: (context, index) {
+                      List<Label> labels = [];
+                      if (index < state.list.length) {
+                        labels.add(Label(
+                            key: state.labels?.locale.floor ??
+                                state.labels?.defaultLocale.floor ??
+                                'Floor',
+                            value: state.list[index].floor.toString()));
+                        labels.add(Label(
+                            key: state.labels?.locale.createdBy ??
+                                state.labels?.defaultLocale.createdBy ??
+                                'Created By',
+                            value:
+                                '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                        // labels.add(Label(
+                        //     key: 'Date of Creation',
+                        //     value: DateFormat('dd-MM-yyyy').format(
+                        //         DateTime.fromMillisecondsSinceEpoch(
+                        //             state.list[index].createdDate ?? 0 * 1000))));
+                        return index >= state.list.length
+                            ? const BaseLoader()
+                            : BaseListTileItem(
+                                id: state.list[index].id,
+                                labels: labels,
+                                status: state.list[index].status,
+                                isKeyManagementHistoryStatus: true,
+                                isEventProtectionStatus: false,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.list[selectedIndex].id
+                                            .toString(),
+                                        slNo: state.list[selectedIndex].slNo,
+                                        labels: labels,
+                                        status:
+                                            state.list[selectedIndex].status,
+                                        keyNo: state.list[selectedIndex].keyNo,
+                                        keyTagging: state
+                                            .list[selectedIndex].keyTagging,
+                                        doorName:
+                                            state.list[selectedIndex].doorName,
+                                        isEventProtectionStatus: false,
+                                        isKeyManagementHistoryStatus: true,
+                                        isMasterGuard: false,
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            onEditTap: (selectedIndex) {
-                              getById(state.list[index].id ?? 0);
-                            },
-                            showEditButton: true,
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.list[selectedIndex].id.toString(),
-                                    slNo: state.list[selectedIndex].slNo,
-                                    labels: labels,
-                                    status: state.list[selectedIndex].status,
-                                    keyNo: state.list[selectedIndex].keyNo,
-                                    keyTagging:
-                                        state.list[selectedIndex].keyTagging,
-                                    doorName:
-                                        state.list[selectedIndex].doorName,
-                                    isEventProtectionStatus: false,
-                                    isKeyManagementHistoryStatus: true,
-                                    isMasterGuard: false,
+                                onEditTap: (selectedIndex) {
+                                  getById(
+                                      state.extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
+                                      state.list[index].id ?? 0);
+                                },
+                                showEditButton: true,
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.list[selectedIndex].id
+                                            .toString(),
+                                        slNo: state.list[selectedIndex].slNo,
+                                        labels: labels,
+                                        status:
+                                            state.list[selectedIndex].status,
+                                        keyNo: state.list[selectedIndex].keyNo,
+                                        keyTagging: state
+                                            .list[selectedIndex].keyTagging,
+                                        doorName:
+                                            state.list[selectedIndex].doorName,
+                                        isEventProtectionStatus: false,
+                                        isKeyManagementHistoryStatus: true,
+                                        isMasterGuard: false,
+                                      );
+                                    },
                                   );
                                 },
+                                index: index,
                               );
-                            },
-                            index: index,
-                          );
-                  }
-                  // Handle the case where index is out of bounds
-                  return const Center(
-                    child: SizedBox(),
-                  );
-                }),
-          );
-        }));
+                      }
+                      // Handle the case where index is out of bounds
+                      return const Center(
+                        child: SizedBox(),
+                      );
+                    }),
+              );
+            }));
+      },
+    );
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyHistoryModel);
+    editDataLoading(keyHistoryModel, hasWritePermission);
   }
 
-  void editDataLoading(KeyHistoryModel keyHistoryModel) {
+  void editDataLoading(
+    KeyHistoryModel keyHistoryModel,
+    bool hasWritePermission,
+  ) {
     dismissLoadingDialog(context);
     Navigator.pushNamed(
       context,
@@ -236,6 +265,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
         ConstantsArgument.type: widget.type,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }

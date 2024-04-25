@@ -7,12 +7,14 @@ class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
   final bool viaOccurrence;
   final SstIncident? model;
+  final ExtraProperties? extraProperties;
 
   const SstIncidentGeneralInfoView({
     super.key,
     required this.isInternal,
     required this.viaOccurrence,
     this.model,
+    this.extraProperties,
   });
 
   @override
@@ -111,7 +113,11 @@ class _SstIncidentGeneralInfoViewState
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
-        if ( state.model.status ==-1) {
+        if (state.model.status == -1) {
+          disableForm = true;
+        }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
           disableForm = true;
         }
         return Scaffold(
@@ -501,7 +507,8 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.systemManager?.userInfo??state.model.systemManager?.name,
+                              title: state.model.systemManager?.userInfo ??
+                                  state.model.systemManager?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -538,7 +545,8 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lsm?.userInfo ??state.model.lsm?.name,
+                              title: state.model.lsm?.userInfo ??
+                                  state.model.lsm?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -576,7 +584,8 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.asl?.userInfo??state.model.asl?.name,
+                              title: state.model.asl?.userInfo ??
+                                  state.model.asl?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -614,7 +623,8 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lt?.userInfo??state.model.lt?.name,
+                              title: state.model.lt?.userInfo ??
+                                  state.model.lt?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {

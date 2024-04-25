@@ -72,10 +72,9 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       if (widget.vvipModel?.status == 1) {
         isReadOnly = true;
       }
-
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.vvipModel?.status == 0||widget.vvipModel?.status == null
+        floatingActionButton: (widget.vvipModel?.status == 0||widget.vvipModel?.status == null) && (state.extraProperties?.hasWritePermission ?? false)
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,

@@ -79,7 +79,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton: state.extraProperties?.hasWritePermission ?? false
+            ?Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
@@ -95,7 +96,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                   state.staffCategoriesValues ?? <String, int>{},
             );
           },
-        ),
+        ): const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.violationPenalty,

@@ -11,6 +11,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final int type;
   final int parentId;
   final int? id;
+  final ExtraProperties? extraProperties;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -19,6 +20,8 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     required this.type,
     required this.parentId,
     this.id,
+    this.extraProperties,
+
   });
 
   @override
@@ -50,7 +53,9 @@ class _KeyHistoryRecordsDetailsViewState
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
@@ -92,50 +97,54 @@ class _KeyHistoryRecordsDetailsViewState
             state.model.status == ConstantsIntValue.lostApproved) {
           isReadOnly = false;
         }
-        showSaveAndSubmitButtons = (state.model.status == null ||
-            state.model.status == ConstantsIntValue.destroyRejected ||
-            state.model.status == ConstantsIntValue.destroyApproved ||
-            (state.model.status == ConstantsIntValue.destroyInitiated &&
-                widget.type != ConstantsIntValue.keyDestroyHistoryInt)) ||
-            ((
-                state.model.status == ConstantsIntValue.created ||
-                    state.model.status ==
-                        ConstantsIntValue.lockChangeInitiated) &&
-                (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-            ((state.model.status == ConstantsIntValue.created ||
-                state.model.status == null) &&
-                (widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
-                state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||
-            ((state.model.status == ConstantsIntValue.created ||
-                state.model.status == null) &&
-                (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-            ((state.model.status == ConstantsIntValue.damagedApproved ||
-                state.model.status == ConstantsIntValue.damagedInitiated ||
-                state.model.status == ConstantsIntValue.lostInitiated ||
-                state.model.status == ConstantsIntValue.lostApproved) &&
-                (widget.type == ConstantsIntValue.keyLostHistoryInt ||
-                    widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.srh?.userName))) ||
-            ((state.model.status == ConstantsIntValue.created ||
-                state.model.status == null) &&
-                (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))) ||
+        showSaveAndSubmitButtons = !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) &&
             ((state.model.status == null ||
-                state.model.status == ConstantsIntValue.created)
-                && widget.type == ConstantsIntValue.keyLostHistoryInt);
+                state.model.status == ConstantsIntValue.destroyRejected ||
+                state.model.status == ConstantsIntValue.destroyApproved ||
+                (state.model.status == ConstantsIntValue.destroyInitiated &&
+                    widget.type != ConstantsIntValue.keyDestroyHistoryInt)) ||
+                ((
+                    state.model.status == ConstantsIntValue.created ||
+                        state.model.status ==
+                            ConstantsIntValue.lockChangeInitiated) &&
+                    (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName))) ||
+                ((state.model.status == ConstantsIntValue.created ||
+                    state.model.status == null) &&
+                    (widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
+                    state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName)) ||
+                ((state.model.status == ConstantsIntValue.created ||
+                    state.model.status == null) &&
+                    (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName))) ||
+                ((state.model.status == ConstantsIntValue.damagedApproved ||
+                    state.model.status == ConstantsIntValue.damagedInitiated ||
+                    state.model.status == ConstantsIntValue.lostInitiated ||
+                    state.model.status == ConstantsIntValue.lostApproved) &&
+                    (widget.type == ConstantsIntValue.keyLostHistoryInt ||
+                        widget.type == ConstantsIntValue.keyDamageHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.srh?.userName))) ||
+                ((state.model.status == ConstantsIntValue.created ||
+                    state.model.status == null) &&
+                    (widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName))) ||
+                ((state.model.status == null ||
+                    state.model.status == ConstantsIntValue.created)
+                    && widget.type == ConstantsIntValue.keyLostHistoryInt));
 
         showLikeDisLikeButtons =
-            (state.model.status == ConstantsIntValue.destroyInitiated &&
+            ((state.model.status == ConstantsIntValue.destroyInitiated &&
                 widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
                 state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.securityManager?.userName);
+                    .equalsIgnoreCase(state.model.securityManager?.userName)) &&
+                !(widget.extraProperties != null &&
+                    !widget.extraProperties!.hasWritePermission!);
 
         initializeDates();
         return Scaffold(
@@ -333,7 +342,7 @@ class _KeyHistoryRecordsDetailsViewState
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if ((state.model.status == null ||
+                              if (((state.model.status == null ||
                                   state.model.status ==
                                       ConstantsIntValue.created) &&
                                   (widget.type ==
@@ -349,7 +358,10 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)) {
+                                      state.model.createdBy?.userName)) &&
+                                  !(widget.extraProperties != null &&
+                                      !widget.extraProperties!
+                                          .hasWritePermission!)) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues
@@ -436,7 +448,8 @@ class _KeyHistoryRecordsDetailsViewState
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           TextFieldAddButton(
-                            title: state.model.srh?.userInfo??state.model.srh?.name,
+                            title: state.model.srh?.userInfo ??
+                                state.model.srh?.name,
                             height: 70,
                             isDisableColor: !showSaveAndSubmitButtons,
                             onTap: () {
@@ -480,7 +493,8 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                           ),
                           TextFieldAddButton(
-                            title: state.model.securityManager?.userInfo??state.model.securityManager?.name,
+                            title: state.model.securityManager?.userInfo ??
+                                state.model.securityManager?.name,
                             height: 60,
                             isDisableColor: !(((state.model.status !=
                                 ConstantsIntValue.created ||
@@ -501,7 +515,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         .equalsIgnoreCase(
                                         state.model.createdBy?.userName)))),
                             onTap: () {
-                              if (((state.model.status !=
+                              if ((((state.model.status !=
                                   ConstantsIntValue.created ||
                                   state.model.status != null) &&
                                   (widget.type ==
@@ -518,7 +532,10 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) {
+                                          .model.createdBy?.userName)))) &&
+                                  !(widget.extraProperties != null &&
+                                      !widget.extraProperties!
+                                          .hasWritePermission!)) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.securityManager!,
@@ -555,7 +572,7 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
-                            isDisableColor: !(((state.model.status !=
+                            isDisableColor: (!(((state.model.status !=
                                 ConstantsIntValue.created ||
                                 state.model.status != null) &&
                                 (widget.type ==
@@ -572,9 +589,12 @@ class _KeyHistoryRecordsDetailsViewState
                                             .keyDestroyHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
-                                        state.model.createdBy?.userName)))),
+                                        state.model.createdBy?.userName))))) &&
+                                (widget.extraProperties != null &&
+                                    !widget.extraProperties!
+                                        .hasWritePermission!),
                             onTap: () {
-                              if (((state.model.status !=
+                              if ((((state.model.status !=
                                   ConstantsIntValue.created ||
                                   state.model.status != null) &&
                                   (widget.type ==
@@ -591,7 +611,10 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) {
+                                          .model.createdBy?.userName)))) &&
+                                  (widget.extraProperties != null &&
+                                      !widget.extraProperties!
+                                          .hasWritePermission!)) {
                                 BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.destructionReasons,
@@ -676,7 +699,7 @@ class _KeyHistoryRecordsDetailsViewState
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
-                            isEnable: (state.model.status == null ||
+                            isEnable: ((state.model.status == null ||
                                 state.model.status ==
                                     ConstantsIntValue.created) &&
                                 ((widget.type ==
@@ -706,8 +729,11 @@ class _KeyHistoryRecordsDetailsViewState
                                             .keyDamageHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
-                                        state.model.createdBy?.userName))),
-                            isDisableColor: (state.model.status == null ||
+                                        state.model.createdBy?.userName)))) &&
+                                !(widget.extraProperties != null &&
+                                    !widget.extraProperties!
+                                        .hasWritePermission!),
+                            isDisableColor: ((state.model.status == null ||
                                 state.model.status ==
                                     ConstantsIntValue.created ||
                                 state.model.status ==
@@ -719,7 +745,10 @@ class _KeyHistoryRecordsDetailsViewState
                                         ConstantsIntValue.keyLostHistoryInt) &&
                                 state.loggedInUserDetails!.userName
                                     .equalsIgnoreCase(
-                                    state.model.createdBy?.userName),
+                                    state.model.createdBy?.userName)) &&
+                                (widget.extraProperties != null &&
+                                    !widget.extraProperties!
+                                        .hasWritePermission!),
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
                               context
@@ -781,7 +810,7 @@ class _KeyHistoryRecordsDetailsViewState
                               state.model.investigationRequired ?? false
                                   ? 1
                                   : 0,
-                              onChangedYes: !(((state.model.status == null ||
+                              onChangedYes: (!(((state.model.status == null ||
                                   state.model.status ==
                                       ConstantsIntValue.created) &&
                                   (widget.type ==
@@ -791,7 +820,10 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyLostHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)))
+                                      state.model.createdBy?.userName)))) &&
+                                  (widget.extraProperties != null &&
+                                      !widget.extraProperties!
+                                          .hasWritePermission!)
                                   ? null
                                   : (val) {
                                 state.model.investigationRequired = true;
@@ -810,7 +842,10 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyLostHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)))
+                                      state.model.createdBy?.userName))) &&
+                                  (widget.extraProperties != null &&
+                                      !widget.extraProperties!
+                                          .hasWritePermission!)
                                   ? null
                                   : (val) {
                                 state.model.investigationRequired = false;

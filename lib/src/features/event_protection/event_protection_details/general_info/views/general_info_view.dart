@@ -5,10 +5,13 @@ import 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.da
 
 class GeneralInfoView extends StatefulWidget {
   final EventProtectionGi? model;
+  final ExtraProperties? extraProperties;
 
   const GeneralInfoView({
     this.model,
     super.key,
+    this.extraProperties,
+
   });
 
   @override
@@ -78,6 +81,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         }
         if (state.model.status == null) {
           disableForm = false;
+        }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          disableForm = true;
         }
         state.model.status ??= 0;
         if (state.model.status! > 0) {

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../index.dart';
+import '../../../../../utils/utils_common.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
@@ -70,6 +71,12 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingRatesModule);
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingRatesModule,
+        commonServices: commonServices,
+      );
+
       GRUiLabels labels = GRUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -79,7 +86,9 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
             commonFilters: commonFilters,
             hasReachedMax: false,
             status: FormStatus.initial,
-            labels: labels),
+            labels: labels,
+           extraProperties: extraProperties,
+        ),
       );
     } on GenericResponse catch (e) {
       emit(

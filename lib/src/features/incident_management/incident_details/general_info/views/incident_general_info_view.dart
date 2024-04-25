@@ -7,10 +7,12 @@ class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
     required this.viaOccurrence,
+    this.extraProperties,
 
   });
 
   final bool viaOccurrence;
+  final ExtraProperties? extraProperties;
 
   @override
   State<IncidentGeneralInfoView> createState() =>
@@ -92,13 +94,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! < 0) {
           disableForm = true;
         }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          disableForm = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: state.model.status != 0 ? false : true,
-            showSubmitButton: state.model.status != 0 ? false : true,
+            showSaveButton: !disableForm ,
+            showSubmitButton: !disableForm ,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -323,7 +329,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isDisabled: state.model.status != 6,
                               textController: incidentTypeController,
                               items: incidentTypeValues,
-                              initialValue: state.model.incidentType.toString(),
+                              initialValue: '${state.model.incidentType ?? 0}',
                               onTap: () {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
@@ -865,7 +871,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(state),
-                          if (state.model.status == 0) ...[
+                          if (state.model.status == 0 && !disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<IncidentGeneralInfoCubit>(context)

@@ -8,6 +8,8 @@ class MaterialMovementState extends Equatable {
   final CommonFilters? commonFilters;
   final User? loggedInUser;
   final String? message;
+  final MmUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const MaterialMovementState({
     this.items = const <MaterialMovementModel>[],
@@ -17,6 +19,8 @@ class MaterialMovementState extends Equatable {
     this.locations,
     this.commonFilters,
     this.loggedInUser,
+    this.labels,
+    this.extraProperties,
   });
 
   MaterialMovementState copyWith({
@@ -29,6 +33,8 @@ class MaterialMovementState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     User? loggedInUser,
+    MmUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return MaterialMovementState(
       items: items ?? this.items,
@@ -38,6 +44,8 @@ class MaterialMovementState extends Equatable {
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
       loggedInUser: loggedInUser ?? this.loggedInUser,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

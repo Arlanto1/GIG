@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 import '../../services/contact_details_services.dart';
 
@@ -62,6 +63,12 @@ class ContactDetailsListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.contactDetailsModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.contactDetailsModuleCode,
+        commonServices: commonServices,
+      );
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -71,6 +78,9 @@ class ContactDetailsListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
+
         ),
       );
     } on GenericResponse catch (e) {
