@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../../../utils/utils_common.dart';
+
 
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
@@ -48,6 +50,11 @@ class KeyIssuanceProcessRecordBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementIssuanceModule,
+        commonServices: commonServices,
+      );
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       return emit(
@@ -55,6 +62,8 @@ class KeyIssuanceProcessRecordBloc
           hasReachedMax: false,
           labels: labels,
           keyDescriptions: keyDescriptions,
+          extraProperties: extraProperties,
+
         ),
       );
     } on GenericResponse catch (e) {

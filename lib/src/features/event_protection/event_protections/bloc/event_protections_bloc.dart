@@ -4,6 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../utils/utils_common.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
@@ -70,6 +71,13 @@ class EventProtectionsBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.eventProtectionModuleCode,
+        commonServices: commonServices,
+      );
+
       EPUiLabels labels = EPUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -80,6 +88,8 @@ class EventProtectionsBloc
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
+
         ),
       );
     }on GenericResponse catch (e) {

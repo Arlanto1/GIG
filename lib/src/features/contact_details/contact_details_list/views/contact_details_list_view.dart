@@ -93,195 +93,218 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
-      floatingActionButton: Flutterfloatingbutton(
-        backgroundColor: AppColors.navigationSkybluecolor,
-        foregroundColor: AppColors.backgroundWhitecolor,
-        onPressed: () => {
-          Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-            "title": Constants.escalationMatrix,
-          })
-        },
-      ),
-      appBar: BaseAppBar().buildAppHeader(
-        context: context,
-        title: Constants.escalationMatrix,
-        showPopUp: true,
-        showSaveButton: false,
-        showSubmitButton: false,
-        showDisLikeButton: false,
-        showLikeButton: false,
-        excelAPIName: 'exportGcdExcel',
-        pdfAPIName: 'exportGcdPDF',
-      ),
-      body: BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
-        listener: (context, state) {
-          Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
-
-          if (state.status == FormStatus.sessionExpired) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message ?? 'Session Expired...')));
-            Validator.logoutAction(context);
-          }
-        },
-        builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-           // }
-          // if (state.items.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-            ),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1,
-                      itemBuilder: (context, index) {
-                        List<Label> labels = [];
-                        if (index < state.items.length) {
-                          labels.add(Label(
-                              key: state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  'Created By',
-                              value:'${state.items[index].entrySecurity?.firstName ??''} ${state.items[index].entrySecurity?.lastName ?? ''}'
-                                  ));
-                          labels.add(Label(
-                              key: state.labels?.locale.locationRegion ??
-                                  state.labels?.defaultLocale.locationRegion ??
-                                  'Region',
-                              value: state.items[index].locationRegion?.name ??
-                                  ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  'SL No',
-                              value: state.items[index].slNo ?? ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  'Location',
-                              value: state.items[index].location?.name ?? ''));
-                          return index >= state.items.length
-                              ? const BaseLoader()
-                              : BaseListTileItem(
-                                  id: state.items[index].id,
-                                  labels: labels,
-                                  status: state.items[index].status,
-                                  isEventProtectionStatus: false,
-                                  isContactDetailsStatus: true,
-                                  onTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          labels: labels,
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          isContactDetailsStatus: true,
-                                          isEventProtectionStatus: false,
-                                          isMasterGuard: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  onEditTap: (selectedIndex) {
-                                    getById(state.items[index].id ?? 0);
-                                  },
-                                  onViewTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          labels: labels,
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          isContactDetailsStatus: true,
-                                          isEventProtectionStatus: false,
-                                          isMasterGuard: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  index: index,
-                                );
-                        }
-                        return null;
+    return BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.cardBgColor,
+          floatingActionButton:
+              state.extraProperties?.hasWritePermission ?? false
+                  ? Flutterfloatingbutton(
+                      backgroundColor: AppColors.navigationSkybluecolor,
+                      foregroundColor: AppColors.backgroundWhitecolor,
+                      onPressed: () => {
+                        Navigator.pushNamed(context, contactDetailsRoute,
+                            arguments: {
+                              "title": Constants.escalationMatrix,
+                            })
                       },
-                    ),
+                    )
+                  : const SizedBox(),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: Constants.escalationMatrix,
+            showPopUp: true,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            excelAPIName: 'exportGcdExcel',
+            pdfAPIName: 'exportGcdPDF',
+          ),
+          body: BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
+            listener: (context, state) {
+              Utils().formError(state, context);
+              Utils().errorAndLogout(state, context);
+
+              if (state.status == FormStatus.sessionExpired) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.message ?? 'Session Expired...')));
+                Validator.logoutAction(context);
+              }
+            },
+            builder: (context, state) {
+              // if (state.status == FormStatus.initial) {
+              //   return const BaseLoader();
+              // }
+              // if (state.items.isEmptyOrNull) {
+              //   return const NoRecordFoundWidget();
+              // }
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    if (state.items.isEmptyOrNull &&
+                        state.status != FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.items.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      'Created By',
+                                  value:
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                              labels.add(Label(
+                                  key: state.labels?.locale.locationRegion ??
+                                      state.labels?.defaultLocale
+                                          .locationRegion ??
+                                      'Region',
+                                  value:
+                                      state.items[index].locationRegion?.name ??
+                                          ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
+                                      'SL No',
+                                  value: state.items[index].slNo ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      'Location',
+                                  value:
+                                      state.items[index].location?.name ?? ''));
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : BaseListTileItem(
+                                      id: state.items[index].id,
+                                      labels: labels,
+                                      status: state.items[index].status,
+                                      isEventProtectionStatus: false,
+                                      isContactDetailsStatus: true,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.items[selectedIndex].id
+                                                  .toString(),
+                                              labels: labels,
+                                              status: state
+                                                  .items[selectedIndex].status,
+                                              isContactDetailsStatus: true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getById(
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
+                                                false,
+                                            state.items[index].id ?? 0);
+                                      },
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.items[selectedIndex].id
+                                                  .toString(),
+                                              labels: labels,
+                                              status: state
+                                                  .items[selectedIndex].status,
+                                              isContactDetailsStatus: true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      index: index,
+                                    );
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     ContactDetailModel materialMovementModel =
         await ContactDetailsServices().getGcdById(id);
 
-    editDataLoading(materialMovementModel);
+    editDataLoading(materialMovementModel, hasWritePermission);
   }
 
-  void editDataLoading(ContactDetailModel? model) {
+  void editDataLoading(
+    ContactDetailModel? model,
+    bool hasWritePermission,
+  ) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -290,6 +313,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         arguments: {
           "model": model,
           "title": Constants.escalationMatrix,
+          ConstantsArgument.extraProperties:
+              ExtraProperties(hasWritePermission: hasWritePermission),
         },
       );
     }
@@ -303,7 +328,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<ContactDetailsListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -316,7 +345,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<ContactDetailsListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

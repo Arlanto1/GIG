@@ -223,29 +223,6 @@ class _AnnualPowerShutdownListDetailsViewState
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
                                   onTap: () {
-                                    if (!disableForm) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: eventProtectionGiStatus
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              eventProtectionGiStatus
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  status: int.tryParse(
-                                                      selectedLabel.value));
-                                        },
-                                      );
-                                    }
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 

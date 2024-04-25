@@ -6,11 +6,13 @@ import 'package:db_atom/src/services/common_services.dart';
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const ContactDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -103,6 +105,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
         if (state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -112,10 +119,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton:
-                 !isReadOnly ? true : false,
-            showSubmitButton:
-                 !isReadOnly ? true : false,
+            showSaveButton: !isReadOnly ? true : false,
+            showSubmitButton: !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             popAndReplace: () {
@@ -175,465 +180,461 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                   )),
               // child: AbsorbPointer(
               //   absorbing: isReadOnly,
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: isReadOnly
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: isReadOnly
+                    ? AutovalidateMode.disabled
+                    : AutovalidateMode.onUserInteraction,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
+                      child: Column(
+                        children: [
+                          if (!state.model.lock.isEmptyOrNull) ...[
+                            RecordLockedWidget(text: '${state.model.lock}'),
+                          ],
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.generalinformation,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleBlack14,
+                          /// Created By
+                          CommonWidgets.horizentaltextHandling(
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
                               isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Date of creation
+                          /// Status
+                          CommonWidgets.textDisplay(
+                            state.labels?.locale.status ??
+                                state.labels?.defaultLocale.status ??
+                                Constants.status,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            isEnable: false,
+                            isDisableColor: true,
+                            textFormKey: Keys.statusTextController,
+                            hintText: '',
+                            initialValue:
+                                getStatusString(state.model.status ?? 0),
+                            onChange: (String value) {},
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Date of creation
+                          CommonWidgets.textDisplay(
+                            state.labels?.locale.date ??
+                                state.labels?.defaultLocale.date ??
+                                Constants.dateofcreation,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          datecreateWidgetdisplay(state.model.inputDate ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Location
+                          CommonWidgets.textDisplay(
+                            state.labels?.locale.location ??
+                                state.labels?.defaultLocale.location ??
+                                Constants.location,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          locationWidgetdislay(state),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Sl No.
+                          CommonWidgets.horizentaltextHandling(
+                            state.labels?.locale.slNo ??
+                                state.labels?.defaultLocale.slNo ??
+                                Constants.slno,
+                            state.model.slNo ?? '',
+                            isMandatory: true,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          if (state.model.status != null) ...[
+                            /// Modified Date
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.date ??
-                                  state.labels?.defaultLocale.date ??
-                                  Constants.dateofcreation,
+                              // state.labels?.locale.date ??
+                              //     state.labels?.defaultLocale.date ??
+                              Constants.modifiedOn,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
+                                state.model.modifiedDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
+                            /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            if (state.model.status != null) ...[
-                              /// Modified Date
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
                                 isMandatory: true,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              datecreateWidgetdisplay(
-                                  state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Modified By
-                              CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
-                                  isMandatory: true,
-                                  '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-
-                            /// General Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale.generalContact ??
-                                    state
-                                        .labels?.defaultLocale.generalContact ??
-                                    Constants.generalContact,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              GestureDetector(
-                                onTap: () async {
-                                  NavigatorState nav = Navigator.of(context);
-                                  bool isSaveSuccess = await BlocProvider.of<
-                                          ContactDetailsCubit>(context)
+                          ],
+
+                          /// General Contact
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              state.labels?.locale.generalContact ??
+                                  state.labels?.defaultLocale.generalContact ??
+                                  Constants.generalContact,
+                              style: Styles.styleHeaderGreyText16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
                                       .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                  );
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                  if (!isSaveSuccess) {
-                                    return;
-                                  }
-                                  log('--state.model.id---${state.model.id}--');
-                                  List<Organisation> ranks =
-                                      await CommonServices().getOrganisations(
-                                          name: Constants.contactGeneralRank);
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> ranks = await CommonServices()
+                                  .getOrganisations(
+                                      name: Constants.contactGeneralRank);
 
-                                  nav.pushNamed(
-                                    contactRecordsRoute,
-                                    arguments: {
-                                      ConstantsArgument.title:
-                                          Constants.generalContact,
-                                      ConstantsArgument.type: 0,
-                                      ConstantsArgument.id: state.model.id,
-                                      ConstantsArgument.rankType:
-                                          Constants.contactGeneralRank,
-                                      ConstantsArgument.ranks: ranks,
-                                    },
-                                  );
+                              nav.pushNamed(
+                                contactRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.generalContact,
+                                  ConstantsArgument.type: 0,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.rankType:
+                                      Constants.contactGeneralRank,
+                                  ConstantsArgument.ranks: ranks,
                                 },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
-                                      color: AppColors.navigationSkybluecolor,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      'Add/View Contact(s)',
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
                                 ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Guarding Agency Escalation Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale
-                                        .guardingAgencyEscalationContact ??
-                                    state.labels?.defaultLocale
-                                        .guardingAgencyEscalationContact ??
-                                    Constants.guardingAgencyContact,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants
-                                            .contactGuardingAgencyEscalationRank);
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.guardingAgencyContact,
-                                    ConstantsArgument.type: 1,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType: Constants
-                                        .contactGuardingAgencyEscalationRank,
-                                    ConstantsArgument.ranks: ranks,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Contact(s)',
+                                  style: TextStyle(
                                     color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Contact(s)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// System Escalation Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale.systemEscalationContact ??
-                                    state.labels?.defaultLocale
-                                        .systemEscalationContact ??
-                                    Constants.systemEscalationContact,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          /// Guarding Agency Escalation Contact
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              state.labels?.locale
+                                      .guardingAgencyEscalationContact ??
+                                  state.labels?.defaultLocale
+                                      .guardingAgencyEscalationContact ??
+                                  Constants.guardingAgencyContact,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants
-                                            .contactSystemEscalationRank);
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.systemEscalationContact,
-                                    ConstantsArgument.type: 2,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactSystemEscalationRank,
-                                    ConstantsArgument.ranks: ranks,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> ranks = await CommonServices()
+                                  .getOrganisations(
+                                      name: Constants
+                                          .contactGuardingAgencyEscalationRank);
+                              nav.pushNamed(
+                                contactRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.guardingAgencyContact,
+                                  ConstantsArgument.type: 1,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.rankType: Constants
+                                      .contactGuardingAgencyEscalationRank,
+                                  ConstantsArgument.ranks: ranks,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Contact(s)',
+                                  style: TextStyle(
                                     color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Contact(s)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Supervisor Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale.supervisorRank ??
-                                    state
-                                        .labels?.defaultLocale.supervisorRank ??
-                                    Constants.cmsEscalationContact,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          /// System Escalation Contact
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              state.labels?.locale.systemEscalationContact ??
+                                  state.labels?.defaultLocale
+                                      .systemEscalationContact ??
+                                  Constants.systemEscalationContact,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants.contactSupervisorRank);
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.cmsEscalationContact,
-                                    ConstantsArgument.type: 4,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactSupervisorRank,
-                                    ConstantsArgument.ranks: ranks,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> ranks = await CommonServices()
+                                  .getOrganisations(
+                                      name: Constants
+                                          .contactSystemEscalationRank);
+                              nav.pushNamed(
+                                contactRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.systemEscalationContact,
+                                  ConstantsArgument.type: 2,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.rankType:
+                                      Constants.contactSystemEscalationRank,
+                                  ConstantsArgument.ranks: ranks,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Contact(s)',
+                                  style: TextStyle(
                                     color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Contact(s)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Zonal Escalation Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale
-                                        .guardingAgencyZonalManager ??
-                                    state.labels?.defaultLocale
-                                        .guardingAgencyZonalManager ??
-                                    Constants.guardingAgencyZonalManagerContact,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                          /// Supervisor Contact
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              state.labels?.locale.supervisorRank ??
+                                  state.labels?.defaultLocale.supervisorRank ??
+                                  Constants.cmsEscalationContact,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants.contactZone);
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title: Constants
-                                        .guardingAgencyZonalManagerContact,
-                                    ConstantsArgument.type: 3,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactZone,
-                                    ConstantsArgument.ranks: ranks,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> ranks = await CommonServices()
+                                  .getOrganisations(
+                                      name: Constants.contactSupervisorRank);
+                              nav.pushNamed(
+                                contactRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.cmsEscalationContact,
+                                  ConstantsArgument.type: 4,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.rankType:
+                                      Constants.contactSupervisorRank,
+                                  ConstantsArgument.ranks: ranks,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Contact(s)',
+                                  style: TextStyle(
                                     color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Contact(s)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                      /// SubmitButton
-                      // if ((state.model.status == -1) ? false : true) ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          cancelButtonDisplay(state),
-                          if ((state.model.status != -1)) ...[
-                            submitButtonDisplay(),
-                          ],
+                          /// Zonal Escalation Contact
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              state.labels?.locale.guardingAgencyZonalManager ??
+                                  state.labels?.defaultLocale
+                                      .guardingAgencyZonalManager ??
+                                  Constants.guardingAgencyZonalManagerContact,
+                              style: Styles.styleHeaderGreyText16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
+
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> ranks = await CommonServices()
+                                  .getOrganisations(
+                                      name: Constants.contactZone);
+                              nav.pushNamed(
+                                contactRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title: Constants
+                                      .guardingAgencyZonalManagerContact,
+                                  ConstantsArgument.type: 3,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.rankType:
+                                      Constants.contactZone,
+                                  ConstantsArgument.ranks: ranks,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  color: AppColors.navigationSkybluecolor,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Contact(s)',
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                      // ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
-                    ],
-                  ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                    /// SubmitButton
+                    // if ((state.model.status == -1) ? false : true) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(state),
+                        if ((state.model.status != -1)) ...[
+                          submitButtonDisplay(),
+                        ],
+                      ],
+                    ),
+                    // ],
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
+                  ],
                 ),
-             // ),
+              ),
+              // ),
             ),
           ],
         ),

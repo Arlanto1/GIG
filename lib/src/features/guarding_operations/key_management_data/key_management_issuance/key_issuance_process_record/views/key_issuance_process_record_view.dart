@@ -74,7 +74,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.parentStatus == 0
+        floatingActionButton: (state.extraProperties?.hasWritePermission ??
+                    false) &&
+                widget.parentStatus == 0
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
@@ -181,8 +183,20 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                showDutyPostEditButton: widget.parentStatus ==0 || widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
-                   showEditButton: widget.parentStatus !=0 && widget.parentStatus !=1&& widget.parentStatus !=2 && widget.parentStatus !=2 ?true :false,
+                    showDutyPostEditButton: (widget.parentStatus == 0 ||
+                                widget.parentStatus == 1 ||
+                                widget.parentStatus == 2) &&
+                            (state.extraProperties?.hasWritePermission ?? false)
+                        ? true
+                        : false,
+                    showEditButton: widget.parentStatus != 0 &&
+                            widget.parentStatus != 1 &&
+                            widget.parentStatus != 2 &&
+                            widget.parentStatus != 2 &&
+                            !(state.extraProperties?.hasWritePermission ??
+                                false)
+                        ? true
+                        : false,
                     onEditTap: (selectedIndex) async {
                       KeyIssuanceProcessRecord keyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()
@@ -214,22 +228,33 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       );
                     },
                     onViewTap: (selectedIndex) {
-                      getById(state.items[index].kmId);
+                      getById(
+                          state.extraProperties?.hasWritePermission ?? false,
+                          state.items[index].kmId);
                     },
-              showLinkOffButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
-              onLinkOffTap: (selectedIndex) async {
-                int? kmId = state.items[selectedIndex].kmId;
-                Navigator.pushNamed(
-                  context,
-                  keyHistoryRecordsDetailsRoute,
-                  arguments: {
-                    ConstantsArgument.title: Constants.keyLostHistory,
-                    ConstantsArgument.id: kmId,
-                    ConstantsArgument.type:  ConstantsIntValue.keyLostHistoryInt,
-                  },
-                );
-              },
-              showDeleteButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
+                    showLinkOffButton:
+                    (widget.parentStatus == 1 || widget.parentStatus == 2) && (state.extraProperties?.hasWritePermission ??
+                        false)
+                            ? true
+                            : false,
+                    onLinkOffTap: (selectedIndex) async {
+                      int? kmId = state.items[selectedIndex].kmId;
+                      Navigator.pushNamed(
+                        context,
+                        keyHistoryRecordsDetailsRoute,
+                        arguments: {
+                          ConstantsArgument.title: Constants.keyLostHistory,
+                          ConstantsArgument.id: kmId,
+                          ConstantsArgument.type:
+                              ConstantsIntValue.keyLostHistoryInt,
+                        },
+                      );
+                    },
+                    showDeleteButton:
+                    (widget.parentStatus == 1 || widget.parentStatus == 2) && (state.extraProperties?.hasWritePermission ??
+                        false)
+                            ? true
+                            : false,
                     onDeleteTap: (selectedIndex) async {
                       int? kmId = state.items[selectedIndex].kmId;
                       Navigator.pushNamed(
@@ -238,7 +263,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         arguments: {
                           ConstantsArgument.title: Constants.keyDamageHistory,
                           ConstantsArgument.id: kmId,
-                          ConstantsArgument.type:  ConstantsIntValue.keyDamageHistoryInt,
+                          ConstantsArgument.type:
+                              ConstantsIntValue.keyDamageHistoryInt,
                         },
                       );
                     },
@@ -251,43 +277,43 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     );
   }
 
-  getById(int? kmId) async {
-
+  getById(bool hasWritePermission, int? kmId) async {
     showLoadingDialog(context);
 
     KeyManagementMasterModel keyManagementMasterModel =
-    await KeyManagementMasterServices().getById(kmId!);
+        await KeyManagementMasterServices().getById(kmId!);
 
-    editDataLoading(keyManagementMasterModel);
+    editDataLoading(keyManagementMasterModel, hasWritePermission);
   }
 
-  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
+  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
         "keyMgmtGi": keyManagementMasterModel,
-        "title": Constants.editkeyManagementMaster
+        "title": Constants.editkeyManagementMaster,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }
 
   createRecord(int? kmId) async {
-
     showLoadingDialog(context);
 
-    KeyHistoryRecordRequest request =
-    KeyHistoryRecordRequest();
+    KeyHistoryRecordRequest request = KeyHistoryRecordRequest();
     await KeyManagementMasterServices().createKeyHistoryRecord(
       body: request,
       kmId: kmId.toString(),
       isSubmit: false,
     );
     Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
-    "keyLossGi": KeyHistoryModel,
-    "title": Constants.keyLostHistory
-    }
-    );
+      "keyLossGi": KeyHistoryModel,
+      "title": Constants.keyLostHistory
+    });
   }
+
   showAddKeyIssuanceProcessPopUp({
     required BuildContext context,
     required KeyIssuanceProcessRecord keyIssuanceProcessRecord,

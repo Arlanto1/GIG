@@ -656,10 +656,13 @@ class RouteGenerator {
         ContactDetailsServices services = ContactDetailsServices();
         CommonServices commonServices = CommonServices();
         String title;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         ContactDetailModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ContactDetailsCubit>(
             create: (_) => ContactDetailsCubit(
@@ -670,6 +673,7 @@ class RouteGenerator {
             child: ContactDetailsView(
               model: model,
               title: title,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -755,12 +759,12 @@ class RouteGenerator {
 
       case generalInfoGIRoute:
         String id = '';
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
-          ExtraProperties? extraProperties =
-          arguments[ConstantsArgument.extraProperties];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GeneralInfoCubit>(
@@ -769,7 +773,8 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const GeneralInfoView(
+            child: GeneralInfoView(
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -945,12 +950,13 @@ class RouteGenerator {
         GuardingMasterDataServices services = GuardingMasterDataServices();
         CommonServices commonServices = CommonServices();
         String title;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         GuardingMastersDataModel? model = arguments["GuardingMastersDataModel"];
         log('-guardingMastersDataModel-model--id---${model?.id}---');
-
+        extraProperties = arguments[ConstantsArgument.extraProperties];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
             create: (_) => GuardingMasterDataDetailsCubit(
@@ -961,6 +967,7 @@ class RouteGenerator {
             child: GuardingMasterDataDetailsView(
               guardingMasterData: model,
               title: title,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -1212,12 +1219,15 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         int type = 0;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         type = arguments[ConstantsArgument.type] ?? 0;
         KeyLossDestructionListModel? keyLossDestructionListModel =
             arguments["keyLossGi"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyLossDestructionDetailsCubit>(
             create: (_) => KeyLossDestructionDetailsCubit(
@@ -1229,6 +1239,7 @@ class RouteGenerator {
               model: keyLossDestructionListModel,
               title: title,
               type: type,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -1250,10 +1261,12 @@ class RouteGenerator {
             KeyManagementIssuanceServices();
         CommonServices commonServices = CommonServices();
         String title;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         KeyManagementIssuanceModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyManagementIssuanceDetailsCubit>(
             create: (_) => KeyManagementIssuanceDetailsCubit(
@@ -1264,6 +1277,7 @@ class RouteGenerator {
             child: KeyManagementIssuanceDetailsView(
               model: model,
               title: title,
+              extraProperties: extraProperties,
             ),
           ),
         );

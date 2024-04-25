@@ -10,12 +10,14 @@ class KeyLossDestructionDetailsView extends StatefulWidget {
   final KeyLossDestructionListModel? model;
   final String title;
   final int type;
+  final ExtraProperties? extraProperties;
 
   const KeyLossDestructionDetailsView({
     super.key,
     this.model,
     required this.title,
     required this.type,
+    this.extraProperties,
   });
 
   @override
@@ -81,7 +83,10 @@ class _KeyLossDestructionDetailsViewState
         //   isReadOnly = true;
         // }
         isReadOnly = state.isReadOnly ?? true;
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+            isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }

@@ -854,6 +854,9 @@ class Constants {
   ///Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
 
+  ///Module Code for roles
+  static const String passManagementRolesModuleCode = 'PM';
+
 }
 
 //static const String height = 'Height(cm)';

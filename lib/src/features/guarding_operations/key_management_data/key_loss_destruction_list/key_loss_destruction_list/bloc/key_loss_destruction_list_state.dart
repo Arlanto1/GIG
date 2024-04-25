@@ -8,6 +8,7 @@ class KeyLossDestructionListState extends Equatable {
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
+  final ExtraProperties? extraProperties;
 
   const KeyLossDestructionListState({
     this.list = const <KeyLossDestructionListModel>[],
@@ -17,6 +18,7 @@ class KeyLossDestructionListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   KeyLossDestructionListState copyWith({
@@ -29,6 +31,7 @@ class KeyLossDestructionListState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     KLDUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return KeyLossDestructionListState(
       list: items ?? list,
@@ -38,6 +41,7 @@ class KeyLossDestructionListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 
