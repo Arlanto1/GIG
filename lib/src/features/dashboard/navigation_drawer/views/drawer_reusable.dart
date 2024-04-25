@@ -101,6 +101,7 @@ class NavigationDrawer1 extends StatelessWidget {
   static const String shiftSchedulingTitle = Constants.shiftScheduling;
   static const String keyManagementDataTitle = Constants.keyManagementData;
   static const String vVipVisitorsTitle = Constants.vVipVisitors;
+  static const String securitySystemsTitle = Constants.securitySystems;
 
   @override
   Widget build(BuildContext context) {
@@ -311,6 +312,9 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSecuritySystemIncidentItemSelected(int index, BuildContext context) async {
+
+    log('-_onSecuritySystemIncidentItemSelected------');
+
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -682,7 +686,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       return;
                     }
 
-                    if (title == Constants.securitySystemTickets) {
+                    log('--title-$title-');
+                    if (title == securitySystemsTitle) {
                       _onSecuritySystemIncidentItemSelected(i, context);
                       return;
                     }
