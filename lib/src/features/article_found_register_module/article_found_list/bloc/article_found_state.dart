@@ -9,6 +9,7 @@ class ArticleFoundState extends Equatable {
   final User? loggedInUser;
   final String? message;
   final AFUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const ArticleFoundState({
     this.items = const <FoundModel>[],
@@ -19,6 +20,7 @@ class ArticleFoundState extends Equatable {
     this.commonFilters,
     this.loggedInUser,
     this.labels,
+    this.extraProperties,
   });
 
   ArticleFoundState copyWith({
@@ -32,6 +34,7 @@ class ArticleFoundState extends Equatable {
     List<Organisation>? statuses,
     User? loggedInUser,
     AFUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return ArticleFoundState(
       items: items ?? this.items,
@@ -42,7 +45,7 @@ class ArticleFoundState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUser: loggedInUser ?? this.loggedInUser,
       labels: labels ?? this.labels,
-
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

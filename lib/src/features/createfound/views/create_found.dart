@@ -8,8 +8,14 @@ import 'package:intl/intl.dart';
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
   final int? eventId;
+  final ExtraProperties? extraProperties;
 
-  const CreateFound({super.key, this.model, this.eventId});
+  const CreateFound({
+    super.key,
+    this.model,
+    this.eventId,
+    this.extraProperties,
+  });
 
   @override
   State<CreateFound> createState() => _CreateFoundState();
@@ -112,9 +118,11 @@ class _CreateFoundState extends State<CreateFound> {
               userId: widget.model?.handoverSecurity?.userId ?? 1,
               lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
-      createdByValue = userDetails?.userInfo != null ? userDetails?.userInfo ?? '' : '';
-      handOverByValue =
-          handOverSecurity?.userInfo != null ? handOverSecurity?.userInfo ?? '' : '';
+      createdByValue =
+          userDetails?.userInfo != null ? userDetails?.userInfo ?? '' : '';
+      handOverByValue = handOverSecurity?.userInfo != null
+          ? handOverSecurity?.userInfo ?? ''
+          : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       locationSelectedlist = widget.model?.location != null
           ? Organisation(
@@ -314,12 +322,20 @@ class _CreateFoundState extends State<CreateFound> {
     CreateFoundState? state,
   }) async {
     log('-createRequestBody-----');
-    int foundDate = Utils.dateToTimestampConversion(
+
+    int? foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    // int inputDate = Utils.dateToTimestampConversion(
+    if (foundDate == 0) {
+      foundDate = null;
+    } // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int? handoverDate;
+    if(widget.model?.status == ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
+      handoverDate = (DateTime
+          .now()
+          .millisecondsSinceEpoch ~/ 1000);
+    }
     // Utils.dateToTimestampConversion(
     //     handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
@@ -850,6 +866,10 @@ class _CreateFoundState extends State<CreateFound> {
                   isDisabled = true;
                 }
 
+                if (widget.extraProperties != null &&
+                    !widget.extraProperties!.hasWritePermission!) {
+                  isDisabled = true;
+                }
                 createfoundResponse = state.createFoundResponse;
 
                 if (state.status == FormStatus.addAttachment) {
@@ -869,7 +889,7 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
-                  handOverSecurity = state.loggedInUser ?? User();
+                  handOverSecurity = User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
@@ -1720,7 +1740,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// upload
-                                  widget.model == null|| widget.model?.status == 0
+                                  widget.model == null ||
+                                          widget.model?.status == 0
                                       ? Container(
                                           height: 60,
                                           decoration: BoxDecoration(
@@ -2219,9 +2240,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget attachmentListviews(
-      List<ImageContent>? attachmentListviews,
-      List<ImageContent>? attachmentListviews1,
-      ) {
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
+  ) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -2236,7 +2257,7 @@ class _CreateFoundState extends State<CreateFound> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
-              (attachmentListviews?.length ?? 0)
+                  (attachmentListviews?.length ?? 0)
               ? attachmentListviews1?.length
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
@@ -2255,52 +2276,52 @@ class _CreateFoundState extends State<CreateFound> {
                 ListTile(
                   trailing: widget.model?.status == null
                       ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Delete logic here
-                          if (imageData1 != null) {
-                            // Implement delete functionality for attachmentListviews1
-                            setState(() {
-                              attachmentListviews1!.removeAt(index);
-                            });
-                          }
-                          if (imageData != null) {
-                            // Implement delete functionality for attachmentListviews1
-                            setState(() {
-                              attachmentListviews!.removeAt(index);
-                            });
-                          }
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Add your download functionality here
-                          DownloadImage().saveImage(
-                            context,
-                            imageData?.id ?? 0,
-                            imageData?.title ?? '',
-                            Constants.articleFoundModuleCode,
-                          );
-                        },
-                        child: BaseIcons().downloadIcon(),
-                      )
-                    ],
-                  )
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                // Delete logic here
+                                if (imageData1 != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews1!.removeAt(index);
+                                  });
+                                }
+                                if (imageData != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // Add your download functionality here
+                                DownloadImage().saveImage(
+                                  context,
+                                  imageData?.id ?? 0,
+                                  imageData?.title ?? '',
+                                  Constants.articleFoundModuleCode,
+                                );
+                              },
+                              child: BaseIcons().downloadIcon(),
+                            )
+                          ],
+                        )
                       : GestureDetector(
-                    onTap: () {
-                      // Add your download functionality here
-                      DownloadImage().saveImage(
-                        context,
-                        imageData?.id ?? 0,
-                        imageData?.title ?? '',
-                        Constants.articleFoundModuleCode,
-                      );
-                    },
-                    child: BaseIcons().downloadIcon(),
-                  ),
+                          onTap: () {
+                            // Add your download functionality here
+                            DownloadImage().saveImage(
+                              context,
+                              imageData?.id ?? 0,
+                              imageData?.title ?? '',
+                              Constants.articleFoundModuleCode,
+                            );
+                          },
+                          child: BaseIcons().downloadIcon(),
+                        ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
                       : Text(imageData?.title ?? ''),

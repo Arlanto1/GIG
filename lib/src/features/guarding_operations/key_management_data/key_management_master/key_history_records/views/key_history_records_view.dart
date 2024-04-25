@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -12,10 +11,12 @@ class KeyHistoryRecordsView extends StatefulWidget {
     super.key,
     required this.id,
     required this.type,
+    this.model,
   });
 
   final int id;
   final int type;
+  final KeyManagementMasterModel? model;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -58,7 +59,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton: widget.model?.status == 0 || widget.model?.status == 1 || widget.model?.status == 2 ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
@@ -79,7 +80,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                   ConstantsArgument.type: widget.type,
                 }),
           },
-        ),
+        ): const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.type == ConstantsIntValue.lockChangeHistoryInt

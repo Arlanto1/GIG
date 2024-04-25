@@ -66,7 +66,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
       // state.model.inputDate = state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
       state.model.modifiedDate = state.model.modifiedDate == null
@@ -185,7 +185,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-                  int.tryParse(state.model?.inputDate ?? '0'),
+                  int.tryParse(state.model.inputDate ?? '0'),
                   Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -232,7 +232,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
@@ -243,7 +243,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
       emit(
         state.copyWith(

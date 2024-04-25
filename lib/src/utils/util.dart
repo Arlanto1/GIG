@@ -294,6 +294,9 @@ class Utils {
       case 4:
         statusText = 'WeekOff';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -641,6 +644,9 @@ class Utils {
         break;
       case 30:
         statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
         break;
       default:
         statusText = ''; // Handle the default case if needed
@@ -1083,6 +1089,9 @@ class Utils {
       case 40:
         statusText = 'Cancelled';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -1472,6 +1481,7 @@ class Utils {
   }
 
   void formError(dynamic state, BuildContext context) {
+    log('STATUS: ${state.status}');
     if (state.status == FormStatus.formError) {
       Validator().showToast(
         context,

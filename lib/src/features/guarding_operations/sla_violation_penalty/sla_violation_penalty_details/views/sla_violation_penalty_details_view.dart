@@ -1,37 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_location_dropdown.dart';
-import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constant_agruments.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
-import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../../utils/customalert.dart';
-import '../../models/sla_violation_penalty_response_model.dart';
-import '../cubits/sla_violation_penalty_details_cubit.dart';
 import 'add_poc_pop_up.dart';
 
 class SLAViolationPenaltyDetailsView extends StatefulWidget {
@@ -112,6 +83,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -122,9 +96,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
+            state.model.status != 2 &&state.model.status != -1 && !isReadOnly ? true : false,
             showSubmitButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
+                state.model.status != 2 &&state.model.status != -1&& !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -549,15 +523,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 2) ? false : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
+                  if ((state.model.status == 2 || state.model.status == -1) ? false : true) ...[
                             submitButtonDisplay()
-                          ],
+                          ], ],
                         ),
-                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),

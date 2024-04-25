@@ -111,6 +111,9 @@ class _SstIncidentGeneralInfoViewState
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
+        if ( state.model.status ==-1) {
+          disableForm = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,

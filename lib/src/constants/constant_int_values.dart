@@ -1,4 +1,12 @@
 class ConstantsIntValue {
+  static const int cancelledStatus = -1; // Common for all the modules
+
+  /// Article
+  // Status
+  static const int articleFoundStatusFound = 0;
+  static const int articleFoundStatusUnderSecurityCustody = 1;
+  static const int articleFoundStatusHandedOverOrClaimed = 2;
+
   /// Key Management
   static const int lockChangeHistoryInt = 0;
   static const int keyLostHistoryInt = 1;
@@ -36,6 +44,7 @@ class ConstantsIntValue {
 
 
 
+
   /// Shift Occurence
   static const int submitted = 1;
 
@@ -62,7 +71,5 @@ class ConstantsIntValue {
   static const int draft = 0;
   static const int active = 1;
   static const int inActive= 2;
-  static const int cancelled = -1;
-
 
 }

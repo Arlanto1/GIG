@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 import '../../models/aps_ui_labels.dart';
 import '../../services/annual_power_shutdown_services.dart';
@@ -71,6 +72,12 @@ class AnnualPowerShutdownListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.eventProtectionModuleCode,
+        commonServices: commonServices,
+      );
       APSUILabels labels = APSUILabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -80,7 +87,8 @@ class AnnualPowerShutdownListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
-          labels: labels
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {

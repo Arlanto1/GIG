@@ -112,7 +112,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       model.createdDate = model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.createdDate ?? '0'),
+              int.tryParse(model.createdDate ?? '0'),
               Constants.fulldateFormat);
 
       Locations getLocationsData =
@@ -418,9 +418,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     if (!Utils().isTimestamp(state.model.createdDate!)) {
       dateTime =
           DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.createdDate = inputDate.toString();
     }
 
@@ -457,14 +455,14 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.createdDate ?? '0'),
+          int.tryParse(state.model.createdDate ?? '0'),
           Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
@@ -475,6 +473,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           status: FormStatus.error,
         ),
       );
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model?.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     }
 

@@ -1,90 +1,97 @@
-  import 'dart:developer';
+import 'dart:developer';
 
-  import 'package:db_atom/index.dart';
-  import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:db_atom/index.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-  import '../bloc/annual_power_shutdown_list_bloc.dart';
+import '../bloc/annual_power_shutdown_list_bloc.dart';
 
-  class AnnualPowerShutdownListView extends StatefulWidget {
-    const AnnualPowerShutdownListView({
-      super.key,
-    });
+class AnnualPowerShutdownListView extends StatefulWidget {
+  const AnnualPowerShutdownListView({
+    super.key,
+  });
 
-    @override
-    State<AnnualPowerShutdownListView> createState() =>
-        _AnnualPowerShutdownListViewState();
+  @override
+  State<AnnualPowerShutdownListView> createState() =>
+      _AnnualPowerShutdownListViewState();
+}
+
+class _AnnualPowerShutdownListViewState
+    extends State<AnnualPowerShutdownListView> {
+  late final ScrollController _scrollController;
+  int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AnnualPowerShutdownListBloc>().add(
+          const InitializeValuesAPS(),
+        );
+    _scrollController = ScrollController()..addListener(_onScroll);
   }
 
-  class _AnnualPowerShutdownListViewState
-      extends State<AnnualPowerShutdownListView> {
-    late final ScrollController _scrollController;
-    int pageNumber = 0;
-    BaseFilterModel filters = BaseFilterModel();
-    RefreshController refreshController =
-        RefreshController(initialRefresh: false);
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
 
-    @override
-    void initState() {
-      super.initState();
-      context.read<AnnualPowerShutdownListBloc>().add(
-            const InitializeValuesAPS(),
-          );
-      _scrollController = ScrollController()..addListener(_onScroll);
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (currentScroll == maxScroll) {
+      pageNumber = pageNumber + 20;
+      context.read<AnnualPowerShutdownListBloc>().add(FetchData(
+            startPos: pageNumber,
+            maxPos: Constants.maxResults,
+            newSearch: false,
+            filters: filters,
+          ));
     }
+  }
 
-    @override
-    void dispose() {
-      _scrollController
-        ..removeListener(_onScroll)
-        ..dispose();
-      super.dispose();
-    }
-    void _onScroll() {
-      if (!_scrollController.hasClients) return;
-      final maxScroll = _scrollController.position.maxScrollExtent;
-      final currentScroll = _scrollController.position.pixels;
-      if (currentScroll == maxScroll) {
-        pageNumber = pageNumber + 20;
-        context.read<AnnualPowerShutdownListBloc>().add(FetchData(
-              startPos: pageNumber,
-              maxPos: Constants.maxResults,
-              newSearch: false,
-              filters: filters,
-            ));
-      }
-    }
+  void _onRefresh() async {
+    context.read<AnnualPowerShutdownListBloc>().add(
+          const RefreshList(),
+        );
+    await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
 
-    void _onRefresh() async {
-      context.read<AnnualPowerShutdownListBloc>().add(
-            const RefreshList(),
-          );
-      await Future.delayed(const Duration(milliseconds: 2000));
-      refreshController.refreshCompleted();
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
     }
+    refreshController.loadComplete();
+  }
 
-    void _onLoading() async {
-      if (mounted) {
-        setState(() {});
-      }
-      refreshController.loadComplete();
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      final size = MediaQuery.of(context).size;
-      double height = size.height;
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
+    return BlocConsumer<AnnualPowerShutdownListBloc,
+        AnnualPowerShutdownListState>(listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              annualPowerShutdownListDetailsRoute,
-            )
-          },
-        ),
+        floatingActionButton: state.extraProperties?.hasWritePermission ?? false
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () => {
+                  Navigator.pushNamed(
+                    context,
+                    annualPowerShutdownListDetailsRoute,
+                  )
+                },
+              )
+            : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.annualPowerShutdownList,
@@ -160,22 +167,29 @@
                           if (index < state.items.length) {
                             labels.add(Label(
                                 key: state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ?? 'Date of Creation',
+                                    state.labels?.defaultLocale.inputDate ??
+                                    'Date of Creation',
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.tryParse(
-                                            state.items[index].inputDate ?? '0'),
+                                            state.items[index].inputDate ??
+                                                '0'),
                                         Constants.dateFormat)
                                     : ''));
                             labels.add(Label(
                                 key: state.labels?.locale.locationRegion ??
-                                    state.labels?.defaultLocale.locationRegion ??'Region',
-                                value: state.items[index].locationRegion?.name ??
-                                    ''));
+                                    state
+                                        .labels?.defaultLocale.locationRegion ??
+                                    'Region',
+                                value:
+                                    state.items[index].locationRegion?.name ??
+                                        ''));
                             labels.add(Label(
-                                key: state.labels?.locale.location??
-                                    state.labels?.defaultLocale.location ??'Location',
-                                value: state.items[index].location?.name ?? ''));
+                                key: state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    'Location',
+                                value:
+                                    state.items[index].location?.name ?? ''));
 
                             return index >= state.items.length
                                 ? const BaseLoader()
@@ -192,9 +206,10 @@
                                             id: state.items[selectedIndex].id
                                                 .toString(),
                                             labels: labels,
-                                            slNo: state.items[selectedIndex].slNo,
-                                            status:
-                                                state.items[selectedIndex].status,
+                                            slNo:
+                                                state.items[selectedIndex].slNo,
+                                            status: state
+                                                .items[selectedIndex].status,
                                             isMasterGuard: false,
                                             epManager1Name: state
                                                 .items[selectedIndex]
@@ -207,6 +222,8 @@
                                     },
                                     onEditTap: (selectedIndex) {
                                       getId(
+                                          state.extraProperties?.hasWritePermission ??
+                                              false,
                                           id: state.items[index].id ?? 0,
                                           eventStatus:
                                               state.items[index].status ?? 0);
@@ -219,9 +236,10 @@
                                             id: state.items[selectedIndex].id
                                                 .toString(),
                                             labels: labels,
-                                            slNo: state.items[selectedIndex].slNo,
-                                            status:
-                                                state.items[selectedIndex].status,
+                                            slNo:
+                                                state.items[selectedIndex].slNo,
+                                            status: state
+                                                .items[selectedIndex].status,
                                             // epManager1Name:
                                             // state.items[selectedIndex].epManager1Name,
                                             // eventType:
@@ -246,46 +264,56 @@
           },
         ),
       );
-    }
-
-    getId({
-      required int id,
-      required int eventStatus,
-    }) async {
-      Navigator.pushNamed(
-        context,
-        annualPowerShutdownListDetailsRoute,
-        arguments: {
-          'id': id.toString(),
-          // 'eventStatus': eventStatus,
-        },
-      );
-    }
-
-    void applySearchFilters(
-      FilterCriteria model,
-    ) {
-      log('Applying Search Filters');
-      filters = BaseFilterModel(filterCriteria: model);
-
-      BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
-        FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
-      );
-    }
-
-    void applyFilters(
-      Filters model,
-    ) {
-      log('Applying Filters');
-
-      filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
-      log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
-
-      BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
-        FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
-      );
-      // _scrollController = ScrollController()..addListener(_onScroll);
-
-      Navigator.pop(context);
-    }
+    });
   }
+
+  getId(bool hasWritePermission,{
+    required int id,
+    required int eventStatus,
+  } ) async {
+    Navigator.pushNamed(
+      context,
+      annualPowerShutdownListDetailsRoute,
+      arguments: {
+        'id': id.toString(),
+        ConstantsArgument.extraProperties:
+        ExtraProperties(hasWritePermission: hasWritePermission),
+      },
+    );
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    log('Applying Search Filters');
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    log('Applying Filters');
+
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+    log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
+
+    BlocProvider.of<AnnualPowerShutdownListBloc>(context).add(
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
+  }
+}

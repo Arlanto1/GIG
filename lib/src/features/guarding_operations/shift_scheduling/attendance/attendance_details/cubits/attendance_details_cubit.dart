@@ -85,7 +85,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.inputDate ?? '0'), Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -215,14 +215,14 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.inputDate ?? '0'),
+          int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
       return;
     } on Exception catch (e) {

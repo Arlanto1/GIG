@@ -9,6 +9,7 @@ const List<Label> statusDropDownValues = [
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> occurrenceStatusDropDownValues = [
@@ -102,6 +103,7 @@ const List<Label> incidentManagementStatus = [
   Label(key: 'Investigation Done', value: '38'),
   Label(key: 'Closed', value: '39'),
   Label(key: 'Cancelled', value: '40'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> eventProtectionGiStatus = [

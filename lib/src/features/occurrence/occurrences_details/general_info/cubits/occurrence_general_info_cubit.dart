@@ -122,7 +122,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
    model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.inputDate ?? '0'),
+              int.tryParse(model.inputDate ?? '0'),
               Constants.fulldateFormat);
 
       AddEntities entities =
@@ -429,14 +429,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.inputDate ?? '0'),
+          int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {

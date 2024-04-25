@@ -2,42 +2,41 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart'
-as asp;
+    as asp;
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
-as af;
+    as af;
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
-as cd;
+    as cd;
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
-as cr;
+    as cr;
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
-as nb;
+    as nb;
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
-as ep;
+    as ep;
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
-as guarding;
+    as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart'
-as kh;
+    as kh;
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart';
@@ -195,13 +194,16 @@ class RouteGenerator {
 
       case createFoundScreenRoute:
         if (settings.arguments != null) {
-          final listroutes = settings.arguments as Map<String, dynamic>;
-          FoundListArticleDetails? listuser = listroutes["UserElement"];
-          int eventId = listroutes['eventId'];
+          final arguments = settings.arguments as Map<String, dynamic>;
+          FoundListArticleDetails? model = arguments["UserElement"];
+          ExtraProperties? extraProperties =
+              arguments[ConstantsArgument.extraProperties];
+          int eventId = arguments['eventId'];
           return MaterialPageRoute(
             builder: (context) => CreateFound(
-              model: listuser,
+              model: model,
               eventId: eventId,
+              extraProperties: extraProperties,
             ),
           );
         } else {
@@ -561,7 +563,7 @@ class RouteGenerator {
         location = arguments[ConstantsArgument.location];
         locationRegion = arguments[ConstantsArgument.locationRegion];
         vendor = arguments[ConstantsArgument.vendor];
-        viaAttendance = location != null? true: false;
+        viaAttendance = location != null ? true : false;
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
             create: (_) => SLAViolationPenaltyDetailsCubit(
@@ -757,6 +759,8 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          ExtraProperties? extraProperties =
+          arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<GeneralInfoCubit>(
@@ -765,7 +769,8 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const GeneralInfoView(),
+            child: const GeneralInfoView(
+            ),
           ),
         );
 
@@ -1064,10 +1069,12 @@ class RouteGenerator {
 
       case annualPowerShutdownListDetailsRoute:
         String id = '';
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) =>
@@ -1077,7 +1084,9 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const AnnualPowerShutdownListDetailsView(),
+            child: AnnualPowerShutdownListDetailsView(
+              extraProperties: extraProperties,
+            ),
           ),
         );
 

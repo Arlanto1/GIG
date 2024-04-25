@@ -8,6 +8,7 @@ class AnnualPowerShutdownListState extends Equatable {
   final CommonFilters? commonFilters;
   final String? message;
   final APSUILabels? labels;
+  final ExtraProperties? extraProperties;
 
 
   const AnnualPowerShutdownListState(
@@ -17,7 +18,9 @@ class AnnualPowerShutdownListState extends Equatable {
         this.locations,
         this.message,
         this.labels,
-        this.status = FormStatus.initial});
+        this.status = FormStatus.initial,
+        this.extraProperties,
+      });
 
   AnnualPowerShutdownListState copyWith({
     List<AnnualPowerShutDownModel>? items,
@@ -29,6 +32,8 @@ class AnnualPowerShutdownListState extends Equatable {
     List<Organisation>? statuses,
     Locations? locations,
     APSUILabels? labels,
+    ExtraProperties? extraProperties,
+
   }) {
     return AnnualPowerShutdownListState(
       items: items ?? this.items,
@@ -38,6 +43,8 @@ class AnnualPowerShutdownListState extends Equatable {
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
       labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
+
     );
   }
 

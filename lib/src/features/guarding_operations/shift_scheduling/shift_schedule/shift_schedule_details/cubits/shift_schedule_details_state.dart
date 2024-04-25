@@ -146,7 +146,7 @@ class ShiftScheduleDetailsState extends Equatable {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      selectedDutyPostModel: seletedDutyPostModel ?? this.selectedDutyPostModel,
+      selectedDutyPostModel: seletedDutyPostModel ?? selectedDutyPostModel,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

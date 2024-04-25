@@ -1,28 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constant_agruments.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../../utils/customalert.dart';
 import '../../models/vvip_visitor_response_model.dart';
 import '../cubits/vvip_visitor_details_cubit.dart';
 
@@ -89,7 +68,6 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-
       },
       builder: (context, state) {
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
@@ -104,12 +82,12 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
+            showSaveButton: state.model.status != -1 &&
                     state.model.status != 1 &&
                     !isReadOnly
                 ? true
                 : false,
-            showSubmitButton: state.model.status != 6 &&
+            showSubmitButton: state.model.status != -1 &&
                     state.model.status != 1 &&
                     !isReadOnly
                 ? true
@@ -344,41 +322,22 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
-                          ? false
-                          : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                            submitButtonDisplay()
-                          ],
-                        ),
-                      ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(state),
+                          if ((state.model.status == -1 ||
+                                  state.model.status == 1)
+                              ? false
+                              : true) ...[submitButtonDisplay()],
+                        ],
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(state),
-                  ],
-                ),
-              ),
-            ],
           ],
         ),
       ),

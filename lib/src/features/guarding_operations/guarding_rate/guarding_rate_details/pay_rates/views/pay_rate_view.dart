@@ -17,7 +17,6 @@ import '../../../../../../common_widgets/app_button.dart';
 import '../../../../../../enums/form_status.dart';
 import '../../../../../../routing/router.dart';
 import '../../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../../utils/validators/validator.dart';
 import '../cubits/pay_rate_cubit.dart';
 import 'add_security_guard_pop_up.dart';
 
