@@ -872,8 +872,13 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       // _logout(context);
     } else if (index == 2) {
-      _logout(context);
+      Navigator.pushNamed(
+        context,
+        resetPwdScreenRoute,
+        arguments: {'viaNavigationDrawer': true},
+      );
     } else if (index == 3) {
+      _logout(context);
     } else if (index == 4) {}
   }
 

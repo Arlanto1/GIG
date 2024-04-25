@@ -33,7 +33,7 @@ const String incidentManagementDetailsRoute = '/incidentManagementDetailsRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
-const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
+// const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';

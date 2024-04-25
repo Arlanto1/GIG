@@ -1,23 +1,7 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_issuance_process_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../../index.dart';
 import '../../../key_management_master/services/key_management_master_services.dart';
@@ -168,30 +152,30 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             state.hasReachedMax ? state.items.length : state.items.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
-          if (index < state.items!.length) {
+          if (index < state.items.length) {
             labels.add(
               Label(
                 key: 'No.keys issued',
-                value: state.items![index].noKeysIssued.toString(),
+                value: state.items[index].noKeysIssued.toString(),
               ),
             );
             labels.add(
               Label(
                 key: 'Available ',
-                value: state.items![index].available.toString(),
+                value: state.items[index].available.toString(),
               ),
             );
-            return index >= state.items!.length
+            return index >= state.items.length
                 ? const BaseLoader()
                 : BaseListTileItem(
-                    id: state.items?[index].id,
+                    id: state.items[index].id,
                     labels: labels,
                     onTap: (selectedIndex) {
                       showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
                           return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
+                            id: state.items[selectedIndex].id.toString(),
                             labels: labels,
                           );
                         },
@@ -203,7 +187,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       KeyIssuanceProcessRecord keyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()
                               .getIssuanceProcessById(
-                                  state.items?[index].id ?? 0);
+                                  state.items[index].id ?? 0);
 
                       /// Get Key Description
                       bool isMasterKey =
@@ -230,11 +214,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       );
                     },
                     onViewTap: (selectedIndex) {
-                      getById(state.items?[index].kmId);
+                      getById(state.items[index].kmId);
                     },
               showLinkOffButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
               onLinkOffTap: (selectedIndex) async {
-                int? kmId = state.items?[selectedIndex].kmId;
+                int? kmId = state.items[selectedIndex].kmId;
                 Navigator.pushNamed(
                   context,
                   keyHistoryRecordsDetailsRoute,
@@ -247,7 +231,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
               },
               showDeleteButton : widget.parentStatus ==1|| widget.parentStatus ==2 ?true :false,
                     onDeleteTap: (selectedIndex) async {
-                      int? kmId = state.items?[selectedIndex].kmId;
+                      int? kmId = state.items[selectedIndex].kmId;
                       Navigator.pushNamed(
                         context,
                         keyHistoryRecordsDetailsRoute,

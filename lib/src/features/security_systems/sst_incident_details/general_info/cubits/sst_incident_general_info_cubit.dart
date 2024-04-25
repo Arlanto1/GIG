@@ -112,7 +112,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       model.createdDate = model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.createdDate ?? '0'),
+              int.tryParse(model.createdDate ?? '0'),
               Constants.fulldateFormat);
 
       Locations getLocationsData =
@@ -455,15 +455,15 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
+              int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.createdDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.createdDate ?? '0'),
+          Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       log('--e.message-Exception-${e.toString()}---');

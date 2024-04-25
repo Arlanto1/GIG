@@ -1,17 +1,5 @@
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../index.dart';
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../models/sla_violation_penalty_response_model.dart';
 
 class AddPOCPopUp extends StatefulWidget {
   const AddPOCPopUp({

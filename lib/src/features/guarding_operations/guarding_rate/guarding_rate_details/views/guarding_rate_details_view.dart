@@ -1,23 +1,6 @@
-import 'dart:developer';
 
-import 'package:db_atom/app.dart';
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/configurations/main_config.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/app_button.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../routing/router.dart';
-import '../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../utils/validators/validator.dart';
-import '../pay_rates/cubits/pay_rate_cubit.dart';
 
 class GuardingRateDetailsView extends StatefulWidget {
   final String title;

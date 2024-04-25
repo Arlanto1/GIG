@@ -88,7 +88,7 @@ class DutyPostNameMasterDetailsCubit
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
 
       state.model.modifiedDate = state.model.modifiedDate == null
@@ -227,14 +227,14 @@ class DutyPostNameMasterDetailsCubit
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model?.inputDate ?? '0'),
+              int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model?.inputDate ?? '0'),
+          int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
       return;
     } on Exception catch (e) {

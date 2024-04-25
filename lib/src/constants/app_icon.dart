@@ -1,5 +1,6 @@
 class AppIcon {
   static const String userIcon = 'assets/images/user-circle.svg';
+  static const String userImage = 'assets/images/user.png';
   static const String secureIcon = 'assets/images/lock.svg';
   static const String closeEye = 'assets/images/eye-slash.svg';
   static const String openEye = 'assets/images/eye.svg';

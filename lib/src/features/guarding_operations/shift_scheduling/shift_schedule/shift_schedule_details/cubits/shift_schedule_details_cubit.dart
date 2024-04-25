@@ -156,7 +156,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model?.inputDate ?? '0'), Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
       // Get Date of Creation
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
