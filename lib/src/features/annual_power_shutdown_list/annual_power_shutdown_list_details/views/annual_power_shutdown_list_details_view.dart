@@ -7,10 +7,12 @@ import '../../../../common_widgets/base_widget/basic_widget_functions.dart';
 
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
+  final ExtraProperties? extraProperties;
 
   const AnnualPowerShutdownListDetailsView({
     this.model,
     super.key,
+    this.extraProperties,
   });
 
   @override
@@ -100,6 +102,10 @@ class _AnnualPowerShutdownListDetailsViewState
           disableForm = true;
         }
 
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          disableForm = true;
+        }
         if (state.model.status == null) {
           disableForm = false;
         }

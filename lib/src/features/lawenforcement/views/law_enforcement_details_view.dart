@@ -1068,7 +1068,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   ? "Verification Under Process"
                   : widget.model?.status == 3
                       ? "Distributed"
-                      : "Distributed";
+                      : "Cancelled";
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {

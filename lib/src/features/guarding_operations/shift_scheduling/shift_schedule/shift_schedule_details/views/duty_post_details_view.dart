@@ -22,7 +22,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
 
     return BlocConsumer<ShiftScheduleDetailsCubit, ShiftScheduleDetailsState>(
       listener: (context, state) {
-        log('----state.status--${state.status}--');
+        log('----status--${state.status}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -57,7 +57,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             context: context,
             title: widget.model.name ?? '',
             showPopUp: false,
-            showSaveButton: true,
+            showSaveButton:true,
             showSubmitButton: true,
             showDisLikeButton: false,
             showLikeButton: false,

@@ -68,7 +68,6 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-
       },
       builder: (context, state) {
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
@@ -83,12 +82,12 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 &&
+            showSaveButton: state.model.status != -1 &&
                     state.model.status != 1 &&
                     !isReadOnly
                 ? true
                 : false,
-            showSubmitButton: state.model.status != 6 &&
+            showSubmitButton: state.model.status != -1 &&
                     state.model.status != 1 &&
                     !isReadOnly
                 ? true
@@ -323,41 +322,22 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
-                          ? false
-                          : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                            submitButtonDisplay()
-                          ],
-                        ),
-                      ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(state),
+                          if ((state.model.status == -1 ||
+                                  state.model.status == 1)
+                              ? false
+                              : true) ...[submitButtonDisplay()],
+                        ],
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(state),
-                  ],
-                ),
-              ),
-            ],
           ],
         ),
       ),

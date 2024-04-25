@@ -13,6 +13,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.mainContext,
     required this.users,
     required this.rankType,
+    this.contactDetailModel,
   });
 
   final String title;
@@ -21,6 +22,8 @@ class AddContactPopUp extends StatefulWidget {
   final List<Organisation> users;
   final BuildContext mainContext;
   final String rankType;
+  final ContactDetailModel? contactDetailModel;
+
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -115,9 +118,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
-                            isDisableColor: false,
+                            isDisableColor: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
+                                enabled: widget.contactDetailModel?.status != 0||widget.contactDetailModel?.status != 1 ? false :true,
                                   context: context,
                                   organisations: widget.users,
                                   onTap: (Organisation user) {
@@ -190,8 +194,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           textFormKey: Keys.nameKey,
                           hintText: '',
                           focusNode: nameFocusNode,
-                          isEnable: true,
-                          isDisableColor: false,
+                          isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
+                          isDisableColor: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true ,
                           onChange: (String value) {
                             log('-widget.contact.rank?.state--value--$value-');
                             widget.model.state = value;
@@ -207,7 +211,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
-                          isDisabled: true,
+                          isDisabled: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true,
                           textController: escalationLevelController,
                           items: escalationLevelDropDownValues,
                           onTap: () {
@@ -247,7 +251,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
                         focusNode: widget.rankType != Constants.contactZone
                             ? nameFocusNode
                             : null,
@@ -276,7 +280,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
                         characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
@@ -310,7 +314,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
+        if(widget.contactDetailModel?.status !=-1 ? false :true)...[
         saveButton(width, widget.onSubmit)
+    ],
       ],
     );
   }

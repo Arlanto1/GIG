@@ -12,6 +12,7 @@ class BaseOrganisationDialog {
     String? orgName, // TODO: Need to make it required and non nullable
     bool? createEntity, // Ex: false
     Function? functionToCall,
+    bool enabled = true,
   }) {
     return showDialog(
       context: context,
@@ -34,7 +35,7 @@ class BaseOrganisationDialog {
                   );
                 });
           },
-          onTap: onTap,
+          onTap: enabled ? onTap : null,
         );
       },
     );

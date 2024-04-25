@@ -88,7 +88,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
       },
       builder: (context, state) {
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
@@ -102,8 +102,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton: state.model.status != 5 ? true : false,
-              showSubmitButton: state.model.status != 5 ? true : false,
+              showSaveButton: state.model.status != -1 ? true : false,
+              showSubmitButton: state.model.status != -1 ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
               onTapSave: () {
@@ -323,12 +323,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: state.model.status == -1,
                               textController: rankController,
                               items: shiftDutyTypeDropDownValues,
                               initialValue: state.model.dutyType.toString(),
                               onTap: () {
-                                if (isDisabled) {
+                                if (state.model.status !=-1) {
                                   BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues:
@@ -512,7 +512,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
+                              if(state.model.status !=-1)...[
                               submitButtonDisplay()
+    ],
                             ],
                           ),
 

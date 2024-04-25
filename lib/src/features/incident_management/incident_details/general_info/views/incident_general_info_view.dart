@@ -89,6 +89,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! > 0) {
           disableForm = true;
         }
+        if (state.model.status! < 0) {
+          disableForm = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
