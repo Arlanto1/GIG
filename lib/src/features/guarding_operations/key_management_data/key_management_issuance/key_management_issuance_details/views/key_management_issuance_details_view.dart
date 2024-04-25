@@ -573,7 +573,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.handedOverTo?.userInfo,
+                                title: state.model.handedOverTo?.userInfo??state.model.handedOverTo?.name,
                                 height: 60,
                                 isDisableColor: state.model.status == null ||
                                         state.model.status == 0
@@ -650,7 +650,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.dbSponsorCwrT2?.userInfo,
+                                title: state.model.dbSponsorCwrT2?.userInfo??state.model.dbSponsorCwrT2?.name,
                                 height: 60,
                                 isDisableColor: state.model.status != 0 &&
                                         state.model.status != null

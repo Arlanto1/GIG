@@ -68,7 +68,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         if (state.model.status == 30 || !state.model.lock.isEmptyOrNull) {
@@ -446,7 +445,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.epManager1?.userInfo,
+                                title: state.model.epManager1?.userInfo ??
+                                    state.model.epManager1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -479,7 +479,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.epManager2?.userInfo,
+                                title: state.model.epManager2?.userInfo ??
+                                    state.model.epManager2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -512,7 +513,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.lsm1?.userInfo,
+                              title: state.model.lsm1?.userInfo ??
+                                  state.model.lsm1?.name,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -573,7 +575,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.lsm2?.userInfo,
+                              title: state.model.lsm2?.userInfo ??
+                                  state.model.lsm2?.name,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -633,7 +636,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.bu1?.userInfo,
+                              title: state.model.bu1?.userInfo ??
+                                  state.model.bu1?.name,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -695,7 +699,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.bu2?.userInfo,
+                              title: state.model.bu2?.userInfo ??
+                                  state.model.bu2?.name,
                               height: 60,
                               isDisableColor: disableForm,
                               onTap: () {

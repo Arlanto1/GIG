@@ -273,7 +273,7 @@ class AnnualPowerShutdownListDetailsCubit
       User userDetails = User(
           name: subRegionalHead1.name,
           userId: subRegionalHead1.id,
-          userName: subRegionalHead1.name);
+         );
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {

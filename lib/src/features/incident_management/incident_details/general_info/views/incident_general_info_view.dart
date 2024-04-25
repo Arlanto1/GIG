@@ -489,7 +489,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.complainant?.userInfo,
+                                title: state.model.complainant?.userInfo??state.model.complainant?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -622,7 +622,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.complainantHr?.userInfo,
+                              title: state.model.complainantHr?.userInfo??state.model.complainantHr?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -723,7 +723,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentManager?.userInfo,
+                              title: state.model.incidentManager?.userInfo??state.model.incidentManager?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null
@@ -764,7 +764,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentOwner?.userInfo,
+                              title: state.model.incidentOwner?.userInfo??state.model.incidentOwner?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null
