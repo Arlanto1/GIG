@@ -358,7 +358,8 @@ class _KeyLossDestructionDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh?.userInfo,
+                                title: state.model.srh?.userInfo ??
+                                    state.model.srh?.name,
                                 height: 60,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
@@ -425,8 +426,8 @@ class _KeyLossDestructionDetailsViewState
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
-                                title:
-                                    '${state.model.securityManager?.userName}',
+                                title: state.model.securityManager?.userInfo ??
+                                    state.model.securityManager?.name,
                                 height: 70,
                                 isDisableColor: state.model.status != null &&
                                     state.model.status != 0 &&

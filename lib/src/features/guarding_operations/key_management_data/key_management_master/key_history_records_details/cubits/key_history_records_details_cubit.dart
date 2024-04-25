@@ -14,6 +14,7 @@ class KeyHistoryRecordsDetailsCubit
   final CommonServices commonServices;
   final int parentId;
   final int type;
+  final int? kipId;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
@@ -21,6 +22,7 @@ class KeyHistoryRecordsDetailsCubit
     required this.type,
     required this.commonServices,
     required this.model,
+    this.kipId,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -51,6 +53,9 @@ class KeyHistoryRecordsDetailsCubit
     );
 
     KeyManagementMasterModel parentModel = await services.getById(parentId);
+
+      // KeyIssuanceProcessRecord keyIssuanceProcessModel =
+      // await KeyManagementIssuanceServices().getIssuanceProcessById(kipId ?? 0);
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -107,6 +112,7 @@ class KeyHistoryRecordsDetailsCubit
           destructionReasons: destructionReasons,
           labels: labels,
           keyManagementMasterModel: parentModel,
+            // keyIssuanceProcessRecord:keyIssuanceProcessModel
         ),
       );
     } catch (e) {

@@ -75,7 +75,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.vvipModel?.status == 0
+        floatingActionButton: widget.vvipModel?.status == 0||widget.vvipModel?.status == null
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,

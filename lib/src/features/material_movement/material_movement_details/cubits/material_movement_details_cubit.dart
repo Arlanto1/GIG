@@ -255,19 +255,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
+      state.model.receiverEmail = receiverEmailUser.name;
     }
 
     if (receiverEmail != null) {
-      state.model.receiverEmail = receiverEmail.email;
+      state.model.receiverEmail = receiverEmail.name;
     }
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.email;
+      state.model.requestorEmail = requesterEmailUser.name;
     }
 
     if (returnReceiverMailId != null) {
-      state.model.returnReceiverMailId = returnReceiverMailId.email;
+      state.model.returnReceiverMailId = returnReceiverMailId.name;
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
@@ -317,7 +317,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.email;
+      state.model.requestorEmail = requesterEmailUser.name;
 
       emit(
         state.copyWith(
@@ -338,7 +338,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.email;
+      state.model.approver1Email = approver1EmailUser.name;
 
       emit(
         state.copyWith(
@@ -360,7 +360,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.email;
+      state.model.approver2Email = approver2EmailUser.name;
 
       emit(
         state.copyWith(
