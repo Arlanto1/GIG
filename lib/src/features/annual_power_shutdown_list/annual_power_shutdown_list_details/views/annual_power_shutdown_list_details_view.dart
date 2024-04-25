@@ -61,6 +61,7 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        log('-epManager1---${state.model.epManager1?.name}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -386,7 +387,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh1?.userInfo,
+                                title: state.model.srh1?.userInfo ?? state.model.srh1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -422,7 +423,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh2?.userInfo,
+                                title: state.model.srh2?.userInfo ?? state.model.srh2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -458,7 +459,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm1?.userInfo,
+                                title: state.model.lsm1?.userInfo ?? state.model.lsm1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -527,7 +528,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm2?.userInfo,
+                                title: state.model.lsm2?.userInfo??state.model.lsm2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -597,7 +598,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu1?.userInfo,
+                                title: state.model.bu1?.userInfo??state.model.bu1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -666,7 +667,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu2?.userInfo,
+                                title: state.model.bu2?.userInfo ?? state.model.bu2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {

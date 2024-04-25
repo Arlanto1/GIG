@@ -4,6 +4,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final FormStatus status;
   final KeyHistoryModel model;
   final KeyManagementMasterModel? keyManagementMasterModel;
+  final KeyIssuanceProcessRecord? keyIssuanceProcessRecord;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? securityManager;
@@ -26,6 +27,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     User? createdBy,
     List<String>? participationDate,
     KeyManagementMasterModel? keyManagementMasterModel,
+    KeyIssuanceProcessRecord? keyIssuanceProcessRecord,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
@@ -123,7 +125,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const KeyHistoryRecordsDetailsState({
+  const KeyHistoryRecordsDetailsState( {
     required this.status,
     required this.model,
     this.keyManagementMasterModel,
@@ -137,6 +139,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.createdBy,
     this.labels,
     this.isReadOnly,
+    this.keyIssuanceProcessRecord,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
@@ -156,6 +159,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     final KLDUiLabels? labels,
     bool? isReadOnly,
     keyManagementMasterModel,
+    keyIssuanceProcessRecord,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
@@ -172,6 +176,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       isReadOnly: isReadOnly ?? this.isReadOnly,
       keyManagementMasterModel:
           keyManagementMasterModel ?? this.keyManagementMasterModel,
+        keyIssuanceProcessRecord:keyIssuanceProcessRecord??this.keyIssuanceProcessRecord,
     );
   }
 }

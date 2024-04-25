@@ -371,7 +371,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.approver?.userInfo,
+                              title: state.model.approver?.userInfo??state.model.approver?.name,
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {

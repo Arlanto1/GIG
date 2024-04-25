@@ -56,10 +56,11 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   @override
   Widget build(BuildContext context) {
     log('--widget.type---${widget.type}---');
+    log('--status.type---${widget.model?.status}---');
 
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.model?.status == 0 || widget.model?.status == 1 || widget.model?.status == 2 ? Flutterfloatingbutton(
+        floatingActionButton: widget.model?.status != -1 ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {

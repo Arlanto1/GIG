@@ -85,7 +85,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.model?.status ==0 ||widget.model?.status ==1 ?Flutterfloatingbutton(
+        floatingActionButton: widget.model?.status ==null || widget.model?.status ==0 ||widget.model?.status ==1 ?Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {

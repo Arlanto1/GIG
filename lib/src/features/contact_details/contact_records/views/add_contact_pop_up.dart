@@ -24,7 +24,6 @@ class AddContactPopUp extends StatefulWidget {
   final String rankType;
   final ContactDetailModel? contactDetailModel;
 
-
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
 }
@@ -118,10 +117,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
-                            isDisableColor: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true,
+                            isDisableColor: widget.contactDetailModel?.status ==
+                                        null ||
+                                    widget.contactDetailModel?.status == 0 ||
+                                    widget.contactDetailModel?.status == 1
+                                ? false
+                                : true,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
-                                enabled: widget.contactDetailModel?.status != 0||widget.contactDetailModel?.status != 1 ? false :true,
+                                  enabled: widget.contactDetailModel?.status ==
+                                              null ||
+                                          widget.contactDetailModel?.status ==
+                                              0 ||
+                                          widget.contactDetailModel?.status == 1
+                                      ? true
+                                      : false,
                                   context: context,
                                   organisations: widget.users,
                                   onTap: (Organisation user) {
@@ -194,8 +204,17 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           textFormKey: Keys.nameKey,
                           hintText: '',
                           focusNode: nameFocusNode,
-                          isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
-                          isDisableColor: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true ,
+                          isEnable: widget.contactDetailModel?.status == null ||
+                                  widget.contactDetailModel?.status == 0 ||
+                                  widget.contactDetailModel?.status == 1
+                              ? true
+                              : false,
+                          isDisableColor:
+                              widget.contactDetailModel?.status == null ||
+                                      widget.contactDetailModel?.status == 0 ||
+                                      widget.contactDetailModel?.status == 1
+                                  ? false
+                                  : true,
                           onChange: (String value) {
                             log('-widget.contact.rank?.state--value--$value-');
                             widget.model.state = value;
@@ -211,7 +230,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
-                          isDisabled: widget.contactDetailModel?.status == 0||widget.contactDetailModel?.status == 1 ? false :true,
+                          isDisabled:
+                              widget.contactDetailModel?.status == null ||
+                                      widget.contactDetailModel?.status == 0 ||
+                                      widget.contactDetailModel?.status == 1
+                                  ? false
+                                  : true,
                           textController: escalationLevelController,
                           items: escalationLevelDropDownValues,
                           onTap: () {
@@ -251,7 +275,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
+                        isEnable: widget.contactDetailModel?.status == null ||
+                                widget.contactDetailModel?.status == 0 ||
+                                widget.contactDetailModel?.status == 1
+                            ? true
+                            : false,
                         focusNode: widget.rankType != Constants.contactZone
                             ? nameFocusNode
                             : null,
@@ -280,7 +308,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: widget.contactDetailModel?.status !=-1 ? false :true,
+                        isEnable: widget.contactDetailModel?.status == null ||
+                                widget.contactDetailModel?.status == 0 ||
+                                widget.contactDetailModel?.status == 1
+                            ? true
+                            : false,
                         characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
@@ -314,9 +346,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if(widget.contactDetailModel?.status !=-1 ? false :true)...[
-        saveButton(width, widget.onSubmit)
-    ],
+        if (widget.contactDetailModel?.status == null ||
+                widget.contactDetailModel?.status == 0 ||
+                widget.contactDetailModel?.status == 1
+            ? true
+            : false) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }
