@@ -35,6 +35,7 @@ class Constants {
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
+  static const String keyReconciliationModule = 'KR';
 
 
   /// UI Labels Module Code

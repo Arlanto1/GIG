@@ -4,6 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../utils/utils_common.dart';
 import '../../models/requestModel/general_info_request.dart';
 import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
@@ -56,6 +57,12 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.securitySystemModule);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.securitySystemModule,
+        commonServices: commonServices,
+      );
       SSLAUiLabels labels = SSLAUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -66,6 +73,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     }on GenericResponse catch (e) {

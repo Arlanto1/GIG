@@ -32,6 +32,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   @override
   void initState() {
     super.initState();
+    context.read<IncidentManagementsBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -97,22 +100,26 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
+        log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: Flutterfloatingbutton(
-              backgroundColor: AppColors.navigationSkybluecolor,
-              foregroundColor: AppColors.backgroundWhitecolor,
-              onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  incidentManagementDetailsRoute,
-                  arguments: {
-                    'occId': widget.occId?.toString(),
-                    'occType': widget.occType,
-                  },
-                )
-              },
-            ),
+            floatingActionButton:
+                state.extraProperties?.hasWritePermission ?? false
+                    ? Flutterfloatingbutton(
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                        foregroundColor: AppColors.backgroundWhitecolor,
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                            context,
+                            incidentManagementDetailsRoute,
+                            arguments: {
+                              'occId': widget.occId?.toString(),
+                              'occType': widget.occType,
+                            },
+                          )
+                        },
+                      )
+                    : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.incidentManagement,
@@ -248,6 +255,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             },
                             onEditTap: (selectedIndex) {
                               getById(
+                                state.extraProperties?.hasWritePermission ??
+                                    false,
                                 id: state.items[index].id ?? 0,
                                 occType: state.items[index].occType ?? 0,
                               );
@@ -288,12 +297,15 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     );
   }
 
-  getById({required int id, required int occType}) async {
+  getById(bool hasWritePermission,
+      {required int id, required int occType}) async {
     Navigator.pushNamed(
       context,
       incidentManagementDetailsRoute,
       arguments: {
         ConstantsArgument.id: id.toString(),
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
@@ -306,7 +318,11 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -319,7 +335,11 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

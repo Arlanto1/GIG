@@ -6,11 +6,14 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 class KeyManagementMasterDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const KeyManagementMasterDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
+
   });
 
   @override
@@ -89,6 +92,11 @@ class _KeyManagementMasterDetailsViewState
         }
         if (state.model.status == null) {
           isReadOnly = false;
+        }
+
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
         }
 
         initializeDates();
@@ -908,7 +916,7 @@ class _KeyManagementMasterDetailsViewState
                             children: [
                               cancelButtonDisplay(state),
                               if (state.model.status != 2 &&
-                                  state.model.status != -1) ...[
+                                  state.model.status != -1 && !isReadOnly) ...[
                                 submitButtonDisplay()
                               ],
                             ],

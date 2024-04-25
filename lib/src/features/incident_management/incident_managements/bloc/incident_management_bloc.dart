@@ -4,10 +4,12 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../utils/utils_common.dart';
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
+
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
@@ -19,7 +21,7 @@ class IncidentManagementsBloc
   IncidentManagementsBloc(
     this.occType,
     this.occId,
-      this.kldId,
+    this.kldId,
   ) : super(const IncidentManagementsState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
@@ -40,7 +42,7 @@ class IncidentManagementsBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.eventProtectionModule);
+          module: Constants.incidentManagementModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -53,7 +55,13 @@ class IncidentManagementsBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.eventProtectionModuleCode);
+          moduleCode: Constants.incidentManagementModule);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.incidentManagementModule,
+        commonServices: commonServices,
+      );
       IMUiLabels labels = IMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -64,6 +72,7 @@ class IncidentManagementsBloc
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {
@@ -74,7 +83,7 @@ class IncidentManagementsBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
