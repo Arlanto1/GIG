@@ -86,7 +86,7 @@ class AppIcon {
   static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
   static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
   static const String lawEnforcementIcon = 'assets/images/lawEnforcement.png';
-  static const String passManagementIcon = 'assets/images/passManagement.png';
+  static const String passManagementIcon = 'assets/images/nonMagneticPassManagement.png';
   static const String dayPassManagementRegisterIcon='assets/images/dayPassManagement_Register.png';
   static const String sezPassManagementRegisterIcon='assets/images/sezPassManagement_Register.png';
   static const String visitorPassManagementRegisterIcon='assets/images/visitorPassManagement_Register.png';
