@@ -1826,6 +1826,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (statusTextController.text.toLowerCase() ==
         "verification under process") {
       statusValue = 2;
+    }else if (statusTextController.text.toLowerCase() ==
+        "cancelled") {
+      statusValue = -1;
     }
     bool isDocumentifanySelected =
         state.isDocumentifanySelected == 1 ? true : false;
