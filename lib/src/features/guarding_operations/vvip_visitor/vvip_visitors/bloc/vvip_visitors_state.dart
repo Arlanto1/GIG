@@ -8,6 +8,7 @@ class VVIPVisitorsState extends Equatable {
   final String? message;
   final Locations? locations;
   final CommonFilters? commonFilters;
+  final ExtraProperties? extraProperties;
 
   const VVIPVisitorsState({
     this.items = const <VIVPVisitorModel>[],
@@ -17,6 +18,7 @@ class VVIPVisitorsState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   VVIPVisitorsState copyWith({
@@ -29,6 +31,7 @@ class VVIPVisitorsState extends Equatable {
     Locations? locations,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return VVIPVisitorsState(
       items: items ?? this.items,
@@ -38,6 +41,7 @@ class VVIPVisitorsState extends Equatable {
       message: message ?? this.message,
       locations: locations ?? this.locations,
       commonFilters: commonFilters ?? this.commonFilters,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

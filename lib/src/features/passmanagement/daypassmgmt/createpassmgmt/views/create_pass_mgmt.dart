@@ -8,12 +8,14 @@ class CreatePassManagement extends StatefulWidget {
   PassManagementModel? model;
   final int passId;
   final String? title;
+  final ExtraProperties? extraProperties;
 
   CreatePassManagement({
     super.key,
     this.model,
     required this.passId,
     this.title,
+    this.extraProperties,
   });
 
   @override
@@ -106,10 +108,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
 
         action: [
-          if (widget.model?.status == null ||
-              widget.model?.status == 0 ||
-              widget.model?.status == 1 ||
-              widget.model?.status == 3) ...[
+          if ((widget.model?.status == null ||
+                  widget.model?.status == 0 ||
+                  widget.model?.status == 1 ||
+                  widget.model?.status == 3) &&
+              !(widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)) ...[
             GestureDetector(
               onTap: () {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -145,7 +149,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         listener: (context, state) {
           log('-state.stateType---${state.stateType}----');
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
 
           if (state.stateType == CreatePassMgmtStateType.successFormSubmit) {
             var dialog = CustomAlertDialog(
@@ -222,6 +226,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 isDisabled = true;
               }
 
+              if (widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!) {
+                isDisabled = true;
+              }
               if (state.getSerialnumberResponse != null &&
                   !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
                 log('--state.getSerialnumberResponse----serialnumber----222-${state.getSerialnumberResponse?.serialNo}----');
@@ -466,9 +474,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001),
                                     GestureDetector(
                                       onTap: () {
-                                        if (widget.model?.status == 0 ||
-                                            widget.model?.status == null ||
-                                            widget.model?.status != 1) {
+                                        if ((widget.model?.status == 0 ||
+                                                widget.model?.status == null ||
+                                                widget.model?.status != 1) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!)) {
                                           passTypeDialog(state);
                                         }
                                       },
@@ -490,9 +501,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             setState(() {});
                                           },
                                           onTap: () {
-                                            if (widget.model?.status == 0 ||
-                                                widget.model?.status == null ||
-                                                widget.model?.status != 1) {
+                                            if ((widget.model?.status == 0 ||
+                                                    widget.model?.status ==
+                                                        null ||
+                                                    widget.model?.status !=
+                                                        1) &&
+                                                !(widget.extraProperties !=
+                                                        null &&
+                                                    !widget.extraProperties!
+                                                        .hasWritePermission!)) {
                                               passTypeDialog(state);
                                             }
                                           },
@@ -504,10 +521,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   AppIcon.dropdownicon,
                                                   key: const Key('closed_eye')),
                                               onPressed: () {
-                                                if (widget.model?.status == 0 ||
-                                                    widget.model?.status ==
-                                                        null ||
-                                                    widget.model?.status != 1) {
+                                                if ((widget.model?.status ==
+                                                            0 ||
+                                                        widget.model?.status ==
+                                                            null ||
+                                                        widget.model?.status !=
+                                                            1) &&
+                                                    !(widget.extraProperties !=
+                                                            null &&
+                                                        !widget.extraProperties!
+                                                            .hasWritePermission!)) {
                                                   passTypeDialog(state);
                                                 }
                                               })),
@@ -529,8 +552,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.001),
                                       GestureDetector(
                                         onTap: () {
-                                          if (widget.model == null ||
-                                              widget.model?.status == 0) {
+                                          if ((widget.model == null ||
+                                                  widget.model?.status == 0) &&
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!)) {
                                             if (!isDisabled) {
                                               //daypassNoDialog();
                                               //passnumberaddButtonwidgetLoading(state);
@@ -561,10 +588,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               setState(() {});
                                             },
                                             onTap: () {
-                                              if (widget.model == null ||
-                                                  daypassnoTextController
-                                                      .text.isEmpty ||
-                                                  widget.model?.status == 0) {
+                                              if ((widget.model == null ||
+                                                      daypassnoTextController
+                                                          .text.isEmpty ||
+                                                      widget.model?.status ==
+                                                          0) &&
+                                                  !(widget.extraProperties !=
+                                                          null &&
+                                                      !widget.extraProperties!
+                                                          .hasWritePermission!)) {
                                                 //passnumberaddButtonwidgetLoading(state);
                                                 // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                 passCategoryDialog(
@@ -585,9 +617,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         'closed_eye')),
                                                 onPressed: () {
                                                   log('suffixIcon pressed');
-                                                  if (widget.model == null ||
-                                                      widget.model?.status ==
-                                                          0) {
+                                                  if ((widget.model == null ||
+                                                          widget.model
+                                                                  ?.status ==
+                                                              0) &&
+                                                      !(widget.extraProperties !=
+                                                              null &&
+                                                          !widget
+                                                              .extraProperties!
+                                                              .hasWritePermission!)) {
                                                     //passnumberaddButtonwidgetLoading(state);
                                                     // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                     passCategoryDialog(
@@ -674,7 +712,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             (widget.model?.status == null ||
                                                 widget.model?.status ==
                                                     ConstantsIntValue
-                                                        .passStatusCreated),
+                                                        .passStatusCreated) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!),
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -1101,9 +1142,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdVisitor
                                         ? GestureDetector(
                                             onTap: () {
-                                              if (widget.model?.status == 0 ||
-                                                  widget.model?.status ==
-                                                      null) {
+                                              if ((widget.model?.status == 0 ||
+                                                      widget.model?.status ==
+                                                          null) &&
+                                                  !(widget.extraProperties !=
+                                                          null &&
+                                                      !widget.extraProperties!
+                                                          .hasWritePermission!)) {
                                                 photoIdentityTypeDialog();
                                               }
                                             },
@@ -1126,10 +1171,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   setState(() {});
                                                 },
                                                 onTap: () {
-                                                  if (widget.model?.status ==
-                                                          0 ||
-                                                      widget.model?.status ==
-                                                          null) {
+                                                  if ((widget.model?.status ==
+                                                              0 ||
+                                                          widget.model
+                                                                  ?.status ==
+                                                              null) &&
+                                                      !(widget.extraProperties !=
+                                                              null &&
+                                                          !widget
+                                                              .extraProperties!
+                                                              .hasWritePermission!)) {
                                                     photoIdentityTypeDialog();
                                                   }
                                                 },
@@ -1144,12 +1195,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                             'closed_eye')),
                                                     onPressed: () {
                                                       log('suffixIcon pressed');
-                                                      if (widget.model
-                                                                  ?.status ==
-                                                              0 ||
-                                                          widget.model
-                                                                  ?.status ==
-                                                              null) {
+                                                      if ((widget.model
+                                                                      ?.status ==
+                                                                  0 ||
+                                                              widget.model
+                                                                      ?.status ==
+                                                                  null) &&
+                                                          !(widget.extraProperties !=
+                                                                  null &&
+                                                              !widget
+                                                                  .extraProperties!
+                                                                  .hasWritePermission!)) {
                                                         photoIdentityTypeDialog();
                                                       }
                                                     })),
@@ -1512,8 +1568,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.001),
                                       GestureDetector(
                                         onTap: () {
-                                          if (widget.model == null ||
-                                              widget.model?.status == 0) {
+                                          if ((widget.model == null ||
+                                                  widget.model?.status == 0) &&
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!)) {
                                             if (!isDisabled) {
                                               //daypassNoDialog();
                                               //passnumberaddButtonwidgetLoading(state);
@@ -1527,11 +1587,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         },
                                         child: FlutterInputField(
                                             isEnable: false,
-                                            isDisableColor: widget.model ==
-                                                        null ||
-                                                    passCategoryTextController
-                                                        .text.isEmpty ||
-                                                    widget.model?.status == 0
+                                            isDisableColor: (widget.model ==
+                                                            null ||
+                                                        passCategoryTextController
+                                                            .text.isEmpty ||
+                                                        widget.model?.status ==
+                                                            0) &&
+                                                    (widget.extraProperties !=
+                                                            null &&
+                                                        !widget.extraProperties!
+                                                            .hasWritePermission!)
                                                 ? false
                                                 : true,
                                             controller: daypassnoTextController,
@@ -1543,10 +1608,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               setState(() {});
                                             },
                                             onTap: () {
-                                              if (widget.model == null ||
-                                                  daypassnoTextController
-                                                      .text.isEmpty ||
-                                                  widget.model?.status == 0) {
+                                              if ((widget.model == null ||
+                                                      daypassnoTextController
+                                                          .text.isEmpty ||
+                                                      widget.model?.status ==
+                                                          0) &&
+                                                  !(widget.extraProperties !=
+                                                          null &&
+                                                      !widget.extraProperties!
+                                                          .hasWritePermission!)) {
                                                 //passnumberaddButtonwidgetLoading(state);
                                                 // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                 //   passCategoryDialog(state: state);
@@ -1566,9 +1636,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         'closed_eye')),
                                                 onPressed: () {
                                                   log('suffixIcon pressed');
-                                                  if (widget.model == null ||
-                                                      widget.model?.status ==
-                                                          0) {
+                                                  if ((widget.model == null ||
+                                                          widget.model
+                                                                  ?.status ==
+                                                              0) &&
+                                                      !(widget.extraProperties !=
+                                                              null &&
+                                                          !widget
+                                                              .extraProperties!
+                                                              .hasWritePermission!)) {
                                                     //passnumberaddButtonwidgetLoading(state);
                                                     // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                     //   passCategoryDialog(
@@ -1614,8 +1690,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       // datepickerWidgetLoading(
                                       //     passvalidfromTextController),
                                       BaseDate().datePickerWidgetLoading(
-                                        isDisabled: widget.model?.status == 0 ||
-                                                widget.model?.status == null
+                                        isDisabled: (widget.model?.status ==
+                                                        0 ||
+                                                    widget.model?.status ==
+                                                        null) &&
+                                                (widget.extraProperties !=
+                                                        null &&
+                                                    !widget.extraProperties!
+                                                        .hasWritePermission!)
                                             ? false
                                             : true,
                                         showFutureDate: false,
@@ -1650,13 +1732,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     //     passvaliduntilTextController),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled:
-                                          (state.selectedCompanyType?.name ??
-                                                          '')
-                                                      .toLowerCase() !=
-                                                  'exceptions' ||
-                                              (widget.model?.status != 0 &&
-                                                  widget.model?.status != null),
+                                      isDisabled: ((state.selectedCompanyType
+                                                          ?.name ??
+                                                      '')
+                                                  .toLowerCase() !=
+                                              'exceptions' ||
+                                          (widget.model?.status != 0 &&
+                                                  widget.model?.status !=
+                                                      null) &&
+                                              (widget.extraProperties != null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!)),
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
@@ -1848,8 +1934,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            (widget.model == null ||
-                                                widget.model?.status == 0)
+                                            ((widget.model == null ||
+                                                    widget.model?.status ==
+                                                        0) &&
+                                                !(widget.extraProperties !=
+                                                        null &&
+                                                    !widget.extraProperties!
+                                                        .hasWritePermission!))
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale.visitorImage ??
                                                 state.labels?.defaultLocale
@@ -1860,16 +1951,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            (widget.model == null ||
-                                                widget.model?.status == 0)
+                                            ((widget.model == null ||
+                                                    widget.model?.status ==
+                                                        0) &&
+                                                !(widget.extraProperties !=
+                                                        null &&
+                                                    !widget.extraProperties!
+                                                        .hasWritePermission!))
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor &&
-                                            (widget.model == null ||
-                                                widget.model?.status == 0)
+                                            ((widget.model == null ||
+                                                    widget.model?.status ==
+                                                        0) &&
+                                                !(widget.extraProperties !=
+                                                        null &&
+                                                    !widget.extraProperties!
+                                                        .hasWritePermission!))
                                         ? uploadWidget(state, true)
                                         : Container(),
 
@@ -1884,22 +1985,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     ///upload
-                                    widget.model == null ||
-                                            widget.model?.status == 0
+                                    ((widget.model == null ||
+                                                widget.model?.status == 0) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!))
                                         ? CommonWidgets.textDisplay(
-                                            state.labels?.locale.evidenceInfo ??
+                                            state.labels?.locale
+                                                    .evidenceInfo ??
                                                 state.labels?.defaultLocale
                                                     .evidenceInfo ??
                                                 Constants.evidenceDocuments,
                                             Styles.textStyleBlack14)
                                         : Container(),
-                                    widget.model == null ||
-                                            widget.model?.status == 0
+                                    ((widget.model == null ||
+                                                widget.model?.status == 0) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!))
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
-                                    widget.model == null ||
-                                            widget.model?.status == 0
+                                    ((widget.model == null ||
+                                                widget.model?.status == 0) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!))
                                         ? uploadWidget(state, false)
                                         : Container(),
 
@@ -1949,35 +2060,39 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ],
 
                                     /// SubmitButton
-                                    if (widget.model?.status == null ||
-                                        widget.model?.status == 0 ||
-                                        widget.model?.status == 1 ||
-                                        widget.model?.status == 3) ...[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          cancelButtonDisplay(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        if ((widget.model?.status == null ||
+                                                widget.model?.status == 0 ||
+                                                widget.model?.status == 1 ||
+                                                widget.model?.status == 3) &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!)) ...[
                                           submitButtonDisplay()
                                         ],
-                                      ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.03),
-                                    ],
-                                    // if(widget.model?.status != 0 ||
-                                    //     widget.model?.status != 1 ||
-                                    //     widget.model?.status != 2 ||
-                                    //     widget.model?.status != 3 )
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //   MainAxisAlignment.center,
-                                    //   children: [
-                                    //     cancelButtonDisplay(),
-                                    //   ],
-                                    // ),
-                                    // CommonWidgets.verticalSpacerWidget(
-                                    //    height * 0.03),
+                                      ],
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.03),
                                   ],
+                                  // if(widget.model?.status != 0 ||
+                                  //     widget.model?.status != 1 ||
+                                  //     widget.model?.status != 2 ||
+                                  //     widget.model?.status != 3 )
+                                  // Row(
+                                  //   mainAxisAlignment:
+                                  //   MainAxisAlignment.center,
+                                  //   children: [
+                                  //     cancelButtonDisplay(),
+                                  //   ],
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //    height * 0.03),
+                                  // ],
                                 ),
                               ),
                             ],
@@ -1985,32 +2100,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         ),
                       ),
                     ),
-                    if ((widget.model?.status == 2 ||
-                            widget.model?.status == 4 ||
-                            widget.model?.status == 5 ||
-                            widget.model?.status == 6 ||
-                            widget.model?.status == 7 ||
-                            widget.model?.status == 8 ||
-                            widget.model?.status == 9)
-                        ? true
-                        : false) ...[
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(00.0)),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cancelButtonDisplay(),
-                          ],
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               );
@@ -2023,7 +2112,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget radioButtonHandling(int selectedValue, String name) {
     bool isEditable =
-        (widget.model?.status == null || widget.model?.status == 0);
+        (widget.model?.status == null || widget.model?.status == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -2520,10 +2611,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.selectedDepartment?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model != null &&
+              (widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
+          ? true
+          : false,
       onTap: () {
-        if (widget.model == null || widget.model?.status == 0) {
+        if ((widget.model == null || widget.model?.status == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
           //  articleTypeDialog(state);
           departmentsDialog(state);
         }
@@ -2578,10 +2675,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor:
-              widget.model?.status != 0 && widget.model != null ? true : false,
+          isDisableColor: widget.model?.status != 0 &&
+                  widget.model != null &&
+                  (widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!)
+              ? true
+              : false,
           onTap: () {
-            if (widget.model == null || widget.model?.status == 0) {
+            if ((widget.model == null || widget.model?.status == 0) &&
+                !(widget.extraProperties != null &&
+                    !widget.extraProperties!.hasWritePermission!)) {
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 vendorPassReasonDialog(state);
               } else if (widget.passId == ConstantsIntValue.passIdDayPass) {
@@ -2694,7 +2797,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget uploadWidget(CreatePassMgmtState state, bool isPhotoType) {
     return // upload
-        widget.model == null || widget.model?.status == 0
+        widget.model == null ||
+                widget.model?.status == 0 &&
+                    !(widget.extraProperties != null &&
+                        !widget.extraProperties!.hasWritePermission!)
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -2835,10 +2941,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model != null &&
+              (widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
+          ? true
+          : false,
       onTap: () {
-        if (widget.model == null || widget.model?.status == 0) {
+        if ((widget.model == null || widget.model?.status == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
           companyTypeDialog(state);
         }
 
@@ -2975,8 +3087,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 || widget.model != null ? false : true,
+      isDisableColor: widget.model?.status != 0 ||
+              widget.model != null &&
+                  (widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!)
+          ? false
+          : true,
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
@@ -3039,7 +3155,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.hostResponse?.userInfo,
       height: 60,
-      isDisableColor: widget.model?.status == 0 || widget.model?.status == null
+      isDisableColor: widget.model?.status == 0 ||
+              widget.model?.status == null &&
+                  !(widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
@@ -3109,8 +3228,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.dbsponsorResponse?.userInfo ?? '',
       height: 60,
-      isDisableColor:
-          widget.model?.status != 0 && widget.model != null ? true : false,
+      isDisableColor: widget.model?.status != 0 &&
+              widget.model != null &&
+              (widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
+          ? true
+          : false,
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
@@ -3244,7 +3367,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget locationWidgetdislay(CreatePassMgmtState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.model?.status == 0 || widget.model?.status == null) {
+        if ((widget.model?.status == 0 || widget.model?.status == null) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

@@ -8,6 +8,7 @@ class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyIssuanceProcessRecord? keyIssuanceProcessModel;
   final String title;
   final bool isMasterKey;
+  final ExtraProperties? extraProperties;
 
   const KeyManagementIssuanceDetailsView({
     super.key,
@@ -15,6 +16,7 @@ class KeyManagementIssuanceDetailsView extends StatefulWidget {
     this.keyIssuanceProcessModel,
     required this.title,
     this.isMasterKey = false,
+    this.extraProperties,
   });
 
   @override
@@ -85,7 +87,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == -1  ||
+        if (state.model.status == -1 ||
             state.model.status == 3 ||
             state.model.status == 4 ||
             state.model.status == 5 ||
@@ -97,6 +99,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             state.model.status == 11) {
           isReadOnly = true;
         }
+
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         if (state.model.status == null || state.model.status == 0) {
           isReadOnly = false;
         }
@@ -105,10 +112,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status == 0 ||
-                    state.model.status == 1 ||
-                state.model.status == 2||
-                    state.model.status == null
+            showSaveButton: (state.model.status == 0 ||
+                        state.model.status == 1 ||
+                        state.model.status == 2 ||
+                        state.model.status == null) &&
+                    !isReadOnly
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -121,10 +129,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: state.model.status == 0 ||
-                    state.model.status == 1 ||
-                state.model.status == 2||
-                    state.model.status == null
+            showSubmitButton: (state.model.status == 0 ||
+                        state.model.status == 1 ||
+                        state.model.status == 2 ||
+                        state.model.status == null) &&
+                    !isReadOnly
                 ? true
                 : false,
             onTapSubmit: () {
@@ -573,7 +582,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.handedOverTo?.userInfo??state.model.handedOverTo?.name,
+                                title: state.model.handedOverTo?.userInfo ??
+                                    state.model.handedOverTo?.name,
                                 height: 60,
                                 isDisableColor: state.model.status == null ||
                                         state.model.status == 0
@@ -650,7 +660,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.dbSponsorCwrT2?.userInfo??state.model.dbSponsorCwrT2?.name,
+                                title: state.model.dbSponsorCwrT2?.userInfo ??
+                                    state.model.dbSponsorCwrT2?.name,
                                 height: 60,
                                 isDisableColor: state.model.status != 0 &&
                                         state.model.status != null
@@ -743,7 +754,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                               BaseDate().datePickerWidgetLoading(
                                 textController: keyReturnDateAndTimeController,
-                                isDisabled: state.model.status != 1 && state.model.status != 2,
+                                isDisabled: state.model.status != 1 &&
+                                    state.model.status != 2,
                                 onlyDate: false,
                                 showPastDate: false,
                                 onChange: (String value) {
@@ -776,12 +788,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
-                                isEnable:
-                                    state.model.status == 1 ||
-                                        state.model.status == 2? true : false,
-                                isDisableColor:
-                                    state.model.status != 1 &&
-                              state.model.status != 2? false : true,
+                                isEnable: state.model.status == 1 ||
+                                        state.model.status == 2
+                                    ? true
+                                    : false,
+                                isDisableColor: state.model.status != 1 &&
+                                        state.model.status != 2
+                                    ? false
+                                    : true,
                                 onChange: (String value) {
                                   state.model.returnedByName = value;
                                   context
@@ -864,51 +878,32 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             ),
 
             /// SubmitButton
-            if ((state.model.status == 0 || state.model.status == 1 ||
-                state.model.status == 2)
-                ? true
-                : false) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      cancelButtonDisplay(state),
-                      submitButtonDisplay()
-                    ],
-                  ),
+
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: const ShapeDecoration(
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(00.0)),
                 ),
               ),
-            ],
-            if (state.model.status != 0 &&
-                state.model.status != 1 &&
-                state.model.status == 11) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     cancelButtonDisplay(state),
+                    if (((state.model.status == 0 ||
+                                state.model.status == 1 ||
+                                state.model.status == 2) &&
+                            !isReadOnly)
+                        ? true
+                        : false) ...[submitButtonDisplay()],
                   ],
                 ),
               ),
-            ],
+            ),
           ],
         ),
       ),

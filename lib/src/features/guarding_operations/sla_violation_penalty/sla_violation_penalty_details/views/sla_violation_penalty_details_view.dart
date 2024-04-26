@@ -9,12 +9,14 @@ class SLAViolationPenaltyDetailsView extends StatefulWidget {
   final SLAViolationPenaltyModel? model;
   final String title;
   final bool viaAttendance;
+  final ExtraProperties? extraProperties;
 
   const SLAViolationPenaltyDetailsView({
     super.key,
     this.model,
     required this.title,
     required this.viaAttendance,
+    this.extraProperties,
   });
 
   @override
@@ -77,7 +79,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-
       },
       builder: (context, state) {
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
@@ -89,16 +90,26 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton:
-            state.model.status != 2 &&state.model.status != -1 && !isReadOnly ? true : false,
-            showSubmitButton:
-                state.model.status != 2 &&state.model.status != -1&& !isReadOnly ? true : false,
+            showSaveButton: state.model.status != 2 &&
+                    state.model.status != -1 &&
+                    !isReadOnly
+                ? true
+                : false,
+            showSubmitButton: state.model.status != 2 &&
+                    state.model.status != -1 &&
+                    !isReadOnly
+                ? true
+                : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -371,7 +382,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.approver?.userInfo??state.model.approver?.name,
+                              title: state.model.approver?.userInfo ??
+                                  state.model.approver?.name,
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
@@ -523,14 +535,16 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                  if ((state.model.status == 2 || state.model.status == -1) ? false : true) ...[
-                            submitButtonDisplay()
-                          ], ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(state),
+                          if ((state.model.status == 2 ||
+                                  state.model.status == -1)
+                              ? false
+                              : true) ...[submitButtonDisplay()],
+                        ],
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),

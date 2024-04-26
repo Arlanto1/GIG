@@ -5,10 +5,12 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;
+  final ExtraProperties? extraProperties;
 
   const OccurrenceDetails({
     super.key,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -72,7 +74,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         initializeDates();
@@ -86,7 +87,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         showSaveSubmitButtons = state.model.status == 0 ||
             state.model.status == null ||
             !isReadOnly;
@@ -252,9 +256,11 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                                title: state.model.handoverSecurity?.userInfo ?? state.model.handoverSecurity?.name,
+                                title: state.model.handoverSecurity?.userInfo ??
+                                    state.model.handoverSecurity?.name,
                                 height: 70,
-                                isDisableColor: state.model.status == -1 || state.model.status == 1,
+                                isDisableColor: state.model.status == -1 ||
+                                    state.model.status == 1,
                                 onTap: () {
                                   if (state.model.status != 1) {
                                     BaseOrganisationDialog().userDialog(

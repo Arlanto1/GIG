@@ -8,11 +8,13 @@ import '../cubits/vvip_visitor_details_cubit.dart';
 class VVIPVisitorDetailsView extends StatefulWidget {
   final VIVPVisitorModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const VVIPVisitorDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -76,7 +78,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -327,7 +332,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                         children: [
                           cancelButtonDisplay(state),
                           if ((state.model.status == -1 ||
-                                  state.model.status == 1)
+                                      state.model.status == 1) &&
+                                  isReadOnly
                               ? false
                               : true) ...[submitButtonDisplay()],
                         ],
@@ -422,18 +428,6 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
         }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
-    );
-  }
-
-  Widget submitButton({
-    required Function onTap,
-    String? label = Constants.submit,
-  }) {
-    return AppButton(
-      width: 150,
-      buttonText: label,
-      buttonTextKey: Keys.submitButton,
-      onTap: onTap,
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
+import 'package:db_atom/src/models/extra_properties.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/token_expired.dart';
@@ -13,6 +14,7 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../utils/utils_common.dart';
 import '../../occurrence/occurrences_details/general_info/models/occ_ui_labels.dart';
 import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
@@ -56,6 +58,11 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.occurrenceModule);
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.occurrenceModule,
+        commonServices: commonServices,
+      );
       OCCUiLabels labels = OCCUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -66,6 +73,8 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
+
         ),
       );
     }on GenericResponse catch (e) {

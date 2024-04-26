@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../utils/utils_common.dart';
 import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
@@ -46,7 +47,14 @@ class GuardingMasterReportBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingMasterModuleCode,
+        commonServices: commonServices,
+      );
+
+      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -54,7 +62,9 @@ class GuardingMasterReportBloc
           statuses: statuses,
           commonFilters: commonFilters,
           hasReachedMax: false,
+          // labels: labels,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
     }on GenericResponse catch (e) {

@@ -35,6 +35,7 @@ class Constants {
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
+  static const String keyReconciliationModule = 'KR';
 
 
   /// UI Labels Module Code
@@ -853,6 +854,9 @@ class Constants {
 
   ///Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
+
+  ///Module Code for roles
+  static const String passManagementRolesModuleCode = 'PM';
 
 }
 

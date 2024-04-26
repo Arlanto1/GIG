@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 import '../models/law_enforcement_list_response.dart';
 
@@ -54,6 +55,12 @@ class LawEnforcementListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.leoModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.leoModuleCode,
+        commonServices: commonServices,
+      );
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -63,6 +70,7 @@ class LawEnforcementListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {

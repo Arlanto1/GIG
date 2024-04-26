@@ -8,7 +8,7 @@ class ContactDetailsListState extends Equatable {
   final String? message;
   final Locations? locations;
   final CommonFilters? commonFilters;
-
+  final ExtraProperties? extraProperties;
 
   const ContactDetailsListState({
     this.items = const <ContactDetailModel>[],
@@ -18,6 +18,8 @@ class ContactDetailsListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
+
   });
 
   ContactDetailsListState copyWith({
@@ -30,6 +32,8 @@ class ContactDetailsListState extends Equatable {
     Locations? locations,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
+
   }) {
     return ContactDetailsListState(
       items: items ?? this.items,
@@ -39,6 +43,7 @@ class ContactDetailsListState extends Equatable {
       message: message ?? this.message,
       locations: locations ?? this.locations,
       commonFilters: commonFilters ?? this.commonFilters,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

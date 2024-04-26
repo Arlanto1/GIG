@@ -6,6 +6,8 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_reconciliation_list/services/key_reconciliation_list_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../../../utils/utils_common.dart';
+
 part 'key_reconciliation_list_event.dart';
 
 part 'key_reconciliation_list_state.dart';
@@ -50,7 +52,7 @@ class KeyReconciliationListBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.contactDetailsModuleCode);
+          module: Constants.keyReconciliationModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();
@@ -63,7 +65,12 @@ class KeyReconciliationListBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          moduleCode: Constants.keyReconciliationModule);
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyReconciliationModule,
+        commonServices: commonServices,
+      );
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -74,6 +81,7 @@ class KeyReconciliationListBloc
           hasReachedMax: false,
           status: FormStatus.initial,
           labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {

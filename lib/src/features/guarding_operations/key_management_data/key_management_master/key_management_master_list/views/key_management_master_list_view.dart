@@ -72,201 +72,226 @@ class _KeyManagementMasterListViewState
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, keyManagementMasterDetailsRoute,
-                arguments: {
-                  "title": Constants.createkeyManagementMaster,
-                  "keyMgmtGi": KeyManagementMasterModel(),
-                }),
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.keyManagementMaster,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportKeyMgmtExcel',
-          pdfAPIName: 'exportKeyMgmtPDF',
-        ),
-        body: BlocBuilder<KeyManagementMasterListBloc,
-            KeyManagementMasterListState>(builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
-          // if (state.list.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
-
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      itemBuilder: (context, index) {
-                        List<Label> labels = [];
-                        if (index < state.list.length) {
-                          labels.add(Label(
-                              key: state.labels?.locale.floor ??
-                                  state.labels?.defaultLocale.floor ??
-                                  'Floor',
-                              value: state.list[index].floor.toString()));
-                          labels.add(Label(
-                              key: state.labels?.locale.createdBy ??
-                                  state.labels?.defaultLocale.createdBy ??
-                                  'Created By',
-                              value:
-                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-
-                          return index >= state.list.length
-                              ? const BaseLoader()
-                              : BaseListTileItem(
-                                  id: state.list[index].id,
-                                  labels: labels,
-                                  status: state.list[index].status,
-                                  isKeyManagementStatus: true,
-                                  isEventProtectionStatus: false,
-                                  onTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.list[selectedIndex].id
-                                              .toString(),
-                                          slNo: state.list[selectedIndex].slNo,
-                                          labels: labels,
-                                          status:
-                                              state.list[selectedIndex].status,
-                                          keyNo:
-                                              state.list[selectedIndex].keyNo,
-                                          keyTagging: state
-                                              .list[selectedIndex].keyTagging,
-                                          doorName: state
-                                              .list[selectedIndex].doorName,
-                                          isKeyManagementStatus: true,
-                                          isEventProtectionStatus: false,
-                                          isMasterGuard: false,
-                                          isKeyManagementIssuanceStatus: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  onEditTap: (selectedIndex) {
-                                    getById(state.list[index].id ?? 0);
-                                  },
-                                  showEditButton: true,
-                                  onViewTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.list[selectedIndex].id
-                                              .toString(),
-                                          slNo: state.list[selectedIndex].slNo,
-                                          labels: labels,
-                                          status:
-                                              state.list[selectedIndex].status,
-                                          keyNo:
-                                              state.list[selectedIndex].keyNo,
-                                          keyTagging: state
-                                              .list[selectedIndex].keyTagging,
-                                          doorName: state
-                                              .list[selectedIndex].doorName,
-                                          isEventProtectionStatus: false,
-                                          isKeyManagementStatus: true,
-                                          isKeyManagementIssuanceStatus: false,
-                                          isMasterGuard: false,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  index: index,
-                                );
-                        }
-                        // Handle the case where index is out of bounds
-                        return const Center(
-                          child: SizedBox(),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+    return BlocConsumer<KeyManagementMasterListBloc,
+        KeyManagementMasterListState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: AppColors.cardBgColor,
+            floatingActionButton:
+                state.extraProperties?.hasWritePermission ?? false
+                    ? Flutterfloatingbutton(
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                        foregroundColor: AppColors.backgroundWhitecolor,
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                              context, keyManagementMasterDetailsRoute,
+                              arguments: {
+                                "title": Constants.createkeyManagementMaster,
+                                "keyMgmtGi": KeyManagementMasterModel(),
+                              }),
+                        },
+                      )
+                    : const SizedBox(),
+            appBar: BaseAppBar().buildAppHeader(
+              context: context,
+              title: Constants.keyManagementMaster,
+              showPopUp: true,
+              showSaveButton: false,
+              showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              excelAPIName: 'exportKeyMgmtExcel',
+              pdfAPIName: 'exportKeyMgmtPDF',
             ),
-          );
-        }));
+            body: BlocBuilder<KeyManagementMasterListBloc,
+                KeyManagementMasterListState>(builder: (context, state) {
+              // if (state.status == FormStatus.initial) {
+              //   return const BaseLoader();
+              // }
+              // if (state.list.isEmptyOrNull) {
+              //   return const NoRecordFoundWidget();
+              // }
+              // log('--labels-${state.labels?.locale.locationRegion}');
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                    color: AppColors.backgroundWhitecolor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20.0)),
+                    )),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    if (state.list.isEmptyOrNull &&
+                        state.status != FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.list.length
+                              : state.list.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.list.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.floor ??
+                                      state.labels?.defaultLocale.floor ??
+                                      'Floor',
+                                  value: state.list[index].floor.toString()));
+                              labels.add(Label(
+                                  key: state.labels?.locale.createdBy ??
+                                      state.labels?.defaultLocale.createdBy ??
+                                      'Created By',
+                                  value:
+                                      '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+
+                              return index >= state.list.length
+                                  ? const BaseLoader()
+                                  : BaseListTileItem(
+                                      id: state.list[index].id,
+                                      labels: labels,
+                                      status: state.list[index].status,
+                                      isKeyManagementStatus: true,
+                                      isEventProtectionStatus: false,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              labels: labels,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              keyNo: state
+                                                  .list[selectedIndex].keyNo,
+                                              keyTagging: state
+                                                  .list[selectedIndex]
+                                                  .keyTagging,
+                                              doorName: state
+                                                  .list[selectedIndex].doorName,
+                                              isKeyManagementStatus: true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                              isKeyManagementIssuanceStatus:
+                                                  false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getById(
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
+                                                false,
+                                            state.list[index].id ?? 0);
+                                      },
+                                      showEditButton: true,
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              labels: labels,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              keyNo: state
+                                                  .list[selectedIndex].keyNo,
+                                              keyTagging: state
+                                                  .list[selectedIndex]
+                                                  .keyTagging,
+                                              doorName: state
+                                                  .list[selectedIndex].doorName,
+                                              isEventProtectionStatus: false,
+                                              isKeyManagementStatus: true,
+                                              isKeyManagementIssuanceStatus:
+                                                  false,
+                                              isMasterGuard: false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      index: index,
+                                    );
+                            }
+                            // Handle the case where index is out of bounds
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }));
+      },
+    );
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     KeyManagementMasterModel keyManagementMasterModel =
         await KeyManagementMasterServices().getById(id);
 
-    editDataLoading(keyManagementMasterModel);
+    editDataLoading(keyManagementMasterModel, hasWritePermission);
   }
 
-  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel) {
+  void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
         "keyMgmtGi": keyManagementMasterModel,
-        "title": Constants.editkeyManagementMaster
+        "title": Constants.editkeyManagementMaster,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }
@@ -278,7 +303,10 @@ class _KeyManagementMasterListViewState
 
     BlocProvider.of<KeyManagementMasterListBloc>(context).add(
       FetchKeyMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -289,7 +317,10 @@ class _KeyManagementMasterListViewState
 
     BlocProvider.of<KeyManagementMasterListBloc>(context).add(
       FetchKeyMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -152,9 +152,9 @@ class _KeyLossDestructionListViewState
                         if (index < state.list.length) {
                           labels.add(Label(
                               key:
-                              // state.labels?.locale.reg ??
-                              //  state.labels?.defaultLocale.locationRegion ??
-                               'Created Date',
+                                  // state.labels?.locale.reg ??
+                                  //  state.labels?.defaultLocale.locationRegion ??
+                                  'Created Date',
                               value: state.list[index].createdDate != null
                                   ? Utils.timestampToDateConversion(
                                       int.parse(
@@ -166,7 +166,7 @@ class _KeyLossDestructionListViewState
                                   state.labels?.defaultLocale.createdBy ??
                                   'Created By',
                               value:
-                              '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()
@@ -202,7 +202,11 @@ class _KeyLossDestructionListViewState
                                   );
                                 },
                                 onEditTap: (selectedIndex) {
-                                  getById(state.list[index].id ?? 0);
+                                  getById(
+                                      state.extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
+                                      state.list[index].id ?? 0);
                                 },
                                 showEditButton: true,
                                 onViewTap: (selectedIndex) {
@@ -242,24 +246,27 @@ class _KeyLossDestructionListViewState
         }));
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     KeyLossDestructionListModel keyLossDestructionListModel =
         await KeyLossDestructionListServices().getById(id);
 
-    editDataLoading(keyLossDestructionListModel);
+    editDataLoading(keyLossDestructionListModel, hasWritePermission);
   }
 
   void editDataLoading(
     KeyLossDestructionListModel? keyLossDestructionListModel,
+    bool hasWritePermission,
   ) {
     dismissLoadingDialog(context);
     if (keyLossDestructionListModel != null) {
       Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,
           arguments: {
             "keyLossGi": keyLossDestructionListModel,
-            "title": Constants.editKeyLossDestruction
+            "title": Constants.editKeyLossDestruction,
+            ConstantsArgument.extraProperties:
+                ExtraProperties(hasWritePermission: hasWritePermission),
           });
     }
   }
@@ -271,7 +278,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -282,7 +292,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

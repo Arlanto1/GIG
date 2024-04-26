@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 import '../../models/vvip_visitor_response_model.dart';
 
@@ -68,6 +69,11 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.vipVisitorsDetailsModule);
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.vipVisitorsDetailsModule,
+        commonServices: commonServices,
+      );
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -78,6 +84,8 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
+
         ),
       );
     } on GenericResponse catch (e) {

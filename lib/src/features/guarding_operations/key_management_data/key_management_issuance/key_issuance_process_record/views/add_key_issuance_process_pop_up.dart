@@ -51,8 +51,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
     selectedKeyDescription = widget.selectedKeyDescription;
     log('--widget.model.available---${widget.model.available}-----');
-    availableKeysController.text =
-    widget.model.available == null ? '0' : widget.model.available.toString();
+    availableKeysController.text = widget.model.available == null
+        ? '0'
+        : widget.model.available.toString();
     widget.model.available = int.tryParse(availableKeysController.text);
 
     log('--selectedKeyDescription---${selectedKeyDescription?.noKeys}---');
@@ -75,7 +76,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       // num sum =
       //     (widget.model.available ?? 0) - (widget.model.noKeysIssued ?? 0);
       // widget.model.available = sum.toInt();
-
 
       // availableKeysController.text = sum.toString();
 
@@ -168,9 +168,13 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
-                            isDisableColor: widget.parentStatus != 0,
+                            isDisableColor: widget.parentStatus != 0 &&
+                                !(state.extraProperties?.hasWritePermission ??
+                                    false),
                             onTap: () {
-                              if (widget.parentStatus == 0) {
+                              if (widget.parentStatus == 0 &&
+                                  (state.extraProperties?.hasWritePermission ??
+                                      false)) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
@@ -219,7 +223,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          if (widget.parentStatus == 0) {
+                          if (widget.parentStatus == 0 &&
+                              (state.extraProperties?.hasWritePermission ??
+                                  false)) {
                             BaseDropDown().assetTypeDialog(
                               context: context,
                               dropDownValues: keyTypeDropDownValues
@@ -360,7 +366,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: numberOfKeysIssuedController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 0,
+                        isEnable: widget.parentStatus == 0 &&
+                            (state.extraProperties?.hasWritePermission ??
+                                false),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.noKeysIssued = int.tryParse(value);
@@ -387,7 +395,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: returnedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1,
+                        isEnable: widget.parentStatus == 1 &&
+                            (state.extraProperties?.hasWritePermission ??
+                                false),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
@@ -410,7 +420,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.addressKey,
                         controller: notReturnedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1,
+                        isEnable: widget.parentStatus == 1 &&
+                            (state.extraProperties?.hasWritePermission ??
+                                false),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
@@ -434,7 +446,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: lostKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1,
+                        isEnable: widget.parentStatus == 1 &&
+                            (state.extraProperties?.hasWritePermission ??
+                                false),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
@@ -458,7 +472,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: damagedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1,
+                        isEnable: widget.parentStatus == 1 &&
+                            (state.extraProperties?.hasWritePermission ??
+                                false),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.damaged = int.tryParse(value);
@@ -468,7 +484,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
+                      buttonViews(widget.mainContext, width, state),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
                     ],
                   ),
@@ -481,12 +497,14 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     );
   }
 
-  Widget buttonViews(BuildContext context, double width) {
+  Widget buttonViews(
+      BuildContext context, double width, KeyIssuanceProcessRecordState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if (widget.parentStatus == 0 || widget.parentStatus == 1)
+        if ((widget.parentStatus == 0 || widget.parentStatus == 1) &&
+            (state.extraProperties?.hasWritePermission ?? false))
           saveButton(width, widget.onSubmit)
       ],
     );
