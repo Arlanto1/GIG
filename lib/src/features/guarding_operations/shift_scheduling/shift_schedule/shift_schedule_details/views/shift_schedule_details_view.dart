@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/add_poc_pop_up.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/duty_post_details_newwwww.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/duty_post_rank_view.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
   const ShiftScheduleDetailsView({
@@ -72,20 +75,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
-                create: (_) => ShiftScheduleDetailsCubit(
-                  mainDutyPostModel:
+              builder: (context) => BlocProvider<DutyPostDetailsCubit>(
+                create: (_) => DutyPostDetailsCubit(
+                  parentModel:
                       state.selectedDutyPostModel ?? DutyPostModel(),
                   id: state.model.id.toString(),
                 ),
-                child: DutyPostDetailsView(
+                child: DutyPostDetailsNewwwww(
                   model: state.selectedDutyPostModel ?? DutyPostModel(),
                 ),
               ),
             ),
           );
         }
-
       },
       builder: (context, state) {
         if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {

@@ -489,6 +489,7 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String selectForShift = 'Select For Shift: ';
   static const String zone = 'Zone';
   static const String areaNameManager = 'Area  Manager Name';
   static const String guardName = 'Name';
