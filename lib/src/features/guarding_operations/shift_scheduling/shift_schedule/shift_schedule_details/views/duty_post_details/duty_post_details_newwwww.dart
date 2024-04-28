@@ -214,18 +214,20 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     buildShiftColumn(
-                                        shift: state.model ?? Shift(),
-                                        isSourceList: true),
+                                      shift: state.model,
+                                      isSourceList: true,
+                                    ),
                                     buildShiftColumn(
-                                        shift: state.model ?? Shift(),
-                                        isSourceList: false),
+                                      shift: state.model,
+                                      isSourceList: false,
+                                    ),
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     MediaQuery.of(context).size.height * 0.01),
                                 if (!state
-                                    .model!.selectedGuards.isEmptyOrNull) ...[
-                                  buildReplacementColumn(state.model!),
+                                    .model.selectedGuards.isEmptyOrNull) ...[
+                                  buildReplacementColumn(state),
                                 ],
                               ],
                             ),
@@ -251,7 +253,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       mainAxisSize: MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
-          isSourceList?'Select For Shift: ${shift.shift}': 'Selected (Max Allowed: ${shift.allowed})',
+          isSourceList
+              ? 'Select For Shift: ${shift.shift}'
+              : 'Selected (Max Allowed: ${shift.allowed})',
           isMandatory: false,
           Styles.textStyleBlack14,
         ),
@@ -353,7 +357,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     });
   }
 
-  Column buildReplacementColumn(Shift shift) {
+  Column buildReplacementColumn(DutyPostDetailsState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -361,8 +365,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: state.model.availableGuards ?? [],
+            selectedGuards: state.model.selectedGuards ?? [],
+            rankId: state.selectedRank!.id!,
+            dutyPostId: widget.model!.id!,
+            shiftId: state.selectedShift!.id!,
+
           ),
           child: Row(
             children: <Widget>[
@@ -383,12 +391,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             ],
           ),
         ),
-        if (shift.replacements != null && shift.replacements!.isNotEmpty) ...[
+        if (state.model.replacements != null && state.model.replacements!.isNotEmpty) ...[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: buildReplacements(shift),
+              children: buildReplacements(state),
             ),
           ),
           CommonWidgets.verticalSpacerWidget(
@@ -398,15 +406,18 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     );
   }
 
-  List<Widget> buildReplacements(Shift shift) {
+  List<Widget> buildReplacements(DutyPostDetailsState state) {
     return [
-      for (Replacement replacement in shift.replacements ?? [])
+      for (Replacement replacement in state.model.replacements ?? [])
         InkWell(
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: state.model.availableGuards ?? [],
+            selectedGuards: state.model.selectedGuards ?? [],
+            rankId: state.selectedRank!.id!,
+            dutyPostId: widget.model!.id!,
+            shiftId: state.selectedShift!.id!,
           ),
           child: Card(
             child: Padding(
@@ -416,8 +427,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                 children: [
                   buildTextWithLabel(
                       'Replacement For:', replacement.replacedFor?.name),
-                  buildTextWithLabel(
-                      'Replacement By:', replacement.replacementBy?.name),
                   buildTextWithLabel(
                     'From Date:',
                     replacement.fromDate != null
@@ -436,6 +445,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                           )
                         : '',
                   ),
+                  buildTextWithLabel(
+                      'Replacement By:', replacement.replacementBy?.name),
                 ],
               ),
             ),
@@ -474,6 +485,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     required Replacement model,
     required List<BaseUser> availableGuards,
     required List<BaseUser> selectedGuards,
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
   }) {
     showDialog(
       context: context,
@@ -484,6 +498,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           mainContext: context,
           availableGuards: availableGuards,
           selectedGuards: selectedGuards,
+          shiftId: shiftId,
+          dutyPostId: dutyPostId,
+          rankId: rankId,
         );
       },
     );

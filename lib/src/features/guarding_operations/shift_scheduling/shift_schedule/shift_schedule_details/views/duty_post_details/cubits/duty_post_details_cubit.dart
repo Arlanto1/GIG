@@ -1,11 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'duty_post_details_state.dart';
 
@@ -27,7 +24,6 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
             errorMessage: '',
           ),
         );
-
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -84,7 +80,6 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       );
     }
   }
-
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
@@ -207,5 +202,63 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         status: FormStatus.success,
       ),
     );
+  }
+
+  void updateReplacement(
+    Replacement replacement,
+  ) {
+    emit(state.copyWith(
+      status: FormStatus.loading,
+    ));
+
+    log('----replacement.fromDate---${replacement.fromDate}-');
+
+    // Check if replacement has an ID
+    if (replacement.id != null) {
+      // Iterate over ranks and shifts to find and update the replacement
+      state.model.replacements?.forEach((existingReplacement) {
+        log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
+        if (existingReplacement.id == replacement.id) {
+          // Update the existing replacement with the new values
+          existingReplacement.replacedFor = replacement.replacedFor;
+          existingReplacement.replacementBy = replacement.replacementBy;
+          existingReplacement.fromDate = replacement.fromDate;
+          existingReplacement.toDate = replacement.toDate;
+          existingReplacement.status = replacement.status;
+        }
+      });
+    } else {
+      // If replacement has no ID, add it as a new object to the replacements list
+      state.model.replacements ??= [];
+      state.model.replacements!.add(replacement);
+    }
+
+    log('----end----');
+    emit(state.copyWith(
+      model: state.model,
+      // seletedDutyPostModel: state.selectedDutyPostModel,
+      status: FormStatus.initial,
+    ));
+  }
+
+  Future<void> getNextAvailableReplacementDates({required int userId}) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    NextAvailableDateRange replacementDateRange =
+        await services.getNextAvailableReplacementDates(
+      dutyPostId: parentModel.id!,
+      rankId: state.selectedRank!.id!,
+      userId: userId,
+      shiftId: state.selectedShift!.id!,
+    );
+
+    emit(state.copyWith(
+      status: FormStatus.initial,
+      replacementDates: replacementDateRange,
+    ));
   }
 }

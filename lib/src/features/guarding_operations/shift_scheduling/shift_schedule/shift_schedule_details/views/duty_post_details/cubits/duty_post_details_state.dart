@@ -11,7 +11,8 @@ class DutyPostDetailsState extends Equatable {
   final List<Organisation>? ranks;
   final List<Organisation>? shifts;
   final Organisation? selectedRank;
-  final   Organisation? selectedShift;
+  final Organisation? selectedShift;
+  final NextAvailableDateRange? replacementDates;
 
   factory DutyPostDetailsState.initial({
     required Locations locations,
@@ -65,7 +66,7 @@ class DutyPostDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const DutyPostDetailsState( {
+  const DutyPostDetailsState({
     required this.status,
     required this.model,
     this.locations,
@@ -75,7 +76,9 @@ class DutyPostDetailsState extends Equatable {
     this.labels,
     this.ranks,
     this.shifts,
-    this.selectedRank, this.selectedShift,
+    this.selectedRank,
+    this.selectedShift,
+    this.replacementDates,
   });
 
   DutyPostDetailsState copyWith({
@@ -90,6 +93,7 @@ class DutyPostDetailsState extends Equatable {
     List<Organisation>? shifts,
     Organisation? selectedRank,
     Organisation? selectedShift,
+    NextAvailableDateRange? replacementDates,
   }) {
     return DutyPostDetailsState(
       status: status ?? this.status,
@@ -103,6 +107,7 @@ class DutyPostDetailsState extends Equatable {
       shifts: shifts ?? this.shifts,
       selectedRank: selectedRank ?? this.selectedRank,
       selectedShift: selectedShift ?? this.selectedShift,
+      replacementDates: replacementDates ?? this.replacementDates,
     );
   }
 }
