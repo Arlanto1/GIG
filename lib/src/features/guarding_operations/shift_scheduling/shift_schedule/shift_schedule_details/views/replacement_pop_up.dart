@@ -53,12 +53,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
 
+    log('widget.model.status--${widget.model.status}----');
     if (widget.model.status != null) {
       Label matchingLabel = reasonDropDownValues
           .firstWhere((label) => label.value == widget.model.status.toString());
 
       reasonController.text = matchingLabel.key;
     }
+    log('reasonController.text---${reasonController.text}----');
   }
 
   Future<void> setDateRange(BaseUser user) async {
@@ -153,29 +155,28 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       BaseDropDown().getDropDown(
-                          isDisabled: false,
-                          textController: reasonController,
-                          items: reasonDropDownValues,
-                          initialValue: '',
-                          onTap: () {
-                            BaseDropDown().assetTypeDialog(
-                                context: context,
-                                dropDownValues: reasonDropDownValues
-                                    .map((label) => label.key)
-                                    .toList(),
-                                onTap: (String value) {
-                                  Label? selectedLabel;
-                                  selectedLabel =
-                                      reasonDropDownValues.firstWhere(
-                                    (label) => label.key == value,
-                                    orElse: () =>
-                                        const Label(key: '', value: ''),
-                                  );
-                                  widget.model.status =
-                                      int.tryParse(selectedLabel.value);
-                                  reasonController.text = selectedLabel.key;
-                                });
-                          }),
+                        isDisabled: false,
+                        textController: reasonController,
+                        items: reasonDropDownValues,
+                        onTap: () {
+                          BaseDropDown().assetTypeDialog(
+                            context: context,
+                            dropDownValues: reasonDropDownValues
+                                .map((label) => label.key)
+                                .toList(),
+                            onTap: (String value) {
+                              Label? selectedLabel;
+                              selectedLabel = reasonDropDownValues.firstWhere(
+                                (label) => label.key == value,
+                                orElse: () => const Label(key: '', value: ''),
+                              );
+                              widget.model.status =
+                                  int.tryParse(selectedLabel.value);
+                              reasonController.text = selectedLabel.key;
+                            },
+                          );
+                        },
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                       /// From Date
@@ -187,8 +188,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      Text('--${dates?.fromDate}-----'),
-
                       BaseDate().datePickerWidgetLoading(
                         textController: fromDateController,
                         onlyDate: true,

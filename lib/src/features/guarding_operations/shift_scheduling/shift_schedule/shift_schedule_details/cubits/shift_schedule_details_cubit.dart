@@ -47,6 +47,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
       seletedDutyPostModel: dutyPostModel,
+
       status: FormStatus.navigateToNextScreen,
     ));
   }

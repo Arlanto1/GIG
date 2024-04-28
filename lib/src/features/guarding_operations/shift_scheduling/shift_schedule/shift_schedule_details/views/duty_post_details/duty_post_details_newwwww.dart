@@ -40,7 +40,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Duty Post Master',
+            title: 'Record Saved',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -67,7 +67,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: 'Duty Post Master',
+            title: widget.model?.name??'',
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
