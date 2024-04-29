@@ -425,14 +425,14 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     bool isNumeric(String str) {
       return double.tryParse(str) != null;
     }
+    if (!widget.model.contactNo.isEmptyOrNull &&
+        (!isNumeric(widget.model.contactNo!) ||
+            widget.model.contactNo!.length > 17 ||
+            widget.model.contactNo!.length < 10)) {
 
-    if ((!isNumeric(widget.model.contactNo!) ||
-            (widget.model.contactNo!.length > 17 &&
-                widget.model.contactNo!.length < 10)) &&
-        !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,
-        message: 'Please enter a valid contact number.',
+        message: 'Please enter a valid contact Number.',
       );
     }
     // if (widget.contact.contactNo.isEmptyOrNull) {
