@@ -1082,7 +1082,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
-              : actualDateTextController.text;
+              :  actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestampToDateConversion(
@@ -1448,9 +1448,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         .format(pickedDate ?? DateTime.now());
     log(formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == actualDateTextController) {
-      actualDateTextController.text = formattedDate;
-    }
+    // if (textfield == actualDateTextController) {
+    //   actualDateTextController.text = formattedDate;
+    // }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -1895,7 +1895,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1917,7 +1917,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
