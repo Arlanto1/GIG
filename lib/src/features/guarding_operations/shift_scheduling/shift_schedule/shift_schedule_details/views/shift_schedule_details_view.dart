@@ -502,28 +502,30 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           ],
 
                           /// List of Duty Posts
-                          DutyPostListWidget(
-                              dutyPosts: state.dutyPosts ?? [],
-                              onTap: (int? id, int? dustyPostNameId) {
-                                log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+                          if (!state.model.fromDate.isEmptyOrNull &&
+                              !state.model.toDate.isEmptyOrNull) ...[
+                            DutyPostListWidget(
+                                dutyPosts: state.dutyPosts ?? [],
+                                onTap: (int? id, int? dustyPostNameId) {
+                                  log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
 
-                                if (dustyPostNameId != null) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                    dutyPostNameId: dustyPostNameId,
-                                  );
-                                }
+                                  if (dustyPostNameId != null) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      navigateToNextScreen: true,
+                                      dutyPostNameId: dustyPostNameId,
+                                    );
+                                  }
 
-                                if (id != null) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .getDutyPostById(id);
-                                }
-                              }),
-
+                                  if (id != null) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
+                                        .getDutyPostById(id);
+                                  }
+                                }),
+                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// SubmitButton
