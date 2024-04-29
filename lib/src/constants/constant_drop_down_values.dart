@@ -177,7 +177,7 @@ const List<Label> mSGBFormBSubmittedDropDownValues = [
 const List<Label> incidentTypeValues = [
   Label(key: 'Loss', value: '0'),
   Label(key: 'Damage', value: '1'),
-  Label(key: 'Workplace', value: '2'),
+  Label(key: 'Workplace violence', value: '2'),
   Label(key: 'Negligence', value: '3'),
   Label(key: 'General', value: '4'),
 ];
