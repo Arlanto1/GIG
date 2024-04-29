@@ -436,13 +436,15 @@ class DropdownWidget extends StatefulWidget {
   final void Function(Organisation?)? onChange;
   final String label;
   final bool? isInitial;
+  final Organisation? initialValue; // in case value is not updating in the UI
 
   const DropdownWidget({
     super.key,
     required this.items,
     required this.onChange,
     required this.label,
-     this.isInitial,
+    this.isInitial,
+    this.initialValue,
   });
 
   @override
@@ -450,19 +452,37 @@ class DropdownWidget extends StatefulWidget {
 }
 
 class DropdownWidgetState extends State<DropdownWidget> {
-  // Organisation? selectedElement;
+  Organisation? selectedElement;
+
+  @override
+  void initState() {
+    super.initState();
+// Initialize selectedElement with the first item if isInitial is false
+    selectedElement = widget.isInitial ?? true
+        ? null
+        : widget.items.isNotEmpty
+            ? widget.items.first
+            : null;
+    if(widget.initialValue != null){
+      selectedElement = widget.initialValue;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: DropdownButtonFormField<Organisation>(
-        value: widget.isInitial ?? false
-            ? null
-            : !widget.items.isEmptyOrNull
-                ? widget.items.first
-                : null,
+        value: selectedElement,
         hint: Text(widget.label),
-        onChanged: widget.onChange,
+        // onChanged: widget.onChange,
+        onChanged: (Organisation? newValue) {
+          setState(() {
+            selectedElement = newValue;
+          });
+          if (widget.onChange != null) {
+            widget.onChange!(newValue);
+          }
+        },
         items: widget.items.map((item) {
           return DropdownMenuItem<Organisation>(
             value: item,

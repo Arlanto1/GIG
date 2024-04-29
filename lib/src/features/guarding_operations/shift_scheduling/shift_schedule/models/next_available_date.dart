@@ -1,13 +1,13 @@
-class NextAvailableDate {
+class NextAvailableDateRange {
   final String? fromDate;
   final String? toDate;
 
-  NextAvailableDate({
+  NextAvailableDateRange({
     this.fromDate,
     this.toDate,
   });
 
-  NextAvailableDate.fromJson(Map<String, dynamic> json)
+  NextAvailableDateRange.fromJson(Map<String, dynamic> json)
       : fromDate = json['fromDate'] as String?,
         toDate = json['toDate'] as String?;
 

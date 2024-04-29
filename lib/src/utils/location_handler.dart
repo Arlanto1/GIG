@@ -9,9 +9,9 @@ Future<Position> determinePosition() async {
   // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-  if (serviceEnabled) {
-    return await getLocation();
-  }
+  // if (serviceEnabled) {
+  //   return await getLocation();
+  // }
   if (!serviceEnabled) {
     // Location services are not enabled don't continue
     // accessing the position and request users of the

@@ -47,6 +47,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
       seletedDutyPostModel: dutyPostModel,
+
       status: FormStatus.navigateToNextScreen,
     ));
   }
@@ -231,7 +232,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (state.model.vendor != null) {
         List<DutyPostModel> dutyPosts = await getDutyPosts();
 
-        NextAvailableDate availableDate = await getNextAvailableDate();
+        NextAvailableDateRange availableDate = await getNextAvailableDate();
 
         emit(state.copyWith(
           model: state.model,
@@ -246,7 +247,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       if (state.model.location != null) {
         List<DutyPostModel> dutyPosts = await getDutyPosts();
-        NextAvailableDate availableDate = await getNextAvailableDate();
+        NextAvailableDateRange availableDate = await getNextAvailableDate();
         emit(state.copyWith(
           dutyPosts: dutyPosts,
           availableDate: availableDate,
@@ -274,8 +275,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     ));
   }
 
-  Future<NextAvailableDate> getNextAvailableDate() async {
-    NextAvailableDate availableDate = NextAvailableDate();
+  Future<NextAvailableDateRange> getNextAvailableDate() async {
+    NextAvailableDateRange availableDate = NextAvailableDateRange();
     availableDate = await services.getNextAvailableDate(
       locationId: state.model.location!.id!,
       vendorId: state.model.vendor!.id!,

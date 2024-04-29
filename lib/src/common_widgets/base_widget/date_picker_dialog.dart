@@ -25,6 +25,8 @@ class BaseDate {
     bool showFutureDate = true,
     bool onlyDate = false,
     String? startDate,
+    String? fromDate, // for giving date range
+    String? toDate, // for giving date range
     required Function(String) onChange,
     required BuildContext context,
   }) {
@@ -40,14 +42,15 @@ class BaseDate {
       onTap: () async {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
-            textController: textController,
-            startDate: startDate,
-            showPastDate: showPastDate,
-            showFutureDate: showFutureDate,
-            onChange: onChange,
-            context: context,
-            onlyDate: onlyDate,
-          );
+              textController: textController,
+              startDate: startDate,
+              showPastDate: showPastDate,
+              showFutureDate: showFutureDate,
+              onChange: onChange,
+              context: context,
+              onlyDate: onlyDate,
+              fromDate: fromDate,
+              toDate: toDate);
         }
       },
       child: AbsorbPointer(
@@ -91,6 +94,8 @@ class BaseDate {
     bool showFutureDate = true,
     bool onlyDate = false,
     String? startDate,
+    String? fromDate, // for giving date range
+    String? toDate, // for giving date range
   }) async {
     DateTime? pickedDate;
 
@@ -126,7 +131,27 @@ class BaseDate {
     }
 
     log('-onlyDate---$onlyDate-');
-    if (onlyDate) {
+    if (onlyDate && !fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+      DatePicker.showDatePicker(
+        context,
+        showTitleActions: true,
+        minTime: DateTime.parse(fromDate!),
+        maxTime: DateTime.parse(toDate!),
+        onChanged: (date) {
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          pickedDate = date;
+          log('confirm $date');
+          if (pickedDate != null) {
+            return setDateTime(pickedDate!, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: currentTime,
+        locale: LocaleType.en,
+      );
+    } else if (onlyDate) {
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
@@ -172,14 +197,14 @@ class BaseDate {
           pickedDate = date;
           log('confirm $date');
           if (pickedDate != null) {
-            showTimePicker(context,  pickedDate!, onlyDate, textController, onChange);
+            showTimePicker(
+                context, pickedDate!, onlyDate, textController, onChange);
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
         currentTime: currentTime,
         locale: LocaleType.en,
       );
-
 
       // DatePicker.showDateTimePicker(
       //   context,
@@ -211,7 +236,8 @@ class BaseDate {
     }
   }
 
-  void showTimePicker(BuildContext context, DateTime pickedDate, onlyDate, textController, onChange) {
+  void showTimePicker(BuildContext context, DateTime pickedDate, onlyDate,
+      textController, onChange) {
     DatePicker.showTimePicker(
       context,
       currentTime: pickedDate,
