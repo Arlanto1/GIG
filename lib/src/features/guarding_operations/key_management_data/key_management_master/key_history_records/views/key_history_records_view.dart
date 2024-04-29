@@ -190,9 +190,9 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                 },
                                 onEditTap: (selectedIndex) {
                                   getById(
-                                      // state.extraProperties
-                                      //         ?.hasWritePermission ??
-                                      //     false,
+                                      state.extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
                                       state.list[index].id ?? 0);
                                 },
                                 showEditButton: true,
@@ -233,18 +233,18 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     );
   }
 
-  getById( int id) async {
+  getById( bool hasWritePermission,int id) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyHistoryModel );
+    editDataLoading(keyHistoryModel,hasWritePermission);
   }
 
   void editDataLoading(
     KeyHistoryModel keyHistoryModel,
-
+      bool hasWritePermission
   ) {
     dismissLoadingDialog(context);
     Navigator.pushNamed(
@@ -264,8 +264,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
         ConstantsArgument.type: widget.type,
-        // ConstantsArgument.extraProperties:
-        //     ExtraProperties(hasWritePermission: hasWritePermission),
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
