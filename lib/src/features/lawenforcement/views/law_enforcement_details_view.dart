@@ -1173,7 +1173,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? BaseUser(
               id: widget.model?.dbOfficialEmailDepartment?.id,
               name: widget.model?.dbOfficialEmailDepartment?.name ?? "",
-              email: widget.model?.dbOfficialAccompaniedEmail ?? '')
+            )
           : BaseUser();
 
       lawEnforcementCubit.geDBOfficialyData(staticUser);
@@ -1826,6 +1826,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (statusTextController.text.toLowerCase() ==
         "verification under process") {
       statusValue = 2;
+    } else if (statusTextController.text.toLowerCase() == "cancelled") {
+      statusValue = -1;
     }
     bool isDocumentifanySelected =
         state.isDocumentifanySelected == 1 ? true : false;
@@ -1901,7 +1903,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
+              ? (state.getuserResponse?.name ?? '')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1923,7 +1925,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}${state.getuserResponse?.email ?? ''}')
+              ? (state.getuserResponse?.name ?? '')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,

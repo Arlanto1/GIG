@@ -153,61 +153,65 @@ class _GuardingMasterDataDetailsViewState
   }
 
   void initializeDates(GuardingMasterDataDetailsState state) {
-    dateOfBirthController.text = Utils.timestampToDateConversion(
+    dateOfBirthController.text =widget.guardingMasterData?.dateOfBirth !=null ? Utils.timestampToDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
 
-    dateOfJoiningController.text = Utils.timestampToDateConversion(
+    dateOfJoiningController.text =widget.guardingMasterData?.dateOfJoining !=null? Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
 
     // mSGBExemptionDateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
     //     Constants.dateFormat);
 
-    pvcIssuedDateController.text = Utils.timestampToDateConversion(
+    pvcIssuedDateController.text =widget.guardingMasterData?.pvcIssuedDate !=null? Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
     // pvcExpiryDateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
     //     Constants.dateFormat);
 
-    final issuedDate =
-        DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text);
-    final expiryDate = issuedDate.add(const Duration(days: 3 * 365));
+    // final issuedDate =pvcIssuedDateController.text !=null ?
+    //     DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text) :'0';
+    // final expiryDate = issuedDate.add(const Duration(days: 3 * 365));
 
-    pvcExpiryDateController.text =
-        DateFormat(Constants.dateFormat).format(expiryDate);
+    pvcExpiryDateController.text = widget.guardingMasterData?.pvcExpiryDate !=null?
+    Utils.timestampToDateConversion(
+        int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
+        Constants.dateFormat):'';
+    // widget.guardingMasterData?.expiryDate?
+    //     DateFormat(Constants.dateFormat).format(expiryDate):'';
     // pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
     //   DateFormat("dd/MM/yyyy")
     //       .parse(pvcIssuedDateController.text)
     //       .add(const Duration(3 * 365)),
     // );
-    medicalCertificateValidUntilController.text =
+    medicalCertificateValidUntilController.text =widget.guardingMasterData?.medicalCertificateValidUntil !=null?
         Utils.timestampToDateConversion(
             int.parse(
                 widget.guardingMasterData?.medicalCertificateValidUntil ?? '0'),
-            Constants.dateFormat);
+            Constants.dateFormat):'';
 
-    dateOfFirstCovidDoseController.text = Utils.timestampToDateConversion(
+    dateOfFirstCovidDoseController.text = widget.guardingMasterData?.covidFirstDoseDate !=null?Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
 
-    dateOfSecondCovidDoseController.text = Utils.timestampToDateConversion(
+    dateOfSecondCovidDoseController.text = widget.guardingMasterData?.covidSecondDoseDate !=null?Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
 
-    dateOfPrecautionaryCovidDose.text = Utils.timestampToDateConversion(
+    dateOfPrecautionaryCovidDose.text =widget.guardingMasterData?.covidPrecautionaryDoseDate !=null? Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
 
-    ertCertificationDate.text = Utils.timestampToDateConversion(
+    ertCertificationDate.text = widget.guardingMasterData?.ertCertificationDate !=null?Utils.timestampToDateConversion(
         int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'),
-        Constants.dateFormat);
-    firstAidTrainingCompletionDate.text = Utils.timestampToDateConversion(
+        Constants.dateFormat):'';
+    firstAidTrainingCompletionDate.text = widget.guardingMasterData?.firstAidTrainingCompletionDate !=null?Utils.timestampToDateConversion(
         int.parse(
             widget.guardingMasterData?.firstAidTrainingCompletionDate ?? '0'),
-        Constants.dateFormat);
+        Constants.dateFormat):'';
   }
 
   getBodybuilder(GuardingMasterDataDetailsState state, height) {

@@ -173,6 +173,7 @@ class Constants {
   static const String sCRI = 'SCRI';
   static const String incidentManagement = 'Incident Management';
   static const String shiftOccurrence = 'Shift Occurrence';
+  static const String occurrenceList = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
