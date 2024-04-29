@@ -2015,18 +2015,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     /// Attachments
-                                    // BaseImageUpload().getAttachment(
-                                    //   height: height,
-                                    //   attachments: state.loadAttachments,
-                                    //   files: getFiles,
-                                    //   showDownloadIcon:
-                                    //       getAttachments.isNotEmpty
-                                    //           ? true
-                                    //           : false,
-                                    //   moduleCode: Constants.passManagementModuleCode,
-                                    // ),
-                                    getSpaceattchment(height),
-                                    getAttachement(height),
+                                    BaseImageUpload().getAttachment(
+                                      height: height,
+                                      attachments: state.loadAttachments,
+                                      files: getFiles,
+                                      showDownloadIcon:
+                                          getAttachments.isNotEmpty
+                                              ? true
+                                              : false,
+                                      moduleCode: Constants.passManagementModuleCode,
+                                    ),
+                                    // getSpaceattchment(height),
+                                    // getAttachement(height),
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
@@ -2883,7 +2883,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: height,
       attachments: photogetAttachments,
       files: photogetFiles,
-      showDownloadIcon: photogetAttachments.isNotEmpty ? true : false,
+      showDownloadIcon: true,
       moduleCode: Constants.guardingMasterModuleCode,
     );
     // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
@@ -4257,8 +4257,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            imageData1 != null
-                                ? IconButton(
+                            imageData1 != null || imageData !=null
+                                ?
+                            IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
                                       // Delete logic here
@@ -4300,7 +4301,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                               Constants.passManagementModuleCode,
                             );
                           },
-                          child: BaseIcons().deleteIcon(),
+                          child: BaseIcons().downloadIcon(),
                         ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
