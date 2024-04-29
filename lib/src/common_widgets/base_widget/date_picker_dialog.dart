@@ -195,7 +195,7 @@ class BaseDate {
         },
         onConfirm: (date) {
           pickedDate = date;
-          log('confirm $date');
+          log('pickedDate------ $date');
           if (pickedDate != null) {
             showTimePicker(
                 context, pickedDate!, onlyDate, textController, onChange);

@@ -1,7 +1,7 @@
 class PowerFailureModel {
-  final dynamic id;
-  final dynamic powerFailureStartDate;
-  final dynamic powerFailureEndDate;
+  int? id;
+  String? powerFailureStartDate;
+  String? powerFailureEndDate;
 
   PowerFailureModel({
     this.id,
@@ -10,9 +10,9 @@ class PowerFailureModel {
   });
 
   PowerFailureModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        powerFailureStartDate = json['powerFailureStartDate'],
-        powerFailureEndDate = json['powerFailureEndDate'];
+      : id = json['id'] as int?,
+        powerFailureStartDate = json['powerFailureStartDate'] as String?,
+        powerFailureEndDate = json['powerFailureEndDate'] as String?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,

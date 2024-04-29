@@ -155,6 +155,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
                     if (state.items.isEmptyOrNull &&
+                        state.status != FormStatus.initial &&
                         state.status != FormStatus.loading) ...[
                       CommonWidgets.verticalSpacerWidget(height * 0.1),
                       const NoRecordFoundWidget(),
@@ -240,7 +241,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                       },
                                       onEditTap: (selectedIndex) {
                                         getById(
-                                            state.extraProperties?.hasWritePermission ??
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
                                                 false,
                                             id: state.items[index].id ?? 0,
                                             eventStatus:
@@ -290,7 +292,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     );
   }
 
-  getById(bool hasWritePermission,{
+  getById(
+    bool hasWritePermission, {
     required int id,
     required int eventStatus,
   }) async {
@@ -305,7 +308,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         'eventStatus': eventStatus,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
