@@ -1593,7 +1593,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                             .text.isEmpty ||
                                                         widget.model?.status ==
                                                             0) &&
-                                                    (widget.extraProperties !=
+                                                    !(widget.extraProperties !=
                                                             null &&
                                                         !widget.extraProperties!
                                                             .hasWritePermission!)
@@ -1694,7 +1694,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         0 ||
                                                     widget.model?.status ==
                                                         null) &&
-                                                (widget.extraProperties !=
+                                                !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
                                                         .hasWritePermission!)
@@ -1740,7 +1740,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           (widget.model?.status != 0 &&
                                                   widget.model?.status !=
                                                       null) &&
-                                              (widget.extraProperties != null &&
+                                              !(widget.extraProperties != null &&
                                                   !widget.extraProperties!
                                                       .hasWritePermission!)),
                                       showPastDate: false,
