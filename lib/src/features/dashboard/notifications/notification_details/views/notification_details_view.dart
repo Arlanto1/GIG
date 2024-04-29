@@ -152,7 +152,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                               showDownloadIcon: true,
                               moduleCode: state.model.moduleCode ?? ''),
                         ],
-                        if (!state.model.moduleCode.isEmptyOrNull) ...[
+                        if (!state.model.moduleCode.isEmptyOrNull && state.model.moduleId != null) ...[
                           submitButtonDisplay(state)
                         ],
                       ],
