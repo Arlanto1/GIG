@@ -26,7 +26,6 @@ class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
     Position position = await determinePosition();
-    position.latitude;
     headers.addAll({"Latitude": position.latitude.toString()});
     headers.addAll({"Longitude": position.longitude.toString()});
     if (isAuthenticated != null && isAuthenticated) {
@@ -56,7 +55,7 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
-      if (!url.contains('getLabels')) {
+      if (!url.contains('getLabels') || url.contains('Location')) {
         log('response.body----${response.body}');
       }
       final responseBody = json.decode(response.body);

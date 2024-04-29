@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -18,7 +17,14 @@ class Apis {
   static final String _createShiftSchedule = '$baseUrl/createSsGi?';
   static final String _assignGuards = '$baseUrl/assignGuards?';
   static final String _getNextAvailableDate = '$baseUrl/getNextAvailableDate?';
-
+  static final String _getRanksListByAssignedDutyPostId =
+      '$baseUrl/getRanksListByAssignedDutyPostId';
+  static final String _getShiftListByAssignedDutyPostId =
+      '$baseUrl/getShiftListByAssignedDutyPostId';
+  static final String _getAvailableSelectedGuardsByShift =
+      '$baseUrl/getAvailableSelectedGuardsByShift';
+  static final String _saveSelectedGuards = '$baseUrl/saveSelectedGuards?';
+  static final String _getNextAvailableReplacementDates = '$baseUrl/getNextAvailableReplacementDates';
 }
 
 class ShiftScheduleServices {
@@ -31,7 +37,6 @@ class ShiftScheduleServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
-
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
@@ -71,7 +76,8 @@ class ShiftScheduleServices {
     required int shiftId,
     required int dutyPostId,
   }) async {
-    final String url = '${Apis._getDutyPostAssignedId}?shiftInfoId=$shiftId&dutyPostId=$dutyPostId';
+    final String url =
+        '${Apis._getDutyPostAssignedId}?shiftInfoId=$shiftId&dutyPostId=$dutyPostId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -125,7 +131,6 @@ class ShiftScheduleServices {
     required bool isSubmit,
   }) async {
     final String url = "${Apis._assignGuards}&isSubmit=$isSubmit";
-    log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -133,8 +138,7 @@ class ShiftScheduleServices {
     return GenericResponse.fromJson(response);
   }
 
-
-  Future<NextAvailableDate> getNextAvailableDate({
+  Future<NextAvailableDateRange> getNextAvailableDate({
     required int locationId,
     required int vendorId,
   }) async {
@@ -144,7 +148,78 @@ class ShiftScheduleServices {
       url: url,
     );
 
-    return NextAvailableDate.fromJson(response);
+    return NextAvailableDateRange.fromJson(response);
+  }
 
+  Future<List<Organisation>> getRanksListByAssignedDutyPostId({
+    required int dutyPostId,
+  }) async {
+    String url = '${Apis._getRanksListByAssignedDutyPostId}/$dutyPostId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<List<Organisation>> getShiftListByAssignedDutyPostId({
+    required int dutyPostId,
+    required int rankId,
+  }) async {
+    String url =
+        '${Apis._getShiftListByAssignedDutyPostId}/$dutyPostId?rankId=$rankId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<Shift> getAvailableSelectedGuardsByShift({
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+  }) async {
+    String url =
+        '${Apis._getAvailableSelectedGuardsByShift}/$dutyPostId?rankId=$rankId&shiftId=$shiftId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return Shift.fromJson(response);
+  }
+
+
+  Future<NextAvailableDateRange> getNextAvailableReplacementDates({
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+    required int userId,
+  }) async {
+    String url =
+        '${Apis._getNextAvailableReplacementDates}/$dutyPostId?userId=$userId&rankId=$rankId&shiftId=$shiftId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return NextAvailableDateRange.fromJson(response);
+  }
+
+  Future<GenericResponse> saveSelectedGuards({
+    required ShiftRequest body,
+    required bool isSubmit,
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+  }) async {
+    final String url =
+        "${Apis._saveSelectedGuards}isSubmit=$isSubmit&shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId&shiftId=$shiftId";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
   }
 }

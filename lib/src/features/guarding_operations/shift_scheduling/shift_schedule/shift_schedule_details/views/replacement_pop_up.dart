@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
 
 class AddReplacementPopUp extends StatefulWidget {
   const AddReplacementPopUp({
@@ -9,12 +11,18 @@ class AddReplacementPopUp extends StatefulWidget {
     required this.model,
     required this.availableGuards,
     required this.selectedGuards,
+    this.dutyPostId,
+    this.rankId,
+    this.shiftId,
   });
 
   final BuildContext mainContext;
   final Replacement model;
   final List<BaseUser> availableGuards;
   final List<BaseUser> selectedGuards;
+  final int? dutyPostId;
+  final int? rankId;
+  final int? shiftId;
 
   @override
   State<AddReplacementPopUp> createState() => AddReplacementPopUpState();
@@ -33,6 +41,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
     super.initState();
     if (widget.model.id != null) {
       log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
+      if (widget.model.replacedFor != null) {
+        setDateRange(widget.model.replacedFor!);
+      }
       replacementForController.text = widget.model.replacedFor?.name ?? '';
       replacementByController.text = widget.model.replacementBy?.name ?? '';
       fromDateController.text = Utils.timestampToDateConversion(
@@ -42,13 +53,27 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
 
-    // if (widget.model.status != null) {
-    //   Label matchingLabel = reasonDropDownValues
-    //       .firstWhere((label) => label.value == widget.model.status.toString());
-    //
-    //   reasonController.text = matchingLabel.key;
-    // }
+    log('widget.model.status--${widget.model.status}----');
+    if (widget.model.status != null) {
+      Label matchingLabel = reasonDropDownValues
+          .firstWhere((label) => label.value == widget.model.status.toString());
+
+      reasonController.text = matchingLabel.key;
+    }
+    log('reasonController.text---${reasonController.text}----');
   }
+
+  Future<void> setDateRange(BaseUser user) async {
+    dates = await ShiftScheduleServices().getNextAvailableReplacementDates(
+      rankId: widget.rankId!,
+      userId: user.id!,
+      dutyPostId: widget.dutyPostId!,
+      shiftId: widget.shiftId!,
+    );
+    setState(() {});
+  }
+
+  NextAvailableDateRange? dates;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +104,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
                       TextFieldAddButton(
                         title: replacementForController.text,
                         height: 60,
@@ -88,7 +112,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           BaseOrganisationDialog().userDialog(
                             context: context,
                             users: widget.selectedGuards,
-                            onTap: (BaseUser user) {
+                            onTap: (BaseUser user) async {
                               // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                               //     .updateDropdownValuesReplacement(
                               //   replacementFor: user,
@@ -98,6 +122,21 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               // BlocProvider.of<ShiftScheduleDetailsCubit>(
                               //         widget.mainContext)
                               //     .updateReplacement(widget.model);
+
+                              if (widget.rankId != null) {
+                                dates = await ShiftScheduleServices()
+                                    .getNextAvailableReplacementDates(
+                                  rankId: widget.rankId!,
+                                  userId: user.id!,
+                                  dutyPostId: widget.dutyPostId!,
+                                  shiftId: widget.shiftId!,
+                                );
+                              }
+
+                              // BlocProvider.of<DutyPostDetailsCubit>(
+                              //         widget.mainContext)
+                              //     .getNextAvailableReplacementDates(
+                              //         userId: user.id!);
 
                               setState(() {
                                 log('-setstate-');
@@ -109,6 +148,92 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                      /// Reason
+                      CommonWidgets.textDisplay(
+                        Constants.reason,
+                        Styles.textStyleBlack14,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      BaseDropDown().getDropDown(
+                        isDisabled: false,
+                        textController: reasonController,
+                        items: reasonDropDownValues,
+                        onTap: () {
+                          BaseDropDown().assetTypeDialog(
+                            context: context,
+                            dropDownValues: reasonDropDownValues
+                                .map((label) => label.key)
+                                .toList(),
+                            onTap: (String value) {
+                              Label? selectedLabel;
+                              selectedLabel = reasonDropDownValues.firstWhere(
+                                (label) => label.key == value,
+                                orElse: () => const Label(key: '', value: ''),
+                              );
+                              widget.model.status =
+                                  int.tryParse(selectedLabel.value);
+                              reasonController.text = selectedLabel.key;
+                            },
+                          );
+                        },
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                      /// From Date
+                      CommonWidgets.textDisplay(
+                        // state.labels?.locale.dateOfBirth ??
+                        //  state.labels?.defaultLocale.dateOfBirth ??
+                        Constants.fromDate,
+                        isMandatory: true,
+                        Styles.textStyleBlack14,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      BaseDate().datePickerWidgetLoading(
+                        textController: fromDateController,
+                        onlyDate: true,
+                        showPastDate: false,
+                        fromDate: dates?.fromDate,
+                        toDate: dates?.toDate,
+                        onChange: (String value) {
+                          // state.model.fromDate = Utils().formatTime(value);
+                          // BlocProvider.of<ShiftScheduleDetailsCubit>(
+                          //     context)
+                          //     .onModelValueChange(state.model);
+
+                          widget.model.fromDate = Utils().formatTime(value);
+
+                          if (widget.model.status == 2) {
+                            toDateController.text = fromDateController.text;
+                            widget.model.toDate = Utils().formatTime(value);
+                          }
+                        },
+                        context: context,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                      /// To Date
+                      CommonWidgets.textDisplay(
+                        // state.labels?.locale.dateOfBirth ??
+                        //   state.labels?.defaultLocale.dateOfBirth ??
+                        Constants.toDate,
+                        isMandatory: true,
+                        Styles.textStyleBlack14,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                      BaseDate().datePickerWidgetLoading(
+                        textController: toDateController,
+                        onlyDate: true,
+                        showPastDate: false,
+                        fromDate: dates?.fromDate,
+                        toDate: dates?.toDate,
+                        onChange: (String value) {
+                          widget.model.toDate = Utils().formatTime(value);
+                        },
+                        context: context,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                       /// Replacement By
                       CommonWidgets.textDisplay(
                           // state.labels?.locale.guardRank ??
@@ -116,8 +241,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           Constants.replacementBy,
                           isMandatory: true,
                           Styles.textStyleBlack14),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       TextFieldAddButton(
                         title: replacementByController.text,
                         height: 60,
@@ -142,87 +267,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// From Date
-                      CommonWidgets.textDisplay(
-                        // state.labels?.locale.dateOfBirth ??
-                        //  state.labels?.defaultLocale.dateOfBirth ??
-                        Constants.fromDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: fromDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        onChange: (String value) {
-                          // state.model.fromDate = Utils().formatTime(value);
-                          // BlocProvider.of<ShiftScheduleDetailsCubit>(
-                          //     context)
-                          //     .onModelValueChange(state.model);
-
-                          widget.model.fromDate = Utils().formatTime(value);
-                        },
-                        context: context,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// To Date
-                      CommonWidgets.textDisplay(
-                        // state.labels?.locale.dateOfBirth ??
-                        //   state.labels?.defaultLocale.dateOfBirth ??
-                        Constants.toDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: toDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        onChange: (String value) {
-                          widget.model.toDate = Utils().formatTime(value);
-                        },
-                        context: context,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Reason
-                      CommonWidgets.textDisplay(
-                        Constants.reason,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      BaseDropDown().getDropDown(
-                          isDisabled: false,
-                          textController: reasonController,
-                          items: reasonDropDownValues,
-                          initialValue: '',
-                          onTap: () {
-                            BaseDropDown().assetTypeDialog(
-                                context: context,
-                                dropDownValues: reasonDropDownValues
-                                    .map((label) => label.key)
-                                    .toList(),
-                                onTap: (String value) {
-                                  Label? selectedLabel;
-                                  selectedLabel =
-                                      reasonDropDownValues.firstWhere(
-                                    (label) => label.key == value,
-                                    orElse: () =>
-                                        const Label(key: '', value: ''),
-                                  );
-                                  widget.model.status =
-                                      int.tryParse(selectedLabel.value);
-                                  reasonController.text = selectedLabel.key;
-                                });
-                          }),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       buttonViews(widget.mainContext, width),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -255,8 +299,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       textStyle: Styles.styleHeaderGreyText16,
       boarderColor: AppColors.textgreyThemecolor,
       onTap: () {
-
-
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
       },
@@ -272,7 +314,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<ShiftScheduleDetailsCubit>(widget.mainContext)
+        BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
             .updateReplacement(widget.model);
         Navigator.pop(context);
       },

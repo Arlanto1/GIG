@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/add_poc_pop_up.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/duty_post_details_newwwww.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
   const ShiftScheduleDetailsView({
@@ -72,20 +73,18 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
-                create: (_) => ShiftScheduleDetailsCubit(
-                  mainDutyPostModel:
-                      state.selectedDutyPostModel ?? DutyPostModel(),
+              builder: (context) => BlocProvider<DutyPostDetailsCubit>(
+                create: (_) => DutyPostDetailsCubit(
+                  parentModel: state.selectedDutyPostModel ?? DutyPostModel(),
                   id: state.model.id.toString(),
                 ),
-                child: DutyPostDetailsView(
+                child: DutyPostDetailsNewwwww(
                   model: state.selectedDutyPostModel ?? DutyPostModel(),
                 ),
               ),
             ),
           );
         }
-
       },
       builder: (context, state) {
         if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
@@ -254,16 +253,24 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           AbsorbPointer(
-                              absorbing: state.model.status == null || state.model.status == ConstantsIntValue.draft ? false:true,
-                              child:BaseLocationDropdown().locationWidgetDisplay(
-                                  context: context,
-                                  locations: state.locations ?? Locations(),
-                                  selectedLocationName:
-                                  state.model.location?.name ?? '',
-                                  onTap: (Organisation? location) {
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                                        .updateDropdownValues(location: location);
-                                  })),
+                              absorbing: state.model.status == null ||
+                                      state.model.status ==
+                                          ConstantsIntValue.draft
+                                  ? false
+                                  : true,
+                              child: BaseLocationDropdown()
+                                  .locationWidgetDisplay(
+                                      context: context,
+                                      locations: state.locations ?? Locations(),
+                                      selectedLocationName:
+                                          state.model.location?.name ?? '',
+                                      onTap: (Organisation? location) {
+                                        BlocProvider.of<
+                                                    ShiftScheduleDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                location: location);
+                                      })),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -287,27 +294,36 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           TextFieldAddButton(
                             title: state.model.vendor?.name,
                             height: 60,
-                            isDisableColor: state.model.status ==null || state.model.status == ConstantsIntValue.draft ?false:true,
+                            isDisableColor: state.model.status == null ||
+                                    state.model.status ==
+                                        ConstantsIntValue.draft
+                                ? false
+                                : true,
                             onTap: () {
-                              if(state.model.status ==null || state.model.status == ConstantsIntValue.draft){
-                              BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.vendors,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            vendor: department);
-                                  },
-                                  orgName: 'ATOM_VENDORS',
-                                  createEntity: false,
-                                  title: 'Add Vendors',
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                            context)
-                                        .refreshList();
-                                });}
+                              if (state.model.status == null ||
+                                  state.model.status ==
+                                      ConstantsIntValue.draft) {
+                                BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.vendors,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<
+                                                  ShiftScheduleDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              vendor: department);
+                                    },
+                                    orgName: 'ATOM_VENDORS',
+                                    createEntity: false,
+                                    title: 'Add Vendors',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  ShiftScheduleDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              }
                             },
                           ),
 
@@ -328,7 +344,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               items: shiftDutyTypeDropDownValues,
                               initialValue: state.model.dutyType.toString(),
                               onTap: () {
-                                if (state.model.status !=-1) {
+                                if (state.model.status != -1) {
                                   BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues:
@@ -363,42 +379,46 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          if(state.model.status ==null || state.model.status ==ConstantsIntValue.draft)...[
-                          GestureDetector(
-                            onTap: () {
-                              log('--onTap------');
-                              if (state.model.status == null ||
-                                  state.model.status == ConstantsIntValue.draft) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return AddPOCPopUp(
-                                      model: model,
-                                      mainContext: context,
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                const SizedBox(width: 14),
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  color: AppColors.navigationSkybluecolor,
-                                ),
-                                // ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  Constants.addPOC,
-                                  style: TextStyle(
+                          if (state.model.status == null ||
+                              state.model.status ==
+                                  ConstantsIntValue.draft) ...[
+                            GestureDetector(
+                              onTap: () {
+                                log('--onTap------');
+                                if (state.model.status == null ||
+                                    state.model.status ==
+                                        ConstantsIntValue.draft) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return AddPOCPopUp(
+                                        model: model,
+                                        mainContext: context,
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
                                     color: AppColors.navigationSkybluecolor,
-                                    decoration: TextDecoration.underline,
                                   ),
-                                ),
-                              ],
+                                  // ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    Constants.addPOC,
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),],
+                          ],
                           Column(
                             children: getPOCs(state, height),
                           ),
@@ -482,29 +502,30 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                           ],
 
                           /// List of Duty Posts
-                          DutyPostListWidget(
-                              dutyPosts: state.dutyPosts ?? [],
-                              onTap: (int? id, int? dustyPostNameId) {
+                          if (!state.model.fromDate.isEmptyOrNull &&
+                              !state.model.toDate.isEmptyOrNull) ...[
+                            DutyPostListWidget(
+                                dutyPosts: state.dutyPosts ?? [],
+                                onTap: (int? id, int? dustyPostNameId) {
+                                  log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
 
-                                log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+                                  if (dustyPostNameId != null) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      navigateToNextScreen: true,
+                                      dutyPostNameId: dustyPostNameId,
+                                    );
+                                  }
 
-                                if ( dustyPostNameId != null) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                    dutyPostNameId: dustyPostNameId,
-                                  );
-                                }
-
-                                if (id != null) {
-                                  BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                          context)
-                                      .getDutyPostById(id);
-                                }
-                              }),
-
+                                  if (id != null) {
+                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                            context)
+                                        .getDutyPostById(id);
+                                  }
+                                }),
+                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// SubmitButton
@@ -512,9 +533,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
-                              if(state.model.status !=-1)...[
-                              submitButtonDisplay()
-    ],
+                              if (state.model.status != -1) ...[
+                                submitButtonDisplay()
+                              ],
                             ],
                           ),
 
@@ -551,18 +572,22 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 textAlign: TextAlign.start,
               ),
             ),
-            if(state.model.status== null || state.model.status == ConstantsIntValue.draft)...[
+            if (state.model.status == null ||
+                state.model.status == ConstantsIntValue.draft) ...[
               IconButton(
-              icon: const Icon(Icons.close), // Cancel icon
-              onPressed: () {
-                if(state.model.status ==null || state.model.status == ConstantsIntValue.draft) {
-                  // Remove the POC from the state
-                  state.pocs?.remove(poc);
-                  // Trigger UI update
-                  BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                      .onCheckBoxChange(state.model);
-                } },
-            ),]
+                icon: const Icon(Icons.close), // Cancel icon
+                onPressed: () {
+                  if (state.model.status == null ||
+                      state.model.status == ConstantsIntValue.draft) {
+                    // Remove the POC from the state
+                    state.pocs?.remove(poc);
+                    // Trigger UI update
+                    BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                        .onCheckBoxChange(state.model);
+                  }
+                },
+              ),
+            ]
           ],
         ),
       );

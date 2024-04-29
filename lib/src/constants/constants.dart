@@ -177,6 +177,7 @@ class Constants {
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
+  static const String deleteAllNotifications = 'Delete All';
   static const String deleteAllNotificationWarningMessage = 'Are you sure, do you want to delete all notifications';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
@@ -489,6 +490,7 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String selectForShift = 'Select For Shift: ';
   static const String zone = 'Zone';
   static const String areaNameManager = 'Area  Manager Name';
   static const String guardName = 'Name';

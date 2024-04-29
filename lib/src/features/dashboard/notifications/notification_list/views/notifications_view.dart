@@ -54,7 +54,7 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   void deleteAllNotification() {
     var dialog = CustomAlertDialog(
-        title: Constants.logout,
+        title: Constants.deleteAllNotifications,
         message: Constants.deleteAllNotificationWarningMessage,
         onPositivePressed: () {
           BlocProvider.of<nb.NotificationsBloc>(context)

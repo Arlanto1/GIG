@@ -14,7 +14,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final List<DutyPostModel>? dutyPosts;
   final SSUiLabels? labels;
   final List<String>? pocs;
-  final NextAvailableDate? availableDate;
+  final NextAvailableDateRange? availableDate;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -141,7 +141,7 @@ class ShiftScheduleDetailsState extends Equatable {
     List<DutyPostModel>? dutyPosts,
     final SSUiLabels? labels,
     List<String>? pocs,
-    NextAvailableDate? availableDate,
+    NextAvailableDateRange? availableDate,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
