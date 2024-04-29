@@ -218,7 +218,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  if (state.getSerialnumberResponse != null) {
+                  if (state.getSerialnumberResponse != null &&  widget.model == null) {
                     serialnumber =
                         state.getSerialnumberResponse?.serialNo ?? "";
                   }
