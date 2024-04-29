@@ -1694,7 +1694,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         0 ||
                                                     widget.model?.status ==
                                                         null) &&
-                                                (widget.extraProperties !=
+                                                !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
                                                         .hasWritePermission!)
