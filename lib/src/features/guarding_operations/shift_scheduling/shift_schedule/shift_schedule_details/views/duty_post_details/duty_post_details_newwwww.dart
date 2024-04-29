@@ -67,7 +67,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: widget.model?.name??'',
+            title: widget.model?.name ?? '',
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
@@ -268,12 +268,25 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           isSourceList: isSourceList,
           selectedGuards: shift.selectedGuards ?? [],
           maxAllowed: shift.allowed ?? 0,
-          onAdd: (BaseUser guard) {
+          onAdd: (BaseUser user) {
+            if (!user.description.isEmptyOrNull) {
+              var dialog = CustomAlertDialog(
+                // title: Constants.deleteAllNotifications,
+                message: user.description,
+                onPositivePressed: () {
+                  Navigator.pop(context);
+                },
+                positiveBtnText: Constants.ok,
+              );
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+            }
+
             setState(() {
               shift.availableGuards = List.from(shift.availableGuards!)
-                ..remove(guard);
+                ..remove(user);
               shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(guard);
+                ..add(user);
             });
           },
           onRemove: (BaseUser guard) {
@@ -370,7 +383,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
-
           ),
           child: Row(
             children: <Widget>[
@@ -391,7 +403,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             ],
           ),
         ),
-        if (state.model.replacements != null && state.model.replacements!.isNotEmpty) ...[
+        if (state.model.replacements != null &&
+            state.model.replacements!.isNotEmpty) ...[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Column(
