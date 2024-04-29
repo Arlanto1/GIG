@@ -127,7 +127,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-        PowerFailure powerFailure = PowerFailure();
+        PowerFailureModel powerFailure = PowerFailureModel();
         String powerFailureStartDate = powerFailureStartDateController.text;
         String powerFailureEndDate = powerFailureEndDateController.text;
         if (!powerFailureStartDate.isEmptyOrNull) {

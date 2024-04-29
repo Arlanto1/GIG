@@ -10,13 +10,13 @@ class OccurrenceGeneralInfoState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
-  final List<PowerFailure>? participationDates;
+  final List<PowerFailureModel>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
   final bool? isReadOnly;
   final OCCUiLabels? labels;
-
+  final bool? isOnGoingPowerFailure;
 
   factory OccurrenceGeneralInfoState.initial({
     required OccurrenceModel model,
@@ -31,7 +31,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
-    List<PowerFailure>? participationDate,
+    List<PowerFailureModel>? participationDate,
   }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
@@ -144,7 +144,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const OccurrenceGeneralInfoState({
+  const OccurrenceGeneralInfoState( {
     required this.status,
     required this.model,
     this.locations,
@@ -159,7 +159,8 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.isReadOnly,
-    this.labels
+    this.labels,
+    this.isOnGoingPowerFailure,
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -172,11 +173,12 @@ class OccurrenceGeneralInfoState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
-    List<PowerFailure>? participationDates,
+    List<PowerFailureModel>? participationDates,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
     bool? isReadOnly,
+    bool? isOnGoingPowerFailure,
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -193,6 +195,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       isReadOnly: isReadOnly ?? this.isReadOnly,
+      isOnGoingPowerFailure: isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
     );
   }
 }

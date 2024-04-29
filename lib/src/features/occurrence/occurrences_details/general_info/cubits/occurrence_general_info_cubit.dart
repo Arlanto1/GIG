@@ -129,6 +129,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       List<User> entrySecurities = await commonServices.getUsers();
+      bool isOnGoingPowerFailure = false;
 
       if (model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -146,12 +147,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
-            PowerFailure powerFailure = PowerFailure();
+            PowerFailureModel powerFailure = PowerFailureModel();
             powerFailure.powerFailureStartDate =
                 Utils.timestampToDateConversion(
-                    int.tryParse(powerFailureModel.powerFailureStartDate),
+                    int.tryParse(powerFailureModel.powerFailureStartDate??''),
                     Constants.fulldateFormat);
 
+            isOnGoingPowerFailure = true;
             if (model.powerFailures.isEmptyOrNull) {
               model.powerFailures = [];
             }
@@ -180,6 +182,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+            isOnGoingPowerFailure:isOnGoingPowerFailure,
         ),
       );
       isFormReadable();
@@ -374,11 +377,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    // state.model.inputDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
-    log('-state.model.inputDate---${state.model.inputDate}----');
-
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {
       dateTime =
@@ -471,7 +469,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         id: id, module: Constants.occurrenceModule);
   }
 
-  void deletePowerFailure(PowerFailure powerFailure) {
+  void deletePowerFailure(PowerFailureModel powerFailure) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     state.model.powerFailures?.remove(powerFailure);
