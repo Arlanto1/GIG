@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:intl/intl.dart';
 
 class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;

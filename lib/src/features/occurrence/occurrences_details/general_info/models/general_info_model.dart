@@ -1,8 +1,5 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/incident_management/models/incidents_response.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'general_info_model.g.dart';
 
