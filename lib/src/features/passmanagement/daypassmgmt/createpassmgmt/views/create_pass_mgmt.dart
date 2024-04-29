@@ -3153,7 +3153,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.hostResponse?.userInfo,
+      title: state.hostResponse?.userInfo ??state.hostResponse?.name ,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model?.status == null &&
@@ -3226,7 +3226,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget dbsponsoraddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.dbsponsorResponse?.userInfo ?? '',
+      title: state.dbsponsorResponse?.userInfo ?? state.dbsponsorResponse?.name,
       height: 60,
       isDisableColor: widget.model?.status != 0 &&
               widget.model != null &&
