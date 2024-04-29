@@ -28,14 +28,11 @@ class BaseEntitiesSelection {
         title = '$title  $value';
       }
     }
-
     return TextFieldAddButton(
       title: title,
-      height: (selectedValues.length) > 4
-          ? (selectedValues.length) > 9
-              ? 140
-              : 100
-          : 60,
+      height: (selectedValues.length) > 3?
+               110
+          : 70,
       isDisableColor: !enabled,
       onTap: () {
         if (enabled) {

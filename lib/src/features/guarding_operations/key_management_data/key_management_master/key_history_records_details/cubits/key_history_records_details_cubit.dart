@@ -223,16 +223,20 @@ class KeyHistoryRecordsDetailsCubit
       state.model.status = 0;
     }
 
+
+    state.model.createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // Setting time in milliseconds
-    DateTime dateTime;
-    if (!Utils().isTimestamp(state.model.createdDate!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
-      state.model.createdDate = inputDate.toString();
-    }
+    // DateTime dateTime;
+    // if (!Utils().isTimestamp(state.model.createdDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+    //   int inputDate = dateTime
+    //       .toUtc()
+    //       .millisecondsSinceEpoch ~/ 1000;
+    //   state.model.createdDate = inputDate.toString();
+    // }
     state.model.modifiedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
@@ -319,6 +323,11 @@ class KeyHistoryRecordsDetailsCubit
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.createdDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

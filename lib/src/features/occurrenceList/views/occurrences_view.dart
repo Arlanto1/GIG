@@ -90,7 +90,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.shiftOccurrence,
+              title: Constants.occurrenceList,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,

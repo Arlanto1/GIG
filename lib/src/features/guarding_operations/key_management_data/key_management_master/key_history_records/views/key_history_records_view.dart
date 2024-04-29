@@ -65,8 +65,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: (state.extraProperties?.hasWritePermission ??
-                        false) &&
+            floatingActionButton:
                     widget.model?.status != -1
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkybluecolor,
@@ -191,9 +190,9 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                 },
                                 onEditTap: (selectedIndex) {
                                   getById(
-                                      state.extraProperties
-                                              ?.hasWritePermission ??
-                                          false,
+                                      // state.extraProperties
+                                      //         ?.hasWritePermission ??
+                                      //     false,
                                       state.list[index].id ?? 0);
                                 },
                                 showEditButton: true,
@@ -234,18 +233,18 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     );
   }
 
-  getById(bool hasWritePermission, int id) async {
+  getById( int id) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyHistoryModel, hasWritePermission);
+    editDataLoading(keyHistoryModel );
   }
 
   void editDataLoading(
     KeyHistoryModel keyHistoryModel,
-    bool hasWritePermission,
+
   ) {
     dismissLoadingDialog(context);
     Navigator.pushNamed(
@@ -265,8 +264,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
         ConstantsArgument.type: widget.type,
-        ConstantsArgument.extraProperties:
-            ExtraProperties(hasWritePermission: hasWritePermission),
+        // ConstantsArgument.extraProperties:
+        //     ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }

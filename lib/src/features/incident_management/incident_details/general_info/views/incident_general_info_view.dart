@@ -8,7 +8,6 @@ class IncidentGeneralInfoView extends StatefulWidget {
     super.key,
     required this.viaOccurrence,
     this.extraProperties,
-
   });
 
   final bool viaOccurrence;
@@ -84,7 +83,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           //     context, state.message ?? '', 'Material Movement', '');
         }
         log('--state.message-----${state.message}-');
-
       },
       builder: (context, state) {
         state.model.status ??= 0;
@@ -103,8 +101,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: !disableForm ,
-            showSubmitButton: !disableForm ,
+            showSaveButton: !disableForm,
+            showSubmitButton: !disableForm,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -140,8 +138,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           DateFormat(Constants.fulldateFormat).format(futureDate);
       closureTargetDateController.text = formattedDate;
       state.model.closureTargetDate = closureTargetDateController.text;
-    }
-    else{
+    } else {
       closureTargetDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
           Constants.fulldateFormat);
@@ -356,7 +353,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Asset Type
-                            if (state.model.incidentType == null ||state.model.incidentType == 0 ||
+                            if (state.model.incidentType == null ||
+                                state.model.incidentType == 0 ||
                                 state.model.incidentType == 1) ...[
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.typeOfAsset ??
@@ -495,7 +493,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.complainant?.userInfo??state.model.complainant?.name,
+                                title: state.model.complainant?.userInfo ??
+                                    state.model.complainant?.name,
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -583,12 +582,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                               /// Complainant Department
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.complainantDepartment ??
-                                    state.labels?.defaultLocale
-                                        .complainantDepartment ??
-                                    Constants.complaintDepartment,
-                                Styles.textStyleBlack14,
-                              ),
+                                  state.labels?.locale.complainantDepartment ??
+                                      state.labels?.defaultLocale
+                                          .complainantDepartment ??
+                                      Constants.complaintDepartment,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.complainantDepartment?.name,
                                 height: 70,
@@ -628,7 +627,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.complainantHr?.userInfo??state.model.complainantHr?.name,
+                              title: state.model.complainantHr?.userInfo ??
+                                  state.model.complainantHr?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -729,7 +729,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentManager?.userInfo??state.model.incidentManager?.name,
+                              title: state.model.incidentManager?.userInfo ??
+                                  state.model.incidentManager?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null
@@ -770,7 +771,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.incidentOwner?.userInfo??state.model.incidentOwner?.name,
+                              title: state.model.incidentOwner?.userInfo ??
+                                  state.model.incidentOwner?.name,
                               height: 70,
                               isDisableColor: state.model.status == 0 ||
                                       state.model.status == null

@@ -680,7 +680,7 @@ class _KeyManagementMasterDetailsViewState
                               widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
                               widget.model!.noMasterKey! > 0 &&
-                              state.model.status != null) ...[
+                              state.model.status != null && widget.model?.id != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
