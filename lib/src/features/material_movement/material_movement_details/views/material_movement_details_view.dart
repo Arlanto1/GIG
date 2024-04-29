@@ -530,7 +530,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                            isMandatory: widget.model == null ? false : true,
+                              isMandatory:true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -573,7 +573,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory: widget.model == null ? false : true,
+                            isMandatory:true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
