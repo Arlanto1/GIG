@@ -77,10 +77,11 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         ViolationPenaltyRecordState>(listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
+      log('permission ${state.extraProperties?.hasWritePermission}');
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: state.extraProperties?.hasWritePermission ?? false
-            ?Flutterfloatingbutton(
+            ? Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {

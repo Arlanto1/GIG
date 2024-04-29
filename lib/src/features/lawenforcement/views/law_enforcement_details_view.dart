@@ -218,7 +218,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  if (state.getSerialnumberResponse != null) {
+                  if (state.getSerialnumberResponse != null &&  widget.model == null) {
                     serialnumber =
                         state.getSerialnumberResponse?.serialNo ?? "";
                   }
@@ -1082,7 +1082,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
-              : actualDateTextController.text;
+              :  actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestampToDateConversion(
@@ -1098,7 +1098,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   ? "Verification Under Process"
                   : widget.model?.status == 3
                       ? "Distributed"
-                      : "Cancelled";
+                      : widget.model?.status == -1
+    ?'Cancelled':'';
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
@@ -1447,9 +1448,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         .format(pickedDate ?? DateTime.now());
     log(formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == actualDateTextController) {
-      actualDateTextController.text = formattedDate;
-    }
+    // if (textfield == actualDateTextController) {
+    //   actualDateTextController.text = formattedDate;
+    // }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -1894,7 +1895,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1916,7 +1917,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,

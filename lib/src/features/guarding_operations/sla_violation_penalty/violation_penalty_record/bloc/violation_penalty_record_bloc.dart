@@ -32,27 +32,27 @@ class ViolationPenaltyRecordBloc
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        commonServices: commonServices,
+      );
       List<Organisation> violationDescriptions =
           await commonServices.getOrganisations(name: violationDescription);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
-        commonServices: commonServices,
-      );
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       Map<String, dynamic> staffCategoriesValues =
           await SLAViolationPenaltyServices().getStaffCategoriesValues();
       return emit(
         state.copyWith(
+          extraProperties: extraProperties,
           violationDescriptions: violationDescriptions,
           hasReachedMax: false,
           labels: labels,
           staffCategoriesValues: staffCategoriesValues,
-          extraProperties: extraProperties,
         ),
       );
     }on GenericResponse catch (e) {
