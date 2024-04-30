@@ -197,7 +197,8 @@ class _AnnualPowerShutdownListViewState
                                     labels: labels,
                                     status: state.items[index].status,
                                     isMasterGuard: false,
-                                    onTap: (selectedIndex) {
+                              isEventProtectionStatus: true,
+                              onTap: (selectedIndex) {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext dialogContext) {
@@ -210,6 +211,7 @@ class _AnnualPowerShutdownListViewState
                                             status: state
                                                 .items[selectedIndex].status,
                                             isMasterGuard: false,
+                                            isEventProtectionStatus: true,
                                             epManager1Name: state
                                                 .items[selectedIndex]
                                                 .epManager1Name,
@@ -239,6 +241,7 @@ class _AnnualPowerShutdownListViewState
                                                 state.items[selectedIndex].slNo,
                                             status: state
                                                 .items[selectedIndex].status,
+                                            isEventProtectionStatus: true,
                                             // epManager1Name:
                                             // state.items[selectedIndex].epManager1Name,
                                             // eventType:

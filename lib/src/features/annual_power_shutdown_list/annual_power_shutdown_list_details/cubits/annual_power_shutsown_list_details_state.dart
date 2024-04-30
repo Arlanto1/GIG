@@ -224,6 +224,18 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           status: false,
           message: 'Please enter Total Duty Hours for Security Supervisor');
     }
+
+    if (model.extraSecurityDeployed == true &&
+        model.securityGuardCount == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No. Of Security Guard');
+    }
+    if (model.extraSecurityDeployed == true &&
+        model.securityGuardCountHrs == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Total Duty Hours for Security Guard');
+    }
     if (model.extraSecurityDeployed == true &&
         model.securityGuardCount == null) {
       return const ErrorResponse(
