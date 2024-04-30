@@ -148,8 +148,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       body: BlocConsumer<CreatePassMgmtCubit, CreatePassMgmtState>(
         listener: (context, state) {
           log('-state.stateType---${state.stateType}----');
-          Utils().formError(state, context);
-          Utils().errorAndLogout(state, context);
+          // Utils().formError(state, context);
+          // Utils().errorAndLogout(state, context);
 
           if (state.stateType == CreatePassMgmtStateType.successFormSubmit) {
             var dialog = CustomAlertDialog(
