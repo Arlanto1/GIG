@@ -1364,6 +1364,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   initialValue: state.model.guardingVendorPoc,
                                   textFormKey: Keys.vendorAgencyPOCKey,
                                   hintText: '',
+                                  textCapitalization: false,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   onChange: (String value) {
