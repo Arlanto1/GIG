@@ -3883,7 +3883,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     }
     else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
-        widget.passId == ConstantsIntValue.passIdSez) && state.selectedCompanyType?.name != null ) {
+        widget.passId == ConstantsIntValue.passIdSez) && state.selectedCompanyType?.name == null ) {
       Validator().showToast(
         context,
         "Please enter company type",
