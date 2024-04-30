@@ -387,17 +387,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      // if (widget.status != null &&
-      //     !widget.isMasterGuard &&
-      //     !widget.isOccurrenceStatus &&
-      //     !widget.isEventProtectionStatus &&
-      //     !widget.isSLAViolationStatus &&
-      //     !widget.isKeyManagementIssuanceStatus &&
-      //     !widget.isKeyManagementStatus &&
-      //     !widget.isVipStatus &&
-      //     !widget.isSecuritySystemSLAStatus &&
-      //     !widget.isIncident &&
-      //     !widget.isContactDetailsStatus) ...[
+
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(

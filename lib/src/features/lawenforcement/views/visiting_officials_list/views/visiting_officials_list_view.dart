@@ -199,8 +199,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showEditButton: widget.showSaveButton,
-                    showDutyPostEditButton: false,
+                    showEditButton: widget.showSaveButton ? false:true,
+                    showDutyPostEditButton: widget.showSaveButton ? true:false,
                     onEditTap: (selectedIndex) async {
                       LawVisitingOfficial model = await LawEnforcementServices()
                           .getLeoVisitingOfficialById(
