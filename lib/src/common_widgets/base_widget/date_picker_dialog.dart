@@ -131,12 +131,22 @@ class BaseDate {
     }
 
     log('-onlyDate---$onlyDate-');
-    if (onlyDate && !fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+    if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+      log('---fromDate---$fromDate-@@@@----');
+      log('---toDate---$toDate-@@@@----');
+
+      fromDate = Utils().formatTime(fromDate!);
+      toDate = Utils().formatTime(toDate!);
+      log('-@@--fromDate---$fromDate-@@@@----');
+      log('-@@--toDate---$toDate-@@@@----');
+      toDate = Utils().formatUnixTimestamp(toDate);
+
+
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
-        minTime: DateTime.parse(fromDate!),
-        maxTime: DateTime.parse(toDate!),
+        minTime: DateTime.parse(fromDate),
+        maxTime: DateTime.parse(toDate),
         onChanged: (date) {
           pickedDate = date;
           log('change $date');
@@ -145,6 +155,10 @@ class BaseDate {
           pickedDate = date;
           log('confirm $date');
           if (pickedDate != null) {
+            if(!onlyDate) {
+              showTimePicker(
+                  context, pickedDate!, onlyDate, textController, onChange);
+            }
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
@@ -263,6 +277,25 @@ class BaseDate {
     textController.text = formattedDate;
     onChange(formattedDate);
     log('--formattedDate-sss-$formattedDate--');
+    return formattedDate;
+  }
+
+  String parseToDate(String toDate) {
+    log('-String toDate-----$toDate--');
+    // Split the input string by the separator '-'
+    List<String> components = toDate.split('/');
+
+    // Extract the year, month, and day components
+    int year = int.parse(components[0]);
+    int month = int.parse(components[1]);
+    int day = int.parse(components[2]);
+
+    // Create a DateTime object with the extracted components
+    DateTime dateTime = DateTime(year, month, day);
+
+    // Format the DateTime object as needed
+    String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+
     return formattedDate;
   }
 }

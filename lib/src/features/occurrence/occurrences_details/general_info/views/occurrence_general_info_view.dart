@@ -1206,8 +1206,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                             .showFields(powerFailure: true);
                                       },
                                 onChangedNo: !showSaveSubmitButtons ||
-                                    (state.model.id == null &&
-                                        state.isOnGoingPowerFailure!)
+                                        (state.model.id == null &&
+                                            state.isOnGoingPowerFailure!)
                                     ? null
                                     : (val) {
                                         state.model.powerFailure = false;
@@ -1250,7 +1250,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     builder: (BuildContext dialogContext) {
                                       return AddDatePopUp(
                                         mainContext: context,
-                                        onSubmit: (PowerFailureModel powerFailure) {
+                                        onSubmit:
+                                            (PowerFailureModel powerFailure) {
                                           // log('----powerFailure----${powerFailure.powerFailureStartDate}----');
                                           if (state.model.powerFailures
                                               .isEmptyOrNull) {
@@ -1682,7 +1683,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     List<Widget> widgets = [];
 
     log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
-
     for (PowerFailureModel powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
@@ -1709,8 +1709,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             isDisabled: state.model.id == null &&
                                 state.isOnGoingPowerFailure!,
                             onlyDate: false,
+                            showFutureDate: false,
                             onChange: (String value) {
-                              powerFailure.powerFailureEndDate =
+                              powerFailure.powerFailureStartDate =
                                   Utils.dateToTimestampConversion(
                                           value, Constants.fulldateFormat)
                                       .toString();
@@ -1733,7 +1734,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(
-                                      value, Constants.fulldateFormat)
+                                          value, Constants.fulldateFormat)
                                       .toString();
                               // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                               //     .onModelValueChange(state.model);

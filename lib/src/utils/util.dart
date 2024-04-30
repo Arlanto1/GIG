@@ -137,18 +137,23 @@ class Utils {
 
   String formatTime(String dateTimeString) {
     log('Formatting Date: $dateTimeString');
-    // if the dateTimeString is already unixTimestamp
-    if (dateTimeString.length == 10 &&
-        dateTimeString.contains(RegExp(r'^\d+$'))) {
-      return dateTimeString;
+
+    // Check if the input string is a Unix timestamp
+    if (dateTimeString.length == 10 && dateTimeString.contains(RegExp(r'^\d+$'))) {
+      // Convert Unix timestamp to DateTime
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
+      return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
     }
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
+      'dd/MM/yyyy HH:mm:ss',
       'dd/MM/yyyy hh:mm:ss a',
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
+      'yyyy-MM-dd HH:mm:ss.SSS',
     ];
 
+    // Try parsing the input string using each format
     for (final format in dateFormats) {
       try {
         final dateTime = DateFormat(format).parse(dateTimeString);
