@@ -79,10 +79,14 @@ class Utils {
   }
 
   static dynamicAlert(
-      BuildContext context, String messgae, String title, String error) {
+    BuildContext context,
+    String message,
+    String title,
+    String error,
+  ) {
     var dialog = CustomAlertDialog(
       title: title,
-      message: messgae,
+      message: message,
       positiveBtnText: Constants.ok,
       onPositivePressed: () {
         if (error.isNotEmpty) {

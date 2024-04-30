@@ -1,7 +1,5 @@
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/incidents_response.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'general_info_model.g.dart';
 
@@ -75,7 +73,7 @@ class OccurrenceModel {
   bool dgWrking;
   // String? modifiedDate;
   String? modifiedBy;
-  List<PowerFailure>? powerFailures;
+  List<PowerFailureModel>? powerFailures;
   List<IncidentModel>? incidentItems;
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
@@ -135,25 +133,25 @@ class OccurrenceModel {
 
 }
 
-class PowerFailure {
-  int? id;
-  String? powerFailureStartDate;
-  String? powerFailureEndDate;
-
-  PowerFailure({
-    this.id,
-    this.powerFailureStartDate,
-    this.powerFailureEndDate,
-  });
-
-  PowerFailure.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        powerFailureStartDate = json['powerFailureStartDate'] as String?,
-        powerFailureEndDate = json['powerFailureEndDate'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'powerFailureStartDate' : powerFailureStartDate,
-    'powerFailureEndDate' : powerFailureEndDate
-  };
-}
+// class PowerFailure {
+//   int? id;
+//   String? powerFailureStartDate;
+//   String? powerFailureEndDate;
+//
+//   PowerFailure({
+//     this.id,
+//     this.powerFailureStartDate,
+//     this.powerFailureEndDate,
+//   });
+//
+//   PowerFailure.fromJson(Map<String, dynamic> json)
+//       : id = json['id'] as int?,
+//         powerFailureStartDate = json['powerFailureStartDate'] as String?,
+//         powerFailureEndDate = json['powerFailureEndDate'] as String?;
+//
+//   Map<String, dynamic> toJson() => {
+//     'id' : id,
+//     'powerFailureStartDate' : powerFailureStartDate,
+//     'powerFailureEndDate' : powerFailureEndDate
+//   };
+// }

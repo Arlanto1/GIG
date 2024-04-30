@@ -1194,7 +1194,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue: state.model.powerFailure ? 1 : 0,
-                                onChangedYes: !showSaveSubmitButtons
+                                onChangedYes: !showSaveSubmitButtons ||
+                                        (state.model.id == null &&
+                                            state.isOnGoingPowerFailure!)
                                     ? null
                                     : (val) {
                                         state.model.powerFailure = true;
@@ -1203,7 +1205,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(powerFailure: true);
                                       },
-                                onChangedNo: !showSaveSubmitButtons
+                                onChangedNo: !showSaveSubmitButtons ||
+                                    (state.model.id == null &&
+                                        state.isOnGoingPowerFailure!)
                                     ? null
                                     : (val) {
                                         state.model.powerFailure = false;
@@ -1212,86 +1216,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(powerFailure: false);
                                       }),
-
-                            // if (state.model.powerFailure == true) ...[
-                            //   /// Power Failure Start Date
-                            //   CommonWidgets.textDisplay(
-                            //     Constants.powerFailureDate,
-                            //     Styles.textStyleBlack14,
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //
-                            //   BaseDate().datePickerWidgetLoading(
-                            //     onlyDate: false,
-                            //     showFutureDate: false,
-                            //     textController:
-                            //         powerFailureStartDateController,
-                            //     onChange: (String value) {
-                            //       state.model.powerFailureStartDate =
-                            //           Utils().formatTime(value);
-                            //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                            //               context)
-                            //           .onModelValueChange(state.model);
-                            //     },
-                            //     context: context,
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.01),
-                            //
-                            //   /// Power Failure End Date
-                            //   CommonWidgets.textDisplay(
-                            //     Constants.powerFailureEndDate,
-                            //     Styles.textStyleBlack14,
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //   //
-                            //   BaseDate().datePickerWidgetLoading(
-                            //     textController: powerFailureEndDateController,
-                            //     onlyDate: false,
-                            //     onChange: (String value) {
-                            //       state.model.powerFailureEndDate =
-                            //           Utils().formatTime(value);
-                            //       BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                            //               context)
-                            //           .onModelValueChange(state.model);
-                            //     },
-                            //     context: context,
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.01),
-                            //
-                            //   ///DG Working
-                            //   CommonWidgets.textDisplay(
-                            //       Constants.dgWrking,
-                            //       isMandatory: true,
-                            //       Styles.textStyleBlack14),
-                            //   RadioButtonsYesNo(
-                            //     status: state.model.status ?? 0,
-                            //     selectedValue: state.model.dgWrking ? 1 : 0,
-                            //     onChangedYes: state.model.status == 6
-                            //         ? null
-                            //         : (val) {
-                            //             state.model.dgWrking = true;
-                            //             BlocProvider.of<
-                            //                         OccurrenceGeneralInfoCubit>(
-                            //                     context)
-                            //                 .showFields(dgWrking: true);
-                            //             //.onModelValueChange(state.guardingMasterData
-                            //             //);
-                            //           },
-                            //     onChangedNo: state.model.status == 4
-                            //         ? null
-                            //         : (val) {
-                            //             state.model.dgWrking = false;
-                            //             BlocProvider.of<
-                            //                         OccurrenceGeneralInfoCubit>(
-                            //                     context)
-                            //                 .showFields(dgWrking: false);
-                            //           },
-                            //   ),
-                            // ],
 
                             if (state.model.powerFailure == true) ...[
                               CommonWidgets.textDisplay(
@@ -1308,12 +1232,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   }
 
                                   log('--state.model.powerFailures----');
-
-                                  for (PowerFailure pf
-                                      in state.model.powerFailures ?? []) {
-                                    log('--${pf.powerFailureStartDate}----');
-                                    log('--${pf.powerFailureEndDate}----');
-                                  }
 
                                   if (!state
                                           .model.powerFailures.isEmptyOrNull &&
@@ -1332,7 +1250,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     builder: (BuildContext dialogContext) {
                                       return AddDatePopUp(
                                         mainContext: context,
-                                        onSubmit: (PowerFailure powerFailure) {
+                                        onSubmit: (PowerFailureModel powerFailure) {
                                           // log('----powerFailure----${powerFailure.powerFailureStartDate}----');
                                           if (state.model.powerFailures
                                               .isEmptyOrNull) {
@@ -1620,14 +1538,24 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null || state.model.id == 1 ?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
-      },
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
+        },
     );
   }
 
@@ -1765,7 +1693,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
     log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
 
-    for (PowerFailure powerFailure in state.model.powerFailures ?? []) {
+    for (PowerFailureModel powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
       startDateController.text = powerFailure.powerFailureStartDate ?? '';
@@ -1788,11 +1716,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           const Text('Start Date'),
                           BaseDate().datePickerWidgetLoading(
                             textController: startDateController,
+                            isDisabled: state.model.id == null &&
+                                state.isOnGoingPowerFailure!,
                             onlyDate: false,
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(
-                                          value, Constants.dateFormat)
+                                          value, Constants.fulldateFormat)
                                       .toString();
                             },
                             context: context,
@@ -1813,7 +1743,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(
-                                          value, Constants.dateFormat)
+                                      value, Constants.fulldateFormat)
                                       .toString();
                               // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                               //     .onModelValueChange(state.model);

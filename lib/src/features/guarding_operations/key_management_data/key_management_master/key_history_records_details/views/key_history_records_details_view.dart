@@ -973,10 +973,10 @@ class _KeyHistoryRecordsDetailsViewState
   Widget cancelButtonDisplay(KeyHistoryRecordsDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         // updateRecordStatus(state);

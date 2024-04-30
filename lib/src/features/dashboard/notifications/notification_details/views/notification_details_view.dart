@@ -152,7 +152,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                               showDownloadIcon: true,
                               moduleCode: state.model.moduleCode ?? ''),
                         ],
-                        if (!state.model.moduleCode.isEmptyOrNull) ...[
+                        if (!state.model.moduleCode.isEmptyOrNull && state.model.moduleId != null) ...[
                           submitButtonDisplay(state)
                         ],
                       ],
@@ -281,7 +281,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
   Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

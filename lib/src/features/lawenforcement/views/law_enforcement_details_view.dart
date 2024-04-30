@@ -89,7 +89,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -2094,10 +2093,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: widget.model?.id == null||widget.model?.id == 3?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();

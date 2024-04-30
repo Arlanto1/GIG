@@ -169,6 +169,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
           // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
           // Text('state.status=====${state.status}'),
           if (state.items.isEmptyOrNull &&
+              state.status != FormStatus.initial &&
               state.status != FormStatus.loading) ...[
             const NoRecordFoundWidget(),
           ],

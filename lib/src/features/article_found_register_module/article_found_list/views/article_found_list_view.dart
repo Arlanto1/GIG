@@ -4,7 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
+import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/found_list_item.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class ArticleFoundListView extends StatefulWidget {
@@ -153,6 +153,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
                     if (state.items.isEmptyOrNull &&
+                        state.status != FormStatus.initial &&
                         state.status != FormStatus.loading) ...[
                       CommonWidgets.verticalSpacerWidget(height * 0.1),
                       const NoRecordFoundWidget(),
