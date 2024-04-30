@@ -3535,7 +3535,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //      "${dateString.split("-")[0]}-${dateString.split("-")[1]}-${dateString.split("-")[2]}");
     // int passValidUntilDate = dateTime.millisecondsSinceEpoch ~/ 1000;
 
-    if (widget.model == null) {}
     // int statusValue = 0;
     //
     // if (statusTextController.text.toLowerCase() == "Created") {
