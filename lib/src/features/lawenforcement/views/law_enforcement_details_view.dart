@@ -735,8 +735,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                       BaseImageUpload().getAttachment(
                                         height: height,
-                                        attachments: state.loadAttachments,
-                                        files: getFiles,
+                                        attachments: state.loadAttachments.isEmptyOrNull? getFiles:state.loadAttachments,
+                                        files: getFiles.isEmptyOrNull? getAttachments:getFiles,
                                         showDownloadIcon:
                                             widget.model == null ||
                                                 widget.model?.status == 0,
@@ -2103,7 +2103,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.model?.status == 3;
     return AppButton(
-      
+
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),

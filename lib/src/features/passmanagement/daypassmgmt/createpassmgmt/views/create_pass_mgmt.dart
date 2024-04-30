@@ -2004,7 +2004,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     if( widget.passId ==
                                         ConstantsIntValue.passIdDayPass
                                     )...[
-                                      getAttachement(height),
+                                      BaseImageUpload().getAttachment(
+                                        height: height,
+                                        attachments: state.loadAttachments.isEmptyOrNull? getFiles:state.loadAttachments,
+                                        files: getFiles.isEmptyOrNull? getAttachments:getFiles,
+                                        showDownloadIcon:
+                                        widget.model == null ||
+                                            widget.model?.status == 0,
+                                        moduleCode: Constants.passManagementModuleCode,
+                                      ),
                                     ],
 
                                     ///upload
