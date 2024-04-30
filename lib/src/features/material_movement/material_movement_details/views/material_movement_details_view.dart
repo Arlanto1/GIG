@@ -2535,7 +2535,7 @@ class _MaterialMovementDetailsViewState
                             files: getFiles,
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
-                            moduleCode: Constants.guardingMasterModuleCode,
+                            moduleCode: Constants.materialMovementModuleCode,
                           ),
                         ]),
                       ),
@@ -2736,7 +2736,7 @@ class _MaterialMovementDetailsViewState
   Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: state.model.id == null || state. model.id == 10?Constants.close:Constants.cancelRecord,

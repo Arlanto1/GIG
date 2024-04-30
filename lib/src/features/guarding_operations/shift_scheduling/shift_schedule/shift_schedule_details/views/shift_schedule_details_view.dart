@@ -620,7 +620,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   Widget cancelButtonDisplay(ShiftScheduleDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,

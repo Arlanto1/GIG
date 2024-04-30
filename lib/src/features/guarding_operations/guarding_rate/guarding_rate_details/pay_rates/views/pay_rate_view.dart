@@ -321,7 +321,7 @@ class _PayRateViewState extends State<PayRateView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

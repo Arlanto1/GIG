@@ -7,6 +7,8 @@ class Constants {
   /// Pagination
   static const int maxResults = 20;
 
+  static const double cancelButtonWidth = 170;
+
   /// Text Form Field Character Limit
   static const int characterLimitContactNo = 17;
   static const int characterLimitIdTextFormField = 250;
