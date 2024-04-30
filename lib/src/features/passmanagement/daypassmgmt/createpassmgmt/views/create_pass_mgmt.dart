@@ -2001,6 +2001,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? photogetAttachement(height)
                                         : Container(),
 
+                                    if( widget.passId ==
+                                        ConstantsIntValue.passIdDayPass
+                                    )...[
+                                      getAttachement(height),
+                                    ],
+
                                     ///upload
                                     ((widget.model == null ||
                                         widget.model?.status == 0) &&
@@ -2387,15 +2393,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       Organisation dep = widget.model?.department ?? Organisation();
       createPassMgmtCubit.selectedEmployeeDepartment(dep);
 
-      log('-populate-getAttachments---${getAttachments
-          .length}---getFiles---${getFiles.length}--');
 
       getAttachments = widget.model?.evidenceDocuments != null
           ? widget.model?.evidenceDocuments ?? []
           : [];
+
       getFiles = widget.model?.evidenceDocuments != null
           ? widget.model?.evidenceDocuments ?? []
           : [];
+
+      log('-populate-getAttachments---${getFiles
+          .length}---getFiles---${getFiles.length}--');
       // photogetAttachments =
       //     widget.model?.visitorImage != null ? widget.model?.visitorImage ?? [] : [];
       photogetAttachments = widget.model?.visitorImage != null
@@ -2475,7 +2483,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: widget.model?.id == null? Constants.close:Constants.cancel,
+      buttonText: widget.model?.id == null ? Constants.close : Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();
