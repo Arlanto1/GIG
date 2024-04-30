@@ -2739,16 +2739,37 @@ class _MaterialMovementDetailsViewState
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null || state. model.id == 10?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
-      },
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              var dialog = CustomAlertDialog(
+                  title: Constants.cancelRecord,
+                  message: Constants.cancelRecordWarningMessage,
+                  onPositivePressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    updateRecordStatus(state);
+                  },
+                  positiveBtnText: Constants.yes,
+                  negativeBtnText: Constants.no);
+              showDialog(context: context, builder: (BuildContext context) => dialog);
+              },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
+        },
     );
   }
 
   void updateRecordStatus(MaterialMovementDetailsState state) {
-    if (state.model.id != null && isReadOnly) {
+    log('---updateRecordStatus---');
+    if (state.model.id != null) {
       BlocProvider.of<MaterialMovementDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
       Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,

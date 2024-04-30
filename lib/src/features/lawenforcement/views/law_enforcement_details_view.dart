@@ -2097,7 +2097,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: widget.model?.id == null||widget.model?.id == 3?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();

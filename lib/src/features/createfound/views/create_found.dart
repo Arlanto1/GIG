@@ -331,10 +331,9 @@ class _CreateFoundState extends State<CreateFound> {
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int? handoverDate;
-    if(widget.model?.status == ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
-      handoverDate = (DateTime
-          .now()
-          .millisecondsSinceEpoch ~/ 1000);
+    if (widget.model?.status ==
+        ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
+      handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     }
     // Utils.dateToTimestampConversion(
     //     handedoverdatedateTextController.text, Constants.fulldateFormat);
@@ -2010,11 +2009,25 @@ class _CreateFoundState extends State<CreateFound> {
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: widget.model?.id == null ||
+              widget.model?.id ==
+                  ConstantsIntValue.articleFoundStatusHandedOverOrClaimed
+          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus();
-      },
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus();
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
+        },
     );
   }
 

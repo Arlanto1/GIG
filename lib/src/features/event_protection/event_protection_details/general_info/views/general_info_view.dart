@@ -11,7 +11,6 @@ class GeneralInfoView extends StatefulWidget {
     this.model,
     super.key,
     this.extraProperties,
-
   });
 
   @override
@@ -1663,10 +1662,22 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null || widget.model?.id == 30
+          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }

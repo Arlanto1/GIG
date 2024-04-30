@@ -857,10 +857,30 @@ class _SstIncidentGeneralInfoViewState
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null || state.model.id == 14
+          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              var dialog = CustomAlertDialog(
+                  title: Constants.cancelRecord,
+                  message: Constants.cancelRecordWarningMessage,
+                  onPositivePressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    updateRecordStatus(state);
+                  },
+                  positiveBtnText: Constants.yes,
+                  negativeBtnText: Constants.no);
+              showDialog(context: context, builder: (BuildContext context) => dialog);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
@@ -869,7 +889,7 @@ class _SstIncidentGeneralInfoViewState
     if (state.model.id != null) {
       BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, sstIncidentListRoute);
+      Navigator.popAndPushNamed(context, sstIncidentDetailsRoute);
     } else {
       Navigator.pop(context);
     }

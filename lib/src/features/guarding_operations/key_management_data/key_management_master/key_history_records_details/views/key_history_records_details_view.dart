@@ -976,7 +976,7 @@ class _KeyHistoryRecordsDetailsViewState
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         // updateRecordStatus(state);

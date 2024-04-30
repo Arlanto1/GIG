@@ -262,6 +262,9 @@ class Constants {
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
+  static const String cancelRecord = 'Cancel Record';
+  static const String cancelRecordWarningMessage = 'Are you sure, do you want to cancel the record?';
+  static const String close = 'Close';
   static const String showList = 'Show List';
   static const String add = 'Add';
   static const String open = 'Open';
