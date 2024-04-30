@@ -2471,7 +2471,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
+
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -3120,7 +3120,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor: widget.model?.status != 0 ||
           widget.model != null &&
-              (widget.extraProperties != null &&
+              !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
@@ -3268,7 +3268,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
-          users: state.emailUsers!,
+          users: state.getDepositorResponse,
           roleName: 'ATOM_STATIC_USER',
           functionToCall: () {
             BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
@@ -3924,7 +3924,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
         widget.passId == ConstantsIntValue.passIdSez) &&
-        state.selectedCompanyType?.name != null) {
+        state.selectedCompanyType?.name == null) {
       Validator().showToast(
         context,
         "Please enter company type",

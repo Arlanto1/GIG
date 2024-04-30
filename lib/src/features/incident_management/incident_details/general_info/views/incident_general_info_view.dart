@@ -491,7 +491,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     state.labels?.defaultLocale.complainant ??
                                     Constants.complaint,
                                 Styles.textStyleBlack14,
-                              ),
+                                  isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.complainant?.userInfo ??
                                     state.model.complainant?.name,
@@ -531,7 +531,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     state.labels?.defaultLocale.complainant ??
                                     Constants.complaint,
                                 Styles.textStyleBlack14,
-                              ),
+                              isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
