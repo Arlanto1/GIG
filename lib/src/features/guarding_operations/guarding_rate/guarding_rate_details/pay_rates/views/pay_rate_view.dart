@@ -117,7 +117,7 @@ class _PayRateViewState extends State<PayRateView> {
         body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
             Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+            Utils().errorAndLogout(state, context);
 
             if (state.status == FormStatus.loading) {
               Navigator.pop(context);

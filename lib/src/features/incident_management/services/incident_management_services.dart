@@ -33,11 +33,10 @@ class IncidentManagementServices {
   }) async {
     String url =
         '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
-        // 'userId=${await SharedPrefs.getUserId()}';
+    // 'userId=${await SharedPrefs.getUserId()}';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId&occType=$occType';
-    }
-    else if (kldId !=0) {
+    } else if (kldId != 0) {
       url = '$url&kldId=$kldId';
     }
     var response = await BaseApiService().postRequest(

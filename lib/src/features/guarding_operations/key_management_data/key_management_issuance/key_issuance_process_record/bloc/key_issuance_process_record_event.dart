@@ -52,7 +52,7 @@ class SaveKeyLostRecord extends KeyIssuanceProcessRecordEvent {
   final int kmId;
 
   const SaveKeyLostRecord(
-      this.keyHistoryModel,
-      this.kmId,
-      );
+    this.keyHistoryModel,
+    this.kmId,
+  );
 }

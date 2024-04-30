@@ -364,14 +364,21 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   }
 
   Widget cancelButtonDisplay(VVIPVisitorDetailsState state) {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 1;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null||state.model.id == 1?Constants.close:Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -383,7 +390,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

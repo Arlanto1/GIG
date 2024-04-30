@@ -3,10 +3,11 @@ class ShowGuardInfoResponse {
     required this.showGuardInfo,
     required this.id,
   });
+
   bool? showGuardInfo;
   int? id;
 
-  ShowGuardInfoResponse.fromJson(Map<String, dynamic> json){
+  ShowGuardInfoResponse.fromJson(Map<String, dynamic> json) {
     showGuardInfo = json['showGuardInfo'];
     id = json['id'];
   }

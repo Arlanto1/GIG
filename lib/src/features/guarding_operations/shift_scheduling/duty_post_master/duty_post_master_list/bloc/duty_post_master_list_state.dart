@@ -1,6 +1,5 @@
 part of 'duty_post_master_list_bloc.dart';
 
-
 class DutyPostMasterListState extends Equatable {
   final List<DutyPostMasterModel> list;
   final bool hasReachedMax;
@@ -10,21 +9,22 @@ class DutyPostMasterListState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
 
-  const DutyPostMasterListState(
-      {this.list = const <DutyPostMasterModel>[],
-        this.hasReachedMax = false,
-        this.status = FormStatus.initial,
-        this.labels,
-        this.message,
-        this.locations,
-        this.commonFilters,      });
+  const DutyPostMasterListState({
+    this.list = const <DutyPostMasterModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+    this.labels,
+    this.message,
+    this.locations,
+    this.commonFilters,
+  });
 
   DutyPostMasterListState copyWith({
     List<DutyPostMasterModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     SSUiLabels? labels,
-  String? message,
+    String? message,
     Locations? locations,
     CommonFilters? commonFilters,
     List<Organisation>? regions,
@@ -37,7 +37,8 @@ class DutyPostMasterListState extends Equatable {
       labels: labels ?? this.labels,
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
-      locations: locations ?? this.locations,    );
+      locations: locations ?? this.locations,
+    );
   }
 
   @override

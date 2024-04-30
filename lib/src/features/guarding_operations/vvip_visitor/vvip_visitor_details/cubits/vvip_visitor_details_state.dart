@@ -1,6 +1,5 @@
 part of 'vvip_visitor_details_cubit.dart';
 
-
 class VVIPVisitorDetailsState extends Equatable {
   final FormStatus status;
   final VIVPVisitorModel model;
@@ -10,7 +9,6 @@ class VVIPVisitorDetailsState extends Equatable {
   final String? message;
   final SlaUiLabels? labels;
 
-
   factory VVIPVisitorDetailsState.initial({
     required VIVPVisitorModel model,
     required Locations locations,
@@ -18,7 +16,6 @@ class VVIPVisitorDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-
   }) {
     return VVIPVisitorDetailsState(
       status: FormStatus.initial,
@@ -80,7 +77,6 @@ class VVIPVisitorDetailsState extends Equatable {
     this.users,
     this.message,
     this.labels,
-
   });
 
   VVIPVisitorDetailsState copyWith({
@@ -91,7 +87,6 @@ class VVIPVisitorDetailsState extends Equatable {
     List<BaseUser>? users,
     String? message,
     SlaUiLabels? labels,
-
   }) {
     return VVIPVisitorDetailsState(
       status: status ?? this.status,

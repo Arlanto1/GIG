@@ -20,9 +20,7 @@ class CreatePassMgmtService {
     required CreatePassMgmtBody requestBody,
     required bool isSubmit,
   }) async {
-
-    final String url =
-        "${Apis._createPass}isSubmit=$isSubmit";
+    final String url = "${Apis._createPass}isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),

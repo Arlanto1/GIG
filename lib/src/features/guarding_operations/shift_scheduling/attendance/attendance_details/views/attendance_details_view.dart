@@ -68,7 +68,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
           //     context, state.message ?? '', 'Material Movement', '');
         }
 
-
         if (state.status == FormStatus.navigateToNextScreen) {
           log('Navigating to Next Screen');
           Navigator.pushNamed(
@@ -242,17 +241,20 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                  AbsorbPointer(
-                    absorbing: true,
-                    child:BaseLocationDropdown().locationWidgetDisplay(
-                              context: context,
-                              locations: state.locations ?? Locations(),
-                              selectedLocationName:
-                                  state.model.location?.name ?? '',
-                              onTap: (Organisation? location) {
-                                BlocProvider.of<AttendanceDetailsCubit>(context)
-                                    .updateDropdownValues(location: location);
-                              })),
+                          AbsorbPointer(
+                              absorbing: true,
+                              child: BaseLocationDropdown()
+                                  .locationWidgetDisplay(
+                                      context: context,
+                                      locations: state.locations ?? Locations(),
+                                      selectedLocationName:
+                                          state.model.location?.name ?? '',
+                                      onTap: (Organisation? location) {
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                location: location);
+                                      })),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -343,40 +345,37 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                             BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status == -1,
-                                  textController: attendanceTypeController,
-                                  items: attendanceTypeDropDownValues,
-                                  initialValue:
-                                      state.model.attendanceType.toString(),
-                                  onTap: () {
-                                    if (state.model.status == 0) {
-                                      BaseDropDown().assetTypeDialog(
-                                          context: context,
-                                          dropDownValues:
-                                              attendanceTypeDropDownValues
-                                                  .map((label) => label.key)
-                                                  .toList(),
-                                          onTap: (String value) {
-                                            Label? selectedLabel;
-                                            selectedLabel =
-                                                attendanceTypeDropDownValues
-                                                    .firstWhere(
-                                              (label) => label.key == value,
-                                              orElse: () => const Label(
-                                                  key: '', value: ''),
-                                            );
-                                            BlocProvider.of<
-                                                        AttendanceDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    attendanceType:
-                                                        int.tryParse(
-                                                            selectedLabel
-                                                                .value));
-                                          });
-                                    }
-                                  }),
+                          BaseDropDown().getDropDown(
+                              isDisabled: state.model.status == -1,
+                              textController: attendanceTypeController,
+                              items: attendanceTypeDropDownValues,
+                              initialValue:
+                                  state.model.attendanceType.toString(),
+                              onTap: () {
+                                if (state.model.status == 0) {
+                                  BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                          attendanceTypeDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            attendanceTypeDropDownValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                attendanceType: int.tryParse(
+                                                    selectedLabel.value));
+                                      });
+                                }
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// List of Duty Posts
@@ -493,13 +492,17 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
   Widget cancelButtonDisplay(AttendanceDetailsState state) {
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {
+      onTap: () {if (state.model.id == null) {
+        Navigator.pop(context);
+        return;
+      }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -511,7 +514,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

@@ -36,7 +36,7 @@ class FCMHandler {
       }
 
       String? token = await messaging.getToken();
-      SharedPrefs.setDeviceToken(token??'');
+      SharedPrefs.setDeviceToken(token ?? '');
 
       if (kDebugMode) {
         log('Registration Token=$token');

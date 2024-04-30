@@ -90,7 +90,6 @@ class SLAViolationPenaltyServices {
     return SLAViolationPenaltyResponseModel.fromJson(response);
   }
 
-
   Future<SLAViolationPenaltyModel> getGvpById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(

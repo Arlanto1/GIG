@@ -266,7 +266,10 @@ class _DutyPostNameMasterListViewState
 
     BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
       FetchDutyPostNameMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -277,7 +280,10 @@ class _DutyPostNameMasterListViewState
 
     BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
       FetchDutyPostNameMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -16,7 +16,6 @@ class Apis {
   static final String _getDetails = '$baseUrl/getSSSLAById';
   static final String _create = '$baseUrl/createSSSLA?';
   static final String _sendReminder = '$baseUrl/sendReminder';
-
 }
 
 class SstIncidentServices {

@@ -24,7 +24,8 @@ class Apis {
   static final String _getAvailableSelectedGuardsByShift =
       '$baseUrl/getAvailableSelectedGuardsByShift';
   static final String _saveSelectedGuards = '$baseUrl/saveSelectedGuards?';
-  static final String _getNextAvailableReplacementDates = '$baseUrl/getNextAvailableReplacementDates';
+  static final String _getNextAvailableReplacementDates =
+      '$baseUrl/getNextAvailableReplacementDates';
 }
 
 class ShiftScheduleServices {
@@ -190,7 +191,6 @@ class ShiftScheduleServices {
 
     return Shift.fromJson(response);
   }
-
 
   Future<NextAvailableDateRange> getNextAvailableReplacementDates({
     required int dutyPostId,

@@ -57,7 +57,7 @@ class DutyPostDetailsViewState extends State<DutyPostDetailsView> {
             context: context,
             title: widget.model.name ?? '',
             showPopUp: false,
-            showSaveButton:true,
+            showSaveButton: true,
             showSubmitButton: true,
             showDisLikeButton: false,
             showLikeButton: false,

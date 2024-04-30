@@ -45,9 +45,12 @@ class ChartsState extends Equatable {
     FormStatus? status,
   }) {
     return ChartsState(
-      lawEnforcementVisitByEntity: lawEnforcementVisitByEntity ?? this.lawEnforcementVisitByEntity,
-      lawEnforcementVisitByRegion: lawEnforcementVisitByRegion ?? this.lawEnforcementVisitByRegion,
-      eventProtectionByRegion: eventProtectionByRegion ?? this.eventProtectionByRegion,
+      lawEnforcementVisitByEntity:
+          lawEnforcementVisitByEntity ?? this.lawEnforcementVisitByEntity,
+      lawEnforcementVisitByRegion:
+          lawEnforcementVisitByRegion ?? this.lawEnforcementVisitByRegion,
+      eventProtectionByRegion:
+          eventProtectionByRegion ?? this.eventProtectionByRegion,
       message: message ?? this.message,
       status: status ?? this.status,
       notificationCount: notificationCount ?? this.notificationCount,

@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_response.dart';
 
 class ShiftScheduleRequest {
@@ -9,8 +8,7 @@ class ShiftScheduleRequest {
   late final ShiftScheduleModel shiftScheduleModel;
 
   ShiftScheduleRequest.fromJson(Map<String, dynamic> json) {
-    shiftScheduleModel =
-        ShiftScheduleModel.fromJson(json['ssGi']);
+    shiftScheduleModel = ShiftScheduleModel.fromJson(json['ssGi']);
   }
 
   Map<String, dynamic> toJson() {

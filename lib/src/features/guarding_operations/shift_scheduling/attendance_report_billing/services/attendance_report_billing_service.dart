@@ -5,7 +5,6 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getList = '$baseUrl/getAttdReportList?';
-
 }
 
 class AttendanceReportBillingServices {
@@ -18,7 +17,6 @@ class AttendanceReportBillingServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
-
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
@@ -29,5 +27,4 @@ class AttendanceReportBillingServices {
     );
     return AttendanceReportBillingResponse.fromJson(response);
   }
-
 }

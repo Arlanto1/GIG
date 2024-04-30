@@ -7,7 +7,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'key_management_master_list_event.dart';
-
 part 'key_management_master_list_state.dart';
 
 class KeyManagementMasterListBloc
@@ -47,7 +46,7 @@ class KeyManagementMasterListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementMasterModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementMasterModule,
         commonServices: commonServices,
       );
@@ -62,7 +61,6 @@ class KeyManagementMasterListBloc
           status: FormStatus.initial,
           labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -73,7 +71,7 @@ class KeyManagementMasterListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
@@ -101,8 +99,8 @@ class KeyManagementMasterListBloc
     }
   }
 
-  FutureOr<void> _fetchList(
-      FetchKeyMasterList event, Emitter<KeyManagementMasterListState> emit) async {
+  FutureOr<void> _fetchList(FetchKeyMasterList event,
+      Emitter<KeyManagementMasterListState> emit) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -110,7 +108,6 @@ class KeyManagementMasterListBloc
     );
 
     try {
-
       if (state.status == FormStatus.initial || event.newSearch) {
         KeyManagementMasterResponse response;
         response = await _services.getList(

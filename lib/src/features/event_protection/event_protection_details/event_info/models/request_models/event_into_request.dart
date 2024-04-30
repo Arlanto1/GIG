@@ -17,4 +17,3 @@ class EventInfoRequest {
   Map<String, dynamic> toJson() =>
       {'eventProtectionInfo': eventProtectionInfo?.toJson()};
 }
-

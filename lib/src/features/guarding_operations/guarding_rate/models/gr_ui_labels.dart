@@ -85,7 +85,6 @@ class GRUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.guardingRate.revisedAmt')
   final String? revisedAmt;
 
-
   GRUiLabelsLocale(
       this.securityGuard,
       this.comment,

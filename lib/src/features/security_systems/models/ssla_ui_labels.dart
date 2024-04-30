@@ -388,7 +388,6 @@ class SSLAUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.securitySystem.rejectionComment')
   final String? rejectionComment;
 
-
   SSLAUiLabelsLocale(
       this.selectVendor,
       this.sendReview,

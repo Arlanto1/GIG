@@ -85,23 +85,27 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.model?.status ==null || widget.model?.status ==0 ||widget.model?.status ==1 ?Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-            showAddContactPopUp(
-                context: context,
-                contact: ContactRecord(
-                  contactId: widget.id,
-                  email: '',
-                  contactNo: '',
-                  rank: Organisation(),
-                  type: widget.type,
-                ),
-                users: state.ranks,
-                rankType: widget.rankType);
-          },
-        ): const SizedBox(),
+        floatingActionButton: widget.model?.status == null ||
+                widget.model?.status == 0 ||
+                widget.model?.status == 1
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () {
+                  showAddContactPopUp(
+                      context: context,
+                      contact: ContactRecord(
+                        contactId: widget.id,
+                        email: '',
+                        contactNo: '',
+                        rank: Organisation(),
+                        type: widget.type,
+                      ),
+                      users: state.ranks,
+                      rankType: widget.rankType);
+                },
+              )
+            : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.escalationMatrix,
@@ -157,29 +161,24 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key:  widget.rankType ==
-                    Constants.contactZone
+                key: widget.rankType == Constants.contactZone
                     ? Constants.zone
-                    : widget.rankType ==
-                    Constants.contactGeneralRank
-                    ? Constants.rank
-                    : widget.rankType ==
-                    Constants
-                        .contactSystemEscalationRank
-                    ?Constants.systemSiEscalationMatrixRank
-                    : widget.rankType ==
-                    Constants
-                        .contactSupervisorRank
-                    ? Constants.supervisorRank
-                    : Constants.guardingAgencyRank,
+                    : widget.rankType == Constants.contactGeneralRank
+                        ? Constants.rank
+                        : widget.rankType ==
+                                Constants.contactSystemEscalationRank
+                            ? Constants.systemSiEscalationMatrixRank
+                            : widget.rankType == Constants.contactSupervisorRank
+                                ? Constants.supervisorRank
+                                : Constants.guardingAgencyRank,
                 value: state.items![index].rank?.name ?? '',
               ),
             );
             labels.add(
               Label(
-                key:  widget.rankType ==
-                    Constants.contactZone
-                    ? Constants.areaNameManager :Constants.name,
+                key: widget.rankType == Constants.contactZone
+                    ? Constants.areaNameManager
+                    : Constants.name,
                 value: state.items![index].email ?? '',
               ),
             );
@@ -230,7 +229,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                showDeleteButton: widget.model?.status ==0 || widget.model?.status ==1,
+                    showDeleteButton:
+                        widget.model?.status == 0 || widget.model?.status == 1,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<ContactRecordBloc>(context).add(

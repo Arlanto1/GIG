@@ -125,9 +125,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          :  Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       // if (state.model.inputDate != null) {
       //   Utils.timestampToDateConversion(
@@ -502,9 +502,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (!Utils().isTimestamp(state.model.inputDate!)) {
       dateTime =
           DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
     state.model.rejectedDate =
@@ -596,23 +594,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          :  Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          :  Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
-          :  Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

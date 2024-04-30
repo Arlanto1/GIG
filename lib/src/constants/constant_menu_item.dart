@@ -52,7 +52,8 @@ const keyManagementDataItems = [
   MenuItem(Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0),
   MenuItem(
       Constants.keyManagementIssuance, AppIcon.keyManagementIssuanceIcon, 0),
-  MenuItem(Constants.keyLossDestructionList, AppIcon.keyLossDestructionListIcon, 0),
+  MenuItem(
+      Constants.keyLossDestructionList, AppIcon.keyLossDestructionListIcon, 0),
   // MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
 ];
 
@@ -65,14 +66,19 @@ const shiftSchedulingDataItems = [
 ];
 
 const passTileDrawerItems = [
-  MenuItem(Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0),
+  MenuItem(
+      Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0),
   MenuItem(Constants.daypassregister, AppIcon.dayPassManagementRegisterIcon, 0),
   MenuItem(Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0),
   MenuItem(Constants.sezpassregister, AppIcon.sezPassManagementRegisterIcon, 0),
-  MenuItem(Constants.vendorpassmgmt, AppIcon.vendorPassManagementRegisterIcon, 0),
-  MenuItem(Constants.vendorpassregister, AppIcon.vendorPassManagementRegisterIcon, 0),
-  MenuItem(Constants.visitorpassmgmt, AppIcon.visitorPassManagementRegisterIcon, 0),
-  MenuItem(Constants.visitorpassregister, AppIcon.visitorPassManagementRegisterIcon, 0),
+  MenuItem(
+      Constants.vendorpassmgmt, AppIcon.vendorPassManagementRegisterIcon, 0),
+  MenuItem(Constants.vendorpassregister,
+      AppIcon.vendorPassManagementRegisterIcon, 0),
+  MenuItem(
+      Constants.visitorpassmgmt, AppIcon.visitorPassManagementRegisterIcon, 0),
+  MenuItem(Constants.visitorpassregister,
+      AppIcon.visitorPassManagementRegisterIcon, 0),
 ];
 
 const sCRIItems = [

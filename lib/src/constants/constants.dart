@@ -39,7 +39,6 @@ class Constants {
   static const String attendanceModule = 'ATD';
   static const String keyReconciliationModule = 'KR';
 
-
   /// UI Labels Module Code
   static const String articleFoundModuleCode = 'AF';
   static const String passManagementModuleCode = 'PM';
@@ -52,7 +51,6 @@ class Constants {
   static const String shiftScheduleModuleCode = 'SS';
   static const String dutyPostNameMasterModuleCode = 'SSDP';
   static const String attendanceModuleCode = 'ATD';
-
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -181,7 +179,8 @@ class Constants {
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
   static const String deleteAllNotifications = 'Delete All';
-  static const String deleteAllNotificationWarningMessage = 'Are you sure, do you want to delete all notifications';
+  static const String deleteAllNotificationWarningMessage =
+      'Are you sure, do you want to delete all notifications';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
   static const String lawEnforcementVisitsByEntity =
@@ -265,8 +264,11 @@ class Constants {
   static const String save = 'Save';
   static const String cancel = 'Cancel';
   static const String cancelRecord = 'Cancel Record';
-  static const String cancelRecordWarningMessage = 'Are you sure, do you want to cancel the record?';
+  static const String cancelRecordWarningMessage =
+      'Are you sure, do you want to cancel the record?';
   static const String close = 'Close';
+  static const String closeRecordWarningMessage =
+      'Are you sure, do you want to close the record?';
   static const String showList = 'Show List';
   static const String add = 'Add';
   static const String open = 'Open';
@@ -294,7 +296,8 @@ class Constants {
   // Law enforcement
   static const String createlawenforcement =
       'Create Law Enforcement Official Visit';
-  static const String editlawenforcement = 'Edit Law Enforcement Official Visit';
+  static const String editlawenforcement =
+      'Edit Law Enforcement Official Visit';
   static const String addcompanytype = 'Add Company Type';
   static const String addentitytype = 'Add Entity';
   static const String addpurposeofvisittype = 'Add Puropose Of Visit';
@@ -480,7 +483,6 @@ class Constants {
   static const String addSecurityGuard = 'Security Guard';
   static const String createOthers = 'Create Others';
 
-
   static const String monthlyCost = 'Monthly Cost';
   static const String days = 'Days';
   static const String perHour = 'Per Hour';
@@ -512,14 +514,14 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
-  static const String additionalQualification = 'Additional Qualification/Certifications';
-  static const String qualificationCompletionDate = 'Qualification Completion Date';
+  static const String additionalQualification =
+      'Additional Qualification/Certifications';
+  static const String qualificationCompletionDate =
+      'Qualification Completion Date';
   static const String specialAchievementsInfo = 'Special Achievements Info';
   static const String achievementsDate = 'Achievement Date';
   static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String initiativesDate = 'Initiative Date';
-
-
 
   static const String participationDate = 'Participation Date';
   static const String csrParticipationDate = 'Add CSR Participation Date';
@@ -710,13 +712,14 @@ class Constants {
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
   static const String cmsEscalationContact = 'CMS Escalation(IPB)';
-  static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
+  static const String guardingAgencyZonalManagerContact =
+      'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
   static const String modifiedDate = 'Modified Date';
-  static const String guardingAgencyRank =
-      'Guarding Agency Escalation Rank';
+  static const String guardingAgencyRank = 'Guarding Agency Escalation Rank';
   static const String supervisorRank = 'Supervisor Rank';
-  static const String systemSiEscalationMatrixRank = 'System (SI) Escalation Matrix';
+  static const String systemSiEscalationMatrixRank =
+      'System (SI) Escalation Matrix';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
@@ -865,7 +868,6 @@ class Constants {
 
   ///Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
-
 }
 
 //static const String height = 'Height(cm)';
@@ -898,4 +900,3 @@ const hintTextStyle = TextStyle(
     fontSize: 18, color: Colors.black38, fontWeight: FontWeight.normal);
 
 /// Quill Html Editor
-

@@ -8,9 +8,10 @@ class ViolationPenaltyRecordRequest {
   });
 
   ViolationPenaltyRecordRequest.fromJson(Map<String, dynamic> json)
-      : vp = (json['vp'] as Map<String,dynamic>?) != null ? ViolationPenaltyRecord.fromJson(json['vp'] as Map<String,dynamic>) : null;
+      : vp = (json['vp'] as Map<String, dynamic>?) != null
+            ? ViolationPenaltyRecord.fromJson(
+                json['vp'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'vp' : vp?.toJson()
-  };
+  Map<String, dynamic> toJson() => {'vp': vp?.toJson()};
 }

@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'shift_schedule_list_event.dart';
-
 part 'shift_schedule_list_state.dart';
 
 class ShiftScheduleListBloc
@@ -65,7 +64,7 @@ class ShiftScheduleListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

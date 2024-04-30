@@ -8,7 +8,6 @@ import '../../../../utils/utils_common.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
-
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc
@@ -51,7 +50,6 @@ class EventProtectionsBloc
     }
   }
 
-
   FutureOr<void> _initializeValues(
       InitializeValuesEP event, Emitter<EventProtectionsState> emit) async {
     try {
@@ -60,20 +58,20 @@ class EventProtectionsBloc
           module: Constants.eventProtectionModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.eventProtectionModuleCode,
         commonServices: commonServices,
       );
@@ -89,10 +87,9 @@ class EventProtectionsBloc
           status: FormStatus.initial,
           labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
@@ -104,7 +101,6 @@ class EventProtectionsBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<EventProtectionsState> emit) async {

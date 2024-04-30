@@ -27,7 +27,4 @@ class ViolationPenaltyRecord {
       _$ViolationPenaltyRecordFromJson(json);
 
   Map<String, dynamic> toJson() => _$ViolationPenaltyRecordToJson(this);
-
 }
-
-

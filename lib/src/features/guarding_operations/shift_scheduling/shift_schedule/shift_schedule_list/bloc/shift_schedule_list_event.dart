@@ -13,8 +13,11 @@ class FetchShiftScheduleList extends ShiftScheduleListEvent {
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchShiftScheduleList({required this.startPos, required this.maxPos,required this.newSearch,
-    required this.filters});
+  const FetchShiftScheduleList(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValues extends ShiftScheduleListEvent {

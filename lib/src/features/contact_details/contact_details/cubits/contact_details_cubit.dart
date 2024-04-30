@@ -238,8 +238,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       return false;
-    }
-    on Exception catch (e) {
+    } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

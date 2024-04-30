@@ -14,17 +14,20 @@ class DropPickUpResponse {
   });
 
   DropPickUpResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['data'] as List?)?.map((dynamic e) => FemaleDropPickUp.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)
+            ?.map((dynamic e) =>
+                FemaleDropPickUp.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data' : items?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 class FemaleDropPickUp {
@@ -55,19 +58,21 @@ class FemaleDropPickUp {
         status = json['status'] as int?,
         modifiedDate = json['modifiedDate'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
-        dropPickUp = (json['dropPickUp'] as List?)?.map((dynamic e) => DropPickUp.fromJson(e as Map<String,dynamic>)).toList(),
+        dropPickUp = (json['dropPickUp'] as List?)
+            ?.map((dynamic e) => DropPickUp.fromJson(e as Map<String, dynamic>))
+            .toList(),
         history = json['history'] as List?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'slNo' : slNo,
-    'inputDate' : inputDate,
-    'status' : status,
-    'modifiedDate' : modifiedDate,
-    'modifiedBy' : modifiedBy,
-    'dropPickUp' : dropPickUp?.map((e) => e.toJson()).toList(),
-    'history' : history
-  };
+        'id': id,
+        'slNo': slNo,
+        'inputDate': inputDate,
+        'status': status,
+        'modifiedDate': modifiedDate,
+        'modifiedBy': modifiedBy,
+        'dropPickUp': dropPickUp?.map((e) => e.toJson()).toList(),
+        'history': history
+      };
 }
 
 class DropPickUp {
@@ -89,18 +94,24 @@ class DropPickUp {
 
   DropPickUp.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
-        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        location = (json['location'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationRegion =
+            (json['locationRegion'] as Map<String, dynamic>?) != null
+                ? Organisation.fromJson(
+                    json['locationRegion'] as Map<String, dynamic>)
+                : null,
         status = json['status'] as int?,
         apprvdEscrtStrngth = json['apprvdEscrtStrngth'] as int?,
         complntAgnstEscrtGuard = json['complntAgnstEscrtGuard'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'location' : location?.toJson(),
-    'locationRegion' : locationRegion?.toJson(),
-    'status' : status,
-    'apprvdEscrtStrngth' : apprvdEscrtStrngth,
-    'complntAgnstEscrtGuard' : complntAgnstEscrtGuard
-  };
+        'id': id,
+        'location': location?.toJson(),
+        'locationRegion': locationRegion?.toJson(),
+        'status': status,
+        'apprvdEscrtStrngth': apprvdEscrtStrngth,
+        'complntAgnstEscrtGuard': complntAgnstEscrtGuard
+      };
 }

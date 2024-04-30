@@ -33,7 +33,7 @@ class ViolationPenaltyRecordBloc
       InitializeValues event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
         commonServices: commonServices,
       );
@@ -55,7 +55,7 @@ class ViolationPenaltyRecordBloc
           staffCategoriesValues: staffCategoriesValues,
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

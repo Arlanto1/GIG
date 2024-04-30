@@ -1657,16 +1657,21 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   }
 
   Widget cancelButtonDisplay(GeneralInfoState state) {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 30;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || widget.model?.id == 30
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,

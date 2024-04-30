@@ -1,5 +1,3 @@
-
-
 import '../annual_power_shutdown_list_model.dart';
 
 class AnnualPowerShutdownListRequest {
@@ -10,8 +8,7 @@ class AnnualPowerShutdownListRequest {
   late final AnnualPowerShutdownListModel annualPowerShutdown;
 
   AnnualPowerShutdownListRequest.fromJson(Map<String, dynamic> json) {
-    annualPowerShutdown =
-        AnnualPowerShutdownListModel.fromJson(json['epGi']);
+    annualPowerShutdown = AnnualPowerShutdownListModel.fromJson(json['epGi']);
   }
 
   Map<String, dynamic> toJson() {

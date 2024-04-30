@@ -13,7 +13,11 @@ class FetchData extends ContactDetailsListEvent {
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchData({required this.startPos, required this.maxPos,required this.newSearch, required this.filters});
+  const FetchData(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValuesCD extends ContactDetailsListEvent {

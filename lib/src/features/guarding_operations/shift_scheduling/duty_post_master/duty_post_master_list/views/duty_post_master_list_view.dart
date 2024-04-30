@@ -226,8 +226,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                 onEditTap: (selectedIndex) {
                                   getById(state.list[index].id ?? 0);
                                 },
-                          showDutyPostEditButton: true,
-                          showEditButton: false,
+                                showDutyPostEditButton: true,
+                                showEditButton: false,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
@@ -281,7 +281,10 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
 
     BlocProvider.of<DutyPostMasterListBloc>(context).add(
       FetchDutyPostMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -292,7 +295,10 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
 
     BlocProvider.of<DutyPostMasterListBloc>(context).add(
       FetchDutyPostMasterList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

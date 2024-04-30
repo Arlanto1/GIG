@@ -21,10 +21,10 @@ class PhysicallyFitModel {
         physicallyFit = json['physicallyFit'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'gender' : gender,
-    'height' : height,
-    'weight' : weight,
-    'chest' : chest,
-    'physicallyFit' : physicallyFit
-  };
+        'gender': gender,
+        'height': height,
+        'weight': weight,
+        'chest': chest,
+        'physicallyFit': physicallyFit
+      };
 }

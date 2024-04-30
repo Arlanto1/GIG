@@ -6,7 +6,9 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class EditorHtml extends StatefulWidget {
   const EditorHtml({
     super.key,
-    required this.text, required this.eventInfoState, required this.mainContext,
+    required this.text,
+    required this.eventInfoState,
+    required this.mainContext,
   });
 
   final BuildContext mainContext;
@@ -157,9 +159,9 @@ class _EditorHtmlState extends State<EditorHtml> {
               // setHtmlText(widget.text);
               controller.setText(widget.text);
             },
-            onEditorResized: (height) => debugPrint('Editor resized----------- $height'),
+            onEditorResized: (height) =>
+                debugPrint('Editor resized----------- $height'),
             onSelectionChanged: (sel) =>
-
                 debugPrint('index---- ${sel.index}, range ${sel.length}'),
           ),
         ),

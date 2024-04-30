@@ -1,4 +1,3 @@
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
 
@@ -38,8 +37,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
             (widget.model?.shiftC ?? 0) +
             (widget.model?.shiftG ?? 0))
         .toString());
-    widget.model?.total =
-        int.tryParse(totalController.text);
+    widget.model?.total = int.tryParse(totalController.text);
     BlocProvider.of<DutyPostMasterDetailsCubit>(context).initializeValues();
   }
 
@@ -75,7 +73,6 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
@@ -504,7 +501,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),

@@ -46,7 +46,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

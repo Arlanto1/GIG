@@ -31,7 +31,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +38,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
 
   @override
   Widget build(BuildContext context) {
-
     // dateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.csrParticipationDates ?? '0'),
     //     Constants.dateFormat);
@@ -52,7 +50,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height /4.9,
+          height: height / 4.9,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -63,7 +61,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-
                       ///CSR Participation Date
                       CommonWidgets.textDisplay(
                         Constants.csrParticipationDate,
@@ -79,7 +76,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                           log('--fr-value-${dateController.text}------');
 
                           dateController.text = value;
-
                         },
                         context: widget.mainContext,
                       ),
@@ -137,7 +133,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-
         // widget.guardingMasterData?.csrParticipationDates = dateController.text;
         // BlocProvider.of<GuardingMasterDataDetailsCubit>(widget.mainContext)
         //     .onAddParticipationDate(dateController.text);
@@ -151,10 +146,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         //   return;
         // }
         // onSubmit(widget.guardingMasterData);
-
       },
     );
   }
-
 }
-

@@ -7,7 +7,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class NotificationDetailsView extends StatefulWidget {
   const NotificationDetailsView({
     super.key,
@@ -60,7 +59,6 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         return Scaffold(
@@ -152,7 +150,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                               showDownloadIcon: true,
                               moduleCode: state.model.moduleCode ?? ''),
                         ],
-                        if (!state.model.moduleCode.isEmptyOrNull && state.model.moduleId != null) ...[
+                        if (!state.model.moduleCode.isEmptyOrNull &&
+                            state.model.moduleId != null) ...[
                           submitButtonDisplay(state)
                         ],
                       ],
@@ -280,7 +279,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),

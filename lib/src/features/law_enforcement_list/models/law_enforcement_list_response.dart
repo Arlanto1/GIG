@@ -118,7 +118,6 @@ class LawEnforcementListElement {
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
-
         entityDesc: json["entityDesc"],
         entrySecurityName: json["entrySecurityName"],
       );
@@ -142,7 +141,6 @@ class LawEnforcementListElement {
         "status": status,
         "modifiedDate": modifiedDate,
         "modifiedBy": modifiedBy,
-
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
       };

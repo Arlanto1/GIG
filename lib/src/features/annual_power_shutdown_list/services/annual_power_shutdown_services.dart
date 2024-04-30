@@ -35,7 +35,6 @@ class AnnualPowerShutdownListServices {
     return AnnualPowerShutDownResponse.fromJson(response);
   }
 
-
   Future<AnnualPowerShutdownListModel> getById(String id) async {
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(

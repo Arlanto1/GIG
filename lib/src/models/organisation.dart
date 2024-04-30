@@ -43,7 +43,9 @@ class Organisation {
 
   Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        name = json['name'] ?? json['keyDescription']?? json['dutyPostName'] as String?,
+        name = json['name'] ??
+            json['keyDescription'] ??
+            json['dutyPostName'] as String?,
         description = json['description'] as String?,
         keyDescription = json['keyDescription'] as String?,
         noKeys = json['noKeys'] as int?,

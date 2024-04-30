@@ -108,9 +108,8 @@ class _NotificationsViewState extends State<NotificationsView> {
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
         listener: (context, state) {
-
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,

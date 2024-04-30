@@ -134,9 +134,9 @@ class OccurrenceGeneralInfoState extends Equatable {
 
     if (model.comments == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Follow Up Actions For Next Shift');
+          status: false,
+          message: 'Please enter Follow Up Actions For Next Shift');
     }
-
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -144,7 +144,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const OccurrenceGeneralInfoState( {
+  const OccurrenceGeneralInfoState({
     required this.status,
     required this.model,
     this.locations,
@@ -195,7 +195,8 @@ class OccurrenceGeneralInfoState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       isReadOnly: isReadOnly ?? this.isReadOnly,
-      isOnGoingPowerFailure: isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
+      isOnGoingPowerFailure:
+          isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
     );
   }
 }

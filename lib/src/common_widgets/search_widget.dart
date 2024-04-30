@@ -22,6 +22,7 @@ class SearchWidget extends StatelessWidget {
     this.textInputFieldKey,
     this.isEnabled = false,
   });
+
   final String? hintText;
   final String? leadingIcon;
   final Color border;

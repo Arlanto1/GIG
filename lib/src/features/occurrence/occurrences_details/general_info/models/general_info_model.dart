@@ -18,7 +18,8 @@ class OccurrenceResponse {
 
   OccurrenceResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) => OccurrenceModel.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) =>
+                OccurrenceModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
@@ -71,6 +72,7 @@ class OccurrenceModel {
   bool cwmVisit;
   String? comments;
   bool dgWrking;
+
   // String? modifiedDate;
   String? modifiedBy;
   List<PowerFailureModel>? powerFailures;
@@ -130,7 +132,6 @@ class OccurrenceModel {
       _$OccurrenceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OccurrenceModelToJson(this);
-
 }
 
 // class PowerFailure {

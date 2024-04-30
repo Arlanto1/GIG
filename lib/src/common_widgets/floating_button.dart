@@ -9,15 +9,17 @@ class Flutterfloatingbutton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
 
-  const Flutterfloatingbutton(
-      {super.key,
-      this.onPressed,
-      this.backgroundColor,
-      this.foregroundColor,});
+  const Flutterfloatingbutton({
+    super.key,
+    this.onPressed,
+    this.backgroundColor,
+    this.foregroundColor,
+  });
+
   @override
   Widget build(BuildContext context) {
     ScreenSizeConfig.init(context);
-   // final screenWidth = ScreenSizeConfig.screenWidth;
+    // final screenWidth = ScreenSizeConfig.screenWidth;
     return FloatingActionButton(
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
@@ -26,14 +28,14 @@ class Flutterfloatingbutton extends StatelessWidget {
         onPressed!();
       },
       child: SvgPicture.asset(
-                              //AppIcon.dropdownicon,
-                              AppIcon.addicon,
-                              //fit: BoxFit.,
-                              //color: AppColors.textColor,
-                              width: 20,
-                               height: 20,
-                              key: const Key(Keys.userIcon),
-                            ),
+        //AppIcon.dropdownicon,
+        AppIcon.addicon,
+        //fit: BoxFit.,
+        //color: AppColors.textColor,
+        width: 20,
+        height: 20,
+        key: const Key(Keys.userIcon),
+      ),
     );
   }
 }

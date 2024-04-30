@@ -70,7 +70,6 @@ class ContactDetailsState extends Equatable {
     this.users,
     this.message,
     this.labels,
-
   });
 
   ContactDetailsState copyWith({
@@ -81,7 +80,6 @@ class ContactDetailsState extends Equatable {
     List<BaseUser>? users,
     String? message,
     final CdUiLabels? labels,
-
   }) {
     return ContactDetailsState(
       status: status ?? this.status,
@@ -91,7 +89,6 @@ class ContactDetailsState extends Equatable {
       users: users ?? this.users,
       message: message ?? this.message,
       labels: labels ?? this.labels,
-
     );
   }
 }

@@ -49,7 +49,6 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                           setState(() {
                             widget.selectedPoints.remove(item);
                             widget.updatedBriefingPoints(widget.selectedPoints);
-
                           });
                         },
                         child: Chip(

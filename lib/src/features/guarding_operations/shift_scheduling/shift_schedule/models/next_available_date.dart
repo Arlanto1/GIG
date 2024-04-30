@@ -11,8 +11,5 @@ class NextAvailableDateRange {
       : fromDate = json['fromDate'] as String?,
         toDate = json['toDate'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'fromDate' : fromDate,
-    'toDate' : toDate
-  };
+  Map<String, dynamic> toJson() => {'fromDate': fromDate, 'toDate': toDate};
 }

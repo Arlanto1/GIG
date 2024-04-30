@@ -71,7 +71,6 @@ class ArticleDialog extends StatelessWidget {
                           await foundListServices.getArticleById(
                               articles[index].id!, context);
 
-
                       log('-onTap----foundArticleDetailsResponse--${foundArticleDetailsResponse.id}-');
                       nav.pushNamed(createFoundScreenRoute, arguments: {
                         "UserElement": foundArticleDetailsResponse

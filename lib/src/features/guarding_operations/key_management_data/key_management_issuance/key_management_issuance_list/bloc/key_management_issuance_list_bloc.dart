@@ -37,20 +37,20 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
           module: Constants.keyManagementIssuanceModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
         commonServices: commonServices,
       );
@@ -75,7 +75,7 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
@@ -102,8 +102,9 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-  FutureOr<void> _fetchList(
-      FetchKeyIssuanceList event, Emitter<KeyManagementIssuanceListState> emit) async {
+
+  FutureOr<void> _fetchList(FetchKeyIssuanceList event,
+      Emitter<KeyManagementIssuanceListState> emit) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -111,7 +112,6 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
     );
 
     try {
-
       if (state.status == FormStatus.initial || event.newSearch) {
         KeyManagementIssuanceResponseModel response;
         response = await _services.getList(

@@ -1,4 +1,3 @@
-
 import '../../../../index.dart';
 
 part 'annual_power_shutdown_list_model.g.dart';
@@ -18,22 +17,23 @@ class AnnualPowerShutdownListResponse {
 
   AnnualPowerShutdownListResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      AnnualPowerShutdownListModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) => AnnualPowerShutdownListModel.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
+
 @JsonSerializable()
-class AnnualPowerShutdownListModel  extends BaseObject{
+class AnnualPowerShutdownListModel extends BaseObject {
   int? id;
   String? slNo;
   String? inputDate;
@@ -80,6 +80,7 @@ class AnnualPowerShutdownListModel  extends BaseObject{
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
   List<Organisation>? proposedVendors;
+
   // Organisation? proposedVendors;
   double? budget;
   String? poNumber;
@@ -140,5 +141,4 @@ class AnnualPowerShutdownListModel  extends BaseObject{
 
   @override
   Map<String, dynamic> toJson() => _$AnnualPowerShutdownListModelToJson(this);
-
 }

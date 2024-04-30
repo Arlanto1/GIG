@@ -17,7 +17,7 @@ class CreateFoundState extends Equatable {
   final FormStatus status;
   List<ImageContent>? loadAttachments = [];
   final int? eventId;
-final AFUiLabels? labels;
+  final AFUiLabels? labels;
 
   CreateFoundState(
       {this.getDepositorResponse,
@@ -28,13 +28,14 @@ final AFUiLabels? labels;
       this.createEmployeeDepartments,
       this.createUserResponse,
       this.loggedInUser,
-        this.handedOverUser,
+      this.handedOverUser,
       this.createFoundResponse,
       this.getSerialnumberResponse,
       required this.status,
       this.message,
       this.loadAttachments,
-      this.eventId,this.labels});
+      this.eventId,
+      this.labels});
 
   CreateFoundState copyWith({
     GetDepositor? getDepositorResponse,
@@ -65,7 +66,7 @@ final AFUiLabels? labels;
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        handedOverUser:handedOverUser??this.handedOverUser,
+        handedOverUser: handedOverUser ?? this.handedOverUser,
         loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
@@ -86,7 +87,7 @@ final AFUiLabels? labels;
         createEmployeeDepartments,
         createUserResponse,
         loggedInUser,
-    handedOverUser,
+        handedOverUser,
         createFoundResponse,
         getSerialnumberResponse,
         message,

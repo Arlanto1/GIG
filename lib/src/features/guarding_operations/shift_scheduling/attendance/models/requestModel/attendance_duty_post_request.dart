@@ -1,4 +1,3 @@
-
 import 'package:db_atom/index.dart';
 
 class AttendanceShiftDutyPostRequest {
@@ -9,8 +8,7 @@ class AttendanceShiftDutyPostRequest {
   DutyPostModel? requestModel;
 
   AttendanceShiftDutyPostRequest.fromJson(Map<String, dynamic> json) {
-    requestModel =
-        DutyPostModel.fromJson(json['shiftDutyPost']);
+    requestModel = DutyPostModel.fromJson(json['shiftDutyPost']);
   }
 
   Map<String, dynamic> toJson() {

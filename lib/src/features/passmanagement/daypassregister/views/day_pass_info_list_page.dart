@@ -189,11 +189,8 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     );
   }
 
-  Widget listWidgetLoading(
-      double height,
-      DayPassInfoState state,
-      ScrollController? scrollController,
-      List<PassInfo>? foundList) {
+  Widget listWidgetLoading(double height, DayPassInfoState state,
+      ScrollController? scrollController, List<PassInfo>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -256,8 +253,8 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   }
 
   // List view builder
-  Widget _userFoundListWidget(List<PassInfo>? userList,
-      BuildContext cont, ScrollController? scrollController) {
+  Widget _userFoundListWidget(List<PassInfo>? userList, BuildContext cont,
+      ScrollController? scrollController) {
     return Container(
       padding: allMargin16,
       child: Visibility(

@@ -8,10 +8,12 @@ class GMRateRequest {
   });
 
   GMRateRequest.fromJson(Map<String, dynamic> json)
-      : guardingRateInfo = (json['guardingRateInfo'] as Map<String,dynamic>?) != null ? GMRate.fromJson(json['guardingRateInfo'] as Map<String,dynamic>) : null;
+      : guardingRateInfo = (json['guardingRateInfo']
+                    as Map<String, dynamic>?) !=
+                null
+            ? GMRate.fromJson(json['guardingRateInfo'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'guardingRateInfo' : guardingRateInfo?.toJson()
-  };
+  Map<String, dynamic> toJson() =>
+      {'guardingRateInfo': guardingRateInfo?.toJson()};
 }
-

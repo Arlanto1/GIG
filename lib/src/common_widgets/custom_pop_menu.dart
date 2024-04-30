@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomPopmenu extends StatelessWidget {
   final List<PopMenuItems> itemList;
+
   // final List<String> itemImageList;
   final Function itemTap;
   final String popupimagename;
@@ -21,16 +22,16 @@ class CustomPopmenu extends StatelessWidget {
     var appBarHeight = AppBar().preferredSize.height;
 
     return PopupMenuButton(
-      color:AppColors.backgroundWhitecolor ,
+      color: AppColors.backgroundWhitecolor,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       icon: SvgPicture.asset(
         popupimagename,
         colorFilter: const ColorFilter.mode(
           AppColors.backgroundWhitecolor,
           BlendMode.srcIn,
-        ),        width: 18,
+        ),
+        width: 18,
         height: 18,
         //key: const Key(Keys.userIcon),
       ),
@@ -55,29 +56,31 @@ class CustomPopmenu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SvgPicture.asset(
-        popItem.imageName,
+              popItem.imageName,
               colorFilter: const ColorFilter.mode(
                 AppColors.textgreyThemecolor,
                 BlendMode.srcIn,
               ),
               width: 15,
-        height: 15,
-        //key: const Key(Keys.userIcon),
-     ),
-      //CommonWidgets.horizontalSpacerWidget(width * 0.03),
-      
-    //  const Icon(
-    //             Icons.logout_rounded,
-    //             color: AppColors.textgreyThemecolor,
-    //           ),
-            const SizedBox(width: 13,), 
-           Align(
-             alignment: Alignment.topLeft,
-             child: Text(
-                    popItem.title,
-                    style: Styles.textStyleRegularNormalGrey14,
-                  ),
-           ),
+              height: 15,
+              //key: const Key(Keys.userIcon),
+            ),
+            //CommonWidgets.horizontalSpacerWidget(width * 0.03),
+
+            //  const Icon(
+            //             Icons.logout_rounded,
+            //             color: AppColors.textgreyThemecolor,
+            //           ),
+            const SizedBox(
+              width: 13,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                popItem.title,
+                style: Styles.textStyleRegularNormalGrey14,
+              ),
+            ),
           ],
         ),
       ));

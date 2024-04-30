@@ -128,11 +128,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
-     model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       log('-loggedInUserDetails-${loggedInUserDetails.name}----');
       model.createdBy ??= loggedInUserDetails;
@@ -423,8 +422,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

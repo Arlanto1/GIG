@@ -66,7 +66,8 @@ class PMUiLabelsLocale {
   final String? returnedDefacedStatus;
   @JsonKey(name: 'com.arlanto.atom.passManagement.status.defaced')
   final String? defacedStatus;
-  @JsonKey(name: 'com.arlanto.atom.passManagement.idValidationType.drivingLicense')
+  @JsonKey(
+      name: 'com.arlanto.atom.passManagement.idValidationType.drivingLicense')
   final String? idValidationTypeDrivingLicense;
   @JsonKey(name: 'com.arlanto.atom.passManagement.companyType')
   final String? companyType;
@@ -256,7 +257,8 @@ class PMUiLabelsLocale {
       this.otherIdInfo,
       this.department,
       this.visitorName,
-      this.identifiedBy,this.host);
+      this.identifiedBy,
+      this.host);
 
   factory PMUiLabelsLocale.fromJson(Map<String, dynamic> json) =>
       _$PMUiLabelsLocaleFromJson(json);

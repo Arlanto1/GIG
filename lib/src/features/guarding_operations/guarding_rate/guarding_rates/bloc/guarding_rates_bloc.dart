@@ -3,12 +3,12 @@ import 'dart:developer';
 
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
+
 import '../../../../../../index.dart';
 import '../../../../../utils/utils_common.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
-
 part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
@@ -72,7 +72,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingRatesModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingRatesModule,
         commonServices: commonServices,
       );
@@ -80,14 +80,14 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       GRUiLabels labels = GRUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
-            locations: locations,
-            regions: regions,
-            statuses: statuses,
-            commonFilters: commonFilters,
-            hasReachedMax: false,
-            status: FormStatus.initial,
-            labels: labels,
-           extraProperties: extraProperties,
+          locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
+          hasReachedMax: false,
+          status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {
@@ -98,7 +98,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
@@ -139,7 +139,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true,
+        return emit(state.copyWith(
+          hasReachedMax: true,
           status: FormStatus.success,
         ));
       }

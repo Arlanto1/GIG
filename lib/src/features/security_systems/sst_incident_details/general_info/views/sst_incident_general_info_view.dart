@@ -852,16 +852,21 @@ class _SstIncidentGeneralInfoViewState
   }
 
   Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 14;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || state.model.id == 14
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -876,7 +881,8 @@ class _SstIncidentGeneralInfoViewState
                   },
                   positiveBtnText: Constants.yes,
                   negativeBtnText: Constants.no);
-              showDialog(context: context, builder: (BuildContext context) => dialog);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
             },
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
