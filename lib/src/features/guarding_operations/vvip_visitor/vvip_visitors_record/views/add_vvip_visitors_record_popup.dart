@@ -12,6 +12,7 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
     required this.model,
     required this.mainContext,
     this.vvipModel,
+    this.extraProperties,
   });
 
   final String title;
@@ -19,6 +20,7 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
   final VIVPVisitorRecordModel model;
   final BuildContext mainContext;
   final VIVPVisitorModel? vvipModel;
+  final ExtraProperties? extraProperties;
 
   @override
   State<AddVVIPVisitorsPopUp> createState() => AddVVIPVisitorsPopUpState();
@@ -99,16 +101,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             hintText: '',
                             isEnable: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? true
                                 : false,
                             isDisableColor: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             onChange: (String value) {
@@ -135,16 +137,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             hintText: '',
                             isEnable: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? true
                                 : false,
                             isDisableColor: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             onChange: (String value) {
@@ -168,16 +170,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             hintText: '',
                             isEnable: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? true
                                 : false,
                             isDisableColor: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             onChange: (String value) {
@@ -201,16 +203,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             hintText: '',
                             isEnable: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? true
                                 : false,
                             isDisableColor: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             onChange: (String value) {
@@ -234,16 +236,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             hintText: '',
                             isEnable: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? true
                                 : false,
                             isDisableColor: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             onChange: (String value) {
@@ -266,9 +268,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             textController: startDateVisitController,
                             isDisabled: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             showPastDate: false,
@@ -293,9 +295,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             textController: endDateVisitController,
                             isDisabled: (widget.vvipModel?.status == 0 ||
                                         widget.vvipModel?.status == null) &&
-                                    (state.extraProperties
-                                            ?.hasWritePermission ??
-                                        false)
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
                                 ? false
                                 : true,
                             showPastDate: false,
@@ -331,7 +333,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
         cancelButton(width),
         if ((widget.vvipModel?.status == 0 ||
                 widget.vvipModel?.status == null) &&
-            (state.extraProperties?.hasWritePermission ?? false)) ...[
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) ...[
           saveButton(width, widget.onSubmit)
         ]
       ],
