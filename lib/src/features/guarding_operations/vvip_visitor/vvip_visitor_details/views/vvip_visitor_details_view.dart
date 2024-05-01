@@ -334,8 +334,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                           if ((state.model.status == -1 ||
                                       state.model.status == 1) &&
                                   isReadOnly
-                              ? false
-                              : true) ...[submitButtonDisplay()],
+                              ? true
+                              : false) ...[submitButtonDisplay()],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
