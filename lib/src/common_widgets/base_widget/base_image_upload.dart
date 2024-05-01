@@ -60,6 +60,7 @@ class BaseImageUpload {
     List<ImageContent>? attachments,
     required bool showDownloadIcon,
     required String moduleCode,
+    bool? showDeleteIcon,
   }) {
     if (attachments != null) {
       return Column(
@@ -69,6 +70,7 @@ class BaseImageUpload {
             attachmentListviews: files ?? attachments,
             showDownloadIcon: showDownloadIcon,
             moduleCode: moduleCode,
+            showDeleteIcon: showDeleteIcon,
           ),
         ],
       );
@@ -85,13 +87,15 @@ class AttachmentListView extends StatefulWidget {
   final List<ImageContent>? attachmentListviews;
   final bool showDownloadIcon;
   final String moduleCode;
+  final bool? showDeleteIcon;
 
   const AttachmentListView({
-    super.key,
+    Key? key,
     this.attachmentListviews,
     required this.showDownloadIcon,
     required this.moduleCode,
-  });
+    this.showDeleteIcon,
+  }) : super(key: key);
 
   @override
   AttachmentListViewState createState() => AttachmentListViewState();
@@ -137,7 +141,8 @@ class AttachmentListViewState extends State<AttachmentListView> {
                       child: BaseIcons().downloadIcon(),
                     ),
                     const SizedBox(width: 10),
-                    IconButton(
+                    widget.showDeleteIcon == true
+                        ? IconButton(
                       icon: BaseIcons().deleteIcon(),
                       onPressed: () {
                         // Delete logic here
@@ -147,7 +152,8 @@ class AttachmentListViewState extends State<AttachmentListView> {
                           });
                         }
                       },
-                    ),
+                    )
+                        : const SizedBox(),
                   ],
                 ),
                 title: FlutterInputField(
