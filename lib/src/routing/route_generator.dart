@@ -628,6 +628,7 @@ class RouteGenerator {
       case slaViolationPenaltyRecordsRoute:
         String title = '';
         int id = 0;
+        ExtraProperties? extraProperties;
         List<Organisation> violationDescriptions = [];
         String violationDescription = '';
         if (settings.arguments != null) {
@@ -639,6 +640,7 @@ class RouteGenerator {
               arguments[ConstantsArgument.violationDescription] ?? '';
           violationDescriptions =
               arguments[ConstantsArgument.violationDescriptions] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
@@ -653,6 +655,8 @@ class RouteGenerator {
             child: ViolationPenaltyRecordsView(
               id: id,
               title: title,
+              extraProperties: extraProperties,
+
             ),
           ),
         );
