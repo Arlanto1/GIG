@@ -16,6 +16,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../index.dart';
 import '../../../../../enums/form_status.dart';
 import '../../models/violation_penalty_model.dart';
 import '../bloc/violation_penalty_record_bloc.dart';
@@ -26,11 +27,13 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
     required this.id,
     required this.title,
     this.model,
+    this.extraProperties,
   });
 
   final int id;
   final String title;
   final ViolationPenaltyRecord? model;
+  final ExtraProperties? extraProperties;
 
   @override
   State<ViolationPenaltyRecordsView> createState() => _ContactRecordViewState();
@@ -77,10 +80,10 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         ViolationPenaltyRecordState>(listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
-      log('permission ${state.extraProperties?.hasWritePermission}');
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: state.extraProperties?.hasWritePermission ?? false
+        floatingActionButton: !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission! )
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,

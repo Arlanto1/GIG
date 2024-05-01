@@ -8,7 +8,6 @@ class ViolationPenaltyRecordState extends Equatable {
   final Map<String, dynamic>? staffCategoriesValues;
   final String? message;
   final SlaUiLabels? labels;
-  final ExtraProperties? extraProperties;
 
   const ViolationPenaltyRecordState({
     this.message,
@@ -18,7 +17,6 @@ class ViolationPenaltyRecordState extends Equatable {
     this.violationDescriptions,
     this.staffCategoriesValues,
     this.labels,
-    this.extraProperties,
   });
 
   ViolationPenaltyRecordState copyWith({
@@ -29,7 +27,6 @@ class ViolationPenaltyRecordState extends Equatable {
     Map<String, dynamic>? staffCategoriesValues,
     String? message,
     SlaUiLabels? labels,
-    ExtraProperties? extraProperties,
   }) {
     return ViolationPenaltyRecordState(
       items: items ?? this.items,
@@ -41,7 +38,6 @@ class ViolationPenaltyRecordState extends Equatable {
           staffCategoriesValues ?? this.staffCategoriesValues,
       message: message ?? this.message,
       labels: labels ?? this.labels,
-      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 
