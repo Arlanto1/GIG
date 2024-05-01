@@ -59,14 +59,16 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         onChange: (String value) {
                           log('--value----$value------');
                           powerFailureStartDateController.text = value;
-                           selectedStartDate = DateFormat('dd/MM/yyyy hh:mm:ss').parse(value).toString();
+                           selectedStartDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value).toString();
                           DateTime parsedDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value);
 
                           // Add two days to the parsed date
-                          DateTime newDate = parsedDate.add(const Duration(days: 2));
+                          DateTime newDate = parsedDate.add(const Duration(days: 1));
 
                           // Format the new date back into the desired string format
-                          startToDate = DateFormat('dd/MM/yyyy hh:mm:ss').format(newDate);
+                          startToDate = newDate.toString();
+
+
                           setState(() {});
                         },
                         context: widget.mainContext,
@@ -75,7 +77,6 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         Constants.powerFailureEndDate,
                         Styles.textStyleBlack14,
                       ),
-                      Text('---selectedStartDate-$selectedStartDate-----'),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       BaseDate().datePickerWidgetLoading(
                         textController: powerFailureEndDateController,
