@@ -331,11 +331,11 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(state),
-                          if ((state.model.status == -1 ||
-                                      state.model.status == 1) &&
-                                  isReadOnly
-                              ? false
-                              : true) ...[submitButtonDisplay()],
+                          if ((state.model.status != -1 &&
+                                      state.model.status != 1) &&
+                                  !isReadOnly
+                              ? true
+                              : false) ...[submitButtonDisplay()],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -368,7 +368,6 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.model?.status == 1;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
