@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../../../utils/utils_common.dart';
+
 part 'shift_schedule_list_event.dart';
 
 part 'shift_schedule_list_state.dart';
@@ -45,6 +47,12 @@ class ShiftScheduleListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.shiftScheduleModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.shiftScheduleModuleCode,
+        commonServices: commonServices,
+      );
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -55,6 +63,7 @@ class ShiftScheduleListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {

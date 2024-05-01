@@ -8,6 +8,7 @@ class ShiftScheduleListState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final SSUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const ShiftScheduleListState({
     this.items = const <ShiftScheduleModel>[],
@@ -17,6 +18,7 @@ class ShiftScheduleListState extends Equatable {
     this.labels,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   ShiftScheduleListState copyWith({
@@ -29,6 +31,7 @@ class ShiftScheduleListState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return ShiftScheduleListState(
       items: items ?? this.items,
@@ -38,6 +41,7 @@ class ShiftScheduleListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

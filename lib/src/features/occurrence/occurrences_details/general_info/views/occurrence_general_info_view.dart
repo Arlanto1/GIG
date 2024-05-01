@@ -1538,14 +1538,24 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null || state.model.id == 1 ?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
-      },
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
+        },
     );
   }
 

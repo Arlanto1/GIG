@@ -6,11 +6,13 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 class DutyPostNameMasterDetailsView extends StatefulWidget {
   final DutyPostNameMasterModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const DutyPostNameMasterDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -28,7 +30,8 @@ class _DutyPostNameMasterDetailsViewState
 
   bool isDisabled = true;
   bool isReadOnly = false;
-bool showSaveSubmitButtons =false;
+  bool showSaveSubmitButtons = false;
+
   get model => null;
 
   get guardingMasterData => null;
@@ -74,19 +77,21 @@ bool showSaveSubmitButtons =false;
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
-        if ( state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if ( state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         showSaveSubmitButtons = state.model.status == 0 ||
             state.model.status == 1 ||
             state.model.status == null ||
@@ -97,7 +102,7 @@ bool showSaveSubmitButtons =false;
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSubmitButton:showSaveSubmitButtons,
+            showSubmitButton: showSaveSubmitButtons,
             showSaveButton: showSaveSubmitButtons,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -227,8 +232,8 @@ bool showSaveSubmitButtons =false;
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate().creationDateDisplay(
-                              state.model.inputDate ?? ''),
+                          BaseDate()
+                              .creationDateDisplay(state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Location
@@ -243,14 +248,13 @@ bool showSaveSubmitButtons =false;
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                              state.model.location?.name ?? '',
+                                  state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
                                 BlocProvider.of<DutyPostNameMasterDetailsCubit>(
-                                    context)
+                                        context)
                                     .updateDropdownValues(location: location);
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
@@ -325,8 +329,8 @@ bool showSaveSubmitButtons =false;
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,
                                 isMandatory: true,
                                 '${state.model.modifiedBy}'),
@@ -364,17 +368,19 @@ bool showSaveSubmitButtons =false;
     List<Widget> widgets = [];
     for (DpName dutyPostLocationName in list) {
       TextEditingController dutyPostLocationNameController =
-      TextEditingController();
+          TextEditingController();
       dutyPostLocationNameController.text =
           dutyPostLocationName.dutyPostName ?? '';
-      bool isTransportShift = dutyPostLocationName.transportShift ?? false; // Add this line
+      bool isTransportShift =
+          dutyPostLocationName.transportShift ?? false; // Add this line
       widgets.add(Row(
         children: [
           Text(
             dutyPostLocationName.dutyPostName ?? '',
             textAlign: TextAlign.start,
           ),
-          Checkbox( // Add this Checkbox widget
+          Checkbox(
+            // Add this Checkbox widget
             value: isTransportShift,
             activeColor: AppColors.navigationSkybluecolor,
             focusColor: AppColors.navigationSkybluecolor,
@@ -423,7 +429,6 @@ bool showSaveSubmitButtons =false;
     }
   }
 
-
   void deleteDutyPostLocationName(
       DpName locationName, DutyPostNameMasterDetailsState state) {
     setState(() {
@@ -436,13 +441,24 @@ bool showSaveSubmitButtons =false;
   Widget cancelButtonDisplay(DutyPostNameMasterDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }

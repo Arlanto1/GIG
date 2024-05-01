@@ -61,13 +61,21 @@ class Utils {
     return date;
   }
 
-  static int dateToTimestampConversion(String date, String format) {
-    try {
-      DateTime dt = DateFormat(format).parse(date);
-      return dt.millisecondsSinceEpoch ~/ 1000;
-    } catch (e) {
-      throw FormatException('Error parsing date string: $date');
+  static int dateToTimestampConversion(String? date, String format) {
+    // final df = new DateFormat(Constants.fulldateFormat);
+    //df.format(new DateTime.fromMillisecondsSinceEpoch(myvalue*1000)));
+    // DateTime dt = HttpDate.parse(date ?? '');
+    DateTime? dt;
+    if ((date ?? '').isEmpty) {
+      dt = DateTime.tryParse(date ?? '');
+    } else {
+      dt = DateFormat(format).parse(date ?? '');
     }
+
+    // Timestamp myTimeStamp = Timestamp.fromDate(dt);
+    double timestamp = (dt?.millisecondsSinceEpoch ?? 0) / 1000;
+
+    return timestamp.toInt(); //myTimeStamp.seconds;
   }
 
   static dynamicAlert(

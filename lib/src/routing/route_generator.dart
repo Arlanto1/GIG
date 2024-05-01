@@ -1361,11 +1361,13 @@ class RouteGenerator {
         DutyPostMasterServices services = DutyPostMasterServices();
         CommonServices commonServices = CommonServices();
         String title;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         DutyPostMasterModel? dutyPostMasterModel =
             arguments["dutyPostMasterModel"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<DutyPostMasterDetailsCubit>(
             create: (_) => DutyPostMasterDetailsCubit(
@@ -1376,6 +1378,7 @@ class RouteGenerator {
             child: DutyPostMasterDetailsView(
               model: dutyPostMasterModel,
               title: title,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -1396,11 +1399,13 @@ class RouteGenerator {
         DutyPostNameMasterServices services = DutyPostNameMasterServices();
         CommonServices commonServices = CommonServices();
         String title;
+        ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         DutyPostNameMasterModel? dutyPostNameMasterModel =
             arguments["dutyPostNameMasterModel"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<DutyPostNameMasterDetailsCubit>(
             create: (_) => DutyPostNameMasterDetailsCubit(
@@ -1411,6 +1416,7 @@ class RouteGenerator {
             child: DutyPostNameMasterDetailsView(
               model: dutyPostNameMasterModel,
               title: title,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -1429,10 +1435,12 @@ class RouteGenerator {
 
       case attendanceDetailsRoute:
         String id = '';
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1443,7 +1451,9 @@ class RouteGenerator {
               services: services,
               commonServices: commonServices,
             ),
-            child: const AttendanceDetailsView(),
+            child: AttendanceDetailsView(
+              extraProperties: extraProperties,
+            ),
           ),
         );
 
@@ -1510,17 +1520,19 @@ class RouteGenerator {
 
       case shiftScheduleDetailsRoute:
         String id = '';
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
             create: (_) => ShiftScheduleDetailsCubit(
               id: id,
             ),
-            child: const ShiftScheduleDetailsView(),
+            child: ShiftScheduleDetailsView(extraProperties: extraProperties),
           ),
         );
 

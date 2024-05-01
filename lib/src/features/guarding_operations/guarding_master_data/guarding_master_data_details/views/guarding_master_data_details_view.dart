@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:intl/intl.dart';
 
 class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
@@ -2551,10 +2550,10 @@ class _GuardingMasterDataDetailsViewState
   Widget cancelButtonDisplay(GuardingMasterDataDetailsState state) {
     return AppButton(
       // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);

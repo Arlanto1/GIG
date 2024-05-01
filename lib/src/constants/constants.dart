@@ -7,6 +7,8 @@ class Constants {
   /// Pagination
   static const int maxResults = 20;
 
+  static const double cancelButtonWidth = 170;
+
   /// Text Form Field Character Limit
   static const int characterLimitContactNo = 17;
   static const int characterLimitIdTextFormField = 250;
@@ -263,6 +265,9 @@ class Constants {
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
+  static const String cancelRecord = 'Cancel Record';
+  static const String cancelRecordWarningMessage = 'Are you sure, do you want to cancel the record?';
+  static const String close = 'Close';
   static const String showList = 'Show List';
   static const String add = 'Add';
   static const String open = 'Open';

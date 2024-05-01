@@ -70,7 +70,6 @@ export 'package:db_atom/src/features/annual_power_shutdown_list/models/requestMo
 export 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_cubit.dart';
 export 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
 export 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-export 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
 export 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
 export 'package:db_atom/src/features/contact_details/contact_details/views/contact_details_view.dart';
 export 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
