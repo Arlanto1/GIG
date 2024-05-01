@@ -612,7 +612,7 @@ class _KeyHistoryRecordsDetailsViewState
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
                                           .model.createdBy?.userName)))) &&
-                                  (widget.extraProperties != null &&
+                                  !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
                                 BaseOrganisationDialog().departmentDialog(

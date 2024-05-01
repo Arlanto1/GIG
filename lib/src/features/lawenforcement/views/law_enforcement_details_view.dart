@@ -741,6 +741,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             widget.model == null ||
                                                 widget.model?.status == 0,
                                         moduleCode: Constants.leoModuleCode,
+                                        showDeleteIcon:   widget.model == null ||
+                                            widget.model?.status == 0,
                                       ),
                                       // Attachments
                                       // getSpaceattchment(height),
