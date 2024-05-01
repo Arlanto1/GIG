@@ -6,23 +6,24 @@ class OccurrenceGeneralInfoState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? emailUsers;
+  final List<BaseUser>? shiftTakenOverBy;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
-  final List<PowerFailure>? participationDates;
+  final List<PowerFailureModel>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
   final bool? isReadOnly;
-
+  final OCCUiLabels? labels;
+  final bool? isOnGoingPowerFailure;
 
   factory OccurrenceGeneralInfoState.initial({
     required OccurrenceModel model,
     required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
-    final List<BaseUser>? emailUsers,
+    final List<BaseUser>? shiftTakenOverBy,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
@@ -30,7 +31,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
-    List<PowerFailure>? participationDate,
+    List<PowerFailureModel>? participationDate,
   }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
@@ -40,7 +41,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
-      emailUsers: emailUsers,
+      shiftTakenOverBy: shiftTakenOverBy,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
@@ -131,10 +132,11 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Notify SCRI is Mandatory');
     }
 
-    // if (model.powerFailure && model.powerFailureStartDate == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Power Failure Start Date is Mandatory');
-    // }
+    if (model.comments == null) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Follow Up Actions For Next Shift');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -147,7 +149,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     required this.model,
     this.locations,
     this.users,
-    this.emailUsers,
+    this.shiftTakenOverBy,
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
@@ -157,6 +159,8 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.isReadOnly,
+    this.labels,
+    this.isOnGoingPowerFailure,
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -165,15 +169,16 @@ class OccurrenceGeneralInfoState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? emailUsers,
+    List<BaseUser>? shiftTakenOverBy,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
-    List<PowerFailure>? participationDates,
+    List<PowerFailureModel>? participationDates,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
     bool? isReadOnly,
+    bool? isOnGoingPowerFailure,
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -181,7 +186,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
+      shiftTakenOverBy: shiftTakenOverBy ?? this.shiftTakenOverBy,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
@@ -190,6 +195,8 @@ class OccurrenceGeneralInfoState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       isReadOnly: isReadOnly ?? this.isReadOnly,
+      isOnGoingPowerFailure:
+          isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
     );
   }
 }

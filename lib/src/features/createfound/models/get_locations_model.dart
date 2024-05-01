@@ -17,13 +17,7 @@ class Locations {
   @JsonKey(name: 'Central')
   List<Organisation>? central;
 
-  Locations({
-    this.west,
-    this.south,
-    this.northEast,
-    this.mumbai,
-    this.central
-  });
+  Locations({this.west, this.south, this.northEast, this.mumbai, this.central});
 
   factory Locations.fromJson(Map<String, dynamic> json) =>
       _$LocationsFromJson(json);

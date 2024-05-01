@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+
+import '../../../../../../utils/utils_common.dart';
 
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
@@ -11,12 +14,14 @@ class KeyIssuanceProcessRecordBloc
     extends Bloc<KeyIssuanceProcessRecordEvent, KeyIssuanceProcessRecordState> {
   final int locationId;
   final int parentId;
-  final bool? isMasterKey;
+  final bool isMasterKey;
+  final KeyManagementMasterModel? keyManagementMasterModel;
 
   KeyIssuanceProcessRecordBloc({
     required this.locationId,
     required this.parentId,
-    this.isMasterKey,
+    required this.isMasterKey,
+    this.keyManagementMasterModel,
   }) : super(const KeyIssuanceProcessRecordState()) {
     on<FetchData>(
       _fetchContacts,
@@ -39,20 +44,34 @@ class KeyIssuanceProcessRecordBloc
       //     await commonServices.getOrganisations(name: violationDescription);
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId,isMasterKey: isMasterKey!);
+          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.keyManagementIssuanceModule);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementIssuanceModule,
+        commonServices: commonServices,
+      );
+      KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       return emit(
         state.copyWith(
           hasReachedMax: false,
           labels: labels,
           keyDescriptions: keyDescriptions,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -137,7 +156,6 @@ class KeyIssuanceProcessRecordBloc
     try {
       KeyIssuanceProcessRecordRequest request =
           KeyIssuanceProcessRecordRequest();
-
 
       // request.model?.keyDescription ??= Organisation();
       // request.model?.keyDescription?.id = event.mainIssuanceId;

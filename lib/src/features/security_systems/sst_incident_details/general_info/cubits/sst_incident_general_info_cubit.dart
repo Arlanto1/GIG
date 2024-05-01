@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';
@@ -68,10 +70,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
 
-    List<BaseUser> securityManagers =
-    await commonServices.getBaseUsersByRoles(
+    List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
-
 
     emit(
       state.copyWith(
@@ -82,7 +82,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
         securityLeads: securityLeads,
-        securityManagers:securityManagers,
+        securityManagers: securityManagers,
         locationTeamUsers: locationTeamUsers,
       ),
     );
@@ -104,7 +104,15 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-      model.createdDate = Utils().getCurrentDate();
+      // model.createdDate = Utils().getCurrentDate();
+      // model.createdDate = model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.createdDate ?? '');
+
+      model.createdDate = model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.createdDate ?? '0'), Constants.fulldateFormat);
 
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -157,7 +165,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         state.model.staffType = 2;
         state.model.ticketType = 1;
       }
-        state.model.status = 1;
+      state.model.status = 1;
 
       emit(
         state.copyWith(
@@ -224,14 +232,16 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       if (!emails.isEmptyOrNull) {
         log('--emails?[0]-${emails?[0]}-');
         state.model.vendorPoc = emails?[0].trim();
-        if (!emails![1].isEmptyOrNull) {
+        if (!emails.isEmptyOrNull &&
+            emails!.length > 1 &&
+            !emails[1].isEmptyOrNull) {
           state.model.escalation1Poc =
               !emails[1].isEmptyOrNull ? emails[1].trim() : '';
         }
 
-        log('--emails.length-${emails.length}-');
+        log('--emails.length-${emails?.length}-');
 
-        if (emails.length >= 3) {
+        if (emails!.length >= 3) {
           state.model.escalation2Poc =
               !emails[2].isEmptyOrNull ? emails[2].trim() : '';
         }
@@ -239,7 +249,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           state.model.escalation3Poc =
               !emails[3].isEmptyOrNull ? emails[3].trim() : '';
         }
-
       }
 
       emit(
@@ -343,7 +352,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       for (ImageContent image in data) {
         image.type = 1;
       }
-      log('--data----${data?.length}----');
+      log('--data----${data.length}----');
 
       state.model.attachments = data;
       emit(
@@ -401,8 +410,16 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.ticketType = 1;
     }
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
 
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
@@ -423,7 +440,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -434,13 +451,18 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           isSubmit: true,
         );
       }
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       log('--e.message-Exception-${e.toString()}---');
@@ -450,6 +472,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           status: FormStatus.error,
         ),
       );
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     }
 
@@ -464,6 +491,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(id: id, module: Constants.securitySystemModule);
+    commonServices.updateRecordStatus(
+        id: id, module: Constants.securitySystemModule);
   }
 }

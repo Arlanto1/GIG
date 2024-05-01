@@ -35,10 +35,10 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
   Widget build(BuildContext context) {
     log('------payRate--${widget.payRate.total}------');
 
-    fromDateController.text = Utils.timestamptoDateConversion(
+    fromDateController.text = Utils.timestampToDateConversion(
         int.parse(widget.payRate.fromDate ?? '0'), Constants.dateFormat);
 
-    toDateController.text = Utils.timestamptoDateConversion(
+    toDateController.text = Utils.timestampToDateConversion(
         int.parse(widget.payRate.toDate ?? '0'), Constants.dateFormat);
 
     return AlertDialog(
@@ -246,7 +246,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           cancelButton(width),
-         // saveButton(width, widget.onSubmit)
+          // saveButton(width, widget.onSubmit)
         ],
       ),
     );

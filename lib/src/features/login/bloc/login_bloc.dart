@@ -13,7 +13,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   String password = '';
   String deviceToken = '';
 
-  LoginBloc({required this.loginService}) : super(LoginLoadingState()) {
+  LoginBloc({required this.loginService})
+      : super(LoginLoadingState(status: FormStatus.loading)) {
     on<LoginVerifyEvent>(_loginVerifyEvent);
     on<ForgotPwdEvent>(_forgotPwdEvent);
     on<UpdatePwdEvent>(_updatePwdEvent);
@@ -21,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<FutureOr<void>> _loginVerifyEvent(
       LoginVerifyEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
+    emit(LoginLoadingState(status: FormStatus.loading));
     LoginResponseModel loginData = LoginResponseModel();
     try {
       loginData = await loginService.loginUser(event.requestModel);
@@ -47,7 +48,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         if (loginData.user?.displayMenu == null) {
           log('-2-33-44---');
-          emit(LoginSuccessState(message: 'Menu Roles are not defined'));
+          emit(LoginFailureState(
+            message: 'Menu Roles are not defined',
+            status: FormStatus.error,
+          ));
           return null;
         }
         log('-3-----');
@@ -68,18 +72,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       } else {
         log('-5-----');
-        emit(LoginSuccessState(message: loginData.message ?? ''));
+        emit(LoginSuccessState(
+          message: loginData.message ?? '',
+          status: FormStatus.success,
+        ));
       }
     } catch (e) {
       // Handle API errors here
       if (e is GenericResponse) {
         emit(LoginFailureState(
-            message: e.message ?? 'An unexpected error occurred.'));
+          message: e.message ?? 'An unexpected error occurred.',
+          status: FormStatus.error,
+        ));
       } else {
         InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
         log('An unexpected error occurred---1: $e');
-        emit(LoginFailureState(message: 'An unexpected error occurred.'));
+        emit(LoginFailureState(
+          message: 'An unexpected error occurred.',
+          status: FormStatus.error,
+        ));
       }
       // Problem: not able to read the response here because loginData.msg is null
       // log('response--------$e-----');
@@ -89,24 +101,33 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<FutureOr<void>> _forgotPwdEvent(
       ForgotPwdEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
+    emit(LoginLoadingState(status: FormStatus.loading));
     try {
       LoginResponseModel loginData =
           await loginService.forgotPwdAPI(event.requestModel);
 
       emit(
-        LoginSuccessState(message: loginData.message ?? ''),
+        LoginSuccessState(
+          message: loginData.message ?? '',
+          status: FormStatus.success,
+        ),
       );
     } catch (e) {
       if (e is GenericResponse) {
         emit(
-          LoginFailureState(message: e.message ?? 'Please try after sometime'),
+          LoginFailureState(
+            message: e.message ?? 'Please try after sometime',
+            status: FormStatus.error,
+          ),
         );
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');
         emit(
-          LoginFailureState(message: 'An unexpected error occurred.'),
+          LoginFailureState(
+            message: 'An unexpected error occurred.',
+            status: FormStatus.error,
+          ),
         );
       }
     }
@@ -114,21 +135,31 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<FutureOr<void>> _updatePwdEvent(
       UpdatePwdEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
+    emit(LoginLoadingState(status: FormStatus.loading));
     try {
       LoginResponseModel loginData =
           await loginService.updatePassword(event.requestModel);
       await SharedPrefs.setIsRequiredPasswordChange(false);
 
-      emit(LoginSuccessState(message: loginData.message ?? ''));
+      emit(
+        LoginSuccessState(
+          message: loginData.message ?? '',
+          status: FormStatus.success,
+        ),
+      );
     } catch (e) {
       if (e is GenericResponse) {
         emit(LoginFailureState(
-            message: e.message ?? 'Please try after sometime'));
+          message: e.message ?? 'Please try after sometime',
+          status: FormStatus.error,
+        ));
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');
-        emit(LoginFailureState(message: 'An unexpected error occurred.'));
+        emit(LoginFailureState(
+          message: 'An unexpected error occurred.',
+          status: FormStatus.error,
+        ));
       }
     }
   }

@@ -45,7 +45,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
       pageNumber = pageNumber + 20;
       context.read<GuardingMasterDataBloc>().add(FetchDataList(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -56,7 +56,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     context.read<GuardingMasterDataBloc>().add(
           const RefreshLists(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -71,187 +71,223 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        // floatingActionButton: Flutterfloatingbutton(
-        //   backgroundColor: AppColors.navigationSkybluecolor,
-        //   foregroundColor: AppColors.backgroundWhitecolor,
-        //   onPressed: () => {
-        //     Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-        //         arguments: {"title": Constants.createGuardingMasterData}),
-        //   },
-        // ),
+    return BlocConsumer<GuardingMasterDataBloc, GuardingMasterDataState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+              backgroundColor: AppColors.cardBgColor,
+              // floatingActionButton: Flutterfloatingbutton(
+              //   backgroundColor: AppColors.navigationSkybluecolor,
+              //   foregroundColor: AppColors.backgroundWhitecolor,
+              //   onPressed: () => {
+              //     Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+              //         arguments: {"title": Constants.createGuardingMasterData}),
+              //   },
+              // ),
 
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.guardingMasterDataTitle,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
-            builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.list.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
-          log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
+              appBar: BaseAppBar().buildAppHeader(
+                context: context,
+                title: Constants.guardingMasterDataTitle,
+                showPopUp: true,
+                showSaveButton: false,
+                showSubmitButton: false,
+                showDisLikeButton: false,
+                showLikeButton: false,
+                excelAPIName: 'exportGMDataExcel',
+                pdfAPIName: 'exportGMDataPDF',
+              ),
+              body:
+                  BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
+                      builder: (context, state) {
+                // if (state.status == FormStatus.initial) {
+                //   return const BaseLoader();
+                // }
+                // if (state.list.isEmptyOrNull) {
+                //   return const NoRecordFoundWidget();
+                // }
+                log('--labels-${state.labels?.locale.locationRegion}');
+                return Container(
+                  margin: allMargin16,
+                  decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                      )),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      BaseSearchWidget(
+                        applySearchFilters: applySearchFilters,
+                        applyFilters: applyFilters,
+                        commonFilters: state.commonFilters ??
+                            CommonFilters(
+                              statuses: [],
+                              regions: [],
+                            ),
                       ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      if (state.status == FormStatus.loading) ...[
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        const BaseLoader(),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
+                      // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                      // Text('state.status=====${state.status}'),
+                      if (state.list.isEmptyOrNull &&
+                          state.status != FormStatus.loading &&
+                          state.status != FormStatus.initial) ...[
+                        CommonWidgets.verticalSpacerWidget(height * 0.1),
+                        const NoRecordFoundWidget(),
+                      ],
 
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      itemBuilder: (context, index) {
-                        List<Label> labels = [];
-                        if (index < state.list.length) {
-                          labels.add(Label(
-                              key: state.labels?.locale.locationRegion ??
-                                  state.labels?.defaultLocale.locationRegion ??
-                                  'Region',
-                              value: state.list[index].locationRegion?.name ??
-                                  ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  'Building Location ',
-                              value: state.list[index].location?.name ?? ''));
-                        }
-                        return index >= state.list.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.list[index].id,
-                                labels: labels,
-                                status: state.list[index].status,
-                                isMasterGuard: true,
-                                guardRank: state.list[index].guardRank,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        guardRank:
-                                            state.list[selectedIndex].guardRank,
-                                        gender:
-                                            state.list[selectedIndex].gender,
-                                        dutyType:
-                                            state.list[selectedIndex].dutyType,
-                                        maritalStatus: state
-                                            .list[selectedIndex].maritalStatus,
+                      Expanded(
+                        child: SmartRefresher(
+                          controller: refreshController,
+                          enablePullDown: true,
+                          physics: const BouncingScrollPhysics(),
+                          header: WaterDropHeader(
+                            waterDropColor: AppColors.navigationSkybluecolor,
+                            refresh: state.status != FormStatus.loading
+                                ? const BaseLoader()
+                                : null,
+                          ),
+                          key: const Key(Keys.refreshKey),
+                          onRefresh: _onRefresh,
+                          onLoading: _onLoading,
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: state.hasReachedMax
+                                ? state.list.length
+                                : state.list.length + 1,
+                            itemBuilder: (context, index) {
+                              List<Label> labels = [];
+                              if (index < state.list.length) {
+                                labels.add(Label(
+                                    key: state.labels?.locale.locationRegion ??
+                                        state.labels?.defaultLocale
+                                            .locationRegion ??
+                                        'Region',
+                                    value: state
+                                            .list[index].locationRegion?.name ??
+                                        ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.location ??
+                                        state.labels?.defaultLocale.location ??
+                                        'Building Location ',
+                                    value: state.list[index].location?.name ??
+                                        ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.entrySecurity ??
+                                        state.labels?.defaultLocale
+                                            .entrySecurity ??
+                                        'Created By',
+                                    value:
+                                        '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
+                                return index >= state.list.length
+                                    ? const BaseLoader()
+                                    : BaseListTileItem(
+                                        id: state.list[index].id,
                                         labels: labels,
-                                        isMaterGuard: true,
-                                        //isEventProtectionStatus: false,
-                                        status:
-                                            state.list[selectedIndex].status,
+                                        status: state.list[index].status,
+                                        isMasterGuard: true,
+                                        guardRank: state.list[index].guardRank,
+                                        onTap: (selectedIndex) {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext dialogContext) {
+                                              return BasePopUpItems(
+                                                id: state.list[selectedIndex].id
+                                                    .toString(),
+                                                slNo: state
+                                                    .list[selectedIndex].slNo,
+                                                guardRank: state
+                                                    .list[selectedIndex]
+                                                    .guardRank,
+                                                gender: state
+                                                    .list[selectedIndex].gender,
+                                                dutyType: state
+                                                    .list[selectedIndex]
+                                                    .dutyType,
+                                                maritalStatus: state
+                                                    .list[selectedIndex]
+                                                    .maritalStatus,
+                                                labels: labels,
+                                                isMaterGuard: true,
+                                                //isEventProtectionStatus: false,
+                                                status: state
+                                                    .list[selectedIndex].status,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        onEditTap: (selectedIndex) {
+                                          getById(
+                                              state.extraProperties
+                                                      ?.hasWritePermission ??
+                                                  false,
+                                              state.list[index].id ?? 0);
+                                        },
+                                        showEditButton: true,
+                                        onViewTap: (selectedIndex) {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext dialogContext) {
+                                              return BasePopUpItems(
+                                                id: state.list[selectedIndex].id
+                                                    .toString(),
+                                                slNo: state
+                                                    .list[selectedIndex].slNo,
+                                                guardRank: state
+                                                    .list[selectedIndex]
+                                                    .guardRank,
+                                                gender: state
+                                                    .list[selectedIndex].gender,
+                                                dutyType: state
+                                                    .list[selectedIndex]
+                                                    .dutyType,
+                                                maritalStatus: state
+                                                    .list[selectedIndex]
+                                                    .maritalStatus,
+                                                labels: labels,
+                                                status: state
+                                                    .list[selectedIndex].status,
+                                                isMaterGuard: true,
+                                                // isEventProtectionStatus: false,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        index: index,
                                       );
-                                    },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getById(state.list[index].id ?? 0);
-                                },
-                                showEditButton: true,
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        guardRank:
-                                            state.list[selectedIndex].guardRank,
-                                        gender:
-                                            state.list[selectedIndex].gender,
-                                        dutyType:
-                                            state.list[selectedIndex].dutyType,
-                                        maritalStatus: state
-                                            .list[selectedIndex].maritalStatus,
-                                        labels: labels,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        isMaterGuard: true,
-                                        // isEventProtectionStatus: false,
-                                      );
-                                    },
-                                  );
-                                },
-                                index: index,
+                              }
+                              return const Center(
+                                child: SizedBox(),
                               );
-                      },
-                    ),
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          );
-        }));
+                );
+              }));
+        });
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     GuardingMastersDataModel guardingMastersDataModel =
         await GuardingMasterDataServices().getGuardingMastersData(id);
 
-    editDataLoading(guardingMastersDataModel);
+    editDataLoading(guardingMastersDataModel, hasWritePermission);
   }
 
-  void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel) {
+  void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
 
     log('-guardingMastersDataModel---id---${guardingMastersDataModel?.id}---');
@@ -259,7 +295,9 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     if (guardingMastersDataModel != null) {
       Navigator.pushNamed(context, guardingMasterDataDetailsRoute, arguments: {
         "GuardingMastersDataModel": guardingMastersDataModel,
-        "title": Constants.editGuardingMasterData
+        "title": Constants.editGuardingMasterData,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }
@@ -272,7 +310,11 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<GuardingMasterDataBloc>(context).add(
-      FetchDataList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchDataList(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -285,7 +327,11 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<GuardingMasterDataBloc>(context).add(
-      FetchDataList(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchDataList(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

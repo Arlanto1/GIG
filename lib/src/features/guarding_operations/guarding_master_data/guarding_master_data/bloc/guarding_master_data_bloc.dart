@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'guarding_master_data_event.dart';
 part 'guarding_master_data_state.dart';
@@ -43,6 +44,12 @@ class GuardingMasterDataBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingMasterModuleCode,
+        commonServices: commonServices,
+      );
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -52,8 +59,18 @@ class GuardingMasterDataBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -146,16 +163,8 @@ class GuardingMasterDataBloc
     );
 
     try {
-      // if (state.hasReachedMax) return;
-
       if (state.status == FormStatus.initial || event.newSearch) {
         GuardingMasterDataResponse response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
-
         response = await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',

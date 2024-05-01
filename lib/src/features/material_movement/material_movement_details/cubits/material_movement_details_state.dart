@@ -79,10 +79,10 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    // if (model.challanNo.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Challan No');
-    // }
+    if (model.challanNo.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Challan No');
+    }
 
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
@@ -90,20 +90,6 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
-      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received For');
-      }
-      if (model.otherReceiverEmployeeId.isEmptyOrNull ) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received by Employee Id');
-      }
-
-      if (model.receiverEmail.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received by');
-      }
-
       if (model.materialFromAddress.isEmptyOrNull &&
           model.status != 0 &&
           model.status != null) {
@@ -112,9 +98,28 @@ class MaterialMovementDetailsState extends Equatable {
             message: 'Please enter Material coming from (Brief address)');
       }
 
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
       if (!model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received for Employee Id');
+      }
+
+      if (model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by Employee Id');
+      }
+      if (!model.originalReceiver &&
+          model.otherReceiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by Employee Id');
+      }
+
+      if (model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by');
       }
 
       if (model.receiverDepartmenttName.isEmptyOrNull) {
@@ -165,8 +170,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Sent to Address');
     }
-    if (model.requestorDepartment == null &&
-        (model.status == 1 )) {
+    if (model.requestorDepartment == null && (model.status == 1)) {
       return const ErrorResponse(
           status: false, message: 'Please enter Requester Department');
     }
@@ -188,7 +192,8 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Prepared By Department');
     }
-    if (model.expectedDateOfReturn == null && model.returnable! &&
+    if (model.expectedDateOfReturn == null &&
+        model.returnable! &&
         model.status != 0 &&
         model.status != null) {
       return const ErrorResponse(

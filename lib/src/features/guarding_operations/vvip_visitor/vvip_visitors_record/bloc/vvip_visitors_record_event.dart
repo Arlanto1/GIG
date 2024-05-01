@@ -28,9 +28,9 @@ class SaveRecord extends VVIPVisitorsRecordEvent {
   final int mainContactId;
 
   const SaveRecord(
-      this.vViPVisitorRecordModel,
-      this.mainContactId,
-      );
+    this.vViPVisitorRecordModel,
+    this.mainContactId,
+  );
 }
 
 class DeleteRecord extends VVIPVisitorsRecordEvent {

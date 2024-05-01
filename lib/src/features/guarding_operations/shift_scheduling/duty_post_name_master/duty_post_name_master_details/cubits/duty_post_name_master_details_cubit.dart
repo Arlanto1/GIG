@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/dpn_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
@@ -75,12 +76,30 @@ class DutyPostNameMasterDetailsCubit
       //   state.model.location = defaultLocation;
       //   state.model.slNo = slNo.serialNo;
       // }
-
+      log('input Date ${state.model.inputDate}');
       state.model.entrySecurity ??= loggedInUserDetails;
-      // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      // state.model?.inputDate = state.model?.inputDate != null
+      //     ? Utils().formatUnixTimestamp(state.model?.inputDate ?? '') : Utils().getCurrentDate();
+
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
+      // Get Date of Creation
+      // state.model?.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // state.model?.modifiedDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
@@ -113,7 +132,7 @@ class DutyPostNameMasterDetailsCubit
     ));
 
     // state.model??=DutyPostNameMasterModel();
-    model?.dpName??=[];
+    model?.dpName ??= [];
     model?.dpName?.add(locationName);
 
     emit(state.copyWith(
@@ -162,8 +181,16 @@ class DutyPostNameMasterDetailsCubit
     state.model.status = !isSaveOnly ? 1 : (state.model.status ?? 0);
     //state.model.status ??= 0;
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     // Create/Update API Call
     DutyPostNameMasterRequest request =
@@ -175,35 +202,38 @@ class DutyPostNameMasterDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: false));
+        response = (await services.create(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
           return;
         }
-        response = (await services.create(
-            body: request, isSubmit: true));
+        response = (await services.create(body: request, isSubmit: true));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
@@ -223,6 +253,7 @@ class DutyPostNameMasterDetailsCubit
       ),
     );
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.dutyPostNameMasterModule);

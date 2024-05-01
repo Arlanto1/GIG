@@ -45,7 +45,7 @@ class _KeyLossDestructionListViewState
       pageNumber = pageNumber + 20;
       context.read<KeyReconciliationListBloc>().add(FetchKeyReconciliationList(
           startPos: pageNumber,
-          maxPos: 20,
+          maxPos: Constants.maxResults,
           newSearch: true,
           filters: BaseFilterModel()));
     }
@@ -55,7 +55,7 @@ class _KeyLossDestructionListViewState
     context.read<KeyReconciliationListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -114,11 +114,11 @@ class _KeyLossDestructionListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // ],
+                if (state.status == FormStatus.loading) ...[
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const BaseLoader(),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&
@@ -132,9 +132,11 @@ class _KeyLossDestructionListViewState
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -237,7 +239,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyReconciliationListBloc>(context).add(
       FetchKeyReconciliationList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -248,7 +253,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyReconciliationListBloc>(context).add(
       FetchKeyReconciliationList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

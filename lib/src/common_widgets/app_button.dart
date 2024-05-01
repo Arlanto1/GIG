@@ -48,7 +48,9 @@ class AppButton extends StatelessWidget {
           onTap!();
         },
         style: TextButton.styleFrom(
-          backgroundColor: disableColor ?? false ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor,
+          backgroundColor: disableColor ?? false
+              ? AppColors.disabletextfieldBackground
+              : AppColors.navigationSkybluecolor,
           foregroundColor: Colors.white,
           // backgroundColor: background,
           // foregroundColor: foreground,

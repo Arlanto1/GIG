@@ -22,10 +22,13 @@ class AttendanceServices {
   Future<AttendanceResponse> getList({
     required String startPosition,
     required String maximumRecords,
+    required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().postRequest(
+      requestedData: filters.toJson(),
+      isAuthenticated: true,
       url: url,
     );
     return AttendanceResponse.fromJson(response);
@@ -67,10 +70,11 @@ class AttendanceServices {
   }
 
   Future<DutyPostModel> getDutyPostById({
-    required int? id,
-    BuildContext? context,
+    required int? attInfoId,
+    required int? dutyPostNameId,
   }) async {
-    final String url = '${Apis._getDutyPostById}/$id';
+    final String url =
+        '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -80,6 +84,18 @@ class AttendanceServices {
 
   Future<GenericResponse> create({
     required AttendanceRequest body,
+    required bool isSubmit,
+  }) async {
+    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> createAttendanceShiftDutyPost({
+    required AttendanceShiftDutyPostRequest body,
     required bool isSubmit,
   }) async {
     final String url = "${Apis._create}&isSubmit=$isSubmit";

@@ -7,14 +7,17 @@ class GuardingMasterReportState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final String? message;
+  final ExtraProperties? extraProperties;
 
-  const GuardingMasterReportState(
-      {this.list = const <GuardingMasterReportsModel>[],
-      this.hasReachedMax = false,
-      this.status = FormStatus.initial,
-        this.message,
-        this.locations,
-        this.commonFilters,});
+  const GuardingMasterReportState({
+    this.list = const <GuardingMasterReportsModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+    this.message,
+    this.locations,
+    this.commonFilters,
+    this.extraProperties,
+  });
 
   GuardingMasterReportState copyWith({
     List<GuardingMasterReportsModel>? items,
@@ -25,7 +28,7 @@ class GuardingMasterReportState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
-
+    ExtraProperties? extraProperties,
   }) {
     return GuardingMasterReportState(
       list: items ?? list,
@@ -34,6 +37,7 @@ class GuardingMasterReportState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

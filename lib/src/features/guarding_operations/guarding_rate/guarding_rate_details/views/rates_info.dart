@@ -39,12 +39,8 @@ class _RatesInfoState extends State<RatesInfo> {
         if (state.status == FormStatus.success) {
           Utils.dynamicAlert(context, state.message ?? '', 'Guard Rates', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
         return Scaffold(
@@ -106,7 +102,10 @@ class _RatesInfoState extends State<RatesInfo> {
                             Row(
                               children: [
                                 CommonWidgets.verticalTextHandling(
-                                    Constants.createdby,
+                                    state.labels?.locale.entrySecurity ??
+                                        state.labels?.defaultLocale
+                                            .entrySecurity ??
+                                        Constants.createdby,
                                     isMandatory: true,
                                     '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
@@ -120,7 +119,9 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Location
                         CommonWidgets.textDisplay(
-                            Constants.location,
+                            state.labels?.locale.location ??
+                                state.labels?.defaultLocale.location ??
+                                Constants.location,
                             isMandatory: true,
                             Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -130,7 +131,9 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Date of creation
                         CommonWidgets.textDisplay(
-                            Constants.dateofcreation,
+                            state.labels?.locale.inputDate ??
+                                state.labels?.defaultLocale.inputDate ??
+                                Constants.dateofcreation,
                             isMandatory: true,
                             Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -139,14 +142,18 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Sl No.
                         CommonWidgets.horizentaltextHandling(
-                            Constants.slno,
+                            state.labels?.locale.slNo ??
+                                state.labels?.defaultLocale.slNo ??
+                                Constants.slno,
                             isMandatory: true,
                             state.model.slNo ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Entity
                         CommonWidgets.textDisplay(
-                          Constants.entity,
+                          state.labels?.locale.entity ??
+                              state.labels?.defaultLocale.entity ??
+                              Constants.entity,
                           isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
@@ -176,7 +183,9 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Vendor
                         CommonWidgets.textDisplay(
-                          Constants.vendor,
+                          state.labels?.locale.vendor ??
+                              state.labels?.defaultLocale.vendor ??
+                              Constants.vendor,
                           isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
@@ -260,7 +269,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

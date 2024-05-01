@@ -37,7 +37,7 @@ class ViolationPenaltyRecordState extends Equatable {
       staffCategoriesValues:
           staffCategoriesValues ?? this.staffCategoriesValues,
       message: message ?? this.message,
-      labels: labels??this.labels,
+      labels: labels ?? this.labels,
     );
   }
 

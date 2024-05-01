@@ -7,10 +7,12 @@ import '../../../../common_widgets/base_widget/basic_widget_functions.dart';
 
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
+  final ExtraProperties? extraProperties;
 
   const AnnualPowerShutdownListDetailsView({
     this.model,
     super.key,
+    this.extraProperties,
   });
 
   @override
@@ -59,6 +61,9 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        log('-epManager1---${state.model.epManager1?.name}----');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -85,21 +90,22 @@ class _AnnualPowerShutdownListDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
       },
       builder: (context, state) {
         budgetController.text =
             state.model.budget != null ? state.model.budget.toString() : '';
 
-        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 30 || !state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
 
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          disableForm = true;
+        }
         if (state.model.status == null) {
           disableForm = false;
         }
@@ -138,12 +144,12 @@ class _AnnualPowerShutdownListDetailsViewState
     log('--sdd--${state.model.eventStartDate}-------');
     log('--sdd-eventEndDate-${state.model.eventEndDate}-------');
     if (state.model.eventStartDate != null) {
-      eventStartDateController.text = Utils.timestamptoDateConversion(
+      eventStartDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.eventStartDate ?? '0'),
           Constants.fulldateFormat);
     }
     if (state.model.eventEndDate != null) {
-      eventEndDateController.text = Utils.timestamptoDateConversion(
+      eventEndDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.eventEndDate ?? '0'),
           Constants.fulldateFormat);
     }
@@ -201,9 +207,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Status
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.status ??
-                                  //     state.labels?.defaultLocale.status ??
-                                  Constants.status,
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
+                                      Constants.status,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -211,51 +217,28 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 0,
+                                  isDisabled: true,
                                   textController: statusController,
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {
-                                    if (state.model.id != null) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: eventProtectionGiStatus
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              eventProtectionGiStatus
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  status: int.tryParse(
-                                                      selectedLabel.value));
-                                        },
-                                      );
-                                    }
-                                  }),
+                                  onTap: () {}),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
                                   isMandatory: true,
                                   '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Location
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.location ??
-                                  //     state.labels?.defaultLocale.location ??
-                                  Constants.location,
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -265,9 +248,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Date of creation
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.inputDate ??
-                                  //     state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
+                                  state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.dateofcreation,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -278,18 +261,18 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.slNo ??
-                                  //     state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
+                                  state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
+                                      Constants.slno,
                                   state.model.slNo ?? '',
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Entity
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.entity ??
-                                  //     state.labels?.defaultLocale.entity ??
-                                  Constants.entity,
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
+                                      Constants.entity,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -314,10 +297,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Event Start Date
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.eventStartDate ??
-                                  //     state
-                                  //         .labels?.defaultLocale.eventStartDate ??
-                                  Constants.eventStartDate,
+                                  state.labels?.locale.eventStartDate ??
+                                      state.labels?.defaultLocale
+                                          .eventStartDate ??
+                                      Constants.eventStartDate,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -331,11 +314,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   log('---value-$value------');
                                   state.model.eventStartDate =
                                       Utils().formatTime(value);
+                                  log('---Utils().formatTime(value)-${Utils().formatTime(value)}------');
                                   log('---value11-${state.model.eventStartDate}------');
                                   BlocProvider.of<
                                               AnnualPowerShutdownListDetailsCubit>(
                                           context)
-                                      .onModelValueChange(state.model);
+                                      .onCheckBoxChange(state.model);
                                 },
                                 context: context,
                               ),
@@ -343,9 +327,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Event End Date
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.eventEndDate ??
-                                  //     state.labels?.defaultLocale.eventEndDate ??
-                                  Constants.eventEndDate,
+                                  state.labels?.locale.eventEndDate ??
+                                      state
+                                          .labels?.defaultLocale.eventEndDate ??
+                                      Constants.eventEndDate,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -355,6 +340,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 textController: eventEndDateController,
                                 //onlyDate: false,
                                 showPastDate: false,
+                                startDate: state.model.eventStartDate,
                                 onChange: (String value) {
                                   state.model.eventEndDate =
                                       Utils().formatTime(value);
@@ -370,19 +356,20 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.srh1 ??
-                                  //     state.labels?.defaultLocale.srh1 ??
-                                  Constants.subRegionalHead1,
+                                  state.labels?.locale.srh1 ??
+                                      state.labels?.defaultLocale.srh1 ??
+                                      Constants.subRegionalHead1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh1?.name,
+                                title: state.model.srh1?.userInfo ??
+                                    state.model.srh1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.srh,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -391,6 +378,14 @@ class _AnnualPowerShutdownListDetailsViewState
                                         subRegionalHead1: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -398,19 +393,20 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.srh2 ??
-                                  //     state.labels?.defaultLocale.srh2 ??
-                                  Constants.subRegionalHead2,
+                                  state.labels?.locale.srh2 ??
+                                      state.labels?.defaultLocale.srh2 ??
+                                      Constants.subRegionalHead2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh2?.name,
+                                title: state.model.srh2?.userInfo ??
+                                    state.model.srh2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.srh,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -419,6 +415,14 @@ class _AnnualPowerShutdownListDetailsViewState
                                         subRegionalHead2: user,
                                       );
                                     },
+                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -426,19 +430,20 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Location Security  Manager 1
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm1 ??
-                                  //     state.labels?.defaultLocale.lsm1 ??
-                                  Constants.locationSecurityManager1,
+                                  state.labels?.locale.lsm1 ??
+                                      state.labels?.defaultLocale.lsm1 ??
+                                      Constants.locationSecurityManager1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm1?.name,
+                                title: state.model.lsm1?.userInfo ??
+                                    state.model.lsm1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.lsm,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -449,6 +454,14 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(lSM1ContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_Senior_Security_Manager',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -456,9 +469,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///LSM 1 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm1ContactNo ??
-                                  //     state.labels?.defaultLocale.lsm1ContactNo ??
-                                  Constants.lsm1ContactNo,
+                                  state.labels?.locale.lsm1ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .lsm1ContactNo ??
+                                      Constants.lsm1ContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -486,19 +500,20 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Location Security  Manager 2
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm2 ??
-                                  //     state.labels?.defaultLocale.lsm2 ??
-                                  Constants.locationSecurityManager2,
+                                  state.labels?.locale.lsm2 ??
+                                      state.labels?.defaultLocale.lsm2 ??
+                                      Constants.locationSecurityManager2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm2?.name,
+                                title: state.model.lsm2?.userInfo ??
+                                    state.model.lsm2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.lsm,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -509,6 +524,14 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(lSM2ContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_Senior_Security_Manager',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -516,9 +539,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///LSM 2 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.lsm2ContactNo ??
-                                  //     state.labels?.defaultLocale.lsm2ContactNo ??
-                                  Constants.lsm2ContactNo,
+                                  state.labels?.locale.lsm2ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .lsm2ContactNo ??
+                                      Constants.lsm2ContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -547,13 +571,14 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1 ??
-                                  //     state.labels?.defaultLocale.bu1 ??
-                                  Constants.businessPoc,
+                                  state.labels?.locale.bu1 ??
+                                      state.labels?.defaultLocale.bu1 ??
+                                      Constants.businessPoc,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu1?.name,
+                                title: state.model.bu1?.userInfo ??
+                                    state.model.bu1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -570,6 +595,14 @@ class _AnnualPowerShutdownListDetailsViewState
                                       FocusScope.of(context)
                                           .requestFocus(pocContactNoFocusNode);
                                     },
+                                    roleName: 'ATOM_STATIC_USER',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
                                   );
                                 },
                               ),
@@ -577,9 +610,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC  Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1ContactNo ??
-                                  //     state.labels?.defaultLocale.bu1ContactNo ??
-                                  Constants.businessPocContactNo,
+                                  state.labels?.locale.bu1ContactNo ??
+                                      state
+                                          .labels?.defaultLocale.bu1ContactNo ??
+                                      Constants.businessPocContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -607,13 +641,14 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Escalation
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2 ??
-                                  //     state.labels?.defaultLocale.bu2 ??
-                                  Constants.businessPocEscalation,
+                                  state.labels?.locale.bu2 ??
+                                      state.labels?.defaultLocale.bu2 ??
+                                      Constants.businessPocEscalation,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu2?.name,
+                                title: state.model.bu2?.userInfo ??
+                                    state.model.bu2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -627,8 +662,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .updateDropdownValues(
                                         bu2: user,
                                       );
-                                      FocusScope.of(context)
-                                          .requestFocus(pocEscalationContactNoFocusNode);
+                                      FocusScope.of(context).requestFocus(
+                                          pocEscalationContactNoFocusNode);
+                                    },
+                                    roleName: 'ATOM_STATIC_USER',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .refreshList();
                                     },
                                   );
                                 },
@@ -637,9 +680,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Escalation Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2ContactNo ??
-                                  //     state.labels?.defaultLocale.bu2ContactNo ??
-                                  Constants.businessPocEscalationContactNo,
+                                  state.labels?.locale.bu2ContactNo ??
+                                      state
+                                          .labels?.defaultLocale.bu2ContactNo ??
+                                      Constants.businessPocEscalationContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -667,9 +711,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Business POC Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu1Dept ??
-                                  //     state.labels?.defaultLocale.bu1Dept ??
-                                  Constants.businessPocDepartment,
+                                  state.labels?.locale.bu1Dept ??
+                                      state.labels?.defaultLocale.bu1Dept ??
+                                      Constants.businessPocDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -702,9 +746,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Business POC Escalation Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.bu2Dept ??
-                                  //     state.labels?.defaultLocale.bu2Dept ??
-                                  Constants.businessPocEscalationDepartment,
+                                  state.labels?.locale.bu2Dept ??
+                                      state.labels?.defaultLocale.bu2Dept ??
+                                      Constants.businessPocEscalationDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -721,8 +765,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                                 context)
                                             .updateDropdownValues(
                                                 bu2Dept: department);
-                                        FocusScope.of(context)
-                                            .requestFocus(vendor1EmailFocusNode);
+                                        FocusScope.of(context).requestFocus(
+                                            vendor1EmailFocusNode);
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
@@ -741,10 +785,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// System Vendor 1 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor1 ??
-                                  //     state.labels?.defaultLocale
-                                  //      .systemVendor1 ??
-                                  Constants.systemVendor1Email,
+                                  state.labels?.locale.systemVendor1 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor1 ??
+                                      Constants.systemVendor1Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -771,10 +815,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               /// Vendor 1 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor1ContactNo ??
-                                  //     state.labels?.defaultLocale
-                                  //     .systemVendor1ContactNo ??
-                                  Constants.vendor1ContactNO,
+                                  state.labels?.locale.systemVendor1ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor1ContactNo ??
+                                      Constants.vendor1ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -826,10 +870,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor2 ??
-                                  //     state.labels?.defaultLocale
-                                  //         .systemVendor2 ??
-                                  Constants.systemVendor2Email,
+                                  state.labels?.locale.systemVendor2 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor2 ??
+                                      Constants.systemVendor2Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -855,10 +899,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor2ContactNo ??
-                                  //     state.labels?.defaultLocale
-                                  //    .systemVendor2ContactNo ??
-                                  Constants.vendor2ContactNO,
+                                  state.labels?.locale.systemVendor2ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor2ContactNo ??
+                                      Constants.vendor2ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -910,10 +954,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///System Vendor 3 Email
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.systemVendor3 ??
-                                  //     state.labels?.defaultLocale
-                                  //     .systemVendor3 ??
-                                  Constants.systemVendor3Email,
+                                  state.labels?.locale.systemVendor3 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor3 ??
+                                      Constants.systemVendor3Email,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -938,10 +982,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
-                                  //     state.labels?.locale.systemVendor3ContactNo ??
-                                  //         state.labels?.defaultLocale
-                                  //  .systemVendor3ContactNo ??
-                                  Constants.vendor3ContactNO,
+                                  state.labels?.locale.systemVendor3ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor3ContactNo ??
+                                      Constants.vendor3ContactNO,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -992,10 +1036,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Requester Department
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.requesterDepartment ??
-                                  //     state.labels?.defaultLocale
-                                  //  .requesterDepartment ??
-                                  Constants.requesterDepartment,
+                                  state.labels?.locale.requesterDepartment ??
+                                      state.labels?.defaultLocale
+                                          .requesterDepartment ??
+                                      Constants.requesterDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -1031,9 +1075,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                               ///Event Protection Officer
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.epOfficers ??
-                                  //     state.labels?.defaultLocale.epOfficers ??
-                                  Constants.eventProtectionOfficers,
+                                  state.labels?.locale.epOfficers ??
+                                      state.labels?.defaultLocale.epOfficers ??
+                                      Constants.eventProtectionOfficers,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               //if (!disableForm) ...[
@@ -1124,6 +1168,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                         const SizedBox(width: 14),
                                         SvgPicture.asset(
                                           AppIcon.pluscircle,
+                                          color:
+                                              AppColors.navigationSkybluecolor,
                                         ),
                                         const SizedBox(width: 10),
                                         const Text(
@@ -1256,10 +1302,11 @@ class _AnnualPowerShutdownListDetailsViewState
                               ///Is Extra Security Deployment Required
                               Row(children: [
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.extraSecurityDeployed ??
-                                  //     state.labels?.defaultLocale
-                                  //      .extraSecurityDeployed ??
-                                  Constants.isExtraSecurityDeploymentRequired,
+                                  state.labels?.locale.extraSecurityDeployed ??
+                                      state.labels?.defaultLocale
+                                          .extraSecurityDeployed ??
+                                      Constants
+                                          .isExtraSecurityDeploymentRequired,
                                   Styles.textStyleBlack14,
                                 ),
                                 Checkbox(
@@ -1281,9 +1328,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               if (state.model.extraSecurityDeployed) ...[
                                 ///Vendor Id
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.vendorId ??
-                                    //     state.labels?.defaultLocale.vendorId ??
-                                    Constants.guardingVendorId,
+                                    state.labels?.locale.vendorId ??
+                                        state.labels?.defaultLocale.vendorId ??
+                                        Constants.guardingVendorId,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1309,10 +1356,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 ///Guarding Agency POC
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.guardingVendorPoc ??
-                                    //     state.labels?.defaultLocale
-                                    //  .guardingVendorPoc ??
-                                    Constants.guardingAgencyPOC,
+                                    state.labels?.locale.guardingVendorPoc ??
+                                        state.labels?.defaultLocale
+                                            .guardingVendorPoc ??
+                                        Constants.guardingAgencyPOC,
                                     Styles.textStyleBlack14,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1322,6 +1369,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   initialValue: state.model.guardingVendorPoc,
                                   textFormKey: Keys.vendorAgencyPOCKey,
                                   hintText: '',
+                                  textCapitalization: false,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   onChange: (String value) {
@@ -1338,10 +1386,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Officers
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityOfficerCount ??
-                                  //     state.labels?.defaultLocale
-                                  //.securityOfficerCount ??
-                                  Constants.numOfSecurityOfficers,
+                                  state.labels?.locale.securityOfficerCount ??
+                                      state.labels?.defaultLocale
+                                          .securityOfficerCount ??
+                                      Constants.numOfSecurityOfficers,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1372,10 +1420,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityOfficerCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  // .securityOfficerCountHrs ??
-                                  Constants.totalDutyHours,
+                                  state.labels?.locale.securityOfficerCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securityOfficerCountHrs ??
+                                      Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1406,10 +1454,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Supervisors
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securitySupervisorCount ??
-                                  //     state.labels?.defaultLocale
-                                  //.securitySupervisorCount ??
-                                  Constants.numOfSecuritySupervisor,
+                                  state.labels?.locale.securitySupervisorCount ??
+                                      state.labels?.defaultLocale
+                                          .securitySupervisorCount ??
+                                      Constants.numOfSecuritySupervisor,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1440,11 +1488,11 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 ///Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale
-                                  //     .securitySupervisorCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securitySupervisorCountHrs ??
-                                  Constants.totalDutyHours,
+                                  state.labels?.locale
+                                          .securitySupervisorCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securitySupervisorCountHrs ??
+                                      Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1476,10 +1524,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Guards
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityGuardCount ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityGuardCount ??
-                                  Constants.numOfSecurityGuards,
+                                  state.labels?.locale.securityGuardCount ??
+                                      state.labels?.defaultLocale
+                                          .securityGuardCount ??
+                                      Constants.numOfSecurityGuards,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1510,10 +1558,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityGuardCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityGuardCountHrs ??
-                                  Constants.totalDutyHours,
+                                  state.labels?.locale.securityGuardCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securityGuardCountHrs ??
+                                      Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1544,10 +1592,11 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// No. Of Security Facilitators
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.securityFacilitatorCount ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityFacilitatorCount ??
-                                  Constants.numOfSecurityFacilitators,
+                                  state.labels?.locale
+                                          .securityFacilitatorCount ??
+                                      state.labels?.defaultLocale
+                                          .securityFacilitatorCount ??
+                                      Constants.numOfSecurityFacilitators,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1578,11 +1627,11 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Total Duty Hours
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale
-                                  //     .securityFacilitatorCountHrs ??
-                                  //     state.labels?.defaultLocale
-                                  //         .securityFacilitatorCountHrs ??
-                                  Constants.totalDutyHours,
+                                  state.labels?.locale
+                                          .securityFacilitatorCountHrs ??
+                                      state.labels?.defaultLocale
+                                          .securityFacilitatorCountHrs ??
+                                      Constants.totalDutyHours,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1614,10 +1663,10 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Proposed Vendors
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.proposedVendors ??
-                                  //     state.labels?.defaultLocale
-                                  //         .proposedVendors ??
-                                  Constants.proposedVendors,
+                                  state.labels?.locale.proposedVendors ??
+                                      state.labels?.defaultLocale
+                                          .proposedVendors ??
+                                      Constants.proposedVendors,
                                   Styles.textStyleBlack14,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1627,7 +1676,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   title:
                                       '${!state.model.proposedVendors.isEmptyOrNull ? state.model.proposedVendors?.first.name : ''}',
                                   height: 60,
-                                  isDisableColor: false,
+                                  isDisableColor: disableForm,
                                   onTap: () {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
@@ -1650,9 +1699,9 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                 /// Budget Costs
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.budget ??
-                                    //     state.labels?.defaultLocale.budget ??
-                                    Constants.budget,
+                                    state.labels?.locale.budget ??
+                                        state.labels?.defaultLocale.budget ??
+                                        Constants.budget,
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1689,7 +1738,7 @@ class _AnnualPowerShutdownListDetailsViewState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
-                            //if (!disableForm) ...[
+                            if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<
@@ -1697,7 +1746,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       context)
                                   .submitForm(isSaveOnly: false);
                             })
-                            // ],
+                             ],
                           ],
                         ),
                       ],
@@ -1720,15 +1769,31 @@ class _AnnualPowerShutdownListDetailsViewState
   }
 
   Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 30;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }

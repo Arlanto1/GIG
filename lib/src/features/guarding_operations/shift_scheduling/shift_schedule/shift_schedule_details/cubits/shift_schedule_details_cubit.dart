@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/duty_post_request.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +11,7 @@ part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   final ShiftScheduleServices services = ShiftScheduleServices();
+  final ShiftScheduleModel? model;
 
   final CommonServices commonServices = CommonServices();
   final String id;
@@ -19,6 +20,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   ShiftScheduleDetailsCubit({
     required this.id,
     this.mainDutyPostModel,
+    this.model,
   }) : super(
           ShiftScheduleDetailsState.initial(
             model: ShiftScheduleModel(),
@@ -43,12 +45,47 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     DutyPostModel dutyPostModel = await services.getDutyPostById(id: id);
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
-        seletedDutyPostModel: dutyPostModel,
-        status: FormStatus.navigateToNextScreen));
+      seletedDutyPostModel: dutyPostModel,
+      status: FormStatus.navigateToNextScreen,
+    ));
   }
 
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
+  void onCheckBoxChange(ShiftScheduleModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  void onAddPOC(String poc) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<String>? pocs = state.pocs ?? [];
+
+    pocs.add(poc);
+
+    state.copyWith(
+      pocs: pocs,
+    );
+
+    log('---pocs-3333--${pocs.toString()}--');
+    log('---state.pocs.toString()-3333--${state.pocs.toString()}--');
+    state.model.poc = Utils().joinListWithComma(pocs);
+    log('--state.model.poc-2222-${state.model.poc}--');
+    emit(
+      state.copyWith(
+        model: state.model,
+        pocs: pocs,
+        status: FormStatus.initial,
+      ),
+    );
   }
 
   Future<void> refreshList() async {
@@ -84,7 +121,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        services.getDutyPostsById(id: model.id),
+        services.getDutyPostsById(id: model.id, dutyType: model.dutyType),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -103,6 +140,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];
+      log('--model.inputDate--${model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
 
       log('--model.location--${model.location?.id}--');
       if (model.location == null && defaultLocation != null) {
@@ -114,14 +152,26 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         model.slNo = slNo.serialNo;
       }
       model.entrySecurity ??= loggedInUserDetails;
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
       // Get Date of Creation
-      model.inputDate = _getCurrentDate();
-
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+      model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.modifiedDate ?? '');
+      // model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // model.modifiedDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
-
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
+      List<String> pocs = Utils().splitStringAfterComma(model.poc ?? '');
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -134,11 +184,12 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
+          pocs: pocs,
         ),
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Guarding Master Data Details Cubit');
+          error: e, name: 'Shift Schedule Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -173,19 +224,18 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
-      state.model.location = location;
-
-      // TODO: uncomment
+      model?.inputDate = model?.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model?.inputDate ?? '');
       if (state.model.vendor != null) {
-        List<DutyPostModel> dutyPosts =
-            await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
-        // List<DutyPostModel> dutyPosts=[];
-        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        List<DutyPostModel> dutyPosts = await getDutyPosts();
+
+        NextAvailableDateRange availableDate = await getNextAvailableDate();
+
         emit(state.copyWith(
           model: state.model,
           dutyPosts: dutyPosts,
+          availableDate: availableDate,
           status: FormStatus.initial,
         ));
       }
@@ -193,27 +243,58 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     if (vendor != null) {
       state.model.vendor = vendor;
 
-      // TODO: uncomment
       if (state.model.location != null) {
-        List<DutyPostModel> dutyPosts =
-            await services.getDutyPostsByLocationAndVendor(
-                locationId: state.model.location!.id ?? 0,
-                vendorId: state.model.vendor?.id ?? 0);
-        // List<DutyPostModel> dutyPosts=[];
-        // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+        List<DutyPostModel> dutyPosts = await getDutyPosts();
+        NextAvailableDateRange availableDate = await getNextAvailableDate();
         emit(state.copyWith(
           dutyPosts: dutyPosts,
+          availableDate: availableDate,
           status: FormStatus.initial,
         ));
       }
     }
-    state.model.dutyType = dutyType ?? state.model.dutyType;
+    if (dutyType != null) {
+      state.model.dutyType = dutyType;
+      List<DutyPostModel> dutyPosts = await getDutyPosts();
+      // List<DutyPostModel> dutyPosts=[];
+      // dutyPosts.add(DutyPostModel.fromJson(json.decode(jsonString)));
+      emit(state.copyWith(
+        model: state.model,
+        dutyPosts: dutyPosts,
+        status: FormStatus.initial,
+      ));
+    }
+
     state.model.status = status ?? state.model.status;
 
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<NextAvailableDateRange> getNextAvailableDate() async {
+    NextAvailableDateRange availableDate = NextAvailableDateRange();
+    availableDate = await services.getNextAvailableDate(
+      locationId: state.model.location!.id!,
+      vendorId: state.model.vendor!.id!,
+    );
+    return availableDate;
+  }
+
+  Future<List<DutyPostModel>> getDutyPosts() async {
+    if (state.model.location == null ||
+        state.model.vendor == null ||
+        state.model.dutyType == null) {
+      return [];
+    }
+    List<DutyPostModel> dutyPosts =
+        await services.getDutyPostsByLocationAndVendor(
+      locationId: state.model.location!.id ?? 0,
+      vendorId: state.model.vendor?.id ?? 0,
+      dutyType: state.model.dutyType,
+    );
+    return dutyPosts;
   }
 
   void updateReplacement(
@@ -264,7 +345,12 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+    int? dutyPostNameId,
+  }) async {
+    log('---submitForm---');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -272,11 +358,19 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     );
 
     if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
+      state.model.status = 0;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     // Create/Update API Call
     ShiftScheduleRequest request =
@@ -288,7 +382,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -301,24 +395,32 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
           return;
         }
-        response =
-            (await services.createShiftSchedule(body: request, isSubmit: true));
+        response = (await services.createShiftSchedule(
+          body: request,
+          isSubmit: true,
+        ));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
+      log('--Exception-e-----}--');
       emit(
         state.copyWith(
           message: e.toString(),
@@ -329,16 +431,34 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
     log('---response--msg--${response.message}---');
 
+    DutyPostModel selectedDutyPostModel = DutyPostModel();
+    if (dutyPostNameId != null &&
+        navigateToNextScreen &&
+        !response.id.isEmptyOrNull) {
+      state.model.id = int.tryParse(response.id!);
+      selectedDutyPostModel =
+          await services.getDutyPostByShiftIdAndDutyPostNameId(
+        dutyPostId: dutyPostNameId,
+        shiftId: int.tryParse(response.id!) ?? 0,
+      );
+    }
+
     emit(
       state.copyWith(
+        model: state.model,
         message: response.message,
-        status: FormStatus.success,
+        seletedDutyPostModel: selectedDutyPostModel,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
   }
 
-  void submitDutyPost(
-      {bool isSaveOnly = false, required DutyPostModel model}) async {
+  void submitDutyPost({
+    bool isSaveOnly = false,
+    required DutyPostModel model,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,

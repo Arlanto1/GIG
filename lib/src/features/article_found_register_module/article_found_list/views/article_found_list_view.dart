@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart';
+import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/found_list_item.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class ArticleFoundListView extends StatefulWidget {
@@ -46,7 +46,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
       pageNumber = pageNumber + 20;
       context.read<ArticleFoundBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -75,152 +75,179 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
-      floatingActionButton: Flutterfloatingbutton(
-        backgroundColor: AppColors.navigationSkybluecolor,
-        foregroundColor: AppColors.backgroundWhitecolor,
-        onPressed: () => {
-          Navigator.pushNamed(
-            context,
-            createFoundScreenRoute,
-          )
-        },
-      ),
-      appBar: BaseAppBar().buildAppHeader(
-        context: context,
-        title: Constants.foundList,
-        showPopUp: true,
-        showSaveButton: false,
-        showSubmitButton: false,
-        showDisLikeButton: false,
-        showLikeButton: false,
-        excelAPIName: 'exportMMExcel',
-        pdfAPIName: 'exportMMPDF',
-      ),
-      body: BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
-        listener: (context, state) {
-          if (state.status == FormStatus.sessionExpired) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message ?? 'Session Expired...')));
-            Validator.logoutAction(context);
-          }
-        },
-        builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
-
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-            ),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
-
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index < state.items.length) {
-                          FoundModel user = state.items[index];
-
-                          return FoundListItem(
-                            userItem: user,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return CustomPopUpList(
-                                      state.items[selectedIndex]);
-                                },
-                              );
-                            },
-                            onEditTap: (selectedIndex) {
-                              getById(state.items[selectedIndex].id ?? 0);
-                            },
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return CustomPopUpList(
-                                      state.items[selectedIndex]);
-                                },
-                              );
-                            },
-                            index: index,
-                          );
-                        }
-                        return const Center(
-                          child: SizedBox(),
-                        );
+    return BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.cardBgColor,
+          floatingActionButton:
+              state.extraProperties?.hasWritePermission ?? false
+                  ? Flutterfloatingbutton(
+                      backgroundColor: AppColors.navigationSkybluecolor,
+                      foregroundColor: AppColors.backgroundWhitecolor,
+                      onPressed: () => {
+                        Navigator.pushNamed(
+                          context,
+                          createFoundScreenRoute,
+                        )
                       },
-                    ),
+                    )
+                  : const SizedBox(),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: Constants.foundList,
+            showPopUp: true,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            excelAPIName: 'exportFoundExcel',
+            pdfAPIName: 'exportFoundPDF',
+          ),
+          body: BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
+            listener: (context, state) {
+              Utils().formError(state, context);
+              Utils().errorAndLogout(state, context);
+
+              if (state.status == FormStatus.sessionExpired) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.message ?? 'Session Expired...')));
+                Validator.logoutAction(context);
+              }
+            },
+            builder: (context, state) {
+              // if (state.status == FormStatus.initial) {
+              //   return const BaseLoader();
+              // }
+
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    if (state.items.isEmptyOrNull &&
+                        state.status != FormStatus.initial &&
+                        state.status != FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index < state.items.length) {
+                              FoundModel user = state.items[index];
+                              return FoundListItem(
+                                userItem: user,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return CustomPopUpList(
+                                          state.items[selectedIndex]);
+                                    },
+                                  );
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(
+                                    state.items[selectedIndex].id ?? 0,
+                                    state.extraProperties?.hasWritePermission ??
+                                        false,
+                                  );
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return CustomPopUpList(
+                                          state.items[selectedIndex]);
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
+                            }
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  getById(int id) async {
+  getById(int id, bool hasWritePermission) async {
     showLoadingDialog(context);
 
     FoundListArticleDetails foundArticleDetailsResponse =
         await FoundListServices().getArticleById(id, context);
-    editDataLoading(foundArticleDetailsResponse);
+    editDataLoading(foundArticleDetailsResponse, hasWritePermission);
   }
 
-  Future<void> editDataLoading(FoundListArticleDetails? model) async {
+  Future<void> editDataLoading(
+    FoundListArticleDetails? model,
+    bool hasWritePermission,
+  ) async {
     dismissLoadingDialog(context);
     if (model != null) {
-      Navigator.pushNamed(context, createFoundScreenRoute,
-          arguments: {"UserElement": model, 'eventId': model.id});
+      Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
+        "UserElement": model,
+        'eventId': model.id,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
+      });
     }
   }
 
@@ -232,7 +259,12 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<ArticleFoundBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
   }
 
@@ -245,7 +277,12 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<ArticleFoundBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -14,13 +14,21 @@ class SLAViolationPenaltyDetailsCubit
   final SLAViolationPenaltyServices services;
   final SLAViolationPenaltyModel? model;
   final CommonServices commonServices;
+
+  /// Via Attendance
   final String? attdInfoId;
+  final Organisation? location;
+  final Organisation? locationRegion;
+  final Organisation? vendor;
 
   SLAViolationPenaltyDetailsCubit({
     required this.services,
     required this.commonServices,
     this.model,
     this.attdInfoId,
+    required this.location,
+    required this.locationRegion,
+    required this.vendor,
   }) : super(
           SLAViolationPenaltyDetailsState.initial(
             model: model ?? SLAViolationPenaltyModel(),
@@ -70,8 +78,8 @@ class SLAViolationPenaltyDetailsCubit
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
 
     TypeOfServices typeOfService = await commonServices.getTypeOfService(
         name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
@@ -82,7 +90,7 @@ class SLAViolationPenaltyDetailsCubit
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         vendors: vendors.items,
         typeOfServices: typeOfService.items,
       ),
@@ -112,17 +120,47 @@ class SLAViolationPenaltyDetailsCubit
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
+      List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_STATIC_USER');
+
+      if (location != null) {
+        state.model.location = location;
+      }
+      if (locationRegion != null) {
+        state.model.locationRegion = locationRegion;
+      }
+      if (vendor != null) {
+        if (state.model.vendor.isEmptyOrNull) {
+          state.model.vendor = [];
+        }
+
+        state.model.vendor?.add(vendor!);
+      }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+
+      if (location != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location!.id.toString(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModule,
+        );
+        state.model.location = location;
+        state.model.slNo = slNo.serialNo;
+      }
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -139,14 +177,14 @@ class SLAViolationPenaltyDetailsCubit
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
 
-      state.model.entrySecurity  ??= loggedInUserDetails;
+      state.model.entrySecurity ??= loggedInUserDetails;
       emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
+          emailUsers: emailUsers,
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
           typeOfServices: typeOfService.items,
@@ -234,8 +272,16 @@ class SLAViolationPenaltyDetailsCubit
     );
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     if (!attdInfoId.isEmptyOrNull) {
       state.model.attdInfoId = attdInfoId;
@@ -251,11 +297,14 @@ class SLAViolationPenaltyDetailsCubit
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -266,11 +315,14 @@ class SLAViolationPenaltyDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -299,20 +351,26 @@ class SLAViolationPenaltyDetailsCubit
                   : FormStatus.success,
         ),
       );
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
@@ -322,6 +380,7 @@ class SLAViolationPenaltyDetailsCubit
       return false;
     }
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.slaViolationPenaltyDetailsModule);

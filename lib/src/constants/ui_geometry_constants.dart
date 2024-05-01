@@ -50,20 +50,31 @@ const EdgeInsetsGeometry allMargin20 = EdgeInsets.all(20.0);
 const EdgeInsetsGeometry allMargin24 = EdgeInsets.all(24.0);
 const EdgeInsetsGeometry allMargin30 = EdgeInsets.all(30.0);
 
-const EdgeInsetsGeometry horizontalMargin4 = EdgeInsets.symmetric(horizontal: 4.0);
-const EdgeInsetsGeometry horizontalMargin6 = EdgeInsets.symmetric(horizontal: 6.0);
+const EdgeInsetsGeometry horizontalMargin4 =
+    EdgeInsets.symmetric(horizontal: 4.0);
+const EdgeInsetsGeometry horizontalMargin6 =
+    EdgeInsets.symmetric(horizontal: 6.0);
 const EdgeInsetsGeometry verticalMargin6 = EdgeInsets.symmetric(vertical: 6.0);
-const EdgeInsetsGeometry horizontalMargin8 = EdgeInsets.symmetric(horizontal: 8.0);
+const EdgeInsetsGeometry horizontalMargin8 =
+    EdgeInsets.symmetric(horizontal: 8.0);
 const EdgeInsetsGeometry verticalMargin8 = EdgeInsets.symmetric(vertical: 8.0);
 
-const EdgeInsetsGeometry horizontalMargin10 = EdgeInsets.symmetric(horizontal: 10.0);
-const EdgeInsetsGeometry verticalMargin10 = EdgeInsets.symmetric(vertical: 10.0);
+const EdgeInsetsGeometry horizontalMargin10 =
+    EdgeInsets.symmetric(horizontal: 10.0);
+const EdgeInsetsGeometry verticalMargin10 =
+    EdgeInsets.symmetric(vertical: 10.0);
 
-const EdgeInsetsGeometry horizontalMargin12 = EdgeInsets.symmetric(horizontal: 12.0);
-const EdgeInsetsGeometry verticalMargin12 = EdgeInsets.symmetric(vertical: 12.0);
+const EdgeInsetsGeometry horizontalMargin12 =
+    EdgeInsets.symmetric(horizontal: 12.0);
+const EdgeInsetsGeometry verticalMargin12 =
+    EdgeInsets.symmetric(vertical: 12.0);
 
-const EdgeInsetsGeometry horizontalMargin16 = EdgeInsets.symmetric(horizontal: 16.0);
-const EdgeInsetsGeometry verticalMargin16 = EdgeInsets.symmetric(vertical: 16.0);
+const EdgeInsetsGeometry horizontalMargin16 =
+    EdgeInsets.symmetric(horizontal: 16.0);
+const EdgeInsetsGeometry verticalMargin16 =
+    EdgeInsets.symmetric(vertical: 16.0);
 
-const EdgeInsetsGeometry horizontalMargin24 = EdgeInsets.symmetric(horizontal: 24.0);
-const EdgeInsetsGeometry verticalMargin24 = EdgeInsets.symmetric(vertical: 24.0);
+const EdgeInsetsGeometry horizontalMargin24 =
+    EdgeInsets.symmetric(horizontal: 24.0);
+const EdgeInsetsGeometry verticalMargin24 =
+    EdgeInsets.symmetric(vertical: 24.0);

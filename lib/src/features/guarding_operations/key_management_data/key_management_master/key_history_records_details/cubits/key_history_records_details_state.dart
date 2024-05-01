@@ -2,51 +2,51 @@ part of 'key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsState extends Equatable {
   final FormStatus status;
-  final KeyManagementMasterModel model;
-  final Locations? locations;
+  final KeyHistoryModel model;
+  final KeyManagementMasterModel? keyManagementMasterModel;
+  final KeyIssuanceProcessRecord? keyIssuanceProcessRecord;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? emailUsers;
-  final List<Organisation>? listOfEntities;
-  final List<Organisation>? listOfQualifications;
+  final List<BaseUser>? securityManager;
+  final List<BaseUser>? srh;
+  final List<Organisation>? departments;
   final List<Organisation> destructionReasons;
-  final AddEntities? getEntitiesResponse;
-  final List<String>? participationDates;
   final String? message;
   final User? createdBy;
-  final GmUiLabels? labels;
+  final KLDUiLabels? labels;
+  final bool? isReadOnly;
 
   factory KeyHistoryRecordsDetailsState.initial({
-    required KeyManagementMasterModel model,
-    required Locations locations,
+    required KeyHistoryModel model,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
-    final List<BaseUser>? emailUsers,
-    required final List<Organisation>? listOfEntities,
-    required final AddEntities? getEntitiesResponse,
+    final List<BaseUser>? securityManager,
+    final List<BaseUser>? srh,
     required final List<Organisation> departments,
     required String errorMessage,
     User? createdBy,
     List<String>? participationDate,
+    KeyManagementMasterModel? keyManagementMasterModel,
+    KeyIssuanceProcessRecord? keyIssuanceProcessRecord,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
       model: model,
-      locations: locations,
       loggedInUserDetails: loggedInUserDetails,
-      listOfEntities: listOfEntities,
+      departments: departments,
       destructionReasons: departments,
-      getEntitiesResponse: getEntitiesResponse,
       users: users,
-      emailUsers: emailUsers,
+      securityManager: securityManager,
+      srh: srh,
       message: errorMessage,
       createdBy: createdBy,
     );
   }
 
   ErrorResponse get isValidDraft {
-    log('-model.status---${model.status}--');
-
+    log('-noOfKeys---${(model.noOfKeys ?? 0)}--');
+    log('-keyManagementMasterModel?.noKeys---${(keyManagementMasterModel?.noKeys)}--');
+    log('-greater---${((model.noOfKeys ?? 0) > (keyManagementMasterModel?.noKeys ?? 0))}--');
     // if (model.location == null) {
     //   log('-model.location-----isValidDraft-');
     //   return const ErrorResponse(
@@ -59,7 +59,17 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.keyType == 1 &&
+        ((model.noOfKeys!) > (keyManagementMasterModel?.noKeys ?? 0))) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid No.of Keys');
+    }
 
+    if (model.keyType == 2 &&
+        ((model.noOfKeys!) > (keyManagementMasterModel?.noMasterKey ?? 0))) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid No.of Keys');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -67,7 +77,48 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.keyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Type');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.securityManager == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Manager');
+    }
+    if (model.type == ConstantsIntValue.keyDestroyHistoryInt &&
+        model.destructionReason == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Reason for Key Destruction');
+    }
 
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.srh == null) {
+      return const ErrorResponse(status: false, message: 'Please enter SRH');
+    }
+
+    if ((model.type == ConstantsIntValue.keyLostHistoryInt ||
+            model.type == ConstantsIntValue.keyDamageHistoryInt) &&
+        model.lostKeyDetails == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Details of Lost key');
+    }
+    if (model.noOfKeys == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter No.of Keys');
+    }
+    if (model.keyType == 1 &&
+        ((model.noOfKeys!) > (keyManagementMasterModel?.noKeys ?? 0))) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid No.of Keys');
+    }
+
+    if (model.keyType == 2 &&
+        ((model.noOfKeys!) > (keyManagementMasterModel!.noMasterKey!))) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Valid No.of Keys');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -77,48 +128,56 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   const KeyHistoryRecordsDetailsState({
     required this.status,
     required this.model,
-    this.locations,
+    this.keyManagementMasterModel,
     this.loggedInUserDetails,
     this.users,
-    this.emailUsers,
-    this.listOfEntities,
-    this.listOfQualifications,
+    this.srh,
+    this.securityManager,
+    this.departments,
     required this.destructionReasons,
-    this.getEntitiesResponse,
-    this.participationDates,
     this.message,
     this.createdBy,
     this.labels,
+    this.isReadOnly,
+    this.keyIssuanceProcessRecord,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
     FormStatus? status,
-    KeyManagementMasterModel? model,
+    KeyHistoryModel? model,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? emailUsers,
-    List<Organisation>? listOfEntities,
+    List<BaseUser>? securityManager,
+    List<BaseUser>? srh,
+    List<Organisation>? departments,
     List<Organisation>? destructionReasons,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     String? message,
     User? createdBy,
-    final GmUiLabels? labels,
+    final KLDUiLabels? labels,
+    bool? isReadOnly,
+    keyManagementMasterModel,
+    keyIssuanceProcessRecord,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
-      participationDates: participationDates ?? this.participationDates,
+      securityManager: securityManager ?? this.securityManager,
+      srh: srh ?? this.srh,
+      departments: departments ?? this.departments,
       message: message ?? this.message,
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,
       destructionReasons: destructionReasons ?? this.destructionReasons,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
+      keyManagementMasterModel:
+          keyManagementMasterModel ?? this.keyManagementMasterModel,
+      keyIssuanceProcessRecord:
+          keyIssuanceProcessRecord ?? this.keyIssuanceProcessRecord,
     );
   }
 }

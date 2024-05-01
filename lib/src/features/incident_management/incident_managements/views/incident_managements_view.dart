@@ -10,10 +10,12 @@ class IncidentManagementsView extends StatefulWidget {
     super.key,
     this.occId,
     this.occType,
+    this.kldId,
   });
 
   final String? occId;
   final int? occType;
+  final int? kldId;
 
   @override
   State<IncidentManagementsView> createState() =>
@@ -30,6 +32,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   @override
   void initState() {
     super.initState();
+    context.read<IncidentManagementsBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -65,7 +70,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       pageNumber = pageNumber + 20;
       context.read<IncidentManagementsBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -76,7 +81,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     context.read<IncidentManagementsBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -90,24 +95,31 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
+      },
       builder: (context, state) {
+        log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: Flutterfloatingbutton(
-              backgroundColor: AppColors.navigationSkybluecolor,
-              foregroundColor: AppColors.backgroundWhitecolor,
-              onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  incidentManagementDetailsRoute,
-                  arguments: {
-                    'occId': widget.occId?.toString(),
-                    'occType': widget.occType,
-                  },
-                )
-              },
-            ),
+            floatingActionButton:
+                state.extraProperties?.hasWritePermission ?? false
+                    ? Flutterfloatingbutton(
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                        foregroundColor: AppColors.backgroundWhitecolor,
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                            context,
+                            incidentManagementDetailsRoute,
+                            arguments: {
+                              'occId': widget.occId?.toString(),
+                              'occType': widget.occType,
+                            },
+                          )
+                        },
+                      )
+                    : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.incidentManagement,
@@ -157,6 +169,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
           // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
           // Text('state.status=====${state.status}'),
           if (state.items.isEmptyOrNull &&
+              state.status != FormStatus.initial &&
               state.status != FormStatus.loading) ...[
             const NoRecordFoundWidget(),
           ],
@@ -182,25 +195,36 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
                   if (index < state.items.length) {
                     labels.add(Label(
-                        key: 'Date of Creation',
+                        key: state.labels?.locale.inputDate ??
+                            state.labels?.defaultLocale.inputDate ??
+                            'Date of Creation',
                         value: state.items[index].inputDate != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(state.items[index].inputDate ?? '0'),
                                 Constants.dateFormat)
                             : ''));
                     labels.add(
                       Label(
-                        key: 'Region',
+                        key: state.labels?.locale.locationRegion ??
+                            state.labels?.defaultLocale.locationRegion ??
+                            'Region',
                         value: state.items[index].locationRegion?.name ?? '',
                       ),
                     );
                     labels.add(
                       Label(
-                        key: 'Location',
+                        key: state.labels?.locale.location ??
+                            state.labels?.defaultLocale.location ??
+                            'Location',
                         value: state.items[index].location?.name ?? '',
                       ),
                     );
-
+                    labels.add(Label(
+                        key: state.labels?.locale.entrySecurity ??
+                            state.labels?.defaultLocale.entrySecurity ??
+                            'Created By',
+                        value:
+                            '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                     return index >= state.items.length
                         ? const BaseLoader()
                         : BaseListTileItem(
@@ -232,6 +256,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             },
                             onEditTap: (selectedIndex) {
                               getById(
+                                state.extraProperties?.hasWritePermission ??
+                                    false,
                                 id: state.items[index].id ?? 0,
                                 occType: state.items[index].occType ?? 0,
                               );
@@ -272,12 +298,15 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     );
   }
 
-  getById({required int id, required int occType}) async {
+  getById(bool hasWritePermission,
+      {required int id, required int occType}) async {
     Navigator.pushNamed(
       context,
       incidentManagementDetailsRoute,
       arguments: {
         ConstantsArgument.id: id.toString(),
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
@@ -290,7 +319,11 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -303,7 +336,11 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<IncidentManagementsBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

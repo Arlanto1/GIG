@@ -10,10 +10,12 @@ import 'package:intl/intl.dart';
 
 class LawEnforcementDetailsView extends StatefulWidget {
   final LawEnforcementDetailsModel? model;
+  final ExtraProperties? extraProperties;
 
   const LawEnforcementDetailsView({
     super.key,
     this.model,
+    this.extraProperties,
   });
 
   @override
@@ -87,699 +89,752 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
-    return Scaffold(
-      appBar: AppHeader(
-        isTitleCenter: false,
-        title: widget.model != null
-            ? Constants.editlawenforcement
-            : Constants.createlawenforcement,
-        backBtn: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new_outlined,
-              color: Colors.white),
-        ),
-        action: [
-          Visibility(
-            visible: widget.model?.status != -1,
-            child: GestureDetector(
-              onTap: () {
-                if (!isDistrbuted) {
-                  submitForm(isSubmit: false, state: globalState);
-                }
+    return BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isDistrbuted = true;
+        }
+        return Scaffold(
+          appBar: AppHeader(
+            isTitleCenter: false,
+            title: widget.model != null
+                ? Constants.editlawenforcement
+                : Constants.createlawenforcement,
+            backBtn: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
               },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (!isDistrbuted)
-                      SvgPicture.asset(
-                        AppIcon.createfoundsaveicon,
-                      )
-                  ],
+              icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                  color: Colors.white),
+            ),
+            action: [
+              Visibility(
+                visible: widget.model?.status != -1,
+                child: GestureDetector(
+                  onTap: () {
+                    if (!isDistrbuted) {
+                      submitForm(isSubmit: false, state: globalState);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (!isDistrbuted)
+                          SvgPicture.asset(
+                            AppIcon.createfoundsaveicon,
+                          )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          //GestureDetector(
-          Visibility(
-            visible: widget.model?.status != -1,
-            child: GestureDetector(
-              onTap: () async {
-                //loginFormKey.currentState!.validate();
-                FocusScope.of(context).unfocus();
-                try {
-                  // passSubmit(true, widget.listuser?.id ?? 0, globalState);
-                  validateForm(context, globalState);
-                } catch (e) {
-                  // present userwith error message
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (!isDistrbuted)
-                      const Icon(
-                        Icons.send,
-                        color: AppColors.white,
-                      )
-                  ],
+              //GestureDetector(
+              Visibility(
+                visible: widget.model?.status != -1,
+                child: GestureDetector(
+                  onTap: () async {
+                    // Navigator.pop(context);
+
+                    //loginFormKey.currentState!.validate();
+                    FocusScope.of(context).unfocus();
+                    try {
+                      // passSubmit(true, widget.listuser?.id ?? 0, globalState);
+                      validateForm(context, globalState);
+                    } catch (e) {
+                      // present userwith error message
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (!isDistrbuted)
+                          const Icon(
+                            Icons.send,
+                            color: AppColors.white,
+                          )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
+            //backgroundColor: AppColors.navigationSkybluecolor,
           ),
-        ],
-        //backgroundColor: AppColors.navigationSkybluecolor,
-      ),
-      backgroundColor: AppColors.backgroundWhitecolor,
-      body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
-        listener: (context, state) {
-          if (state.stateType == FormStatus.successFormSubmit) {
-            var dialog = CustomAlertDialog(
-              title: 'Law Enforcement',
-              message: state.message ?? '',
-              positiveBtnText: Constants.ok,
-              onPositivePressed: () {
-                // TODO: Need to improve this code
-                Navigator.pop(context);
-                Navigator.pop(context);
-                // Navigator.pop(context);
-                // TODO: dynamic title
-                Navigator.popAndPushNamed(
-                  context,
-                  lawEnforcementListRoute,
+          backgroundColor: AppColors.backgroundWhitecolor,
+          body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
+            listener: (context, state) {
+              Utils().formError(state, context);
+              Utils().errorAndLogout(state, context);
+              if (state.status == FormStatus.successFormSubmit) {
+                var dialog = CustomAlertDialog(
+                  title: 'Law Enforcement',
+                  message: state.message ?? '',
+                  positiveBtnText: Constants.ok,
+                  onPositivePressed: () {
+                    // TODO: Need to improve this code
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    // TODO: dynamic title
+                    Navigator.popAndPushNamed(
+                      context,
+                      lawEnforcementListRoute,
+                    );
+                  },
                 );
-              },
-            );
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) => dialog);
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) => dialog);
 
-            // Utils.dynamicAlert(
-            //     context, state.message ?? '', 'Material Movement', '');
-          }
-          if (state.stateType == FormStatus.failure) {
-            Validator().showToast(
-              context,
-              state.message ?? 'Invalid Information',
-            );
-          }
-        },
-        builder: (context, state) {
-          return BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+                // Utils.dynamicAlert(
+                //     context, state.message ?? '', 'Material Movement', '');
+              }
+              if (state.status == FormStatus.failure) {
+                Validator().showToast(
+                  context,
+                  state.message ?? 'Invalid Information',
+                );
+              }
+            },
             builder: (context, state) {
-              // listOfEntities = state.getEntitiesResponse;
-              //leoDepartmentsResponse = state.getLeodepartmentsResponse;
-              // leoPurposeVisitResponse = state.getLeopurposeResponse;
+              return BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+                builder: (context, state) {
+                  // listOfEntities = state.getEntitiesResponse;
+                  //leoDepartmentsResponse = state.getLeodepartmentsResponse;
+                  // leoPurposeVisitResponse = state.getLeopurposeResponse;
 
-              if (state.stateType == FormStatus.loading) {
-                return const BaseLoader();
-              }
+                  if (state.status == FormStatus.loading) {
+                    return const BaseLoader();
+                  }
 
-              if (state.getVisitsCount < 1) {
-                manageAddVisitOfficialDetailWidget(state);
-              }
-              if (state.getSerialnumberResponse != null) {
-                serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
-              }
-              globalState = state;
-              if (state.stateType == FormStatus.addAttachment) {
-                getFiles = state.loadAttachments ?? [];
-              }
-              initiallyLocationandSerialnumberdataset(state);
-              // if (widget.listuser != null) {
-              //   if (state.groups != null) {
+                  if (state.getVisitsCount < 1) {
+                    manageAddVisitOfficialDetailWidget(state);
+                  }
+                  if (state.getSerialnumberResponse != null &&
+                      widget.model == null) {
+                    serialnumber =
+                        state.getSerialnumberResponse?.serialNo ?? "";
+                  }
+                  globalState = state;
+                  if (state.status == FormStatus.addAttachment) {
+                    getFiles = state.loadAttachments ?? [];
+                  }
+                  initiallyLocationandSerialnumberdataset(state);
+                  // if (widget.listuser != null) {
+                  //   if (state.groups != null) {
 
-              //   }
-              // }
-              return Container(
-                color: AppColors.navigationSkybluecolor,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: height * 0.01,
-                        color: AppColors.navigationSkybluecolor,
-                      ),
-                      Container(
-                        //padding: const EdgeInsets.all(20.0),
-                        decoration: const ShapeDecoration(
-                            color: AppColors.backgroundWhitecolor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0)),
-                            )),
-                        child: AbsorbPointer(
-                          absorbing: widget.model?.status == 3,
-                          child: Form(
-                            key: lawEnforcementFormKey,
+                  //   }
+                  // }
+                  return Container(
+                    color: AppColors.navigationSkybluecolor,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: height * 0.01,
+                            color: AppColors.navigationSkybluecolor,
+                          ),
+                          Container(
+                            //padding: const EdgeInsets.all(20.0),
+                            decoration: const ShapeDecoration(
+                                color: AppColors.backgroundWhitecolor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20.0)),
+                                )),
+                            child: AbsorbPointer(
+                              absorbing: widget.model?.status == 3,
+                              child: Form(
+                                key: lawEnforcementFormKey,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20.0, right: 20),
+                                      child: Column(children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            Constants.generalinformation,
+                                            style: Styles.styleHeaderGreyText16,
+                                          ),
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Status
+                                        CommonWidgets.textDisplay(
+                                            Constants.status,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        FlutterInputField(
+                                          isEnable: false,
+                                          isDisableColor: true,
+                                          controller: statusTextController,
+                                          textFormKey:
+                                              Keys.statusTextController,
+                                          hintText: '',
+                                          onChange: (String username) {
+                                            //this.username = username;
+                                          },
+                                          validateTextField: (String? user) {},
+                                          suffixWidget: GestureDetector(
+                                            onTap: () {},
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: SvgPicture.asset(
+                                                //AppIcon.dropdownicon,
+                                                AppIcon.dropdownicon,
+                                                //fit: BoxFit.,
+                                                color: AppColors
+                                                    .textgreyThemecolor,
+                                                width: 10,
+                                                height: 10,
+                                                key: const Key(Keys.userIcon),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// created by
+                                        CommonWidgets.horizentaltextHandling(
+                                            Constants.createdby,
+                                            isMandatory: true,
+                                            // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                            '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
+
+                                        /// Location
+                                        CommonWidgets.textDisplay(
+                                            Constants.location,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        locationWidgetDisplay(state),
+
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Date of creation
+                                        CommonWidgets.textDisplay(
+                                            Constants.dateofcreation,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        datecreateWidgetdisplay(),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// slno
+
+                                        CommonWidgets.horizentaltextHandling(
+                                            Constants.slno, serialnumber ?? '',
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Entity type
+                                        CommonWidgets.textDisplay(
+                                            Constants.entity,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        entityaddButtonwidgetLoading(state),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Actual time of visit
+                                        CommonWidgets.textDisplay(
+                                            Constants.actualtimeofvisit,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        // datepickerWidgetLoading(
+                                        //     actualDateTextController),
+                                        BaseDate().datePickerWidgetLoading(
+                                          showFutureDate: false,
+                                          textController:
+                                              actualDateTextController,
+                                          isDisabled:
+                                              (widget.model?.status == -1)
+                                                  ? true
+                                                  : false,
+                                          //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                                          onChange: (String value) {
+                                            widget.model?.timeOfVisit =
+                                                Utils().formatTime(value);
+                                          },
+                                          context: context,
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Officials ID Card Verified?
+                                        CommonWidgets.textDisplay(
+                                            Constants.officialsidcardverified,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        radioButtonHandling(
+                                            isOfficialIdcardSelected,
+                                            Constants.officialsidcardverified),
+
+                                        /// Purpose of visit
+                                        CommonWidgets.textDisplay(
+                                            Constants.purposeofvsit,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+
+                                        purposeofvisitaddButtonwidgetLoading(
+                                            state),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Document if any to confirm purpose
+                                        CommonWidgets.textDisplay(
+                                            Constants
+                                                .documentifanytoconfirmpurpose,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        radioButtonHandling(
+                                            isDocumentifanySelected,
+                                            Constants
+                                                .documentifanytoconfirmpurpose),
+
+                                        /// In case of Police, was official in uniform?
+                                        CommonWidgets.textDisplay(
+                                            Constants
+                                                .incaseofpolicewasofficialinuniform,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        radioButtonHandling(
+                                            isIncaseofpoliceSelected,
+                                            // state.isIncaseofpoliceSelected ?? 0,
+                                            Constants
+                                                .incaseofpolicewasofficialinuniform),
+
+                                        /// DB official want to meet
+                                        CommonWidgets.textDisplay(
+                                            Constants.dbofficialwanttomeet,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        // textfieldWidgetLoad(
+                                        //     dbOfficailWanttimeetTextController,
+                                        //     0,
+                                        //     state),
+                                        FlutterInputField(
+                                          showBorder: false,
+                                          lineHeight: 1,
+                                          controller:
+                                              dbOfficailWanttimeetTextController,
+                                          textFormKey: Keys
+                                              .additionalinformationTextController,
+                                          hintText: Constants.informationhere,
+                                          focusNode:
+                                              dbOfficialWantToMeetFocusNode,
+                                          isEnable: widget.model?.status == 0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
+                                                  widget.model == null
+                                              ? true
+                                              : false,
+                                          isDisableColor: widget
+                                                          .model?.status ==
+                                                      0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
+                                                  widget.model == null
+                                              ? false
+                                              : true,
+                                          onChange: (String username) {
+                                            //this.username = username;
+                                            setState(() {});
+                                          },
+                                          validateTextField: (String? user) {},
+                                        ),
+
+                                        /// DB official department
+                                        CommonWidgets.textDisplay(
+                                            Constants.dbofficialdepartment,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        dbwanttodepartmentaddButtonwidgetLoading(
+                                            state),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        ///DB Official email ID Accompanied LEO official'
+                                        CommonWidgets.textDisplay(
+                                            Constants
+                                                .dbofficialemailidaccompaniedleoofficial,
+                                            Styles.textStyleBlack14,
+                                            isMandatory: true),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        dbofficialemailidaddButtonwidgetLoading(
+                                            state),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// additional information
+                                        CommonWidgets.textDisplay(
+                                            Constants.additionalinformation,
+                                            Styles.textStyleBlack14),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        FlutterInputField(
+                                          showBorder: true,
+                                          lineHeight: 6,
+                                          controller:
+                                              additionalInformationTextController,
+                                          textFormKey: Keys
+                                              .additionalinformationTextController,
+                                          hintText: Constants.informationhere,
+                                          focusNode:
+                                              additionalInformationFocusNode,
+                                          isEnable: widget.model?.status == 0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
+                                                  widget.model == null
+                                              ? true
+                                              : false,
+                                          isDisableColor: widget
+                                                          .model?.status ==
+                                                      0 ||
+                                                  widget.model?.status == 1 ||
+                                                  widget.model?.status == 2 ||
+                                                  widget.model == null
+                                              ? false
+                                              : true,
+                                          onChange: (String username) {
+                                            //this.username = username;
+                                            setState(() {});
+                                          },
+                                          validateTextField: (String? user) {},
+                                          onFieldSubmitted: (String value) {
+                                            additionalInformationTextController
+                                                .value = TextEditingValue(
+                                              text:
+                                                  '${additionalInformationTextController.text}\n',
+                                              selection:
+                                                  TextSelection.collapsed(
+                                                offset:
+                                                    additionalInformationTextController
+                                                            .text.length +
+                                                        1,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+                                      ]),
+                                    ),
+
+                                    // CommonWidgets.indentedDivider(Colors.black),
+                                    const Divider(
+                                      color: AppColors.textgreyThemecolor,
+                                      thickness: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: const ShapeDecoration(
+                              color: AppColors.backgroundWhitecolor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(00.0)),
+                              ),
+                            ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 20.0, right: 20),
-                                  child: Column(children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        Constants.generalinformation,
-                                        style: Styles.styleHeaderGreyText16,
+                                  child: Column(
+                                    children: [
+                                      /// Visiting Official Details
+                                      CommonWidgets.textDisplay(
+                                        Constants.visitingOfficialDetails,
+                                        Styles.textStyleDarkGrey16,
+                                        isMandatory: true,
                                       ),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
 
-                                    /// Status
-                                    CommonWidgets.textDisplay(Constants.status,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      isEnable: false,
-                                      isDisableColor: true,
-                                      controller: statusTextController,
-                                      textFormKey: Keys.statusTextController,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                      },
-                                      validateTextField: (String? user) {},
-                                      suffixWidget: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: SvgPicture.asset(
-                                            //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
-                                            //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
-                                            width: 10,
-                                            height: 10,
-                                            key: const Key(Keys.userIcon),
-                                          ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          NavigatorState nav =
+                                              Navigator.of(context);
+
+                                          bool isSaveSuccess = await submitForm(
+                                            isSubmit: false,
+                                            state: state,
+                                            navigateToNextScreen: true,
+                                          );
+                                          if (!isSaveSuccess) {
+                                            return;
+                                          }
+                                          log('--widget.model.status---${widget.model?.status}--');
+                                          List<LawVisitingOfficial>
+                                              visitingOfficials =
+                                              await LawEnforcementServices()
+                                                  .getLeoVisitingOfficials(
+                                                      id: state.model!.id!);
+
+                                          log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
+                                          nav.pushNamed(
+                                            visitingOfficialListRoute,
+                                            arguments: {
+                                              ConstantsArgument.title:
+                                                  Constants.visitingOfficials,
+                                              ConstantsArgument.type: 0,
+                                              ConstantsArgument.id:
+                                                  state.model?.id,
+                                              ConstantsArgument.rankType:
+                                                  Constants.contactGeneralRank,
+                                              ConstantsArgument.models:
+                                                  visitingOfficials,
+                                              ConstantsArgument
+                                                  .departments: state
+                                                      .departmentResponse
+                                                      ?.atomLeoDepartments ??
+                                                  [],
+                                              ConstantsArgument.showSaveButton:
+                                                  (widget.model?.status != 3)
+                                                      ? true
+                                                      : false,
+                                            },
+                                          );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                              AppIcon.pluscircle,
+                                              color: AppColors
+                                                  .navigationSkybluecolor,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            const Text(
+                                              'Add/View Visiting Official(s)',
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .navigationSkybluecolor,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
 
-                                    /// created by
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.createdby,
-                                        isMandatory: true,
-                                        // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
-                                        '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      // (state.getVisitsCount) > 0
+                                      //     ? listVisitingOfficialDetails(
+                                      //         height,
+                                      //         width,
+                                      //         context,
+                                      //         state,
+                                      //         state.getVisitsCount,
+                                      //       )
+                                      //     : Container(),
+                                      // widget.model == null
+                                      //     ? CommonWidgets.verticalSpacerWidget(
+                                      //         height * 0.01)
+                                      //     : Container(),
+                                      //
+                                      // /// Add another visiting
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     if (widget.model?.status != -1) {
+                                      //       if ((state.getVisitsCount) < 10) {
+                                      //         manageAddVisitOfficialDetailWidget(
+                                      //             state);
+                                      //       } else {
+                                      //         Validator().showToast(
+                                      //           context,
+                                      //           "You have reached maximum visiting official details adding",
+                                      //         );
+                                      //       }
+                                      //     }
+                                      //   },
+                                      //   child: Row(
+                                      //     children: <Widget>[
+                                      //       // Expanded(
+                                      //       //child:
+                                      //       SvgPicture.asset(
+                                      //         AppIcon.pluscircle,
+                                      //         //color: AppColors.navigationSkybluecolor,
+                                      //       ),
+                                      //       // ),
+                                      //       const SizedBox(width: 10),
+                                      //       const Text(
+                                      //         Constants
+                                      //             .addvisitingofficialdetails,
+                                      //         style: TextStyle(
+                                      //           color: AppColors
+                                      //               .navigationSkybluecolor,
+                                      //           decoration:
+                                      //               TextDecoration.underline,
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
 
-                                    /// Location
-                                    CommonWidgets.textDisplay(
-                                        Constants.location,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    locationWidgetDisplay(state),
-
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Date of creation
-                                    CommonWidgets.textDisplay(
-                                        Constants.dateofcreation,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datecreateWidgetdisplay(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// slno
-
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.slno, serialnumber ?? '',
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Entity type
-                                    CommonWidgets.textDisplay(Constants.entity,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    entityaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Actual time of visit
-                                    CommonWidgets.textDisplay(
-                                        Constants.actualtimeofvisit,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // datepickerWidgetLoading(
-                                    //     actualDateTextController),
-                                    BaseDate().datePickerWidgetLoading(
-                                      showFutureDate: false,
-                                      textController: actualDateTextController,
-                                      isDisabled: (widget.model?.status == -1)
-                                          ? true
-                                          : false,
-                                      //initialDate: DateTime.now().subtract(Duration(days: 1)),
-                                      onChange: (String value) {
-                                        widget.model?.timeOfVisit =
-                                            Utils().formatTime(value);
-                                      },
-                                      context: context,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Officials ID Card Verified?
-                                    CommonWidgets.textDisplay(
-                                        Constants.officialsidcardverified,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    radioButtonHandling(
-                                        isOfficialIdcardSelected,
-                                        Constants.officialsidcardverified),
-
-                                    /// Purpose of visit
-                                    CommonWidgets.textDisplay(
-                                        Constants.purposeofvsit,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-
-                                    purposeofvisitaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Document if any to confirm purpose
-                                    CommonWidgets.textDisplay(
-                                        Constants.documentifanytoconfirmpurpose,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    radioButtonHandling(
-                                        isDocumentifanySelected,
-                                        Constants
-                                            .documentifanytoconfirmpurpose),
-
-                                    /// In case of Police, was official in uniform?
-                                    CommonWidgets.textDisplay(
-                                        Constants
-                                            .incaseofpolicewasofficialinuniform,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    radioButtonHandling(
-                                        isIncaseofpoliceSelected,
-                                        // state.isIncaseofpoliceSelected ?? 0,
-                                        Constants
-                                            .incaseofpolicewasofficialinuniform),
-
-                                    /// DB official want to meet
-                                    CommonWidgets.textDisplay(
-                                        Constants.dbofficialwanttomeet,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // textfieldWidgetLoad(
-                                    //     dbOfficailWanttimeetTextController,
-                                    //     0,
-                                    //     state),
-                                    FlutterInputField(
-                                      showBorder: false,
-                                      lineHeight: 1,
-                                      controller:
-                                          dbOfficailWanttimeetTextController,
-                                      textFormKey: Keys
-                                          .additionalinformationTextController,
-                                      hintText: Constants.informationhere,
-                                      focusNode: dbOfficialWantToMeetFocusNode,
-                                      isEnable: widget.model?.status == 0 ||
+                                      // Upload
+                                      widget.model == null ||
+                                              widget.model?.status == 0 ||
                                               widget.model?.status == 1 ||
-                                              widget.model?.status == 2 ||
-                                              widget.model == null
-                                          ? true
-                                          : false,
-                                      isDisableColor:
-                                          widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
-                                                  widget.model?.status == 2 ||
-                                                  widget.model == null
-                                              ? false
-                                              : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-
-                                    /// DB official department
-                                    CommonWidgets.textDisplay(
-                                        Constants.dbofficialdepartment,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    dbwanttodepartmentaddButtonwidgetLoading(
-                                        state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    ///DB Official email ID Accompanied LEO official'
-                                    CommonWidgets.textDisplay(
-                                        Constants
-                                            .dbofficialemailidaccompaniedleoofficial,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    dbofficialemailidaddButtonwidgetLoading(
-                                        state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// additional information
-                                    CommonWidgets.textDisplay(
-                                        Constants.additionalinformation,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      showBorder: true,
-                                      lineHeight: 6,
-                                      controller:
-                                          additionalInformationTextController,
-                                      textFormKey: Keys
-                                          .additionalinformationTextController,
-                                      hintText: Constants.informationhere,
-                                      focusNode: additionalInformationFocusNode,
-                                      isEnable: widget.model?.status == 0 ||
+                                              widget.model?.status == 2
+                                          ? CommonWidgets.textDisplay(
+                                              Constants.upload,
+                                              Styles.textStyleBlack14)
+                                          : Container(),
+                                      widget.model == null ||
+                                              widget.model?.status == 0 ||
                                               widget.model?.status == 1 ||
-                                              widget.model?.status == 2 ||
-                                              widget.model == null
-                                          ? true
-                                          : false,
-                                      isDisableColor:
-                                          widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
-                                                  widget.model?.status == 2 ||
-                                                  widget.model == null
-                                              ? false
-                                              : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                      onFieldSubmitted: (String value) {
-                                        additionalInformationTextController
-                                            .value = TextEditingValue(
-                                          text:
-                                              '${additionalInformationTextController.text}\n',
-                                          selection: TextSelection.collapsed(
-                                            offset:
-                                                additionalInformationTextController
-                                                        .text.length +
-                                                    1,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                  ]),
-                                ),
+                                              widget.model?.status == 2
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001)
+                                          : Container(),
+                                      widget.model == null ||
+                                              widget.model?.status == 0 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 2
+                                          ? uploadWidget(state)
+                                          : Container(),
 
-                                // CommonWidgets.indentedDivider(Colors.black),
-                                const Divider(
-                                  color: AppColors.textgreyThemecolor,
-                                  thickness: 1,
-                                ),
+                                      BaseImageUpload().getAttachment(
+                                        height: height,
+                                        attachments: state.loadAttachments.isEmptyOrNull? getFiles:state.loadAttachments,
+                                        files: getFiles.isEmptyOrNull? getAttachments:getFiles,
+                                        showDownloadIcon:
+                                            widget.model == null ||
+                                                widget.model?.status == 0,
+                                        moduleCode: Constants.leoModuleCode,
+                                        showDeleteIcon:   widget.model == null ||
+                                            widget.model?.status == 0,
+                                      ),
+                                      // Attachments
+                                      // getSpaceattchment(height),
+                                      // getAttachement(height),
+
+                                      if (widget.model?.status == 1 ||
+                                          widget.model?.status == 2 ||
+                                          widget.model?.status == 3) ...[
+                                        /// Distribution Groups
+                                        CommonWidgets.textDisplay(
+                                          Constants.distributiongroups,
+                                          Styles.textStyleBlack14,
+                                          isMandatory: true,
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        BaseEntitiesSelection()
+                                            .entityDropDownSelection(
+                                          context: context,
+                                          selectedValues:
+                                              widget.model?.mailList ?? [],
+                                          all: state
+                                                  .groups?.distributionGroups ??
+                                              [],
+                                          enabled: widget.model?.status == 1 ||
+                                              widget.model?.status == 2,
+                                          onTap: (List<Organisation>
+                                              selectedEntities) {
+                                            log('--selectedEntities----${selectedEntities.length}');
+
+                                            widget.model?.mailList =
+                                                selectedEntities;
+                                            setState(() {});
+                                            // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+                                      ],
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      // SubmitButton
+                                      if (widget.model?.status != 3 &&
+                                          widget.model?.status != -1) ...[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            cancelButtonDisplay(),
+                                            submitButtonDisplay()
+                                          ],
+                                        ),
+                                      ],
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.05),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(00.0)),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(
+                          if (widget.model?.status == 3 ||
+                              widget.model?.status == -1) ...[
+                            Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: const ShapeDecoration(
+                                color: AppColors.backgroundWhitecolor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(00.0)),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  /// Visiting Official Details
-                                  CommonWidgets.textDisplay(
-                                    Constants.visitingOfficialDetails,
-                                    Styles.textStyleDarkGrey16,
-                                    isMandatory: true,
-                                  ),
-
-                                  GestureDetector(
-                                    onTap: () async {
-                                      NavigatorState nav =
-                                          Navigator.of(context);
-
-                                      bool isSaveSuccess = await submitForm(
-                                        isSubmit: false,
-                                        state: state,
-                                        navigateToNextScreen: true,
-                                      );
-                                      if (!isSaveSuccess) {
-                                        return;
-                                      }
-                                      log('--widget.model.status---${widget.model?.status}--');
-                                      List<LawVisitingOfficial>
-                                          visitingOfficials =
-                                          await LawEnforcementServices()
-                                              .getLeoVisitingOfficials(
-                                                  id: state.model!.id!);
-
-                                      log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
-                                      nav.pushNamed(
-                                        visitingOfficialListRoute,
-                                        arguments: {
-                                          ConstantsArgument.title:
-                                              Constants.visitingOfficials,
-                                          ConstantsArgument.type: 0,
-                                          ConstantsArgument.id: state.model?.id,
-                                          ConstantsArgument.rankType:
-                                              Constants.contactGeneralRank,
-                                          ConstantsArgument.models:
-                                              visitingOfficials,
-                                          ConstantsArgument.departments: state
-                                                  .departmentResponse
-                                                  ?.atomLeoDepartments ??
-                                              [],
-                                          ConstantsArgument.showSaveButton:
-                                              (widget.model?.status != 3)
-                                                  ? true
-                                                  : false,
-                                        },
-                                      );
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        SvgPicture.asset(
-                                          AppIcon.pluscircle,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        const Text(
-                                          'Add/View Visiting Official(s)',
-                                          style: TextStyle(
-                                            color: AppColors
-                                                .navigationSkybluecolor,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                  // (state.getVisitsCount) > 0
-                                  //     ? listVisitingOfficialDetails(
-                                  //         height,
-                                  //         width,
-                                  //         context,
-                                  //         state,
-                                  //         state.getVisitsCount,
-                                  //       )
-                                  //     : Container(),
-                                  // widget.model == null
-                                  //     ? CommonWidgets.verticalSpacerWidget(
-                                  //         height * 0.01)
-                                  //     : Container(),
-                                  //
-                                  // /// Add another visiting
-                                  // GestureDetector(
-                                  //   onTap: () {
-                                  //     if (widget.model?.status != -1) {
-                                  //       if ((state.getVisitsCount) < 10) {
-                                  //         manageAddVisitOfficialDetailWidget(
-                                  //             state);
-                                  //       } else {
-                                  //         Validator().showToast(
-                                  //           context,
-                                  //           "You have reached maximum visiting official details adding",
-                                  //         );
-                                  //       }
-                                  //     }
-                                  //   },
-                                  //   child: Row(
-                                  //     children: <Widget>[
-                                  //       // Expanded(
-                                  //       //child:
-                                  //       SvgPicture.asset(
-                                  //         AppIcon.pluscircle,
-                                  //         //color: AppColors.navigationSkybluecolor,
-                                  //       ),
-                                  //       // ),
-                                  //       const SizedBox(width: 10),
-                                  //       const Text(
-                                  //         Constants
-                                  //             .addvisitingofficialdetails,
-                                  //         style: TextStyle(
-                                  //           color: AppColors
-                                  //               .navigationSkybluecolor,
-                                  //           decoration:
-                                  //               TextDecoration.underline,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-
-                                  // Upload
-                                  widget.model == null
-                                      ? CommonWidgets.textDisplay(
-                                          Constants.upload,
-                                          Styles.textStyleBlack14)
-                                      : Container(),
-                                  widget.model == null
-                                      ? CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001)
-                                      : Container(),
-                                  widget.model == null
-                                      ? uploadWidget(state)
-                                      : Container(),
-
-                                  // Attachments
-                                  getSpaceattchment(height),
-                                  getAttachement(height),
-
-                                  if (widget.model?.status == 1 ||
-                                      widget.model?.status == 2 ||
-                                      widget.model?.status == 3) ...[
-                                    /// Distribution Groups
-                                    CommonWidgets.textDisplay(
-                                      Constants.distributiongroups,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    BaseEntitiesSelection()
-                                        .entityDropDownSelection(
-                                      context: context,
-                                      selectedValues:
-                                          widget.model?.mailList ?? [],
-                                      all: state.groups?.distributionGroups ??
-                                          [],
-                                      enabled: widget.model?.status == 1 ||
-                                          widget.model?.status == 2,
-                                      onTap: (List<Organisation>
-                                          selectedEntities) {
-                                        log('--selectedEntities----${selectedEntities.length}');
-
-                                        widget.model?.mailList =
-                                            selectedEntities;
-                                        setState(() {});
-                                        // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
-                                      },
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                  ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                  // SubmitButton
-                                  if (widget.model?.status != 3 &&
-                                      widget.model?.status != -1) ...[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        cancelButtonDisplay(),
-                                        submitButtonDisplay()
-                                      ],
-                                    ),
-                                  ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.05),
+                                  cancelButtonDisplay(),
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                      if (widget.model?.status == 3 ||
-                          widget.model?.status == -1) ...[
-                        Container(
-                          padding: const EdgeInsets.all(5.0),
-                          decoration: const ShapeDecoration(
-                            color: AppColors.backgroundWhitecolor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(00.0)),
                             ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              cancelButtonDisplay(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
-      ),
+          ),
+        );
+      },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
@@ -1026,13 +1081,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               : '';
       actualDateTextController.text =
           widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
               : actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
@@ -1045,7 +1100,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   ? "Verification Under Process"
                   : widget.model?.status == 3
                       ? "Distributed"
-                      : "Distributed";
+                      : widget.model?.status == -1
+                          ? 'Cancelled'
+                          : '';
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
@@ -1068,7 +1125,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      widget.model?.slNo ?? await lawEnforcementCubit.getSerialnumberDetails(
+      widget.model?.slNo ??
+          await lawEnforcementCubit.getSerialnumberDetails(
               (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
@@ -1119,7 +1177,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? BaseUser(
               id: widget.model?.dbOfficialEmailDepartment?.id,
               name: widget.model?.dbOfficialEmailDepartment?.name ?? "",
-              email: widget.model?.dbOfficialAccompaniedEmail ?? '')
+            )
           : BaseUser();
 
       lawEnforcementCubit.geDBOfficialyData(staticUser);
@@ -1393,9 +1451,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         .format(pickedDate ?? DateTime.now());
     log(formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == actualDateTextController) {
-      actualDateTextController.text = formattedDate;
-    }
+    // if (textfield == actualDateTextController) {
+    //   actualDateTextController.text = formattedDate;
+    // }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -1413,7 +1471,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Widget uploadWidget(LawEnforcementState state) {
     return // upload
-        widget.model == null
+        widget.model == null ||
+                widget.model?.status == 0 ||
+                widget.model?.status == 1 ||
+                widget.model?.status == 2
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -1514,7 +1575,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
                         title: Constants.addpurposeofvisittype,
-                        lawstate: state);
+                        lawEnforcementState: state);
                   });
             },
             onTap: (Organisation list) {
@@ -1569,7 +1630,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddNewFields(
-                        title: Constants.addleoofficialtype, lawstate: state);
+                        title: Constants.addleoofficialtype,
+                        lawEnforcementState: state);
                   });
             },
             onTap: (Organisation list) {
@@ -1768,6 +1830,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (statusTextController.text.toLowerCase() ==
         "verification under process") {
       statusValue = 2;
+    } else if (statusTextController.text.toLowerCase() == "cancelled") {
+      statusValue = -1;
     }
     bool isDocumentifanySelected =
         state.isDocumentifanySelected == 1 ? true : false;
@@ -1834,7 +1898,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: actualDate != 0
+              ? actualDate.toString()
+              : '',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1843,7 +1909,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? (state.getuserResponse?.name ?? '')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -1856,7 +1922,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: actualDate.toString(),
+          timeOfVisit: actualDate != 0
+              ? actualDate.toString()
+              : '',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1865,7 +1933,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+              ? (state.getuserResponse?.name ?? '')
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2031,12 +2099,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget cancelButtonDisplay() {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 3;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();
@@ -2076,7 +2147,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
                   (attachmentListviews?.length ?? 0)
-              ? attachmentListviews1?.length
+              ? attachmentListviews1?.length ?? 0
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             ImageContent? imageData;
@@ -2112,16 +2183,32 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 }
                               },
                             ),
-                            SvgPicture.asset(AppIcon.download,
-                                color: AppColors.boldgreyBackground),
+                            GestureDetector(
+                              onTap: () {
+                                // Add your download functionality here
+                                DownloadImage().saveImage(
+                                  context,
+                                  imageData?.id ?? 0,
+                                  imageData?.title ?? '',
+                                  Constants.leoModuleCode,
+                                );
+                              },
+                              child: BaseIcons().deleteIcon(),
+                            ),
                           ],
                         )
-                      : SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
-                  },
+                      : GestureDetector(
+                          onTap: () {
+                            // Add your download functionality here
+                            DownloadImage().saveImage(
+                              context,
+                              imageData?.id ?? 0,
+                              imageData?.title ?? '',
+                              Constants.leoModuleCode,
+                            );
+                          },
+                          child: BaseIcons().deleteIcon(),
+                        ),
                   title: widget.model != null
                       ? Text(imageData1?.title ?? '')
                       : Text(imageData?.title ?? ''),
@@ -2142,8 +2229,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         selectedValues: widget.model?.mailList ?? [],
         all: state.groups?.distributionGroups ?? [],
-        enabled:
-    widget.model?.status == 1||widget.model?.status == 2,
+        enabled: widget.model?.status == 1 || widget.model?.status == 2,
         onTap: (List<Organisation> selectedEntities) {
           log('--selectedEntities----${selectedEntities.length}');
 

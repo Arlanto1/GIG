@@ -33,7 +33,7 @@ const String incidentManagementDetailsRoute = '/incidentManagementDetailsRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
-const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
+// const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
@@ -83,7 +83,8 @@ const String keyHistoryRecordsDetailsRoute = '/keyHistoryRecordsDetailsRoute';
 
 const String keyReconciliationListRoute = '/keyReconciliationListRoute';
 const String keyLossDestructionListRoute = '/keyLossDestructionListRoute';
-
+const String keyLossDestructionListDetailsRoute =
+    '/keyLossDestructionListDetailsRoute';
 const String dutyPostMasterListRoute = '/dutyPostMasterListRoute';
 const String dutyPostMasterDetailsRoute = '/dutyPostMasterDetailsRoute';
 
@@ -94,7 +95,8 @@ const String attendanceListRoute = '/attendanceListRoute';
 const String attendanceDetailsRoute = '/attendanceDetailsRoute';
 const String attendanceShiftsRoute = '/attendanceShiftsRoute';
 
-const String attendanceReportBillingListRoute = '/attendanceReportBillingListRoute';
+const String attendanceReportBillingListRoute =
+    '/attendanceReportBillingListRoute';
 
 const String shiftScheduleListRoute = '/shiftScheduleListRoute';
 const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';

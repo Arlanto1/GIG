@@ -7,14 +7,15 @@ class LawEnforcementListState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final String? message;
-
+  final ExtraProperties? extraProperties;
 
   const LawEnforcementListState(
       {this.items = const <LawEnforcementListElement>[],
       this.hasReachedMax = false,
-        this.message,
-        this.locations,
-        this.commonFilters,
+      this.message,
+      this.locations,
+      this.commonFilters,
+      this.extraProperties,
       this.status = FormStatus.initial});
 
   LawEnforcementListState copyWith({
@@ -26,6 +27,7 @@ class LawEnforcementListState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return LawEnforcementListState(
       items: todos ?? items,
@@ -33,7 +35,9 @@ class LawEnforcementListState extends Equatable {
       status: status ?? this.status,
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
-      locations: locations ?? this.locations,    );
+      locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
+    );
   }
 
   @override

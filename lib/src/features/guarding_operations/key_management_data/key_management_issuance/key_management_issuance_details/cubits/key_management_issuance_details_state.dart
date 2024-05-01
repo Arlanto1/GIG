@@ -11,8 +11,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final List<Organisation> typeOfServices;
   final String? message;
   final List<BaseUser>? emailUsers;
-  final SlaUiLabels? labels;
-
+  final KMUiLabels? labels;
 
   factory KeyManagementIssuanceDetailsState.initial({
     required KeyManagementIssuanceModel model,
@@ -25,7 +24,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     final List<String>? pocs,
-
   }) {
     return KeyManagementIssuanceDetailsState(
       status: FormStatus.initial,
@@ -42,51 +40,136 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
     if (model.createdBy == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entry Security');
+    }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
     }
     if (model.createdDate == null) {
       return const ErrorResponse(
           status: false, message: 'Created Date is required');
     }
-    // if (model.location == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Location');
-    // }
-
+    if (model.location == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
     if (model.slNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+    if (model.entities == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
+    }
+
+    if (model.department == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Department');
+    }
+    if (model.keyHandingOverDuration == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Handing Over Duration');
+    }
+
+    if (model.keyHandOverDue == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Return Due Date');
+    }
+    if (model.employeeType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Employee Type');
+    }
+    if (model.employeeID == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Employee Id');
+    }
+    if (model.handedOverTo == null && model.employeeType != 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Handed Over To');
+    }
+    if (model.handedOverToCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Handed Over To');
+    }
+
+    if (model.dbSponsorCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter DB Sponsor of CWR T2');
+    }
+    if (model.status != null &&
+        model.status != 0 &&
+        model.returnedByName.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Returned By Name');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   ErrorResponse get isValid {
-    // if (model.location == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Location');
-    // }
-    // if (model.vendor == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
+    if (model.createdBy == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.createdDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
+    if (model.location == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
     if (model.entities == null) {
       return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
-    // if (model.typeOfService == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Type of Services');
-    // }
-    // if (model.approver == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter ASL');
-    // }
-    // if (model.employeeId == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Guarding Agency POC');
-    // }
+
+    if (model.department == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Department');
+    }
+    if (model.keyHandingOverDuration == null ||
+        model.keyHandingOverDuration == 0) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Handing Over Duration');
+    }
+
+    if (model.keyHandOverDue == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Return Due Date');
+    }
+    if (model.employeeType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Employee Type');
+    }
+    if (model.employeeID == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Employee Id');
+    }
+    if (model.handedOverTo == null && model.employeeType != 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Handed Over To');
+    }
+    if (model.handedOverToCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Handed Over To');
+    }
+
+    if (model.dbSponsorCwrT2 == null && model.employeeType == 3) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter DB Sponsor of CWR T2');
+    }
+    if (model.status != null &&
+        model.status != 0 &&
+        model.returnedByName.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Returned By Name');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -118,8 +201,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     List<Organisation>? typeOfServices,
     String? message,
     List<BaseUser>? emailUsers,
-    // SlaUiLabels? labels,
-
+    KMUiLabels? labels,
   }) {
     return KeyManagementIssuanceDetailsState(
       status: status ?? this.status,
@@ -132,7 +214,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
       emailUsers: emailUsers ?? this.emailUsers,
-      //labels: labels ?? this.labels,
+      labels: labels ?? this.labels,
     );
   }
 }

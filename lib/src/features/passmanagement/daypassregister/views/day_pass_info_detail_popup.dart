@@ -122,8 +122,8 @@ class _DayPassInfoCustomPopUpListState
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('Entity : ',
-                    widget.userItem.entity?.name.toString() ?? ""),
+                textHandling(
+                    'Entity : ', widget.userItem.entity?.name.toString() ?? ""),
               ],
             ),
           ],
@@ -134,7 +134,7 @@ class _DayPassInfoCustomPopUpListState
                 textHandling(
                     'Expiry Date : ',
                     widget.userItem.expiryDate != null
-                        ? Utils.timestamptoDateConversion(
+                        ? Utils.timestampToDateConversion(
                             int.parse(widget.userItem.expiryDate ?? '0'),
                             Constants.dateFormat)
                         : ''),
@@ -158,8 +158,7 @@ class _DayPassInfoCustomPopUpListState
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              Utils()
-                  .buildPassManagementStatusRow(widget.userItem.status ?? 0),
+              Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
             ],
           )
         ])

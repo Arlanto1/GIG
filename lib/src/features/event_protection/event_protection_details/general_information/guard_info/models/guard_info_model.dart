@@ -75,4 +75,3 @@ class GuardInfoModel {
     return data;
   }
 }
-

@@ -4,13 +4,11 @@ class KeyManagementMasterListState extends Equatable {
   final List<KeyManagementMasterModel> list;
   final bool hasReachedMax;
   final FormStatus status;
-
-  // final SlaUiLabels? labels;
+  final KMUiLabels? labels;
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
-
-  //final GmUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const KeyManagementMasterListState({
     this.list = const <KeyManagementMasterModel>[],
@@ -19,6 +17,8 @@ class KeyManagementMasterListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.labels,
+    this.extraProperties,
   });
 
   KeyManagementMasterListState copyWith({
@@ -30,7 +30,8 @@ class KeyManagementMasterListState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
-    // GmUiLabels? labels,
+    KMUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return KeyManagementMasterListState(
       list: items ?? list,
@@ -39,7 +40,8 @@ class KeyManagementMasterListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
-      // labels: labels ?? this.labels
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

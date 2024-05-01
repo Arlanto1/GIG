@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 
 class Tile extends StatelessWidget {
   const Tile({
@@ -21,7 +21,7 @@ class Tile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
-            color: Colors.blue, // Border color
+            color: AppColors.navigationSkybluecolor, // Border color
             width: .7, // Border width
           ),
           boxShadow: const [
@@ -41,10 +41,10 @@ class Tile extends StatelessWidget {
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: AppColors.navigationSkybluecolor,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child:  Padding(
+                  child: Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: Icon(
                       icon,

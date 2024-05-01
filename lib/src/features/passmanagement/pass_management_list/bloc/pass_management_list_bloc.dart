@@ -5,15 +5,18 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/services/day_passlist_services.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
+import 'package:db_atom/src/models/extra_properties.dart';
 import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
@@ -60,8 +63,13 @@ class PassManagementListBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
-      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.passManagementRolesModuleCode);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.passManagementRolesModuleCode,
+        commonServices: commonServices,
+      );
+      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -70,8 +78,18 @@ class PassManagementListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }

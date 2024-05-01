@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/occ_ui_labels.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 part 'occurrence_general_info_state.dart';
 
@@ -24,7 +26,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             model: OccurrenceModel(),
             locations: Locations(),
             users: const [],
-            emailUsers: const [],
+            shiftTakenOverBy: const [],
             errorMessage: '',
             loadAttachments: const [],
             eventId: null,
@@ -40,8 +42,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> isFormReadable() async {
-
-    emit(state.copyWith( status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.loading));
     if (state.model.status != ConstantsIntValue.submitted) {
       emit(state.copyWith(
         status: FormStatus.initial,
@@ -71,14 +72,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Guarding_Staff');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        shiftTakenOverBy: shiftTakenOverBy,
       ),
     );
   }
@@ -109,16 +110,25 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      List<BaseUser>? shiftTakenOverBy = await commonServices
+          .getBaseUsersByRoles(roleNames: 'ATOM_Guarding_Staff');
 
       // Get Date of Creation
-      model.inputDate = Utils().getCurrentDate();
+      // model.inputDate = Utils().getCurrentDate();
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       List<User> entrySecurities = await commonServices.getUsers();
+      bool isOnGoingPowerFailure = false;
 
       if (model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -136,19 +146,19 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
-            PowerFailure powerFailure = PowerFailure();
+            PowerFailureModel powerFailure = PowerFailureModel();
             powerFailure.powerFailureStartDate =
-                Utils.timestamptoDateConversion(
-                    int.tryParse(powerFailureModel.powerFailureStartDate),
+                Utils.timestampToDateConversion(
+                    int.tryParse(powerFailureModel.powerFailureStartDate ?? ''),
                     Constants.fulldateFormat);
 
-            if(model.powerFailures.isEmptyOrNull) {
+            isOnGoingPowerFailure = true;
+            if (model.powerFailures.isEmptyOrNull) {
               model.powerFailures = [];
             }
 
             model.powerFailures?.add(powerFailure);
             log('--model.powerFailures--${model.powerFailures?.length}-');
-
           }
         }
       }
@@ -166,11 +176,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-          emailUsers: emailUsers.atomStaticUser,
+          shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          isOnGoingPowerFailure: isOnGoingPowerFailure,
         ),
       );
       isFormReadable();
@@ -365,8 +376,34 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
+
+    for (PowerFailureModel powerFailureModel
+        in state.model.powerFailures ?? []) {
+      if (!powerFailureModel.powerFailureStartDate.isEmptyOrNull &&
+          !Utils().isTimestamp(powerFailureModel.powerFailureStartDate!)) {
+
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureStartDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        powerFailureModel.powerFailureStartDate = inputDate.toString();
+      }
+
+      if (!powerFailureModel.powerFailureEndDate.isEmptyOrNull &&
+          !Utils().isTimestamp(powerFailureModel.powerFailureEndDate!)) {
+
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureEndDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        powerFailureModel.powerFailureEndDate = inputDate.toString();
+      }
+    }
 
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
@@ -380,7 +417,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -395,7 +432,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -407,13 +444,18 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(
@@ -447,7 +489,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         id: id, module: Constants.occurrenceModule);
   }
 
-  void deletePowerFailure(PowerFailure powerFailure) {
+  void deletePowerFailure(PowerFailureModel powerFailure) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     state.model.powerFailures?.remove(powerFailure);

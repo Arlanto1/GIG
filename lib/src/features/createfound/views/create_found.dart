@@ -8,8 +8,14 @@ import 'package:intl/intl.dart';
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
   final int? eventId;
+  final ExtraProperties? extraProperties;
 
-  const CreateFound({super.key, this.model, this.eventId});
+  const CreateFound({
+    super.key,
+    this.model,
+    this.eventId,
+    this.extraProperties,
+  });
 
   @override
   State<CreateFound> createState() => _CreateFoundState();
@@ -95,7 +101,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? BaseUser(
               email: widget.model?.depositor?.email ?? "",
               id: widget.model?.depositor?.userId ?? 0,
-              name: widget.model?.depositor?.name ?? "")
+              name: widget.model?.depositor?.userInfo ?? "")
           : BaseUser();
       selectedArtclelist = widget.model?.typeOfArticle != null
           ? Organisation(
@@ -112,9 +118,11 @@ class _CreateFoundState extends State<CreateFound> {
               userId: widget.model?.handoverSecurity?.userId ?? 1,
               lastName: widget.model?.handoverSecurity?.lastName ?? "")
           : User();
-      createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
-      handOverByValue =
-          handOverSecurity?.name != null ? handOverSecurity?.name ?? '' : '';
+      createdByValue =
+          userDetails?.userInfo != null ? userDetails?.userInfo ?? '' : '';
+      handOverByValue = handOverSecurity?.userInfo != null
+          ? handOverSecurity?.userInfo ?? ''
+          : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       locationSelectedlist = widget.model?.location != null
           ? Organisation(
@@ -139,13 +147,13 @@ class _CreateFoundState extends State<CreateFound> {
               : '';
       foundDateTextController.text =
           widget.model?.foundDate != null && widget.model?.foundDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.tryParse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestamptoDateConversion(
+              ? Utils.timestampToDateConversion(
                   int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
@@ -184,7 +192,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.model?.claimantDepartmentName ?? ''
           : '';
       handedoverdatedateTextController.text = widget.model?.handoverDate != null
-          ? Utils.timestamptoDateConversion(
+          ? Utils.timestampToDateConversion(
               int.parse(widget.model?.handoverDate ?? '0'),
               Constants.fulldateFormat)
           : handedoverdatedateTextController.text.isEmpty
@@ -195,8 +203,8 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.model?.claimant?.lastName ?? ''
           : '';
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
-      claimantTextController.text = widget.model?.claimant?.name != null
-          ? widget.model?.claimant?.name ?? ''
+      claimantTextController.text = widget.model?.claimant?.userInfo != null
+          ? widget.model?.claimant?.userInfo ?? ''
           : '';
       claimantTextController.text = widget.model?.claimantName != null
           ? widget.model?.claimantName ?? ""
@@ -210,7 +218,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? BaseUser(
               email: widget.model?.claimant?.email ?? "",
               id: widget.model?.claimant?.userId ?? 0,
-              name: widget.model?.claimant?.lastName ?? "")
+              name: widget.model?.claimant?.userInfo ?? "")
           : BaseUser();
     }
   }
@@ -314,12 +322,19 @@ class _CreateFoundState extends State<CreateFound> {
     CreateFoundState? state,
   }) async {
     log('-createRequestBody-----');
-    int foundDate = Utils.dateToTimestampConversion(
+
+    int? foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    // int inputDate = Utils.dateToTimestampConversion(
+    if (foundDate == 0) {
+      foundDate = null;
+    } // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int? handoverDate;
+    if (widget.model?.status ==
+        ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
+      handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    }
     // Utils.dateToTimestampConversion(
     //     handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
@@ -630,11 +645,9 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (Organisation list) {
               selectedArtclelist = list;
               setState(() {});
-              FocusScope.of(context)
-                  .requestFocus(foundLocationFocusNode);
+              FocusScope.of(context).requestFocus(foundLocationFocusNode);
             },
           );
-
         });
   }
 
@@ -744,6 +757,8 @@ class _CreateFoundState extends State<CreateFound> {
     return BlocConsumer<CreateFoundArticleCubit, CreateFoundState>(
       listener: (context, state) {
         log('-state.status----${state.status}--');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -850,6 +865,10 @@ class _CreateFoundState extends State<CreateFound> {
                   isDisabled = true;
                 }
 
+                if (widget.extraProperties != null &&
+                    !widget.extraProperties!.hasWritePermission!) {
+                  isDisabled = true;
+                }
                 createfoundResponse = state.createFoundResponse;
 
                 if (state.status == FormStatus.addAttachment) {
@@ -869,7 +888,7 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
-                  handOverSecurity = state.loggedInUser ?? User();
+                  handOverSecurity = User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
@@ -924,7 +943,11 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// Status
                                   CommonWidgets.textDisplay(
-                                      Constants.status, Styles.textStyleBlack14,
+                                      state.labels?.locale.foundStatus ??
+                                          state.labels?.defaultLocale
+                                              .foundStatus ??
+                                          Constants.status,
+                                      Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -960,14 +983,21 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// Created By
                                   CommonWidgets.horizentaltextHandling(
-                                      Constants.createdby,
+                                      state.labels?.locale.foundEntrySecurity ??
+                                          state.labels?.defaultLocale
+                                              .foundEntrySecurity ??
+                                          Constants.createdby,
                                       isMandatory: true,
                                       '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.loggedInUser?.lastName ?? ''}'),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
                                   /// Location
-                                  CommonWidgets.textDisplay(Constants.location,
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.foundLocation ??
+                                          state.labels?.defaultLocale
+                                              .foundLocation ??
+                                          Constants.location,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -978,7 +1008,10 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// date of creation
                                   CommonWidgets.textDisplay(
-                                      Constants.dateofcreation,
+                                      state.labels?.locale.foundInputDate ??
+                                          state.labels?.defaultLocale
+                                              .foundInputDate ??
+                                          Constants.dateofcreation,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -990,14 +1023,22 @@ class _CreateFoundState extends State<CreateFound> {
                                   /// slno
 
                                   CommonWidgets.horizentaltextHandling(
-                                      Constants.slno, serialNumber,
+                                      state.labels?.locale.foundSlNo ??
+                                          state.labels?.defaultLocale
+                                              .foundSlNo ??
+                                          Constants.slno,
+                                      serialNumber,
                                       isMandatory: true),
 
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
                                   /// asset type
-                                  CommonWidgets.textDisplay(Constants.assettype,
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.foundTypeOfAsset ??
+                                          state.labels?.defaultLocale
+                                              .foundTypeOfAsset ??
+                                          Constants.assettype,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1047,7 +1088,10 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// article type
                                   CommonWidgets.textDisplay(
-                                      Constants.articleType,
+                                      state.labels?.locale.foundTypeOfArticle ??
+                                          state.labels?.defaultLocale
+                                              .foundTypeOfArticle ??
+                                          Constants.articleType,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1057,7 +1101,11 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// Found date
-                                  CommonWidgets.textDisplay(Constants.founddate,
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.foundFoundDate ??
+                                          state.labels?.defaultLocale
+                                              .foundFoundDate ??
+                                          Constants.founddate,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1081,7 +1129,10 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// Found location
                                   CommonWidgets.textDisplay(
-                                      Constants.foundlocation,
+                                      state.labels?.locale.foundFoundLocation ??
+                                          state.labels?.defaultLocale
+                                              .foundFoundLocation ??
+                                          Constants.foundlocation,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
 
@@ -1110,9 +1161,14 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// additional information
-                                  CommonWidgets.textDisplay(
-                                      Constants.additionalinformation,
-                                      Styles.textStyleBlack14),
+                                  CommonWidgets
+                                      .textDisplay(
+                                          state.labels?.locale
+                                                  .foundAdditionalInformation ??
+                                              state.labels?.defaultLocale
+                                                  .foundAdditionalInformation ??
+                                              Constants.additionalinformation,
+                                          Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -1152,7 +1208,11 @@ class _CreateFoundState extends State<CreateFound> {
                                   ),
 
                                   /// quantitiy
-                                  CommonWidgets.textDisplay(Constants.quantity,
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.foundQuantity ??
+                                          state.labels?.defaultLocale
+                                              .foundQuantity ??
+                                          Constants.quantity,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1180,7 +1240,11 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// color
                                   CommonWidgets.textDisplay(
-                                      Constants.colour, Styles.textStyleBlack14,
+                                      state.labels?.locale.foundColor ??
+                                          state.labels?.defaultLocale
+                                              .foundColor ??
+                                          Constants.colour,
+                                      Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -1206,10 +1270,15 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// is Depositor DBEmployee
-                                  CommonWidgets.textDisplay(
-                                      Constants.isdepositordbemployee,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true),
+                                  CommonWidgets
+                                      .textDisplay(
+                                          state.labels?.locale
+                                                  .foundDepositorDbEmp ??
+                                              state.labels?.defaultLocale
+                                                  .foundDepositorDbEmp ??
+                                              Constants.isdepositordbemployee,
+                                          Styles.textStyleBlack14,
+                                          isMandatory: true),
                                   radioButtonHandling(
                                       isDepositorDBEmployeeSelected,
                                       Constants.isdepositordbemployee,
@@ -1223,7 +1292,11 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.001),
 
                                   /// depositor
-                                  CommonWidgets.textDisplay(Constants.depositor,
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.foundDepositor ??
+                                          state.labels?.defaultLocale
+                                              .foundDepositor ??
+                                          Constants.depositor,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1275,10 +1348,15 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   /// Depositor Employee id
                                   isDepositorDBEmployeeSelected == 1
-                                      ? CommonWidgets.textDisplay(
-                                          Constants.depositoremployeeid,
-                                          Styles.textStyleBlack14,
-                                          isMandatory: true)
+                                      ? CommonWidgets
+                                          .textDisplay(
+                                              state.labels?.locale
+                                                      .foundEmployeeId ??
+                                                  state.labels?.defaultLocale
+                                                      .foundEmployeeId ??
+                                                  Constants.depositoremployeeid,
+                                              Styles.textStyleBlack14,
+                                              isMandatory: true)
                                       : Container(),
                                   isDepositorDBEmployeeSelected == 1
                                       ? CommonWidgets.verticalSpacerWidget(
@@ -1317,7 +1395,11 @@ class _CreateFoundState extends State<CreateFound> {
                                   /// Employee department
                                   isDepositorDBEmployeeSelected == 1
                                       ? CommonWidgets.textDisplay(
-                                          Constants.employeedepartment,
+                                          state.labels?.locale
+                                                  .foundEmployeeDepartment ??
+                                              state.labels?.defaultLocale
+                                                  .foundEmployeeDepartment ??
+                                              Constants.employeedepartment,
                                           Styles.textStyleBlack14,
                                           isMandatory: true)
                                       : Container(),
@@ -1341,8 +1423,16 @@ class _CreateFoundState extends State<CreateFound> {
                                           onTap: () {
                                             if (widget.model == null ||
                                                 widget.model?.status == 0) {
-                                              employeeDepartmentDialog(state,
-                                                  Constants.employeedepartment);
+                                              employeeDepartmentDialog(
+                                                  state,
+                                                  state.labels?.locale
+                                                          .foundEmployeeDepartment ??
+                                                      state
+                                                          .labels
+                                                          ?.defaultLocale
+                                                          .foundEmployeeDepartment ??
+                                                      Constants
+                                                          .employeedepartment);
                                             }
                                           },
                                         )
@@ -1358,7 +1448,11 @@ class _CreateFoundState extends State<CreateFound> {
                                     /// is claimant db employee
                                     widget.model?.status != null
                                         ? CommonWidgets.textDisplay(
-                                            Constants.isclaimantdbemployee,
+                                            state.labels?.locale
+                                                    .foundClaimantDbEmp ??
+                                                state.labels?.defaultLocale
+                                                    .foundClaimantDbEmp ??
+                                                Constants.isclaimantdbemployee,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
                                         : Container(),
@@ -1375,7 +1469,10 @@ class _CreateFoundState extends State<CreateFound> {
 
                                     ///claimant
                                     CommonWidgets.textDisplay(
-                                        Constants.claimant,
+                                        state.labels?.locale.foundClaimant ??
+                                            state.labels?.defaultLocale
+                                                .foundClaimant ??
+                                            Constants.claimant,
                                         Styles.textStyleBlack14,
                                         isMandatory: true),
                                     CommonWidgets.verticalSpacerWidget(
@@ -1394,7 +1491,14 @@ class _CreateFoundState extends State<CreateFound> {
                                             onTap: () {
                                               if (widget.model?.status != 2) {
                                                 depositorDialog(
-                                                    state, Constants.claimant);
+                                                    state,
+                                                    state.labels?.locale
+                                                            .foundClaimant ??
+                                                        state
+                                                            .labels
+                                                            ?.defaultLocale
+                                                            .foundClaimant ??
+                                                        Constants.claimant);
                                               }
                                             })
                                         : FlutterInputField(
@@ -1423,7 +1527,11 @@ class _CreateFoundState extends State<CreateFound> {
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
                                         ? CommonWidgets.textDisplay(
-                                            Constants.claimantemployeeid,
+                                            state.labels?.locale
+                                                    .foundClaimantEmployeeId ??
+                                                state.labels?.defaultLocale
+                                                    .foundClaimantEmployeeId ??
+                                                Constants.claimantemployeeid,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
                                         : Container(),
@@ -1474,7 +1582,11 @@ class _CreateFoundState extends State<CreateFound> {
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
                                         ? CommonWidgets.textDisplay(
-                                            Constants.claimantdepartment,
+                                            state.labels?.locale
+                                                    .foundClaimantDbEmp ??
+                                                state.labels?.defaultLocale
+                                                    .foundClaimantDbEmp ??
+                                                Constants.claimantdepartment,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
                                         : Container(),
@@ -1498,8 +1610,14 @@ class _CreateFoundState extends State<CreateFound> {
                                               if (widget.model?.status != 2) {
                                                 employeeDepartmentDialog(
                                                     state,
-                                                    Constants
-                                                        .claimantdepartment);
+                                                    state.labels?.locale
+                                                            .foundClaimantDbEmp ??
+                                                        state
+                                                            .labels
+                                                            ?.defaultLocale
+                                                            .foundClaimantDbEmp ??
+                                                        Constants
+                                                            .claimantdepartment);
                                               }
                                             },
                                           )
@@ -1513,16 +1631,24 @@ class _CreateFoundState extends State<CreateFound> {
                                       /// is claimant accepted to sign
                                       widget.model != null
                                           ? CommonWidgets.textDisplay(
-                                              Constants
-                                                  .isclaimantacceptedtosign,
+                                              state.labels?.locale
+                                                      .foundClaimantNoSign ??
+                                                  state.labels?.defaultLocale
+                                                      .foundClaimantNoSign ??
+                                                  Constants
+                                                      .isclaimantacceptedtosign,
                                               Styles.textStyleBlack14,
                                               isMandatory: true)
                                           : Container(),
                                       widget.model != null
                                           ? radioButtonHandling(
                                               isClaimantAcceptedtoSignSelected,
-                                              Constants
-                                                  .isclaimantacceptedtosign,
+                                              state.labels?.locale
+                                                      .foundClaimantNoSign ??
+                                                  state.labels?.defaultLocale
+                                                      .foundClaimantNoSign ??
+                                                  Constants
+                                                      .isclaimantacceptedtosign,
                                               isDisableColor: isDisabled,
                                             )
                                           : Container(),
@@ -1546,8 +1672,12 @@ class _CreateFoundState extends State<CreateFound> {
                                               isClaimantAcceptedtoSignSelected ==
                                                   0
                                           ? CommonWidgets.textDisplay(
-                                              Constants
-                                                  .isclaimantacceptedbyemail,
+                                              state.labels?.locale
+                                                      .foundClaimantConfirmByEmail ??
+                                                  state.labels?.defaultLocale
+                                                      .foundClaimantConfirmByEmail ??
+                                                  Constants
+                                                      .isclaimantacceptedbyemail,
                                               Styles.textStyleBlack14,
                                               isMandatory: true)
                                           : Container(),
@@ -1556,8 +1686,12 @@ class _CreateFoundState extends State<CreateFound> {
                                                   0
                                           ? radioButtonHandling(
                                               isClaimantAcceptedByemail,
-                                              Constants
-                                                  .isclaimantacceptedbyemail,
+                                              state.labels?.locale
+                                                      .foundClaimantConfirmByEmail ??
+                                                  state.labels?.defaultLocale
+                                                      .foundClaimantConfirmByEmail ??
+                                                  Constants
+                                                      .isclaimantacceptedbyemail,
                                               isDisableColor: widget
                                                               .model?.status !=
                                                           2 ||
@@ -1575,7 +1709,11 @@ class _CreateFoundState extends State<CreateFound> {
                                   if (widget.model?.status == 2 ||
                                       widget.model?.status == 1) ...[
                                     CommonWidgets.horizentaltextHandling(
-                                        Constants.itemhandoverby,
+                                        state.labels?.locale
+                                                .foundHandoverSecurity ??
+                                            state.labels?.defaultLocale
+                                                .foundHandoverSecurity ??
+                                            Constants.itemhandoverby,
                                         widget.model?.status == 2
                                             ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
                                             : '',
@@ -1585,7 +1723,10 @@ class _CreateFoundState extends State<CreateFound> {
                                     /// Handed over date
 
                                     CommonWidgets.textDisplay(
-                                      Constants.handedoverdate,
+                                      state.labels?.locale.foundHandoverDate ??
+                                          state.labels?.defaultLocale
+                                              .foundHandoverDate ??
+                                          Constants.handedoverdate,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -1598,7 +1739,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// upload
-                                  widget.model == null
+                                  widget.model == null ||
+                                          widget.model?.status == 0
                                       ? Container(
                                           height: 60,
                                           decoration: BoxDecoration(
@@ -1667,29 +1809,34 @@ class _CreateFoundState extends State<CreateFound> {
                                         )
                                       : Container(),
 
-                                  getFiles.isNotEmpty ||
-                                          getAttachments.isNotEmpty
-                                      ? CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01)
-                                      : Container(),
-                                  (getAttachments.isEmpty ||
-                                          widget.model == null)
-                                      ? getFiles.isEmpty
-                                          ? Container()
-                                          : attachmentListviews(
-                                              getFiles, getAttachments)
-                                      : attachmentListviews(
-                                          getFiles, getAttachments),
+                                  // getFiles.isNotEmpty ||
+                                  //         getAttachments.isNotEmpty
+                                  //     ? CommonWidgets.verticalSpacerWidget(
+                                  //         height * 0.01)
+                                  //     : Container(),
+                                  // (getAttachments.isEmpty ||
+                                  //         widget.model == null)
+                                  //     ? getFiles.isEmpty
+                                  //         ? Container()
+                                  //         : attachmentListviews(
+                                  //             getFiles, getAttachments)
+                                  //     : attachmentListviews(
+                                  //         getFiles, getAttachments),
 
-                                  // TODO: Need to use this to view the attachments
                                   // if (!getAttachments.isEmptyOrNull ) ...[
-                                  //   BaseImageUpload().getAttachment(
-                                  //     height: height,
-                                  //     attachments: getAttachments,
-                                  //     files: getFiles,
-                                  //     showDownloadIcon:
-                                  //         widget.model != null ? true : false,
-                                  //   ),
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: getAttachments.isEmptyOrNull
+                                        ? getFiles
+                                        : getAttachments,
+                                    files: getFiles.isEmptyOrNull
+                                        ? getAttachments
+                                        : getFiles,
+                                    showDownloadIcon:
+                                        widget.model != null ? true : false,
+                                    moduleCode:
+                                        Constants.articleFoundModuleCode,
+                                  ),
                                   // ],
 
                                   CommonWidgets.verticalSpacerWidget(
@@ -1861,15 +2008,33 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget cancelButtonDisplay() {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status ==
+            ConstantsIntValue.articleFoundStatusHandedOverOrClaimed;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus();
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus();
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
@@ -2110,68 +2275,86 @@ class _CreateFoundState extends State<CreateFound> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: (attachmentListviews1?.length ?? 0) >
-                (attachmentListviews?.length ?? 0)
-            ? attachmentListviews1?.length
-            : attachmentListviews?.length ?? 0,
-        itemBuilder: (BuildContext context, int index) {
-          ImageContent? imageData;
-          ImageContent? imageData1;
-          if (widget.model != null) {
-            imageData1 = attachmentListviews1?[index];
-          } else {
-            imageData = attachmentListviews?[index];
-          }
-          return Column(
-            children: <Widget>[
-              ListTile(
-                trailing: widget.model == null || widget.model?.status == 0
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // Delete logic here
-                              if (imageData1 != null) {
-                                // Implement delete functionality for attachmentListviews1
-                                setState(() {
-                                  attachmentListviews1!.removeAt(index);
-                                });
-                              }
-                              if (imageData != null) {
-                                // Implement delete functionality for attachmentListviews1
-                                setState(() {
-                                  attachmentListviews!.removeAt(index);
-                                });
-                              }
-                            },
-                          ),
-                          SvgPicture.asset(AppIcon.download,
-                              color: AppColors.boldgreyBackground),
-                        ],
-                      )
-                    : SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground),
-                onTap: () {
-                  DownloadImage().saveImage(
-                      context, imageData1?.id ?? 1, imageData1?.title ?? '');
-                },
-                title: widget.model != null
-                    ? Text(imageData1?.title ?? '')
-                    : Text(imageData?.title ?? ''),
-              ),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: (attachmentListviews1?.length ?? 0) >
+                  (attachmentListviews?.length ?? 0)
+              ? attachmentListviews1?.length
+              : attachmentListviews?.length ?? 0,
+          itemBuilder: (BuildContext context, int index) {
+            ImageContent? imageData;
+            ImageContent? imageData1;
+            if (widget.model != null) {
+              imageData1 = attachmentListviews1?[index];
+            } else {
+              imageData = attachmentListviews?[index];
+            }
+            log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
+            log('--attachmentListviews?.length--${attachmentListviews?.length}');
 
-              const Divider(
-                color: Color(0xFFCACACA),
-                thickness: 1,
-              ), //                           <-- Divider
-            ],
-          );
-        },
-      ),
+            return Column(
+              children: <Widget>[
+                ListTile(
+                  trailing: widget.model?.status == null
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                // Delete logic here
+                                if (imageData1 != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews1!.removeAt(index);
+                                  });
+                                }
+                                if (imageData != null) {
+                                  // Implement delete functionality for attachmentListviews1
+                                  setState(() {
+                                    attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // Add your download functionality here
+                                DownloadImage().saveImage(
+                                  context,
+                                  imageData?.id ?? 0,
+                                  imageData?.title ?? '',
+                                  Constants.articleFoundModuleCode,
+                                );
+                              },
+                              child: BaseIcons().downloadIcon(),
+                            )
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            // Add your download functionality here
+                            DownloadImage().saveImage(
+                              context,
+                              imageData?.id ?? 0,
+                              imageData?.title ?? '',
+                              Constants.articleFoundModuleCode,
+                            );
+                          },
+                          child: BaseIcons().downloadIcon(),
+                        ),
+                  title: widget.model != null
+                      ? Text(imageData1?.title ?? '')
+                      : Text(imageData?.title ?? ''),
+                ),
+
+                const Divider(
+                  color: Color(0xFFCACACA),
+                  thickness: 1,
+                ), //                           <-- Divider
+              ],
+            );
+          }),
     );
   }
 }

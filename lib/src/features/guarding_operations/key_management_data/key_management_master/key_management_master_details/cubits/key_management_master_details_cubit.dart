@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
 
@@ -38,8 +40,8 @@ class KeyManagementMasterDetailsCubit
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    EmployeeDepartments departments =
-        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    List<Organisation>? departments =
+        await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DOOR_TYPE');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -50,7 +52,7 @@ class KeyManagementMasterDetailsCubit
         status: FormStatus.initial,
         users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
-        departments: departments.employeeDepartments,
+        departments: departments,
       ),
     );
   }
@@ -99,10 +101,24 @@ class KeyManagementMasterDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
-      // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
+      state.model.modifiedBy ??= loggedInUserDetails;
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
+
+      // Get Date of Creation
+      // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.modifiedDate = Utils().getCurrentDate();
+      KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
@@ -198,12 +214,19 @@ class KeyManagementMasterDetailsCubit
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    state.model.status ??= 0;
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
+
     // Create/Update API Call
     KeyManagementMasterRequest request =
         KeyManagementMasterRequest(keyMgmtGi: state.model);
@@ -214,7 +237,7 @@ class KeyManagementMasterDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -227,7 +250,7 @@ class KeyManagementMasterDetailsCubit
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -236,13 +259,18 @@ class KeyManagementMasterDetailsCubit
         response = (await services.createKeyManagementMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(
@@ -265,6 +293,7 @@ class KeyManagementMasterDetailsCubit
     );
     return true;
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.keyManagementMasterModule);

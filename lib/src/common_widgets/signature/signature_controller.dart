@@ -13,6 +13,7 @@ import 'package:image/image.dart' as img;
 enum PointType {
   /// one touch on specific place - tap
   tap,
+
   /// finger touching the display and moving around
   move,
 }
@@ -150,14 +151,14 @@ class SignatureController extends ValueNotifier<List<Point>> {
   List<Point>? _translatePoints(List<Point> points) => isEmpty
       ? null
       : points
-      .map((Point p) => Point(
-      Offset(
-        p.offset.dx - minXValue! + penStrokeWidth,
-        p.offset.dy - minYValue! + penStrokeWidth,
-      ),
-      p.type,
-      p.pressure))
-      .toList();
+          .map((Point p) => Point(
+              Offset(
+                p.offset.dx - minXValue! + penStrokeWidth,
+                p.offset.dy - minYValue! + penStrokeWidth,
+              ),
+              p.type,
+              p.pressure))
+          .toList();
 
   /// Clear the canvas
   void clear() {
@@ -212,12 +213,12 @@ class SignatureController extends ValueNotifier<List<Point>> {
     }
     if (width != null || height != null) {
       assert(
-      ((width ?? defaultWidth!) - defaultWidth!) >= 0.0,
-      'Exported width cannot be smaller than actual width',
+        ((width ?? defaultWidth!) - defaultWidth!) >= 0.0,
+        'Exported width cannot be smaller than actual width',
       );
       assert(
-      ((height ?? defaultHeight!) - defaultHeight!) >= 0.0,
-      'Exported height cannot be smaller than actual height',
+        ((height ?? defaultHeight!) - defaultHeight!) >= 0.0,
+        'Exported height cannot be smaller than actual height',
       );
       //IF WIDTH OR HEIGHT IS SPECIFIED WE NEED TO CENTER DRAWING
       //WE WILL MOVE THE DRAWING BY HALF OF THE REMAINING SPACE IF
@@ -266,12 +267,12 @@ class SignatureController extends ValueNotifier<List<Point>> {
 
     if (width != null || height != null) {
       assert(
-      ((width ?? defaultWidth!) - defaultWidth!) >= 0.0,
-      'Exported width cannot be smaller than actual width',
+        ((width ?? defaultWidth!) - defaultWidth!) >= 0.0,
+        'Exported width cannot be smaller than actual width',
       );
       assert(
-      ((height ?? defaultHeight!) - defaultHeight!) >= 0.0,
-      'Exported height cannot be smaller than actual height',
+        ((height ?? defaultHeight!) - defaultHeight!) >= 0.0,
+        'Exported height cannot be smaller than actual height',
       );
     }
 
@@ -296,7 +297,7 @@ class SignatureController extends ValueNotifier<List<Point>> {
 
     // create the image with the given size
     final img.Image signatureImage =
-    img.Image(width: canvasWidth, height: canvasHeight, numChannels: 4);
+        img.Image(width: canvasWidth, height: canvasHeight, numChannels: 4);
     // set the image background color
     img.fill(signatureImage, color: bColor);
 
@@ -369,8 +370,8 @@ class SignatureController extends ValueNotifier<List<Point>> {
       : svg.SvgPicture.string(toRawSVG(width: width, height: height)!);
 
   Future<String> exportSignature(
-      SignatureController controller,
-      ) async {
+    SignatureController controller,
+  ) async {
     Uint8List? signature = await controller.toPngBytes();
     if (signature == null) {
       return '';

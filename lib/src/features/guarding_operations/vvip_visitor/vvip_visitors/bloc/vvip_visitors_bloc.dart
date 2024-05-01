@@ -1,14 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/services/vvip_visitor_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 import '../../models/vvip_visitor_response_model.dart';
 
 part 'vvip_visitors_event.dart';
-
 part 'vvip_visitors_state.dart';
 
 class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
@@ -69,17 +68,32 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.vipVisitorsDetailsModule);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.vipVisitorsDetailsModule,
+        commonServices: commonServices,
+      );
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
           regions: regions,
           statuses: statuses,
+          labels: labels,
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -148,12 +162,6 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
 
       if (state.status == FormStatus.initial || event.newSearch) {
         VVIPVisitorResponseModel response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
-
         response = await services.getGVVIP(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -169,7 +177,6 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
         );
       }
 
-      log('-_fetchMaterialMovements------##--');
       VVIPVisitorResponseModel response;
       response = await services.getGVVIP(
         startPosition: '${event.startPos}',

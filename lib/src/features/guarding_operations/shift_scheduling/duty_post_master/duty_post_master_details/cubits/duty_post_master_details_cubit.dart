@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
@@ -39,8 +40,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Organisation? location;
-        List<Organisation> dutyPostName =
-    await services.getDutyPostsByLocation(locationId: location!.id.toString());
+    List<Organisation> dutyPostName = await services.getDutyPostsByLocation(
+        locationId: location!.id.toString());
 
     emit(
       state.copyWith(
@@ -80,7 +81,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
       List<Organisation> dutyPosts = [];
-      Organisation? location = state.model.location ;
+      Organisation? location = state.model.location;
 
       if (state.model.location == null && defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
@@ -94,9 +95,18 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       }
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.createdDate = _getCurrentDate();
+      // state.model.createdDate = _getCurrentDate();
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
+
+      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -146,6 +156,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       state.model.dutyPostLocation = dutyPostName;
       List<Organisation> dutyPosts = await services.getDutyPostsByLocation(
           locationId: location.id.toString());
+      log('--dutyPosts-${dutyPosts.length}---');
+
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
@@ -154,8 +166,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
 
     log('--dutyPostName--${dutyPostName?.name}---');
     //if (location != null) {
-      state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
-   // }
+    state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
+    // }
     state.model.rankId = rankId ?? state.model.rankId;
     emit(state.copyWith(
       model: state.model,
@@ -170,13 +182,20 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       ),
     );
 
-    // if (state.model.status == 0 || state.model.status == null) {
-    //   state.model.status = 1;
-    // }
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 1;
+    }
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
     // Create/Update API Call
     DutyPostMasterRequest request =
         DutyPostMasterRequest(dutyPostMaster: state.model);
@@ -187,7 +206,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -200,7 +219,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -209,13 +228,19 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         response = (await services.createDutyPostMaster(
             body: request, isSubmit: true));
       }
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

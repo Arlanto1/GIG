@@ -42,15 +42,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
         loadAttachments: state.model.images,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
@@ -109,7 +109,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
@@ -119,13 +119,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments = futures[3];
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
-      GetDepositor emailUsers = futures[6];
+      List<BaseUser> emailUsers = futures[6];
       List<Organisation> quantityUnits = futures[7];
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+
+      // if (state.model.inputDate != null) {
+      //   Utils.timestampToDateConversion(
+      //       int.tryParse(state.model?.inputDate ?? '0'),
+      //       Constants.fulldateFormat);
+      // } else {
+      //   Utils().getCurrentDate();
+      // }
 
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
@@ -159,7 +169,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
-      log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: locations,
@@ -168,9 +177,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           model: state.model,
           users: users.t1Analyst,
           loadAttachments: state.model.images,
-          emailUsers: emailUsers.atomStaticUser,
-          approver1Users: emailUsers.atomStaticUser,
-          approver2Users: emailUsers.atomStaticUser,
+          emailUsers: emailUsers,
+          approver1Users: emailUsers,
+          approver2Users: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
           labels: labels,
@@ -246,19 +255,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
+      state.model.receiverEmail = receiverEmailUser.name;
     }
 
     if (receiverEmail != null) {
-      state.model.receiverEmail = receiverEmail.email;
+      state.model.receiverEmail = receiverEmail.name;
     }
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.email;
+      state.model.requestorEmail = requesterEmailUser.name;
     }
 
     if (returnReceiverMailId != null) {
-      state.model.returnReceiverMailId = returnReceiverMailId.email;
+      state.model.returnReceiverMailId = returnReceiverMailId.name;
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
@@ -308,7 +317,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.email;
+      state.model.requestorEmail = requesterEmailUser.name;
 
       emit(
         state.copyWith(
@@ -329,7 +338,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.email;
+      state.model.approver1Email = approver1EmailUser.name;
 
       emit(
         state.copyWith(
@@ -351,7 +360,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.email;
+      state.model.approver2Email = approver2EmailUser.name;
 
       emit(
         state.copyWith(
@@ -385,7 +394,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       for (ImageContent image in data) {
         image.type = 0;
       }
-      log('--data----${data?.length}----');
+      log('--data----${data.length}----');
 
       state.model.images = data;
       emit(
@@ -483,9 +492,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ),
     );
 
+    // DateTime dateTime =
+    //     DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.inputDate!);
+    // int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    // state.model.inputDate = inputDate.toString();
+
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
     state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -510,11 +529,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -525,11 +542,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -539,14 +554,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: flow);
       }
+
       if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -558,11 +572,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -580,17 +592,25 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

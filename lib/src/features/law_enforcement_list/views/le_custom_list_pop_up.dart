@@ -88,9 +88,9 @@ class _LawEnforcementCustomPopUpListState
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
-           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                textHandling('Sl No : ', widget.userItem?.slNo.toString()??""),
+              textHandling('Sl No : ', widget.userItem?.slNo.toString() ?? ""),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -113,7 +113,7 @@ class _LawEnforcementCustomPopUpListState
               textHandling(
                   'TimeOfVisit : ',
                   widget.userItem?.timeOfVisit != null
-                      ? Utils.timestamptoDateConversion(
+                      ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.timeOfVisit ?? '0'),
                           Constants.dateFormat)
                       : ''),
@@ -123,13 +123,10 @@ class _LawEnforcementCustomPopUpListState
           Row(
             children: [
               textHandling(
-                  'Created By : ',
-                  '${widget.userItem?.entrySecurityName}'),
-
+                  'Created By : ', '${widget.userItem?.entrySecurityName}'),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-
           Row(
             children: [
               textHandling('DBOfficialName : ',
@@ -142,24 +139,23 @@ class _LawEnforcementCustomPopUpListState
               textHandling(
                   'Date Of Creation : ',
                   widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
+                      ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.inputDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      textHandling(
-                          'Purpose of Visit : ', widget.userItem?.visitPurpose?.name ?? " "),
-                    ],
-                  ),
+          Row(
+            children: [
+              textHandling('Purpose of Visit : ',
+                  widget.userItem?.visitPurpose?.name ?? " "),
+            ],
+          ),
           CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      Utils().buildLeoStatusRow(widget.userItem?.status ?? 0)
-                    ],),
+          Row(
+            children: [Utils().buildLeoStatusRow(widget.userItem?.status ?? 0)],
+          ),
         ])
                 //),
                 //    ),

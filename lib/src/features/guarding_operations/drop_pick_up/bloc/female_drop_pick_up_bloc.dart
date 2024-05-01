@@ -12,7 +12,8 @@ import '../../guarding_rate/services/guarding_services.dart';
 part 'female_drop_pick_up_event.dart';
 part 'female_drop_pick_up_state.dart';
 
-class FemaleDropPickUpBloc extends Bloc<FemaleDropPickUpEvent, FemaleDropPickUpState> {
+class FemaleDropPickUpBloc
+    extends Bloc<FemaleDropPickUpEvent, FemaleDropPickUpState> {
   FemaleDropPickUpBloc() : super(const FemaleDropPickUpState()) {
     on<FetchList>(
       _fetchList,

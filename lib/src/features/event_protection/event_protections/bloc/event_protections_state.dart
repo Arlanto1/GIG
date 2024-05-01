@@ -7,14 +7,19 @@ class EventProtectionsState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final String? message;
+  final EPUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
-  const EventProtectionsState(
-      {this.items = const <EventProtectionModel>[],
-      this.hasReachedMax = false,
-      this.locations,
-      this.commonFilters,
-      this.message,
-      this.status = FormStatus.initial});
+  const EventProtectionsState({
+    this.items = const <EventProtectionModel>[],
+    this.hasReachedMax = false,
+    this.locations,
+    this.commonFilters,
+    this.message,
+    this.labels,
+    this.status = FormStatus.initial,
+    this.extraProperties,
+  });
 
   EventProtectionsState copyWith({
     List<EventProtectionModel>? items,
@@ -25,6 +30,8 @@ class EventProtectionsState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    EPUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return EventProtectionsState(
       items: items ?? this.items,
@@ -33,6 +40,8 @@ class EventProtectionsState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

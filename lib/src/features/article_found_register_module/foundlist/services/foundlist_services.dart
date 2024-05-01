@@ -13,7 +13,6 @@ class FoundListServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
-
   }) async {
     String url =
         '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords';

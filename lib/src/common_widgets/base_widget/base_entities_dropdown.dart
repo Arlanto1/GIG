@@ -16,7 +16,8 @@ class BaseEntitiesSelection {
 
     // Add Organisation Fields
     String? addTitle,
-    String? orgName = 'ATOM_ENTITIES', // TODO: Need to make it required and non nullable
+    String? orgName =
+        'ATOM_ENTITIES', // TODO: Need to make it required and non nullable
     bool? createEntity,
     Function? functionToCall,
   }) {
@@ -28,14 +29,9 @@ class BaseEntitiesSelection {
         title = '$title  $value';
       }
     }
-
     return TextFieldAddButton(
       title: title,
-      height: (selectedValues.length) > 4
-          ? (selectedValues.length) > 9
-              ? 140
-              : 100
-          : 60,
+      height: (selectedValues.length) > 3 ? 110 : 70,
       isDisableColor: !enabled,
       onTap: () {
         if (enabled) {
@@ -46,7 +42,7 @@ class BaseEntitiesSelection {
             onTap: onTap,
 
             // Add Organisation Fields
-            title: addTitle?? 'Add Entity',
+            title: addTitle ?? 'Add Entity',
             orgName: orgName ?? '',
             createEntity: createEntity,
             functionToCall: functionToCall ?? () {},

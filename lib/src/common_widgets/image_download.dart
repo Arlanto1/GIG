@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -12,17 +13,22 @@ class DownloadImage {
     BuildContext context,
     int id,
     String name,
+    String moduleCode,
   ) async {
+    if (id == 1) {
+      return;
+    }
+
     log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');
     // print('url123123 $url');
     // downloadData(context, name, url);
-    final url = "$endpoint/downloadImage/$id";
+    final url = "$endpoint/downloadImage/$id?module=$moduleCode";
     // final response = await BaseApiService().getRequest(
     //   url: url,
     // );
-    log('--sss-response--');
+    log('--sss-response-$url-');
     final uri = Uri.parse(url);
     downloadData(context, name, uri);
   }
@@ -108,21 +114,31 @@ class DownloadImage {
         headers: headers,
       );
 
-
       // final http.Response response = await http.get(
       //   url,
       //   headers: headers,
       // );
-      log('response---${response.body.toString()}');
+      // log('response---${response.body.toString()}');
+
+      log("Status Code: ${response.statusCode}");
+      if (response.statusCode.toString() == "400") {
+        final responseBody = json.decode(response.body);
+        throw GenericResponse.fromJson(responseBody);
+      }
+
       // Get temporary directory
       final dir = await getTemporaryDirectory();
+      log('---1---');
 
       // Create an image name
       var filename = '${dir.path}/$name';
+      log('---1-1--');
 
       // Save to filesystem
       final file = File(filename);
+      log('---1--3-');
       await file.writeAsBytes(response.bodyBytes);
+      log('---1-4--');
 
       log('pdf---$file');
       // Ask the user to save it

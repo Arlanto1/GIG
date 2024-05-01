@@ -5,15 +5,20 @@ class ShiftScheduleListState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final String? message;
-
-  //final GmUiLabels? labels;
+  final CommonFilters? commonFilters;
+  final Locations? locations;
+  final SSUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const ShiftScheduleListState({
     this.items = const <ShiftScheduleModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.message,
-    //this.labels
+    this.labels,
+    this.locations,
+    this.commonFilters,
+    this.extraProperties,
   });
 
   ShiftScheduleListState copyWith({
@@ -21,14 +26,22 @@ class ShiftScheduleListState extends Equatable {
     bool? hasReachedMax,
     String? message,
     FormStatus? status,
-    // GmUiLabels? labels,
+    SSUiLabels? labels,
+    Locations? locations,
+    CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return ShiftScheduleListState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
+      labels: labels ?? this.labels,
       message: message ?? this.message,
-      // labels: labels ?? this.labels
+      commonFilters: commonFilters ?? this.commonFilters,
+      locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

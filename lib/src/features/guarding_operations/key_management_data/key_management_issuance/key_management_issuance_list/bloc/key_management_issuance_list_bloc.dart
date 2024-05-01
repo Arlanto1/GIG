@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+
+import '../../../../../../utils/utils_common.dart';
 
 part 'key_management_issuance_list_event.dart';
 part 'key_management_issuance_list_state.dart';
@@ -34,18 +37,24 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
           module: Constants.keyManagementIssuanceModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementIssuanceModule,
+        commonServices: commonServices,
+      );
+      KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -54,8 +63,18 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -83,8 +102,9 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-  FutureOr<void> _fetchList(
-      FetchKeyIssuanceList event, Emitter<KeyManagementIssuanceListState> emit) async {
+
+  FutureOr<void> _fetchList(FetchKeyIssuanceList event,
+      Emitter<KeyManagementIssuanceListState> emit) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -92,7 +112,6 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
     );
 
     try {
-
       if (state.status == FormStatus.initial || event.newSearch) {
         KeyManagementIssuanceResponseModel response;
         response = await _services.getList(

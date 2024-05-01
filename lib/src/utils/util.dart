@@ -24,7 +24,16 @@ class Utils {
     return base64Url.encode(values);
   }
 
-  static String timestamptoDateConversion(int? timestamp, String format) {
+  bool isTimestamp(String str) {
+    try {
+      DateTime.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static String timestampToDateConversion(int? timestamp, String format) {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
     // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);
@@ -70,10 +79,14 @@ class Utils {
   }
 
   static dynamicAlert(
-      BuildContext context, String messgae, String title, String error) {
+    BuildContext context,
+    String message,
+    String title,
+    String error,
+  ) {
     var dialog = CustomAlertDialog(
       title: title,
-      message: messgae,
+      message: message,
       positiveBtnText: Constants.ok,
       onPositivePressed: () {
         if (error.isNotEmpty) {
@@ -132,18 +145,23 @@ class Utils {
 
   String formatTime(String dateTimeString) {
     log('Formatting Date: $dateTimeString');
-    // if the dateTimeString is already unixTimestamp
-    if (dateTimeString.length == 10 &&
-        dateTimeString.contains(RegExp(r'^\d+$'))) {
-      return dateTimeString;
+
+    // Check if the input string is a Unix timestamp
+    if (dateTimeString.length == 10 && dateTimeString.contains(RegExp(r'^\d+$'))) {
+      // Convert Unix timestamp to DateTime
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
+      return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
     }
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
+      'dd/MM/yyyy HH:mm:ss',
       'dd/MM/yyyy hh:mm:ss a',
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
+      'yyyy-MM-dd HH:mm:ss.SSS',
     ];
 
+    // Try parsing the input string using each format
     for (final format in dateFormats) {
       try {
         final dateTime = DateFormat(format).parse(dateTimeString);
@@ -285,6 +303,9 @@ class Utils {
       case 4:
         statusText = 'WeekOff';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -347,7 +368,9 @@ class Utils {
       ],
     );
   }
-  Row buildAttendanceStatusRow(int status) {
+
+  dynamic buildAttendanceStatusRow(
+      {required int status, bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -366,13 +389,16 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
     return Row(
       children: [
         textHandling('Status: ', statusText),
       ],
     );
   }
+
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
@@ -399,7 +425,7 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
-    if(returnTextOnly??false) {
+    if (returnTextOnly ?? false) {
       return guardRankText;
     }
 
@@ -628,6 +654,9 @@ class Utils {
       case 30:
         statusText = 'Closed';
         break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
       default:
         statusText = ''; // Handle the default case if needed
     }
@@ -728,28 +757,28 @@ class Utils {
   }
 
   Widget buildOccurrenceStatus(int status) {
-      String statusText;
+    String statusText;
 
-      switch (status) {
-        case 0:
-          statusText = 'Created';
-          break;
-        case 1:
-          statusText = 'Submitted';
-          break;
-        case -1:
-          statusText = 'Cancelled';
-          break;
-        default:
-          statusText = ''; // Handle the default case if needed
-      }
-      return IntrinsicWidth(
-        child: Row(
-          children: [
-            textHandling('Status: ', statusText),
-          ],
-        ),
-      );
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
   }
 
   Widget keyLossDestructionStatus(int status) {
@@ -760,13 +789,13 @@ class Utils {
         statusText = 'Created';
         break;
       case 1:
-        statusText = 'Lock Changed';
+        statusText = 'Lock Change Initiated';
         break;
       case 2:
-        statusText = 'Lost';
+        statusText = 'Lost Initiated';
         break;
       case 3:
-        statusText = 'Damaged';
+        statusText = 'Damaged Initiated';
         break;
       case 4:
         statusText = 'Lost Approved';
@@ -775,10 +804,10 @@ class Utils {
         statusText = 'Damaged Approved';
         break;
       case 6:
-        statusText = 'Investigation';
+        statusText = 'Investigation Initiated';
         break;
       case 7:
-        statusText = 'Destroyed';
+        statusText = 'Destroy Initiated';
         break;
       case 8:
         statusText = 'Destroy Rejected';
@@ -803,6 +832,7 @@ class Utils {
       ),
     );
   }
+
   Widget keyManagementStatus(int status) {
     String statusText;
 
@@ -811,7 +841,7 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 0:
-        statusText = 'Created';
+        statusText = 'Draft';
         break;
       case 1:
         statusText = 'Open';
@@ -897,13 +927,13 @@ class Utils {
         statusText = 'Created';
         break;
       case 1:
-        statusText = 'Lock Changed';
+        statusText = 'Lock Changed Initiated';
         break;
       case 2:
-        statusText = 'Lost';
+        statusText = 'Lost Initiated';
         break;
       case 3:
-        statusText = 'Damaged';
+        statusText = 'Damaged Initiated';
         break;
       case 4:
         statusText = 'Lost Approved';
@@ -912,10 +942,10 @@ class Utils {
         statusText = 'Damaged Approved';
         break;
       case 6:
-        statusText = 'Investigation';
+        statusText = 'Investigation Initiated';
         break;
       case 7:
-        statusText = 'Destroy';
+        statusText = 'Destroy Initiated';
         break;
       case 8:
         statusText = 'Destroy Rejected';
@@ -940,6 +970,7 @@ class Utils {
       ),
     );
   }
+
   Widget buildIncidentStatus(int status) {
     String statusText;
 
@@ -1065,6 +1096,9 @@ class Utils {
         statusText = 'Closed';
         break;
       case 40:
+        statusText = 'Cancelled';
+        break;
+      case -1:
         statusText = 'Cancelled';
         break;
       default:
@@ -1261,6 +1295,7 @@ class Utils {
       ),
     );
   }
+
   Widget employeeTypeValues(int employeeType) {
     String employeeTypeText;
 
@@ -1347,6 +1382,7 @@ class Utils {
       ),
     );
   }
+
   Widget vIPVisitorStatusRow(int status) {
     String statusText;
 
@@ -1399,6 +1435,7 @@ class Utils {
       ),
     );
   }
+
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
@@ -1450,5 +1487,38 @@ class Utils {
 
   String getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
+  void formError(dynamic state, BuildContext context) {
+    log('STATUS: ${state.status}');
+    if (state.status == FormStatus.formError) {
+      Validator().showToast(
+        context,
+        state.message ?? 'Invalid Information',
+      );
+    }
+  }
+
+  void errorAndLogout(dynamic state, BuildContext context) {
+    if (state.status == FormStatus.error) {
+      InactivityFunctions().logoutUser(navigatorKey);
+      Validator().showToast(
+        context,
+        state.message ?? 'Invalid Information',
+      );
+    }
+  }
+
+  void emitErrorState(
+    GenericResponse e,
+    dynamic emit,
+    dynamic state,
+  ) {
+    emit(
+      state.copyWith(
+        message: e.message,
+        status: e.statusCode == '400' ? FormStatus.formError : FormStatus.error,
+      ),
+    );
   }
 }

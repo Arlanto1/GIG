@@ -2,6 +2,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
+import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -39,6 +40,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
 
   @override
   Widget build(BuildContext context) {
+    PassManagementListState state = const PassManagementListState();
     final size = MediaQuery.of(context).size;
     final height = size.height;
     final width = size.width;
@@ -92,7 +94,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     textHandling(
-                        'Sl No : ', widget.userItem?.slNo.toString() ?? " "),
+                        state.labels?.locale.slNo ??
+                            state.labels?.defaultLocale.slNo ??
+                            'Sl No : ',
+                        widget.userItem?.slNo.toString() ?? " "),
                   ],
                 )
               : Container(),
@@ -103,7 +108,9 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     textHandling(
-                        'Region : ',
+                        state.labels?.locale.locationRegion ??
+                            state.labels?.defaultLocale.locationRegion ??
+                            'Region : ',
                         widget.userItem?.locationRegion?.name.toString() ??
                             " "),
                   ],
@@ -115,7 +122,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.location?.name != null
               ? Row(
                   children: [
-                    textHandling('Location : ',
+                    textHandling(
+                        state.labels?.locale.location ??
+                            state.labels?.defaultLocale.location ??
+                            'Location : ',
                         widget.userItem?.location?.name.toString() ?? " "),
                   ],
                 )
@@ -135,9 +145,11 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     Utils().textHandling(
-                        'DateOfCreation : ',
+                        state.labels?.locale.inputDate ??
+                            state.labels?.defaultLocale.inputDate ??
+                            'DateOfCreation : ',
                         widget.userItem?.inputDate != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.inputDate ?? '0'),
                                 Constants.dateFormat)
                             : ''),
@@ -147,14 +159,15 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           // widget.userItem?.inputDate != null
           //     ? CommonWidgets.verticalSpacerWidget(8)
           //     : Container(),
-                  CommonWidgets.verticalSpacerWidget(5),
-                  widget.userItem?.entrySecurity?.userName != null
+          CommonWidgets.verticalSpacerWidget(5),
+          widget.userItem?.entrySecurity?.userName != null
               ? Row(
                   children: [
                     textHandling(
-                        'Created By : ',
-                        widget.userItem?.entrySecurity?.userName.toString() ??
-                            " "),
+                        state.labels?.locale.entrySecurity ??
+                            state.labels?.defaultLocale.entrySecurity ??
+                            'Created By : ',
+                        '${widget.userItem?.entrySecurity?.firstName.toString() ?? " "} ${widget.userItem?.entrySecurity?.lastName.toString() ?? " "}'),
                   ],
                 )
               : Container(),
@@ -178,19 +191,30 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           //         widget.userItem?.entrySecurity != null)
           //     ? CommonWidgets.verticalSpacerWidget(8)
           //     : Container(),
-                  CommonWidgets.verticalSpacerWidget(5),
+          CommonWidgets.verticalSpacerWidget(5),
           widget.userItem?.passInfo?.passNo != null &&
                   (widget.userItem?.passInfo?.passNo ?? '').isNotEmpty
               ? Row(
                   children: [
                     textHandling(
                         widget.passId == '3'
-                            ? 'SEZ Pass No  : '
+                            ? state.labels?.locale.sezPassInfo ??
+                                state.labels?.defaultLocale.sezPassInfo ??
+                                'SEZ Pass No  : '
                             : widget.passId == '2'
-                                ? 'Vendor Pass No  : '
+                                ? state.labels?.locale.vendorPassInfo ??
+                                    state
+                                        .labels?.defaultLocale.vendorPassInfo ??
+                                    'Vendor Pass No  : '
                                 : widget.passId == '1'
-                                    ? 'Visitor Pass No  : '
-                                    : 'Day Pass No : ',
+                                    ? state.labels?.locale.visitorPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .visitorPassInfo ??
+                                        'Visitor Pass No  : '
+                                    : state.labels?.locale.dayPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .dayPassInfo ??
+                                        'Day Pass No : ',
                         widget.userItem?.passInfo?.passNo?.toString() ?? " "),
                   ],
                 )
@@ -213,7 +237,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.companyType?.name != null
               ? Row(
                   children: [
-                    textHandling('Company Type : ',
+                    textHandling(
+                        state.labels?.locale.companyName ??
+                            state.labels?.defaultLocale.companyName ??
+                            'Company Type : ',
                         widget.userItem?.companyType?.name.toString() ?? " "),
                   ],
                 )
@@ -225,7 +252,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   (widget.userItem?.companyName ?? '').isNotEmpty
               ? Row(
                   children: [
-                    textHandling('Company Name  : ',
+                    textHandling(
+                        state.labels?.locale.companyName ??
+                            state.labels?.defaultLocale.companyName ??
+                            'Company Name  : ',
                         widget.userItem?.companyName.toString() ?? " "),
                   ],
                 )
@@ -239,9 +269,11 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     textHandling(
-                        'Pass Valid From : ',
+                        state.labels?.locale.startTime ??
+                            state.labels?.defaultLocale.startTime ??
+                            'Pass Valid From : ',
                         widget.userItem?.startTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.startTime ?? '0'),
                                 Constants.fulldateFormat)
                             : ''),
@@ -256,9 +288,11 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     textHandling(
-                        'Pass Valid Until : ',
+                        state.labels?.locale.endTime ??
+                            state.labels?.defaultLocale.endTime ??
+                            'Pass Valid Until : ',
                         widget.userItem?.endTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.endTime ?? '0'),
                                 (Constants.fulldateFormat))
                             : ''),
@@ -272,7 +306,9 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     textHandling(
-                        'Pass Collected By : ',
+                        state.labels?.locale.handoverSecurity ??
+                            state.labels?.defaultLocale.handoverSecurity ??
+                            'Pass Collected By : ',
                         widget.userItem?.handoverSecurity?.userName
                                 .toString() ??
                             " "),
@@ -286,9 +322,11 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? Row(
                   children: [
                     textHandling(
-                        'Pass Returened on: ',
+                        state.labels?.locale.returnedTime ??
+                            state.labels?.defaultLocale.returnedTime ??
+                            'Pass Returened on: ',
                         widget.userItem?.returnedTime != null
-                            ? Utils.timestamptoDateConversion(
+                            ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.returnedTime ?? '0'),
                                 Constants.dateFormat)
                             : ''),

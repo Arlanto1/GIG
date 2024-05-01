@@ -1,18 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/token_expired.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 
-import '../../../../enums/form_status.dart';
+import '../../../../utils/utils_common.dart';
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
@@ -23,10 +15,12 @@ class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
   final String? occId;
   final int? occType;
+  final int? kldId;
 
   IncidentManagementsBloc(
     this.occType,
     this.occId,
+    this.kldId,
   ) : super(const IncidentManagementsState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchData>(
@@ -47,21 +41,27 @@ class IncidentManagementsBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.eventProtectionModule);
+          module: Constants.incidentManagementModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.eventProtectionModuleCode);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.incidentManagementModule);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.incidentManagementModule,
+        commonServices: commonServices,
+      );
+      IMUiLabels labels = IMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -70,12 +70,23 @@ class IncidentManagementsBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<IncidentManagementsState> emit) async {
     try {
@@ -84,7 +95,7 @@ class IncidentManagementsBloc
       response = await _services.getIncidents(
         startPosition: '${0}',
         maximumRecords: '${20}',
-        userId: '7',
+        // userId: '7',
         filters: BaseFilterModel(),
       );
 
@@ -159,9 +170,10 @@ class IncidentManagementsBloc
         response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '7',
-         occId: occId,
-         occType: occType,
+          // userId: '7',
+          occId: occId,
+          occType: occType,
+          kldId: kldId,
           filters: event.filters,
         );
 
@@ -178,9 +190,10 @@ class IncidentManagementsBloc
       response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '7',
+        // userId: '7',
         occId: occId,
         occType: occType,
+        kldId: kldId,
         filters: event.filters,
       );
 

@@ -13,6 +13,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.mainContext,
     required this.users,
     required this.rankType,
+    this.contactDetailModel,
   });
 
   final String title;
@@ -21,6 +22,7 @@ class AddContactPopUp extends StatefulWidget {
   final List<Organisation> users;
   final BuildContext mainContext;
   final String rankType;
+  final ContactDetailModel? contactDetailModel;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -115,9 +117,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
-                            isDisableColor: false,
+                            isDisableColor: widget.contactDetailModel?.status ==
+                                        null ||
+                                    widget.contactDetailModel?.status == 0 ||
+                                    widget.contactDetailModel?.status == 1
+                                ? false
+                                : true,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
+                                  enabled: widget.contactDetailModel?.status ==
+                                              null ||
+                                          widget.contactDetailModel?.status ==
+                                              0 ||
+                                          widget.contactDetailModel?.status == 1
+                                      ? true
+                                      : false,
                                   context: context,
                                   organisations: widget.users,
                                   onTap: (Organisation user) {
@@ -151,19 +165,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   createEntity: false,
                                   title: widget.rankType ==
                                           Constants.contactZone
-                                      ? 'Add Zone'
+                                      ? Constants.zone
                                       : widget.rankType ==
                                               Constants.contactGeneralRank
-                                          ? 'Add Rank'
+                                          ? Constants.rank
                                           : widget.rankType ==
                                                   Constants
                                                       .contactSystemEscalationRank
-                                              ? 'Add System Escalation Matrix'
+                                              ? Constants
+                                                  .systemSiEscalationMatrixRank
                                               : widget.rankType ==
                                                       Constants
                                                           .contactSupervisorRank
-                                                  ? 'Add Supervisor Rank'
-                                                  : 'Add Guarding Agency Escalation Matrix',
+                                                  ? Constants.supervisorRank
+                                                  : Constants
+                                                      .guardingAgencyRank,
                                   functionToCall: () {
                                     BlocProvider.of<ContactRecordBloc>(context)
                                         .refreshList();
@@ -188,8 +204,17 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           textFormKey: Keys.nameKey,
                           hintText: '',
                           focusNode: nameFocusNode,
-                          isEnable: true,
-                          isDisableColor: false,
+                          isEnable: widget.contactDetailModel?.status == null ||
+                                  widget.contactDetailModel?.status == 0 ||
+                                  widget.contactDetailModel?.status == 1
+                              ? true
+                              : false,
+                          isDisableColor:
+                              widget.contactDetailModel?.status == null ||
+                                      widget.contactDetailModel?.status == 0 ||
+                                      widget.contactDetailModel?.status == 1
+                                  ? false
+                                  : true,
                           onChange: (String value) {
                             log('-widget.contact.rank?.state--value--$value-');
                             widget.model.state = value;
@@ -205,7 +230,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
-                          isDisabled: true,
+                          isDisabled:
+                              widget.contactDetailModel?.status == null ||
+                                      widget.contactDetailModel?.status == 0 ||
+                                      widget.contactDetailModel?.status == 1
+                                  ? false
+                                  : true,
                           textController: escalationLevelController,
                           items: escalationLevelDropDownValues,
                           onTap: () {
@@ -245,7 +275,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.contactDetailModel?.status == null ||
+                                widget.contactDetailModel?.status == 0 ||
+                                widget.contactDetailModel?.status == 1
+                            ? true
+                            : false,
                         focusNode: widget.rankType != Constants.contactZone
                             ? nameFocusNode
                             : null,
@@ -274,7 +308,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: true,
+                        isEnable: widget.contactDetailModel?.status == null ||
+                                widget.contactDetailModel?.status == 0 ||
+                                widget.contactDetailModel?.status == 1
+                            ? true
+                            : false,
                         characterLimit: Constants.characterLimitContactNo,
                         isDisableColor: false,
                         onChange: (String value) {
@@ -308,7 +346,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        saveButton(width, widget.onSubmit)
+        if (widget.contactDetailModel?.status == null ||
+                widget.contactDetailModel?.status == 0 ||
+                widget.contactDetailModel?.status == 1
+            ? true
+            : false) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }
@@ -381,18 +423,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       }
     }
     bool isNumeric(String str) {
-      if (str == null) {
-        return false;
-      }
       return double.tryParse(str) != null;
     }
 
-    if ((!isNumeric(widget.model.contactNo!) ||
-            widget.model.contactNo?.length != 10) &&
-        !widget.model.contactNo.isEmptyOrNull) {
+    if (!widget.model.contactNo.isEmptyOrNull &&
+        (!isNumeric(widget.model.contactNo!) ||
+            widget.model.contactNo!.length > 17 ||
+            widget.model.contactNo!.length < 10)) {
       return const ErrorResponse(
         status: false,
-        message: 'Please enter a valid contact number.',
+        message: 'Please enter a valid contact Number.',
       );
     }
     // if (widget.contact.contactNo.isEmptyOrNull) {

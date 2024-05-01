@@ -170,7 +170,7 @@ class ShowFiltersWidget extends StatelessWidget {
   }
 }
 
-class BaseFilterSheet extends StatelessWidget {
+class BaseFilterSheet extends StatefulWidget {
   final Function(Filters) applyFilters;
   final List<Organisation> statuses;
   final List<Organisation> regions;
@@ -181,6 +181,18 @@ class BaseFilterSheet extends StatelessWidget {
     required this.statuses,
     required this.regions,
   });
+
+  @override
+  State<BaseFilterSheet> createState() => _BaseFilterSheetState();
+}
+
+class _BaseFilterSheetState extends State<BaseFilterSheet> {
+  @override
+  void initState() {
+    // BlocProvider.of<BaseFilterCubit>(context)
+    //     .getRegionsOrLocationsByRegionId(id: widget.regions.first.id ?? 0);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +206,7 @@ class BaseFilterSheet extends StatelessWidget {
     Organisation? selectedStatus = Organisation();
     List<Organisation> locations = [];
     Filters filtersModel = Filters();
+    bool isInitial = true;
 
     final size = MediaQuery.of(context).size;
     double height = size.height;
@@ -341,15 +354,14 @@ class BaseFilterSheet extends StatelessWidget {
                 children: [
                   DropdownWidget(
                     label: 'Select Region',
-                    elements: regions,
+                    items: widget.regions,
+                    isInitial: isInitial,
                     onChange: (value) async {
                       selectedRegion = value;
-
+                      log('---onChange-region-----');
                       BlocProvider.of<BaseFilterCubit>(context)
                           .getRegionsOrLocationsByRegionId(
                               id: selectedRegion?.id ?? 0);
-                      // locations = await CommonServices()
-                      //     .getRegionsOrLocationsByRegionId(id: selectedRegion?.id);
                     },
                   ),
                   const SizedBox(
@@ -357,7 +369,7 @@ class BaseFilterSheet extends StatelessWidget {
                   ),
                   DropdownWidget(
                     label: 'Select Location',
-                    elements: state.locations,
+                    items: state.locations,
                     onChange: (value) {
                       selectedLocation = value;
                     },
@@ -370,7 +382,7 @@ class BaseFilterSheet extends StatelessWidget {
                 children: [
                   DropdownWidget(
                     label: 'Select Status',
-                    elements: statuses,
+                    items: widget.statuses,
                     onChange: (value) {
                       selectedStatus = value;
                     },
@@ -401,7 +413,7 @@ class BaseFilterSheet extends StatelessWidget {
                   filtersModel.status = selectedStatus?.id;
                   filtersModel.regionId = selectedRegion?.id;
                   filtersModel.locationId = selectedLocation?.id;
-                  applyFilters(filtersModel);
+                  widget.applyFilters(filtersModel);
                 },
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(
@@ -420,15 +432,19 @@ class BaseFilterSheet extends StatelessWidget {
 }
 
 class DropdownWidget extends StatefulWidget {
-  final List<Organisation> elements;
+  final List<Organisation> items;
   final void Function(Organisation?)? onChange;
   final String label;
+  final bool? isInitial;
+  final Organisation? initialValue; // in case value is not updating in the UI
 
   const DropdownWidget({
     super.key,
-    required this.elements,
+    required this.items,
     required this.onChange,
     required this.label,
+    this.isInitial,
+    this.initialValue,
   });
 
   @override
@@ -436,21 +452,50 @@ class DropdownWidget extends StatefulWidget {
 }
 
 class DropdownWidgetState extends State<DropdownWidget> {
-  Organisation? selectedRegion;
+  Organisation? selectedElement;
+
+  @override
+  void initState() {
+    super.initState();
+// Initialize selectedElement with the first item if isInitial is false
+    selectedElement = widget.isInitial ?? true
+        ? null
+        : widget.items.isNotEmpty
+            ? widget.items.first
+            : null;
+    if (widget.initialValue != null) {
+      selectedElement = widget.initialValue;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: DropdownButtonFormField<Organisation>(
-        value: selectedRegion,
+        value: selectedElement,
         hint: Text(widget.label),
-        onChanged: widget.onChange,
-        items: widget.elements.map((region) {
+        // onChanged: widget.onChange,
+        onChanged: (Organisation? newValue) {
+          setState(() {
+            selectedElement = newValue;
+          });
+          if (widget.onChange != null) {
+            widget.onChange!(newValue);
+          }
+        },
+        items: widget.items.map((item) {
           return DropdownMenuItem<Organisation>(
-            value: region,
-            child: Text(region.name ?? ''),
+            value: item,
+            child: Text(item.name ?? ''),
           );
         }).toList(),
+        decoration: const InputDecoration(
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: AppColors.navigationSkybluecolor,
+            ),
+          ),
+        ),
       ),
     );
   }

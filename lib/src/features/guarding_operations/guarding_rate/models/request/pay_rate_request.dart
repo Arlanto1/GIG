@@ -8,9 +8,9 @@ class PayRateRequest {
   });
 
   PayRateRequest.fromJson(Map<String, dynamic> json)
-      : guardingRate = (json['guardingRate'] as Map<String,dynamic>?) != null ? PayRate.fromJson(json['guardingRate'] as Map<String,dynamic>) : null;
+      : guardingRate = (json['guardingRate'] as Map<String, dynamic>?) != null
+            ? PayRate.fromJson(json['guardingRate'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'guardingRate' : guardingRate?.toJson()
-  };
+  Map<String, dynamic> toJson() => {'guardingRate': guardingRate?.toJson()};
 }

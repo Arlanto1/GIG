@@ -26,6 +26,8 @@ class Apis {
 
   static final String _getLocations = '$baseUrl/getLocations/';
   static final String _getStatusesByModuleId = '$baseUrl/getStatus?';
+  static final String _getModuleAccessByUserRole =
+      '$baseUrl/getModuleAccessByUserRole?';
 }
 
 class CommonServices {
@@ -34,7 +36,6 @@ class CommonServices {
     required String moduleCode,
     BuildContext? context,
   }) async {
-    log('---language--$language---');
     String url = '${Apis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -65,8 +66,7 @@ class CommonServices {
     BuildContext? context,
     int? filter,
   }) async {
-    String url =
-        '${Apis._getOrganisations}$name&filter=${filter ?? ''}';
+    String url = '${Apis._getOrganisations}$name&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -165,6 +165,23 @@ class CommonServices {
   }) async {
     String url =
         '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    log('--response--${response.toString()}----');
+
+    return SerialNumberModel.fromJson(response);
+  }
+
+  Future<SerialNumberModel> getKLDSlNo({
+    required String locationId,
+    required String moduleCode,
+    required int? kmId,
+    BuildContext? context,
+    int? type,
+  }) async {
+    String url =
+        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type&kmId=$kmId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -303,9 +320,12 @@ class CommonServices {
     required String id,
     required String module,
     int? status = -1,
+    int? type,
+    int? aps,
     BuildContext? context,
   }) async {
-    String url = '${Apis._updateRecordStatus}$id?module=$module&status=$status';
+    String url =
+        '${Apis._updateRecordStatus}$id?module=$module&status=$status&type=$type&aps=$aps';
     await BaseApiService().patchRequest(
       url: url,
     );
@@ -335,7 +355,8 @@ class CommonServices {
     int? filter, // For Pass Management Status
     BuildContext? context,
   }) async {
-    String url = '${Apis._getStatusesByModuleId}module=$module&filter=${filter ?? ''}';
+    String url =
+        '${Apis._getStatusesByModuleId}module=$module&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -345,5 +366,17 @@ class CommonServices {
     }
     return List<Organisation>.from(
         response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<bool> getModuleAccessByUserRole({
+    required String moduleCode,
+    BuildContext? context,
+    int? filter,
+  }) async {
+    String url = '${Apis._getModuleAccessByUserRole}moduleCode=$moduleCode';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['hasWritePermission'] as bool;
   }
 }

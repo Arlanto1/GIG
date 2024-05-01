@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'key_management_master_list_event.dart';
-
 part 'key_management_master_list_state.dart';
 
 class KeyManagementMasterListBloc
@@ -44,7 +45,12 @@ class KeyManagementMasterListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementMasterModule);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementMasterModule,
+        commonServices: commonServices,
+      );
+      KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -53,8 +59,18 @@ class KeyManagementMasterListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -83,8 +99,8 @@ class KeyManagementMasterListBloc
     }
   }
 
-  FutureOr<void> _fetchList(
-      FetchKeyMasterList event, Emitter<KeyManagementMasterListState> emit) async {
+  FutureOr<void> _fetchList(FetchKeyMasterList event,
+      Emitter<KeyManagementMasterListState> emit) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -92,7 +108,6 @@ class KeyManagementMasterListBloc
     );
 
     try {
-
       if (state.status == FormStatus.initial || event.newSearch) {
         KeyManagementMasterResponse response;
         response = await _services.getList(

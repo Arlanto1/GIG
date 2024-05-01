@@ -4,6 +4,11 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  /// Pagination
+  static const int maxResults = 20;
+
+  static const double cancelButtonWidth = 170;
+
   /// Text Form Field Character Limit
   static const int characterLimitContactNo = 17;
   static const int characterLimitIdTextFormField = 250;
@@ -19,6 +24,7 @@ class Constants {
   static const String visitorManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
+  static const String annualPowerShutDownModule = 'APS';
   static const String securitySystemModule = 'SSSLA';
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OCC';
@@ -27,11 +33,12 @@ class Constants {
   static const String slaViolationPenaltyDetailsModule = 'SVP';
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
+  static const String keyLossDestructionModule = 'KLD';
   static const String vipVisitorsDetailsModule = 'VIP';
   static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
-
+  static const String keyReconciliationModule = 'KR';
 
   /// UI Labels Module Code
   static const String articleFoundModuleCode = 'AF';
@@ -42,6 +49,9 @@ class Constants {
   static const String guardingMasterModuleCode = 'GM';
   static const String eventProtectionModuleCode = 'EP';
   static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
+  static const String shiftScheduleModuleCode = 'SS';
+  static const String dutyPostNameMasterModuleCode = 'SSDP';
+  static const String attendanceModuleCode = 'ATD';
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -55,12 +65,20 @@ class Constants {
   static const String userRoles = 'userRoles';
   static const String defaultLocation = 'defaultLocation';
 
-  static const String customFontFamily = 'Poppins';
-  static const String customFontMediumFamily = 'Poppins-Medium';
-  static const String customFontBoldFamily = 'Poppins-Bold';
-  static const String customFontRegularFamily = 'Poppins-Regular';
-  static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
-  static const String customFontMixedFamily = 'Poppins-Mixed';
+  // static const String customFontFamily = 'Poppins';
+  // static const String customFontMediumFamily = 'Poppins-Medium';
+  // static const String customFontBoldFamily = 'Poppins-Bold';
+  // static const String customFontRegularFamily = 'Poppins-Regular';
+  // static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
+  // static const String customFontMixedFamily = 'Poppins-Mixed';
+
+  ///DeutscheBank Font
+  static const String customFontFamily = 'DeutscheBankDisplay_A';
+  static const String customFontMediumFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontBoldFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontRegularFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontSemiBoldFamily = 'DeutscheBankDisplay_A_Rg';
+  static const String customFontMixedFamily = 'DeutscheBankDisplay_A_Rg';
   static const String appname = 'AtomEdge';
   static const String unsaveddata = 'Unsaved Data';
   static const String unsaveddatadesc =
@@ -72,7 +90,7 @@ class Constants {
   static const String enterValidEmail = 'Please enter valid email';
 
   static const String invalidusername = 'Invalid username';
-  static const String logoutvalidation =
+  static const String logoutValidation =
       "Are you  sure, do you want to logout?";
 
   // Sharedpreferences keys
@@ -125,6 +143,7 @@ class Constants {
   static const String email = "Email";
   static const String username = "Username";
   static const String otp = "OTP";
+  static const String updatePassword = "Update Password";
   static const String password = "Password";
   static const String oldPassword = "Old Password";
   static const String newPassword = "New Password";
@@ -140,24 +159,29 @@ class Constants {
   static const String dashboard = 'Dashboard';
   static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
+  static const String costAndBilling = "Cost & Billing";
   static const String securitySystems = "Security System";
   static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articlefoundregister = 'Article Found Register';
-  static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
-  static const String eventprotectionlist = 'Event Protection List';
+  static const String articleFoundRegister = 'Article Found Register';
+  static const String lawEnforcementVisitsList = 'Law Enforcement Visits List';
+  static const String eventProtectionList = 'Event Protection List';
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
   static const String incidentManagement = 'Incident Management';
-  static const String occurrence = 'Shift Occurrence';
+  static const String shiftOccurrence = 'Shift Occurrence';
+  static const String occurrenceList = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
+  static const String deleteAllNotifications = 'Delete All';
+  static const String deleteAllNotificationWarningMessage =
+      'Are you sure, do you want to delete all notifications';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
   static const String lawEnforcementVisitsByEntity =
@@ -181,7 +205,7 @@ class Constants {
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
 
-  static const String daypassmgmt = 'Day Pass Management';
+  static const String dayPassManagement = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
   static const String visitorpassmgmt = 'Visitor Pass Management';
   static const String visitorpassregister = 'Visitor Pass Register';
@@ -213,6 +237,7 @@ class Constants {
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String createDate = 'Create Date';
+  static const String createOn = 'Create On';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
   static const String articlename = 'Article Name';
@@ -239,6 +264,12 @@ class Constants {
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
+  static const String cancelRecord = 'Cancel Record';
+  static const String cancelRecordWarningMessage =
+      'Are you sure, do you want to cancel the record?';
+  static const String close = 'Close';
+  static const String closeRecordWarningMessage =
+      'Are you sure, do you want to close the record?';
   static const String showList = 'Show List';
   static const String add = 'Add';
   static const String open = 'Open';
@@ -266,7 +297,8 @@ class Constants {
   // Law enforcement
   static const String createlawenforcement =
       'Create Law Enforcement Official Visit';
-  static const String editlawenforcement = 'Edit Law Enforcement Official Visit';
+  static const String editlawenforcement =
+      'Edit Law Enforcement Official Visit';
   static const String addcompanytype = 'Add Company Type';
   static const String addentitytype = 'Add Entity';
   static const String addpurposeofvisittype = 'Add Puropose Of Visit';
@@ -435,7 +467,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
-  static const String contactDetails = 'Escalation Matrix';
+  static const String escalationMatrix = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
@@ -452,7 +484,6 @@ class Constants {
   static const String addSecurityGuard = 'Security Guard';
   static const String createOthers = 'Create Others';
 
-
   static const String monthlyCost = 'Monthly Cost';
   static const String days = 'Days';
   static const String perHour = 'Per Hour';
@@ -468,6 +499,7 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String selectForShift = 'Select For Shift: ';
   static const String zone = 'Zone';
   static const String areaNameManager = 'Area  Manager Name';
   static const String guardName = 'Name';
@@ -483,14 +515,14 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
-  static const String additionalQualification = 'Additional Qualification/Certifications';
-  static const String qualificationCompletionDate = 'Qualification Completion Date';
+  static const String additionalQualification =
+      'Additional Qualification/Certifications';
+  static const String qualificationCompletionDate =
+      'Qualification Completion Date';
   static const String specialAchievementsInfo = 'Special Achievements Info';
   static const String achievementsDate = 'Achievement Date';
   static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String initiativesDate = 'Initiative Date';
-
-
 
   static const String participationDate = 'Participation Date';
   static const String csrParticipationDate = 'Add CSR Participation Date';
@@ -681,15 +713,14 @@ class Constants {
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
   static const String cmsEscalationContact = 'CMS Escalation(IPB)';
-  static const String guardingAgencyZonalManagerContact = 'Guarding Agency Zonal Manager';
+  static const String guardingAgencyZonalManagerContact =
+      'Guarding Agency Zonal Manager';
   static const String escalationLevel = 'Escalation Level';
   static const String modifiedDate = 'Modified Date';
-
-
-  static const String guardingAgencyRank =
-      'Guarding Agency Escalation Rank';
+  static const String guardingAgencyRank = 'Guarding Agency Escalation Rank';
   static const String supervisorRank = 'Supervisor Rank';
-  static const String systemSiEscalationMatrixRank = 'System (SI) Escalation Matrix';
+  static const String systemSiEscalationMatrixRank =
+      'System (SI) Escalation Matrix';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
@@ -705,7 +736,7 @@ class Constants {
 
   ///KeyManagementData
   static const String keyManagementMaster = 'Key Management Master';
-  static const String keyManagementIssuance = 'Key Management Issuance List';
+  static const String keyManagementIssuance = 'Key Management Issuance';
   static const String keyReconciliationList = 'Key Reconciliation List';
   static const String keyLossDestructionList = 'Key Loss Destruction List';
 
@@ -731,6 +762,10 @@ class Constants {
   static const String keyLostHistory = 'Key Lost History';
   static const String keyDamageHistory = 'Key Damage History';
   static const String keyDestroyHistory = 'Key Destroy History';
+  static const String createLockChangeHistory = 'Create Lock Change History';
+  static const String createKeyLostHistory = ' Create Key Lost History';
+  static const String createKeyDamageHistory = 'Create Key Damage History';
+  static const String createKeyDestroyHistory = 'Create Key Destroy History';
   static const String editLockChangeHistory = ' Edit Lock Change History';
   static const String editKeyLostHistory = 'Edit Key Lost History';
   static const String editKeyDamageHistory = 'Edit Key Damage History';
@@ -743,7 +778,6 @@ class Constants {
   static const String detailsOfLostKey = 'Details of Lost Key';
   static const String modifiedBy = 'Modified By';
   static const String modifiedOn = 'Modified On';
-  static const String keyManageme = 'Modified On';
   static const String totalAllocated = 'Total Allocated';
   static const String returned = 'Returned';
   static const String notReturned = 'Not Returned';
@@ -777,6 +811,7 @@ class Constants {
   static const String keysDamaged = 'Keys Damaged';
   static const String noKeysIssued = 'No. Keys Issued';
   static const String handedOverDate = 'Handed Over Date';
+  static const String editKeyLossDestruction = 'Edit Key Loss Destruction';
 
   /// Duty Post Master
   static const String dutyPostMaster = 'Duty Post Master';
@@ -815,10 +850,11 @@ class Constants {
   static const String replacementFor = 'Replacement For';
   static const String replacementBy = 'Replacement By';
   static const String reason = 'Reason';
-
+  static const String poc = 'POC';
+  static const String addPOC = 'Add POC';
 
   ///VVIP Visitors
-  static const String vvipVisitors = 'VVIP Visitor';
+  static const String vVipVisitors = 'VVIP Visitor';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';
@@ -827,6 +863,12 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitor';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
+
+  ///Ticket Life Cycle
+  static const String sentReminder = 'Reminder Sent';
+
+  ///Module Code for roles
+  static const String passManagementRolesModuleCode = 'PM';
 }
 
 //static const String height = 'Height(cm)';

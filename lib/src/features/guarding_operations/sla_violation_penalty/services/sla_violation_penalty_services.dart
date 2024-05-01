@@ -17,7 +17,8 @@ class Apis {
 
   static final String _getVP = '$baseUrl/getSvpList?';
 
-  static final String _getStaffCategoriesValues = '$baseUrl/getStaffCategAndViolations';
+  static final String _getStaffCategoriesValues =
+      '$baseUrl/getStaffCategAndViolations';
 
   static final String _getById = '$baseUrl/getSvpGiById';
 
@@ -55,19 +56,34 @@ class SLAViolationPenaltyServices {
   Future<SLAViolationPenaltyResponseModel> getGSvp({
     required String startPosition,
     required String maximumRecords,
-     String? aShiftInfoId,
+    int? attInfoId,
     required BaseFilterModel filters,
   }) async {
-    String url = '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+    String url =
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
 
     // Append the 'aShiftInfoId' parameter in url if it's not null
-    if (aShiftInfoId != null) {
-      url += '&aShiftInfoId=$aShiftInfoId';
+    if (attInfoId != null) {
+      url += '&aShiftInfoId=$attInfoId';
     }
     // String url =
     //     '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
+      isAuthenticated: true,
+      url: url,
+    );
+    return SLAViolationPenaltyResponseModel.fromJson(response);
+  }
+
+  Future<SLAViolationPenaltyResponseModel> getSvpList({
+    required String startPosition,
+    required String maximumRecords,
+    required int attInfoId,
+  }) async {
+    String url =
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$attInfoId';
+    var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );

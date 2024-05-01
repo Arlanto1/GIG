@@ -139,7 +139,9 @@ class FlutterInputField extends StatelessWidget {
         onTap != null ? onTap!() : null;
       },
       onFieldSubmitted: (value) {
-        onFieldSubmitted != null ? onFieldSubmitted!(value) : FocusScope.of(context).nextFocus();
+        onFieldSubmitted != null
+            ? onFieldSubmitted!(value)
+            : FocusScope.of(context).nextFocus();
       },
       onEditingComplete: () {
         FocusScope.of(context).unfocus();

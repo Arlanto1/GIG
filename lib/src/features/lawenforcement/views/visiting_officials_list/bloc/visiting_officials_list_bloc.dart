@@ -44,6 +44,14 @@ class VisitingOfficialListBloc
           hasReachedMax: false,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
@@ -68,20 +76,20 @@ class VisitingOfficialListBloc
         );
       }
 
-    //   List<LawVisitingOfficial> response =
-    //       await services.getLeoVisitingOfficials(
-    //     id: event.id,
-    //   );
-    //
-    //   if (response.isEmpty == true) {
-    //     return emit(state.copyWith(hasReachedMax: true));
-    //   }
-    //   return emit(
-    //     state.copyWith(
-    //       items: List.of(state.items ?? [])..addAll(response),
-    //       hasReachedMax: false,
-    //     ),
-    //   );
+      //   List<LawVisitingOfficial> response =
+      //       await services.getLeoVisitingOfficials(
+      //     id: event.id,
+      //   );
+      //
+      //   if (response.isEmpty == true) {
+      //     return emit(state.copyWith(hasReachedMax: true));
+      //   }
+      //   return emit(
+      //     state.copyWith(
+      //       items: List.of(state.items ?? [])..addAll(response),
+      //       hasReachedMax: false,
+      //     ),
+      //   );
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

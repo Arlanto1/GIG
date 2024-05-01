@@ -10,11 +10,20 @@ abstract class DutyPostNameMasterListEvent extends Equatable {
 class FetchDutyPostNameMasterList extends DutyPostNameMasterListEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
   const FetchDutyPostNameMasterList(
-      {required this.startPos, required this.maxPos});
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
-class InitializeValues extends DutyPostNameMasterListEvent {
-  const InitializeValues();
+class InitializeValue extends DutyPostNameMasterListEvent {
+  const InitializeValue();
+}
+
+class RefreshDPNList extends DutyPostNameMasterListEvent {
+  const RefreshDPNList();
 }

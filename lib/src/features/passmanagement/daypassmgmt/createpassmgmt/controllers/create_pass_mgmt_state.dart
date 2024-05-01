@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
 enum CreatePassMgmtStateType {
@@ -14,7 +15,7 @@ enum CreatePassMgmtStateType {
 class CreatePassMgmtState extends Equatable {
   final PassManagementModel model;
   final List<Organisation>? updateStatuses;
-  GetDepositor? getDepositorResponse;
+  List<BaseUser>? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
@@ -44,6 +45,7 @@ class CreatePassMgmtState extends Equatable {
   VendorPassReason? vendorPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
+  final List<BaseUser>? emailUsers;
   User? t1hostanalyst;
   User? t1dbsponsoranalyst;
   Organisation? selectedPassInfo;
@@ -59,6 +61,7 @@ class CreatePassMgmtState extends Equatable {
   User? dbsponsorResponse;
   BaseUser? nameResponse;
   bool showIdentifiedFields;
+  PMUiLabels? labels;
 
   CreatePassMgmtState({
     required this.model,
@@ -107,6 +110,8 @@ class CreatePassMgmtState extends Equatable {
     this.hostResponse,
     this.dbsponsorResponse,
     this.nameResponse,
+    this.labels,
+    this.emailUsers,
   });
 
   factory CreatePassMgmtState.initial({
@@ -130,7 +135,7 @@ class CreatePassMgmtState extends Equatable {
     Organisation? location,
     Organisation? locationRegion,
     SerialNumberModel? serialnumberResponse,
-    GetDepositor? getDepositorResponse,
+    List<BaseUser>? getDepositorResponse,
     BaseUser? getuserResponse,
     List<Organisation>? passTypes,
     bool? showIdentifiedFields,
@@ -165,10 +170,12 @@ class CreatePassMgmtState extends Equatable {
     BaseUser? nameResponse,
     String? passValidUntilDate,
     List<Organisation>? updateStatuses,
+    PMUiLabels? labels,
+    List<BaseUser>? emailUsers,
   }) {
     return CreatePassMgmtState(
       model: model ?? this.model,
-      updateStatuses:updateStatuses??this.updateStatuses,
+      updateStatuses: updateStatuses ?? this.updateStatuses,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
       stateType: stateType ?? this.stateType,
@@ -222,6 +229,8 @@ class CreatePassMgmtState extends Equatable {
       dbsponsorResponse: dbsponsorResponse ?? this.dbsponsorResponse,
       nameResponse: nameResponse ?? this.nameResponse,
       passValidUntilDate: passValidUntilDate ?? this.passValidUntilDate,
+      labels: labels ?? this.labels,
+      emailUsers: emailUsers ?? this.emailUsers,
     );
   }
 
@@ -268,5 +277,7 @@ class CreatePassMgmtState extends Equatable {
         hostResponse,
         dbsponsorResponse,
         nameResponse,
+        labels,
+        emailUsers,
       ];
 }

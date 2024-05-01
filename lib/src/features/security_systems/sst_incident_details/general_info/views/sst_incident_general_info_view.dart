@@ -7,12 +7,14 @@ class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
   final bool viaOccurrence;
   final SstIncident? model;
+  final ExtraProperties? extraProperties;
 
   const SstIncidentGeneralInfoView({
     super.key,
     required this.isInternal,
     required this.viaOccurrence,
     this.model,
+    this.extraProperties,
   });
 
   @override
@@ -54,6 +56,8 @@ class _SstIncidentGeneralInfoViewState
       listener: (context, state) {
         log('--state.status---${state.status}---');
         log('--state.message---${state.message}---');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -107,6 +111,13 @@ class _SstIncidentGeneralInfoViewState
         state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
+          disableForm = true;
+        }
+        if (state.model.status == -1) {
+          disableForm = true;
+        }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
           disableForm = true;
         }
         return Scaffold(
@@ -190,14 +201,18 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
-                                Constants.createdby,
+                                state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -246,7 +261,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                Constants.createDate,
+                                state.labels?.locale.createDate ??
+                                    state.labels?.defaultLocale.createDate ??
+                                    Constants.createDate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -256,7 +273,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Location
                             CommonWidgets.textDisplay(
-                                Constants.location,
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -279,14 +298,18 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                                Constants.slno,
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
                                 isMandatory: true,
                                 state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System
                             CommonWidgets.textDisplay(
-                                Constants.system,
+                                state.labels?.locale.system ??
+                                    state.labels?.defaultLocale.system ??
+                                    Constants.system,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -324,7 +347,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Vendor
                             CommonWidgets.textDisplay(
-                              Constants.vendor,
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -344,9 +369,8 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         vendor: user,
                                       );
-                                      FocusScope.of(context).requestFocus(
-                                          vendorPocFocusNode);
-
+                                      FocusScope.of(context)
+                                          .requestFocus(vendorPocFocusNode);
                                     },
                                     orgName: 'ATOM_VENDORS',
                                     createEntity: false,
@@ -364,7 +388,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Vendor Poc
                             CommonWidgets.textDisplay(
-                                Constants.vendorPoc,
+                                state.labels?.locale.vendorPoc ??
+                                    state.labels?.defaultLocale.vendorPoc ??
+                                    Constants.vendorPoc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -390,7 +416,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 1 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation1Poc,
+                                state.labels?.locale.escalation1Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation1Poc ??
+                                    Constants.escalation1Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -415,7 +444,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 2 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation2Poc,
+                                state.labels?.locale.escalation2Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation2Poc ??
+                                    Constants.escalation2Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -440,7 +472,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Escalation 3 Poc
                             CommonWidgets.textDisplay(
-                                Constants.escalation3Poc,
+                                state.labels?.locale.escalation3Poc ??
+                                    state
+                                        .labels?.defaultLocale.escalation3Poc ??
+                                    Constants.escalation3Poc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -465,12 +500,15 @@ class _SstIncidentGeneralInfoViewState
 
                             /// System Manager
                             CommonWidgets.textDisplay(
-                              Constants.systemManager,
+                              state.labels?.locale.sm ??
+                                  state.labels?.defaultLocale.sm ??
+                                  Constants.systemManager,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.systemManager?.name,
+                              title: state.model.systemManager?.userInfo ??
+                                  state.model.systemManager?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -500,12 +538,15 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Security Manager
                             CommonWidgets.textDisplay(
-                              Constants.securityManager,
+                              state.labels?.locale.ssm ??
+                                  state.labels?.defaultLocale.ssm ??
+                                  Constants.securityManager,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lsm?.name,
+                              title: state.model.lsm?.userInfo ??
+                                  state.model.lsm?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -536,12 +577,15 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Security Lead
                             CommonWidgets.textDisplay(
-                              Constants.securityLead,
+                              state.labels?.locale.asl ??
+                                  state.labels?.defaultLocale.asl ??
+                                  Constants.securityLead,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.asl?.name,
+                              title: state.model.asl?.userInfo ??
+                                  state.model.asl?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -572,12 +616,15 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Location Team
                             CommonWidgets.textDisplay(
-                              Constants.locationTeam,
+                              state.labels?.locale.lt ??
+                                  state.labels?.defaultLocale.lt ??
+                                  Constants.locationTeam,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextFieldAddButton(
-                              title: state.model.lt?.name,
+                              title: state.model.lt?.userInfo ??
+                                  state.model.lt?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -592,8 +639,8 @@ class _SstIncidentGeneralInfoViewState
                                           .updateDropdownValues(
                                         lt: user,
                                       );
-                                      FocusScope.of(context).requestFocus(
-                                          descriptionFocusNode);
+                                      FocusScope.of(context)
+                                          .requestFocus(descriptionFocusNode);
                                     },
                                     roleName: 'ATOM_Security_Team',
                                     functionToCall: () {
@@ -609,7 +656,10 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Short Description of Incident
                             CommonWidgets.textDisplay(
-                                Constants.shortIncidentDescription,
+                                state.labels?.locale.shortDecIncident ??
+                                    state.labels?.defaultLocale
+                                        .shortDecIncident ??
+                                    Constants.shortIncidentDescription,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -634,7 +684,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Detail Description
                             CommonWidgets.textDisplay(
-                                Constants.detailIncidentDescription,
+                                state.labels?.locale.detailDes ??
+                                    state.labels?.defaultLocale.detailDes ??
+                                    Constants.detailIncidentDescription,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -658,7 +710,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// IPB Area
                             CommonWidgets.textDisplay(
-                                Constants.ipbArea,
+                                state.labels?.locale.ipbArea ??
+                                    state.labels?.defaultLocale.ipbArea ??
+                                    Constants.ipbArea,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -690,7 +744,10 @@ class _SstIncidentGeneralInfoViewState
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                                Constants.attachments, Styles.textStyleBlack14),
+                                state.labels?.locale.attachment ??
+                                    state.labels?.defaultLocale.attachment ??
+                                    Constants.attachments,
+                                Styles.textStyleBlack14),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
@@ -725,6 +782,7 @@ class _SstIncidentGeneralInfoViewState
                               files: uploadFiles,
                               showDownloadIcon:
                                   widget.model != null ? true : false,
+                              moduleCode: Constants.securitySystemModule,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
@@ -794,15 +852,41 @@ class _SstIncidentGeneralInfoViewState
   }
 
   Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 14;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              var dialog = CustomAlertDialog(
+                  title: Constants.cancelRecord,
+                  message: Constants.cancelRecordWarningMessage,
+                  onPositivePressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    updateRecordStatus(state);
+                  },
+                  positiveBtnText: Constants.yes,
+                  negativeBtnText: Constants.no);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
@@ -811,7 +895,7 @@ class _SstIncidentGeneralInfoViewState
     if (state.model.id != null) {
       BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, sstIncidentListRoute);
+      Navigator.popAndPushNamed(context, sstIncidentDetailsRoute);
     } else {
       Navigator.pop(context);
     }

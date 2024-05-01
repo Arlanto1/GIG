@@ -136,7 +136,8 @@ class DayPassListItemResponse {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         status = json['status'] as int?,
         modifiedDate = json['modifiedDate'] as String?,

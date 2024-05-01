@@ -11,7 +11,7 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
     KeyLossDestructionListModel(
       keyManagementId: json['keyManagementId'] as String?,
       id: json['id'] as int?,
-      slNo: json['slNo'],
+      slNo: json['slNo'] as String?,
       type: json['type'] as int?,
       keyType: json['keyType'] as int?,
       hasLockChanged: json['hasLockChanged'] as bool?,
@@ -23,17 +23,20 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
       securityManager: json['securityManager'] == null
           ? null
           : User.fromJson(json['securityManager'] as Map<String, dynamic>),
-      investigationRequired: json['investigationRequired'] as bool?,
+      investigationRequired: json['investigationRequired'] as bool? ?? false,
       lostKeyDetails: json['lostKeyDetails'] as String?,
       additionalInformation: json['additionalInformation'] as String?,
-      destructionReason: json['destructionReason'],
+      destructionReason: json['destructionReason'] == null
+          ? null
+          : Organisation.fromJson(
+              json['destructionReason'] as Map<String, dynamic>),
       status: json['status'] as int?,
       noOfKeys: json['noOfKeys'] as int?,
       createdBy: json['createdBy'] == null
           ? null
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),
-      createdDate: json['createdDate'] as int?,
-      modifiedDate: json['modifiedDate'] as int?,
+      createdDate: json['createdDate'] as String?,
+      modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
     )..lock = json['lock'] as String?;
 

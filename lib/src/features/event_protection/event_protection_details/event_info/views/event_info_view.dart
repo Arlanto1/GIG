@@ -14,7 +14,6 @@ import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,6 +69,8 @@ class _EventInfoViewState extends State<EventInfoView> {
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -86,15 +87,9 @@ class _EventInfoViewState extends State<EventInfoView> {
             arguments: {'eventId': state.model.id},
           );
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
       },
       builder: (context, state) {
-        dateController.text = Utils.timestamptoDateConversion(
+        dateController.text = Utils.timestampToDateConversion(
             int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
 
         if (state.model.status != 4 && widget.editForm) {
@@ -215,7 +210,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    //color: AppColors.navigationSkybluecolor,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
@@ -418,6 +413,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               files: guardFiles,
                               showDownloadIcon:
                                   state.model.image != null ? true : false,
+                              moduleCode: Constants.eventProtectionModuleCode,
                             ),
                           ],
                         ),
@@ -454,7 +450,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
@@ -466,7 +462,6 @@ class _EventInfoViewState extends State<EventInfoView> {
               ),
             ],
             CommonWidgets.verticalSpacerWidget(height * 0.04),
-
           ],
         ),
       ),
@@ -544,8 +539,8 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

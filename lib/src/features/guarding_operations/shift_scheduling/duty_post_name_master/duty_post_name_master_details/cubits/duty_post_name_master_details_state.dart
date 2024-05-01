@@ -10,7 +10,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
   final String? message;
   final List<DpName>? locationNames;
   final List<User>? entrySecurities;
-  final GmUiLabels? labels;
+  final DPNUiLabels? labels;
 
   factory DutyPostNameMasterDetailsState.initial({
     required DutyPostNameMasterModel model,
@@ -88,7 +88,7 @@ class DutyPostNameMasterDetailsState extends Equatable {
     List<DpName>? locationNames,
     String? message,
     List<User>? entrySecurities,
-    final GmUiLabels? labels,
+    final DPNUiLabels? labels,
   }) {
     return DutyPostNameMasterDetailsState(
       status: status ?? this.status,

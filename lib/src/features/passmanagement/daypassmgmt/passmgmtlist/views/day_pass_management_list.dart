@@ -262,8 +262,11 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
     );
   }
 
-  Widget listWidgetLoading(double height, DayPassListState state,
-      ScrollController? scrollController, List<PassManagementModel>? foundList) {
+  Widget listWidgetLoading(
+      double height,
+      DayPassListState state,
+      ScrollController? scrollController,
+      List<PassManagementModel>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(

@@ -5,6 +5,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../utils/utils_common.dart';
+
 part 'material_movement_event.dart';
 part 'material_movement_state.dart';
 
@@ -47,8 +49,14 @@ class MaterialMovementBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.contactDetailsModuleCode);
-      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+          moduleCode: Constants.materialMovementModuleCode);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.materialMovementModuleCode,
+        commonServices: commonServices,
+      );
+      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -57,8 +65,18 @@ class MaterialMovementBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }

@@ -117,6 +117,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.1.0
   pull_to_refresh_flutter3: ^2.0.2
   analyzer: ^5.4.0
+  geolocator: ^11.0.0
 
 dev_dependencies:
 #  flutter_launcher_icons:
@@ -139,6 +140,12 @@ dev_dependencies:
 #flutter_native_splash:
 #   color: "#ffffff" #white color
 #   image: assets/atom_splash.png
+flutter_obfuscate:
+  entry_points:
+    - lib/main.dart
+    # Add additional entry points if needed
+  exclude:
+    - test/**
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -164,6 +171,7 @@ flutter:
     - assets/translation/
   
   fonts:
+
     - family: Poppins-Black
       fonts:
         - asset: assets/fonts/Poppins-Black.ttf
@@ -236,6 +244,22 @@ flutter:
     - family: Poppins-ThinItalic
       fonts:
         - asset: assets/fonts/Poppins-ThinItalic.ttf
+
+    - family: DeutscheBankDisplay_A_Rg
+      fonts:
+        - asset: assets/fonts/DeutscheBankText_A_Rg.ttf
+
+    - family: DeutscheBankDisplay_A_It
+      fonts:
+        - asset: assets/fonts/DeutscheBankText_A_It.ttf
+
+#          fonts:
+#            - family: Poppins-Black
+#              fonts:
+#                - asset: assets/fonts/Poppins-Black.ttf
+
+
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

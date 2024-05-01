@@ -7,6 +7,8 @@ class SstIncidentState extends Equatable {
   final String? message;
   final Locations? locations;
   final CommonFilters? commonFilters;
+  final SSLAUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const SstIncidentState({
     this.items = const <SstIncident>[],
@@ -15,6 +17,8 @@ class SstIncidentState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.labels,
+    this.extraProperties,
   });
 
   SstIncidentState copyWith({
@@ -26,6 +30,8 @@ class SstIncidentState extends Equatable {
     String? message,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    SSLAUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return SstIncidentState(
       items: items ?? this.items,
@@ -34,6 +40,8 @@ class SstIncidentState extends Equatable {
       message: message ?? this.message,
       locations: locations ?? this.locations,
       commonFilters: commonFilters ?? this.commonFilters,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

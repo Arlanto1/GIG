@@ -7,14 +7,19 @@ class GuardingRatesState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final String? message;
+  final GRUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
-  const GuardingRatesState(
-      {this.items = const <GMRate>[],
-      this.hasReachedMax = false,
-      this.message,
-      this.locations,
-      this.commonFilters,
-      this.status = FormStatus.initial});
+  const GuardingRatesState({
+    this.items = const <GMRate>[],
+    this.hasReachedMax = false,
+    this.message,
+    this.locations,
+    this.commonFilters,
+    this.labels,
+    this.status = FormStatus.initial,
+    this.extraProperties,
+  });
 
   GuardingRatesState copyWith({
     List<GMRate>? items,
@@ -25,8 +30,8 @@ class GuardingRatesState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     String? message,
-
-
+    GRUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return GuardingRatesState(
       items: items ?? this.items,
@@ -35,6 +40,8 @@ class GuardingRatesState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

@@ -43,10 +43,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     num? sum = (widget.model.totalPenaltyAmount ??
         (widget.model.penaltyAmount ?? 0) *
             (widget.model.totalViolations ?? 0));
-    totalPenaltyAmountController.text = widget.model.penaltyAmount == null ? '' :sum.toString();
-    numberOfViolationsAmountController.text = widget.model.totalViolations == null
-        ? ''
-        : widget.model.totalViolations.toString();
+    totalPenaltyAmountController.text =
+        widget.model.penaltyAmount == null ? '' : sum.toString();
+    numberOfViolationsAmountController.text =
+        widget.model.totalViolations == null
+            ? ''
+            : widget.model.totalViolations.toString();
     updateStaffCategoryText();
   }
 
@@ -137,7 +139,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                         org.keyName ?? '';
                                   });
                                 },
-
                               );
                             },
                           )
@@ -208,8 +209,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               if (selectedLabel.value == '1') {
                                 numberOfViolationsAmountController.text = '1';
                                 widget.model.totalViolations = 1;
-                                totalPenaltyAmountController.text = '${(widget.model.penaltyAmount??0) * (widget.model.totalViolations??0)}';
-                                widget.model.totalPenaltyAmount = (widget.model.penaltyAmount??0) * (widget.model.totalViolations??0);
+                                totalPenaltyAmountController.text =
+                                    '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
+                                widget.model.totalPenaltyAmount =
+                                    (widget.model.penaltyAmount ?? 0) *
+                                        (widget.model.totalViolations ?? 0);
                               }
                               setState(() {});
 
@@ -238,7 +242,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         controller: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable:  true,
+                        isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
                           widget.model.totalViolations = num.parse(value);

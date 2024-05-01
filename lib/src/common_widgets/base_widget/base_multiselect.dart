@@ -1,10 +1,16 @@
 import 'package:db_atom/index.dart';
 
 class MultiSelectDropdown extends StatefulWidget {
-  const MultiSelectDropdown({super.key, required this.briefingPoints, required this.selectedPoints});
+  const MultiSelectDropdown({
+    super.key,
+    required this.briefingPoints,
+    required this.selectedPoints,
+    required this.updatedBriefingPoints,
+  });
 
   final List<String> briefingPoints;
   final List<String> selectedPoints;
+  final Function(List<String> id) updatedBriefingPoints;
 
   @override
   MultiSelectDropdownState createState() => MultiSelectDropdownState();
@@ -12,7 +18,6 @@ class MultiSelectDropdown extends StatefulWidget {
 
 class MultiSelectDropdownState extends State<MultiSelectDropdown> {
   // final List<String> widget.selectedPoints = [];
-  final List<String> _customValues = [];
   final TextEditingController _customValueController = TextEditingController();
 
   // final _items = List.generate(
@@ -43,6 +48,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                         onTap: () {
                           setState(() {
                             widget.selectedPoints.remove(item);
+                            widget.updatedBriefingPoints(widget.selectedPoints);
                           });
                         },
                         child: Chip(
@@ -64,32 +70,35 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                         ),
                       ),
                     ),
-                    ..._customValues.map(
-                      (customValue) => InkWell(
-                        onTap: () {
-                          setState(() {
-                            widget.selectedPoints.remove(customValue);
-                          });
-                        },
-                        child: Chip(
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 1.0, horizontal: 1.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(customValue),
-                                const Icon(
-                                  Icons.clear,
-                                  size: 15,
-                                  color: AppColors.navigationSkybluecolor,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // ...widget.selectedPoints.map(
+                    //   (customValue) => InkWell(
+                    //     onTap: () {
+                    //       log('----onTap----');
+                    //       log('----onTap-widget.selectedPoints-${widget.selectedPoints}--');
+                    //
+                    //       setState(() {
+                    //         widget.selectedPoints.remove(customValue);
+                    //       });
+                    //     },
+                    //     child: Chip(
+                    //       label: Padding(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             vertical: 1.0, horizontal: 1.0),
+                    //         child: Row(
+                    //           mainAxisSize: MainAxisSize.min,
+                    //           children: [
+                    //             Text(customValue),
+                    //             const Icon(
+                    //               Icons.clear,
+                    //               size: 15,
+                    //               color: AppColors.navigationSkybluecolor,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -117,8 +126,9 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
               if (value != null) {
                 setState(() {
                   if (!widget.selectedPoints.contains(value) &&
-                      !_customValues.contains(value)) {
+                      !widget.selectedPoints.contains(value)) {
                     widget.selectedPoints.add(value);
+                    widget.updatedBriefingPoints(widget.selectedPoints);
                   }
                 });
               }
@@ -143,7 +153,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
               //   validateTextField: (String? user) {},
               // ),
               SizedBox(
-                width: 300,
+                width: 280,
                 child: TextField(
                   controller: _customValueController,
                   decoration: InputDecoration(
@@ -177,10 +187,10 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 onTap: () {
                   String customValue = _customValueController.text.trim();
                   if (customValue.isNotEmpty &&
-                      !widget.selectedPoints.contains(customValue) &&
-                      !_customValues.contains(customValue)) {
+                      !widget.selectedPoints.contains(customValue)) {
+                    widget.updatedBriefingPoints(widget.selectedPoints);
                     setState(() {
-                      _customValues.add(customValue);
+                      widget.selectedPoints.add(customValue);
                       _customValueController.clear();
                     });
                   }

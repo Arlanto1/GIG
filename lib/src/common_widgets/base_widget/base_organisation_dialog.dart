@@ -12,10 +12,12 @@ class BaseOrganisationDialog {
     String? orgName, // TODO: Need to make it required and non nullable
     bool? createEntity, // Ex: false
     Function? functionToCall,
+    bool enabled = true,
   }) {
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
+        log('-organisations-----');
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
           leftImageName: functionToCall != null ? AppIcon.addicon : null,
@@ -33,7 +35,7 @@ class BaseOrganisationDialog {
                   );
                 });
           },
-          onTap: onTap,
+          onTap: enabled ? onTap : null,
         );
       },
     );
@@ -47,7 +49,7 @@ class BaseOrganisationDialog {
     required Function onTap,
     Function? functionToCall,
     bool enabled = true,
-    String roleName = 'ATOM_STATIC_USER',
+    String? roleName,
   }) {
     showDialog(
       context: context,
@@ -56,7 +58,7 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: AppIcon.addicon,
+          leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -65,7 +67,7 @@ class BaseOrganisationDialog {
                 builder: (BuildContext dialogContext) {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
-                    roleName: roleName,
+                    roleName: roleName ?? '',
                     functionToCall: functionToCall ?? () {},
                   );
                 });

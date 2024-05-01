@@ -45,7 +45,7 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ///Guarding Agency POC
+                      ///Rejection Comment
                       CommonWidgets.textDisplay(
                         Constants.rejectedComment,
                         Styles.textStyleBlack14,
@@ -117,21 +117,18 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
           );
           return;
         }
-        if(rejectionCommentController.text.isEmptyOrNull) {
-
-        }
+        if (rejectionCommentController.text.isEmptyOrNull) {}
         return widget.onSubmit!(rejectionCommentController.text);
       },
     );
   }
+
   ErrorResponse get isFormValid {
     if (rejectionCommentController.text.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false,
-          message: 'Please enter Rejection Comment');
+          status: false, message: 'Please enter Rejection Comment');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
-
 }

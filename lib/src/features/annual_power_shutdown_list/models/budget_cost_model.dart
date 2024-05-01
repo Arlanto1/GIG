@@ -39,16 +39,16 @@ class BudgetCostModel {
         locationId = json['locationId'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'vendorId' : vendorId,
-    'soCount' : soCount,
-    'soHours' : soHours,
-    'ssCount' : ssCount,
-    'ssHours' : ssHours,
-    'sgCount' : sgCount,
-    'sgHours' : sgHours,
-    'sfCount' : sfCount,
-    'sfHours' : sfHours,
-    'budgetCost' : budgetCost,
-    'locationId' : locationId
-  };
+        'vendorId': vendorId,
+        'soCount': soCount,
+        'soHours': soHours,
+        'ssCount': ssCount,
+        'ssHours': ssHours,
+        'sgCount': sgCount,
+        'sgHours': sgHours,
+        'sfCount': sfCount,
+        'sfHours': sfHours,
+        'budgetCost': budgetCost,
+        'locationId': locationId
+      };
 }

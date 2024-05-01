@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:db_atom/src/features/annual_power_shutdown_list/models/aps_ui_labels.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -58,13 +59,18 @@ class AnnualPowerShutdownListDetailsCubit
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+    List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
+        roleNames: 'ATOM_Senior_Security_Manager');
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
         users: users.t1Analyst,
+        srh: srh,
+        lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
         departments: departments.employeeDepartments,
       ),
@@ -98,6 +104,9 @@ class AnnualPowerShutdownListDetailsCubit
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Senior_Security_Manager'),
       ]);
 
       // Assign results to variables with explicit data types
@@ -111,20 +120,28 @@ class AnnualPowerShutdownListDetailsCubit
       Vendors vendors = results[7];
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
+      List<BaseUser>? srh = results[10];
+      List<BaseUser>? lsm = results[11];
 
-      model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.eventProtectionModuleCode,
+          moduleCode: Constants.annualPowerShutDownModule,
         );
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
       }
       model.createdBy ??= loggedInUserDetails;
-      state.model.proposedVendors ??=[];
+      state.model.proposedVendors ??= [];
       // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
@@ -132,6 +149,8 @@ class AnnualPowerShutdownListDetailsCubit
         loggedInUserDetails: loggedInUserDetails,
         status: FormStatus.initial,
         users: users.t1Analyst,
+        srh: srh,
+        lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
         epOfficers: emailUsers.atomStaticUser,
         departments: departments.employeeDepartments,
@@ -198,8 +217,8 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.epManager2 = userDetails;
     }
 
-    if(vendor != null) {
-      if(state.model.proposedVendors.isEmptyOrNull) {
+    if (vendor != null) {
+      if (state.model.proposedVendors.isEmptyOrNull) {
         state.model.proposedVendors = [];
       }
       state.model.proposedVendors?.clear();
@@ -249,15 +268,15 @@ class AnnualPowerShutdownListDetailsCubit
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
-      state.emailUsers?.remove(subRegionalHead1);
+      state.srh?.remove(subRegionalHead1);
       User userDetails = User(
-          name: subRegionalHead1.name,
-          userId: subRegionalHead1.id,
-          userName: subRegionalHead1.name);
+        name: subRegionalHead1.name,
+        userId: subRegionalHead1.id,
+      );
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
-      state.emailUsers?.remove(subRegionalHead2);
+      state.srh?.remove(subRegionalHead2);
       User userDetails = User(
           name: subRegionalHead2.name,
           userId: subRegionalHead2.id,
@@ -265,7 +284,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
-      state.emailUsers?.remove(locationSecurityManager1);
+      state.lsm?.remove(locationSecurityManager1);
       User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
@@ -273,7 +292,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
-      state.emailUsers?.remove(locationSecurityManager2);
+      state.lsm?.remove(locationSecurityManager2);
       User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,
@@ -347,8 +366,16 @@ class AnnualPowerShutdownListDetailsCubit
     state.model.status ??= 0;
 
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
 
     /// Create/Update API Call
     AnnualPowerShutdownListRequest request =
@@ -361,7 +388,7 @@ class AnnualPowerShutdownListDetailsCubit
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -376,7 +403,7 @@ class AnnualPowerShutdownListDetailsCubit
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -385,13 +412,18 @@ class AnnualPowerShutdownListDetailsCubit
         response = (await services.createAnnualPowerShutdownList(
             body: request, isSubmit: true));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
@@ -400,6 +432,11 @@ class AnnualPowerShutdownListDetailsCubit
           status: FormStatus.error,
         ),
       );
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     }
 
     log('---response--msg--${response.message}---');
@@ -414,7 +451,7 @@ class AnnualPowerShutdownListDetailsCubit
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.eventProtectionModule);
+        id: id, module: Constants.eventProtectionModule, aps: 1);
   }
 
   Future<void> getEpGuardBudgetCost(BudgetCostModel budgetCost) async {

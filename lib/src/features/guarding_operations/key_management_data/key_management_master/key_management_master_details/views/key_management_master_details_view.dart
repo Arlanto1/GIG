@@ -6,11 +6,13 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 class KeyManagementMasterDetailsView extends StatefulWidget {
   final KeyManagementMasterModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const KeyManagementMasterDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -53,6 +55,8 @@ class _KeyManagementMasterDetailsViewState
     return BlocConsumer<KeyManagementMasterDetailsCubit,
         KeyManagementMasterDetailsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Master',
@@ -77,19 +81,21 @@ class _KeyManagementMasterDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
       },
       builder: (context, state) {
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
+        if (state.model.status == -1) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 2) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
+        }
+
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
         }
 
         initializeDates();
@@ -98,8 +104,8 @@ class _KeyManagementMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 5 ? true : false,
-            showSubmitButton: state.model.status != 5 ? true : false,
+            showSaveButton: !isReadOnly ? true : false,
+            showSubmitButton: !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -178,12 +184,12 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                            isDisabled: state.model.status != 6,
+                            isDisabled: true,
                             textController: statusController,
                             items: keyManagementStatus,
                             initialValue: '${state.model.status ?? 0}',
                             onTap: () {
-                              if (widget.model != null) {
+                              if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
                                   dropDownValues: statusDropDownValues
@@ -212,11 +218,11 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -239,7 +245,17 @@ class _KeyManagementMasterDetailsViewState
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetdislay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<
+                                            KeyManagementMasterDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Entity
@@ -262,8 +278,8 @@ class _KeyManagementMasterDetailsViewState
                                   .updateDropdownValues(
                                       entities: selectedEntities);
                               Navigator.of(context).pop();
-                              FocusScope.of(context).requestFocus(
-                                  floorFocusNode);
+                              FocusScope.of(context)
+                                  .requestFocus(floorFocusNode);
                               // Close the dialog
                             },
                             orgName: 'ATOM_ENTITIES',
@@ -299,7 +315,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.floor,
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
-                            isEnable: true,
+                            isEnable: !isReadOnly,
                             focusNode: floorFocusNode,
                             isDisableColor: false,
                             onChange: (String value) {
@@ -323,10 +339,10 @@ class _KeyManagementMasterDetailsViewState
                           TextFieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor:
-                                state.model.status == 2 ? true : false,
+                            isDisableColor: isReadOnly,
                             onTap: () {
                               BaseOrganisationDialog().departmentDialog(
+                                  enabled: !isReadOnly,
                                   context: context,
                                   organisations: state.departments,
                                   onTap: (Organisation department) {
@@ -338,10 +354,10 @@ class _KeyManagementMasterDetailsViewState
                                             context)
                                         .updateDropdownValues(
                                             doorType: department);
-                                    FocusScope.of(context).requestFocus(
-                                        keyDescriptionFocusNode);
+                                    FocusScope.of(context)
+                                        .requestFocus(keyDescriptionFocusNode);
                                   },
-                                  orgName: 'EMPLOYEE_DEPARTMENTS',
+                                  orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
                                   createEntity: false,
                                   title: 'Add Key Type',
                                   functionToCall: () {
@@ -371,8 +387,8 @@ class _KeyManagementMasterDetailsViewState
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             focusNode: keyDescriptionFocusNode,
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: !isReadOnly,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.doorName = value;
                               context
@@ -395,7 +411,8 @@ class _KeyManagementMasterDetailsViewState
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.doorAccessControl ? 1 : 0,
-                              onChangedYes: widget.model?.status == 6
+                              onChangedYes: widget.model?.status == -1 ||
+                                      widget.model?.status == 2
                                   ? null
                                   : (val) {
                                       state.model.doorAccessControl = true;
@@ -404,7 +421,8 @@ class _KeyManagementMasterDetailsViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: widget.model?.status == 6
+                              onChangedNo: widget.model?.status == -1 ||
+                                      widget.model?.status == 2
                                   ? null
                                   : (val) {
                                       state.model.doorAccessControl = false;
@@ -425,7 +443,8 @@ class _KeyManagementMasterDetailsViewState
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.doorLockKey ? 1 : 0,
-                              onChangedYes: widget.model?.status == 6
+                              onChangedYes: widget.model?.status == -1 ||
+                                      widget.model?.status == 2
                                   ? null
                                   : (val) {
                                       state.model.doorLockKey = true;
@@ -434,7 +453,8 @@ class _KeyManagementMasterDetailsViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: widget.model?.status == 6
+                              onChangedNo: widget.model?.status == -1 ||
+                                      widget.model?.status == 2
                                   ? null
                                   : (val) {
                                       state.model.doorLockKey = false;
@@ -453,12 +473,12 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
-                            textInputType: TextInputType.number,
+                            textInputType: TextInputType.text,
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: !isReadOnly,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.keyNo = value;
                               context
@@ -479,35 +499,35 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: !isReadOnly,
                               textController: keyTaggingController,
                               items: keyTaggingDropDownValues,
                               initialValue: state.model.keyTagging.toString(),
                               onTap: () {
-                                //  if (isDisabled) {
-                                BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: keyTaggingDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          keyTaggingDropDownValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<
-                                                  KeyManagementMasterDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              keyTagging: int.tryParse(
-                                                  selectedLabel.value));
-                                    });
-                                FocusScope.of(context).requestFocus(
-                                    noOfKeysFocusNode);
-                                //}
+                                if (!isReadOnly) {
+                                  BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues: keyTaggingDropDownValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            keyTaggingDropDownValues.firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<
+                                                    KeyManagementMasterDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                keyTagging: int.tryParse(
+                                                    selectedLabel.value));
+                                      });
+                                  FocusScope.of(context)
+                                      .requestFocus(noOfKeysFocusNode);
+                                }
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -525,8 +545,8 @@ class _KeyManagementMasterDetailsViewState
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: !isReadOnly,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noKeys = int.tryParse(value);
 
@@ -557,8 +577,8 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: !isReadOnly,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noMasterKey = int.tryParse(value);
 
@@ -582,7 +602,8 @@ class _KeyManagementMasterDetailsViewState
                               // state.labels?.locale.budget ??
                               //     state.labels?.defaultLocale.budget ??
                               Constants.totalKeys,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleBlack14,
+                              isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
@@ -617,8 +638,8 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keysStored,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: isDisabled,
-                            isDisableColor: false,
+                            isEnable: !isReadOnly,
+                            isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.keysStored = value;
                               context
@@ -629,8 +650,37 @@ class _KeyManagementMasterDetailsViewState
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                          if (widget.model?.id != null) ...[
+                            /// Modified Date
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.date ??
+                              //     state.labels?.defaultLocale.date ??
+                              Constants.modifiedOn,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDate().creationDateDisplay(
+                                state.model.modifiedDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Modified By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.model.modifiedBy}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
+
                           ///Lock Change History
-                          if (state.model.status == 1) ...[
+                          if (widget.model?.noKeys != null &&
+                              widget.model?.noMasterKey != null &&
+                              widget.model!.noKeys! > 0 &&
+                              widget.model!.noMasterKey! > 0 &&
+                              state.model.status != null &&
+                              widget.model?.id != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -669,6 +719,7 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -726,6 +777,7 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -784,6 +836,7 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -839,6 +892,7 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -861,10 +915,11 @@ class _KeyManagementMasterDetailsViewState
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
-                              submitButtonDisplay()
+                              if (state.model.status != 2 &&
+                                  state.model.status != -1 &&
+                                  !isReadOnly) ...[submitButtonDisplay()],
                             ],
                           ),
-
                           CommonWidgets.verticalSpacerWidget(height * 0.04),
                         ],
                       ),
@@ -881,14 +936,28 @@ class _KeyManagementMasterDetailsViewState
 
   Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {
-        updateRecordStatus(state);
+      onTap: () {if (state.model.id == null) {
+        Navigator.pop(context);
+        return;
+      }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
@@ -914,38 +983,6 @@ class _KeyManagementMasterDetailsViewState
         BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
             .submitForm(isSaveOnly: false);
       },
-    );
-  }
-
-  Widget locationWidgetdislay(KeyManagementMasterDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 }

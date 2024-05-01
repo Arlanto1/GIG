@@ -12,7 +12,9 @@ class ShiftScheduleDetailsState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final List<DutyPostModel>? dutyPosts;
-  final GmUiLabels? labels;
+  final SSUiLabels? labels;
+  final List<String>? pocs;
+  final NextAvailableDateRange? availableDate;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -24,6 +26,7 @@ class ShiftScheduleDetailsState extends Equatable {
     required String errorMessage,
     List<User>? entrySecurities,
     final DutyPostModel? selectedDutyPostModel,
+    final List<String>? pocs,
   }) {
     return ShiftScheduleDetailsState(
       status: FormStatus.initial,
@@ -35,18 +38,19 @@ class ShiftScheduleDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       entrySecurities: entrySecurities,
-        selectedDutyPostModel: selectedDutyPostModel,
+      selectedDutyPostModel: selectedDutyPostModel,
+      pocs: pocs,
     );
   }
 
   ErrorResponse get isValidDraft {
     log('-model.status---${model.status}--');
 
-    // if (model.location == null) {
-    //   log('-model.location-----isValidDraft-');
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Location');
-    // }
+    if (model.location == null) {
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
     if (model.entrySecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entry Security');
@@ -54,7 +58,24 @@ class ShiftScheduleDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
+    if (model.dutyType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Duty Type');
+    }
+    if (model.poc.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please add Poc');
+    }
+    if (model.fromDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (model.toDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter To Date');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -62,12 +83,23 @@ class ShiftScheduleDetailsState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    // if (model.vendor == null) {
-    //   return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    // }
+    if (model.vendor?.name == null || model.vendor!.name.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
+    }
     if (model.dutyType == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Type of Duty');
+          status: false, message: 'Please enter Duty Type');
+    }
+    if (model.poc.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please add Poc');
+    }
+    if (model.fromDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (model.toDate.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter To Date');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
@@ -89,6 +121,8 @@ class ShiftScheduleDetailsState extends Equatable {
     this.dutyPosts,
     required this.vendors,
     this.labels,
+    this.pocs,
+    this.availableDate,
   });
 
   ShiftScheduleDetailsState copyWith({
@@ -103,12 +137,14 @@ class ShiftScheduleDetailsState extends Equatable {
     String? message,
     List<User>? entrySecurities,
     List<DutyPostModel>? dutyPosts,
-    final GmUiLabels? labels,
+    final SSUiLabels? labels,
+    List<String>? pocs,
+    NextAvailableDateRange? availableDate,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      selectedDutyPostModel: seletedDutyPostModel ?? this.selectedDutyPostModel,
+      selectedDutyPostModel: seletedDutyPostModel ?? selectedDutyPostModel,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
@@ -118,6 +154,8 @@ class ShiftScheduleDetailsState extends Equatable {
       entrySecurities: entrySecurities ?? this.entrySecurities,
       dutyPosts: dutyPosts ?? this.dutyPosts,
       labels: labels ?? this.labels,
+      pocs: pocs ?? this.pocs,
+      availableDate: availableDate ?? this.availableDate,
     );
   }
 }

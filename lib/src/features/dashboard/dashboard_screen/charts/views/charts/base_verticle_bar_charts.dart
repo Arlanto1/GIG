@@ -54,14 +54,14 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.cancel_rounded),
-                      onPressed: () {
-                        setState(() {
-                          isChartVisible = false;
-                        });
-                      },
-                    ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.cancel_rounded),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       isChartVisible = false;
+                    //     });
+                    //   },
+                    // ),
                   ],
                 ),
                 Expanded(

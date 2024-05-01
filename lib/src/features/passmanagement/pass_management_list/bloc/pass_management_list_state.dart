@@ -8,6 +8,8 @@ class PassManagementListState extends Equatable {
   final CommonFilters? commonFilters;
   final User? loggedInUser;
   final String? message;
+  final PMUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const PassManagementListState({
     this.items = const <PassManagementModel>[],
@@ -17,6 +19,8 @@ class PassManagementListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.loggedInUser,
+    this.labels,
+    this.extraProperties,
   });
 
   PassManagementListState copyWith({
@@ -29,6 +33,8 @@ class PassManagementListState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     User? loggedInUser,
+    PMUiLabels? labels,
+    ExtraProperties? extraProperties,
   }) {
     return PassManagementListState(
       items: items ?? this.items,
@@ -38,6 +44,8 @@ class PassManagementListState extends Equatable {
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
       loggedInUser: loggedInUser ?? this.loggedInUser,
+      labels: labels ?? this.labels,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

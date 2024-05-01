@@ -20,18 +20,6 @@ class AnnualPowerShutdownListServices {
     return email;
   }
 
-  Future<AnnualPowerShutDownResponse> getAnnualPowerShutdownList({
-    required String startPosition,
-    required String maximumRecords,
-    required String userId,
-  }) async {
-    String url =
-        '${Apis._getAnnualPowerShutdownList}startPos=$startPosition&maxResults=$maximumRecords';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return AnnualPowerShutDownResponse.fromJson(response);
-  }
   Future<AnnualPowerShutDownResponse> getAnnualPowerShutdownListWithFilters({
     required String startPosition,
     required String maximumRecords,
@@ -46,7 +34,6 @@ class AnnualPowerShutdownListServices {
     );
     return AnnualPowerShutDownResponse.fromJson(response);
   }
-
 
   Future<AnnualPowerShutdownListModel> getById(String id) async {
     final String url = '${Apis._getGI}/$id';
@@ -63,7 +50,7 @@ class AnnualPowerShutdownListServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createAnnualPowerShutdownList}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createAnnualPowerShutdownList}?isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

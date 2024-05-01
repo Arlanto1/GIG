@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../enums/form_status.dart';
 
-
 class LawEnforcementListState extends Equatable {
   LawEnforcementListResponse? lawEnforcementListModel;
   LawEnforcementDetailsModel? lawEnforcementDetails;
@@ -26,8 +25,10 @@ class LawEnforcementListState extends Equatable {
     FormStatus? stateType,
   }) {
     return LawEnforcementListState(
-      lawEnforcementListModel: lawEnforcementListModel ?? this.lawEnforcementListModel,
-      lawEnforcementDetails: lawEnforcementDetails ?? this.lawEnforcementDetails,
+      lawEnforcementListModel:
+          lawEnforcementListModel ?? this.lawEnforcementListModel,
+      lawEnforcementDetails:
+          lawEnforcementDetails ?? this.lawEnforcementDetails,
       errorMessage: errorMessage ?? this.errorMessage,
       stateType: stateType ?? this.stateType,
     );

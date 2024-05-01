@@ -15,7 +15,10 @@ class LawEnforcementFetch extends LawEnforcementListEvent {
   final BaseFilterModel filters;
 
   const LawEnforcementFetch(
-      {required this.startPos, required this.maxPos,required this.newSearch, required this.filters});
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class LawEnforcementRefresh extends LawEnforcementListEvent {

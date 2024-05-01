@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="tile expand issue fixed">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="close button">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ep-tiles" />
+        <entry key="$PROJECT_DIR$" value="shift-occurrence-datetime" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,34 +78,36 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
     &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;login-issue&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/lawenforcement/views&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;consents&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel" />
       <recent name="$PROJECT_DIR$/lib/src/features/lawenforcement/views" />
       <recent name="$PROJECT_DIR$/lib/src/features/passmanagement" />
       <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling" />
-      <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views" />
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -139,8 +138,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Flutter.test.dart" />
-        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
@@ -498,7 +495,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="266" />
+    <option name="localTasksCounter" value="293" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -535,32 +532,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="day pass issue fixed company name editable" />
-    <MESSAGE value="issue fixed" />
-    <MESSAGE value="status issue fixed" />
-    <MESSAGE value="focus handled for company type and name field" />
-    <MESSAGE value="common filters improved" />
-    <MESSAGE value="cancel record issue fixed." />
-    <MESSAGE value="mm issue fixed" />
-    <MESSAGE value="password input" />
-    <MESSAGE value="mm loading issue" />
-    <MESSAGE value="focus handled for MM" />
-    <MESSAGE value="minor" />
-    <MESSAGE value="article found list bloc" />
-    <MESSAGE value="pass management list bloc" />
-    <MESSAGE value="annual power shutdown issue fixed" />
-    <MESSAGE value="list cache issue" />
-    <MESSAGE value="validation for pass management handled from backend only" />
-    <MESSAGE value="article found listing page" />
-    <MESSAGE value="pass management blank screen on back button fixed" />
-    <MESSAGE value="code improved" />
-    <MESSAGE value="visiting official APIs implemented" />
-    <MESSAGE value="pass mgmt" />
-    <MESSAGE value="WIP: show grids" />
-    <MESSAGE value=" show grids" />
-    <MESSAGE value="updated model .g class" />
     <MESSAGE value="tile expand issue fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="tile expand issue fixed" />
+    <MESSAGE value="model" />
+    <MESSAGE value="models" />
+    <MESSAGE value="validation added if module id is null in notificaiton details page" />
+    <MESSAGE value="add post location" />
+    <MESSAGE value="duty post name add" />
+    <MESSAGE value="download image module code added." />
+    <MESSAGE value="WIP: Menu" />
+    <MESSAGE value="sez pass managment issue fixed" />
+    <MESSAGE value="WIP" />
+    <MESSAGE value="guarding master list pagination" />
+    <MESSAGE value="shift schedule poc added" />
+    <MESSAGE value="duty post name dropdown issue" />
+    <MESSAGE value="WIP: submit" />
+    <MESSAGE value="poc list" />
+    <MESSAGE value="shift schedule redirect" />
+    <MESSAGE value="WIP: Key Managment History" />
+    <MESSAGE value="ui" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="WIP: ios location issue" />
+    <MESSAGE value="bugs" />
+    <MESSAGE value="cancel button" />
+    <MESSAGE value="multiple issues fixed" />
+    <MESSAGE value="visiting officials" />
+    <MESSAGE value="close button" />
+    <option name="LAST_COMMIT_MESSAGE" value="close button" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

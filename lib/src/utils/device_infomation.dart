@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -12,27 +11,25 @@ class DeviceInformation {
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-
     try {
       // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       // log('Running on ${androidInfo.model}');  // e.g. "Moto G (4)"
 
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      log('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+      // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      // log('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
 
       // WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
       // log('Running on ${webBrowserInfo.userAgent}');
-
 
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:
           deviceData =
               _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-          log('-Android-deviceData-${deviceData.toString()}--');
+          // log('-Android-deviceData-${deviceData.toString()}--');
           break;
         case TargetPlatform.iOS:
           deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
-          log('-iOS-deviceData-${deviceData.toString()}--');
+          // log('-iOS-deviceData-${deviceData.toString()}--');
           break;
         case TargetPlatform.fuchsia:
           // TODO: Handle this case.

@@ -21,7 +21,8 @@ class AppLocalisationService {
       });
       if (response.statusCode == 200) {
         // api call success, collect all the data and store in object
-        final Map<String, dynamic> jsonMap = jsonDecode(utf8.decode(response.bodyBytes));
+        final Map<String, dynamic> jsonMap =
+            jsonDecode(utf8.decode(response.bodyBytes));
         return jsonMap;
       } else {
         // in else case if api is failed, we can load from even local files which should be uploaded in assests
@@ -59,7 +60,8 @@ class AppLocalisationService {
   }
 
   static getTranslatedStrings(String code) async {
-    final jsonString = await rootBundle.loadString('assets/translation/$code.json');
+    final jsonString =
+        await rootBundle.loadString('assets/translation/$code.json');
     final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     return jsonMap;
   }

@@ -1,5 +1,3 @@
-
-
 import '../general_info_model.dart';
 
 class GeneralInfoRequest {
@@ -10,8 +8,7 @@ class GeneralInfoRequest {
   late final EventProtectionGi eventProtectionGi;
 
   GeneralInfoRequest.fromJson(Map<String, dynamic> json) {
-    eventProtectionGi =
-        EventProtectionGi.fromJson(json['epGi']);
+    eventProtectionGi = EventProtectionGi.fromJson(json['epGi']);
   }
 
   Map<String, dynamic> toJson() {

@@ -11,6 +11,7 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_records/views/add_contact_pop_up.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -29,12 +30,14 @@ class ContactRecordView extends StatefulWidget {
     required this.title,
     required this.type,
     required this.rankType,
+    this.model,
   });
 
   final int id;
   final String title;
   final int type;
   final String rankType;
+  final ContactDetailModel? model;
 
   @override
   State<ContactRecordView> createState() => _ContactRecordViewState();
@@ -82,27 +85,31 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-            showAddContactPopUp(
-                context: context,
-                contact: ContactRecord(
-                  contactId: widget.id,
-                  email: '',
-                  contactNo: '',
-                  rank: Organisation(),
-                  type: widget.type,
-                ),
-                users: state.ranks,
-                rankType: widget.rankType);
-          },
-        ),
+        floatingActionButton: widget.model?.status == null ||
+                widget.model?.status == 0 ||
+                widget.model?.status == 1
+            ? Flutterfloatingbutton(
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () {
+                  showAddContactPopUp(
+                      context: context,
+                      contact: ContactRecord(
+                        contactId: widget.id,
+                        email: '',
+                        contactNo: '',
+                        rank: Organisation(),
+                        type: widget.type,
+                      ),
+                      users: state.ranks,
+                      rankType: widget.rankType);
+                },
+              )
+            : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.contactDetails,
-          showPopUp: true,
+          title: Constants.escalationMatrix,
+          showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
           showDisLikeButton: false,
@@ -154,19 +161,30 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Rank',
+                key: widget.rankType == Constants.contactZone
+                    ? Constants.zone
+                    : widget.rankType == Constants.contactGeneralRank
+                        ? Constants.rank
+                        : widget.rankType ==
+                                Constants.contactSystemEscalationRank
+                            ? Constants.systemSiEscalationMatrixRank
+                            : widget.rankType == Constants.contactSupervisorRank
+                                ? Constants.supervisorRank
+                                : Constants.guardingAgencyRank,
                 value: state.items![index].rank?.name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Name',
+                key: widget.rankType == Constants.contactZone
+                    ? Constants.areaNameManager
+                    : Constants.name,
                 value: state.items![index].email ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Phone Number',
+                key: Constants.phoneNumber,
                 value: state.items![index].contactNo ?? '',
               ),
             );
@@ -211,6 +229,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
+                    showDeleteButton:
+                        widget.model?.status == 0 || widget.model?.status == 1,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<ContactRecordBloc>(context).add(
@@ -272,7 +292,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         contactDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.contactDetails,
+          "title": Constants.escalationMatrix,
         },
       );
     }

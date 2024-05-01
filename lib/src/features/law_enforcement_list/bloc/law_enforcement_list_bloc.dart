@@ -1,20 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 
-import '../../../enums/form_status.dart';
 import '../models/law_enforcement_list_response.dart';
 
 part 'law_enforcement_list_event.dart';
@@ -44,7 +35,6 @@ class LawEnforcementListBloc
   final LawEnforcementServices services = LawEnforcementServices();
   final CommonServices commonServices = CommonServices();
 
-
   FutureOr<void> _initializeValues(
       InitializeValuesLEO event, Emitter<LawEnforcementListState> emit) async {
     try {
@@ -53,17 +43,23 @@ class LawEnforcementListBloc
           module: Constants.leoModuleCode);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.leoModuleCode);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.leoModuleCode,
+        commonServices: commonServices,
+      );
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -73,12 +69,22 @@ class LawEnforcementListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<LawEnforcementListState> emit) async {
     try {

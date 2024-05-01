@@ -52,7 +52,7 @@ class _PassManagementListViewState extends State<PassManagementListView> {
       pageNumber = pageNumber + 20;
       context.read<PassManagementListBloc>().add(FetchData(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -81,167 +81,189 @@ class _PassManagementListViewState extends State<PassManagementListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
-      floatingActionButton: Flutterfloatingbutton(
-        backgroundColor: AppColors.navigationSkybluecolor,
-        foregroundColor: AppColors.backgroundWhitecolor,
-        onPressed: () {
-          // Navigator.pushNamed(context, createpassmgmtRoute);
-          String titleIdentify = '';
-          if (widget.passId == 0) {
-            titleIdentify = 'Create Day Pass Management';
-          } else if (widget.passId == 1) {
-            titleIdentify = 'Create Visitor Pass Management';
-          } else if (widget.passId == 2) {
-            titleIdentify = 'Create Vendor Pass Management';
-          } else if (widget.passId == 3) {
-            titleIdentify = 'Create SEZ Pass Management';
-          }
-
-          Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-            "passMngCreateDetails":
-                CreatePassMngArguments(widget.passId, titleIdentify, true, null)
-          });
-        },
-      ),
-      appBar: BaseAppBar().buildAppHeader(
-        context: context,
-        title: widget.title,
-        showPopUp: true,
-        showSaveButton: false,
-        showSubmitButton: false,
-        showDisLikeButton: false,
-        showLikeButton: false,
-        excelAPIName: 'exportMMExcel',
-        pdfAPIName: 'exportMMPDF',
-      ),
-      body: BlocConsumer<PassManagementListBloc, PassManagementListState>(
-        listener: (context, state) {
-          if (state.status == FormStatus.sessionExpired) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message ?? 'Session Expired...')));
-            Validator.logoutAction(context);
-          }
-        },
-        builder: (context, state) {
-          log('---state.status-----${state.status}--');
-          log('---state.items.length-----${state.items.length}--');
-          // if (state.status == FormStatus.loading) {
-          //   return const BaseLoader();
-          // }
-          //
-          // if (state.items.isEmptyOrNull && state.status != FormStatus.loading) {
-          //   CommonWidgets.verticalSpacerWidget(height * 0.1);
-          //   return const NoRecordFoundWidget();
-          // }
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-            ),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.initial && state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index < state.items.length) {
-                          PassManagementModel model = state.items[index];
-
-                          return DayPassManagementListItem(
-                            userItem: model,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return DayPassCustomPopUpList(
-                                      state.items[selectedIndex],
-                                      widget.passId.toString());
-                                },
-                              );
-                              //do the detail edit of user found
-                            },
-                            onEditTap: (selectedIndex) {
-                              getpassFoundArticleListId(
-                                  state.items[selectedIndex].id ?? 0);
-                            },
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return DayPassCustomPopUpList(
-                                      state.items[selectedIndex],
-                                      widget.passId.toString());
-                                },
-                              );
-                            },
-                            index: index,
-                          );
+    return BlocConsumer<PassManagementListBloc, PassManagementListState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.cardBgColor,
+          floatingActionButton:
+              state.extraProperties?.hasWritePermission ?? false
+                  ? Flutterfloatingbutton(
+                      backgroundColor: AppColors.navigationSkybluecolor,
+                      foregroundColor: AppColors.backgroundWhitecolor,
+                      onPressed: () {
+                        // Navigator.pushNamed(context, createpassmgmtRoute);
+                        String titleIdentify = '';
+                        if (widget.passId == 0) {
+                          titleIdentify = 'Create Day Pass Management';
+                        } else if (widget.passId == 1) {
+                          titleIdentify = 'Create Visitor Pass Management';
+                        } else if (widget.passId == 2) {
+                          titleIdentify = 'Create Vendor Pass Management';
+                        } else if (widget.passId == 3) {
+                          titleIdentify = 'Create SEZ Pass Management';
                         }
-                        return const Center(
-                          child: SizedBox(),
-                        );
+
+                        Navigator.pushNamed(context, createpassmgmtRoute,
+                            arguments: {
+                              "passMngCreateDetails": CreatePassMngArguments(
+                                  widget.passId, titleIdentify, true, null)
+                            });
                       },
-                    ),
+                    )
+                  : const SizedBox(),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: widget.title,
+            showPopUp: true,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            excelAPIName:
+                'exportPassMgmtExcel&passType=${widget.passId}&isList=1',
+            pdfAPIName: 'exportPassMgmtPDF&passType=${widget.passId}&isList=1',
+          ),
+          body: BlocConsumer<PassManagementListBloc, PassManagementListState>(
+            listener: (context, state) {
+              Utils().formError(state, context);
+              Utils().errorAndLogout(state, context);
+              if (state.status == FormStatus.sessionExpired) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.message ?? 'Session Expired...')));
+                Validator.logoutAction(context);
+              }
+            },
+            builder: (context, state) {
+              log('---state.status-----${state.status}--');
+              log('---state.items.length-----${state.items.length}--');
+              // if (state.status == FormStatus.loading) {
+              //   return const BaseLoader();
+              // }
+              //
+              // if (state.items.isEmptyOrNull && state.status != FormStatus.loading) {
+              //   CommonWidgets.verticalSpacerWidget(height * 0.1);
+              //   return const NoRecordFoundWidget();
+              // }
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    if (state.items.isEmptyOrNull &&
+                        state.status != FormStatus.initial &&
+                        state.status != FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index < state.items.length) {
+                              PassManagementModel model = state.items[index];
+
+                              return DayPassManagementListItem(
+                                userItem: model,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return DayPassCustomPopUpList(
+                                          state.items[selectedIndex],
+                                          widget.passId.toString());
+                                    },
+                                  );
+                                  //do the detail edit of user found
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getId(
+                                      state.extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
+                                      state.items[selectedIndex].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return DayPassCustomPopUpList(
+                                          state.items[selectedIndex],
+                                          widget.passId.toString());
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
+                            }
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  getpassFoundArticleListId(int articleid) async {
+  getId(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
     PassManagementModel? foundArticleDetailsResponse =
-        await dayPassListCubit.getpassArticleById(articleid, context);
+        await dayPassListCubit.getpassArticleById(id, context);
 
-    editDataLoading(foundArticleDetailsResponse);
+    editDataLoading(foundArticleDetailsResponse, hasWritePermission);
   }
 
-  void editDataLoading(PassManagementModel? foundArticleDetailsResponse) {
+  void editDataLoading(
+    PassManagementModel? foundArticleDetailsResponse,
+    bool hasWritePermission,
+  ) {
     dismissLoadingDialog(context);
     if (foundArticleDetailsResponse != null) {
       // Navigator.pushNamed(context, createpassmgmtRoute,
@@ -260,7 +282,9 @@ class _PassManagementListViewState extends State<PassManagementListView> {
       // DayPassListElement? listuser = foundArticleDetailsResponse;
       Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
         "passMngCreateDetails": CreatePassMngArguments(
-            widget.passId, titleIdentify, true, foundArticleDetailsResponse)
+            widget.passId, titleIdentify, true, foundArticleDetailsResponse),
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }
@@ -295,7 +319,11 @@ class _PassManagementListViewState extends State<PassManagementListView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<PassManagementListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -308,7 +336,11 @@ class _PassManagementListViewState extends State<PassManagementListView> {
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
     BlocProvider.of<PassManagementListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+      FetchData(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/login/models/login_model.dart';
@@ -23,7 +25,9 @@ enum RequestType {
 class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-
+    Position position = await determinePosition();
+    headers.addAll({"Latitude": position.latitude.toString()});
+    headers.addAll({"Longitude": position.longitude.toString()});
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");
@@ -32,6 +36,7 @@ class BaseApiService {
       }
       headers.addAll({"Authorization": 'Bearer $token'});
     }
+    log("headers: $headers");
     return headers;
   }
 
@@ -50,6 +55,9 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
+      if (!url.contains('getLabels') || url.contains('Location')) {
+        log('response.body----${response.body}');
+      }
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         // log('response.body----${response.body}');
@@ -137,6 +145,7 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
+      log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
 
       var response = await http.post(
@@ -145,10 +154,10 @@ class BaseApiService {
         body: json.encode(requestedData),
       );
 
-      log("API URL: $url");
       log("HTTP Status Code: ${response.statusCode}");
-       log("Response: ${response.body}");
-
+      if (!url.contains('get')) {
+        log("Response: ${response.body}");
+      }
       var responseBody;
       if (!response.body.isEmptyOrNull) {
         responseBody = json.decode(response.body);
@@ -157,7 +166,7 @@ class BaseApiService {
       // responseBody = json.decode(response.body);
 
       if (response.statusCode == HttpStatus.ok) {
-        return responseBody??'';
+        return responseBody ?? '';
       } else if (response.statusCode == 449) {
         // Token Expired
         return await _refreshTokenAndRetry(
@@ -166,14 +175,18 @@ class BaseApiService {
           requestedData: requestedData,
         );
       } else if (response.statusCode == 400) {
-        final responseBody = json.decode(response.body);
+        // final responseBody = json.decode(response.body);
         log("User is unauthorized. Logging out...");
         log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-        throw GenericResponse.fromJson(responseBody);
+        Map<String, dynamic> json = responseBody;
+        json.putIfAbsent('statusCode', () => '400');
+        throw GenericResponse.fromJson(json);
       } else if (response.statusCode == 401) {
         // Unauthorized
         log("User is unauthorized. Logging out...");
-        throw GenericResponse.fromJson(responseBody);
+        Map<String, dynamic> json = responseBody;
+        json.putIfAbsent('statusCode', () => '401');
+        throw GenericResponse.fromJson(json);
       }
 
       if (response.statusCode != HttpStatus.ok) {

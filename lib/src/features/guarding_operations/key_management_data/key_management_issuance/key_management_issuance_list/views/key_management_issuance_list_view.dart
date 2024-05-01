@@ -48,7 +48,7 @@ class _KeyManagementIssuanceListViewState
       pageNumber = pageNumber + 20;
       context.read<KeyManagementIssuanceListBloc>().add(FetchKeyIssuanceList(
             startPos: pageNumber,
-            maxPos: 20,
+            maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
           ));
@@ -59,7 +59,7 @@ class _KeyManagementIssuanceListViewState
     context.read<KeyManagementIssuanceListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -74,194 +74,229 @@ class _KeyManagementIssuanceListViewState
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, keyManagementIssuanceDetailsRoute,
-                arguments: {"title": Constants.createKeyManagementIssuance}),
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.keyManagementIssuance,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportKmiExcel',
-          pdfAPIName: 'exportKmiPDF',
-        ),
-        body: BlocBuilder<KeyManagementIssuanceListBloc,
-            KeyManagementIssuanceListState>(builder: (context, state) {
-          log('state${state.status}');
+    return BlocConsumer<KeyManagementIssuanceListBloc,
+            KeyManagementIssuanceListState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+              backgroundColor: AppColors.cardBgColor,
+              floatingActionButton:
+                  state.extraProperties?.hasWritePermission ?? false
+                      ? Flutterfloatingbutton(
+                          backgroundColor: AppColors.navigationSkybluecolor,
+                          foregroundColor: AppColors.backgroundWhitecolor,
+                          onPressed: () => {
+                            Navigator.pushNamed(
+                                context, keyManagementIssuanceDetailsRoute,
+                                arguments: {
+                                  "title": Constants.createKeyManagementIssuance
+                                }),
+                          },
+                        )
+                      : const SizedBox(),
+              appBar: BaseAppBar().buildAppHeader(
+                context: context,
+                title: Constants.keyManagementIssuance,
+                showPopUp: true,
+                showSaveButton: false,
+                showSubmitButton: false,
+                showDisLikeButton: false,
+                showLikeButton: false,
+                excelAPIName: 'exportKmiExcel',
+                pdfAPIName: 'exportKmiPDF',
+              ),
+              body: BlocBuilder<KeyManagementIssuanceListBloc,
+                  KeyManagementIssuanceListState>(builder: (context, state) {
+                log('state${state.status}');
 
-          // if (state.status == FormStatus.loading) {
-          //   return const BaseLoader();
-          // }
-          // if (state.list.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
+                // if (state.status == FormStatus.loading) {
+                //   return const BaseLoader();
+                // }
+                // if (state.list.isEmptyOrNull) {
+                //   return const NoRecordFoundWidget();
+                // }
+                // log('--labels-${state.labels?.locale.locationRegion}');
+                return Container(
+                  margin: allMargin16,
+                  decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                      )),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      BaseSearchWidget(
+                        applySearchFilters: applySearchFilters,
+                        applyFilters: applyFilters,
+                        commonFilters: state.commonFilters ??
+                            CommonFilters(
+                              statuses: [],
+                              regions: [],
+                            ),
                       ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      if (state.status == FormStatus.loading) ...[
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        const BaseLoader(),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
+                      // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                      // Text('state.status=====${state.status}'),
+                      if (state.list.isEmptyOrNull &&
+                          state.status != FormStatus.loading) ...[
+                        CommonWidgets.verticalSpacerWidget(height * 0.1),
+                        const NoRecordFoundWidget(),
+                      ],
 
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      itemBuilder: (context, index) {
-                        List<Label> labels = [];
-                        if (index < state.list.length) {
-                          labels.add(Label(
-                              // key: state.labels?.locale.locationRegion ??
-                              //  state.labels?.defaultLocale.locationRegion ??
-                              key: 'Created By',
-                              value: state.list[index].createdBy?.name ?? ''));
-                          labels.add(Label(
-                              key:
-                                  // state.labels?.locale.location ??
-                                  //     state.labels?.defaultLocale.location ??
-                                  'Location ',
-                              value: state.list[index].location?.name ?? ''));
-                        }
-                        return index >= state.list.length
-                            ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.list[index].id,
-                                labels: labels,
-                                status: state.list[index].status,
-                                isEventProtectionStatus: false,
-                                isKeyManagementIssuanceStatus: true,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        labels: labels,
-                                        isMasterGuard: false,
-                                        isEventProtectionStatus: false,
-                                        isKeyManagementIssuanceStatus: true,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        employeeType: state
-                                            .list[selectedIndex].employeeType,
-                                        dbSponsorCWRT2: state
-                                            .list[selectedIndex].dbSponsorCwrT2,
-                                        department: state
-                                            .list[selectedIndex].department,
-                                        handedOver: state
-                                            .list[selectedIndex].handedOverTo,
-                                        returnedByName: state
-                                            .list[selectedIndex].returnedByName,
-                                      );
-                                    },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getById(state.list[index].id ?? 0);
-                                },
-                                showEditButton: true,
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        labels: labels,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        employeeType: state
-                                            .list[selectedIndex].employeeType,
-                                        dbSponsorCWRT2: state
-                                            .list[selectedIndex].dbSponsorCwrT2,
-                                        department: state
-                                            .list[selectedIndex].department,
-                                        handedOver: state
-                                            .list[selectedIndex].handedOverTo,
-                                        returnedByName: state
-                                            .list[selectedIndex].returnedByName,
-                                        isKeyManagementIssuanceStatus: true,
-                                        isEventProtectionStatus: false,
-                                        isMasterGuard: false,
-                                      );
-                                    },
-                                  );
-                                },
-                                index: index,
-                              );
-                      },
-                    ),
+                      Expanded(
+                        child: SmartRefresher(
+                          controller: refreshController,
+                          enablePullDown: true,
+                          physics: const BouncingScrollPhysics(),
+                          header: WaterDropHeader(
+                            waterDropColor: AppColors.navigationSkybluecolor,
+                            refresh: state.status != FormStatus.loading
+                                ? const BaseLoader()
+                                : null,
+                          ),
+                          key: const Key(Keys.refreshKey),
+                          onRefresh: _onRefresh,
+                          onLoading: _onLoading,
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: state.hasReachedMax
+                                ? state.list.length
+                                : state.list.length + 1,
+                            itemBuilder: (context, index) {
+                              List<Label> labels = [];
+                              if (index < state.list.length) {
+                                labels.add(Label(
+                                    key: state.labels?.locale.createdBy ??
+                                        state.labels?.defaultLocale.createdBy ??
+                                        'Created By',
+                                    value:
+                                        '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                                labels.add(Label(
+                                    key: state.labels?.locale.location ??
+                                        state.labels?.defaultLocale.location ??
+                                        'Location ',
+                                    value: state.list[index].location?.name ??
+                                        ''));
+                              }
+                              return index >= state.list.length
+                                  ? null
+                                  : BaseListTileItem(
+                                      id: state.list[index].id,
+                                      labels: labels,
+                                      status: state.list[index].status,
+                                      isEventProtectionStatus: false,
+                                      isKeyManagementIssuanceStatus: true,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              labels: labels,
+                                              isMasterGuard: false,
+                                              isEventProtectionStatus: false,
+                                              isKeyManagementIssuanceStatus:
+                                                  true,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              employeeType: state
+                                                  .list[selectedIndex]
+                                                  .employeeType,
+                                              dbSponsorCWRT2: state
+                                                  .list[selectedIndex]
+                                                  .dbSponsorCwrT2,
+                                              department: state
+                                                  .list[selectedIndex]
+                                                  .department,
+                                              handedOver: state
+                                                  .list[selectedIndex]
+                                                  .handedOverTo,
+                                              returnedByName: state
+                                                  .list[selectedIndex]
+                                                  .returnedByName,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getById(
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
+                                                false,
+                                            state.list[index].id ?? 0);
+                                      },
+                                      showEditButton: true,
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              labels: labels,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              employeeType: state
+                                                  .list[selectedIndex]
+                                                  .employeeType,
+                                              dbSponsorCWRT2: state
+                                                  .list[selectedIndex]
+                                                  .dbSponsorCwrT2,
+                                              department: state
+                                                  .list[selectedIndex]
+                                                  .department,
+                                              handedOver: state
+                                                  .list[selectedIndex]
+                                                  .handedOverTo,
+                                              returnedByName: state
+                                                  .list[selectedIndex]
+                                                  .returnedByName,
+                                              isKeyManagementIssuanceStatus:
+                                                  true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      index: index,
+                                    );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          );
-        }));
+                );
+              }));
+        });
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     KeyManagementIssuanceModel keyManagementIssuanceModel =
         await KeyManagementIssuanceServices().getById(id);
 
-    editDataLoading(keyManagementIssuanceModel);
+    editDataLoading(keyManagementIssuanceModel, hasWritePermission);
   }
 
-  void editDataLoading(KeyManagementIssuanceModel? model) {
+  void editDataLoading(
+      KeyManagementIssuanceModel? model, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -270,6 +305,8 @@ class _KeyManagementIssuanceListViewState
         arguments: {
           "model": model,
           "title": Constants.keyManagementIssuance,
+          ConstantsArgument.extraProperties:
+              ExtraProperties(hasWritePermission: hasWritePermission),
         },
       );
     }
@@ -282,7 +319,10 @@ class _KeyManagementIssuanceListViewState
 
     BlocProvider.of<KeyManagementIssuanceListBloc>(context).add(
       FetchKeyIssuanceList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -293,7 +333,10 @@ class _KeyManagementIssuanceListViewState
 
     BlocProvider.of<KeyManagementIssuanceListBloc>(context).add(
       FetchKeyIssuanceList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

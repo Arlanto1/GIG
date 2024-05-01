@@ -1,26 +1,19 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 
-import '../../../../enums/form_status.dart';
+import '../../../../utils/utils_common.dart';
 import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
-
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
     extends Bloc<GuardingMasterReportEvent, GuardingMasterReportState> {
   GuardingMasterReportBloc() : super(const GuardingMasterReportState()) {
+    on<InitializeValuesGMR>(_initializeValues);
     on<FetchReportList>(
       _fetchList,
       transformer: droppable(),
@@ -34,26 +27,33 @@ class GuardingMasterReportBloc
   final GuardingMasterReportServices _services = GuardingMasterReportServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValuesGMR event, Emitter<GuardingMasterReportState> emit) async {
+  FutureOr<void> _initializeValues(InitializeValuesGMR event,
+      Emitter<GuardingMasterReportState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.guardingMasterDataModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingMasterModuleCode,
+        commonServices: commonServices,
+      );
+
+      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -61,13 +61,24 @@ class GuardingMasterReportBloc
           statuses: statuses,
           commonFilters: commonFilters,
           hasReachedMax: false,
+          // labels: labels,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshListGMR event, Emitter<GuardingMasterReportState> emit) async {
     try {
@@ -101,7 +112,7 @@ class GuardingMasterReportBloc
             await _services.getGuardingMasterReport(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-              filters: event.filters,
+          filters: event.filters,
         );
         return emit(
           state.copyWith(
@@ -116,7 +127,7 @@ class GuardingMasterReportBloc
           await _services.getGuardingMasterReport(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-            filters: event.filters,
+        filters: event.filters,
       );
 
       if (getGuardingMasterReport.data?.isEmpty == true) {

@@ -12,9 +12,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<Organisation> vendors;
   final List<Organisation> typeOfServices;
   final String? message;
-   final List<String>? pocs;
+  final List<String>? pocs;
   final SlaUiLabels? labels;
-
 
   factory SLAViolationPenaltyDetailsState.initial({
     required SLAViolationPenaltyModel model,
@@ -28,7 +27,6 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required final List<Organisation> typeOfServices,
     required String errorMessage,
     final List<String>? pocs,
-
   }) {
     return SLAViolationPenaltyDetailsState(
       status: FormStatus.initial,
@@ -89,11 +87,13 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter ASL');
     }
     if (model.poc == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Guarding Agency POC');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Guarding Agency POC');
     }
     if (model.poc != null && !Validator.isValidEmail(model.poc)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid email Guarding Agency POC');
+          status: false,
+          message: 'Please enter valid email Guarding Agency POC');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -115,7 +115,6 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     this.message,
     this.pocs,
     this.labels,
-
   });
 
   SLAViolationPenaltyDetailsState copyWith({
@@ -131,8 +130,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<Organisation>? typeOfServices,
     List<String>? pocs,
     String? message,
-     SlaUiLabels? labels,
-
+    SlaUiLabels? labels,
   }) {
     return SLAViolationPenaltyDetailsState(
       status: status ?? this.status,

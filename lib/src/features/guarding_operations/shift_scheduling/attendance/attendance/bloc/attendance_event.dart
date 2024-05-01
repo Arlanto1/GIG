@@ -10,11 +10,20 @@ abstract class AttendanceEvent extends Equatable {
 class FetchAttendanceList extends AttendanceEvent {
   final int startPos;
   final int maxPos;
+  final bool newSearch;
+  final BaseFilterModel filters;
 
   const FetchAttendanceList(
-      {required this.startPos, required this.maxPos});
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValues extends AttendanceEvent {
   const InitializeValues();
+}
+
+class RefreshList extends AttendanceEvent {
+  const RefreshList();
 }

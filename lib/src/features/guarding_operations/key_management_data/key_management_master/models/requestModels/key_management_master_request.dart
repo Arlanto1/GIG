@@ -9,8 +9,9 @@ class KeyManagementMasterRequest {
 
   KeyManagementMasterRequest.fromJson(Map<String, dynamic> json)
       : keyMgmtGi = (json['keyMgmtGi'] as Map<String, dynamic>?) != null
-      ? KeyManagementMasterModel.fromJson(json['keyMgmtGi'] as Map<String, dynamic>)
-      : null;
+            ? KeyManagementMasterModel.fromJson(
+                json['keyMgmtGi'] as Map<String, dynamic>)
+            : null;
 
   Map<String, dynamic> toJson() => {'keyMgmtGi': keyMgmtGi?.toJson()};
 }

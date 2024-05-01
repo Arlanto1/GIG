@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
@@ -34,8 +35,8 @@ class KeyManagementIssuanceDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers =
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -43,7 +44,7 @@ class KeyManagementIssuanceDetailsCubit
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
     );
@@ -76,7 +77,7 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -89,7 +90,7 @@ class KeyManagementIssuanceDetailsCubit
       Analyst users = futures[2];
       AddEntities entities = futures[3];
       List<User> entrySecurities = futures[4];
-      GetDepositor emailUsers = futures[5];
+      List<BaseUser> emailUsers = futures[5];
       EmployeeDepartments departments = futures[6];
       dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
@@ -103,8 +104,25 @@ class KeyManagementIssuanceDetailsCubit
       }
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
-      state.model.createdDate = Utils().getCurrentDate();
-      state.model.keyHandOverDate = Utils().getCurrentDate();
+      // state.model.createdDate = Utils().getCurrentDate();
+      // state.model.createdDate = state.model.createdDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.createdDate ?? '');
+
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
+      if (state.model.status != 0) {
+        state.model.keyHandOverDate = state.model.keyHandOverDate == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+                int.tryParse(state.model.keyHandOverDate ?? '0'),
+                Constants.fulldateFormat);
+      }
+
+      // state.model.keyHandOverDate = Utils().getCurrentDate();
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
@@ -116,7 +134,7 @@ class KeyManagementIssuanceDetailsCubit
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
           listOfEntities: entities.atomEntities,
-          emailUsers: emailUsers.atomStaticUser,
+          emailUsers: emailUsers,
           //labels: labels,
         ),
       );
@@ -162,7 +180,7 @@ class KeyManagementIssuanceDetailsCubit
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
     state.model.keyHandingOverDuration =
-        keyHandingOverDuration ?? state.model.keyHandingOverDuration;
+        keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -222,13 +240,24 @@ class KeyManagementIssuanceDetailsCubit
 
     log('--state.model.entities?.length---${state.model.entities?.length}----');
     // Setting time in milliseconds
-    state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.keyHandOverDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.keyReturnDateTime =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.keyHandOverDue =
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.createdDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.createdDate = inputDate.toString();
+    }
+    if (state.model.status == 1) {
+      state.model.keyHandOverDate =
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    }
+    if (state.model.status == 1) {
+      state.model.keyReturnDateTime =
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    }
+    state.model.keyHandOverDue ??=
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
@@ -241,8 +270,11 @@ class KeyManagementIssuanceDetailsCubit
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.createdDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -256,8 +288,11 @@ class KeyManagementIssuanceDetailsCubit
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.createdDate =
-              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          state.model.createdDate = state.model.createdDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.createdDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -287,15 +322,23 @@ class KeyManagementIssuanceDetailsCubit
               : FormStatus.success,
         ),
       );
-      state.model.createdDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
+      state.model.keyHandOverDate = state.model.keyHandOverDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.keyHandOverDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.createdDate = state.model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

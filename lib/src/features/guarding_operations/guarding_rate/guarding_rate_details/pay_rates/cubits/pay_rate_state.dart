@@ -10,8 +10,9 @@ class PayRateState extends Equatable {
   final Locations? locations;
   final List<Organisation> departments;
   final List<Organisation>? listOfEntities;
-  final  List<Organisation>? getEntitiesResponse;
+  final List<Organisation>? getEntitiesResponse;
   final int? eventId;
+  final GRUiLabels? labels;
 
   factory PayRateState.initial({
     required List<PayRate> payRates,
@@ -60,7 +61,8 @@ class PayRateState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Facilitator Rates');
     }
-    if (model.securityGunManRates == null || model.securityGunManRates!.isEmpty) {
+    if (model.securityGunManRates == null ||
+        model.securityGunManRates!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please enter Security Gun Man Rates');
     }
@@ -80,6 +82,7 @@ class PayRateState extends Equatable {
     this.listOfEntities,
     this.getEntitiesResponse,
     this.eventId,
+    this.labels,
   });
 
   PayRateState copyWith({
@@ -95,6 +98,7 @@ class PayRateState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? getEntitiesResponse,
     int? eventId,
+    GRUiLabels? labels,
   }) {
     return PayRateState(
       status: status ?? this.status,
@@ -105,10 +109,11 @@ class PayRateState extends Equatable {
       message: message ?? this.message,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       locations: locations ?? this.locations,
-     // departments: departments ?? this.departments,
+      // departments: departments ?? this.departments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
+      labels: labels ?? this.labels,
     );
   }
 }

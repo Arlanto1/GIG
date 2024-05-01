@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart';
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -16,6 +17,7 @@ class CreateFoundState extends Equatable {
   final FormStatus status;
   List<ImageContent>? loadAttachments = [];
   final int? eventId;
+  final AFUiLabels? labels;
 
   CreateFoundState(
       {this.getDepositorResponse,
@@ -26,13 +28,14 @@ class CreateFoundState extends Equatable {
       this.createEmployeeDepartments,
       this.createUserResponse,
       this.loggedInUser,
-        this.handedOverUser,
+      this.handedOverUser,
       this.createFoundResponse,
       this.getSerialnumberResponse,
       required this.status,
       this.message,
       this.loadAttachments,
-      this.eventId});
+      this.eventId,
+      this.labels});
 
   CreateFoundState copyWith({
     GetDepositor? getDepositorResponse,
@@ -63,7 +66,7 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        handedOverUser:handedOverUser??this.handedOverUser,
+        handedOverUser: handedOverUser ?? this.handedOverUser,
         loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
@@ -84,7 +87,7 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments,
         createUserResponse,
         loggedInUser,
-    handedOverUser,
+        handedOverUser,
         createFoundResponse,
         getSerialnumberResponse,
         message,

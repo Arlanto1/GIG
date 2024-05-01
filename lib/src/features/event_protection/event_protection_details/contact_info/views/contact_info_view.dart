@@ -14,7 +14,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,6 +67,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
     return BlocConsumer<ContactInfoCubit, ContactInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -91,12 +93,6 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {
@@ -303,7 +299,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm1ContactNo,
                             textFormKey: Keys.lsm1ContactNOKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -357,7 +354,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.lsm2ContactNo,
                             textFormKey: Keys.lsm2ContactNOKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -412,7 +410,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu1ContactNo,
                             textFormKey: Keys.bu1ContactNOKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -468,7 +467,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.bu2ContactNo,
                             textFormKey: Keys.bu2ContactNOKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -691,7 +691,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -777,7 +778,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             initialValue: state.model.systemVendor2ContactNo,
                             textFormKey: Keys.vendor2ContactKey,
                             hintText: '',
-                            characterLimit: Constants.characterLimitDescTextFormField,
+                            characterLimit:
+                                Constants.characterLimitDescTextFormField,
                             isEnable: widget.model == null
                                 ? true
                                 : (widget.model != null &&
@@ -918,8 +920,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

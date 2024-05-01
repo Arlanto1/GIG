@@ -1,35 +1,23 @@
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
 
 class AddNewFields extends StatefulWidget {
-  AddNewFields(
-      {super.key,
-      required this.title,
-      this.lawstate,
-      this.createoundstate,
-      this.createpassmgmtstate,
-      this.payRateState,
-      this.entityFun});
+  const AddNewFields({
+    super.key,
+    required this.title,
+    this.lawEnforcementState,
+    this.createFoundState,
+    this.createPassmgmtState,
+    this.payRateState,
+    this.entityFun,
+  });
 
   final String title;
-  LawEnforcementState? lawstate;
-  CreateFoundState? createoundstate;
-  CreatePassMgmtState? createpassmgmtstate;
-  PayRateState? payRateState;
-  Function? entityFun;
+  final LawEnforcementState? lawEnforcementState;
+  final CreateFoundState? createFoundState;
+  final CreatePassMgmtState? createPassmgmtState;
+  final PayRateState? payRateState;
+  final Function? entityFun;
 
   @override
   State<AddNewFields> createState() => AddNewFieldsState();
@@ -51,7 +39,7 @@ class AddNewFieldsState extends State<AddNewFields> {
 
   void _addCompany(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawEnforcementState != null) {
       if (widget.title == Constants.addcompanytype) {
         await lawEnforcementCubit.createOrganisation(
             name, 'ATOM_COMPANY_TYPES', context, widget.title);
@@ -69,7 +57,7 @@ class AddNewFieldsState extends State<AddNewFields> {
         await lawEnforcementCubit.createOrganisation(
             name, 'ATOM_LEO_DEPARTMENTS', context, widget.title);
       }
-    } else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassmgmtState != null) {
       if (widget.title == Constants.addcompanytype) {
         await createPassMgmtCubit.createOrganisation(
             name, 'ATOM_COMPANY_TYPES', context, widget.title);
@@ -89,13 +77,13 @@ class AddNewFieldsState extends State<AddNewFields> {
 
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawEnforcementState != null) {
       await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    } else if (widget.createoundstate != null) {
+    } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    } else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassmgmtState != null) {
       await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
@@ -133,9 +121,8 @@ class AddNewFieldsState extends State<AddNewFields> {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.topLeft,
-                          child:
-                          CommonWidgets.textDisplay(
-                                Constants.name,
+                          child: CommonWidgets.textDisplay(
+                            Constants.name,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),

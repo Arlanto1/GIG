@@ -9,6 +9,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,6 @@ import '../../../../../../common_widgets/app_button.dart';
 import '../../../../../../enums/form_status.dart';
 import '../../../../../../routing/router.dart';
 import '../../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../../utils/validators/validator.dart';
 import '../cubits/pay_rate_cubit.dart';
 import 'add_security_guard_pop_up.dart';
 
@@ -116,14 +116,8 @@ class _PayRateViewState extends State<PayRateView> {
             }),
         body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
-            if (state.status == FormStatus.error) {
-              log('--if-ssss--${state.status}-----');
-
-              Validator().showToast(
-                context,
-                state.message ?? 'Invalid Information',
-              );
-            }
+            Utils().formError(state, context);
+            Utils().errorAndLogout(state, context);
 
             if (state.status == FormStatus.loading) {
               Navigator.pop(context);
@@ -327,7 +321,7 @@ class _PayRateViewState extends State<PayRateView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

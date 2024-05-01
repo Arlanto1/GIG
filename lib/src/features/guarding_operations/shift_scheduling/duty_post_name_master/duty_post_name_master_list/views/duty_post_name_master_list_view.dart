@@ -1,7 +1,7 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class DutyPostNameMasterListView extends StatefulWidget {
   const DutyPostNameMasterListView({
@@ -17,10 +17,16 @@ class _DutyPostNameMasterListViewState
     extends State<DutyPostNameMasterListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
+  BaseFilterModel filters = BaseFilterModel();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
+    context.read<DutyPostNameMasterListBloc>().add(
+          const InitializeValue(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -39,147 +45,272 @@ class _DutyPostNameMasterListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<DutyPostMasterListBloc>()
-          .add(FetchDutyPostMasterList(startPos: pageNumber, maxPos: 20));
+          .read<DutyPostNameMasterListBloc>()
+          .add(FetchDutyPostNameMasterList(
+            startPos: pageNumber,
+            maxPos: Constants.maxResults,
+            newSearch: false,
+            filters: filters,
+          ));
     }
+  }
+
+  void _onRefresh() async {
+    context.read<DutyPostNameMasterListBloc>().add(
+          const RefreshDPNList(),
+        );
+    await Future.delayed(const Duration(milliseconds: 2000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    if (mounted) {
+      setState(() {});
+    }
+    refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, dutyPostNameMasterDetailsRoute,
-                arguments: {
-                  "title": Constants.createDutyPostNameMaster,
-                  "dutyPostNameMasterModel": DutyPostNameMasterModel(),
-                }),
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.dutyPostNameMaster,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<DutyPostNameMasterListBloc,
-            DutyPostNameMasterListState>(builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const BaseLoader();
-          }
-          if (state.list.isEmptyOrNull) {
-            return const NoRecordFoundWidget();
-          }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.list.length
-                  : state.list.length + 1,
-              itemBuilder: (context, index) {
-                List<Label> labels = [];
-                if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
-                  // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
-                }
-                return index >= state.list.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.list[index].id,
-                        location: state.list[index].location,
-                        locationRegion: state.list[index].locationRegion,
-                        labels: labels,
-                        status: state.list[index].status,
-                        isDutyPostNameMasterStatus: true,
-                        isMasterGuard: false,
-                        isEventProtectionStatus: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                location: state.list[selectedIndex].location,
-                                locationRegion:
-                                    state.list[selectedIndex].locationRegion,
-                                labels: labels,
-                                isEventProtectionStatus: false,
-                                isDutyPostNameMasterStatus: true,
-                                status: state.list[selectedIndex].status,
-                              );
-                            },
-                          );
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
+    return BlocConsumer<DutyPostNameMasterListBloc,
+        DutyPostNameMasterListState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: AppColors.cardBgColor,
+            floatingActionButton:
+                state.extraProperties?.hasWritePermission ?? false
+                    ? Flutterfloatingbutton(
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                        foregroundColor: AppColors.backgroundWhitecolor,
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                              context, dutyPostNameMasterDetailsRoute,
+                              arguments: {
+                                "title": Constants.createDutyPostNameMaster,
+                                "dutyPostNameMasterModel":
+                                    DutyPostNameMasterModel(),
+                              }),
                         },
-                        onEditTap: (selectedIndex) {
-                          getById(state.list[index].id ?? 0);
-                        },
-                        showEditButton: true,
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.list[selectedIndex].id.toString(),
-                                slNo: state.list[selectedIndex].slNo,
-                                location: state.list[selectedIndex].location,
-                                locationRegion:
-                                    state.list[selectedIndex].locationRegion,
-                                labels: labels,
-                                status: state.list[selectedIndex].status,
-                                isEventProtectionStatus: false,
-                                isDutyPostNameMasterStatus: true,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
+                      )
+                    : const SizedBox(),
+            appBar: BaseAppBar().buildAppHeader(
+              context: context,
+              title: Constants.dutyPostNameMaster,
+              showPopUp: true,
+              showSaveButton: false,
+              showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              excelAPIName: 'exportDpnExcel',
+              pdfAPIName: 'exportDpnPDF',
             ),
-          );
-        }));
+            body: BlocBuilder<DutyPostNameMasterListBloc,
+                DutyPostNameMasterListState>(builder: (context, state) {
+              // if (state.status == FormStatus.loading) {
+              //   return const BaseLoader();
+              // }
+              // if (state.list.isEmptyOrNull) {
+              //   return const NoRecordFoundWidget();
+              // }
+              // log('--labels-${state.labels?.locale.locationRegion}');
+              return Container(
+                margin: allMargin16,
+                decoration: const ShapeDecoration(
+                    color: AppColors.backgroundWhitecolor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20.0)),
+                    )),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    if (state.list.isEmptyOrNull &&
+                        state.status != FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.1),
+                      const NoRecordFoundWidget(),
+                    ],
+
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: refreshController,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        header: WaterDropHeader(
+                          waterDropColor: AppColors.navigationSkybluecolor,
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
+                        ),
+                        key: const Key(Keys.refreshKey),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.list.length
+                              : state.list.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.list.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.locationRegion ??
+                                      state.labels?.defaultLocale
+                                          .locationRegion ??
+                                      'Region',
+                                  value:
+                                      state.list[index].locationRegion?.name ??
+                                          ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      'Location ',
+                                  value:
+                                      state.list[index].location?.name ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      'Created By',
+                                  value:
+                                      '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
+                            }
+                            return index >= state.list.length
+                                ? null
+                                : BaseListTileItem(
+                                    id: state.list[index].id,
+                                    labels: labels,
+                                    status: state.list[index].status,
+                                    isDutyPostNameMasterStatus: true,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.list[selectedIndex].id
+                                                .toString(),
+                                            slNo:
+                                                state.list[selectedIndex].slNo,
+                                            labels: labels,
+                                            isEventProtectionStatus: false,
+                                            isDutyPostNameMasterStatus: true,
+                                            status: state
+                                                .list[selectedIndex].status,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    onEditTap: (selectedIndex) {
+                                      getById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          state.list[index].id ?? 0);
+                                    },
+                                    showEditButton: true,
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.list[selectedIndex].id
+                                                .toString(),
+                                            slNo:
+                                                state.list[selectedIndex].slNo,
+                                            labels: labels,
+                                            status: state
+                                                .list[selectedIndex].status,
+                                            isEventProtectionStatus: false,
+                                            isDutyPostNameMasterStatus: true,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    index: index,
+                                  );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }));
+      },
+    );
   }
 
-  getById(int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     DutyPostNameMasterModel dutyPostNameMasterModel =
         await DutyPostNameMasterServices().getById(id);
 
-    editDataLoading(dutyPostNameMasterModel);
+    editDataLoading(dutyPostNameMasterModel, hasWritePermission);
   }
 
-  void editDataLoading(DutyPostNameMasterModel? dutyPostNameMasterModel) {
+  void editDataLoading(DutyPostNameMasterModel? dutyPostNameMasterModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (dutyPostNameMasterModel != null) {
       Navigator.pushNamed(context, dutyPostNameMasterDetailsRoute, arguments: {
         "dutyPostNameMasterModel": dutyPostNameMasterModel,
-        "title": Constants.editDutyPostNameMaster
+        "title": Constants.editDutyPostNameMaster,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
+  }
+
+  void applySearchFilters(
+    FilterCriteria model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: model);
+
+    BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
+      FetchDutyPostNameMasterList(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
+    );
+  }
+
+  void applyFilters(
+    Filters model,
+  ) {
+    filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
+
+    BlocProvider.of<DutyPostNameMasterListBloc>(context).add(
+      FetchDutyPostNameMasterList(
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
+    );
+    // _scrollController = ScrollController()..addListener(_onScroll);
+
+    Navigator.pop(context);
   }
 }

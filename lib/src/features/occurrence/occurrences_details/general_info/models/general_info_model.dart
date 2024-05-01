@@ -1,7 +1,5 @@
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/incidents_response.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'general_info_model.g.dart';
 
@@ -20,7 +18,8 @@ class OccurrenceResponse {
 
   OccurrenceResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) => OccurrenceModel.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) =>
+                OccurrenceModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
@@ -73,9 +72,10 @@ class OccurrenceModel {
   bool cwmVisit;
   String? comments;
   bool dgWrking;
+
   // String? modifiedDate;
   String? modifiedBy;
-  List<PowerFailure>? powerFailures;
+  List<PowerFailureModel>? powerFailures;
   List<IncidentModel>? incidentItems;
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
@@ -132,28 +132,27 @@ class OccurrenceModel {
       _$OccurrenceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OccurrenceModelToJson(this);
-
 }
 
-class PowerFailure {
-  int? id;
-  String? powerFailureStartDate;
-  String? powerFailureEndDate;
-
-  PowerFailure({
-    this.id,
-    this.powerFailureStartDate,
-    this.powerFailureEndDate,
-  });
-
-  PowerFailure.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        powerFailureStartDate = json['powerFailureStartDate'] as String?,
-        powerFailureEndDate = json['powerFailureEndDate'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'powerFailureStartDate' : powerFailureStartDate,
-    'powerFailureEndDate' : powerFailureEndDate
-  };
-}
+// class PowerFailure {
+//   int? id;
+//   String? powerFailureStartDate;
+//   String? powerFailureEndDate;
+//
+//   PowerFailure({
+//     this.id,
+//     this.powerFailureStartDate,
+//     this.powerFailureEndDate,
+//   });
+//
+//   PowerFailure.fromJson(Map<String, dynamic> json)
+//       : id = json['id'] as int?,
+//         powerFailureStartDate = json['powerFailureStartDate'] as String?,
+//         powerFailureEndDate = json['powerFailureEndDate'] as String?;
+//
+//   Map<String, dynamic> toJson() => {
+//     'id' : id,
+//     'powerFailureStartDate' : powerFailureStartDate,
+//     'powerFailureEndDate' : powerFailureEndDate
+//   };
+// }

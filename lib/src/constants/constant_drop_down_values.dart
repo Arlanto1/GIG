@@ -9,6 +9,8 @@ const List<Label> statusDropDownValues = [
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
+  Label(key: 'Already Assigned', value: '5'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> occurrenceStatusDropDownValues = [
@@ -102,6 +104,7 @@ const List<Label> incidentManagementStatus = [
   Label(key: 'Investigation Done', value: '38'),
   Label(key: 'Closed', value: '39'),
   Label(key: 'Cancelled', value: '40'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> eventProtectionGiStatus = [
@@ -135,6 +138,7 @@ const List<Label> eventProtectionGiStatus = [
   Label(key: 'Invoice Raised', value: '28'),
   Label(key: 'Invoice Submitted', value: '29'),
   Label(key: 'Closed', value: '30'),
+  Label(key: 'Cancelled', value: '-1'),
 ];
 
 const List<Label> guardRankDropDownValues = [
@@ -174,7 +178,7 @@ const List<Label> mSGBFormBSubmittedDropDownValues = [
 const List<Label> incidentTypeValues = [
   Label(key: 'Loss', value: '0'),
   Label(key: 'Damage', value: '1'),
-  Label(key: 'Workplace', value: '2'),
+  Label(key: 'Workplace violence', value: '2'),
   Label(key: 'Negligence', value: '3'),
   Label(key: 'General', value: '4'),
 ];
@@ -185,14 +189,14 @@ const List<Label> employeeTypeDropDownValues = [
   Label(key: 'CWR T2', value: '3'),
 ];
 
-const List<Label> keyHandingOverDuration = [
+const List<Label> keyHandingOverDurationValues = [
   Label(key: 'Daily', value: '1'),
   Label(key: 'More than One Day', value: '2'),
 ];
 
 const List<Label> keyTypeDropDownValues = [
-  Label(key: 'Keys', value: '1'),
-  Label(key: 'Master Keys', value: '2'),
+  Label(key: 'Normal', value: '1'),
+  Label(key: 'Master', value: '2'),
 ];
 
 const List<Label> typesDropDownValues = [
@@ -215,20 +219,21 @@ const List<Label> keyTaggingDropDownValues = [
 ];
 const List<Label> keyManagementStatus = [
   Label(key: 'Cancelled', value: '-1'),
-  Label(key: 'Created', value: '0'),
+  Label(key: 'Draft', value: '0'),
   Label(key: 'Open', value: '1'),
   Label(key: 'Closed', value: '2'),
 ];
+
 const List<Label> keyManagementHistoryStatus = [
   Label(key: 'Cancelled', value: '11'),
   Label(key: 'Created', value: '0'),
-  Label(key: 'Lock Changed', value: '1'),
-  Label(key: 'Lost', value: '2'),
-  Label(key: 'Damaged', value: '3'),
+  Label(key: 'Lock Change Initiated', value: '1'),
+  Label(key: 'Lost Initiated', value: '2'),
+  Label(key: 'Damaged Initiated', value: '3'),
   Label(key: 'Lost Approved', value: '4'),
   Label(key: 'Damaged Approved', value: '5'),
-  Label(key: 'Investigation', value: '6'),
-  Label(key: 'Destroy', value: '7'),
+  Label(key: 'Investigation Initiated', value: '6'),
+  Label(key: 'Destroy Initiated', value: '7'),
   Label(key: 'Destroy Rejected', value: '8'),
   Label(key: 'Destroy Approved', value: '9'),
   Label(key: 'Closed', value: '10'),

@@ -33,7 +33,6 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColour,
     this.isTitleCenter,
     this.isVisible,
-    
   });
 
   final String? title;
@@ -42,6 +41,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColour;
   final bool? isTitleCenter;
   final bool? isVisible;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -51,20 +51,16 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: AppColors.navigationSkybluecolor,
       titleSpacing: 0.0,
-      title:
-      Transform(
+      title: Transform(
           // you can forcefully translate values left side using Transform
           transform: Matrix4.translationValues(0.0, 0.0, 0.0),
-          child:  Text(
-             title ?? '',
-            style: Styles.textStyleRegularNormalWhite18
-          )),
+          child:
+              Text(title ?? '', style: Styles.textStyleRegularNormalWhite18)),
       leading: backBtn,
       actions: action,
-      
     );
   }
-  
+
   @override
   Size get preferredSize => AppBar().preferredSize;
 }

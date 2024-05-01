@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'pay_rate_state.dart';
 
@@ -67,8 +67,11 @@ class PayRateCubit extends Cubit<PayRateState> {
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     // Get Date of Creation
-    state.model.inputDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    // state.model.inputDate =
+    //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    state.model.inputDate = state.model.inputDate == null
+        ? Utils().getCurrentDate()
+        : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
 
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');

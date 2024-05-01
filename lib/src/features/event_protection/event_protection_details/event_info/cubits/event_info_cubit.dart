@@ -151,7 +151,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );

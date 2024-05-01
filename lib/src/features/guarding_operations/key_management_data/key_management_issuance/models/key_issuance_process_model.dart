@@ -1,5 +1,3 @@
-
-
 class KeyIssuanceProcessRecord {
   int? id;
   int? kmId;

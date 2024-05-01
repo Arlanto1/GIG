@@ -4,6 +4,9 @@ class ConstantsArgument {
   static const String model = "model";
   static const String parentId = "parentId";
   static const String parentStatus = "parentStatus";
+  static const String vendor = "vendor";
+  static const String location = "location";
+  static const String locationRegion = "locationRegion";
   static const String locationId = "locationId";
   static const String title = "title";
   static const String type = "type";
@@ -16,6 +19,9 @@ class ConstantsArgument {
   static const String showEPGridsModel = "showEPGridsModel";
   static const String editForm = "editForm";
   static const String showSaveButton = "showSaveButton";
-
-
+  static const String kldId = "kldId";
+  static const String selectedDutyPostNameId = "selectedDutyPostNameId";
+  static const String isMasterKey = "isMasterKey";
+  static const String viaAttendance = "viaAttendance";
+  static const String extraProperties = "extraParameters";
 }

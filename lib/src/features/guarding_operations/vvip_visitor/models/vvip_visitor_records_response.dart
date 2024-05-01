@@ -42,7 +42,8 @@ class VVIPVisitorsRecordListModel {
 
   VVIPVisitorsRecordListModel.fromJson(Map<String, dynamic> json)
       : vvipVisitorsRecord = (json['vvipVisitorsRecord'] as List<dynamic>?)
-            ?.map((e) => VIVPVisitorRecordModel.fromJson(e as Map<String, dynamic>))
+            ?.map((e) =>
+                VIVPVisitorRecordModel.fromJson(e as Map<String, dynamic>))
             .toList();
 
   Map<String, dynamic> toJson() => {

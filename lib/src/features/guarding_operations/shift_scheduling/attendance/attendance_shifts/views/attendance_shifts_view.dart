@@ -1,14 +1,18 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_multiselect.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/replacement_pop_up.dart';
 
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
     super.key,
+    required this.location,
+    required this.locationRegion,
+    required this.vendor,
   });
+
+  final Organisation location;
+  final Organisation locationRegion;
+  final Organisation vendor;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -30,6 +34,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return BlocConsumer<AttendanceShiftsCubit, AttendanceShiftsState>(
       listener: (context, state) {
         log('----state.status--${state.status}--');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -43,8 +49,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                shiftScheduleListRoute,
-                arguments: {},
+                attendanceListRoute,
               );
             },
           );
@@ -88,12 +93,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void submitDutyPost(BuildContext context, {required bool isSaveOnly}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
-    // BlocProvider.of<AttendanceShiftsCubit>(context)
-    //     .submitDutyPost(model: widget.model, isSaveOnly: isSaveOnly);
+    BlocProvider.of<AttendanceShiftsCubit>(context)
+        .submitForm(isSaveOnly: isSaveOnly);
   }
 
   List<Widget> getBody(
-      AttendanceShiftsState state, double height, DutyPostModel model) {
+    AttendanceShiftsState state,
+    double height,
+    DutyPostModel model,
+  ) {
     log('--model.name-${model.name}-');
     log('--model.ranks-${model.ranks?.length}-');
     return [
@@ -114,8 +122,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: buildDutyPostSelectionWidget(
-                        state, rank.attendanceShift ?? [], height),
+                      state,
+                      rank.attendanceShift ?? [],
+                      height,
+                    ),
                   ),
                 ),
               ),
@@ -130,21 +143,87 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     log('--shifts--length--${shifts.length}-');
     return [
       for (Shift shift in shifts) ...[
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.01),
+        buildTextWithLabel(
+            'Attendance Status:',
+            Utils().buildAttendanceStatusRow(
+                status: shift.attdStatus ?? 0, returnTextOnly: true)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Problem here I have 3 lists now and i want to move elements between all three lists
-            // Movement of element can be from:
-            // first to second list
-            // second to third list
-            // second to first list
-            // Movement of element can't be from
-            // first to third list
-            // third to first list
-            // Please modify code accordingly
+            buildShiftColumn(
+              shift: shift,
+              guards: shift.selectForAttendance ?? [],
+              destinationList: shift.attended ?? [],
+              isSourceList: true,
+              label: 'Select For \nAttendance: \n${shift.shift}',
+            ),
 
-            buildShiftColumn(shift, isSourceList: true),
-            buildShiftColumn(shift, isSourceList: false),
+            Column(
+              children: [
+                buildArrowButton(
+                  icon: Icons.arrow_right,
+                  destinationList: shift.attended ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.attended?.add(guard);
+                    shift.selectForAttendance?.remove(guard);
+                  },
+                ),
+                buildArrowButton(
+                  icon: Icons.arrow_left,
+                  destinationList: shift.selectForAttendance ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.selectForAttendance?.add(guard);
+                    shift.attended?.remove(guard);
+                  },
+                ),
+              ],
+            ),
+            // buildArrowButtons(
+            //   sourceList: shift.selectForAttendance ?? [],
+            //   destinationList: shift.attended ?? [],
+            //   onAdd: (BaseUser guard) {
+            //     shift.attended?.add(guard);
+            //   },
+            //   onRemove: (BaseUser guard) {
+            //     shift.attended?.remove(guard);
+            //   },
+            // ),
+            buildShiftColumn(
+              shift: shift,
+              guards: shift.attended ?? [],
+              destinationList: shift.attended ?? [],
+              isSourceList: false,
+              label: 'Attended\n\n',
+            ),
+            Column(
+              children: [
+                buildArrowButton(
+                  icon: Icons.arrow_right,
+                  destinationList: shift.previousShift ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.previousShift?.add(guard);
+                    shift.attended?.remove(guard);
+                  },
+                ),
+                buildArrowButton(
+                  icon: Icons.arrow_left,
+                  destinationList: shift.attended ?? [],
+                  onAdd: (BaseUser guard) {
+                    shift.attended?.add(guard);
+                    shift.previousShift?.remove(guard);
+                  },
+                ),
+              ],
+            ),
+            buildShiftColumn(
+              shift: shift,
+              destinationList: shift.attended ?? [],
+              guards: shift.previousShift ?? [],
+              isSourceList: false,
+              label: 'Select From\nPrevious Shift\n',
+            ),
           ],
         ),
         CommonWidgets.verticalSpacerWidget(
@@ -163,8 +242,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Styles.textStyleBlack14,
         ),
         MultiSelectDropdown(
-            briefingPoints: state.briefingPoints ?? [],
-            selectedPoints: shift.briefingPoints?.split(';') ?? []),
+          briefingPoints: state.briefingPoints ?? [],
+          selectedPoints: shift.briefingPoints?.split(',') ?? [],
+          updatedBriefingPoints: (List<String> points) {
+            shift.briefingPoints = Utils().joinListWithComma(points);
+            // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+          },
+        ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
 
@@ -175,52 +259,60 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         //   Styles.textStyleBlack14,
         // ),
 
-        if (!state.slaList.isEmptyOrNull) ...[
-          buildSlaListColumn(state: state, slaList: state.slaList ?? [])
+        if (!state.shiftSlaList.isEmptyOrNull) ...[
+          buildSlaListColumn(
+            state: state,
+            shift: shift,
+          )
         ],
       ],
     ];
   }
 
-  String selectedValue = '';
+  Widget buildArrowButton({
+    required IconData icon,
+    required List<BaseUser> destinationList,
+    required void Function(BaseUser guard) onAdd,
+    // required void Function(BaseUser guard) onRemove,
+  }) {
+    return IconButton(
+      iconSize: 30,
+      onPressed: () {
+        if (selectedGuard != null && !destinationList.contains(selectedGuard)) {
+          log('--onPressed----');
+          onAdd(selectedGuard!);
+          setState(() {});
+        }
+      },
+      icon: Icon(icon),
+    );
+  }
 
-  Column buildShiftColumn(Shift shift, {required bool isSourceList}) {
+  BaseUser? selectedGuard;
+
+  Widget buildShiftColumn({
+    required Shift shift,
+    required List<BaseUser> guards,
+    required bool isSourceList,
+    required String label,
+    required List<BaseUser> destinationList,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
-          'Select For Shift: ${shift.shift}',
+          label,
           isMandatory: false,
           Styles.textStyleBlack14,
         ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
         AbsorbPointer(
-          absorbing: !shift.activeShift,
+          // absorbing: !shift.activeShift,
+          absorbing: false,
           child: buildUserList(
-            availableGuards: isSourceList
-                ? shift.selectForAttendance ?? []
-                : shift.attended ?? [],
-            isSourceList: isSourceList,
-            selectedGuards: shift.selectedGuards ?? [],
-            maxAllowed: shift.allowed ?? 0,
-            onAdd: (BaseUser guard) {
-              setState(() {
-                shift.availableGuards = List.from(shift.availableGuards!)
-                  ..remove(guard);
-                shift.selectedGuards = List.from(shift.selectedGuards!)
-                  ..add(guard);
-              });
-            },
-            onRemove: (BaseUser guard) {
-              setState(() {
-                shift.selectedGuards = List.from(shift.selectedGuards!)
-                  ..remove(guard);
-                shift.availableGuards = List.from(shift.availableGuards!)
-                  ..add(guard);
-              });
-            },
+            availableGuards: guards,
           ),
         ),
       ],
@@ -229,8 +321,18 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
   Column buildSlaListColumn({
     required AttendanceShiftsState state,
-    required List<SLAViolationPenaltyModel> slaList,
+    required Shift shift,
   }) {
+    List<SLAViolationPenaltyModel> slaList = [];
+
+    log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
+
+    if (!state.shiftSlaList.isEmptyOrNull) {
+      SlaList? sla = state.shiftSlaList?.firstWhere(
+          (element) => element.attInfoId == shift.attendanceShiftId);
+      slaList = sla?.items ?? [];
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -242,6 +344,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               arguments: {
                 "title": Constants.slaViolationPenalty,
                 "attdInfoId": state.model.id.toString(),
+                ConstantsArgument.location: widget.location,
+                ConstantsArgument.locationRegion: widget.locationRegion,
+                ConstantsArgument.vendor: widget.vendor,
               },
             );
           },
@@ -268,7 +373,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           // Problem: make this column list with horizontal scroll
           SizedBox(
             height: MediaQuery.of(context).size.height *
-                0.09, // Set the desired height
+                0.094, // Set the desired height
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: slaList.length,
@@ -384,14 +489,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   'Replacement By:', replacement.replacementBy?.name),
               buildTextWithLabel(
                 'From Date:',
-                Utils.timestamptoDateConversion(
+                Utils.timestampToDateConversion(
                   int.parse(replacement.fromDate ?? '0'),
                   Constants.dateFormat,
                 ),
               ),
               buildTextWithLabel(
                 'To Date:',
-                Utils.timestamptoDateConversion(
+                Utils.timestampToDateConversion(
                   int.parse(replacement.toDate ?? '0'),
                   Constants.dateFormat,
                 ),
@@ -428,13 +533,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
+  void handleUserTap(BaseUser element) {
+    log('---handleUserTap---');
+    setState(() {
+      selectedGuard = element; // Update the selected element
+    });
+  }
+
   Widget buildUserList({
     required List<BaseUser> availableGuards,
-    required List<BaseUser> selectedGuards,
-    required bool isSourceList,
-    required int maxAllowed,
-    required void Function(BaseUser guard) onAdd,
-    required void Function(BaseUser guard) onRemove,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -442,16 +549,18 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         color: AppColors.disabletextfieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
-      width: MediaQuery.of(context).size.width / 2.3,
+      width: MediaQuery.of(context).size.width / 4.7,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final element = availableGuards[index];
           return GestureDetector(
-            onTap: () => handleUserListTap(isSourceList, element,
-                selectedGuards, maxAllowed, onAdd, onRemove),
+            onTap: () => handleUserTap(element),
             child: Card(
+              color: selectedGuard == element
+                  ? AppColors.navigationSkybluecolor
+                  : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -465,33 +574,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         },
       ),
     );
-  }
-
-  void handleUserListTap(
-    bool isSourceList,
-    BaseUser element,
-    List<BaseUser> selectedGuards,
-    int maxAllowed,
-    void Function(BaseUser guard) onAdd,
-    void Function(BaseUser guard) onRemove,
-  ) {
-    setState(() {
-      if (isSourceList) {
-        if (selectedGuards.length < maxAllowed &&
-            !selectedGuards.contains(element)) {
-          onAdd(element);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text('You can not add more than $maxAllowed'),
-            ),
-          );
-        }
-      } else {
-        onRemove(element);
-      }
-    });
   }
 
   void showReplacementPopUp({

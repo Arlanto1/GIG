@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,6 +36,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     return BlocConsumer<NotificationDetailsCubit, NotificationDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
           Navigator.pop(context);
@@ -54,12 +58,6 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {
@@ -146,13 +144,14 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             Styles.textStyleBlack14,
                           ),
                           BaseImageUpload().getAttachment(
-                            height: height,
-                            attachments: state.model.attachments,
-                            files: state.model.attachments,
-                            showDownloadIcon: true,
-                          ),
+                              height: height,
+                              attachments: state.model.attachments,
+                              files: state.model.attachments,
+                              showDownloadIcon: true,
+                              moduleCode: state.model.moduleCode ?? ''),
                         ],
-                        if (!state.model.moduleCode.isEmptyOrNull) ...[
+                        if (!state.model.moduleCode.isEmptyOrNull &&
+                            state.model.moduleId != null) ...[
                           submitButtonDisplay(state)
                         ],
                       ],
@@ -181,12 +180,23 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
   }
 
   Widget submitButtonDisplay(NotificationDetailsState state) {
+    log('---${state.model.moduleCode}---');
+
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.showDetails,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
+        log('--state.model.moduleId--${state.model.moduleId}--');
+
+        if (state.model.moduleId == null) {
+          Validator().showToast(
+            context,
+            'Module Id is null.',
+          );
+          return;
+        }
         int moduleId = state.model.moduleId ?? 0;
 
         var nav = Navigator.of(context);
@@ -196,14 +206,16 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             {
               MaterialMovementModel materialMovementModel =
                   await MaterialMovementServices().getById(moduleId);
-              nav.pushNamed(materialMovementInwardOutwardDetailsRoute, arguments: {
-                "MaterialMovementModel": materialMovementModel,
-                "isInward": false,
-                "isCreate": true,
-                "title": Constants.materialMovementOutwardCreate,
-              });
+              nav.pushNamed(materialMovementInwardOutwardDetailsRoute,
+                  arguments: {
+                    "MaterialMovementModel": materialMovementModel,
+                    "isInward": false,
+                    "isCreate": true,
+                    "title": Constants.materialMovementOutwardCreate,
+                  });
               break;
             }
+
           case 'LEO':
             {
               LawEnforcementDetailsModel? model =
@@ -236,6 +248,19 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
               );
               break;
             }
+          case 'KLD':
+            {
+              KeyLossDestructionListModel keyLossDestructionListModel =
+                  await KeyLossDestructionListServices().getById(moduleId);
+              nav.pushNamed(
+                keyLossDestructionListDetailsRoute,
+                arguments: {
+                  "keyLossGi": keyLossDestructionListModel,
+                  "title": Constants.editKeyLossDestruction
+                },
+              );
+              break;
+            }
         }
       },
     );
@@ -254,8 +279,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

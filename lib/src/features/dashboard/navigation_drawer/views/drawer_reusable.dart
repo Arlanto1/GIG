@@ -25,41 +25,61 @@ class NavigationDrawer1 extends StatelessWidget {
       return [];
     }
     List<MenuItem> expansionTileDrawerItems = [];
+    if (displayMenu.aps ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.annualPowerShutdownList,
+          AppIcon.annualPowerShutdownIcon,
+          0));
+    }
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.articlefoundregister, AppIcon.clipboardImage, 0));
-    }
-    if (displayMenu.lEO ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
+          Constants.articleFoundRegister, AppIcon.articleFoundRegisterIcon, 0));
     }
     if (displayMenu.eP ?? false) {
-      expansionTileDrawerItems.add(
-          const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
-    }
-  //  if (displayMenu.aps ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
-   // }
-    if (displayMenu.iM ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.incidentManagement, AppIcon.materialMovement, 0));
+          Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
-    if (displayMenu.mM ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.materialMovement, AppIcon.materialMovement, 1));
-    }
-    if (displayMenu.pM ?? false) {
-      expansionTileDrawerItems.add(
-          const MenuItem(Constants.passManagement, AppIcon.passmanagement, 1));
-    }
+
     if (displayMenu.gM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
     }
-    // if (displayMenu. ?? false) {
+
+    if (displayMenu.iM ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.incidentManagement, AppIcon.incidentManagementIcon, 0));
+    }
+    // if (displayMenu.gM ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        keyManagementDataTitle, AppIcon.keyManagementDataIcon, 1));
+    // }
+    if (displayMenu.lEO ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.lawEnforcementVisitsList, AppIcon.lawEnforcementIcon, 0));
+    }
+
+    if (displayMenu.mM ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.materialMovement, AppIcon.materialMovementIcon, 1));
+    }
+    if (displayMenu.pM ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.passManagement, AppIcon.passManagementIcon, 1));
+    }
+
+    // if (displayMenu.gM ?? false) {
+    expansionTileDrawerItems.add(
+        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+    // }
+
+    // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems
-        .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
+        .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
+    // }
+
+    // if (displayMenu. ?? false) {
+    // expansionTileDrawerItems
+    //     .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
     //}
     return expansionTileDrawerItems;
   }
@@ -78,7 +98,12 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   // TODO: Need to define all the Titles here
+  static const String operationsTitle = Constants.operations;
+  static const String costAndBillingTitle = Constants.costAndBilling;
   static const String shiftSchedulingTitle = Constants.shiftScheduling;
+  static const String keyManagementDataTitle = Constants.keyManagementData;
+  static const String vVipVisitorsTitle = Constants.vVipVisitors;
+  static const String securitySystemsTitle = Constants.securitySystems;
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +237,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 //   _onSecuritySystemIncidentItemSelected(i, context);
                 //   break;
 
-                case Constants.operations:
+                case operationsTitle:
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
@@ -220,7 +245,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
-                case Constants.keyManagementData:
+                case keyManagementDataTitle:
                   _onKeyManagementItemSelected(i, context);
                   break;
 
@@ -289,6 +314,8 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSecuritySystemIncidentItemSelected(int index, BuildContext context) async {
+    log('-_onSecuritySystemIncidentItemSelected------');
+
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -317,12 +344,13 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, keyManagementIssuanceListRoute,
           arguments: {"Key Management Issuance List": false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, keyReconciliationListRoute,
-          arguments: {"Key Reconciliation List": false});
-    } else if (index == 3) {
       Navigator.pushNamed(context, keyLossDestructionListRoute,
           arguments: {"Key Loss Destruction List": false});
     }
+    // else if (index == 3) {
+    //   Navigator.pushNamed(context, keyReconciliationListRoute,
+    //       arguments: {"Key Reconciliation List": false});
+    // }
   }
 
   _onShiftScheduleItemSelected(int index, BuildContext context) async {
@@ -333,24 +361,15 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(
-        context,
-        dutyPostMasterListRoute,
-      );
+      Navigator.pushNamed(context, attendanceListRoute);
     } else if (index == 1) {
-      Navigator.pushNamed(
-        context,
-        dutyPostNameMasterListRoute,
-      );
+      Navigator.pushNamed(context, dutyPostMasterListRoute);
     } else if (index == 2) {
-      Navigator.pushNamed(
-        context,
-        shiftScheduleListRoute,
-      );
+      Navigator.pushNamed(context, dutyPostNameMasterListRoute);
     } else if (index == 3) {
       Navigator.pushNamed(
         context,
-        attendanceListRoute,
+        shiftScheduleListRoute,
       );
     } else if (index == 4) {
       Navigator.pushNamed(
@@ -358,6 +377,18 @@ class NavigationDrawer1 extends StatelessWidget {
         attendanceReportBillingListRoute,
       );
     }
+  }
+
+  _onCostAndBillingItemSelected(int index, BuildContext context) async {
+    _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, guardingRatesRoute);
+    }
+    // else if (index == 1) {
+    //   Navigator.pushNamed(context, guardingRatesRoute);
+    // }
   }
 
   // TODO: Fix the Drawer Index
@@ -368,22 +399,19 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
+      Navigator.pushNamed(context, contactDetailsListRoute,
+          arguments: {"Contact Details": true});
+    } else if (index == 1) {
       Navigator.pushNamed(context, guardingMasterDataRoute,
           arguments: {"Guarding Master Data": true});
-    } else if (index == 1) {
-      Navigator.pushNamed(context, guardingMasterReportRoute,
-          arguments: {"Guarding Master Report": false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, guardingRatesRoute,
-          arguments: {"Guarding Rates": true});
+      Navigator.pushNamed(context, guardingMasterReportRoute);
     } else if (index == 3) {
       Navigator.pushNamed(context, occurrenceRoute);
     } else if (index == 4) {
       Navigator.pushNamed(context, slaViolationPenaltyListRoute,
           arguments: {"SLA Violation Penalty": false});
     } else if (index == 5) {
-      Navigator.pushNamed(context, contactDetailsListRoute,
-          arguments: {"Contact Details": true});
     } else if (index == 6) {
       // TODO: Show Dropdown
 
@@ -476,7 +504,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       leading: SizedBox(
                           width: 20,
                           height: 20,
-                          child: Image.asset(AppIcon.securityprotection,
+                          child: Image.asset(AppIcon.securityFunctionsIcon,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
                                   ? AppColors.navigationSkybluecolor
@@ -567,7 +595,12 @@ class NavigationDrawer1 extends StatelessWidget {
                     leading: SizedBox(
                       width: 20,
                       height: 20,
-                      child: Image.asset(AppIcon.operatingsystem,
+                      child: Image.asset(
+                          i == 0
+                              ? AppIcon.operationsIcon
+                              : i == 1
+                                  ? AppIcon.costBillingIcon
+                                  : AppIcon.securitySystemIcon,
                           fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
                               ? AppColors.navigationSkybluecolor
@@ -575,22 +608,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
-                    children: drawerItem.title == Constants.operations
-                        ? _genericItemExpandable(
-                            context,
-                            expansionTileDrawerItems,
-                            Constants.operations,
-                          )
-                        // : _genericItemSelection(
-                        //     context,
-                        //     shiftSchedulingDataItems,
-                        //     Constants.shiftScheduling,
-                        //   )
-                        : _genericItemExpandable(
-                            context,
-                            securitySystemExpansionTileDrawerItems,
-                            Constants.securitySystems,
-                          ),
+                    children: selectedChild(drawerItem, context),
                   ),
                 ),
               ),
@@ -598,6 +616,33 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     return children;
+  }
+
+  List<Widget> selectedChild(MenuItem drawerItem, BuildContext context) {
+    switch (drawerItem.title) {
+      case operationsTitle:
+        return _genericItemExpandable(
+          context,
+          expansionTileDrawerItems,
+          operationsTitle,
+        );
+
+      case costAndBillingTitle:
+        return _genericItemExpandable(
+          context,
+          costAndBillingExpansionTileDrawerItems,
+          costAndBillingTitle,
+        );
+
+      case Constants.securitySystems:
+        return _genericItemExpandable(
+          context,
+          securitySystemTicketsItems,
+          Constants.securitySystems,
+        );
+      default:
+        return [];
+    }
   }
 
   List<Widget> _genericItemExpandable(
@@ -642,7 +687,13 @@ class NavigationDrawer1 extends StatelessWidget {
                       return;
                     }
 
-                    if (title == Constants.securitySystemTickets) {
+                    if (title == costAndBillingTitle) {
+                      _onCostAndBillingItemSelected(i, context);
+                      return;
+                    }
+
+                    log('--title-$title-');
+                    if (title == securitySystemsTitle) {
                       _onSecuritySystemIncidentItemSelected(i, context);
                       return;
                     }
@@ -709,15 +760,16 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onExpansionSelectItem(int index, BuildContext context) async {
+    log('---_onExpansionSelectItem--$index-');
     _menuScaffoldKey.currentState!.closeDrawer();
     _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getOperationsIndexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, articleFoundListRoute);
+      Navigator.pushNamed(context, annualPowerShutdownListRoute);
     } else if (index == 1) {
-      Navigator.pushNamed(context, lawEnforcementListRoute);
+      Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 2) {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
@@ -727,7 +779,8 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, incidentManagementsRoute);
     } else if (index == 5) {
     } else if (index == 6) {
-    } else if (index == 7) {
+      Navigator.pushNamed(context, lawEnforcementListRoute);
+    } else if (index == 10) {
       Navigator.pushNamed(context, vipVisitorsListRoute);
     }
   }
@@ -748,23 +801,19 @@ class NavigationDrawer1 extends StatelessWidget {
       log('day pass registry index1');
       //day pass mng = 0
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(0, 'Day Pass Register', true)
+        "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
       });
     } else if (index == 2) {
-      //visitor pass mng = 1
+      //vendor pass mng = 3
 
-      log('visitor pass mangement index2');
+      log('Sez pass Management index6');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails":
-            PassMngArguments(1, 'Visitor Pass Management', false)
+        "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
       });
     } else if (index == 3) {
-      //visitor pass mng = 1
-      log('visitor pass registory index3');
+      log('Sez pass registory index7');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(1, 'Visitor Pass Register', true)
+        "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
       });
     } else if (index == 4) {
       log('vendor pass management index4');
@@ -780,17 +829,18 @@ class NavigationDrawer1 extends StatelessWidget {
             PassMngArguments(2, 'Vendor Pass Register', true)
       });
     } else if (index == 6) {
-      //vendor pass mng = 3
+      //visitor pass mng = 1
 
-      log('Sez pass Management index6');
+      log('visitor pass mangement index2');
       Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
+        "passMngDetails": PassMngArguments(1, 'Visitor Pass Management', false)
       });
     } else if (index == 7) {
-      log('Sez pass registory index7');
+      //visitor pass mng = 1
+      log('visitor pass registory index3');
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngRegisterDetails":
-            PassMngArguments(3, 'Sez Pass Register', true)
+            PassMngArguments(1, 'Visitor Pass Register', true)
       });
     }
   }
@@ -833,15 +883,20 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       // _logout(context);
     } else if (index == 2) {
-      _logout(context);
+      Navigator.pushNamed(
+        context,
+        resetPwdScreenRoute,
+        arguments: {'viaNavigationDrawer': true},
+      );
     } else if (index == 3) {
+      _logout(context);
     } else if (index == 4) {}
   }
 
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
-        message: Constants.logoutvalidation,
+        message: Constants.logoutValidation,
         onPositivePressed: () {
           InactivityFunctions().logoutUser(navigatorKey);
         },
@@ -874,7 +929,7 @@ class NavigationDrawer1 extends StatelessWidget {
         securitySystemTicketsItems,
         title,
       );
-    } else if (title == Constants.keyManagementData) {
+    } else if (title == keyManagementDataTitle) {
       return _genericItemSelection(
         context,
         keyManagementDataItems,

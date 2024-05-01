@@ -1,46 +1,22 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constant_agruments.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
-import '../../../../../common_widgets/base_widget/base_organisation_dialog.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../models/organisation.dart';
-import '../../../../../utils/customalert.dart';
-import '../../models/sla_violation_penalty_response_model.dart';
-import '../cubits/sla_violation_penalty_details_cubit.dart';
 import 'add_poc_pop_up.dart';
 
 class SLAViolationPenaltyDetailsView extends StatefulWidget {
   final SLAViolationPenaltyModel? model;
   final String title;
+  final bool viaAttendance;
+  final ExtraProperties? extraProperties;
 
   const SLAViolationPenaltyDetailsView({
     super.key,
     this.model,
     required this.title,
+    required this.viaAttendance,
+    this.extraProperties,
   });
 
   @override
@@ -77,6 +53,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.popOnly) {
           Navigator.pop(context);
           return;
@@ -101,19 +79,20 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
-        }
       },
       builder: (context, state) {
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
+        }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
         }
 
         return Scaffold(
@@ -121,10 +100,16 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
-            showSubmitButton:
-                state.model.status != 2 && !isReadOnly ? true : false,
+            showSaveButton: state.model.status != 2 &&
+                    state.model.status != -1 &&
+                    !isReadOnly
+                ? true
+                : false,
+            showSubmitButton: state.model.status != 2 &&
+                    state.model.status != -1 &&
+                    !isReadOnly
+                ? true
+                : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -210,7 +195,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'    ,
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -258,8 +243,18 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
+                            BaseLocationDropdown().locationWidgetDisplay(
+                                context: context,
+                                isEnabled: !widget.viaAttendance,
+                                locations: state.locations ?? Locations(),
+                                selectedLocationName:
+                                    state.model.location?.name ?? '',
+                                onTap: (Organisation? location) {
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(location: location);
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -274,18 +269,19 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Vendor
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.vendor ??
-                                    state.labels?.defaultLocale.vendor ??
-                                    Constants.vendor,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
                               selectedValues: state.model.vendor ?? [],
                               all: state.vendors,
-                              enabled: !isReadOnly,
+                              enabled: !widget.viaAttendance && !isReadOnly,
                               onTap: (List<Organisation> selectedVendors) {
                                 BlocProvider.of<
                                             SLAViolationPenaltyDetailsCubit>(
@@ -386,14 +382,15 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.approver?.name,
-                              height: 60,
+                              title: state.model.approver?.userInfo ??
+                                  state.model.approver?.name,
+                              height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: !isReadOnly,
-                                  users: state.users!,
+                                  users: state.emailUsers,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
@@ -402,6 +399,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                       user: user,
                                     );
                                   },
+                                  roleName: 'ATOM_STATIC_USER',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -441,6 +439,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
@@ -516,6 +515,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
+                                    color: AppColors.navigationSkybluecolor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
@@ -535,15 +535,16 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 2) ? false : true) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(state),
-                            submitButtonDisplay()
-                          ],
-                        ),
-                      ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(state),
+                          if ((state.model.status == 2 ||
+                                  state.model.status == -1)
+                              ? false
+                              : true) ...[submitButtonDisplay()],
+                        ],
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
@@ -590,15 +591,31 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   }
 
   Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 2;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-          updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
@@ -627,33 +644,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
         BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context).submitForm();
       },
-    );
-  }
-
-  Widget locationWidgetdislay(SLAViolationPenaltyDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.model.status == 0 || state.model.status == null) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                locationList: state.locations,
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
-
-                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 
@@ -704,9 +694,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       String poc = state.pocs![index]; // Access the POC at the current index
       TextEditingController pocController = TextEditingController();
       pocController.text = poc;
-    // for (String poc in state.pocs ?? []) {
-    //   TextEditingController pocController = TextEditingController();
-    //   pocController.text = poc;
+      // for (String poc in state.pocs ?? []) {
+      //   TextEditingController pocController = TextEditingController();
+      //   pocController.text = poc;
       widgets.add(
         Row(
           children: [

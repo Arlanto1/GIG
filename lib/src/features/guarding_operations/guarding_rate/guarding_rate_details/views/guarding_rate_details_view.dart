@@ -1,21 +1,4 @@
-import 'dart:developer';
-
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/configurations/main_config.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../common_widgets/app_button.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../routing/router.dart';
-import '../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../utils/validators/validator.dart';
-import '../pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/index.dart';
 
 class GuardingRateDetailsView extends StatefulWidget {
   final String title;
@@ -28,7 +11,8 @@ class GuardingRateDetailsView extends StatefulWidget {
   });
 
   @override
-  State<GuardingRateDetailsView> createState() => GuardingRateDetailsViewState();
+  State<GuardingRateDetailsView> createState() =>
+      GuardingRateDetailsViewState();
 }
 
 class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
@@ -57,14 +41,8 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
       ),
       body: BlocConsumer<PayRateCubit, PayRateState>(
         listener: (context, state) {
-          if (state.status == FormStatus.error) {
-            log('--if-ssss--${state.status}-----');
-
-            Validator().showToast(
-              context,
-              state.message ?? 'Invalid Information',
-            );
-          }
+          Utils().formError(state, context);
+          Utils().errorAndLogout(state, context);
 
           if (state.status == FormStatus.success) {
             Navigator.pop(context);
@@ -97,7 +75,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
                           // GuardingRectangle(rate: widget.rate),
 
-                          buildTwoColumnLayout(),
+                          buildTwoColumnLayout(state),
                         ],
                       ),
                     ),
@@ -126,7 +104,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
     );
   }
 
-  Widget buildTwoColumnLayout() {
+  Widget buildTwoColumnLayout(PayRateState state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +138,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Guard',
+                text: state.labels?.locale.securityGuard ??
+                    state.labels?.defaultLocale.securityGuard ??
+                    'Security Guard',
                 bottomPadding: 22,
               ),
             ),
@@ -180,7 +160,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Supervisor',
+                text: state.labels?.locale.securitySupervisor ??
+                    state.labels?.defaultLocale.securitySupervisor ??
+                    'Security Supervisor',
                 // Add the text
                 bottomPadding: 22,
               ),
@@ -197,7 +179,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Officer',
+                text: state.labels?.locale.securityOfficer ??
+                    state.labels?.defaultLocale.securityOfficer ??
+                    'Security Officer',
                 bottomPadding: 22,
               ),
             ),
@@ -217,7 +201,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Security Facilitator',
+                text: state.labels?.locale.securityFacilitator ??
+                    state.labels?.defaultLocale.securityFacilitator ??
+                    'Security Facilitator',
                 bottomPadding: 22,
               ),
             ),
@@ -233,7 +219,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/securityGunMan.png',
-                text: 'Gun Man',
+                text: state.labels?.locale.gunMan ??
+                    state.labels?.defaultLocale.gunMan ??
+                    'Gun Man',
                 bottomPadding: 22,
               ),
             ),
@@ -254,17 +242,19 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
-                text: 'Others',
+                text: state.labels?.locale.other ??
+                    state.labels?.defaultLocale.other ??
+                    'Others',
                 // Add the text
                 bottomPadding: 22,
               ),
             ),
           ],
         ),
-    // const SizedBox(height: 19), // Add spacing between the columns
-    //     Center(
-    //       child: submitButtonDisplay(),
-    //     ),
+        // const SizedBox(height: 19), // Add spacing between the columns
+        //     Center(
+        //       child: submitButtonDisplay(),
+        //     ),
       ],
     );
   }
@@ -284,7 +274,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.4),
+            color: AppColors.navigationSkybluecolor.withOpacity(0.5),
             spreadRadius: 1.0,
             blurRadius: 4.0,
             offset: const Offset(0, 0),

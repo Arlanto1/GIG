@@ -24,22 +24,25 @@ class BaseDropDown {
     }
     return GestureDetector(
       onTap: onTap,
-      child: FlutterInputField(
-        controller: textController,
-        textFormKey: Keys.returnableKey,
-        hintText: '',
-        isEnable: false,
-        suffixIcon: Icons.arrow_drop_down,
-        isDisableColor: !isDisabled,
-        onChange: (String value) {},
-        validateTextField: (String? user) {},
-        suffixWidget: IconButton(
-          icon: SvgPicture.asset(
-              width: 10,
-              height: 10,
-              AppIcon.dropdownicon,
-              key: const Key('closed_eye')),
-          onPressed: () {},
+      child: AbsorbPointer(
+        absorbing: true,
+        child: FlutterInputField(
+          controller: textController,
+          textFormKey: Keys.returnableKey,
+          hintText: '',
+          isEnable: true,
+          suffixIcon: Icons.arrow_drop_down,
+          isDisableColor: !isDisabled,
+          onChange: (String value) {},
+          validateTextField: (String? user) {},
+          suffixWidget: IconButton(
+            icon: SvgPicture.asset(
+                width: 10,
+                height: 10,
+                AppIcon.dropdownicon,
+                key: const Key('closed_eye')),
+            onPressed: () {},
+          ),
         ),
       ),
     );

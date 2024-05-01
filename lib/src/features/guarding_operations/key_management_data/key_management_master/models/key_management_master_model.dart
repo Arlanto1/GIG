@@ -136,5 +136,4 @@ class KeyManagementMasterModel {
       _$KeyManagementMasterModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$KeyManagementMasterModelToJson(this);
-
 }

@@ -9,7 +9,6 @@ class Apis {
   static final String getOrganisation = '$baseUrl/getOrganisation?name=';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
-  static final String _createUser = '$baseUrl/createUser?';
   static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
   static final String _getPassTypes = '$baseUrl/getPassType?';
 }
@@ -17,30 +16,11 @@ class Apis {
 class CreatePassMgmtService {
   final endpoint = Environment().config.apiHost;
 
-  // Create user api call
-  Future<CreateUserModel> createUser(
-    String firstName,
-    String lastName,
-    String email,
-    String role,
-    BuildContext? context,
-  ) async {
-    final String url =
-        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return CreateUserModel.fromJson(response);
-  }
-
   Future<CreatePassMgmtResponse> createPass({
     required CreatePassMgmtBody requestBody,
     required bool isSubmit,
   }) async {
-    var getUsername = await SharedPrefs.getUserId();
-
-    final String url =
-        "${Apis._createPass}userEmail=$getUsername&isSubmit=$isSubmit";
+    final String url = "${Apis._createPass}isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),

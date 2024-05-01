@@ -1,16 +1,4 @@
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../models/sla_violation_penalty_response_model.dart';
+import '../../../../../../index.dart';
 
 class AddPOCPopUp extends StatefulWidget {
   const AddPOCPopUp({
@@ -66,14 +54,18 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                         lineHeight: 1,
                         controller: pocController,
                         textFormKey: Keys.equipmentNoKey,
-                        textCapitalization : false,
+                        textCapitalization: false,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
                           pocController.text = value;
                         },
-                        validateTextField: (String value) {},
+                        validateTextField: (String? value) {
+                          if (!Validator.isValidEmail(value)) {
+                            return Constants.enterValidEmail;
+                          }
+                        },
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       buttonViews(widget.mainContext, width),
@@ -121,11 +113,29 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkybluecolor,
       onTap: () {
+        if (!isFormValid.status) {
+          Validator().showToast(
+            context,
+            isFormValid.message,
+          );
+          return;
+        }
         widget.model?.poc = pocController.text;
         BlocProvider.of<SLAViolationPenaltyDetailsCubit>(widget.mainContext)
             .onAddPOC(pocController.text);
         Navigator.pop(context);
       },
     );
+  }
+
+  ErrorResponse get isFormValid {
+    if (!pocController.text.isEmptyOrNull &&
+        !Validator.isValidEmail(pocController.text)) {
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Valid Guarding Agency POC Email');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

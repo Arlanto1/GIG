@@ -1,19 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/token_expired.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../../models/rates_response.dart';
+import '../../../../../../index.dart';
+import '../../../../../utils/utils_common.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
@@ -22,7 +14,7 @@ part 'guarding_rates_state.dart';
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
   GuardingRatesBloc() : super(const GuardingRatesState()) {
     on<InitializeValuesGR>(_initializeValues);
-    on<FetchList>(
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
@@ -35,43 +27,9 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
   final GuardingServices _services = GuardingServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValuesGR event, Emitter<GuardingRatesState> emit) async {
-    try {
-      emit(state.copyWith(status: FormStatus.loading));
-      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.guardingRatesModule);
-
-      List<Organisation> regions =
-          await commonServices.getRegionsOrLocationsByRegionId();
-
-      CommonFilters commonFilters =
-          CommonFilters(regions: regions, statuses: statuses);
-
-      Locations locations =
-          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
-
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.guardingRatesModule);
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
-      return emit(
-        state.copyWith(
-          locations: locations,
-          regions: regions,
-          statuses: statuses,
-          commonFilters: commonFilters,
-          hasReachedMax: false,
-          status: FormStatus.initial,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
-    }
-  }
-
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<GuardingRatesState> emit) async {
+    log('--_refreshList---');
     try {
       RatesResponse response;
 
@@ -93,49 +51,61 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
     }
   }
 
-  // FutureOr<void> _fetchList(
-  //     FetchList event, Emitter<GuardingRatesState> emit) async {
-  //   try {
-  //     if (state.hasReachedMax) return;
-  //
-  //     if (state.status == FormStatus.initial) {
-  //       RatesResponse response = await _services.getRates(
-  //           startPosition: '${event.startPos}',
-  //           maximumRecords: '${event.maxPos}',
-  //           filters: event.filters);
-  //
-  //       return emit(
-  //         state.copyWith(
-  //           items: response.items,
-  //           hasReachedMax: response.items!.length < event.maxPos ? true : false,
-  //           status: FormStatus.success,
-  //         ),
-  //       );
-  //     }
-  //
-  //     RatesResponse response = await _services.getRates(
-  //         startPosition: '${event.startPos}',
-  //         maximumRecords: '${event.maxPos}',
-  //         filters: event.filters);
-  //
-  //     log('-response----2-----$response----');
-  //
-  //     if (response.items?.isEmpty == true) {
-  //       return emit(state.copyWith(hasReachedMax: true));
-  //     }
-  //     return emit(
-  //       state.copyWith(
-  //         items: List.of(state.items)..addAll(response.items ?? []),
-  //         hasReachedMax: false,
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     return emit(state.copyWith(status: FormStatus.failure));
-  //   }
-  // }
+  FutureOr<void> _initializeValues(
+      InitializeValuesGR event, Emitter<GuardingRatesState> emit) async {
+    log('--_initializeValues---');
+    try {
+      emit(state.copyWith(status: FormStatus.loading));
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.guardingRatesModule);
+
+      List<Organisation> regions =
+          await commonServices.getRegionsOrLocationsByRegionId();
+
+      CommonFilters commonFilters =
+          CommonFilters(regions: regions, statuses: statuses);
+
+      Locations locations =
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.guardingRatesModule);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingRatesModule,
+        commonServices: commonServices,
+      );
+
+      GRUiLabels labels = GRUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          locations: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
+          hasReachedMax: false,
+          status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
+        ),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchList(
-      FetchList event, Emitter<GuardingRatesState> emit) async {
+      FetchData event, Emitter<GuardingRatesState> emit) async {
+    log('--_fetchList---');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -143,17 +113,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
     );
 
     try {
-      // if (state.hasReachedMax) return;
-
       if (state.status == FormStatus.initial || event.newSearch) {
-        log('-_fetchMaterialMovements--initial--');
         RatesResponse response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
-
         response = await _services.getRates(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -168,8 +129,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
           ),
         );
       }
+      log('--after if---');
 
-      log('-_fetchMaterialMovements------##--');
       RatesResponse response;
       response = await _services.getRates(
         startPosition: '${event.startPos}',
@@ -178,7 +139,10 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
+        return emit(state.copyWith(
+          hasReachedMax: true,
+          status: FormStatus.success,
+        ));
       }
       return emit(
         state.copyWith(

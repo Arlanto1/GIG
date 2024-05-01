@@ -1,6 +1,7 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
@@ -46,7 +47,7 @@ class _KeyLossDestructionListViewState
       pageNumber = pageNumber + 20;
       context.read<KeyLossDestructionListBloc>().add(FetchKeyLossList(
           startPos: pageNumber,
-          maxPos: 20,
+          maxPos: Constants.maxResults,
           newSearch: true,
           filters: BaseFilterModel()));
     }
@@ -56,7 +57,7 @@ class _KeyLossDestructionListViewState
     context.read<KeyLossDestructionListBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -81,8 +82,8 @@ class _KeyLossDestructionListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportKmKldExcel',
+          pdfAPIName: 'exportKmKldPDF',
         ),
         body: BlocBuilder<KeyLossDestructionListBloc,
             KeyLossDestructionListState>(builder: (context, state) {
@@ -114,27 +115,29 @@ class _KeyLossDestructionListViewState
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                // if (state.list.isEmptyOrNull &&
+                //     state.status != FormStatus.loading&& state.status != FormStatus.initial) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                //   const NoRecordFoundWidget(),
+                // ],
 
                 Expanded(
                   child: SmartRefresher(
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -148,17 +151,22 @@ class _KeyLossDestructionListViewState
                         List<Label> labels = [];
                         if (index < state.list.length) {
                           labels.add(Label(
-                              key: 'Date of Creation',
-                              value: DateFormat('dd-MM-yyyy').format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      state.list[index].createdDate ??
-                                          0 * 1000))));
-                          labels.add(Label(
                               key:
-                                  // state.labels?.locale.location ??
-                                  //state.labels?.defaultLocale.location ??
+                                  // state.labels?.locale.reg ??
+                                  //  state.labels?.defaultLocale.locationRegion ??
+                                  'Created Date',
+                              value: state.list[index].createdDate != null
+                                  ? Utils.timestampToDateConversion(
+                                      int.parse(
+                                          state.list[index].createdDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.createdBy ??
+                                  state.labels?.defaultLocale.createdBy ??
                                   'Created By',
-                              value: state.list[index].createdBy?.name ?? ''));
+                              value:
+                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                         }
                         return index >= state.list.length
                             ? const BaseLoader()
@@ -193,7 +201,14 @@ class _KeyLossDestructionListViewState
                                     },
                                   );
                                 },
-                                showEditButton: false,
+                                onEditTap: (selectedIndex) {
+                                  getById(
+                                      state.extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
+                                      state.list[index].id ?? 0);
+                                },
+                                showEditButton: true,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
@@ -231,6 +246,31 @@ class _KeyLossDestructionListViewState
         }));
   }
 
+  getById(bool hasWritePermission, int id) async {
+    showLoadingDialog(context);
+
+    KeyLossDestructionListModel keyLossDestructionListModel =
+        await KeyLossDestructionListServices().getById(id);
+
+    editDataLoading(keyLossDestructionListModel, hasWritePermission);
+  }
+
+  void editDataLoading(
+    KeyLossDestructionListModel? keyLossDestructionListModel,
+    bool hasWritePermission,
+  ) {
+    dismissLoadingDialog(context);
+    if (keyLossDestructionListModel != null) {
+      Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,
+          arguments: {
+            "keyLossGi": keyLossDestructionListModel,
+            "title": Constants.editKeyLossDestruction,
+            ConstantsArgument.extraProperties:
+                ExtraProperties(hasWritePermission: hasWritePermission),
+          });
+    }
+  }
+
   void applySearchFilters(
     FilterCriteria model,
   ) {
@@ -238,7 +278,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -249,7 +292,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0, maxPos: 20, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

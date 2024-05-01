@@ -5,8 +5,9 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-part 'sla_violation_penalty_list_event.dart';
+import '../../../../../utils/utils_common.dart';
 
+part 'sla_violation_penalty_list_event.dart';
 part 'sla_violation_penalty_list_state.dart';
 
 class SLAViolationPenaltyListBloc
@@ -45,6 +46,11 @@ class SLAViolationPenaltyListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        commonServices: commonServices,
+      );
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -54,8 +60,18 @@ class SLAViolationPenaltyListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }

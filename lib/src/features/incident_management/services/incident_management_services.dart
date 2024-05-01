@@ -25,16 +25,19 @@ class IncidentManagementServices {
   Future<IncidentsResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
+    // required String userId,
     String? occId,
     int? occType,
+    int? kldId,
     required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&'
-        'userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
+    // 'userId=${await SharedPrefs.getUserId()}';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId&occType=$occType';
+    } else if (kldId != 0) {
+      url = '$url&kldId=$kldId';
     }
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),

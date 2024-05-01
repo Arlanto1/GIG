@@ -77,7 +77,15 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       }
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
-      model.inputDate = _getCurrentDate();
+      // model.inputDate = _getCurrentDate();
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -117,10 +125,6 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
 
   Future<void> updateDropdownValues({
@@ -167,9 +171,16 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.inputDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
     // Create/Update API Call
     AttendanceRequest request = AttendanceRequest(requestModel: state.model);
 
@@ -179,7 +190,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -191,7 +202,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -199,13 +210,18 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
         }
         response = (await services.create(body: request, isSubmit: true));
       }
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
@@ -226,11 +242,15 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
   }
 
-  Future<void> navigateToNextScreen(String id) async {
-    log('-navigateToNextScreen---');
+  Future<void> navigateToNextScreen({required int dutyPostNameId}) async {
+    log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
-    emit(state.copyWith(status: FormStatus.navigateToNextScreen, selectedDutyTypeId: id));
+    emit(state.copyWith(
+        status: FormStatus.navigateToNextScreen,
+        parentId: state.model.id,
+        selectedDutyPostNameId: dutyPostNameId));
   }
+
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.attendanceModule);

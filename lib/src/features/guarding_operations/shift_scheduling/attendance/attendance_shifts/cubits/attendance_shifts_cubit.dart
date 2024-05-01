@@ -4,20 +4,21 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'attendance_shifts_state.dart';
 
 class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   final AttendanceServices services;
-  final String id;
+  final int attInfoId;
+  final int selectedDutyPostNameId;
   final CommonServices commonServices;
   final SLAViolationPenaltyServices slaServices;
 
   AttendanceShiftsCubit({
     required this.services,
     required this.commonServices,
-    required this.id,
+    required this.attInfoId,
+    required this.selectedDutyPostNameId,
     required this.slaServices,
   }) : super(
           AttendanceShiftsState.initial(
@@ -32,7 +33,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         );
 
   Future<void> initializeValues() async {
-    log('--initializeValues--');
+    log('--initializeValues-@@@-');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -40,11 +41,12 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     DutyPostModel model = DutyPostModel();
-    if (id.isNotEmpty) {
-      model = await services.getDutyPostById(id: int.tryParse(id) ?? 0);
-    }
+    model = await services.getDutyPostById(
+      attInfoId: attInfoId,
+      dutyPostNameId: selectedDutyPostNameId,
+    );
 
-    log('--model----${model.name}--');
+    log('--model-@@@@---${model.name}--');
     // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
@@ -62,9 +64,21 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
             moduleCode: Constants.attendanceModule), // 6
         SharedPrefs.getDefaultLocation(), // 7
         services.getBriefingPoints(), // 8
-        slaServices.getGSvp(startPosition: '0', maximumRecords: '100', aShiftInfoId: id, filters: BaseFilterModel()), // 9
       ]);
+      List<SlaList> slaList = [];
 
+      for (Rank rank in model.ranks ?? []) {
+        for (Shift shift in rank.attendanceShift ?? []) {
+          SLAViolationPenaltyResponseModel list =
+              await SLAViolationPenaltyServices().getSvpList(
+            startPosition: '0',
+            maximumRecords: '100',
+            attInfoId: shift.attendanceShiftId!,
+          );
+          slaList.add(
+              SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
+        }
+      }
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
@@ -75,7 +89,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       Organisation? defaultLocation = futures[7];
       List<String> briefingPoints = futures[8];
       briefingPoints.add('');
-      SLAViolationPenaltyResponseModel slaResponse = futures[9];
 
       // model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
@@ -96,7 +109,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           briefingPoints: briefingPoints,
-          slaList: slaResponse.items,
+          shiftSlaList: slaList,
           labels: labels,
         ),
       );
@@ -121,10 +134,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
-
   void submitForm({bool isSaveOnly = false}) async {
     emit(
       state.copyWith(
@@ -133,42 +142,40 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     // Create/Update API Call
-    AttendanceRequest request =
-        AttendanceRequest(requestModel: AttendanceModel());
+    AttendanceShiftDutyPostRequest request =
+        AttendanceShiftDutyPostRequest(requestModel: DutyPostModel());
 
+    request.requestModel = state.model;
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
           return;
         }
-        response = (await services.create(body: request, isSubmit: false));
+        response = (await services.createAttendanceShiftDutyPost(
+            body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
           return;
         }
-        response = (await services.create(body: request, isSubmit: true));
+        response = (await services.createAttendanceShiftDutyPost(
+            body: request, isSubmit: true));
       }
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
       return;
     } on Exception catch (e) {
       emit(
@@ -188,4 +195,11 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       ),
     );
   }
+}
+
+class SlaList {
+  final int attInfoId;
+  final List<SLAViolationPenaltyModel>? items;
+
+  SlaList({required this.attInfoId, required this.items});
 }

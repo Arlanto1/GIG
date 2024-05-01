@@ -7,6 +7,7 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -14,14 +15,17 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
+import '../../passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
+
 class CreateFoundNewUser extends StatefulWidget {
   //const CreateFoundNewUser({super.key});
-  CreateFoundNewUser(
-      {super.key,
-      required this.title,
-      this.lawstate,
-      this.createoundstate,
-      this.createpassmgmtstate});
+  CreateFoundNewUser({
+    super.key,
+    required this.title,
+    this.lawstate,
+    this.createoundstate,
+    this.createpassmgmtstate,
+  });
 
   final String title;
   LawEnforcementState? lawstate;
@@ -38,6 +42,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   TextEditingController lastnameTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
 
+  CreatePassMgmtService createpassmgmtServices = CreatePassMgmtService();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,13 +56,13 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     if (widget.createoundstate != null) {
       await createFoundArticleCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    }
-    // else if (widget.createpassmgmtstate != null)
-    // {
-    //    await createpassmgmtCubit.createUser(
-    //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    // }
-    else if (widget.lawstate != null) {
+    } else if (widget.createpassmgmtstate != null) {
+      CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(
+          createpassmgmtServices:
+              createpassmgmtServices); // Instantiate CreatePassMgmtCubit
+      await createPassMgmtCubit.createUser(
+          firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    } else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
@@ -216,7 +222,6 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           }
         }
       },
-
     );
   }
 }

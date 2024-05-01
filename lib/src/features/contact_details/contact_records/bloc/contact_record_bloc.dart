@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../models/contacts_list_response_model.dart';
-import '../../models/requestModels/contacts_request.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_record_event.dart';
@@ -40,6 +38,14 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
           hasReachedMax: false,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }

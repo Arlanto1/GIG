@@ -4,10 +4,11 @@ class KeyReconciliationListState extends Equatable {
   final List<KeyReconciliationListModel> list;
   final bool hasReachedMax;
   final FormStatus status;
-  final SlaUiLabels? labels;
+  final KMUiLabels? labels;
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
+  final ExtraProperties? extraProperties;
 
   const KeyReconciliationListState({
     this.list = const <KeyReconciliationListModel>[],
@@ -17,7 +18,7 @@ class KeyReconciliationListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
-    //this.labels
+    this.extraProperties,
   });
 
   KeyReconciliationListState copyWith({
@@ -26,10 +27,11 @@ class KeyReconciliationListState extends Equatable {
     FormStatus? status,
     String? message,
     Locations? locations,
-    SlaUiLabels? labels,
+    KMUiLabels? labels,
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return KeyReconciliationListState(
       list: items ?? list,
@@ -39,7 +41,7 @@ class KeyReconciliationListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
-      // labels: labels ?? this.labels
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

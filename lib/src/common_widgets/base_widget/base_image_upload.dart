@@ -1,19 +1,4 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../constants/app_icon.dart';
-import '../../constants/constants.dart';
-import '../../features/createfound/models/user.dart';
-import '../../features/createfound/views/upload_attachment.dart';
-import '../../utils/app_themes/colors/app_color.dart';
-import '../../utils/app_themes/styles/app_styles.dart';
-import '../../utils/helpers/keys/keys.dart';
-import '../basic_reusable_widgets.dart';
-import '../image_download.dart';
 
 class BaseImageUpload {
   Widget uploadWidget({
@@ -74,14 +59,18 @@ class BaseImageUpload {
     List<ImageContent>? files,
     List<ImageContent>? attachments,
     required bool showDownloadIcon,
+    required String moduleCode,
+    bool? showDeleteIcon,
   }) {
     if (attachments != null) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
-          _attachmentListviews(
+          AttachmentListView(
             attachmentListviews: files ?? attachments,
             showDownloadIcon: showDownloadIcon,
+            moduleCode: moduleCode,
+            showDeleteIcon: showDeleteIcon,
           ),
         ],
       );
@@ -92,11 +81,29 @@ class BaseImageUpload {
       width: 0,
     );
   }
+}
 
-  Widget _attachmentListviews({
-    List<ImageContent>? attachmentListviews,
-    required bool showDownloadIcon,
-  }) {
+class AttachmentListView extends StatefulWidget {
+  final List<ImageContent>? attachmentListviews;
+  final bool showDownloadIcon;
+  final String moduleCode;
+  final bool? showDeleteIcon;
+
+  const AttachmentListView({
+    Key? key,
+    this.attachmentListviews,
+    required this.showDownloadIcon,
+    required this.moduleCode,
+    this.showDeleteIcon,
+  }) : super(key: key);
+
+  @override
+  AttachmentListViewState createState() => AttachmentListViewState();
+}
+
+class AttachmentListViewState extends State<AttachmentListView> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -110,12 +117,11 @@ class BaseImageUpload {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: attachmentListviews?.length ?? 0,
+        itemCount: widget.attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          ImageContent? imageData = attachmentListviews?[index];
+          ImageContent? imageData = widget.attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
-          imageNameController.text =
-              imageData?.title ?? '';
+          imageNameController.text = imageData?.title ?? '';
           return Column(
             children: <Widget>[
               ListTile(
@@ -125,24 +131,29 @@ class BaseImageUpload {
                     GestureDetector(
                       onTap: () {
                         // Add your download functionality here
-                        DownloadImage().saveImage(context, imageData?.id ?? 0,
-                            imageData?.title ?? '');
+                        DownloadImage().saveImage(
+                          context,
+                          imageData?.id ?? 0,
+                          imageData?.title ?? '',
+                          widget.moduleCode,
+                        );
                       },
-                      child: SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground),
+                      child: BaseIcons().downloadIcon(),
                     ),
                     const SizedBox(width: 10),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
+                    widget.showDeleteIcon == true
+                        ? IconButton(
+                      icon: BaseIcons().deleteIcon(),
                       onPressed: () {
                         // Delete logic here
                         if (imageData != null) {
-                          //setState(() {
-                          attachmentListviews!.removeAt(index);
-                          //});
+                          setState(() {
+                            widget.attachmentListviews!.removeAt(index);
+                          });
                         }
                       },
-                    ),
+                    )
+                        : const SizedBox(),
                   ],
                 ),
                 title: FlutterInputField(

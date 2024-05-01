@@ -10,7 +10,7 @@ class DutyPostMasterDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final String? message;
   final List<User>? entrySecurities;
-  final GmUiLabels? labels;
+  final SSUiLabels? labels;
 
   factory DutyPostMasterDetailsState.initial({
     required DutyPostMasterModel model,
@@ -34,7 +34,6 @@ class DutyPostMasterDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-
     if (model.location == null) {
       log('-model.location-----isValidDraft-');
       return const ErrorResponse(
@@ -49,8 +48,6 @@ class DutyPostMasterDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
-
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -80,7 +77,7 @@ class DutyPostMasterDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     String? message,
     List<User>? entrySecurities,
-    final GmUiLabels? labels,
+    final SSUiLabels? labels,
   }) {
     return DutyPostMasterDetailsState(
       status: status ?? this.status,

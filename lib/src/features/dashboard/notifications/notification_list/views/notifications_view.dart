@@ -53,15 +53,24 @@ class _NotificationsViewState extends State<NotificationsView> {
   }
 
   void deleteAllNotification() {
-    BlocProvider.of<nb.NotificationsBloc>(context)
-        .add(const nb.DeleteAllRecords());
+    var dialog = CustomAlertDialog(
+        title: Constants.deleteAllNotifications,
+        message: Constants.deleteAllNotificationWarningMessage,
+        onPositivePressed: () {
+          BlocProvider.of<nb.NotificationsBloc>(context)
+              .add(const nb.DeleteAllRecords());
+          Navigator.pop(context);
+        },
+        positiveBtnText: Constants.yes,
+        negativeBtnText: Constants.no);
+    showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
   void _onRefresh() async {
     context.read<NotificationsBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 
@@ -99,6 +108,8 @@ class _NotificationsViewState extends State<NotificationsView> {
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
         listener: (context, state) {
+          Utils().formError(state, context);
+          Utils().errorAndLogout(state, context);
           if (state.status == FormStatus.sessionExpired) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.red,
@@ -129,9 +140,11 @@ class _NotificationsViewState extends State<NotificationsView> {
                     controller: refreshController,
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
-                    header: const WaterDropHeader(
+                    header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkybluecolor,
-                      refresh: BaseLoader(),
+                      refresh: state.status != FormStatus.loading
+                          ? const BaseLoader()
+                          : null,
                     ),
                     key: const Key(Keys.refreshKey),
                     onRefresh: _onRefresh,
@@ -267,7 +280,7 @@ class NotificationTile extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        Utils.timestamptoDateConversion(
+                        Utils.timestampToDateConversion(
                           int.tryParse(item.createdDate ?? ''),
                           Constants.dateFormat,
                         ),
@@ -285,7 +298,7 @@ class NotificationTile extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        Utils.timestamptoDateConversion(
+                        Utils.timestampToDateConversion(
                           int.tryParse(item.createdDate ?? ''),
                           Constants.timeFormat,
                         ),

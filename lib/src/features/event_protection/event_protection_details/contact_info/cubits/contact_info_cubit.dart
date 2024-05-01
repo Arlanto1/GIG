@@ -73,7 +73,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     var userId = await SharedPrefs.getUserId();
     try {
       ContactInfoModel model = ContactInfoModel();
-      if(id.isNotEmpty) {
+      if (id.isNotEmpty) {
         // model = await services.getCI(id);
       }
       Locations getLocationsData =
@@ -84,7 +84,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
 
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -153,32 +152,32 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
 
     state.model.bu1 = bu1 ?? state.model.bu1;
     state.model.bu2 = bu2 ?? state.model.bu2;
- //   state.model.requesterDepartment =
-   //     requesterDepartment ?? state.model.requesterDepartment;
+    //   state.model.requesterDepartment =
+    //     requesterDepartment ?? state.model.requesterDepartment;
 
     // if (entities != null) {
     //   state.model.entities = entities;
     // }
 
-   if (subRegionalHead1 != null) {
-       state.model.srh1 = subRegionalHead1.email as Srh1?;
-     }
-     if (subRegionalHead2 != null) {
-       state.model.srh2 = subRegionalHead2.name as Srh2?;
-     }
-     if (locationSecurityManager1 != null) {
-       state.model.lsm1= locationSecurityManager1.email as Lsm1?;
-     }
-     if (locationSecurityManager2 != null) {
+    if (subRegionalHead1 != null) {
+      state.model.srh1 = subRegionalHead1.email as Srh1?;
+    }
+    if (subRegionalHead2 != null) {
+      state.model.srh2 = subRegionalHead2.name as Srh2?;
+    }
+    if (locationSecurityManager1 != null) {
+      state.model.lsm1 = locationSecurityManager1.email as Lsm1?;
+    }
+    if (locationSecurityManager2 != null) {
       state.model.lsm2 = locationSecurityManager2.email as Lsm2?;
-     }
+    }
 
-     if (bu1 != null) {
-       state.model.bu1 = bu1.email as Bu1?;
-     }
-     if (bu2 != null) {
-       state.model.bu2 = bu2.email as Bu2?;
-     }
+    if (bu1 != null) {
+      state.model.bu1 = bu1.email as Bu1?;
+    }
+    if (bu2 != null) {
+      state.model.bu2 = bu2.email as Bu2?;
+    }
 
     if (epManager1 != null) {
       state.model.epManager1 = epManager1.email as EpManager1?;
@@ -351,7 +350,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
         if (!state.isValid.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
@@ -368,7 +367,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
         ),
       );
       return;
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           message: e.toString(),

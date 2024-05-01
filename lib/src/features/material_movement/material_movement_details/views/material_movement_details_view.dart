@@ -10,12 +10,14 @@ class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? model;
   final bool isInward;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const MaterialMovementDetailsView({
     super.key,
     this.model,
     required this.isInward,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -47,6 +49,7 @@ class _MaterialMovementDetailsViewState
       TextEditingController();
 
   final FocusNode requestorEmployeeIdFocusNode = FocusNode();
+  final FocusNode receivedForEmployeeIdFocusNode = FocusNode();
   final FocusNode sentToFocusNode = FocusNode();
   final FocusNode receivedByFocusNode = FocusNode();
 
@@ -84,6 +87,8 @@ class _MaterialMovementDetailsViewState
       listener: (context, state) {
         log('-state.status--${state.status}--');
 
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Material Movement',
@@ -105,12 +110,6 @@ class _MaterialMovementDetailsViewState
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
-        }
-        if (state.status == FormStatus.error) {
-          Validator().showToast(
-            context,
-            state.message ?? 'Invalid Information',
-          );
         }
       },
       builder: (context, state) {
@@ -138,6 +137,10 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == ConstantsIntValue.businessUserReview) {
           isReadOnly = state.isReadOnly ?? false;
         }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
 
         showSaveSubmitButtons = state.model.status == 0 ||
             state.model.status == 8 ||
@@ -145,7 +148,8 @@ class _MaterialMovementDetailsViewState
             state.model.status == 6 ||
             state.model.status == 7 ||
             state.model.status == 9 ||
-            state.model.status == null||isReadOnly == false;
+            state.model.status == null ||
+            isReadOnly == false;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -173,7 +177,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: state.model.status == 3 ? true : false,
+            showLikeButton:
+                state.model.status == 3 && !isReadOnly ? true : false,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -184,7 +189,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton: state.model.status == 3 ? true : false,
+            showDisLikeButton:
+                state.model.status == 3 && !isReadOnly ? true : false,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -225,14 +231,14 @@ class _MaterialMovementDetailsViewState
   void initializeDates(MaterialMovementDetailsState state) {
     log('-widget.materialMovement?.expectedDateOfReturn--${widget.model?.expectedDateOfReturn}--');
     if (state.model.expectedDateOfReturn != null) {
-      expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
+      expectedDateOfReturnController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
-    actualDateOfReturnController.text = Utils.timestamptoDateConversion(
+    actualDateOfReturnController.text = Utils.timestampToDateConversion(
         int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
         Constants.dateFormat);
-    takenOutOnDateController.text = Utils.timestamptoDateConversion(
+    takenOutOnDateController.text = Utils.timestampToDateConversion(
         int.tryParse(widget.model?.takenOutDate ?? '0'), Constants.dateFormat);
   }
 
@@ -524,7 +530,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                            isMandatory: widget.model == null ? false : true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -567,7 +573,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory: widget.model == null ? false : true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -1999,6 +2005,8 @@ class _MaterialMovementDetailsViewState
                                                       context)
                                                   .updateDropdownValues(
                                                       receiverEmailUser: user);
+                                              FocusScope.of(context).requestFocus(
+                                                  receivedForEmployeeIdFocusNode);
                                             },
                                             functionToCall: () {
                                               // refresh the list
@@ -2014,20 +2022,13 @@ class _MaterialMovementDetailsViewState
                                       height * 0.01),
                                 ],
                               ),
-                              if (!state.model.originalReceiver) ...[],
 
                               /// Received for Employee Id
                               CommonWidgets.textDisplay(
-                                !state.model.originalReceiver
-                                    ? state.labels?.locale.receiverEmployeeId ??
-                                        state.labels?.defaultLocale
-                                            .receiverEmployeeId ??
-                                        Constants.receivedForEmployeeId
-                                    : state.labels?.locale
-                                            .otherReceiverEmployeeId ??
-                                        state.labels?.defaultLocale
-                                            .otherReceiverEmployeeId ??
-                                        Constants.receiverEmployeeId,
+                                state.labels?.locale.receiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .receiverEmployeeId ??
+                                    Constants.receivedForEmployeeId,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -2037,6 +2038,7 @@ class _MaterialMovementDetailsViewState
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
+                                focusNode: receivedForEmployeeIdFocusNode,
                                 hintText: '',
                                 onChange: (String value) {
                                   state.model.receiverEmployeeId = value;
@@ -2092,13 +2094,12 @@ class _MaterialMovementDetailsViewState
                                                 context)
                                             .refreshList();
                                       });
-                                  // leodepartmentsDialog(state);
+                                  // leodepartmentsDialog(stat
                                 }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            if (state.model.originalReceiver) ...[
+                            if (state.model.originalReceiver == true) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.receiverName ??
@@ -2121,7 +2122,7 @@ class _MaterialMovementDetailsViewState
                                                     MaterialMovementDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                            receiverEmail: user);
+                                                receiverEmail: user);
                                       },
                                       functionToCall: () {
                                         // refresh the list
@@ -2135,24 +2136,9 @@ class _MaterialMovementDetailsViewState
                                 },
                               ),
                             ],
-                            // FlutterInputField(
-                            //   initialValue: state.model.otherReceiverName,
-                            //   textFormKey: Keys.receivedByKey,
-                            //   isEnable: !isReadOnly,
-                            //   isDisableColor: isReadOnly,
-                            //   hintText: '',
-                            //   onChange: (String value) {
-                            //     state.model.otherReceiverName = value;
-                            //     context
-                            //         .read<MaterialMovementDetailsCubit>()
-                            //         .onModelValueChange(state.model);
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            // ),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (!state.model.originalReceiver) ...[
+                            if (state.model.originalReceiver == false) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.receiverName ??
@@ -2177,36 +2163,65 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
+
+                              /// Received by Employee Id
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.otherReceiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .otherReceiverEmployeeId ??
+                                    Constants.receiverEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+
+                              FlutterInputField(
+                                initialValue:
+                                    state.model.otherReceiverEmployeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.otherReceiverEmployeeId = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Received by Employee Id
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.otherReceiverEmployeeId ??
-                                  state.labels?.defaultLocale
-                                      .otherReceiverEmployeeId ??
-                                  Constants.receiverEmployeeId,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-
-                            FlutterInputField(
-                              initialValue: state.model.otherReceiverEmployeeId,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.otherReceiverEmployeeId = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             //],
+                            if (state.model.originalReceiver == true) ...[
+                              /// Received by Employee Id
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.otherReceiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .otherReceiverEmployeeId ??
+                                    Constants.receiverEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              FlutterInputField(
+                                initialValue: state.model.receiverEmployeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.receiverEmployeeId = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
                             /// Receiver Signature test
                             buildSignature(
@@ -2520,6 +2535,7 @@ class _MaterialMovementDetailsViewState
                             files: getFiles,
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
+                            moduleCode: Constants.materialMovementModuleCode,
                           ),
                         ]),
                       ),
@@ -2718,28 +2734,53 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 10;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              var dialog = CustomAlertDialog(
+                  title: Constants.cancelRecord,
+                  message: Constants.cancelRecordWarningMessage,
+                  onPositivePressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    updateRecordStatus(state);
+                  },
+                  positiveBtnText: Constants.yes,
+                  negativeBtnText: Constants.no);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
 
   void updateRecordStatus(MaterialMovementDetailsState state) {
-    if (state.model.id != null && isReadOnly) {
+    log('---updateRecordStatus---');
+    if (state.model.id != null) {
       BlocProvider.of<MaterialMovementDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": widget.isInward}
-      );
+      Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": widget.isInward});
     } else {
       Navigator.pop(context);
     }
@@ -2753,7 +2794,6 @@ class _MaterialMovementDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-
         BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
           receiverSignatureController: receiverSignatureController,
           securitySignatureController: securitySignatureController,
@@ -2904,15 +2944,18 @@ class _MaterialMovementDetailsViewState
             children: <Widget>[
               ListTile(
                 trailing: widget.model != null
-                    ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
+                    ? BaseIcons().deleteIcon()
                     : const SizedBox(
                         height: 0,
                         width: 0,
                       ),
                 onTap: () {
                   DownloadImage().saveImage(
-                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                    context,
+                    imageData1?.id ?? 0,
+                    imageData1?.title ?? '',
+                    Constants.materialMovementModuleCode,
+                  );
                 },
                 title: widget.model != null
                     ? Text(imageData1?.title ?? '')

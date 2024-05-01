@@ -38,6 +38,9 @@ class DashboardViewState extends State<DashboardView>
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
+
         if (state.status == FormStatus.sessionExpired) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.red,
@@ -156,7 +159,7 @@ class DashboardViewState extends State<DashboardView>
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
-        message: Constants.logoutvalidation,
+        message: Constants.logoutValidation,
         onPositivePressed: () {
           Validator.logoutAction(context);
         },
