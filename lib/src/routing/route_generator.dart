@@ -656,7 +656,6 @@ class RouteGenerator {
               id: id,
               title: title,
               extraProperties: extraProperties,
-
             ),
           ),
         );
@@ -1318,6 +1317,7 @@ class RouteGenerator {
         int parentStatus = 0;
         int locationId = 0;
         bool isMasterKey = false;
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1326,6 +1326,7 @@ class RouteGenerator {
           parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
           isMasterKey = arguments[ConstantsArgument.isMasterKey];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
 
         return MaterialPageRoute(
@@ -1345,6 +1346,7 @@ class RouteGenerator {
               locationId: locationId,
               title: title,
               isMasterKey: isMasterKey,
+              extraProperties: extraProperties,
             ),
           ),
         );
@@ -1579,12 +1581,14 @@ class RouteGenerator {
       case vipVisitorsRecordsRoute:
         String title = '';
         int id = 0;
+        ExtraProperties? extraProperties;
         // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
           // violationDescription =
           //     arguments[ConstantsArgument.violationDescription] ?? '';
         }
@@ -1599,9 +1603,7 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: VVIPVisitorsRecordView(
-              id: id,
-              title: title,
-            ),
+                id: id, title: title, extraProperties: extraProperties),
           ),
         );
 

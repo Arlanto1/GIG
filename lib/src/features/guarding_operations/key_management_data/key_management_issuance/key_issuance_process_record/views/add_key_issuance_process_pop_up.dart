@@ -14,6 +14,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.mainContext,
     required this.keyDescriptions,
     required this.selectedKeyDescription,
+    this.extraProperties,
   });
 
   final String title;
@@ -23,6 +24,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final List<Organisation> keyDescriptions;
   final Organisation? selectedKeyDescription;
   final int parentStatus;
+  final ExtraProperties? extraProperties;
 
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
@@ -169,12 +171,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             title: keyDescriptionController.text,
                             height: 70,
                             isDisableColor: widget.parentStatus != 0 &&
-                                !(state.extraProperties?.hasWritePermission ??
-                                    false),
+                                (widget.extraProperties != null &&
+                                    !widget.extraProperties!.hasWritePermission! ),
                             onTap: () {
                               if (widget.parentStatus == 0 &&
-                                  (state.extraProperties?.hasWritePermission ??
-                                      false)) {
+                                  !(widget.extraProperties != null &&
+                                      !widget.extraProperties!.hasWritePermission! )) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
@@ -224,8 +226,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         items: keyTypeDropDownValues,
                         onTap: () {
                           if (widget.parentStatus == 0 &&
-                              (state.extraProperties?.hasWritePermission ??
-                                  false)) {
+                              !(widget.extraProperties != null &&
+                                  !widget.extraProperties!.hasWritePermission! )) {
                             BaseDropDown().assetTypeDialog(
                               context: context,
                               dropDownValues: keyTypeDropDownValues
@@ -367,8 +369,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         controller: numberOfKeysIssuedController,
                         hintText: '',
                         isEnable: widget.parentStatus == 0 &&
-                            (state.extraProperties?.hasWritePermission ??
-                                false),
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission! ),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.noKeysIssued = int.tryParse(value);
@@ -396,8 +398,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         controller: returnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1 &&
-                            (state.extraProperties?.hasWritePermission ??
-                                false),
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission! ),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
@@ -421,8 +423,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         controller: notReturnedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1 &&
-                            (state.extraProperties?.hasWritePermission ??
-                                false),
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission! ),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
@@ -447,8 +449,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         controller: lostKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1 &&
-                            (state.extraProperties?.hasWritePermission ??
-                                false),
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission! ),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
@@ -473,8 +475,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         controller: damagedKeysController,
                         hintText: '',
                         isEnable: widget.parentStatus == 1 &&
-                            (state.extraProperties?.hasWritePermission ??
-                                false),
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission! ),
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.damaged = int.tryParse(value);
@@ -504,7 +506,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       children: <Widget>[
         cancelButton(width),
         if ((widget.parentStatus == 0 || widget.parentStatus == 1) &&
-            (state.extraProperties?.hasWritePermission ?? false))
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission! ))
           saveButton(width, widget.onSubmit)
       ],
     );
