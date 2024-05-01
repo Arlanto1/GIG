@@ -9,6 +9,7 @@ const List<Label> statusDropDownValues = [
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
+  Label(key: 'Already Assigned', value: '5'),
   Label(key: 'Cancelled', value: '-1'),
 ];
 
