@@ -459,7 +459,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
                                         context)
-                                    .onModelValueChange(state.model);
+                                    .onCheckBoxChange(state.model);
                               },
                               context: context,
                             ),
@@ -486,7 +486,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
                                         context)
-                                    .onModelValueChange(state.model);
+                                    .onCheckBoxChange(state.model);
                               },
                               context: context,
                             ),

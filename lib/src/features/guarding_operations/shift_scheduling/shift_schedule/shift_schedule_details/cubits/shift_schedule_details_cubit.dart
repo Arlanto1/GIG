@@ -435,6 +435,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     if (dutyPostNameId != null &&
         navigateToNextScreen &&
         !response.id.isEmptyOrNull) {
+      state.model.id = int.tryParse(response.id!);
       selectedDutyPostModel =
           await services.getDutyPostByShiftIdAndDutyPostNameId(
         dutyPostId: dutyPostNameId,
@@ -444,6 +445,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
     emit(
       state.copyWith(
+        model: state.model,
         message: response.message,
         seletedDutyPostModel: selectedDutyPostModel,
         status: navigateToNextScreen
