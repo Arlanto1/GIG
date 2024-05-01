@@ -84,6 +84,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == -1) {
           isReadOnly = true;
         }
+        if (state.model.status == 1) {
+          isReadOnly = true;
+        }
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
@@ -1701,7 +1704,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     List<Widget> widgets = [];
 
     log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
-
     for (PowerFailureModel powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
@@ -1728,8 +1730,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             isDisabled: state.model.id == null &&
                                 state.isOnGoingPowerFailure!,
                             onlyDate: false,
+                            showFutureDate: false,
                             onChange: (String value) {
-                              powerFailure.powerFailureEndDate =
+                              powerFailure.powerFailureStartDate =
                                   Utils.dateToTimestampConversion(
                                           value, Constants.fulldateFormat)
                                       .toString();

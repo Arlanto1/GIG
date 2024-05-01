@@ -103,26 +103,19 @@ class BaseDate {
 
     DateTime minTime = showPastDate ? DateTime(1900) : currentTime;
     DateTime maxTime = showFutureDate ? DateTime(2101) : currentTime;
-    log('-startDate---$startDate-');
-    log('--minTime-1-$minTime--');
 
     if (!startDate.isEmptyOrNull) {
-      log('-startDate-@@-${startDate.toString()}-is not empty-');
       if (startDate!.contains('-')) {
         minTime = DateTime.parse(startDate);
       } else {
         // Parse the startDate as an int and convert it to milliseconds
         int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
-        log('-millisecondsSinceEpoch---${millisecondsSinceEpoch.toString()}-');
 
         // Check if the parsed value is valid
         if (millisecondsSinceEpoch > 0) {
           // Convert milliseconds since epoch to DateTime
           minTime = DateTime.fromMillisecondsSinceEpoch(
               millisecondsSinceEpoch * 1000);
-          log('-minTime---${minTime.toString()}-');
-
-          log('-startDate---currentTime--${currentTime.toString()}-----minTime${minTime.toString()}');
 
           // Ensure minTime is not before the current time
           minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
@@ -130,8 +123,7 @@ class BaseDate {
       }
     }
 
-    log('-onlyDate---$onlyDate-');
-    if (onlyDate && !fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+    if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
@@ -145,6 +137,10 @@ class BaseDate {
           pickedDate = date;
           log('confirm $date');
           if (pickedDate != null) {
+            if (!onlyDate) {
+              showTimePicker(
+                  context, pickedDate!, onlyDate, textController, onChange);
+            }
             return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
@@ -173,16 +169,6 @@ class BaseDate {
       );
     } else {
       log('--else@@@@@@--');
-      // Ensure minTime is set to the current time if showPastDate is false
-      // minTime = minTime.isBefore(currentTime) ? currentTime : minTime;
-
-      log('--minTime--else-$minTime--');
-      log('--maxTime--else-$maxTime--');
-      // Problem: minTime is not working properly for showDateTimePicker
-      // it showing past date also when given startDate
-      // I want to show minTime as some date in future based on startDate parameter
-      // showDatePicker is working fine with same logic
-      // Using package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart
 
       DatePicker.showDatePicker(
         context,
@@ -205,27 +191,6 @@ class BaseDate {
         currentTime: currentTime,
         locale: LocaleType.en,
       );
-
-      // DatePicker.showDateTimePicker(
-      //   context,
-      //   showTitleActions: true,
-      //   minTime: minTime,
-      //   maxTime: maxTime,
-      //   onChanged: (date) {
-      //     pickedDate = date;
-      //     log('change $date');
-      //   },
-      //   onConfirm: (date) {
-      //     pickedDate = date;
-      //     log('--pickedDate--confirm---$pickedDate--');
-      //
-      //     if (pickedDate != null) {
-      //       return setDateTime(pickedDate!, onlyDate, textController, onChange);
-      //     }
-      //   },
-      //   currentTime: currentTime,
-      //   locale: LocaleType.en,
-      // );
     }
 
     if (pickedDate != null) {
@@ -246,15 +211,18 @@ class BaseDate {
       onChanged: (time) {},
       onConfirm: (time) {
         log('--time--${time.toString()}--');
-        // pickedDate.add(duration)
 
         setDateTime(time, onlyDate, textController, onChange);
       },
     );
   }
 
-  String setDateTime(DateTime? pickedDate, bool onlyDate,
-      TextEditingController textController, Function(String) onChange) {
+  String setDateTime(
+    DateTime? pickedDate,
+    bool onlyDate,
+    TextEditingController textController,
+    Function(String) onChange,
+  ) {
     log('--pickedDate-sss-$pickedDate--');
     String formattedDate = DateFormat(
       onlyDate ? Constants.dateFormat : Constants.fulldateFormat,

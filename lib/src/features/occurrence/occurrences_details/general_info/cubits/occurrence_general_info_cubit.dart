@@ -384,6 +384,27 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.inputDate = inputDate.toString();
     }
 
+    for (PowerFailureModel powerFailureModel
+        in state.model.powerFailures ?? []) {
+      if (!powerFailureModel.powerFailureStartDate.isEmptyOrNull &&
+          !Utils().isTimestamp(powerFailureModel.powerFailureStartDate!)) {
+
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureStartDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        powerFailureModel.powerFailureStartDate = inputDate.toString();
+      }
+
+      if (!powerFailureModel.powerFailureEndDate.isEmptyOrNull &&
+          !Utils().isTimestamp(powerFailureModel.powerFailureEndDate!)) {
+
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureEndDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        powerFailureModel.powerFailureEndDate = inputDate.toString();
+      }
+    }
+
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
         OccurrenceGeneralInfoRequest(occurrence: state.model);

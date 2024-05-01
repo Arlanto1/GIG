@@ -1985,24 +1985,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? photogetAttachement(height)
                                         : Container(),
 
-                                    if (widget.passId ==
-                                        ConstantsIntValue.passIdDayPass) ...[
-                                      BaseImageUpload().getAttachment(
-                                        height: height,
-                                        attachments:
-                                            state.loadAttachments.isEmptyOrNull
-                                                ? getFiles
-                                                : state.loadAttachments,
-                                        files: getFiles.isEmptyOrNull
-                                            ? getAttachments
-                                            : getFiles,
-                                        showDownloadIcon:
-                                            widget.model == null ||
-                                                widget.model?.status == 0,
-                                        moduleCode:
-                                            Constants.passManagementModuleCode,
-                                      ),
-                                    ],
+                                    // if (widget.passId ==
+                                    //     ConstantsIntValue.passIdDayPass) ...[
+                                    //   BaseImageUpload().getAttachment(
+                                    //     height: height,
+                                    //     attachments:
+                                    //         state.loadAttachments.isEmptyOrNull
+                                    //             ? getFiles
+                                    //             : state.loadAttachments,
+                                    //     files: getFiles.isEmptyOrNull
+                                    //         ? getAttachments
+                                    //         : getFiles,
+                                    //     showDownloadIcon:
+                                    //         widget.model == null ||
+                                    //             widget.model?.status == 0,
+                                    //     moduleCode:
+                                    //         Constants.passManagementModuleCode,
+                                    //   ),
+                                    // ],
 
                                     ///upload
                                     ((widget.model == null ||

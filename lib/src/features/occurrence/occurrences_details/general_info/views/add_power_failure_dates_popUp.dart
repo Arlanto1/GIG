@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:intl/intl.dart';
 
 class AddDatePopUp extends StatefulWidget {
   const AddDatePopUp({
@@ -21,6 +22,8 @@ class AddDatePopUpState extends State<AddDatePopUp> {
   TextEditingController powerFailureStartDateController =
       TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
+  String? selectedStartDate;
+  String? startToDate;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +57,19 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         onlyDate: false,
                         showFutureDate: false,
                         onChange: (String value) {
-                          log('--fr-value-${powerFailureStartDateController.text}------');
+                          log('--value----$value------');
                           powerFailureStartDateController.text = value;
+                           selectedStartDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value).toString();
+                          DateTime parsedDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value);
+
+                          // Add two days to the parsed date
+                          DateTime newDate = parsedDate.add(const Duration(days: 1));
+
+                          // Format the new date back into the desired string format
+                          startToDate = newDate.toString();
+
+
+                          setState(() {});
                         },
                         context: widget.mainContext,
                       ),
@@ -68,6 +82,11 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         textController: powerFailureEndDateController,
                         isDisabled: false,
                         onlyDate: false,
+                        startDate: selectedStartDate,
+                        fromDate: selectedStartDate,
+                        toDate: startToDate.isEmptyOrNull
+                            ? ''
+                            : startToDate,
                         showFutureDate: false,
                         onChange: (String value) {
                           log('--fr-value-${powerFailureEndDateController.text}------');

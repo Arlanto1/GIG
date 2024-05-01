@@ -199,7 +199,7 @@ class ShiftScheduleServices {
     required int userId,
   }) async {
     String url =
-        '${Apis._getNextAvailableReplacementDates}/$dutyPostId?userId=$userId&rankId=$rankId&shiftId=$shiftId';
+        '${Apis._getNextAvailableReplacementDates}/$dutyPostId?replaceForUserId=$userId&rankId=$rankId&shiftId=$shiftId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
