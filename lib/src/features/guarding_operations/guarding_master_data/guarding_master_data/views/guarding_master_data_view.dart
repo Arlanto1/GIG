@@ -224,7 +224,8 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                         },
                                         onEditTap: (selectedIndex) {
                                           getById(
-                                              state.extraProperties?.hasWritePermission ??
+                                              state.extraProperties
+                                                      ?.hasWritePermission ??
                                                   false,
                                               state.list[index].id ?? 0);
                                         },
@@ -276,16 +277,17 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         });
   }
 
-  getById(bool hasWritePermission,int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     GuardingMastersDataModel guardingMastersDataModel =
         await GuardingMasterDataServices().getGuardingMastersData(id);
 
-    editDataLoading(guardingMastersDataModel,hasWritePermission);
+    editDataLoading(guardingMastersDataModel, hasWritePermission);
   }
 
-  void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel,bool hasWritePermission) {
+  void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
 
     log('-guardingMastersDataModel---id---${guardingMastersDataModel?.id}---');
@@ -295,8 +297,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         "GuardingMastersDataModel": guardingMastersDataModel,
         "title": Constants.editGuardingMasterData,
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
-
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }

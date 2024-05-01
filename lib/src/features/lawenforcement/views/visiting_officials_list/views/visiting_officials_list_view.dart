@@ -64,7 +64,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
     return BlocConsumer<VisitingOfficialListBloc, VisitingOfficialListState>(
         listener: (context, state) {
       Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+      Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return PopScope(
         canPop: false,
@@ -199,8 +199,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showEditButton: false,
-                    showDutyPostEditButton: true,
+                    showEditButton: widget.showSaveButton ? false:true,
+                    showDutyPostEditButton: widget.showSaveButton ? true:false,
                     onEditTap: (selectedIndex) async {
                       LawVisitingOfficial model = await LawEnforcementServices()
                           .getLeoVisitingOfficialById(
@@ -226,6 +226,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
+                    showDeleteButton: widget.showSaveButton,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VisitingOfficialListBloc>(context).add(

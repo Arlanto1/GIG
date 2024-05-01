@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+
 part 'af_ui_labels.g.dart';
 
 @JsonSerializable()
@@ -137,7 +138,6 @@ class AFUiLabelsLocale {
 
   @JsonKey(name: 'com.arlanto.atom.found.claimantConfirmByEmail')
   String? foundClaimantConfirmByEmail;
-
 
   AFUiLabelsLocale(
       this.foundAdditionalInformation,

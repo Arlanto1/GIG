@@ -15,16 +15,15 @@ class ContactRecord {
   @JsonKey(name: 'escltnLevel')
   int? escalationLevel;
 
-  ContactRecord({
-    this.id,
-    this.contactId,
-    this.email,
-    this.contactNo,
-    this.rank,
-    this.type,
-    this.state,
-    this.escalationLevel
-  });
+  ContactRecord(
+      {this.id,
+      this.contactId,
+      this.email,
+      this.contactNo,
+      this.rank,
+      this.type,
+      this.state,
+      this.escalationLevel});
 
   factory ContactRecord.fromJson(Map<String, dynamic> json) =>
       _$ContactRecordFromJson(json);

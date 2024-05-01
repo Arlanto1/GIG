@@ -65,7 +65,7 @@ class PassManagementListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.passManagementRolesModuleCode);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.passManagementRolesModuleCode,
         commonServices: commonServices,
       );

@@ -63,8 +63,7 @@ class MaterialMovementServices {
     required int flow,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url =
-        "${Apis._createMaterialMovement}?flow=$flow";
+    final String url = "${Apis._createMaterialMovement}?flow=$flow";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

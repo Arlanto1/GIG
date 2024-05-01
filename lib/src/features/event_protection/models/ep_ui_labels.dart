@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+
 part 'ep_ui_labels.g.dart';
 
 @JsonSerializable()
@@ -496,37 +497,37 @@ class EPUiLabelsLocale {
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCount')
+          'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCount')
   String? securityPostureSecurityEquipmentCount;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCost')
+          'com.arlanto.atom.eventProtection.securityPosture.securityEquipmentCost')
   String? securityPostureSecurityEquipmentCost;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityGuardCount')
+          'com.arlanto.atom.eventProtection.securityPosture.securityGuardCount')
   String? securityPostureSecurityGuardCount;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securitySupervisorCount')
+          'com.arlanto.atom.eventProtection.securityPosture.securitySupervisorCount')
   String? securityPostureSecuritySupervisorCount;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityOfficerCount')
+          'com.arlanto.atom.eventProtection.securityPosture.securityOfficerCount')
   String? securityPostureSecurityOfficerCount;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityFacilitatorCount')
+          'com.arlanto.atom.eventProtection.securityPosture.securityFacilitatorCount')
   String? securityPostureSecurityFacilitatorCount;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.guardingVendorPoc')
+          'com.arlanto.atom.eventProtection.securityPosture.guardingVendorPoc')
   String? securityPostureGuardingVendorPoc;
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.securityPosture.vendorId')
@@ -534,12 +535,12 @@ class EPUiLabelsLocale {
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.extraSecurityDeployed')
+          'com.arlanto.atom.eventProtection.securityPosture.extraSecurityDeployed')
   String? securityPostureExtraSecurityDeployed;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.securityDeployment')
+          'com.arlanto.atom.eventProtection.securityPosture.securityDeployment')
   String? securityPostureSecurityDeployment;
 
   @JsonKey(
@@ -548,7 +549,7 @@ class EPUiLabelsLocale {
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.accessControlFail')
+          'com.arlanto.atom.eventProtection.securityPosture.accessControlFail')
   String? securityPostureAccessControlFail;
 
   @JsonKey(
@@ -569,17 +570,17 @@ class EPUiLabelsLocale {
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.annualPowerShutdown')
+          'com.arlanto.atom.eventProtection.securityPosture.annualPowerShutdown')
   String? securityPostureAnnualPowerShutdown;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.compoundEntryFail')
+          'com.arlanto.atom.eventProtection.securityPosture.compoundEntryFail')
   String? securityPostureCompoundEntryFail;
 
   @JsonKey(
       name:
-      'com.arlanto.atom.eventProtection.securityPosture.extinguisherInspection')
+          'com.arlanto.atom.eventProtection.securityPosture.extinguisherInspection')
   String? securityPostureExtinguisherInspection;
 
   @JsonKey(
@@ -603,7 +604,6 @@ class EPUiLabelsLocale {
 
   @JsonKey(name: 'com.arlanto.atom.eventProtection.important.rating')
   String? importantRating;
-
 
   EPUiLabelsLocale(
       this.vendorDetails,

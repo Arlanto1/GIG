@@ -7,8 +7,8 @@ class FemaleDropPickUpState extends Equatable {
 
   const FemaleDropPickUpState(
       {this.items = const <FemaleDropPickUp>[],
-        this.hasReachedMax = false,
-        this.status = FormStatus.initial});
+      this.hasReachedMax = false,
+      this.status = FormStatus.initial});
 
   FemaleDropPickUpState copyWith({
     List<FemaleDropPickUp>? items,

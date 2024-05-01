@@ -38,7 +38,6 @@ class NotificationDetailsState extends Equatable {
     this.users,
     this.message,
     this.labels,
-
   });
 
   NotificationDetailsState copyWith({
@@ -58,7 +57,6 @@ class NotificationDetailsState extends Equatable {
       users: users ?? this.users,
       message: message ?? this.message,
       labels: labels ?? this.labels,
-
     );
   }
 }

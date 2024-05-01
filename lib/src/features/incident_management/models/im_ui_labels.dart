@@ -142,7 +142,8 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.hrBusinessPartner')
   final String? hrBusinessPartner;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.passOfficeRejectionComment')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.passOfficeRejectionComment')
   final String? passOfficeRejectionComment;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.cctvFindings')
@@ -208,13 +209,16 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.initialInvestigation')
   final String? initialInvestigation;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.incidentType.workplaceViolence')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.incidentManagement.incidentType.workplaceViolence')
   final String? incidentTypeWorkplaceViolence;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.entityName')
   final String? entityName;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.furtherInvestigation')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.furtherInvestigation')
   final String? statusFurtherInvestigation;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.cwrSponsor')
@@ -247,7 +251,8 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.rcaReview')
   final String? rcaReview;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanReview')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanReview')
   final String? rcaActionPlanReview;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.dataLossResponse')
@@ -271,7 +276,8 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.hrEmployeeId')
   final String? hrEmployeeId;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.readAcrossApproved')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.readAcrossApproved')
   final String? readAcrossApproved;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.severity.medium')
@@ -313,7 +319,8 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.accessRequestEnd')
   final String? accessRequestEnd;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanApproved')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanApproved')
   final String? rcaActionPlanApproved;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.incidentLocation')
@@ -325,10 +332,12 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.complainant')
   final String? complainant;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanRejected')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlanRejected')
   final String? rcaActionPlanRejected;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.passOfficeApprovalRequired')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.passOfficeApprovalRequired')
   final String? passOfficeApprovalRequired;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.rcaActionPlan')
@@ -337,7 +346,8 @@ class IMUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.cwrInvolved')
   final String? cwrInvolved;
 
-  @JsonKey(name: 'com.arlanto.atom.incidentManagement.status.readAcrossRejected')
+  @JsonKey(
+      name: 'com.arlanto.atom.incidentManagement.status.readAcrossRejected')
   final String? readAcrossRejected;
 
   @JsonKey(name: 'com.arlanto.atom.incidentManagement.rcaVendor')
@@ -483,7 +493,9 @@ class IMUiLabelsLocale {
       this.incidentType,
       this.passReject,
       this.rcaRequest,
-      this.fteDepartment,this.typeOfArticle,this.description);
+      this.fteDepartment,
+      this.typeOfArticle,
+      this.description);
 
   factory IMUiLabelsLocale.fromJson(Map<String, dynamic> json) =>
       _$IMUiLabelsLocaleFromJson(json);

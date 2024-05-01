@@ -188,9 +188,7 @@ class DutyPostNameMasterDetailsCubit
     if (!Utils().isTimestamp(state.model.inputDate!)) {
       dateTime =
           DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
 
@@ -234,8 +232,8 @@ class DutyPostNameMasterDetailsCubit
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

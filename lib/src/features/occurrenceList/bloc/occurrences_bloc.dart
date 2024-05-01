@@ -20,7 +20,6 @@ import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
 
 part 'occurrences_event.dart';
-
 part 'occurrences_state.dart';
 
 class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
@@ -59,7 +58,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.occurrenceModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.occurrenceModule,
         commonServices: commonServices,
       );
@@ -74,10 +73,9 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
           status: FormStatus.initial,
           labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

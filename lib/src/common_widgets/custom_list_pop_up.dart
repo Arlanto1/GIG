@@ -99,26 +99,25 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   'Location : ', widget.userItem?.location?.name ?? " "),
             ],
           ),
-          if( widget.userItem?.foundDate != null)...[
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Found Date : ',
-                  widget.userItem?.foundDate != null
-                      ? Utils.timestampToDateConversion(
-                          int.tryParse(widget.userItem?.foundDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
-            ],
-          ),
+          if (widget.userItem?.foundDate != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling(
+                    'Found Date : ',
+                    widget.userItem?.foundDate != null
+                        ? Utils.timestampToDateConversion(
+                            int.tryParse(widget.userItem?.foundDate ?? '0'),
+                            Constants.dateFormat)
+                        : ''),
+              ],
+            ),
           ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Created By : ',
-                  '${widget.userItem?.entrySecurityName}'),
+                  'Created By : ', '${widget.userItem?.entrySecurityName}'),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -154,44 +153,46 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
-          if (widget.userItem?.claimantName != null && widget.userItem?.status !=0) ...[
+          if (widget.userItem?.claimantName != null &&
+              widget.userItem?.status != 0) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Claimant : ',
+                    widget.userItem?.claimantName.toString() ?? ""),
+              ],
+            ),
+          ],
+          if (widget.userItem?.handoverDate != null &&
+              widget.userItem?.status == 2) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
                 textHandling(
-                    'Claimant : ', widget.userItem?.claimantName.toString()?? ""),
+                    'Handed Over Date : ',
+                    widget.userItem?.handoverDate != null
+                        ? Utils.timestampToDateConversion(
+                            int.tryParse(widget.userItem?.handoverDate ?? '0'),
+                            Constants.fulldateFormat)
+                        : ''),
               ],
             ),
           ],
-          if(widget.userItem?.handoverDate != null && widget.userItem?.status == 2)...[
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Handed Over Date : ',
-                  widget.userItem?.handoverDate != null
-                      ? Utils.timestampToDateConversion(
-                          int.tryParse(widget.userItem?.handoverDate ?? '0'),
-                          Constants.fulldateFormat)
-                      : ''),
-            ],
-          ),
-          ],
-          if( widget.userItem?.handOverSecurityName !=null && !widget.userItem!.handOverSecurityName.isEmptyOrNull )...[
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Item Hand Over By : ',
-                  widget.userItem?.handOverSecurityName.toString() ?? " "),
-            ],
-          ),
+          if (widget.userItem?.handOverSecurityName != null &&
+              !widget.userItem!.handOverSecurityName.isEmptyOrNull) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Item Hand Over By : ',
+                    widget.userItem?.handOverSecurityName.toString() ?? " "),
+              ],
+            ),
           ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(children: [
             Utils().buildFoundStatusRow(widget.userItem?.status ?? 0),
           ]),
-        ])
-                ),
+        ])),
       ),
     );
   }

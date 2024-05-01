@@ -50,7 +50,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+          Utils().errorAndLogout(state, context);
           if (state is LoginFailureState) {
             log('--1--------');
             dismissLoadingDialog(context);

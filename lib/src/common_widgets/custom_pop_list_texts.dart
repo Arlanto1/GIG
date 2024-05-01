@@ -80,7 +80,6 @@ class CustomListTextsState extends State<CustomListTexts> {
 
   @override
   Widget build(BuildContext context) {
-
     log('--duplicateatomCompanyTypes--${widget.duplicateatomCompanyTypes?.length}--');
 
     return AlertDialog(
@@ -279,13 +278,14 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       for (var userDetail in widget.duplicateatomCompanyTypes!) {
-
         log('-text---$text--');
 
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
-        if (userDetail.keyDescription!.toLowerCase().contains(text.toLowerCase())) {
+        if (userDetail.keyDescription!
+            .toLowerCase()
+            .contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
       }

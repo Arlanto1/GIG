@@ -23,7 +23,6 @@ class DutyPostNameMasterServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
-
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
@@ -49,8 +48,7 @@ class DutyPostNameMasterServices {
     required DutyPostNameMasterRequest body,
     required bool isSubmit,
   }) async {
-    final String url =
-        "${Apis._create}&isSubmit=$isSubmit";
+    final String url = "${Apis._create}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

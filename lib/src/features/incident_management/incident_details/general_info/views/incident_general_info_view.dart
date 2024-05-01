@@ -487,11 +487,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             /// Complainant
                             if (state.model.complainantDbEmp == true) ...[
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.complainant ??
-                                      state.labels?.defaultLocale.complainant ??
-                                      Constants.complaint,
-                                  Styles.textStyleBlack14,
-                              ),
+                                state.labels?.locale.complainant ??
+                                    state.labels?.defaultLocale.complainant ??
+                                    Constants.complaint,
+                                Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.complainant?.userInfo ??
                                     state.model.complainant?.name,
@@ -527,11 +527,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             if (state.model.complainantDbEmp == false) ...[
                               /// Complainant
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.complainant ??
-                                      state.labels?.defaultLocale.complainant ??
-                                      Constants.complaint,
-                                  Styles.textStyleBlack14,
-                                 ),
+                                state.labels?.locale.complainant ??
+                                    state.labels?.defaultLocale.complainant ??
+                                    Constants.complaint,
+                                Styles.textStyleBlack14,
+                              isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -894,15 +894,31 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   }
 
   Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 39;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus(state);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }

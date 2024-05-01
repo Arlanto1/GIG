@@ -24,9 +24,12 @@ class KLDUiLabels {
 class KLDUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.type')
   final String? type;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.additionalInformation')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.additionalInformation')
   final String? additionalInformation;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.type.lockChange')
+  @JsonKey(
+      name: 'com.arlanto.atom.keyLossDestructionManagement.type.lockChange')
   final String? typeLockChange;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.damaged')
   final String? statusDamaged;
@@ -34,9 +37,12 @@ class KLDUiLabelsLocale {
   final String? typeDestroy;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.destroy')
   final String? statusDestroy;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.securityManager')
+  @JsonKey(
+      name: 'com.arlanto.atom.keyLossDestructionManagement.securityManager')
   final String? securityManager;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.investigationRequired')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.investigationRequired')
   final String? investigationRequired;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.createdBy')
   final String? createdBy;
@@ -46,11 +52,13 @@ class KLDUiLabelsLocale {
   final String? status;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.hasLockChanged')
   final String? hasLockChanged;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.lostApproved')
+  @JsonKey(
+      name: 'com.arlanto.atom.keyLossDestructionManagement.status.lostApproved')
   final String? statusLostApproved;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.keyType')
   final String? keyType;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.lockChange')
+  @JsonKey(
+      name: 'com.arlanto.atom.keyLossDestructionManagement.status.lockChange')
   final String? statusLockChange;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.hasKeyLost')
   final String? hasKeyLost;
@@ -64,9 +72,13 @@ class KLDUiLabelsLocale {
   final String? noOfKeys;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.slNo')
   final String? slNo;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.investigation')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.status.investigation')
   final String? statusInvestigation;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.destroyApproved')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.status.destroyApproved')
   final String? statusDestroyApproved;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.modifiedBy')
   final String? modifiedBy;
@@ -78,7 +90,9 @@ class KLDUiLabelsLocale {
   final String? modifiedDate;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.type.damage')
   final String? typeDamage;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.destroyReject')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.status.destroyReject')
   final String? statusDestroyReject;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.srh')
   final String? srh;
@@ -86,13 +100,15 @@ class KLDUiLabelsLocale {
   final String? statusLost;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.createdDate')
   final String? createdDate;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.destructionReason')
+  @JsonKey(
+      name: 'com.arlanto.atom.keyLossDestructionManagement.destructionReason')
   final String? destructionReason;
-  @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.damagedApproved')
+  @JsonKey(
+      name:
+          'com.arlanto.atom.keyLossDestructionManagement.status.damagedApproved')
   final String? statusDamagedApproved;
   @JsonKey(name: 'com.arlanto.atom.keyLossDestructionManagement.status.cancel')
   final String? statusCancel;
-
 
   KLDUiLabelsLocale(
       this.type,

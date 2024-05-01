@@ -53,8 +53,8 @@ class KeyHistoryRecordsDetailsCubit
 
     KeyManagementMasterModel parentModel = await services.getById(parentId);
 
-      // KeyIssuanceProcessRecord keyIssuanceProcessModel =
-      // await KeyManagementIssuanceServices().getIssuanceProcessById(kipId ?? 0);
+    // KeyIssuanceProcessRecord keyIssuanceProcessModel =
+    // await KeyManagementIssuanceServices().getIssuanceProcessById(kipId ?? 0);
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -111,7 +111,7 @@ class KeyHistoryRecordsDetailsCubit
           destructionReasons: destructionReasons,
           labels: labels,
           keyManagementMasterModel: parentModel,
-            // keyIssuanceProcessRecord:keyIssuanceProcessModel
+          // keyIssuanceProcessRecord:keyIssuanceProcessModel
         ),
       );
     } catch (e) {
@@ -215,13 +215,12 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
 
-    if(isApprovedOnly == true){
+    if (isApprovedOnly == true) {
       state.model.comment == null;
     }
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 0;
     }
-
 
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -325,8 +324,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

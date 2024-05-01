@@ -4,9 +4,10 @@ class MaterialMovementRequest {
   MaterialMovementRequest({
     required this.materialMovement,
   });
+
   late final MaterialMovementModel materialMovement;
 
-  MaterialMovementRequest.fromJson(Map<String, dynamic> json){
+  MaterialMovementRequest.fromJson(Map<String, dynamic> json) {
     materialMovement = MaterialMovementModel.fromJson(json['materialMovement']);
   }
 
@@ -16,4 +17,3 @@ class MaterialMovementRequest {
     return data;
   }
 }
-

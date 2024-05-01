@@ -141,5 +141,4 @@ class MaterialMovementModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => _$MaterialMovementModelToJson(this);
-
 }

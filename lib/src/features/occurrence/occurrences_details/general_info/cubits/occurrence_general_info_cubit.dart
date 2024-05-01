@@ -119,11 +119,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
-   model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -150,7 +149,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             PowerFailureModel powerFailure = PowerFailureModel();
             powerFailure.powerFailureStartDate =
                 Utils.timestampToDateConversion(
-                    int.tryParse(powerFailureModel.powerFailureStartDate??''),
+                    int.tryParse(powerFailureModel.powerFailureStartDate ?? ''),
                     Constants.fulldateFormat);
 
             isOnGoingPowerFailure = true;
@@ -182,7 +181,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-            isOnGoingPowerFailure:isOnGoingPowerFailure,
+          isOnGoingPowerFailure: isOnGoingPowerFailure,
         ),
       );
       isFormReadable();
@@ -434,8 +433,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

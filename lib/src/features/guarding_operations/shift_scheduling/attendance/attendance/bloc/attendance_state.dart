@@ -8,6 +8,7 @@ class AttendanceState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final SSUiLabels? labels;
+  final ExtraProperties? extraProperties;
 
   const AttendanceState({
     this.items = const <AttendanceModel>[],
@@ -17,6 +18,7 @@ class AttendanceState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   AttendanceState copyWith({
@@ -29,6 +31,7 @@ class AttendanceState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return AttendanceState(
       items: items ?? this.items,
@@ -37,7 +40,9 @@ class AttendanceState extends Equatable {
       labels: labels ?? this.labels,
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
-      locations: locations ?? this.locations,    );
+      locations: locations ?? this.locations,
+extraProperties: extraProperties ?? this.extraProperties,
+    );
   }
 
   @override

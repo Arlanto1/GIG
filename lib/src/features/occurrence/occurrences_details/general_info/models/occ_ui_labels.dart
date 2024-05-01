@@ -130,7 +130,6 @@ class OCCUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.occurrence.locationRegion')
   final String? locationRegion;
 
-
   OCCUiLabelsLocale(
       this.yes,
       this.location,

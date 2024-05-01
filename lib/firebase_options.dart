@@ -65,7 +65,8 @@ class DefaultFirebaseOptions {
     projectId: 'atomedge-29920',
     databaseURL: 'https://atomedge-29920-default-rtdb.firebaseio.com',
     storageBucket: 'atomedge-29920.appspot.com',
-    androidClientId: '150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com',
+    androidClientId:
+        '150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com',
     iosBundleId: 'com.arlanto.atomedge.qa',
   );
 }

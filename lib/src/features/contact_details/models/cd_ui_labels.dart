@@ -103,7 +103,6 @@ class CdUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.contact.supervisorRank')
   final String? supervisorRank2;
 
-
   CdUiLabelsLocale(
       this.state,
       this.status,

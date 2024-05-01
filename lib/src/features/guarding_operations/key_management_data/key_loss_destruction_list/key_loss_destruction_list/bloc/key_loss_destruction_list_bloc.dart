@@ -7,7 +7,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'key_loss_destruction_list_event.dart';
-
 part 'key_loss_destruction_list_state.dart';
 
 class KeyLossDestructionListBloc
@@ -48,7 +47,7 @@ class KeyLossDestructionListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementMasterModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementMasterModule,
         commonServices: commonServices,
       );
@@ -61,9 +60,8 @@ class KeyLossDestructionListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
-          labels:labels,
+          labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -74,7 +72,7 @@ class KeyLossDestructionListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

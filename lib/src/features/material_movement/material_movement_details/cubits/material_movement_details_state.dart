@@ -111,7 +111,8 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }
-      if (!model.originalReceiver && model.otherReceiverEmployeeId.isEmptyOrNull ) {
+      if (!model.originalReceiver &&
+          model.otherReceiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }
@@ -120,7 +121,6 @@ class MaterialMovementDetailsState extends Equatable {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by');
       }
-
 
       if (model.receiverDepartmenttName.isEmptyOrNull) {
         return const ErrorResponse(
@@ -170,8 +170,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Sent to Address');
     }
-    if (model.requestorDepartment == null &&
-        (model.status == 1 )) {
+    if (model.requestorDepartment == null && (model.status == 1)) {
       return const ErrorResponse(
           status: false, message: 'Please enter Requester Department');
     }
@@ -193,7 +192,8 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Prepared By Department');
     }
-    if (model.expectedDateOfReturn == null && model.returnable! &&
+    if (model.expectedDateOfReturn == null &&
+        model.returnable! &&
         model.status != 0 &&
         model.status != null) {
       return const ErrorResponse(

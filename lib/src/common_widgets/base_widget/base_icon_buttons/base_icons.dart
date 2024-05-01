@@ -12,5 +12,4 @@ class BaseIcons {
   Widget downloadIcon() {
     return const Icon(Icons.download);
   }
-
 }

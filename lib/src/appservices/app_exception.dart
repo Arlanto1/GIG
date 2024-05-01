@@ -1,11 +1,10 @@
 class AppException implements Exception {
-AppException([this._message, this._prefix]);
+  AppException([this._message, this._prefix]);
 
   final String? _message;
   final String? _prefix;
-  
-  
-@override
+
+  @override
   String toString() {
     return '$_prefix$_message';
   }

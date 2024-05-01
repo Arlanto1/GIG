@@ -13,6 +13,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<ImageContent>? uploadAttachments;
+
   //final List<Organisation> departments;
   final List<Organisation> vendors;
   final List<Organisation>? getEntitiesResponse;
@@ -34,7 +35,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<BaseUser>? lsm,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? getEntitiesResponse,
-     List<ImageContent>? uploadAttachments,
+    List<ImageContent>? uploadAttachments,
     required final List<Organisation> vendors,
     required String errorMessage,
     required List<ImageContent> loadAttachments,
@@ -53,7 +54,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       securityManagers: lsm,
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
-      uploadAttachments:uploadAttachments,
+      uploadAttachments: uploadAttachments,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -74,50 +75,68 @@ class SstIncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Vendor');
     }
     if (model.vendorPoc == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Vendor POC');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Vendor POC');
     }
-    if (model.vendorPoc != null &&  !Validator.isValidEmail(model.vendorPoc)) {
-      return const ErrorResponse(status: false, message: 'Please enter valid Vendor POC email');
+    if (model.vendorPoc != null && !Validator.isValidEmail(model.vendorPoc)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter valid Vendor POC email');
     }
     if (model.escalation1Poc == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Escalation 1 POC');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Escalation 1 POC');
     }
-    if (model.escalation1Poc != null &&  !Validator.isValidEmail(model.escalation1Poc)) {
-      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 1 POC email');
+    if (model.escalation1Poc != null &&
+        !Validator.isValidEmail(model.escalation1Poc)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter valid Escalation 1 POC email');
     }
     if (model.escalation2Poc == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Escalation 2 POC');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Escalation 2 POC');
     }
-    if (model.escalation2Poc != null &&  !Validator.isValidEmail(model.escalation2Poc)) {
-      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 2 POC email');
+    if (model.escalation2Poc != null &&
+        !Validator.isValidEmail(model.escalation2Poc)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter valid Escalation 2 POC email');
     }
     if (model.escalation3Poc == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Escalation 3 POC');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Escalation 3 POC');
     }
-    if (model.escalation3Poc != null &&  !Validator.isValidEmail(model.escalation3Poc)) {
-      return const ErrorResponse(status: false, message: 'Please enter valid Escalation 3 POC email');
+    if (model.escalation3Poc != null &&
+        !Validator.isValidEmail(model.escalation3Poc)) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter valid Escalation 3 POC email');
     }
     if (model.systemManager == null) {
-      return const ErrorResponse(status: false, message: 'Please enter System Manager');
+      return const ErrorResponse(
+          status: false, message: 'Please enter System Manager');
     }
     if (model.lsm == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Security Manager');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Manager');
     }
     if (model.asl == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Security Lead');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Lead');
     }
     if (model.lt == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Location Team');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location Team');
     }
     if (model.shortDescription == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Short Description of Incident');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Short Description of Incident');
     }
     if (model.detailDescription == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Detail Description');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Detail Description');
     }
 
     if (model.ipbArea == null) {
-      return const ErrorResponse(status: false, message: 'Please enter IPB Area');
+      return const ErrorResponse(
+          status: false, message: 'Please enter IPB Area');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');

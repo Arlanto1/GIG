@@ -76,8 +76,7 @@ class _FoundListItemState extends State<FoundListItem> {
                   Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling(
-                          'Region : ',
+                      Utils().textHandling('Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
                     ],
                   ),
@@ -86,8 +85,7 @@ class _FoundListItemState extends State<FoundListItem> {
                     Row(
                       children: [
                         if (widget.userItem.foundLocation != null) ...[
-                          Utils().textHandling(
-                              'Location : ',
+                          Utils().textHandling('Location : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                         CommonWidgets.horizontalSpacerWidget(5),

@@ -35,10 +35,10 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
     try {
       DayPassInfoResponseModel foundListModelResponse =
           await passListServices.getPassInfoFoundArticleList(
-              startPosition: startPosition,
-              maximumRecords: maximumRecords,
-              passType: passType,
-          );
+        startPosition: startPosition,
+        maximumRecords: maximumRecords,
+        passType: passType,
+      );
 
       log('--foundListModelResponse-----${foundListModelResponse.items?.length}----');
       // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {

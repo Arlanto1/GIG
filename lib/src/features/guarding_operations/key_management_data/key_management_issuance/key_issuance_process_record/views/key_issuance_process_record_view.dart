@@ -232,11 +232,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           state.extraProperties?.hasWritePermission ?? false,
                           state.items[index].kmId);
                     },
-                    showLinkOffButton:
-                    (widget.parentStatus == 1 || widget.parentStatus == 2) && (state.extraProperties?.hasWritePermission ??
-                        false)
-                            ? true
-                            : false,
+                    showLinkOffButton: (widget.parentStatus == 1 ||
+                                widget.parentStatus == 2) &&
+                            (state.extraProperties?.hasWritePermission ?? false)
+                        ? true
+                        : false,
                     onLinkOffTap: (selectedIndex) async {
                       int? kmId = state.items[selectedIndex].kmId;
                       Navigator.pushNamed(
@@ -250,11 +250,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showDeleteButton:
-                    (widget.parentStatus == 1 || widget.parentStatus == 2) && (state.extraProperties?.hasWritePermission ??
-                        false)
-                            ? true
-                            : false,
+                    showDeleteButton: (widget.parentStatus == 1 ||
+                                widget.parentStatus == 2) &&
+                            (state.extraProperties?.hasWritePermission ?? false)
+                        ? true
+                        : false,
                     onDeleteTap: (selectedIndex) async {
                       int? kmId = state.items[selectedIndex].kmId;
                       Navigator.pushNamed(

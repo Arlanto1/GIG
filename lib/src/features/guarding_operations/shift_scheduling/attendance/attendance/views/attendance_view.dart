@@ -197,7 +197,11 @@ class _AttendanceViewState extends State<AttendanceView> {
                                       );
                                     },
                                     onEditTap: (selectedIndex) {
-                                      getById(id: state.items[index].id ?? 0);
+                                      getById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          id: state.items[index].id ?? 0);
                                     },
                                     showEditButton: true,
                                     onViewTap: (selectedIndex) {
@@ -237,7 +241,8 @@ class _AttendanceViewState extends State<AttendanceView> {
         }));
   }
 
-  getById({
+  getById(
+    bool hasWritePermission, {
     required int id,
   }) async {
     Navigator.pushNamed(
@@ -245,7 +250,9 @@ class _AttendanceViewState extends State<AttendanceView> {
       attendanceDetailsRoute,
       arguments: {
         ConstantsArgument.id: id.toString(),
-        ConstantsArgument.title: Constants.editAttendance
+        ConstantsArgument.title: Constants.editAttendance,
+        ConstantsArgument.extraProperties:
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
@@ -257,7 +264,10 @@ class _AttendanceViewState extends State<AttendanceView> {
 
     BlocProvider.of<AttendanceBloc>(context).add(
       FetchAttendanceList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -268,7 +278,10 @@ class _AttendanceViewState extends State<AttendanceView> {
 
     BlocProvider.of<AttendanceBloc>(context).add(
       FetchAttendanceList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

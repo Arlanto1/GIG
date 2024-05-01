@@ -20,7 +20,6 @@ class Apis {
   static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
   static final String _createEventEi = '$baseUrl/createEventEi';
   static final String _showEpGrids = '$baseUrl/showEpGrids';
-
 }
 
 class EventProtectionServices {
@@ -102,7 +101,7 @@ class EventProtectionServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createEventGeneralInformation}isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
@@ -118,7 +117,7 @@ class EventProtectionServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createEventEi}?userEmail=$userId&isSubmit=$isSubmit&event=$eventDuration";
+        "${Apis._createEventEi}?isSubmit=$isSubmit&event=$eventDuration";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

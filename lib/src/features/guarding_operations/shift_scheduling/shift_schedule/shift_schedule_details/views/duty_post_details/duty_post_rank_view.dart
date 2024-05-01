@@ -18,9 +18,7 @@ class DutyPostRankView extends StatefulWidget {
 class DutyPostRankViewState extends State<DutyPostRankView> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final height = size.height;
 
     return BlocConsumer<DutyPostDetailsCubit, DutyPostDetailsState>(
@@ -98,8 +96,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Rank: ${Utils().buildGuardRank(
-                      guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
                   style: Styles.textStyleNavigator16,
                 ),
               ),
@@ -108,7 +105,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
                 child: SingleChildScrollView(
                   child: Column(
                     children:
-                    buildDutyPostSelectionWidget(rank.shifts ?? [], height),
+                        buildDutyPostSelectionWidget(rank.shifts ?? [], height),
                   ),
                 ),
               ),
@@ -129,10 +126,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
           ],
         ),
         CommonWidgets.verticalSpacerWidget(
-            MediaQuery
-                .of(context)
-                .size
-                .height * 0.01),
+            MediaQuery.of(context).size.height * 0.01),
         if (!shift.selectedGuards.isEmptyOrNull) ...[
           buildReplacementColumn(shift),
         ],
@@ -151,10 +145,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
           Styles.textStyleBlack14,
         ),
         CommonWidgets.verticalSpacerWidget(
-            MediaQuery
-                .of(context)
-                .size
-                .height * 0.01),
+            MediaQuery.of(context).size.height * 0.01),
         buildUserList(
           availableGuards: isSourceList
               ? shift.availableGuards ?? []
@@ -188,13 +179,12 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () =>
-              showReplacementPopUp(
-                context: context,
-                model: Replacement(),
-                availableGuards: shift.availableGuards ?? [],
-                selectedGuards: shift.selectedGuards ?? [],
-              ),
+          onTap: () => showReplacementPopUp(
+            context: context,
+            model: Replacement(),
+            availableGuards: shift.availableGuards ?? [],
+            selectedGuards: shift.selectedGuards ?? [],
+          ),
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
@@ -208,15 +198,9 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(
-                  MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.01),
+                  MediaQuery.of(context).size.height * 0.01),
               CommonWidgets.verticalSpacerWidget(
-                  MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.01),
+                  MediaQuery.of(context).size.height * 0.01),
             ],
           ),
         ),
@@ -229,10 +213,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
             ),
           ),
           CommonWidgets.verticalSpacerWidget(
-              MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.01),
+              MediaQuery.of(context).size.height * 0.01),
         ],
       ],
     );
@@ -242,13 +223,12 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
     return [
       for (Replacement replacement in shift.replacements ?? [])
         InkWell(
-          onTap: () =>
-              showReplacementPopUp(
-                context: context,
-                model: replacement,
-                availableGuards: shift.availableGuards ?? [],
-                selectedGuards: shift.selectedGuards ?? [],
-              ),
+          onTap: () => showReplacementPopUp(
+            context: context,
+            model: replacement,
+            availableGuards: shift.availableGuards ?? [],
+            selectedGuards: shift.selectedGuards ?? [],
+          ),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -263,18 +243,18 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
                     'From Date:',
                     replacement.fromDate != null
                         ? Utils.timestampToDateConversion(
-                      int.tryParse(replacement.fromDate ?? '0'),
-                      Constants.dateFormat,
-                    )
+                            int.tryParse(replacement.fromDate ?? '0'),
+                            Constants.dateFormat,
+                          )
                         : '',
                   ),
                   buildTextWithLabel(
                     'To Date:',
                     replacement.toDate != null
                         ? Utils.timestampToDateConversion(
-                      int.parse(replacement.toDate ?? '0'),
-                      Constants.dateFormat,
-                    )
+                            int.parse(replacement.toDate ?? '0'),
+                            Constants.dateFormat,
+                          )
                         : '',
                   ),
                 ],
@@ -324,23 +304,16 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
         borderRadius: BorderRadius.circular(10.0),
         color: AppColors.disabletextfieldBackground,
       ),
-      height: MediaQuery
-          .of(context)
-          .size
-          .height / 3.3,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width / 2.3,
+      height: MediaQuery.of(context).size.height / 3.3,
+      width: MediaQuery.of(context).size.width / 2.3,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final element = availableGuards[index];
           return GestureDetector(
-            onTap: () =>
-                handleUserListTap(isSourceList, element,
-                    selectedGuards, maxAllowed, onAdd, onRemove),
+            onTap: () => handleUserListTap(isSourceList, element,
+                selectedGuards, maxAllowed, onAdd, onRemove),
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -357,12 +330,14 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
     );
   }
 
-  void handleUserListTap(bool isSourceList,
-      BaseUser element,
-      List<BaseUser> selectedGuards,
-      int maxAllowed,
-      void Function(BaseUser guard) onAdd,
-      void Function(BaseUser guard) onRemove,) {
+  void handleUserListTap(
+    bool isSourceList,
+    BaseUser element,
+    List<BaseUser> selectedGuards,
+    int maxAllowed,
+    void Function(BaseUser guard) onAdd,
+    void Function(BaseUser guard) onRemove,
+  ) {
     setState(() {
       if (isSourceList) {
         if (selectedGuards.length < maxAllowed &&
@@ -402,5 +377,3 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
     );
   }
 }
-
-

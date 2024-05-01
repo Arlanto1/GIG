@@ -34,7 +34,6 @@ class DutyPostMasterDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-
     if (model.location == null) {
       log('-model.location-----isValidDraft-');
       return const ErrorResponse(
@@ -49,8 +48,6 @@ class DutyPostMasterDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
-
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

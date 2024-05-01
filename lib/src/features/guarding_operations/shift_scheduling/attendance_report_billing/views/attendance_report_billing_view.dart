@@ -264,7 +264,10 @@ class _AttendanceReportBillingViewState
 
     BlocProvider.of<AttendanceReportBillingBloc>(context).add(
       FetchAttendanceReportBillingList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -275,7 +278,10 @@ class _AttendanceReportBillingViewState
 
     BlocProvider.of<AttendanceReportBillingBloc>(context).add(
       FetchAttendanceReportBillingList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

@@ -55,7 +55,6 @@ class VVIPUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.vvipVisit.list.baseLocation')
   final String? baseLocationOfVisitor;
 
-
   VVIPUiLabelsLocale(
       this.visitorDesignation,
       this.startDateVisit,

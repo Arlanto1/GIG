@@ -7,7 +7,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'attendance_report_billing_event.dart';
-
 part 'attendance_report_billing_state.dart';
 
 class AttendanceReportBillingBloc
@@ -67,7 +66,7 @@ class AttendanceReportBillingBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

@@ -125,7 +125,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const KeyHistoryRecordsDetailsState( {
+  const KeyHistoryRecordsDetailsState({
     required this.status,
     required this.model,
     this.keyManagementMasterModel,
@@ -176,7 +176,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       isReadOnly: isReadOnly ?? this.isReadOnly,
       keyManagementMasterModel:
           keyManagementMasterModel ?? this.keyManagementMasterModel,
-        keyIssuanceProcessRecord:keyIssuanceProcessRecord??this.keyIssuanceProcessRecord,
+      keyIssuanceProcessRecord:
+          keyIssuanceProcessRecord ?? this.keyIssuanceProcessRecord,
     );
   }
 }

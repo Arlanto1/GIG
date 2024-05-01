@@ -8,9 +8,10 @@ class BudgetCostRequest {
   });
 
   BudgetCostRequest.fromJson(Map<String, dynamic> json)
-      : apsBudget = (json['apsBudget'] as Map<String,dynamic>?) != null ? BudgetCostModel.fromJson(json['apsBudget'] as Map<String,dynamic>) : null;
+      : apsBudget = (json['apsBudget'] as Map<String, dynamic>?) != null
+            ? BudgetCostModel.fromJson(
+                json['apsBudget'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'apsBudget' : apsBudget?.toJson()
-  };
+  Map<String, dynamic> toJson() => {'apsBudget': apsBudget?.toJson()};
 }

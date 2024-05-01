@@ -19,19 +19,19 @@ class GuardingMasterDataResponse {
 
   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) =>
+                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
@@ -109,7 +109,6 @@ class GuardingMastersDataModel extends BaseObject {
   int? dependentsNo;
   String? msgbExemptionDate;
 
-
   GuardingMastersDataModel({
     this.id,
     this.slNo,
@@ -134,10 +133,10 @@ class GuardingMastersDataModel extends BaseObject {
     this.dateOfBirth,
     this.maritalStatus,
     this.typeOfDeployment,
-    this.deploymentOrderSubmitted= false,
+    this.deploymentOrderSubmitted = false,
     this.deploymentOrders,
     this.dateOfJoining,
-    this.physicallyFit= false,
+    this.physicallyFit = false,
     this.localLanguage,
     this.localLangProficiencyR,
     this.hindiLangProficiencyR,
@@ -155,15 +154,15 @@ class GuardingMastersDataModel extends BaseObject {
     this.pvcIssuedDate,
     this.pvcExpiryDate,
     this.pvc,
-    this.trainingCertificateProvided= false,
+    this.trainingCertificateProvided = false,
     this.trainingCertificates,
     this.medicalCertificateValidUntil,
     this.medicalCertificates,
     this.systemAccess,
-    this.onboarded= false,
+    this.onboarded = false,
     this.esicNo,
     this.uanNo,
-    this.msgbExempted= false,
+    this.msgbExempted = false,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
     this.guardingPOC,
@@ -183,7 +182,6 @@ class GuardingMastersDataModel extends BaseObject {
     this.chest,
     this.dependentsNo,
     this.msgbExemptionDate,
-
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
@@ -202,6 +200,7 @@ class GuardingMastersDataModel extends BaseObject {
       return GuardingMastersDataModel();
     }
   }
+
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
 }
@@ -225,10 +224,6 @@ class GuardingMasterDataExtraDetails {
         date = json['date'] as String?,
         type = json['type'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'description' : description,
-    'date' : date,
-    'type' : type
-  };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'description': description, 'date': date, 'type': type};
 }

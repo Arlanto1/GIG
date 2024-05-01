@@ -8,7 +8,6 @@ import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
-
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -28,28 +27,28 @@ class GuardingMasterReportBloc
   final GuardingMasterReportServices _services = GuardingMasterReportServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValuesGMR event, Emitter<GuardingMasterReportState> emit) async {
+  FutureOr<void> _initializeValues(InitializeValuesGMR event,
+      Emitter<GuardingMasterReportState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.guardingMasterDataModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingMasterModuleCode,
         commonServices: commonServices,
       );
@@ -67,7 +66,7 @@ class GuardingMasterReportBloc
           extraProperties: extraProperties,
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
@@ -79,6 +78,7 @@ class GuardingMasterReportBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshListGMR event, Emitter<GuardingMasterReportState> emit) async {
     try {
@@ -112,7 +112,7 @@ class GuardingMasterReportBloc
             await _services.getGuardingMasterReport(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-              filters: event.filters,
+          filters: event.filters,
         );
         return emit(
           state.copyWith(
@@ -127,7 +127,7 @@ class GuardingMasterReportBloc
           await _services.getGuardingMasterReport(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-            filters: event.filters,
+        filters: event.filters,
       );
 
       if (getGuardingMasterReport.data?.isEmpty == true) {

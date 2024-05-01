@@ -15,8 +15,8 @@ class PowerFailureModel {
         powerFailureEndDate = json['powerFailureEndDate'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'powerFailureStartDate' : powerFailureStartDate,
-    'powerFailureEndDate' : powerFailureEndDate
-  };
+        'id': id,
+        'powerFailureStartDate': powerFailureStartDate,
+        'powerFailureEndDate': powerFailureEndDate
+      };
 }

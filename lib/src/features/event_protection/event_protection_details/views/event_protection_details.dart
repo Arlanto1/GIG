@@ -70,7 +70,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.beforeEventInformation,
                           'id': id,
                           'eventDuration': 0,
-                          ConstantsArgument.editForm: showEPGridsModel.editBefore,
+                          ConstantsArgument.editForm:
+                              showEPGridsModel.editBefore,
                         },
                       );
                     },
@@ -91,7 +92,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.duringEventInformation,
                           'id': id,
                           'eventDuration': 1,
-                          ConstantsArgument.editForm: showEPGridsModel.editDuring,
+                          ConstantsArgument.editForm:
+                              showEPGridsModel.editDuring,
                         },
                       );
                     },
@@ -112,7 +114,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.afterEventInformation,
                           'id': id,
                           'eventDuration': 2,
-                          ConstantsArgument.editForm: showEPGridsModel.editAfter,
+                          ConstantsArgument.editForm:
+                              showEPGridsModel.editAfter,
                         },
                       );
                     },

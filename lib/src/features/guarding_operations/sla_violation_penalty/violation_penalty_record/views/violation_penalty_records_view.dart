@@ -82,22 +82,23 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: state.extraProperties?.hasWritePermission ?? false
             ? Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () {
-            log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
+                backgroundColor: AppColors.navigationSkybluecolor,
+                foregroundColor: AppColors.backgroundWhitecolor,
+                onPressed: () {
+                  log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
 
-            showAddContactPopUp(
-              context: context,
-              contact: ViolationPenaltyRecord(
-                svpId: widget.id,
-              ),
-              users: state.violationDescriptions ?? [],
-              staffCategoriesValues:
-                  state.staffCategoriesValues ?? <String, int>{},
-            );
-          },
-        ): const SizedBox(),
+                  showAddContactPopUp(
+                    context: context,
+                    contact: ViolationPenaltyRecord(
+                      svpId: widget.id,
+                    ),
+                    users: state.violationDescriptions ?? [],
+                    staffCategoriesValues:
+                        state.staffCategoriesValues ?? <String, int>{},
+                  );
+                },
+              )
+            : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.violationPenalty,

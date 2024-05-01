@@ -89,7 +89,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: widget.showSaveButton ,
+                        isEnable: widget.showSaveButton,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
@@ -142,31 +142,32 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         height: 70,
                         isDisableColor: !widget.showSaveButton,
                         onTap: () {
-                          if(widget.showSaveButton){
-                          BaseOrganisationDialog().departmentDialog(
-                              context: context,
-                              organisations: widget.departments,
-                              onTap: (Organisation user) {
-                                log('-user.name----${user.name}-');
+                          if (widget.showSaveButton) {
+                            BaseOrganisationDialog().departmentDialog(
+                                context: context,
+                                organisations: widget.departments,
+                                onTap: (Organisation user) {
+                                  log('-user.name----${user.name}-');
 
-                                departmentController.text = user.name ?? '';
+                                  departmentController.text = user.name ?? '';
 
-                                widget.model.department ??= Organisation();
-                                widget.model.department = user;
-                                log('-widget.model.department?.name----${widget.model.department?.name}-');
+                                  widget.model.department ??= Organisation();
+                                  widget.model.department = user;
+                                  log('-widget.model.department?.name----${widget.model.department?.name}-');
 
-                                setState(() {});
-                                FocusScope.of(context)
-                                    .requestFocus(officeAddressFocusNode);
-                              },
-                              orgName: 'ATOM_LEO_DEPARTMENTS',
-                              createEntity: false,
-                              title: Constants.department,
-                              functionToCall: () {
-                                BlocProvider.of<VisitingOfficialListBloc>(
-                                        context)
-                                    .refreshList();
-                              });}
+                                  setState(() {});
+                                  FocusScope.of(context)
+                                      .requestFocus(officeAddressFocusNode);
+                                },
+                                orgName: 'ATOM_LEO_DEPARTMENTS',
+                                createEntity: false,
+                                title: Constants.department,
+                                functionToCall: () {
+                                  BlocProvider.of<VisitingOfficialListBloc>(
+                                          context)
+                                      .refreshList();
+                                });
+                          }
                         },
                       ),
 
@@ -270,9 +271,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if(widget.showSaveButton)...[
-        saveButton(width, widget.onSubmit)
-        ],
+        if (widget.showSaveButton) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }
@@ -328,8 +327,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
     }
 
     if (widget.model.name.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Name.');
+      return const ErrorResponse(status: false, message: 'Please enter Name.');
     }
     if (widget.model.designation.isEmptyOrNull) {
       return const ErrorResponse(
@@ -344,7 +342,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
           status: false, message: 'Please enter Office Address');
     }
     if ((!isNumeric(widget.model.contactNo!) ||
-            widget.model.contactNo!.length < 10 && widget.model.contactNo!.length > 17) &&
+            widget.model.contactNo!.length < 10 &&
+                widget.model.contactNo!.length > 17) &&
         !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,

@@ -198,7 +198,6 @@ class Keys {
   static const String complainantManagerKey = 'complainantManagerKey_occ';
   static const String shiftTakenOverByKey = 'shiftTakenOverByKey_occ';
 
-
   //Contact Details
   static const String phoneNumberKey = 'phoneNumberKey_cd';
   static const String nameKey = 'nameKey_cd';
@@ -208,6 +207,6 @@ class Keys {
   static const String visitorsEmailIdKey = 'visitorsEmailIdKey_vvip';
   static const String visitorsDesignationKey = 'visitorsDesignationKey_vvip';
   static const String purposeOfVisitKey = 'purposeOfVisitKey_vvip';
-  static const String baseLocationOfVisitorKey = 'baseLocationOfVisitorKey_vvip';
-
+  static const String baseLocationOfVisitorKey =
+      'baseLocationOfVisitorKey_vvip';
 }

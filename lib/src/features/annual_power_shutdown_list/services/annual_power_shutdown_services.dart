@@ -35,7 +35,6 @@ class AnnualPowerShutdownListServices {
     return AnnualPowerShutDownResponse.fromJson(response);
   }
 
-
   Future<AnnualPowerShutdownListModel> getById(String id) async {
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
@@ -51,7 +50,7 @@ class AnnualPowerShutdownListServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createAnnualPowerShutdownList}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createAnnualPowerShutdownList}isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

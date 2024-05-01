@@ -69,7 +69,9 @@ class PayRateCubit extends Cubit<PayRateState> {
     // Get Date of Creation
     // state.model.inputDate =
     //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    state.model.inputDate = state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
+    state.model.inputDate = state.model.inputDate == null
+        ? Utils().getCurrentDate()
+        : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
 
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');

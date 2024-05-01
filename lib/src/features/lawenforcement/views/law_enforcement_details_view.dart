@@ -89,7 +89,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -218,7 +217,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  if (state.getSerialnumberResponse != null &&  widget.model == null) {
+                  if (state.getSerialnumberResponse != null &&
+                      widget.model == null) {
                     serialnumber =
                         state.getSerialnumberResponse?.serialNo ?? "";
                   }
@@ -735,8 +735,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                       BaseImageUpload().getAttachment(
                                         height: height,
-                                        attachments: state.loadAttachments,
-                                        files: getFiles,
+                                        attachments: state.loadAttachments.isEmptyOrNull? getFiles:state.loadAttachments,
+                                        files: getFiles.isEmptyOrNull? getAttachments:getFiles,
                                         showDownloadIcon:
                                             widget.model == null ||
                                                 widget.model?.status == 0,
@@ -1082,7 +1082,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ? Utils.timestampToDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? ''),
                   Constants.fulldateFormat)
-              :  actualDateTextController.text;
+              : actualDateTextController.text;
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestampToDateConversion(
@@ -1099,7 +1099,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   : widget.model?.status == 3
                       ? "Distributed"
                       : widget.model?.status == -1
-    ?'Cancelled':'';
+                          ? 'Cancelled'
+                          : '';
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
@@ -1895,7 +1896,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
+          timeOfVisit: actualDate != 0
+              ? actualDate.toString()
+              : '',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1917,7 +1920,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: widget.model?.timeOfVisit != null && widget.model?.timeOfVisit !=0 ?actualDate.toString() :'',
+          timeOfVisit: actualDate != 0
+              ? actualDate.toString()
+              : '',
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -2092,12 +2097,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget cancelButtonDisplay() {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status == 3;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();

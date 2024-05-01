@@ -53,7 +53,6 @@ class DPNUiLabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.shiftschedule.dutypost.modifiedDate')
   final String? modifiedDate;
 
-
   DPNUiLabelsLocale(
       this.location,
       this.existsTitle,

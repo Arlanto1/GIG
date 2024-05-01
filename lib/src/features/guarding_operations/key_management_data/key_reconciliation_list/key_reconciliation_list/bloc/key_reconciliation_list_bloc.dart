@@ -9,7 +9,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../utils/utils_common.dart';
 
 part 'key_reconciliation_list_event.dart';
-
 part 'key_reconciliation_list_state.dart';
 
 class KeyReconciliationListBloc
@@ -67,7 +66,7 @@ class KeyReconciliationListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyReconciliationModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyReconciliationModule,
         commonServices: commonServices,
       );
@@ -92,7 +91,7 @@ class KeyReconciliationListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

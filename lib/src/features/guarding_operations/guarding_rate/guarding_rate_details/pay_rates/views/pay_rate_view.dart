@@ -117,7 +117,7 @@ class _PayRateViewState extends State<PayRateView> {
         body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
             Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+            Utils().errorAndLogout(state, context);
 
             if (state.status == FormStatus.loading) {
               Navigator.pop(context);
@@ -321,7 +321,7 @@ class _PayRateViewState extends State<PayRateView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,

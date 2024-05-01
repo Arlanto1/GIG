@@ -8,7 +8,6 @@ import 'package:db_atom/src/utils/utils_common.dart';
 import '../../models/vvip_visitor_response_model.dart';
 
 part 'vvip_visitors_event.dart';
-
 part 'vvip_visitors_state.dart';
 
 class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
@@ -70,7 +69,7 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.vipVisitorsDetailsModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.vipVisitorsDetailsModule,
         commonServices: commonServices,
       );
@@ -85,7 +84,6 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
           hasReachedMax: false,
           status: FormStatus.initial,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -96,7 +94,7 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

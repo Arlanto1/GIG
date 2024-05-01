@@ -53,7 +53,8 @@ class OccurrenceDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<PowerFailureModel> getOccPowerFailure({required String locationId}) async {
+  Future<PowerFailureModel> getOccPowerFailure(
+      {required String locationId}) async {
     final String url = "${Apis._getOccPowerFailure}$locationId";
     final response = await BaseApiService().getRequest(
       url: url,

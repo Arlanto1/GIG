@@ -107,7 +107,6 @@ class _GuardingMasterDataDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
@@ -152,21 +151,29 @@ class _GuardingMasterDataDetailsViewState
   }
 
   void initializeDates(GuardingMasterDataDetailsState state) {
-    dateOfBirthController.text =widget.guardingMasterData?.dateOfBirth !=null ? Utils.timestampToDateConversion(
-        int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-        Constants.dateFormat):'';
+    dateOfBirthController.text = widget.guardingMasterData?.dateOfBirth != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
+            Constants.dateFormat)
+        : '';
 
-    dateOfJoiningController.text =widget.guardingMasterData?.dateOfJoining !=null? Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
-        Constants.dateFormat):'';
+    dateOfJoiningController.text =
+        widget.guardingMasterData?.dateOfJoining != null
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
+                Constants.dateFormat)
+            : '';
 
     // mSGBExemptionDateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
     //     Constants.dateFormat);
 
-    pvcIssuedDateController.text =widget.guardingMasterData?.pvcIssuedDate !=null? Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
-        Constants.dateFormat):'';
+    pvcIssuedDateController.text =
+        widget.guardingMasterData?.pvcIssuedDate != null
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
+                Constants.dateFormat)
+            : '';
     // pvcExpiryDateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
     //     Constants.dateFormat);
@@ -175,10 +182,12 @@ class _GuardingMasterDataDetailsViewState
     //     DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text) :'0';
     // final expiryDate = issuedDate.add(const Duration(days: 3 * 365));
 
-    pvcExpiryDateController.text = widget.guardingMasterData?.pvcExpiryDate !=null?
-    Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
-        Constants.dateFormat):'';
+    pvcExpiryDateController.text =
+        widget.guardingMasterData?.pvcExpiryDate != null
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
+                Constants.dateFormat)
+            : '';
     // widget.guardingMasterData?.expiryDate?
     //     DateFormat(Constants.dateFormat).format(expiryDate):'';
     // pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
@@ -186,31 +195,54 @@ class _GuardingMasterDataDetailsViewState
     //       .parse(pvcIssuedDateController.text)
     //       .add(const Duration(3 * 365)),
     // );
-    medicalCertificateValidUntilController.text =widget.guardingMasterData?.medicalCertificateValidUntil !=null?
-        Utils.timestampToDateConversion(
+    medicalCertificateValidUntilController.text = widget
+                .guardingMasterData?.medicalCertificateValidUntil !=
+            null
+        ? Utils.timestampToDateConversion(
             int.parse(
                 widget.guardingMasterData?.medicalCertificateValidUntil ?? '0'),
-            Constants.dateFormat):'';
+            Constants.dateFormat)
+        : '';
 
-    dateOfFirstCovidDoseController.text = widget.guardingMasterData?.covidFirstDoseDate !=null?Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
-        Constants.dateFormat):'';
+    dateOfFirstCovidDoseController.text =
+        widget.guardingMasterData?.covidFirstDoseDate != null
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
+                Constants.dateFormat)
+            : '';
 
-    dateOfSecondCovidDoseController.text = widget.guardingMasterData?.covidSecondDoseDate !=null?Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'),
-        Constants.dateFormat):'';
+    dateOfSecondCovidDoseController.text = widget
+                .guardingMasterData?.covidSecondDoseDate !=
+            null
+        ? Utils.timestampToDateConversion(
+            int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'),
+            Constants.dateFormat)
+        : '';
 
-    dateOfPrecautionaryCovidDose.text =widget.guardingMasterData?.covidPrecautionaryDoseDate !=null? Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0'),
-        Constants.dateFormat):'';
+    dateOfPrecautionaryCovidDose.text = widget
+                .guardingMasterData?.covidPrecautionaryDoseDate !=
+            null
+        ? Utils.timestampToDateConversion(
+            int.parse(
+                widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0'),
+            Constants.dateFormat)
+        : '';
 
-    ertCertificationDate.text = widget.guardingMasterData?.ertCertificationDate !=null?Utils.timestampToDateConversion(
-        int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'),
-        Constants.dateFormat):'';
-    firstAidTrainingCompletionDate.text = widget.guardingMasterData?.firstAidTrainingCompletionDate !=null?Utils.timestampToDateConversion(
-        int.parse(
-            widget.guardingMasterData?.firstAidTrainingCompletionDate ?? '0'),
-        Constants.dateFormat):'';
+    ertCertificationDate.text = widget
+                .guardingMasterData?.ertCertificationDate !=
+            null
+        ? Utils.timestampToDateConversion(
+            int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'),
+            Constants.dateFormat)
+        : '';
+    firstAidTrainingCompletionDate.text =
+        widget.guardingMasterData?.firstAidTrainingCompletionDate != null
+            ? Utils.timestampToDateConversion(
+                int.parse(
+                    widget.guardingMasterData?.firstAidTrainingCompletionDate ??
+                        '0'),
+                Constants.dateFormat)
+            : '';
   }
 
   getBodybuilder(GuardingMasterDataDetailsState state, height) {
@@ -1905,114 +1937,114 @@ class _GuardingMasterDataDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // ///MSGB Exempted
-                            // CommonWidgets.textDisplay(
-                            //     state.labels?.locale.msgbExempted ??
-                            //         state.labels?.defaultLocale.msgbExempted ??
-                            //         Constants.mSGBExempted,
-                            //     Styles.textStyleBlack14),
-                            // RadioButtonsYesNo(
-                            //     status: state.model.status ?? 0,
-                            //     selectedValue: state.model.msgbExempted ? 1 : 0,
-                            //     onChangedYes:
-                            //         widget.guardingMasterData?.status == 6
-                            //             ? null
-                            //             : (val) {
-                            //                 state.model.msgbExempted = true;
-                            //                 BlocProvider.of<
-                            //                             GuardingMasterDataDetailsCubit>(
-                            //                         context)
-                            //                     .showFields(msgbExempted: true);
-                            //                 //.onModelValueChange(state.guardingMasterData
-                            //                 //);
-                            //               },
-                            //     onChangedNo:
-                            //         widget.guardingMasterData?.status == 4
-                            //             ? null
-                            //             : (val) {
-                            //                 state.model.msgbExempted = false;
-                            //                 BlocProvider.of<
-                            //                             GuardingMasterDataDetailsCubit>(
-                            //                         context)
-                            //                     .showFields(
-                            //                         msgbExempted: false);
-                            //               }),
-                            //
-                            // if (state.model.msgbExempted) ...[
-                            //   /// MSGB Exemption Date
-                            //   CommonWidgets.textDisplay(
-                            //       state.labels?.locale.msgbExemptionDate ??
-                            //           state.labels?.defaultLocale
-                            //               .msgbExemptionDate ??
-                            //           Constants.mSGBExemptionDate,
-                            //       Styles.textStyleBlack14),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //
-                            //   BaseDate().datePickerWidgetLoading(
-                            //     onlyDate: true,
-                            //     textController: mSGBExemptionDateController,
-                            //     onChange: (String value) {
-                            //       state.model.msgbExemptionDate =
-                            //           Utils().formatTime(value);
-                            //
-                            //       BlocProvider.of<
-                            //                   GuardingMasterDataDetailsCubit>(
-                            //               context)
-                            //           .onModelValueChange(state.model);
-                            //     },
-                            //     context: context,
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            // ],
-                            //
-                            // if (!state.model.msgbExempted) ...[
-                            //   CommonWidgets.textDisplay(
-                            //       state.labels?.locale.msgbFormBSubmitted ??
-                            //           state.labels?.defaultLocale
-                            //               .msgbFormBSubmitted ??
-                            //           Constants.mSGBFormBSubmitted,
-                            //       Styles.textStyleBlack14),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //   BaseDropDown().getDropDown(
-                            //       isDisabled: state.model.status != 6,
-                            //       textController: mSGbFormBSubmittedController,
-                            //       items: mSGBFormBSubmittedDropDownValues,
-                            //       initialValue:
-                            //           state.model.msgbFormBSubmitted.toString(),
-                            //       onTap: () {
-                            //         if (isDisabled) {
-                            //           BaseDropDown().assetTypeDialog(
-                            //               context: context,
-                            //               dropDownValues:
-                            //                   mSGBFormBSubmittedDropDownValues
-                            //                       .map((label) => label.key)
-                            //                       .toList(),
-                            //               onTap: (String value) {
-                            //                 Label? selectedLabel;
-                            //                 selectedLabel =
-                            //                     mSGBFormBSubmittedDropDownValues
-                            //                         .firstWhere(
-                            //                   (label) => label.key == value,
-                            //                   orElse: () => const Label(
-                            //                       key: '', value: ''),
-                            //                 );
-                            //                 BlocProvider.of<
-                            //                             GuardingMasterDataDetailsCubit>(
-                            //                         context)
-                            //                     .updateDropdownValues(
-                            //                         msgbFormBSubmitted:
-                            //                             int.tryParse(
-                            //                                 selectedLabel
-                            //                                     .value));
-                            //               });
-                            //         }
-                            //       }),
-                            //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            // ],
+                            ///MSGB Exempted
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.msgbExempted ??
+                                    state.labels?.defaultLocale.msgbExempted ??
+                                    Constants.mSGBExempted,
+                                Styles.textStyleBlack14),
+                            RadioButtonsYesNo(
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.msgbExempted ? 1 : 0,
+                                onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                            state.model.msgbExempted = true;
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .showFields(msgbExempted: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                            state.model.msgbExempted = false;
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                                    msgbExempted: false);
+                                          }),
+
+                            if (state.model.msgbExempted) ...[
+                              /// MSGB Exemption Date
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.msgbExemptionDate ??
+                                      state.labels?.defaultLocale
+                                          .msgbExemptionDate ??
+                                      Constants.mSGBExemptionDate,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseDate().datePickerWidgetLoading(
+                                onlyDate: true,
+                                textController: mSGBExemptionDateController,
+                                onChange: (String value) {
+                                  state.model.msgbExemptionDate =
+                                      Utils().formatTime(value);
+
+                                  BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                          context)
+                                      .onModelValueChange(state.model);
+                                },
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+                            if (!state.model.msgbExempted) ...[
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.msgbFormBSubmitted ??
+                                      state.labels?.defaultLocale
+                                          .msgbFormBSubmitted ??
+                                      Constants.mSGBFormBSubmitted,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: state.model.status != 6,
+                                  textController: mSGbFormBSubmittedController,
+                                  items: mSGBFormBSubmittedDropDownValues,
+                                  initialValue:
+                                      state.model.msgbFormBSubmitted.toString(),
+                                  onTap: () {
+                                    if (isDisabled) {
+                                      BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues:
+                                              mSGBFormBSubmittedDropDownValues
+                                                  .map((label) => label.key)
+                                                  .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                mSGBFormBSubmittedDropDownValues
+                                                    .firstWhere(
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    msgbFormBSubmitted:
+                                                        int.tryParse(
+                                                            selectedLabel
+                                                                .value));
+                                          });
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
@@ -2549,11 +2581,12 @@ class _GuardingMasterDataDetailsViewState
 
   Widget cancelButtonDisplay(GuardingMasterDataDetailsState state) {
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);

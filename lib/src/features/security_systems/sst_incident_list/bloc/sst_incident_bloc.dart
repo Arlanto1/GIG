@@ -18,9 +18,11 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
   final String? occId;
   final SstIncident? model;
 
-
   SstIncidentBloc(
-      {required this.ticketType, required this.staffType, this.occId,this.model})
+      {required this.ticketType,
+      required this.staffType,
+      this.occId,
+      this.model})
       : super(const SstIncidentState()) {
     on<InitializeValues>(_initializeValues);
 
@@ -36,7 +38,6 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
   final SstIncidentServices _services = SstIncidentServices();
   final CommonServices commonServices = CommonServices();
-
 
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<SstIncidentState> emit) async {
@@ -59,7 +60,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           moduleCode: Constants.securitySystemModule);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.securitySystemModule,
         commonServices: commonServices,
       );
@@ -76,7 +77,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           extraProperties: extraProperties,
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
@@ -178,6 +179,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   void sendRemainder(SstIncident model) async {
     emit(
       state.copyWith(
@@ -187,7 +189,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
     SstIncidentServices services = SstIncidentServices();
     SecuritySystemTicketIncidentRequest request =
-    SecuritySystemTicketIncidentRequest(sstIncident: model);
+        SecuritySystemTicketIncidentRequest(sstIncident: model);
 
     GenericResponse response;
     try {

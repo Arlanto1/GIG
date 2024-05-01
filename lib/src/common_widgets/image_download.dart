@@ -15,8 +15,7 @@ class DownloadImage {
     String name,
     String moduleCode,
   ) async {
-
-    if(id == 1) {
+    if (id == 1) {
       return;
     }
 

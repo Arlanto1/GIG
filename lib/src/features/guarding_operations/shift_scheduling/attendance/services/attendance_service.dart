@@ -23,7 +23,6 @@ class AttendanceServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
-
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
@@ -74,7 +73,8 @@ class AttendanceServices {
     required int? attInfoId,
     required int? dutyPostNameId,
   }) async {
-    final String url = '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId';
+    final String url =
+        '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

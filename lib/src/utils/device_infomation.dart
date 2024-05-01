@@ -11,7 +11,6 @@ class DeviceInformation {
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-
     try {
       // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       // log('Running on ${androidInfo.model}');  // e.g. "Moto G (4)"
@@ -21,7 +20,6 @@ class DeviceInformation {
 
       // WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
       // log('Running on ${webBrowserInfo.userAgent}');
-
 
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:

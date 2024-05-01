@@ -530,7 +530,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                              isMandatory:true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -573,7 +573,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory:true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -2535,7 +2535,7 @@ class _MaterialMovementDetailsViewState
                             files: getFiles,
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
-                            moduleCode: Constants.guardingMasterModuleCode,
+                            moduleCode: Constants.materialMovementModuleCode,
                           ),
                         ]),
                       ),
@@ -2734,21 +2734,49 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 10;
     return AppButton(
-      // Customize the button properties as needed
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus(state);
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              var dialog = CustomAlertDialog(
+                  title: Constants.cancelRecord,
+                  message: Constants.cancelRecordWarningMessage,
+                  onPositivePressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    updateRecordStatus(state);
+                  },
+                  positiveBtnText: Constants.yes,
+                  negativeBtnText: Constants.no);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
 
   void updateRecordStatus(MaterialMovementDetailsState state) {
-    if (state.model.id != null && isReadOnly) {
+    log('---updateRecordStatus---');
+    if (state.model.id != null) {
       BlocProvider.of<MaterialMovementDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
       Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,

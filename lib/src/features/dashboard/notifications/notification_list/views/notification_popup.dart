@@ -93,7 +93,7 @@ class _NotificationPopUpItemsState extends State<NotificationPopUpItems> {
     widgets.add(CommonWidgets.verticalSpacerWidget(20));
     widgets.add(
       AppButton(
-        // Customize the button properties as needed
+        
         width: 100,
         backgroundColor: Colors.white,
         key: const Key(Keys.cancelButton),
