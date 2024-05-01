@@ -32,11 +32,6 @@ class ViolationPenaltyRecordBloc
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
-        commonServices: commonServices,
-      );
       List<Organisation> violationDescriptions =
           await commonServices.getOrganisations(name: violationDescription);
 
@@ -48,7 +43,6 @@ class ViolationPenaltyRecordBloc
           await SLAViolationPenaltyServices().getStaffCategoriesValues();
       return emit(
         state.copyWith(
-          extraProperties: extraProperties,
           violationDescriptions: violationDescriptions,
           hasReachedMax: false,
           labels: labels,
