@@ -17,6 +17,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     this.model,
     required this.isMasterKey,
     this.id,
+    this.extraProperties,
   });
 
   final int parentId;
@@ -26,6 +27,8 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final KeyIssuanceProcessRecord? model;
   final bool isMasterKey;
   final int? id;
+  final ExtraProperties? extraProperties;
+
 
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
@@ -74,14 +77,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: (state.extraProperties?.hasWritePermission ??
-                    false) &&
+        floatingActionButton: !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission! ) &&
                 widget.parentStatus == 0
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
                 onPressed: () async {
-                  log('-floatingActionButton-state.keyDescriptions--llen-fff-${state.keyDescriptions?.length}---');
                   KeyIssuanceProcessRecord keyIssuanceProcessModel =
                       KeyIssuanceProcessRecord();
                   bool isMasterKey =
@@ -186,15 +188,16 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     showDutyPostEditButton: (widget.parentStatus == 0 ||
                                 widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                            (state.extraProperties?.hasWritePermission ?? false)
+                        !(widget.extraProperties != null &&
+                            !widget.extraProperties!.hasWritePermission! )
                         ? true
                         : false,
                     showEditButton: widget.parentStatus != 0 &&
                             widget.parentStatus != 1 &&
                             widget.parentStatus != 2 &&
                             widget.parentStatus != 2 &&
-                            !(state.extraProperties?.hasWritePermission ??
-                                false)
+                        (widget.extraProperties != null &&
+                            !widget.extraProperties!.hasWritePermission! )
                         ? true
                         : false,
                     onEditTap: (selectedIndex) async {
@@ -234,7 +237,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     },
                     showLinkOffButton: (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                            (state.extraProperties?.hasWritePermission ?? false)
+                        !(widget.extraProperties != null &&
+                            !widget.extraProperties!.hasWritePermission! )
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
@@ -252,7 +256,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     },
                     showDeleteButton: (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                            (state.extraProperties?.hasWritePermission ?? false)
+                        !(widget.extraProperties != null &&
+                            !widget.extraProperties!.hasWritePermission! )
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {

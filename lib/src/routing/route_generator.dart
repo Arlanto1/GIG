@@ -1318,6 +1318,7 @@ class RouteGenerator {
         int parentStatus = 0;
         int locationId = 0;
         bool isMasterKey = false;
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1326,6 +1327,7 @@ class RouteGenerator {
           parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
           isMasterKey = arguments[ConstantsArgument.isMasterKey];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
 
         return MaterialPageRoute(
@@ -1345,6 +1347,7 @@ class RouteGenerator {
               locationId: locationId,
               title: title,
               isMasterKey: isMasterKey,
+              extraProperties: extraProperties,
             ),
           ),
         );
