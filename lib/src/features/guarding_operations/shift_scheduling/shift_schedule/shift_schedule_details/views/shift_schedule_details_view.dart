@@ -6,8 +6,11 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/duty_post_details_newwwww.dart';
 
 class ShiftScheduleDetailsView extends StatefulWidget {
+  final ExtraProperties? extraProperties;
+
   const ShiftScheduleDetailsView({
     super.key,
+    this.extraProperties,
   });
 
   @override
@@ -93,6 +96,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
 
         initializeDates(state);
         return Scaffold(
@@ -101,8 +108,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton: state.model.status != -1 ? true : false,
-              showSubmitButton: state.model.status != -1 ? true : false,
+              showSaveButton:
+                  state.model.status != -1 || !isReadOnly ? true : false,
+              showSubmitButton:
+                  state.model.status != -1 || !isReadOnly ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
               onTapSave: () {
@@ -164,383 +173,391 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(
-                        children: [
-                          if (!state.model.lock.isEmptyOrNull) ...[
-                            RecordLockedWidget(text: '${state.model.lock}'),
-                          ],
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.generalinformation,
-                              style: Styles.styleHeaderGreyText16,
+                    AbsorbPointer(
+                      absorbing: isReadOnly,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Column(
+                          children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.generalinformation,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Status
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
-                            isDisabled: true,
-                            textController: statusController,
-                            items: shiftScheduleStatusDropDownValues,
-                            initialValue: '${state.model.status ?? 0}',
-                            onTap: () {
-                              if (!isDisabled) {
-                                BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues:
-                                      shiftScheduleStatusDropDownValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        shiftScheduleStatusDropDownValues
-                                            .firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value));
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Created By
-                          CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.createdBy ??
-                                  state.labels?.defaultLocale.createdBy ??
-                                  Constants.createdby,
-                              isMandatory: true,
-                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Date of creation
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate()
-                              .creationDateDisplay(state.model.inputDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Location
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          AbsorbPointer(
-                              absorbing: state.model.status == null ||
-                                      state.model.status ==
-                                          ConstantsIntValue.draft
-                                  ? false
-                                  : true,
-                              child: BaseLocationDropdown()
-                                  .locationWidgetDisplay(
-                                      context: context,
-                                      locations: state.locations ?? Locations(),
-                                      selectedLocationName:
-                                          state.model.location?.name ?? '',
-                                      onTap: (Organisation? location) {
-                                        BlocProvider.of<
-                                                    ShiftScheduleDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                location: location);
-                                      })),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Sl No.
-                          CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.slNo ??
-                                state.labels?.defaultLocale.slNo ??
-                                Constants.slno,
-                            state.model.slNo ?? '',
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Vendor
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.vendor ??
-                                state.labels?.defaultLocale.vendor ??
-                                Constants.vendor,
-                            isMandatory: true,
-                            Styles.textStyleBlack14,
-                          ),
-                          TextFieldAddButton(
-                            title: state.model.vendor?.name,
-                            height: 60,
-                            isDisableColor: state.model.status == null ||
-                                    state.model.status ==
-                                        ConstantsIntValue.draft
-                                ? false
-                                : true,
-                            onTap: () {
-                              if (state.model.status == null ||
-                                  state.model.status ==
-                                      ConstantsIntValue.draft) {
-                                BaseOrganisationDialog().departmentDialog(
+                            /// Status
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                              isDisabled: true,
+                              textController: statusController,
+                              items: shiftScheduleStatusDropDownValues,
+                              initialValue: '${state.model.status ?? 0}',
+                              onTap: () {
+                                if (!isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    organisations: state.vendors,
-                                    onTap: (Organisation department) {
+                                    dropDownValues:
+                                        shiftScheduleStatusDropDownValues
+                                            .map((label) => label.key)
+                                            .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          shiftScheduleStatusDropDownValues
+                                              .firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
                                       BlocProvider.of<
                                                   ShiftScheduleDetailsCubit>(
                                               context)
                                           .updateDropdownValues(
-                                              vendor: department);
-                                    },
-                                    orgName: 'ATOM_VENDORS',
-                                    createEntity: false,
-                                    title: 'Add Vendors',
-                                    functionToCall: () {
-                                      // refresh the list
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .refreshList();
-                                    });
-                              }
-                            },
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Duty Type
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.dutyType ??
-                                  state.labels?.defaultLocale.dutyType ??
-                                  Constants.dutyType,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
-                              isDisabled: state.model.status == -1,
-                              textController: rankController,
-                              items: shiftDutyTypeDropDownValues,
-                              initialValue: state.model.dutyType.toString(),
-                              onTap: () {
-                                if (state.model.status != -1) {
-                                  BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues:
-                                          shiftDutyTypeDropDownValues
-                                              .map((label) => label.key)
-                                              .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            shiftDutyTypeDropDownValues
-                                                .firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    ShiftScheduleDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                dutyType: int.tryParse(
-                                                    selectedLabel.value));
-                                      });
-                                }
-                              }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// POC
-                          CommonWidgets.textDisplay(
-                              // state.labels?.locale.poc ??
-                              //     state.labels?.defaultLocale.poc ??
-                              Constants.poc,
-                              Styles.textStyleBlack14,
-                              isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          if (state.model.status == null ||
-                              state.model.status ==
-                                  ConstantsIntValue.draft) ...[
-                            GestureDetector(
-                              onTap: () {
-                                log('--onTap------');
-                                if (state.model.status == null ||
-                                    state.model.status ==
-                                        ConstantsIntValue.draft) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return AddPOCPopUp(
-                                        model: model,
-                                        mainContext: context,
-                                      );
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
                                     },
                                   );
                                 }
                               },
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
-                                  ),
-                                  // ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.addPOC,
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
-                          ],
-                          Column(
-                            children: getPOCs(state, height),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// From Date
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.fromDate ??
-                                state.labels?.defaultLocale.fromDate ??
-                                Constants.fromDate,
-                            isMandatory: true,
-                            Styles.textStyleBlack14,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    Constants.createdby,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          BaseDate().datePickerWidgetLoading(
-                            textController: fromDateController,
-                            onlyDate: true,
-                            showPastDate: false,
-                            startDate: state.availableDate?.fromDate,
-                            isDisabled: state.model.status != null &&
-                                state.model.status != ConstantsIntValue.draft,
-                            onChange: (String value) {
-                              state.model.fromDate = Utils().formatTime(value);
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .onModelValueChange(state.model);
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// To Date
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.toDate ??
-                                state.labels?.defaultLocale.toDate ??
-                                Constants.toDate,
-                            isMandatory: true,
-                            Styles.textStyleBlack14,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                          BaseDate().datePickerWidgetLoading(
-                            textController: toDateController,
-                            onlyDate: true,
-                            showPastDate: false,
-                            startDate: state.availableDate?.toDate,
-                            isDisabled: state.model.status != null &&
-                                state.model.status != ConstantsIntValue.draft,
-                            onChange: (String value) {
-                              state.model.toDate = Utils().formatTime(value);
-                              BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                      context)
-                                  .onModelValueChange(state.model);
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          if (state.model.id != null) ...[
-                            /// Modified Date
+                            /// Date of creation
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.date ??
-                              //     state.labels?.defaultLocale.date ??
-                              Constants.modifiedOn,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
-                                state.model.modifiedDate ?? ''),
+                                state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Modified By
-                            CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.modifiedBy,
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
                                 isMandatory: true,
-                                '${state.model.modifiedBy}'),
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            AbsorbPointer(
+                                absorbing: state.model.status == null ||
+                                        state.model.status ==
+                                            ConstantsIntValue.draft
+                                    ? false
+                                    : true,
+                                child: BaseLocationDropdown()
+                                    .locationWidgetDisplay(
+                                        context: context,
+                                        locations:
+                                            state.locations ?? Locations(),
+                                        selectedLocationName:
+                                            state.model.location?.name ?? '',
+                                        onTap: (Organisation? location) {
+                                          BlocProvider.of<
+                                                      ShiftScheduleDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  location: location);
+                                        })),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
 
-                          /// List of Duty Posts
-                          if (!state.model.fromDate.isEmptyOrNull &&
-                              !state.model.toDate.isEmptyOrNull) ...[
-                            DutyPostListWidget(
-                                dutyPosts: state.dutyPosts ?? [],
-                                onTap: (int? id, int? dustyPostNameId) {
-                                  log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                              state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  Constants.slno,
+                              state.model.slNo ?? '',
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                  if (dustyPostNameId != null) {
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                      isSaveOnly: true,
-                                      navigateToNextScreen: true,
-                                      dutyPostNameId: dustyPostNameId,
-                                    );
-                                  }
+                            /// Vendor
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextFieldAddButton(
+                              title: state.model.vendor?.name,
+                              height: 60,
+                              isDisableColor: state.model.status == null ||
+                                      state.model.status ==
+                                          ConstantsIntValue.draft
+                                  ? false
+                                  : true,
+                              onTap: () {
+                                if (state.model.status == null ||
+                                    state.model.status ==
+                                        ConstantsIntValue.draft) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.vendors,
+                                      onTap: (Organisation department) {
+                                        BlocProvider.of<
+                                                    ShiftScheduleDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                vendor: department);
+                                      },
+                                      orgName: 'ATOM_VENDORS',
+                                      createEntity: false,
+                                      title: 'Add Vendors',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    ShiftScheduleDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      });
+                                }
+                              },
+                            ),
 
-                                  if (id != null) {
-                                    BlocProvider.of<ShiftScheduleDetailsCubit>(
-                                            context)
-                                        .getDutyPostById(id);
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Duty Type
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.dutyType ??
+                                    state.labels?.defaultLocale.dutyType ??
+                                    Constants.dutyType,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                                isDisabled: state.model.status == -1,
+                                textController: rankController,
+                                items: shiftDutyTypeDropDownValues,
+                                initialValue: state.model.dutyType.toString(),
+                                onTap: () {
+                                  if (state.model.status != -1) {
+                                    BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
+                                            shiftDutyTypeDropDownValues
+                                                .map((label) => label.key)
+                                                .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              shiftDutyTypeDropDownValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<
+                                                      ShiftScheduleDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  dutyType: int.tryParse(
+                                                      selectedLabel.value));
+                                        });
                                   }
                                 }),
-                          ],
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// SubmitButton
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(state),
-                              if (state.model.status != -1) ...[
-                                submitButtonDisplay()
-                              ],
+                            /// POC
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.poc ??
+                                //     state.labels?.defaultLocale.poc ??
+                                Constants.poc,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.status == null ||
+                                state.model.status ==
+                                    ConstantsIntValue.draft) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  log('--onTap------');
+                                  if (state.model.status == null ||
+                                      state.model.status ==
+                                          ConstantsIntValue.draft) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return AddPOCPopUp(
+                                          model: model,
+                                          mainContext: context,
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      color: AppColors.navigationSkybluecolor,
+                                    ),
+                                    // ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.addPOC,
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkybluecolor,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
-                          ),
+                            Column(
+                              children: getPOCs(state, height),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          CommonWidgets.verticalSpacerWidget(height * 0.04),
-                        ],
+                            /// From Date
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.fromDate ??
+                                  state.labels?.defaultLocale.fromDate ??
+                                  Constants.fromDate,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: fromDateController,
+                              onlyDate: true,
+                              showPastDate: false,
+                              startDate: state.availableDate?.fromDate,
+                              isDisabled: state.model.status != null &&
+                                  state.model.status != ConstantsIntValue.draft,
+                              onChange: (String value) {
+                                state.model.fromDate =
+                                    Utils().formatTime(value);
+                                BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// To Date
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.toDate ??
+                                  state.labels?.defaultLocale.toDate ??
+                                  Constants.toDate,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: toDateController,
+                              onlyDate: true,
+                              showPastDate: false,
+                              startDate: state.availableDate?.toDate,
+                              isDisabled: state.model.status != null &&
+                                  state.model.status != ConstantsIntValue.draft,
+                              onChange: (String value) {
+                                state.model.toDate = Utils().formatTime(value);
+                                BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.id != null) ...[
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.date ??
+                                //     state.labels?.defaultLocale.date ??
+                                Constants.modifiedOn,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDate().creationDateDisplay(
+                                  state.model.modifiedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.modifiedBy,
+                                  isMandatory: true,
+                                  '${state.model.modifiedBy}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+                            /// List of Duty Posts
+                            if (!state.model.fromDate.isEmptyOrNull &&
+                                !state.model.toDate.isEmptyOrNull) ...[
+                              DutyPostListWidget(
+                                  dutyPosts: state.dutyPosts ?? [],
+                                  onTap: (int? id, int? dustyPostNameId) {
+                                    log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+
+                                    if (dustyPostNameId != null) {
+                                      BlocProvider.of<
+                                                  ShiftScheduleDetailsCubit>(
+                                              context)
+                                          .submitForm(
+                                        isSaveOnly: true,
+                                        navigateToNextScreen: true,
+                                        dutyPostNameId: dustyPostNameId,
+                                      );
+                                    }
+
+                                    if (id != null) {
+                                      BlocProvider.of<
+                                                  ShiftScheduleDetailsCubit>(
+                                              context)
+                                          .getDutyPostById(id);
+                                    }
+                                  }),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// SubmitButton
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                cancelButtonDisplay(state),
+                                if (state.model.status != -1 ||
+                                    !isReadOnly) ...[submitButtonDisplay()],
+                              ],
+                            ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+                          ],
+                        ),
                       ),
                     ),
                   ],

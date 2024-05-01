@@ -1896,8 +1896,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: widget.model?.timeOfVisit != null &&
-                  widget.model?.timeOfVisit != 0
+          timeOfVisit: actualDate != 0
               ? actualDate.toString()
               : '',
           officialCardVerified: isOfficialIdcardSelected,
@@ -1921,8 +1920,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           location: location,
           status: statusValue,
           images: images,
-          timeOfVisit: widget.model?.timeOfVisit != null &&
-                  widget.model?.timeOfVisit != 0
+          timeOfVisit: actualDate != 0
               ? actualDate.toString()
               : '',
           officialCardVerified: isOfficialIdcardSelected,

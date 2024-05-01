@@ -6,11 +6,13 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 class DutyPostNameMasterDetailsView extends StatefulWidget {
   final DutyPostNameMasterModel? model;
   final String title;
+  final ExtraProperties? extraProperties;
 
   const DutyPostNameMasterDetailsView({
     super.key,
     this.model,
     required this.title,
+    this.extraProperties,
   });
 
   @override
@@ -86,7 +88,10 @@ class _DutyPostNameMasterDetailsViewState
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         showSaveSubmitButtons = state.model.status == 0 ||
             state.model.status == 1 ||
             state.model.status == null ||

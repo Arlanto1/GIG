@@ -8,6 +8,7 @@ class DutyPostMasterListState extends Equatable {
   final String? message;
   final CommonFilters? commonFilters;
   final Locations? locations;
+  final ExtraProperties? extraProperties;
 
   const DutyPostMasterListState({
     this.list = const <DutyPostMasterModel>[],
@@ -17,6 +18,7 @@ class DutyPostMasterListState extends Equatable {
     this.message,
     this.locations,
     this.commonFilters,
+    this.extraProperties,
   });
 
   DutyPostMasterListState copyWith({
@@ -29,6 +31,7 @@ class DutyPostMasterListState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
+    ExtraProperties? extraProperties,
   }) {
     return DutyPostMasterListState(
       list: items ?? list,
@@ -38,6 +41,7 @@ class DutyPostMasterListState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
+      extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

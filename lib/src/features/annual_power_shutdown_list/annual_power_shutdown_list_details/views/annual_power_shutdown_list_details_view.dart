@@ -1738,7 +1738,7 @@ class _AnnualPowerShutdownListDetailsViewState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(state),
-                            //if (!disableForm) ...[
+                            if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<
@@ -1746,7 +1746,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       context)
                                   .submitForm(isSaveOnly: false);
                             })
-                            // ],
+                             ],
                           ],
                         ),
                       ],

@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../../../utils/utils_common.dart';
+
 part 'duty_post_master_list_event.dart';
 part 'duty_post_master_list_state.dart';
 
@@ -44,6 +46,12 @@ class DutyPostMasterListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.shiftScheduleModuleCode);
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.shiftScheduleModuleCode,
+        commonServices: commonServices,
+      );
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
@@ -54,6 +62,7 @@ class DutyPostMasterListBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
+          extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {
