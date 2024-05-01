@@ -104,7 +104,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             !widget.extraProperties!.hasWritePermission!) {
           isReadOnly = true;
         }
-        if (state.model.status == null || state.model.status == 0) {
+        if (state.model.status == null) {
+          isReadOnly = false;
+        }
+        if (state.model == null) {
+          isReadOnly = false;
+        }
+        if ( state.model.status == 0) {
           isReadOnly = false;
         }
         return Scaffold(
@@ -894,12 +900,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     cancelButtonDisplay(state),
-                    if (((state.model.status == 0 ||
-                                state.model.status == 1 ||
-                                state.model.status == 2) &&
-                            !isReadOnly)
+                    if ((state.model.status == 0 ||
+                        state.model.status == 1 ||
+                        state.model.status == 2 ||
+                        state.model.status == null) &&
+                        !isReadOnly
                         ? true
-                        : false) ...[submitButtonDisplay()],
+                        : false)
+                       ...[submitButtonDisplay()],
                   ],
                 ),
               ),
