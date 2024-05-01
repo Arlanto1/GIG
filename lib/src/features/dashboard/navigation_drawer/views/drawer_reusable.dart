@@ -27,15 +27,17 @@ class NavigationDrawer1 extends StatelessWidget {
     List<MenuItem> expansionTileDrawerItems = [];
     if (displayMenu.aps ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.annualPowerShutdownList, AppIcon.annualPowerShutdownIcon, 0));
+          Constants.annualPowerShutdownList,
+          AppIcon.annualPowerShutdownIcon,
+          0));
     }
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.articleFoundRegister, AppIcon.articleFoundRegisterIcon, 0));
     }
     if (displayMenu.eP ?? false) {
-      expansionTileDrawerItems.add(
-          const MenuItem(Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
     if (displayMenu.gM ?? false) {
@@ -61,8 +63,8 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.materialMovement, AppIcon.materialMovementIcon, 1));
     }
     if (displayMenu.pM ?? false) {
-      expansionTileDrawerItems.add(
-          const MenuItem(Constants.passManagement, AppIcon.passManagementIcon, 1));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.passManagement, AppIcon.passManagementIcon, 1));
     }
 
     // if (displayMenu.gM ?? false) {
@@ -71,8 +73,8 @@ class NavigationDrawer1 extends StatelessWidget {
     // }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(
-        const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
+    expansionTileDrawerItems
+        .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     // }
 
     // if (displayMenu. ?? false) {
@@ -312,7 +314,6 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSecuritySystemIncidentItemSelected(int index, BuildContext context) async {
-
     log('-_onSecuritySystemIncidentItemSelected------');
 
     _menuScaffoldKey.currentState!.closeDrawer();
@@ -594,7 +595,12 @@ class NavigationDrawer1 extends StatelessWidget {
                     leading: SizedBox(
                       width: 20,
                       height: 20,
-                      child: Image.asset(i==0? AppIcon.operationsIcon : i==1 ?AppIcon.costBillingIcon :AppIcon.securitySystemIcon ,
+                      child: Image.asset(
+                          i == 0
+                              ? AppIcon.operationsIcon
+                              : i == 1
+                                  ? AppIcon.costBillingIcon
+                                  : AppIcon.securitySystemIcon,
                           fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
                               ? AppColors.navigationSkybluecolor

@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 
 class DutyPostNameMasterRequest {
@@ -9,8 +8,7 @@ class DutyPostNameMasterRequest {
   late final DutyPostNameMasterModel dutyPostNameMaster;
 
   DutyPostNameMasterRequest.fromJson(Map<String, dynamic> json) {
-    dutyPostNameMaster =
-        DutyPostNameMasterModel.fromJson(json['dutyPostName']);
+    dutyPostNameMaster = DutyPostNameMasterModel.fromJson(json['dutyPostName']);
   }
 
   Map<String, dynamic> toJson() {

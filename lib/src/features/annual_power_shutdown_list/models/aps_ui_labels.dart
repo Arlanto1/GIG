@@ -605,7 +605,6 @@ class APSUILabelsLocale {
   @JsonKey(name: 'com.arlanto.atom.eventProtection.important.rating')
   String? importantRating;
 
-
   APSUILabelsLocale(
       this.vendorDetails,
       this.eventLocation,

@@ -463,7 +463,7 @@ class DropdownWidgetState extends State<DropdownWidget> {
         : widget.items.isNotEmpty
             ? widget.items.first
             : null;
-    if(widget.initialValue != null){
+    if (widget.initialValue != null) {
       selectedElement = widget.initialValue;
     }
   }

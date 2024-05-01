@@ -8,7 +8,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../utils/utils_common.dart';
 
 part 'shift_schedule_list_event.dart';
-
 part 'shift_schedule_list_state.dart';
 
 class ShiftScheduleListBloc
@@ -74,7 +73,7 @@ class ShiftScheduleListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

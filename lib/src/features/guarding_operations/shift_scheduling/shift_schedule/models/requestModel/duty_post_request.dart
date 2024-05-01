@@ -8,9 +8,10 @@ class DutyPostRequest {
   });
 
   DutyPostRequest.fromJson(Map<String, dynamic> json)
-      : dutyPost = (json['shiftDutyPost'] as Map<String,dynamic>?) != null ? DutyPostModel.fromJson(json['shiftDutyPost'] as Map<String,dynamic>) : null;
+      : dutyPost = (json['shiftDutyPost'] as Map<String, dynamic>?) != null
+            ? DutyPostModel.fromJson(
+                json['shiftDutyPost'] as Map<String, dynamic>)
+            : null;
 
-  Map<String, dynamic> toJson() => {
-    'shiftDutyPost' : dutyPost?.toJson()
-  };
+  Map<String, dynamic> toJson() => {'shiftDutyPost': dutyPost?.toJson()};
 }

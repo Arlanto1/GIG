@@ -13,7 +13,6 @@ class KeyManagementMasterDetailsView extends StatefulWidget {
     this.model,
     required this.title,
     this.extraProperties,
-
   });
 
   @override
@@ -680,7 +679,8 @@ class _KeyManagementMasterDetailsViewState
                               widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
                               widget.model!.noMasterKey! > 0 &&
-                              state.model.status != null && widget.model?.id != null) ...[
+                              state.model.status != null &&
+                              widget.model?.id != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -916,9 +916,8 @@ class _KeyManagementMasterDetailsViewState
                             children: [
                               cancelButtonDisplay(state),
                               if (state.model.status != 2 &&
-                                  state.model.status != -1 && !isReadOnly) ...[
-                                submitButtonDisplay()
-                              ],
+                                  state.model.status != -1 &&
+                                  !isReadOnly) ...[submitButtonDisplay()],
                             ],
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -937,13 +936,17 @@ class _KeyManagementMasterDetailsViewState
 
   Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {
+      onTap: () {if (state.model.id == null) {
+        Navigator.pop(context);
+        return;
+      }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -955,7 +958,7 @@ class _KeyManagementMasterDetailsViewState
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

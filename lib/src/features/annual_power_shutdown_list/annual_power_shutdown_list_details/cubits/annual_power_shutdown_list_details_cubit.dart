@@ -127,11 +127,10 @@ class AnnualPowerShutdownListDetailsCubit
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
 
-     model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -271,9 +270,9 @@ class AnnualPowerShutdownListDetailsCubit
     if (subRegionalHead1 != null) {
       state.srh?.remove(subRegionalHead1);
       User userDetails = User(
-          name: subRegionalHead1.name,
-          userId: subRegionalHead1.id,
-         );
+        name: subRegionalHead1.name,
+        userId: subRegionalHead1.id,
+      );
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
@@ -377,6 +376,7 @@ class AnnualPowerShutdownListDetailsCubit
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
     /// Create/Update API Call
     AnnualPowerShutdownListRequest request =
         AnnualPowerShutdownListRequest(annualPowerShutdown: state.model);

@@ -239,7 +239,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyReconciliationListBloc>(context).add(
       FetchKeyReconciliationList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
   }
 
@@ -250,7 +253,10 @@ class _KeyLossDestructionListViewState
 
     BlocProvider.of<KeyReconciliationListBloc>(context).add(
       FetchKeyReconciliationList(
-          startPos: 0, maxPos: Constants.maxResults, newSearch: true, filters: filters),
+          startPos: 0,
+          maxPos: Constants.maxResults,
+          newSearch: true,
+          filters: filters),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

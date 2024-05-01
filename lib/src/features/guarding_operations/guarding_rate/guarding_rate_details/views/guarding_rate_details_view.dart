@@ -1,6 +1,4 @@
-
 import 'package:db_atom/index.dart';
-
 
 class GuardingRateDetailsView extends StatefulWidget {
   final String title;
@@ -44,8 +42,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
       body: BlocConsumer<PayRateCubit, PayRateState>(
         listener: (context, state) {
           Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
-
+          Utils().errorAndLogout(state, context);
 
           if (state.status == FormStatus.success) {
             Navigator.pop(context);

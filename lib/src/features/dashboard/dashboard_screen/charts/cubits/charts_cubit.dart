@@ -45,7 +45,6 @@ class ChartsCubit extends Cubit<ChartsState> {
       List<PieChartData> lawEnforcementVisitByRegion = results[1];
       List<PieChartData> eventProtectionByRegion = results[2];
 
-
       emit(
         state.copyWith(
           lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,

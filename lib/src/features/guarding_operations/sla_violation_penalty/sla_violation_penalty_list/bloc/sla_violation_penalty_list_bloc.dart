@@ -8,7 +8,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../utils/utils_common.dart';
 
 part 'sla_violation_penalty_list_event.dart';
-
 part 'sla_violation_penalty_list_state.dart';
 
 class SLAViolationPenaltyListBloc

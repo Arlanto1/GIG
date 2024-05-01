@@ -599,6 +599,7 @@ class EpManager1 {
     required this.name,
     required this.userStatus,
   });
+
   late final int userId;
   late final String userName;
   late final String email;
@@ -612,17 +613,21 @@ class EpManager1 {
   late final String name;
   late final String userStatus;
 
-  EpManager1.fromJson(Map<String, dynamic> json){
+  EpManager1.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     userName = json['userName'];
     email = json['email'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e)=>Role.fromJson(e)).toList();
-    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtension.fromJson(e)).toList();
-    notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
-    notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtension.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
     name = json['name'];
     userStatus = json['userStatus'];
   }
@@ -635,8 +640,8 @@ class EpManager1 {
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['phone'] = phone;
-    data['roles'] = roles.map((e)=>e.toJson()).toList();
-    data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
     data['notApprovedRoles'] = notApprovedRoles;
     data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
     data['name'] = name;
@@ -644,6 +649,7 @@ class EpManager1 {
     return data;
   }
 }
+
 class EpManager2 {
   EpManager2({
     required this.userId,
@@ -659,6 +665,7 @@ class EpManager2 {
     required this.name,
     required this.userStatus,
   });
+
   late final int userId;
   late final String userName;
   late final String email;
@@ -672,17 +679,21 @@ class EpManager2 {
   late final String name;
   late final String userStatus;
 
-  EpManager2.fromJson(Map<String, dynamic> json){
+  EpManager2.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     userName = json['userName'];
     email = json['email'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     phone = json['phone'];
-    roles = List.from(json['roles']).map((e)=>Role.fromJson(e)).toList();
-    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtension.fromJson(e)).toList();
-    notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
-    notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    roles = List.from(json['roles']).map((e) => Role.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtension.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
     name = json['name'];
     userStatus = json['userStatus'];
   }
@@ -695,8 +706,8 @@ class EpManager2 {
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['phone'] = phone;
-    data['roles'] = roles.map((e)=>e.toJson()).toList();
-    data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
     data['notApprovedRoles'] = notApprovedRoles;
     data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
     data['name'] = name;

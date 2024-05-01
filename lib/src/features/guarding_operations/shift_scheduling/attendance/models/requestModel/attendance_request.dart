@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart';
 
 class AttendanceRequest {
@@ -9,8 +8,7 @@ class AttendanceRequest {
   late final AttendanceModel requestModel;
 
   AttendanceRequest.fromJson(Map<String, dynamic> json) {
-    requestModel =
-        AttendanceModel.fromJson(json['attdInfoGi']);
+    requestModel = AttendanceModel.fromJson(json['attdInfoGi']);
   }
 
   Map<String, dynamic> toJson() {

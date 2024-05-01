@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:flutter/material.dart';
 

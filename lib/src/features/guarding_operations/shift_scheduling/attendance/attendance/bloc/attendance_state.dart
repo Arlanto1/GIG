@@ -41,7 +41,7 @@ class AttendanceState extends Equatable {
       message: message ?? this.message,
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
-      extraProperties: extraProperties ?? this.extraProperties,
+extraProperties: extraProperties ?? this.extraProperties,
     );
   }
 

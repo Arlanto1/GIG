@@ -147,8 +147,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             MediaQuery.of(context).size.height * 0.01),
         buildTextWithLabel(
             'Attendance Status:',
-            Utils()
-                .buildAttendanceStatusRow(status: shift.attdStatus ?? 0, returnTextOnly: true)),
+            Utils().buildAttendanceStatusRow(
+                status: shift.attdStatus ?? 0, returnTextOnly: true)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

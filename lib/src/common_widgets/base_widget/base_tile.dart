@@ -44,7 +44,7 @@ class Tile extends StatelessWidget {
                     color: AppColors.navigationSkybluecolor,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child:  Padding(
+                  child: Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: Icon(
                       icon,

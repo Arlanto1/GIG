@@ -19,7 +19,6 @@ class ContactDetailsListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
-
   });
 
   ContactDetailsListState copyWith({
@@ -33,7 +32,6 @@ class ContactDetailsListState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     ExtraProperties? extraProperties,
-
   }) {
     return ContactDetailsListState(
       items: items ?? this.items,

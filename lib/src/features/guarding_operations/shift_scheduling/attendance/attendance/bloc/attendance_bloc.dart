@@ -9,11 +9,9 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../utils/utils_common.dart';
 
 part 'attendance_event.dart';
-
 part 'attendance_state.dart';
 
-class AttendanceBloc
-    extends Bloc<AttendanceEvent, AttendanceState> {
+class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   AttendanceBloc() : super(const AttendanceState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchAttendanceList>(
@@ -26,8 +24,7 @@ class AttendanceBloc
     );
   }
 
-  final AttendanceServices _services =
-  AttendanceServices();
+  final AttendanceServices _services = AttendanceServices();
   final CommonServices commonServices = CommonServices();
 
   FutureOr<void> _refreshList(
@@ -52,6 +49,7 @@ class AttendanceBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<AttendanceState> emit) async {
     try {
@@ -60,13 +58,13 @@ class AttendanceBloc
           module: Constants.attendanceModuleCode);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -97,11 +95,10 @@ class AttendanceBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 
 //   FutureOr<void> _fetchList(FetchAttendanceList event,
 //       Emitter<AttendanceState> emit) async {
@@ -154,8 +151,8 @@ class AttendanceBloc
 //     }
 //   }
 // }
-  FutureOr<void> _fetchList(FetchAttendanceList event,
-      Emitter<AttendanceState> emit) async {
+  FutureOr<void> _fetchList(
+      FetchAttendanceList event, Emitter<AttendanceState> emit) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -192,7 +189,8 @@ class AttendanceBloc
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true,
+        return emit(state.copyWith(
+          hasReachedMax: true,
           status: FormStatus.success,
         ));
       }

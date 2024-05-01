@@ -8,7 +8,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../utils/utils_common.dart';
 
 part 'duty_post_name_master_list_event.dart';
-
 part 'duty_post_name_master_list_state.dart';
 
 class DutyPostNameMasterListBloc
@@ -66,7 +65,7 @@ class DutyPostNameMasterListBloc
           extraProperties: extraProperties,
         ),
       );
-    }on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

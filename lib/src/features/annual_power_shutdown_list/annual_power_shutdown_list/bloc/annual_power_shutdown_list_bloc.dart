@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
@@ -52,29 +51,28 @@ class AnnualPowerShutdownListBloc
     }
   }
 
-
-  FutureOr<void> _initializeValues(
-      InitializeValuesAPS event, Emitter<AnnualPowerShutdownListState> emit) async {
+  FutureOr<void> _initializeValues(InitializeValuesAPS event,
+      Emitter<AnnualPowerShutdownListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.eventProtectionModule);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.eventProtectionModuleCode,
         commonServices: commonServices,
       );
@@ -99,11 +97,10 @@ class AnnualPowerShutdownListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<AnnualPowerShutdownListState> emit) async {

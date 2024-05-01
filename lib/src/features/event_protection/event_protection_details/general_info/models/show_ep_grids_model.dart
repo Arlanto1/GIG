@@ -24,11 +24,11 @@ class ShowEPGridsModel {
         editAfter = json['editAfter'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'before' : before,
-    'during' : during,
-    'after' : after,
-    'editBefore' : editBefore,
-    'editDuring' : editDuring,
-    'editAfter' : editAfter
-  };
+        'before': before,
+        'during': during,
+        'after': after,
+        'editBefore': editBefore,
+        'editDuring': editDuring,
+        'editAfter': editAfter
+      };
 }

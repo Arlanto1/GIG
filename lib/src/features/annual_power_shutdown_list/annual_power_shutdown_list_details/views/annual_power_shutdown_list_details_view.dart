@@ -90,7 +90,6 @@ class _AnnualPowerShutdownListDetailsViewState
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
-
       },
       builder: (context, state) {
         budgetController.text =
@@ -222,8 +221,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   textController: statusController,
                                   items: eventProtectionGiStatus,
                                   initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {
-                                  }),
+                                  onTap: () {}),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
@@ -364,7 +362,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh1?.userInfo ?? state.model.srh1?.name,
+                                title: state.model.srh1?.userInfo ??
+                                    state.model.srh1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -400,7 +399,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.srh2?.userInfo ?? state.model.srh2?.name,
+                                title: state.model.srh2?.userInfo ??
+                                    state.model.srh2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -436,7 +436,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm1?.userInfo ?? state.model.lsm1?.name,
+                                title: state.model.lsm1?.userInfo ??
+                                    state.model.lsm1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -505,7 +506,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.lsm2?.userInfo??state.model.lsm2?.name,
+                                title: state.model.lsm2?.userInfo ??
+                                    state.model.lsm2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -575,7 +577,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu1?.userInfo??state.model.bu1?.name,
+                                title: state.model.bu1?.userInfo ??
+                                    state.model.bu1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -644,7 +647,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.bu2?.userInfo ?? state.model.bu2?.name,
+                                title: state.model.bu2?.userInfo ??
+                                    state.model.bu2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -1164,7 +1168,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                         const SizedBox(width: 14),
                                         SvgPicture.asset(
                                           AppIcon.pluscircle,
-                                          color: AppColors.navigationSkybluecolor,
+                                          color:
+                                              AppColors.navigationSkybluecolor,
                                         ),
                                         const SizedBox(width: 10),
                                         const Text(
@@ -1764,14 +1769,20 @@ class _AnnualPowerShutdownListDetailsViewState
   }
 
   Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 30;
     return AppButton(
-      // Customize the button properties as needed
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null|| widget.model?.id == 30?Constants.close:Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -1783,7 +1794,7 @@ class _AnnualPowerShutdownListDetailsViewState
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

@@ -7,7 +7,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'key_history_record_event.dart';
-
 part 'key_history_record_state.dart';
 
 class KeyHistoryRecordBloc
@@ -30,7 +29,7 @@ class KeyHistoryRecordBloc
     try {
       // TODO: Labels API call
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementMasterModule,
         commonServices: commonServices,
       );
@@ -48,7 +47,7 @@ class KeyHistoryRecordBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

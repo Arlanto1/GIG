@@ -13,9 +13,12 @@ class LocaleSupportedMethod {
     Locale.fromSubtags(languageCode: 'zh'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans', countryCode: 'CN'),
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant', countryCode: 'TW'),
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant', countryCode: 'HK'),
+    Locale.fromSubtags(
+        languageCode: 'zh', scriptCode: 'Hans', countryCode: 'CN'),
+    Locale.fromSubtags(
+        languageCode: 'zh', scriptCode: 'Hant', countryCode: 'TW'),
+    Locale.fromSubtags(
+        languageCode: 'zh', scriptCode: 'Hant', countryCode: 'HK'),
   ];
 
   static Localizer initialize(Locale locale) {
@@ -24,7 +27,11 @@ class LocaleSupportedMethod {
   }
 
   // Chinese traditional supported languages
-  static const List<String> chineseTarditional = ['zh_Hant', 'zh_Hant_TW', 'zh_Hant_HK'];
+  static const List<String> chineseTarditional = [
+    'zh_Hant',
+    'zh_Hant_TW',
+    'zh_Hant_HK'
+  ];
 
   // Initialising the locale translation and SDK
   static List<LocalizationsDelegate> getLocalizationsDelegates() {

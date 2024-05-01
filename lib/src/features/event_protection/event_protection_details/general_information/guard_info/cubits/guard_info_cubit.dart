@@ -32,27 +32,30 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     required this.id,
   }) : super(
           GuardInfoState.initial(
-              guardInfoModel: GuardInfoModel(),
-              locations: Locations(),
-              loggedInUserDetails: User(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null,
-              departments: const [],
+            guardInfoModel: GuardInfoModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            loadAttachments: const [],
+            eventId: null,
+            departments: const [],
           ),
         );
 
   void onModelValueChange(GuardInfoModel guardInfoModel) {
     log('-onModelValueChange---');
-    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.initial));
+    emit(state.copyWith(
+        guardInfoModel: guardInfoModel, status: FormStatus.initial));
   }
 
   void onCheckBoxChange(GuardInfoModel guardInfoModel) {
-    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.loading));
+    emit(state.copyWith(
+        guardInfoModel: guardInfoModel, status: FormStatus.loading));
 
-    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.initial));
+    emit(state.copyWith(
+        guardInfoModel: guardInfoModel, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
@@ -63,16 +66,15 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
         status: FormStatus.loading,
       ),
     );
-   // var userId = await SharedPrefs.getUserId();
+    // var userId = await SharedPrefs.getUserId();
     try {
       GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id);
 
       // Locations getLocationsData =
       //     await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-     // EntrySecurity loggedInUserDetails =
-     //     await commonServices.getUserDetails(userId: userId);
-
+      // EntrySecurity loggedInUserDetails =
+      //     await commonServices.getUserDetails(userId: userId);
 
       // Get Date of Creation
       //state.guardInfoModel.inputDate = Utils().getCurrentDate();
@@ -80,15 +82,15 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       //AddEntities entities =
       //    await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-     // List<GetUserDetails> entrySecurities = await commonServices.getUsers();
+      // List<GetUserDetails> entrySecurities = await commonServices.getUsers();
 
-     // EmployeeDepartments departments =
-     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      // EmployeeDepartments departments =
+      //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-    emit(
+      emit(
         state.copyWith(
           guardInfoModel: guardInfoModel,
-         // loggedInUserDetails: loggedInUserDetails,
+          // loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           //departments: departments.employeeDepartments,
         ),
@@ -121,16 +123,16 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     ////Get Sl No from API
     //if (location != null) {
     //  SerialNumberModel slNo = await commonServices.getSlNo(
-     //   locationId: location.id.toString(),
-     //   moduleCode: Constants.guardingMasterDataModule,
-      //);
-   // }
-   // state.model.status = status ?? state.model.status;
- //state.guardInfoModel.proposedVendors = proposedVendors ?? state.guardInfoModel.proposedVendors;
+    //   locationId: location.id.toString(),
+    //   moduleCode: Constants.guardingMasterDataModule,
+    //);
+    // }
+    // state.model.status = status ?? state.model.status;
+    //state.guardInfoModel.proposedVendors = proposedVendors ?? state.guardInfoModel.proposedVendors;
 
     //if (proposedVendors != null) {
     // state.guardInfoModel.proposedVendors = proposedVendors;
-  // }
+    // }
 
     emit(state.copyWith(
       guardInfoModel: state.guardInfoModel,
@@ -141,7 +143,6 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? guardImages,
-
   }) async {
     emit(
       state.copyWith(
@@ -161,7 +162,6 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
         ),
       );
     }
-
 
     emit(
       state.copyWith(
@@ -183,11 +183,12 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       ),
     );
 
-    if (state.guardInfoModel.status == 0 || state.guardInfoModel.status == null) {
+    if (state.guardInfoModel.status == 0 ||
+        state.guardInfoModel.status == null) {
       state.guardInfoModel.status = 1;
     }
     // Setting time in milliseconds
-   // state.guardInfoModel.inputDate =
+    // state.guardInfoModel.inputDate =
     //    (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call

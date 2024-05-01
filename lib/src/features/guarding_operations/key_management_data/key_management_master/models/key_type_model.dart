@@ -14,15 +14,15 @@ class KeyType {
   });
 
   factory KeyType.fromJson(Map<String, dynamic> json) => KeyType(
-    items: json["KEY_MANAGEMENT_DOOR_TYPE"] == null
-        ? []
-        : List<Organisation>.from(
-        json["KEY_MANAGEMENT_DOOR_TYPE"]!.map((x) => Organisation.fromJson(x))),
-  );
+        items: json["KEY_MANAGEMENT_DOOR_TYPE"] == null
+            ? []
+            : List<Organisation>.from(json["KEY_MANAGEMENT_DOOR_TYPE"]!
+                .map((x) => Organisation.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "KEY_MANAGEMENT_DOOR_TYPE": items == null
-        ? []
-        : List<dynamic>.from(items!.map((x) => x.toJson())),
-  };
+        "KEY_MANAGEMENT_DOOR_TYPE": items == null
+            ? []
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
+      };
 }

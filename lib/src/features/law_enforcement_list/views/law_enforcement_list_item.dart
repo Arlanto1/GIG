@@ -76,8 +76,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                   Utils().buildLeoStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling(
-                          'Region : ',
+                      Utils().textHandling('Region : ',
                           widget.userItem.locationRegion?.name ?? ''),
                     ],
                   ),
@@ -86,8 +85,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     Row(
                       children: [
                         if (widget.userItem.location != null) ...[
-                          Utils().textHandling(
-                              'Location : ',
+                          Utils().textHandling('Location : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                         CommonWidgets.horizontalSpacerWidget(5),
@@ -95,9 +93,9 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                             'Date : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestampToDateConversion(
-                                int.tryParse(
-                                    widget.userItem.inputDate ?? '0'),
-                                Constants.dateFormat)
+                                    int.tryParse(
+                                        widget.userItem.inputDate ?? '0'),
+                                    Constants.dateFormat)
                                 : ''),
                       ],
                     ),
@@ -119,8 +117,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     ? widget.onEditTap!(widget.index)
                     : null;
               },
-              icon: widget.userItem.status == 3 ||
-                  widget.userItem.status == -1
+              icon: widget.userItem.status == 3 || widget.userItem.status == -1
                   ? const Icon(Icons.edit_off_outlined)
                   : const Icon(Icons.edit),
             ),

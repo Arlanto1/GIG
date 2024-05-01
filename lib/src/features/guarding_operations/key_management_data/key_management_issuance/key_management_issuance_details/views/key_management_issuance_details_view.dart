@@ -947,13 +947,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null?Constants.close:Constants.cancelRecord,
+      buttonText:
+          state.model.id == null ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {
+      onTap: () {if (state.model.id == null) {
+        Navigator.pop(context);
+        return;
+      }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -965,7 +969,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

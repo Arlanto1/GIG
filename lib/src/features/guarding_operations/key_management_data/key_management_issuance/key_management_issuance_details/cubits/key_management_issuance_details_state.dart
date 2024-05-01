@@ -96,7 +96,9 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter DB Sponsor of CWR T2');
     }
-    if (model.status != null && model.status != 0 && model.returnedByName.isEmptyOrNull) {
+    if (model.status != null &&
+        model.status != 0 &&
+        model.returnedByName.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Returned By Name');
     }
@@ -131,7 +133,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Department');
     }
-    if (model.keyHandingOverDuration == null  || model.keyHandingOverDuration == 0) {
+    if (model.keyHandingOverDuration == null ||
+        model.keyHandingOverDuration == 0) {
       return const ErrorResponse(
           status: false, message: 'Please enter Key Handing Over Duration');
     }
@@ -161,7 +164,9 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter DB Sponsor of CWR T2');
     }
-    if (model.status != null && model.status != 0 && model.returnedByName.isEmptyOrNull) {
+    if (model.status != null &&
+        model.status != 0 &&
+        model.returnedByName.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Returned By Name');
     }

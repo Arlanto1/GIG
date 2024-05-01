@@ -8,7 +8,6 @@ import 'package:db_atom/src/services/common_services.dart';
 import '../../../../../../utils/utils_common.dart';
 
 part 'duty_post_master_list_event.dart';
-
 part 'duty_post_master_list_state.dart';
 
 class DutyPostMasterListBloc
@@ -74,7 +73,7 @@ class DutyPostMasterListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

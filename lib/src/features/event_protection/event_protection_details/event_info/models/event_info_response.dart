@@ -20,7 +20,6 @@ class EventInfoResponse {
   List<ImageContent>? image;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
-
     log('-json id--${json['id']}-');
 
     id = json['id'];

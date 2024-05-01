@@ -89,7 +89,6 @@ class BasePopUpItems extends StatefulWidget {
   final Organisation? department;
   final Organisation? vendors;
 
-
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
 
@@ -246,8 +245,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
-            Utils()
-                .textHandling('Location : ', widget.location?.name ?? " "),
+            Utils().textHandling('Location : ', widget.location?.name ?? " "),
           ],
         ),
       ],
@@ -373,8 +371,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
-            Utils().textHandling(
-                'Vendor : ', widget.vendors?.name??''),
+            Utils().textHandling('Vendor : ', widget.vendors?.name ?? ''),
           ],
         ),
       ],
@@ -387,17 +384,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      // if (widget.status != null &&
-      //     !widget.isMasterGuard &&
-      //     !widget.isOccurrenceStatus &&
-      //     !widget.isEventProtectionStatus &&
-      //     !widget.isSLAViolationStatus &&
-      //     !widget.isKeyManagementIssuanceStatus &&
-      //     !widget.isKeyManagementStatus &&
-      //     !widget.isVipStatus &&
-      //     !widget.isSecuritySystemSLAStatus &&
-      //     !widget.isIncident &&
-      //     !widget.isContactDetailsStatus) ...[
+
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
@@ -882,7 +869,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.dbSponsorCWRT2 != null && !widget.dbSponsorCWRT2!.name.isEmptyOrNull) ...[
+      if (widget.dbSponsorCWRT2 != null &&
+          !widget.dbSponsorCWRT2!.name.isEmptyOrNull) ...[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

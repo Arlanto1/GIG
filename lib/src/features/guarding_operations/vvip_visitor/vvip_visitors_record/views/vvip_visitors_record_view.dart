@@ -66,15 +66,17 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
   Widget build(BuildContext context) {
     return BlocConsumer<VVIPVisitorsRecordBloc, VVIPVisitorsRecordState>(
         listener: (context, state) {
-          Utils().formError(state, context);
-        Utils().errorAndLogout(state, context);
+      Utils().formError(state, context);
+      Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       if (widget.vvipModel?.status == 1) {
         isReadOnly = true;
       }
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: (widget.vvipModel?.status == 0||widget.vvipModel?.status == null) && (state.extraProperties?.hasWritePermission ?? false)
+        floatingActionButton: (widget.vvipModel?.status == 0 ||
+                    widget.vvipModel?.status == null) &&
+                (state.extraProperties?.hasWritePermission ?? false)
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,

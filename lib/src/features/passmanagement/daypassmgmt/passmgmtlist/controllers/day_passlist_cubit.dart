@@ -32,7 +32,6 @@ class DayPassListCubit extends Cubit<DayPassListState> {
     String passType,
     BuildContext context,
   ) async {
-
     if (startPosition == '0') {
       emit(state.copyWith(stateType: FormStatus.loading));
     }
@@ -42,8 +41,8 @@ class DayPassListCubit extends Cubit<DayPassListState> {
         startPosition: startPosition,
         maximumRecords: maximumRecords,
         passType: passType,
-            filters: BaseFilterModel(),
-          );
+        filters: BaseFilterModel(),
+      );
       //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   if (startPosition != '0')
       //   {

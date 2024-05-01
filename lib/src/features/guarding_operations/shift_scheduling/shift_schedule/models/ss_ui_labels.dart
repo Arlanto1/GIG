@@ -26,7 +26,8 @@ class SSUiLabelsLocale {
   final String? dutypostExistsTitle;
   @JsonKey(name: 'com.arlanto.atom.guardShiftInfo.postName')
   final String? postName;
-  @JsonKey(name: 'com.arlanto.atom.guardShiftInfo.dutyType.buildingAndTransport')
+  @JsonKey(
+      name: 'com.arlanto.atom.guardShiftInfo.dutyType.buildingAndTransport')
   final String? dutyTypeBuildingAndTransport;
   @JsonKey(name: 'com.arlanto.atom.guardShiftInfo.location')
   final String? location;
@@ -92,7 +93,6 @@ class SSUiLabelsLocale {
   final String? dutyTypeTransport;
   @JsonKey(name: 'com.arlanto.atom.guardShiftInfo.guardStaff')
   final String? guardStaff;
-
 
   SSUiLabelsLocale(
       this.dutypostExistsTitle,

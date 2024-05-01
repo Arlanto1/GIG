@@ -116,17 +116,16 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       }
 
       // Get Date of Creation
-    model.inputDate = model.inputDate == null
+      model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
       // model.inputDate = Utils().getCurrentDate();
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
       state.model.incidentType ??= 0;
-    Locations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -359,9 +358,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     if (!Utils().isTimestamp(state.model.inputDate!)) {
       dateTime =
           DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
     state.model.incidentType ??= 0;
@@ -417,8 +414,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(

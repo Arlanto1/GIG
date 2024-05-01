@@ -246,21 +246,19 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                         getById(
                                             state.extraProperties
                                                     ?.hasWritePermission ??
-                                                false,
-                                            state.list[index].id ?? 0);
-                                      },
-                                      showDutyPostEditButton: true,
-                                      showEditButton: false,
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.list[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              guardRank: state
+                                                false,state.list[index].id ?? 0);
+                                },
+                                showDutyPostEditButton: true,
+                                showEditButton: false,
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.list[selectedIndex].id
+                                            .toString(),
+                                        labels: labels,
+                                        guardRank:state
                                                   .list[selectedIndex].rankId,
                                               isMasterGuard: true,
                                             );

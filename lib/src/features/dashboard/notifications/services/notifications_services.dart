@@ -33,6 +33,7 @@ class NotificationServices {
     );
     return NotificationModel.fromJson(response);
   }
+
   Future<int> getNotificationCount() async {
     final String url = Apis._getNotificationCount;
     final response = await BaseApiService().getRequest(
@@ -65,6 +66,7 @@ class NotificationServices {
     return GenericResponse.fromJson(response);
   }
 }
+
 class NotificationCount {
   final int? count;
 
@@ -75,7 +77,5 @@ class NotificationCount {
   NotificationCount.fromJson(Map<String, dynamic> json)
       : count = json['count'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'count' : count
-  };
+  Map<String, dynamic> toJson() => {'count': count};
 }

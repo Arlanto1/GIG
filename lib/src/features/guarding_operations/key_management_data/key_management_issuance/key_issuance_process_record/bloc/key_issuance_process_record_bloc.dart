@@ -7,7 +7,6 @@ import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../utils/utils_common.dart';
 
-
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
 
@@ -45,13 +44,13 @@ class KeyIssuanceProcessRecordBloc
       //     await commonServices.getOrganisations(name: violationDescription);
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId,isMasterKey: isMasterKey);
+          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
         commonServices: commonServices,
       );
@@ -63,7 +62,6 @@ class KeyIssuanceProcessRecordBloc
           labels: labels,
           keyDescriptions: keyDescriptions,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -74,7 +72,7 @@ class KeyIssuanceProcessRecordBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
@@ -158,7 +156,6 @@ class KeyIssuanceProcessRecordBloc
     try {
       KeyIssuanceProcessRecordRequest request =
           KeyIssuanceProcessRecordRequest();
-
 
       // request.model?.keyDescription ??= Organisation();
       // request.model?.keyDescription?.id = event.mainIssuanceId;

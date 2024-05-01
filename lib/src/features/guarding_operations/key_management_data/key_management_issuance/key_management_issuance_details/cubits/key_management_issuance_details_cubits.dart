@@ -179,7 +179,8 @@ class KeyManagementIssuanceDetailsCubit
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
-    state.model.keyHandingOverDuration = keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
+    state.model.keyHandingOverDuration =
+        keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -245,9 +246,7 @@ class KeyManagementIssuanceDetailsCubit
     if (!Utils().isTimestamp(state.model.createdDate!)) {
       dateTime =
           DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.createdDate = inputDate.toString();
     }
     if (state.model.status == 1) {
@@ -258,7 +257,8 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
-    state.model.keyHandOverDue ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.keyHandOverDue ??=
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);

@@ -1,5 +1,3 @@
-
-
 import '../../../../../../index.dart';
 
 part 'key_issuance_process_list_model.g.dart';
@@ -19,20 +17,20 @@ class KeyManagementProcessListResponseModel extends BaseObject {
 
   KeyManagementProcessListResponseModel.fromJson(Map<String, dynamic> json)
       : items = (json[''] as List?)
-      ?.map((dynamic e) =>
-      KeyManagementProcessListModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) => KeyManagementProcessListModel.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   @override
   Map<String, dynamic> toJson() => {
-    '': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        '': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
@@ -49,4 +47,3 @@ class KeyManagementProcessListModel extends BaseObject {
   @override
   Map<String, dynamic> toJson() => _$KeyManagementProcessListModelToJson(this);
 }
-

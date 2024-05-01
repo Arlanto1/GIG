@@ -36,7 +36,8 @@ class LoadingOverlayAlt extends StatelessWidget {
               ),
             if (isLoading)
               const Center(
-                child: CircularProgressIndicator( color: AppColors.navigationSkybluecolor),
+                child: CircularProgressIndicator(
+                    color: AppColors.navigationSkybluecolor),
               ),
           ],
         );

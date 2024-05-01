@@ -52,7 +52,7 @@ class MaterialMovementBloc
           moduleCode: Constants.materialMovementModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.materialMovementModuleCode,
         commonServices: commonServices,
       );
@@ -67,7 +67,6 @@ class MaterialMovementBloc
           status: FormStatus.initial,
           labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -78,7 +77,7 @@ class MaterialMovementBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

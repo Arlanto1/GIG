@@ -35,7 +35,6 @@ class LawEnforcementListBloc
   final LawEnforcementServices services = LawEnforcementServices();
   final CommonServices commonServices = CommonServices();
 
-
   FutureOr<void> _initializeValues(
       InitializeValuesLEO event, Emitter<LawEnforcementListState> emit) async {
     try {
@@ -44,20 +43,20 @@ class LawEnforcementListBloc
           module: Constants.leoModuleCode);
 
       List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
+          await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+          CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.leoModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.leoModuleCode,
         commonServices: commonServices,
       );
@@ -81,10 +80,11 @@ class LawEnforcementListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
+
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<LawEnforcementListState> emit) async {
     try {

@@ -103,8 +103,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                       Container(
                         alignment: Alignment.topLeft,
                         child: CommonWidgets.textDisplay(
-                                Constants.name,
-                            Styles.textStyleBlack14,
+                            Constants.name, Styles.textStyleBlack14,
                             isMandatory: true),
                       ),
                       FlutterInputField(
@@ -196,7 +195,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         //loginFormKey.currentState!.validate();
-       // FocusScope.of(context).unfocus();
+        // FocusScope.of(context).unfocus();
         if (nameTextController.text.isEmpty) {
           Validator().showToast(
             context,
@@ -210,8 +209,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
               _createEmployeeDepartment(
                   nameTextController.text, keyTextController.text);
             }
-          } catch (e) {
-          }
+          } catch (e) {}
         }
         Navigator.of(context).pop();
       },

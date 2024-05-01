@@ -1824,14 +1824,19 @@ class _CreateFoundState extends State<CreateFound> {
                                   //         getFiles, getAttachments),
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
-                                    BaseImageUpload().getAttachment(
-                                      height: height,
-                                      attachments: getAttachments.isEmptyOrNull?getFiles:getAttachments,
-                                      files: getFiles.isEmptyOrNull?getAttachments:getFiles,
-                                      showDownloadIcon:
-                                          widget.model != null ? true : false,
-                                      moduleCode: Constants.articleFoundModuleCode,
-                                    ),
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: getAttachments.isEmptyOrNull
+                                        ? getFiles
+                                        : getAttachments,
+                                    files: getFiles.isEmptyOrNull
+                                        ? getAttachments
+                                        : getFiles,
+                                    showDownloadIcon:
+                                        widget.model != null ? true : false,
+                                    moduleCode:
+                                        Constants.articleFoundModuleCode,
+                                  ),
                                   // ],
 
                                   CommonWidgets.verticalSpacerWidget(
@@ -2003,18 +2008,22 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget cancelButtonDisplay() {
+    bool condition = widget.model?.id == null ||
+        widget.model?.status == ConstantsIntValue.cancelledStatus ||
+        widget.model?.status ==
+            ConstantsIntValue.articleFoundStatusHandedOverOrClaimed;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: widget.model?.id == null ||
-              widget.model?.id ==
-                  ConstantsIntValue.articleFoundStatusHandedOverOrClaimed
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -2026,7 +2035,7 @@ class _CreateFoundState extends State<CreateFound> {
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

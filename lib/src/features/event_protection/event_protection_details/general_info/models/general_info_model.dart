@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/models/base_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +7,7 @@ import '../../../../createfound/models/user.dart';
 part 'general_info_model.g.dart';
 
 @JsonSerializable()
-class EventProtectionGi  extends BaseObject{
+class EventProtectionGi extends BaseObject {
   int? id;
   String? slNo;
   User? createdBy;
@@ -55,6 +54,7 @@ class EventProtectionGi  extends BaseObject{
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
   List<Organisation>? proposedVendors;
+
   // Organisation? proposedVendors;
   double? budget;
   String? poNumber;
@@ -115,6 +115,4 @@ class EventProtectionGi  extends BaseObject{
 
   @override
   Map<String, dynamic> toJson() => _$EventProtectionGiToJson(this);
-
-
 }

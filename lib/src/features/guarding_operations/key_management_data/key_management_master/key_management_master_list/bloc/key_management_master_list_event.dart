@@ -13,9 +13,11 @@ class FetchKeyMasterList extends KeyManagementMasterListEvent {
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchKeyMasterList({required this.startPos, required this.maxPos,
-    required this.newSearch,
-    required this.filters});
+  const FetchKeyMasterList(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValues extends KeyManagementMasterListEvent {

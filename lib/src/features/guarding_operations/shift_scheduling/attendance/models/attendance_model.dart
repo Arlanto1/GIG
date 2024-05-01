@@ -17,19 +17,19 @@ class AttendanceResponse {
 
   AttendanceResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      AttendanceModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) =>
+                AttendanceModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
@@ -62,5 +62,3 @@ class AttendanceModel extends BaseObject {
   @override
   Map<String, dynamic> toJson() => _$AttendanceModelToJson(this);
 }
-
-

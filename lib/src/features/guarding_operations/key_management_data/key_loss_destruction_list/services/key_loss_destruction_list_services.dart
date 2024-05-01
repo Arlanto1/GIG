@@ -9,8 +9,7 @@ class Apis {
       '$baseUrl/getKemMgmtDestructiontList?';
 
   static final String _getGIById = '$baseUrl/getKldById';
-  static final String _createKeyLossDes =
-      '$baseUrl/createKeyLossDes?';
+  static final String _createKeyLossDes = '$baseUrl/createKeyLossDes?';
 }
 
 class KeyLossDestructionListServices {
@@ -41,6 +40,7 @@ class KeyLossDestructionListServices {
     );
     return KeyLossDestructionListModel.fromJson(response);
   }
+
   /// Create Services
 
   Future<GenericResponse> createKeyLossDestruction({
@@ -56,5 +56,4 @@ class KeyLossDestructionListServices {
     );
     return GenericResponse.fromJson(response);
   }
-
 }

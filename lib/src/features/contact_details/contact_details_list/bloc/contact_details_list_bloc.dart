@@ -65,7 +65,7 @@ class ContactDetailsListBloc
           moduleCode: Constants.contactDetailsModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.contactDetailsModuleCode,
         commonServices: commonServices,
       );
@@ -80,7 +80,6 @@ class ContactDetailsListBloc
           status: FormStatus.initial,
           labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -91,7 +90,7 @@ class ContactDetailsListBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

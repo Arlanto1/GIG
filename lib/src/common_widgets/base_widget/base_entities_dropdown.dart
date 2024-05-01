@@ -16,7 +16,8 @@ class BaseEntitiesSelection {
 
     // Add Organisation Fields
     String? addTitle,
-    String? orgName = 'ATOM_ENTITIES', // TODO: Need to make it required and non nullable
+    String? orgName =
+        'ATOM_ENTITIES', // TODO: Need to make it required and non nullable
     bool? createEntity,
     Function? functionToCall,
   }) {
@@ -30,9 +31,7 @@ class BaseEntitiesSelection {
     }
     return TextFieldAddButton(
       title: title,
-      height: (selectedValues.length) > 3?
-               110
-          : 70,
+      height: (selectedValues.length) > 3 ? 110 : 70,
       isDisableColor: !enabled,
       onTap: () {
         if (enabled) {
@@ -43,7 +42,7 @@ class BaseEntitiesSelection {
             onTap: onTap,
 
             // Add Organisation Fields
-            title: addTitle?? 'Add Entity',
+            title: addTitle ?? 'Add Entity',
             orgName: orgName ?? '',
             createEntity: createEntity,
             functionToCall: functionToCall ?? () {},

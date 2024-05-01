@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InitializeProviders extends StatelessWidget {
   final Widget child;
+
   const InitializeProviders({
     super.key,
     required this.child,

@@ -530,7 +530,7 @@ class _MaterialMovementDetailsViewState
                                     .materialDescription ??
                                 Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
-                              isMandatory:true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -573,7 +573,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.defaultLocale.quantity ??
                                 Constants.quantity,
                             Styles.textStyleBlack14,
-                            isMandatory:true,
+                            isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -2734,14 +2734,20 @@ class _MaterialMovementDetailsViewState
   }
 
   Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 10;
     return AppButton(
-      // Customize the button properties as needed
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || state. model.id == 10?Constants.close:Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -2758,12 +2764,13 @@ class _MaterialMovementDetailsViewState
                   },
                   positiveBtnText: Constants.yes,
                   negativeBtnText: Constants.no);
-              showDialog(context: context, builder: (BuildContext context) => dialog);
-              },
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+            },
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 

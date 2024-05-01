@@ -20,7 +20,6 @@ class Apis {
   static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
   static final String _createEventEi = '$baseUrl/createEventEi';
   static final String _showEpGrids = '$baseUrl/showEpGrids';
-
 }
 
 class EventProtectionServices {

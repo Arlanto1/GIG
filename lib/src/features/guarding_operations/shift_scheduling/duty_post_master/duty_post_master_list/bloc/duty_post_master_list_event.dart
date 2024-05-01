@@ -13,9 +13,13 @@ class FetchDutyPostMasterList extends DutyPostMasterListEvent {
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchDutyPostMasterList({required this.startPos, required this.maxPos,   required this.newSearch,
-    required this.filters});
+  const FetchDutyPostMasterList(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
+
 class InitializeValues extends DutyPostMasterListEvent {
   const InitializeValues();
 }

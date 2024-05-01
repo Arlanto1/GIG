@@ -21,8 +21,8 @@ class LoginService {
   Future<LoginResponseModel> loginUser(LoginRequestModel data) async {
     String url = Apis._login;
     log('---url----$url----');
-    final response = await BaseApiService()
-        .postRequest(url: url, requestedData: data.toJson(), isAuthenticated: false);
+    final response = await BaseApiService().postRequest(
+        url: url, requestedData: data.toJson(), isAuthenticated: false);
     return LoginResponseModel.fromJson(response);
   }
 

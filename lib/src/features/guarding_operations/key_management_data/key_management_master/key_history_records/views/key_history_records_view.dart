@@ -65,8 +65,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                    widget.model?.status != -1
+            floatingActionButton: widget.model?.status != -1
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkybluecolor,
                     foregroundColor: AppColors.backgroundWhitecolor,
@@ -233,19 +232,17 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     );
   }
 
-  getById( bool hasWritePermission,int id) async {
+  getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel =
         await KeyManagementMasterServices().getKHById(id);
 
-    editDataLoading(keyHistoryModel,hasWritePermission);
+    editDataLoading(keyHistoryModel, hasWritePermission);
   }
 
   void editDataLoading(
-    KeyHistoryModel keyHistoryModel,
-      bool hasWritePermission
-  ) {
+      KeyHistoryModel keyHistoryModel, bool hasWritePermission) {
     dismissLoadingDialog(context);
     Navigator.pushNamed(
       context,

@@ -8,9 +8,11 @@ class QuantityUnits {
   });
 
   QuantityUnits.fromJson(Map<String, dynamic> json)
-      : units = (json['ATOM_MATERIAL_MOVEMENT_UNIT'] as List?)?.map((dynamic e) => Organisation.fromJson(e as Map<String,dynamic>)).toList();
+      : units = (json['ATOM_MATERIAL_MOVEMENT_UNIT'] as List?)
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList();
 
-  Map<String, dynamic> toJson() => {
-    'Unit' : units?.map((e) => e.toJson()).toList()
-  };
+  Map<String, dynamic> toJson() =>
+      {'Unit': units?.map((e) => e.toJson()).toList()};
 }

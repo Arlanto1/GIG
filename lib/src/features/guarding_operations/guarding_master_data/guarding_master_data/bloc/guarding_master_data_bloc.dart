@@ -46,7 +46,7 @@ class GuardingMasterDataBloc
           moduleCode: Constants.guardingMasterModuleCode);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingMasterModuleCode,
         commonServices: commonServices,
       );
@@ -59,9 +59,8 @@ class GuardingMasterDataBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
-          labels:labels,
+          labels: labels,
           extraProperties: extraProperties,
-
         ),
       );
     } on GenericResponse catch (e) {
@@ -72,7 +71,7 @@ class GuardingMasterDataBloc
         ),
       );
       return;
-    }on Exception {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

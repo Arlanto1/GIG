@@ -25,10 +25,10 @@ class FoundListCubit extends Cubit<FoundListState> {
     try {
       FoundListModel foundListModelResponse =
           await foundListServices.getFoundArticleList(
-              startPosition: startPosition,
-              maximumRecords: maximumRecords,
-            filters: BaseFilterModel(),
-          );
+        startPosition: startPosition,
+        maximumRecords: maximumRecords,
+        filters: BaseFilterModel(),
+      );
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         // if (startPosition != '0')
@@ -62,13 +62,15 @@ class FoundListCubit extends Cubit<FoundListState> {
     }
   }
 
-  Future<void>refreshList(String startPosition, String maximumRecords,
-      ) async {
+  Future<void> refreshList(
+    String startPosition,
+    String maximumRecords,
+  ) async {
     try {
       FoundListModel foundListModelResponse =
-      await foundListServices.getFoundArticleList(
-          startPosition: startPosition,
-          maximumRecords: maximumRecords,
+          await foundListServices.getFoundArticleList(
+        startPosition: startPosition,
+        maximumRecords: maximumRecords,
         filters: BaseFilterModel(),
       );
 

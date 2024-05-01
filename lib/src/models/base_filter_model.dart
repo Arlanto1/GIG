@@ -74,7 +74,6 @@ class Filters {
       };
 }
 
-
 class CommonFilters {
   final List<Organisation>? regions;
   final List<Organisation>? statuses;

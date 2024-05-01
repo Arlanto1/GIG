@@ -37,8 +37,9 @@ class KeyManagementIssuanceServices {
   }
 
   Future<List<Organisation>> getKeyDescriptions(
-      {required int locationId,required bool isMasterKey }) async {
-    String url = '${Apis._getKeyDescriptions}?locId=$locationId&isMasterKey=$isMasterKey';
+      {required int locationId, required bool isMasterKey}) async {
+    String url =
+        '${Apis._getKeyDescriptions}?locId=$locationId&isMasterKey=$isMasterKey';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

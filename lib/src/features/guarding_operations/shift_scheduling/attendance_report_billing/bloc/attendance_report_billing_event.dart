@@ -1,4 +1,3 @@
-
 part of 'attendance_report_billing_bloc.dart';
 
 abstract class AttendanceReportBillingEvent extends Equatable {
@@ -14,8 +13,11 @@ class FetchAttendanceReportBillingList extends AttendanceReportBillingEvent {
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchAttendanceReportBillingList({required this.startPos, required this.maxPos,required this.newSearch,
-    required this.filters});
+  const FetchAttendanceReportBillingList(
+      {required this.startPos,
+      required this.maxPos,
+      required this.newSearch,
+      required this.filters});
 }
 
 class InitializeValues extends AttendanceReportBillingEvent {

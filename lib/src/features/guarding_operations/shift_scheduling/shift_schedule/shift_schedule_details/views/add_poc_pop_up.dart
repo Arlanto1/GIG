@@ -123,12 +123,12 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       },
     );
   }
+
   ErrorResponse get isFormValid {
     if (!pocController.text.isEmptyOrNull &&
         !Validator.isValidEmail(pocController.text)) {
       return const ErrorResponse(
-          status: false,
-          message: 'Please enter Valid POC Email');
+          status: false, message: 'Please enter Valid POC Email');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');

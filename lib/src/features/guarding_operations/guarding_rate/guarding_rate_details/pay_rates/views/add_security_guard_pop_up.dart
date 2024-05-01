@@ -246,7 +246,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           cancelButton(width),
-         // saveButton(width, widget.onSubmit)
+          // saveButton(width, widget.onSubmit)
         ],
       ),
     );

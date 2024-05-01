@@ -1206,8 +1206,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                             .showFields(powerFailure: true);
                                       },
                                 onChangedNo: !showSaveSubmitButtons ||
-                                    (state.model.id == null &&
-                                        state.isOnGoingPowerFailure!)
+                                        (state.model.id == null &&
+                                            state.isOnGoingPowerFailure!)
                                     ? null
                                     : (val) {
                                         state.model.powerFailure = false;
@@ -1250,7 +1250,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     builder: (BuildContext dialogContext) {
                                       return AddDatePopUp(
                                         mainContext: context,
-                                        onSubmit: (PowerFailureModel powerFailure) {
+                                        onSubmit:
+                                            (PowerFailureModel powerFailure) {
                                           // log('----powerFailure----${powerFailure.powerFailureStartDate}----');
                                           if (state.model.powerFailures
                                               .isEmptyOrNull) {
@@ -1536,14 +1537,22 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   }
 
   Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
+    bool condition = state.model.id == null ||
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 1;
     return AppButton(
-      // Customize the button properties as needed
+      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || state.model.id == 1 ?Constants.close:Constants.cancelRecord,
+      buttonText: condition          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -1555,7 +1564,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);
         showDialog(context: context, builder: (BuildContext context) => dialog);
-        },
+      },
     );
   }
 
@@ -1620,7 +1629,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   }) {
     log('--occId-ogi--$occId--');
     return AppButton(
-      // Customize the button properties as needed
+      
       height: 40,
       width: 100,
       backgroundColor: Colors.white,
@@ -1743,7 +1752,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(
-                                      value, Constants.fulldateFormat)
+                                          value, Constants.fulldateFormat)
                                       .toString();
                               // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                               //     .onModelValueChange(state.model);
