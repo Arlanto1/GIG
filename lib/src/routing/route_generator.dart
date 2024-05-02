@@ -704,7 +704,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String rankType = '';
-        int parentStatus=0;
+        int parentStatus = 0;
         List<Organisation> ranks = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -725,7 +725,6 @@ class RouteGenerator {
                     type: type,
                     startPos: 0,
                     maxPos: 100,
-
                   )),
             child: ContactRecordView(
               id: id,
@@ -1175,7 +1174,7 @@ class RouteGenerator {
           // title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type];
           extraProperties = arguments[ConstantsArgument.extraProperties];
-          lock=arguments[ConstantsArgument.lock];
+          lock = arguments[ConstantsArgument.lock];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1188,7 +1187,10 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: KeyHistoryRecordsView(
-                id: id, type: type, extraProperties: extraProperties,lock:lock),
+                id: id,
+                type: type,
+                extraProperties: extraProperties,
+                lock: lock),
           ),
         );
 
@@ -1207,7 +1209,7 @@ class RouteGenerator {
         type = arguments[ConstantsArgument.type];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
-        lock=arguments[ConstantsArgument.lock];
+        lock = arguments[ConstantsArgument.lock];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
@@ -1223,7 +1225,7 @@ class RouteGenerator {
                 parentId: parentId,
                 type: type,
                 extraProperties: extraProperties,
-            lock:lock),
+                lock: lock),
           ),
         );
       case keyReconciliationListRoute:
@@ -1325,6 +1327,7 @@ class RouteGenerator {
         int parentStatus = 0;
         int locationId = 0;
         bool isMasterKey = false;
+        String? lock;
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -1335,6 +1338,7 @@ class RouteGenerator {
           locationId = arguments[ConstantsArgument.locationId];
           isMasterKey = arguments[ConstantsArgument.isMasterKey];
           extraProperties = arguments[ConstantsArgument.extraProperties];
+          lock = arguments[ConstantsArgument.lock];
         }
 
         return MaterialPageRoute(
@@ -1355,6 +1359,7 @@ class RouteGenerator {
               title: title,
               isMasterKey: isMasterKey,
               extraProperties: extraProperties,
+              lock: lock,
             ),
           ),
         );

@@ -15,6 +15,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
     required this.keyDescriptions,
     required this.selectedKeyDescription,
     this.extraProperties,
+    this.lock,
   });
 
   final String title;
@@ -25,7 +26,7 @@ class AddKeyIssuanceProcessPopUp extends StatefulWidget {
   final Organisation? selectedKeyDescription;
   final int parentStatus;
   final ExtraProperties? extraProperties;
-
+final String? lock;
   @override
   State<AddKeyIssuanceProcessPopUp> createState() => AddContactPopUpState();
 }
@@ -172,11 +173,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             height: 70,
                             isDisableColor: widget.parentStatus != 0 &&
                                 (widget.extraProperties != null &&
-                                    !widget.extraProperties!.hasWritePermission! ),
+                                    !widget.extraProperties!.hasWritePermission! ) && !widget.lock.isEmptyOrNull,
                             onTap: () {
                               if (widget.parentStatus == 0 &&
                                   !(widget.extraProperties != null &&
-                                      !widget.extraProperties!.hasWritePermission! )) {
+                                      !widget.extraProperties!.hasWritePermission! && widget.lock.isEmptyOrNull )) {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,

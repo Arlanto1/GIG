@@ -18,6 +18,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     required this.isMasterKey,
     this.id,
     this.extraProperties,
+    this.lock,
   });
 
   final int parentId;
@@ -28,7 +29,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final bool isMasterKey;
   final int? id;
   final ExtraProperties? extraProperties;
-
+  final String? lock;
 
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
@@ -78,8 +79,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission! ) &&
-                widget.parentStatus == 0
+                    !widget.extraProperties!.hasWritePermission!) &&
+                widget.parentStatus == 0 &&
+                widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
@@ -169,6 +171,30 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 value: state.items[index].available.toString(),
               ),
             );
+            labels.add(
+              Label(
+                key: 'Keys Returned',
+                value: state.items[index].returned.toString(),
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Keys Not Returned',
+                value: state.items[index].notReturned.toString(),
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Keys Lost',
+                value: state.items[index].lost.toString(),
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Keys Damaged',
+                value: state.items[index].damaged.toString(),
+              ),
+            );
             return index >= state.items.length
                 ? const BaseLoader()
                 : BaseListTileItem(
@@ -188,16 +214,16 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     showDutyPostEditButton: (widget.parentStatus == 0 ||
                                 widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                        !(widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission! )
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     showEditButton: widget.parentStatus != 0 &&
                             widget.parentStatus != 1 &&
                             widget.parentStatus != 2 &&
                             widget.parentStatus != 2 &&
-                        (widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission! )
+                            (widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission!) && !widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     onEditTap: (selectedIndex) async {
@@ -228,8 +254,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         keyDescriptions: keyDescriptions,
                         selectedKeyDescription: selectedKeyDescription,
                         parentStatus: widget.parentStatus,
+                        lock: widget.lock,
                       );
                     },
+                    showViewButton: widget.lock.isEmptyOrNull ? true:false,
                     onViewTap: (selectedIndex) {
                       getById(
                           state.extraProperties?.hasWritePermission ?? false,
@@ -237,8 +265,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     },
                     showLinkOffButton: (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                        !(widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission! )
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
@@ -256,8 +284,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     },
                     showDeleteButton: (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
-                        !(widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission! )
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
@@ -325,6 +353,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required final List<Organisation> keyDescriptions,
     required Organisation? selectedKeyDescription,
     required final int parentStatus,
+    final String? lock,
   }) {
     log('---showAddKeyIssuanceProcessPopUp-----k desc-333-${keyDescriptions.length}---');
 
@@ -344,6 +373,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           keyDescriptions: keyDescriptions,
           selectedKeyDescription: selectedKeyDescription,
           parentStatus: parentStatus,
+          lock: widget.lock,
           onSubmit: (KeyIssuanceProcessRecord model) {
             //loginFormKey.currentState!.validate();
             // FocusScope.of(context).unfocus();
