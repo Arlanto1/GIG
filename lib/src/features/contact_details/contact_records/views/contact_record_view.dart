@@ -89,7 +89,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: widget.parentStatus == null ||
                 widget.parentStatus == 0 ||
-                widget.parentStatus == 1
+                widget.parentStatus == 1|| state.model!.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,

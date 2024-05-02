@@ -633,7 +633,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(state),
-                        if ((state.model.status != -1)) ...[
+                        if ((!isReadOnly)) ...[
                           submitButtonDisplay(),
                         ],
                       ],
@@ -667,7 +667,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   Widget cancelButtonDisplay(ContactDetailsState state) {
     bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status == 3;
+        widget.model?.status == 3 ||!state.model.lock.isEmptyOrNull;
     return AppButton(
       
       width: Constants.cancelButtonWidth,
@@ -722,6 +722,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   Widget locationWidgetdislay(ContactDetailsState state) {
     return GestureDetector(
       onTap: () {
+        if(state.model.lock.isEmptyOrNull || state.model.status == -1){
         showDialog(
           context: context,
           builder: (BuildContext dialogContext) {
@@ -738,7 +739,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               },
             );
           },
-        );
+        );}
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
