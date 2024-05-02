@@ -9,6 +9,7 @@ enum FormStatus {
   failure,
   formError,
   error,
+  permissionLocationError,
   createArticleFound,
   invalidEmail,
   addArticleFound,

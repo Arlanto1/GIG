@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:db_atom/src/models/responseModels/permission_error.dart';
 import 'package:geolocator/geolocator.dart';
 
 Future<Position> determinePosition() async {
@@ -34,8 +35,10 @@ Future<Position> determinePosition() async {
 
   if (permission == LocationPermission.deniedForever) {
     // Permissions are denied forever, handle appropriately.
-    return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+    throw PermissionError(message: 'Location is required to use this app.\n Please enable Location');
+
+    // return Future.error(
+    //     'Location permissions are permanently denied, we cannot request permissions.');
   }
 
   // When we reach here, permissions are granted and we can
