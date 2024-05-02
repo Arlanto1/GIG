@@ -2472,7 +2472,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: widget.model?.id == null ? Constants.close : Constants.cancel,
+      buttonText:  Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();
