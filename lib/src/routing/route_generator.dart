@@ -1162,12 +1162,14 @@ class RouteGenerator {
         // String title = '';
         int id = 0;
         int type = 0;
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           // title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1180,9 +1182,7 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: KeyHistoryRecordsView(
-              id: id,
-              type: type,
-            ),
+                id: id, type: type, extraProperties: extraProperties),
           ),
         );
 
