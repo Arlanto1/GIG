@@ -89,6 +89,12 @@ class _KeyManagementMasterDetailsViewState
         if (state.model.status == 2) {
           isReadOnly = true;
         }
+        if (state.model.status == 0) {
+          isReadOnly = false;
+        }
+        if (state.model.status == 1) {
+          isReadOnly = false;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -679,8 +685,8 @@ class _KeyManagementMasterDetailsViewState
                               widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
                               widget.model!.noMasterKey! > 0 &&
-                              state.model.status != null &&
-                              widget.model?.id != null) ...[
+                              state.model.status != null &&state.model.status != 0 &&
+                              widget.model?.id != null ) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
