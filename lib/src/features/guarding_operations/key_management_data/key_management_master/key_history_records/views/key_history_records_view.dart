@@ -12,11 +12,13 @@ class KeyHistoryRecordsView extends StatefulWidget {
     required this.id,
     required this.type,
     this.model,
+    this.extraProperties,
   });
 
   final int id;
   final int type;
   final KeyManagementMasterModel? model;
+  final ExtraProperties? extraProperties;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -65,9 +67,12 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: widget.model?.status != -1 && widget.type !=
-                ConstantsIntValue.keyLostHistoryInt &&  widget.type !=
-                ConstantsIntValue.keyDamageHistoryInt &&  widget.model?.status != 0
+            floatingActionButton: !(widget.extraProperties != null &&
+                        !widget.extraProperties!.hasWritePermission!) &&
+                    widget.model?.status != -1 &&
+                    widget.type != ConstantsIntValue.keyLostHistoryInt &&
+                    widget.type != ConstantsIntValue.keyDamageHistoryInt &&
+                    widget.model?.status != 0
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkybluecolor,
                     foregroundColor: AppColors.backgroundWhitecolor,
@@ -196,7 +201,10 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                           false,
                                       state.list[index].id ?? 0);
                                 },
-                                showEditButton: true,
+                                showEditButton: !(widget.extraProperties != null &&
+                                    !widget.extraProperties!.hasWritePermission!) ?true:false,
+                          showDutyPostEditButton:!(widget.extraProperties != null &&
+                              !widget.extraProperties!.hasWritePermission!) ?false:true ,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,
