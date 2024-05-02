@@ -46,6 +46,7 @@ class DashboardViewState extends State<DashboardView>
               backgroundColor: Colors.red,
               content: Text(state.message ?? 'Session Expired...')));
           Validator.logoutAction(context);
+          InactivityFunctions().logoutUser(navigatorKey);
         }
       },
       bloc: chartsCubit,
