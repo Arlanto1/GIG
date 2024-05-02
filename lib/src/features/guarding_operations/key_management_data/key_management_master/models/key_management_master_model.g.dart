@@ -73,6 +73,7 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
           ? null
           : Organisation.fromJson(
               json['destructionReason'] as Map<String, dynamic>),
+      lock: json['lock'] as String?,
     );
 
 Map<String, dynamic> _$KeyManagementMasterModelToJson(
@@ -125,4 +126,5 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'securityManager': instance.securityManager,
       'additionalInformation': instance.additionalInformation,
       'lostKeyDetails': instance.lostKeyDetails,
+      'lock': instance.lock,
     };

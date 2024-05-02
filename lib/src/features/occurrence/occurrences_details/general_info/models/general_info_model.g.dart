@@ -64,11 +64,11 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       powerFailures: (json['powerFailures'] as List<dynamic>?)
           ?.map((e) => PowerFailureModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-    )..lock = json['lock'] as String?;
+      lock: json['lock'] as String?,
+    );
 
 Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
     <String, dynamic>{
-      'lock': instance.lock,
       'id': instance.id,
       'slNo': instance.slNo,
       'inputDate': instance.inputDate,
@@ -112,4 +112,5 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'secSysFailureIncident': instance.secSysFailureIncident,
       'followedUp': instance.followedUp,
       'status': instance.status,
+      'lock': instance.lock,
     };
