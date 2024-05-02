@@ -13,12 +13,14 @@ class KeyHistoryRecordsView extends StatefulWidget {
     required this.type,
     this.model,
     this.extraProperties,
+    this.lock
   });
 
   final int id;
   final int type;
   final KeyManagementMasterModel? model;
   final ExtraProperties? extraProperties;
+  final String? lock;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -68,7 +70,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton: !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!) &&
+                        !widget.extraProperties!.hasWritePermission!) && (widget.lock.isEmptyOrNull)&&
                     widget.model?.status != -1 &&
                     widget.type != ConstantsIntValue.keyLostHistoryInt &&
                     widget.type != ConstantsIntValue.keyDamageHistoryInt &&

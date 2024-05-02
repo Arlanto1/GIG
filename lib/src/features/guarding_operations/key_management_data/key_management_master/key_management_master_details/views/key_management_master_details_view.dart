@@ -87,13 +87,13 @@ class _KeyManagementMasterDetailsViewState
         if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if (state.model.status == 2|| !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
-        if (state.model.status == 1&& state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 1 && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
         if (state.model.status == null) {
@@ -105,7 +105,10 @@ class _KeyManagementMasterDetailsViewState
           isReadOnly = true;
         }
 
-        showSaveSubmitButton= (state.model.status == 0||state.model.status == 1) && !isReadOnly && state.model.lock.isEmptyOrNull;
+        showSaveSubmitButton =
+            (state.model.status == 0 || state.model.status == 1) &&
+                !isReadOnly &&
+                state.model.lock.isEmptyOrNull;
 
         initializeDates();
         return Scaffold(
@@ -113,7 +116,7 @@ class _KeyManagementMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton  ? true : false,
+            showSaveButton: showSaveSubmitButton ? true : false,
             showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -255,7 +258,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseLocationDropdown().locationWidgetDisplay(
-                              isEnabled:showSaveSubmitButton,
+                              isEnabled: showSaveSubmitButton,
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
@@ -351,33 +354,34 @@ class _KeyManagementMasterDetailsViewState
                             height: 70,
                             isDisableColor: isReadOnly,
                             onTap: () {
-                              if(showSaveSubmitButton){
-                              BaseOrganisationDialog().departmentDialog(
-                                  enabled: showSaveSubmitButton,
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    state.model.doorType?.name =
-                                        department.name;
+                              if (showSaveSubmitButton) {
+                                BaseOrganisationDialog().departmentDialog(
+                                    enabled: showSaveSubmitButton,
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.doorType?.name =
+                                          department.name;
 
-                                    BlocProvider.of<
-                                                KeyManagementMasterDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            doorType: department);
-                                    FocusScope.of(context)
-                                        .requestFocus(keyDescriptionFocusNode);
-                                  },
-                                  orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
-                                  createEntity: false,
-                                  title: 'Add Key Type',
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<
-                                                KeyManagementMasterDetailsCubit>(
-                                            context)
-                                        .refreshList();
-                                  });}
+                                      BlocProvider.of<
+                                                  KeyManagementMasterDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              doorType: department);
+                                      FocusScope.of(context).requestFocus(
+                                          keyDescriptionFocusNode);
+                                    },
+                                    orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
+                                    createEntity: false,
+                                    title: 'Add Key Type',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  KeyManagementMasterDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              }
 
                               // leodepartmentsDialog(state);
                             },
@@ -686,8 +690,9 @@ class _KeyManagementMasterDetailsViewState
                               widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
                               widget.model!.noMasterKey! > 0 &&
-                              state.model.status != null &&state.model.status != 0 &&
-                              widget.model?.id != null ) ...[
+                              state.model.status != null &&
+                              state.model.status != 0 &&
+                              widget.model?.id != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -718,6 +723,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.lockChangeHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -776,6 +782,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyLostHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -835,6 +842,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDamageHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -891,6 +899,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDestroyHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -942,19 +951,20 @@ class _KeyManagementMasterDetailsViewState
   }
 
   Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
-    bool condition= state.model.id == null || !state.model.lock.isEmptyOrNull || state.model.status ==-1 ;
+    bool condition = state.model.id == null ||
+        !state.model.lock.isEmptyOrNull ||
+        state.model.status == -1;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText:
-      condition ? Constants.close : Constants.cancelRecord,
-
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {if (state.model.id == null) {
-        Navigator.pop(context);
-        return;
-      }
+      onTap: () {
+        if (state.model.id == null) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
