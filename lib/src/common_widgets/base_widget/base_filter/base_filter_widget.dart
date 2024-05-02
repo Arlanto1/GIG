@@ -121,7 +121,7 @@ class ShowFiltersWidget extends StatelessWidget {
         border: Border.all(color: AppColors.navigationSkybluecolor),
         borderRadius: const BorderRadius.all(Radius.circular(5)),
       ),
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(2),
       child: IntrinsicWidth(
         child: InkWell(
           onTap: () {
