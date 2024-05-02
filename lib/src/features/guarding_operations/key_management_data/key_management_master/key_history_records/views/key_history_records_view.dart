@@ -65,7 +65,9 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: widget.model?.status != -1
+            floatingActionButton: widget.model?.status != -1 && widget.type !=
+                ConstantsIntValue.keyLostHistoryInt &&  widget.type !=
+                ConstantsIntValue.keyDamageHistoryInt &&  widget.model?.status != 0
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkybluecolor,
                     foregroundColor: AppColors.backgroundWhitecolor,
