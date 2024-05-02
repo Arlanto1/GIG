@@ -704,6 +704,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String rankType = '';
+        int parentStatus=0;
         List<Organisation> ranks = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -713,6 +714,7 @@ class RouteGenerator {
           type = arguments[ConstantsArgument.type] ?? 0;
           rankType = arguments[ConstantsArgument.rankType] ?? '';
           ranks = arguments[ConstantsArgument.ranks] ?? [];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
@@ -723,12 +725,14 @@ class RouteGenerator {
                     type: type,
                     startPos: 0,
                     maxPos: 100,
+
                   )),
             child: ContactRecordView(
               id: id,
               type: type,
               title: title,
               rankType: rankType,
+              parentStatus: parentStatus,
             ),
           ),
         );

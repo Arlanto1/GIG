@@ -31,6 +31,7 @@ class ContactRecordView extends StatefulWidget {
     required this.type,
     required this.rankType,
     this.model,
+    required this.parentStatus,
   });
 
   final int id;
@@ -38,6 +39,7 @@ class ContactRecordView extends StatefulWidget {
   final int type;
   final String rankType;
   final ContactDetailModel? model;
+  final int parentStatus;
 
   @override
   State<ContactRecordView> createState() => _ContactRecordViewState();
@@ -85,9 +87,9 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.model?.status == null ||
-                widget.model?.status == 0 ||
-                widget.model?.status == 1
+        floatingActionButton: widget.parentStatus == null ||
+                widget.parentStatus == 0 ||
+                widget.parentStatus == 1
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
@@ -230,7 +232,9 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                       );
                     },
                     showDeleteButton:
-                        widget.model?.status == 0 || widget.model?.status == 1,
+                        widget.parentStatus == 0 || widget.parentStatus == 1
+                            ? true
+                            : false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<ContactRecordBloc>(context).add(
@@ -262,6 +266,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           mainContext: context,
           users: users,
           rankType: rankType,
+          parentStatus: widget.parentStatus,
           onSubmit: (ContactRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

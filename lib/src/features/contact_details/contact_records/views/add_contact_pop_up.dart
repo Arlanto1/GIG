@@ -14,6 +14,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.users,
     required this.rankType,
     this.contactDetailModel,
+    this.parentStatus,
   });
 
   final String title;
@@ -23,6 +24,7 @@ class AddContactPopUp extends StatefulWidget {
   final BuildContext mainContext;
   final String rankType;
   final ContactDetailModel? contactDetailModel;
+  final int? parentStatus;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -117,21 +119,19 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
-                            isDisableColor: widget.contactDetailModel?.status ==
+                            isDisableColor: widget.parentStatus ==
                                         null ||
-                                    widget.contactDetailModel?.status == 0 ||
-                                    widget.contactDetailModel?.status == 1
+                                widget.parentStatus == 0 ||
+                                widget.parentStatus == 1
                                 ? false
                                 : true,
                             onTap: () {
+                              if(widget.parentStatus == null ||
+                                  widget.parentStatus == 0 ||
+                                  widget.parentStatus == 1
+                                  ? true
+                                  : false){
                               BaseOrganisationDialog().departmentDialog(
-                                  enabled: widget.contactDetailModel?.status ==
-                                              null ||
-                                          widget.contactDetailModel?.status ==
-                                              0 ||
-                                          widget.contactDetailModel?.status == 1
-                                      ? true
-                                      : false,
                                   context: context,
                                   organisations: widget.users,
                                   onTap: (Organisation user) {
@@ -183,7 +183,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   functionToCall: () {
                                     BlocProvider.of<ContactRecordBloc>(context)
                                         .refreshList();
-                                  });
+                                  });}
                             },
                           )
                         ],
@@ -231,9 +231,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
                           isDisabled:
-                              widget.contactDetailModel?.status == null ||
-                                      widget.contactDetailModel?.status == 0 ||
-                                      widget.contactDetailModel?.status == 1
+                          widget.parentStatus== null ||
+                              widget.parentStatus == 0 ||
+                              widget.parentStatus == 1
                                   ? false
                                   : true,
                           textController: escalationLevelController,
@@ -275,9 +275,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: widget.contactDetailModel?.status == null ||
-                                widget.contactDetailModel?.status == 0 ||
-                                widget.contactDetailModel?.status == 1
+                        isEnable: widget.parentStatus == null ||
+                            widget.parentStatus== 0 ||
+                            widget.parentStatus == 1
                             ? true
                             : false,
                         focusNode: widget.rankType != Constants.contactZone
@@ -308,9 +308,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: widget.contactDetailModel?.status == null ||
-                                widget.contactDetailModel?.status == 0 ||
-                                widget.contactDetailModel?.status == 1
+                        isEnable: widget.parentStatus == null ||
+                            widget.parentStatus == 0 ||
+                            widget.parentStatus == 1
                             ? true
                             : false,
                         characterLimit: Constants.characterLimitContactNo,
@@ -346,9 +346,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if (widget.contactDetailModel?.status == null ||
-                widget.contactDetailModel?.status == 0 ||
-                widget.contactDetailModel?.status == 1
+        if (widget.parentStatus == null ||
+            widget.parentStatus == 0 ||
+            widget.parentStatus == 1
             ? true
             : false) ...[saveButton(width, widget.onSubmit)],
       ],
