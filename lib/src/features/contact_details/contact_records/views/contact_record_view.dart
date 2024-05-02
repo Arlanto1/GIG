@@ -13,6 +13,7 @@ import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_records/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
+import 'package:db_atom/src/models/extra_properties.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -32,6 +33,8 @@ class ContactRecordView extends StatefulWidget {
     required this.rankType,
     this.model,
     required this.parentStatus,
+    this.lock,
+    this.extraProperties,
   });
 
   final int id;
@@ -40,6 +43,8 @@ class ContactRecordView extends StatefulWidget {
   final String rankType;
   final ContactDetailModel? model;
   final int parentStatus;
+  final String? lock;
+  final ExtraProperties? extraProperties;
 
   @override
   State<ContactRecordView> createState() => _ContactRecordViewState();
@@ -87,9 +92,10 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: widget.parentStatus == null ||
+        floatingActionButton: (widget.parentStatus == null ||
                 widget.parentStatus == 0 ||
-                widget.parentStatus == 1|| state.model!.lock.isEmptyOrNull
+                widget.parentStatus == 1) &&!(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
@@ -104,7 +110,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         type: widget.type,
                       ),
                       users: state.ranks,
-                      rankType: widget.rankType);
+                      rankType: widget.rankType,
+                  );
                 },
               )
             : const SizedBox(),
@@ -130,7 +137,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull && !isPopUpShown) {
+    if (state.items.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
@@ -143,7 +150,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
               type: widget.type,
             ),
             users: state.ranks,
-            rankType: widget.rankType);
+            rankType: widget.rankType,
+        );
       });
       return const NoRecordFoundWidget();
     }
@@ -206,6 +214,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
+                  showEditButton: widget.parentStatus != 0 && widget.parentStatus != 1 &&  !widget.lock.isEmptyOrNull,
+              showDutyPostEditButton: (widget.parentStatus == 0 || widget.parentStatus == 1) && widget.lock.isEmptyOrNull,
                     onEditTap: (selectedIndex) async {
                       ContactRecord contactsModel =
                           await ContactDetailsServices()
@@ -217,7 +227,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                           context: context,
                           contact: contactsModel,
                           users: state.ranks,
-                          rankType: widget.rankType);
+                          rankType: widget.rankType,
+                      );
                       // getDetails(state.items?[index].id ?? 0);
                     },
                     onViewTap: (selectedIndex) {
@@ -232,7 +243,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                       );
                     },
                     showDeleteButton:
-                        widget.parentStatus == 0 || widget.parentStatus == 1
+                    (widget.parentStatus == 0 || widget.parentStatus == 1)&& widget.lock.isEmptyOrNull
                             ? true
                             : false,
                     onDeleteTap: (selectedIndex) async {
@@ -267,6 +278,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           users: users,
           rankType: rankType,
           parentStatus: widget.parentStatus,
+          lock: widget.lock,
           onSubmit: (ContactRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

@@ -705,6 +705,8 @@ class RouteGenerator {
         int type = 0;
         String rankType = '';
         int parentStatus = 0;
+        ExtraProperties? extraProperties;
+        String? lock;
         List<Organisation> ranks = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -715,6 +717,8 @@ class RouteGenerator {
           rankType = arguments[ConstantsArgument.rankType] ?? '';
           ranks = arguments[ConstantsArgument.ranks] ?? [];
           parentStatus = arguments[ConstantsArgument.parentStatus];
+          lock = arguments[ConstantsArgument.lock];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
@@ -732,6 +736,8 @@ class RouteGenerator {
               title: title,
               rankType: rankType,
               parentStatus: parentStatus,
+              lock: lock,
+              extraProperties: extraProperties,
             ),
           ),
         );

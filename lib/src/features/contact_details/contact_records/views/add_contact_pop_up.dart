@@ -15,6 +15,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.rankType,
     this.contactDetailModel,
     this.parentStatus,
+    this.lock,
   });
 
   final String title;
@@ -25,6 +26,7 @@ class AddContactPopUp extends StatefulWidget {
   final String rankType;
   final ContactDetailModel? contactDetailModel;
   final int? parentStatus;
+  final String? lock;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -119,71 +121,72 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           TextFieldAddButton(
                             title: rankController.text,
                             height: 70,
-                            isDisableColor: widget.parentStatus ==
-                                        null ||
-                                widget.parentStatus == 0 ||
-                                widget.parentStatus == 1
+                            isDisableColor: widget.parentStatus == null ||
+                                    widget.parentStatus == 0 ||
+                                    widget.parentStatus == 1 || widget.lock.isEmptyOrNull
                                 ? false
                                 : true,
                             onTap: () {
-                              if(widget.parentStatus == null ||
-                                  widget.parentStatus == 0 ||
-                                  widget.parentStatus == 1
+                              if (widget.parentStatus == null ||
+                                      widget.parentStatus == 0 ||
+                                      widget.parentStatus == 1|| widget.lock.isEmptyOrNull
                                   ? true
-                                  : false){
-                              BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: widget.users,
-                                  onTap: (Organisation user) {
-                                    log('-user.name----${user.name}-');
+                                  : false) {
+                                BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: widget.users,
+                                    onTap: (Organisation user) {
+                                      log('-user.name----${user.name}-');
 
-                                    rankController.text = user.name ?? '';
+                                      rankController.text = user.name ?? '';
 
-                                    widget.model.rank ??= Organisation();
-                                    widget.model.rank = user;
-                                    log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
+                                      widget.model.rank ??= Organisation();
+                                      widget.model.rank = user;
+                                      log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
 
-                                    setState(() {});
-                                    FocusScope.of(context)
-                                        .requestFocus(nameFocusNode);
-                                  },
-                                  orgName: widget.rankType ==
-                                          Constants.contactGeneralRank
-                                      ? 'CONTACT_GENERAL_RANK'
-                                      : widget.rankType ==
-                                              Constants
-                                                  .contactGuardingAgencyEscalationRank
-                                          ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
-                                          : widget.rankType ==
-                                                  Constants.contactZone
-                                              ? 'CONTACT_ZONE'
-                                              : widget.rankType ==
-                                                      Constants
-                                                          .contactSystemEscalationRank
-                                                  ? 'CONTACT_SYSTEM_ESCALATION_RANK'
-                                                  : 'CONTACT_SUPERVISOR_RANK',
-                                  createEntity: false,
-                                  title: widget.rankType ==
-                                          Constants.contactZone
-                                      ? Constants.zone
-                                      : widget.rankType ==
-                                              Constants.contactGeneralRank
-                                          ? Constants.rank
-                                          : widget.rankType ==
-                                                  Constants
-                                                      .contactSystemEscalationRank
-                                              ? Constants
-                                                  .systemSiEscalationMatrixRank
-                                              : widget.rankType ==
-                                                      Constants
-                                                          .contactSupervisorRank
-                                                  ? Constants.supervisorRank
-                                                  : Constants
-                                                      .guardingAgencyRank,
-                                  functionToCall: () {
-                                    BlocProvider.of<ContactRecordBloc>(context)
-                                        .refreshList();
-                                  });}
+                                      setState(() {});
+                                      FocusScope.of(context)
+                                          .requestFocus(nameFocusNode);
+                                    },
+                                    orgName: widget.rankType ==
+                                            Constants.contactGeneralRank
+                                        ? 'CONTACT_GENERAL_RANK'
+                                        : widget.rankType ==
+                                                Constants
+                                                    .contactGuardingAgencyEscalationRank
+                                            ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                                            : widget.rankType ==
+                                                    Constants.contactZone
+                                                ? 'CONTACT_ZONE'
+                                                : widget.rankType ==
+                                                        Constants
+                                                            .contactSystemEscalationRank
+                                                    ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                                                    : 'CONTACT_SUPERVISOR_RANK',
+                                    createEntity: false,
+                                    title: widget.rankType ==
+                                            Constants.contactZone
+                                        ? Constants.zone
+                                        : widget.rankType ==
+                                                Constants.contactGeneralRank
+                                            ? Constants.rank
+                                            : widget.rankType ==
+                                                    Constants
+                                                        .contactSystemEscalationRank
+                                                ? Constants
+                                                    .systemSiEscalationMatrixRank
+                                                : widget.rankType ==
+                                                        Constants
+                                                            .contactSupervisorRank
+                                                    ? Constants.supervisorRank
+                                                    : Constants
+                                                        .guardingAgencyRank,
+                                    functionToCall: () {
+                                      BlocProvider.of<ContactRecordBloc>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              }
                             },
                           )
                         ],
@@ -230,12 +233,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             //isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
-                          isDisabled:
-                          widget.parentStatus== null ||
-                              widget.parentStatus == 0 ||
-                              widget.parentStatus == 1
-                                  ? false
-                                  : true,
+                          isDisabled: widget.parentStatus == null ||
+                                  widget.parentStatus == 0 ||
+                                  widget.parentStatus == 1
+                              ? false
+                              : true,
                           textController: escalationLevelController,
                           items: escalationLevelDropDownValues,
                           onTap: () {
@@ -276,8 +278,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: widget.parentStatus == null ||
-                            widget.parentStatus== 0 ||
-                            widget.parentStatus == 1
+                                widget.parentStatus == 0 ||
+                                widget.parentStatus == 1
                             ? true
                             : false,
                         focusNode: widget.rankType != Constants.contactZone
@@ -309,8 +311,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: widget.parentStatus == null ||
-                            widget.parentStatus == 0 ||
-                            widget.parentStatus == 1
+                                widget.parentStatus == 0 ||
+                                widget.parentStatus == 1
                             ? true
                             : false,
                         characterLimit: Constants.characterLimitContactNo,
@@ -347,8 +349,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       children: <Widget>[
         cancelButton(width),
         if (widget.parentStatus == null ||
-            widget.parentStatus == 0 ||
-            widget.parentStatus == 1
+                widget.parentStatus == 0 ||
+                widget.parentStatus == 1
             ? true
             : false) ...[saveButton(width, widget.onSubmit)],
       ],
