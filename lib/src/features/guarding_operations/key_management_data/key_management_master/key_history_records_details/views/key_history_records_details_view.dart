@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
-import '../../../../../material_movement/material_movement_details/views/addRejectionCommnetPopUp.dart';
+import '../../../../../material_movement/material_movement_details/views/add_rejection_commnet_pop_up.dart';
 import '../cubits/key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsView extends StatefulWidget {

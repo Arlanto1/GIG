@@ -220,7 +220,6 @@ class SstIncident {
         'quotes': quotes,
         'additionalDocs': additionalDocs,
         'modifiedBy': modifiedBy,
-        'occType': occType,
         'activityNotes': activityNotes?.map((e) => e.toJson()).toList(),
         'lsm': lsm?.toJson(),
         'asl': asl?.toJson(),

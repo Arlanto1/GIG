@@ -173,16 +173,8 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Deployment Type');
     }
-    if (model.deploymentOrderSubmitted == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please Select Deployment Order Submitted? ');
-    }
     if (model.height == null) {
       return const ErrorResponse(status: false, message: 'Please enter Height');
-    }
-    if (model.physicallyFit == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter PhysicallyFit?');
     }
     if (model.localLanguage == null) {
       return const ErrorResponse(
@@ -207,10 +199,6 @@ class GuardingMasterDataDetailsState extends Equatable {
     if (model.pvcIssuedDate == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter PVC Issued Date');
-    }
-    if (model.trainingCertificateProvided == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Training Certificate');
     }
     if (model.medicalCertificateValidUntil == null) {
       return const ErrorResponse(

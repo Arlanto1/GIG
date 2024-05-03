@@ -196,15 +196,14 @@ class _BaseFilterSheetState extends State<BaseFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController idController = TextEditingController();
-    TextEditingController slNoController = TextEditingController();
-    TextEditingController createdByController = TextEditingController();
+    // TextEditingController idController = TextEditingController();
+    // TextEditingController slNoController = TextEditingController();
+    // TextEditingController createdByController = TextEditingController();
     TextEditingController fromDateController = TextEditingController();
     TextEditingController toDateController = TextEditingController();
     Organisation? selectedRegion = Organisation();
     Organisation? selectedLocation = Organisation();
     Organisation? selectedStatus = Organisation();
-    List<Organisation> locations = [];
     Filters filtersModel = Filters();
     bool isInitial = true;
 

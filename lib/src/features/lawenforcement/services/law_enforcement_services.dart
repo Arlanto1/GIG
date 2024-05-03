@@ -236,7 +236,7 @@ class LawEnforcementServices {
     required int parentId,
     required LawVisitingOfficialRequest body,
   }) async {
-    var username = await SharedPrefs.getUsername();
+    // var username = await SharedPrefs.getUsername();
     final String url =
         "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
     final response = await BaseApiService().postRequest(

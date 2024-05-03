@@ -2,7 +2,6 @@ import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
 import '../../models/vvip_visitor_response_model.dart';
-import '../bloc/vvip_visitors_record_bloc.dart';
 
 class AddVVIPVisitorsPopUp extends StatefulWidget {
   const AddVVIPVisitorsPopUp({
