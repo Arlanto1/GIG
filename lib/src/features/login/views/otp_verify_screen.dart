@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class OtpVerifyScreen extends StatelessWidget {
   final String userName;
@@ -73,7 +74,31 @@ class _OtpVerifyState extends State<OtpVerify> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
+            log('-state.status-${state.status}---');
+            if (state.status == FormStatus.permissionLocationError) {
+              var dialog = CustomAlertDialog(
+                  title: 'Location Permission',
+                  message: state.message,
+                  onPositivePressed: () async {
+                    openAppSettings();
+                    Navigator.of(context).pop();
+                    setState(() {
+                      state.status == FormStatus.success;
+                    });
+                  },
+                  onNegativePressed: () {
+                    log('--onNegativePressed--');
+                  },
+                  positiveBtnText: Constants.settings,
+                  negativeBtnText: Constants.no);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+              return;
+            }
+
             _showCustomPop(context, state.message);
+
+
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, state.message);
