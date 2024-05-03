@@ -46,7 +46,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         ),
       );
     } on Exception catch (e) {
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -96,7 +96,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       );
       return;
     } on Exception catch (e) {
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

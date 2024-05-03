@@ -187,7 +187,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ),
       );
     } on Exception catch (e) {
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -463,7 +463,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.createdDate ?? '0'),
           Constants.fulldateFormat);
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
 
     log('---response--msg--${response.message}---');

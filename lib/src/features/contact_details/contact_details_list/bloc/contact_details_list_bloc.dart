@@ -91,7 +91,7 @@ class ContactDetailsListBloc
       );
       return;
     } on Exception catch (e) {
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -115,7 +115,7 @@ class ContactDetailsListBloc
         ),
       );
     } on Exception catch (e) {
-      return UtilsCommon().eHandling(e, emit, state);
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

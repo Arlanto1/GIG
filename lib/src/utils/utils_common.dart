@@ -18,7 +18,7 @@ class UtilsCommon {
     return extraProperties;
   }
 
-  void eHandling(Exception e, dynamic emit, dynamic state) {
+  void exceptionHandling(Exception e, dynamic emit, dynamic state) {
     dynamic copyWith;
     copyWith = UtilsCommon().genericExceptionHandling(e, copyWith, state);
     emit(copyWith);
