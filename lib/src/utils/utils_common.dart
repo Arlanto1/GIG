@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
-
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 class UtilsCommon {
   Future<ExtraProperties> checkWritePermission({

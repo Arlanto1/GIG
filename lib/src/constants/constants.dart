@@ -138,7 +138,6 @@ class Constants {
   static const String update = "Update";
   static const String otpVerificationTitle = "OTP Verification";
   static const String forgotPwdTitle = "Forgot Password";
-  static const String ResetPwdTitle = "Reset Password";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
   static const String username = "Username";

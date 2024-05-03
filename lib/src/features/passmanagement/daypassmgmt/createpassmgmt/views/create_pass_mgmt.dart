@@ -2482,8 +2482,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   void updateRecordStatus() {
     if (widget.model?.id != null) {
-      BlocProvider.of<CreatePassMgmtCubit>(context)
-          .updateStatus(id: widget.model!.id.toString());
+      // BlocProvider.of<CreatePassMgmtCubit>(context)
+      //     .updateStatus(id: widget.model!.id!);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, daypassmanagementListRoute,
           arguments: {
@@ -3406,7 +3406,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 //GetLocations(),
                 onTap: (Organisation org) async {
                   await createPassMgmtCubit.getSerialnumberDetails(
-                    org.id.toString() ?? '',
+                    org.id.toString(),
                     widget.passId,
                   );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)

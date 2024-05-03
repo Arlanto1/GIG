@@ -40,5 +40,5 @@ class SignaturePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter other) => true;
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

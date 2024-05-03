@@ -5,8 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../../../utils/utils_common.dart';
-
 part 'key_issuance_process_record_event.dart';
 part 'key_issuance_process_record_state.dart';
 
@@ -108,7 +106,7 @@ class KeyIssuanceProcessRecordBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items ?? [])..addAll(response),
+          items: List.of(state.items)..addAll(response),
           hasReachedMax: false,
         ),
       );

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_popUp.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart';
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;

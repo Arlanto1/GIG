@@ -107,9 +107,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (state.model == null) {
-          isReadOnly = false;
-        }
         if ( state.model.status == 0) {
           isReadOnly = false;
         }

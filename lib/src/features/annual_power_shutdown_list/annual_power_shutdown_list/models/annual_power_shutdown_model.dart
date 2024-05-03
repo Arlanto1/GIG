@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 
 class AnnualPowerShutDownResponse {
   final List<AnnualPowerShutDownModel>? items;

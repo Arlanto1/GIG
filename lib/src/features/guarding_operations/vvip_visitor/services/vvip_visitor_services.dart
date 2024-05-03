@@ -17,8 +17,8 @@ class Apis {
 
   static final String _getVVIP = '$baseUrl/getVipList?';
 
-  static final String _getStaffCategoriesValues =
-      '$baseUrl/getStaffCategAndViolations';
+  // static final String _getStaffCategoriesValues =
+  //     '$baseUrl/getStaffCategAndViolations';
 
   static final String _getById = '$baseUrl/getVipById';
 

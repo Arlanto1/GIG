@@ -266,7 +266,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         bool showSaveButton = true;
-        List<LawVisitingOfficial> visitingOfficials = [];
+        // List<LawVisitingOfficial> visitingOfficials = [];
         List<Organisation> departments = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -274,7 +274,7 @@ class RouteGenerator {
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type] ?? 0;
-          visitingOfficials = arguments[ConstantsArgument.models] ?? [];
+          // visitingOfficials = arguments[ConstantsArgument.models] ?? [];
           departments = arguments[ConstantsArgument.departments] ?? [];
           showSaveButton = arguments[ConstantsArgument.showSaveButton];
         }
