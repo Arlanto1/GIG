@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/models/responseModels/permission_error.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -83,6 +84,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailureState(
           message: e.message ?? 'An unexpected error occurred.',
           status: FormStatus.error,
+        ));
+      } else if (e is PermissionError) {
+        emit(LoginFailureState(
+          message: e.message ?? 'An unexpected error occurred.',
+          status: FormStatus.permissionLocationError,
         ));
       } else {
         InactivityFunctions().logoutUser(navigatorKey);

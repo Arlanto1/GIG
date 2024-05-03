@@ -48,16 +48,8 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
           model: model,
         ),
       );
-    } catch (e) {
-      log('initialization issue',
-          error: e, name: (NotificationDetailsCubit).toString());
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          // TODO: error message should be dynamic
-          status: FormStatus.error,
-        ),
-      );
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -85,12 +77,7 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
       );
       return;
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          message: e.toString(),
-          status: FormStatus.error,
-        ),
-      );
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 }

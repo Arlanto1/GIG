@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -48,6 +49,27 @@ class _LoginState extends State<Login> {
           Utils().formError(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
+            if (state.status == FormStatus.permissionLocationError) {
+              var dialog = CustomAlertDialog(
+                  title: 'Location Permission',
+                  message: state.message,
+                  onPositivePressed: () async {
+                    openAppSettings();
+                    Navigator.of(context).pop();
+                    setState(() {
+                      state.status == FormStatus.success;
+                    });
+                  },
+                  onNegativePressed: () {
+                    log('--onNegativePressed--');
+                  },
+                  positiveBtnText: Constants.settings,
+                  negativeBtnText: Constants.no);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
+              return;
+            }
+
             //_showCustomPop(context, );
             //     alert_handler.alertDisplay(
             // context,state.errorMsg);

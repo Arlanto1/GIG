@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../utils/utils_common.dart';
 import '../../models/requestModel/general_info_request.dart';
 import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
@@ -90,8 +89,8 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -117,8 +116,8 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -197,6 +196,12 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       response = await services.sendRemainder(
         body: request,
       );
+      return emit(
+        state.copyWith(
+          message: response.message,
+          status: FormStatus.sendEmail,
+        ),
+      );
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
@@ -214,11 +219,5 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       );
       return;
     }
-    emit(
-      state.copyWith(
-        message: response.message,
-        status: FormStatus.success,
-      ),
-    );
   }
 }

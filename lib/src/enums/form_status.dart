@@ -7,18 +7,13 @@ enum FormStatus {
   success,
   successFormSubmit,
   failure,
-  formError,
-  error,
-  createArticleFound,
+  formError,  // Form Validation Erro
+  error,  // Immediately Logout
+  permissionLocationError, // When location Permission is denied
   invalidEmail,
   addArticleFound,
-  navigateToNextScreen,
-  sessionExpired,
+  navigateToNextScreen, // Navigate to Next Screen
+  sessionExpired, // Token Expired
   popOnly,
-}
-
-enum NavPop {
-  none,
-  onePop,
-  doublePop,
+  sendEmail
 }

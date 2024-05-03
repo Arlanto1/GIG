@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
+import '../../../../../models/responseModels/permission_error.dart';
+
 part 'charts_state.dart';
 
 class ChartsCubit extends Cubit<ChartsState> {
@@ -29,6 +31,7 @@ class ChartsCubit extends Cubit<ChartsState> {
         status: FormStatus.loading,
       ),
     );
+    log('-status--${state.status}--');
 
     try {
       int count = await notificationServices.getNotificationCount();
@@ -67,6 +70,15 @@ class ChartsCubit extends Cubit<ChartsState> {
         state.copyWith(
           message: e.message,
           status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    } on PermissionError catch (e) {
+      log('PermissionError issue', error: e, name: 'Charts Cubit');
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.permissionLocationError,
         ),
       );
       return;
