@@ -4,7 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 
-import '../../../../../material_movement/material_movement_details/views/addRejectionCommnetPopUp.dart';
+import '../../../../../material_movement/material_movement_details/views/add_rejection_commnet_pop_up.dart';
 
 class KeyLossDestructionDetailsView extends StatefulWidget {
   final KeyLossDestructionListModel? model;

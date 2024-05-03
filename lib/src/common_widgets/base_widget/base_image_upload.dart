@@ -90,12 +90,12 @@ class AttachmentListView extends StatefulWidget {
   final bool? showDeleteIcon;
 
   const AttachmentListView({
-    Key? key,
+    super.key,
     this.attachmentListviews,
     required this.showDownloadIcon,
     required this.moduleCode,
     this.showDeleteIcon,
-  }) : super(key: key);
+  });
 
   @override
   AttachmentListViewState createState() => AttachmentListViewState();

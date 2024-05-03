@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -209,7 +211,9 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
               _createEmployeeDepartment(
                   nameTextController.text, keyTextController.text);
             }
-          } catch (e) {}
+          } catch (e) {
+            log('-e--${e.toString()}');
+          }
         }
         Navigator.of(context).pop();
       },

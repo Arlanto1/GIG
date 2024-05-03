@@ -8,8 +8,8 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/src/features/lawenforcement/models/add_qualifications.dart';
+import 'package:db_atom/src/features/lawenforcement/models/add_entities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';

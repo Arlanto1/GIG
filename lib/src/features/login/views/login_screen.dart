@@ -245,7 +245,7 @@ class _LoginState extends State<Login> {
                                     forgotPwdScreenRoute,
                                   )
                                 },
-                                title: Constants.ResetPwdTitle,
+                                title: Constants.resetPwdTitle,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                 height * 0.17,
