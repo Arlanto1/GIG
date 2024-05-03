@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../utils/utils_common.dart';
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
@@ -82,8 +81,8 @@ class IncidentManagementsBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -106,8 +105,8 @@ class IncidentManagementsBloc
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

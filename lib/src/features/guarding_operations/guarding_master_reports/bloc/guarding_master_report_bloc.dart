@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../utils/utils_common.dart';
 import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
@@ -53,7 +52,7 @@ class GuardingMasterReportBloc
         commonServices: commonServices,
       );
 
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -74,8 +73,8 @@ class GuardingMasterReportBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -97,8 +96,8 @@ class GuardingMasterReportBloc
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

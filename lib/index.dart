@@ -188,8 +188,8 @@ export 'package:db_atom/src/features/incident_management/incident_details/genera
 export 'package:db_atom/src/features/incident_management/incident_managements/views/incident_managements_view.dart';
 export 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details_model.dart';
 export 'package:db_atom/src/features/law_enforcement_list/views/law_enforcements_view.dart';
-export 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-export 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+export 'package:db_atom/src/features/lawenforcement/models/add_qualifications.dart';
+export 'package:db_atom/src/features/lawenforcement/models/add_entities.dart';
 export 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 export 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 export 'package:db_atom/src/features/lawenforcement/views/law_enforcement_details_view.dart';
@@ -258,6 +258,7 @@ export 'package:db_atom/src/utils/helpers/keys/keys.dart';
 export 'package:db_atom/src/utils/inactivity_functions.dart';
 export 'package:db_atom/src/utils/shared_preferences.dart';
 export 'package:db_atom/src/utils/util.dart';
+export 'package:db_atom/src/utils/utils_common.dart';
 export 'package:db_atom/src/utils/validators/validator.dart';
 export 'package:equatable/equatable.dart';
 export 'package:firebase_core/firebase_core.dart';

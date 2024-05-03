@@ -119,7 +119,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            '${state.model.content?.subject}',
+                            state.model.content?.subject??'',
                             style: Styles.styleHeaderGreyText30,
                           ),
                         ),

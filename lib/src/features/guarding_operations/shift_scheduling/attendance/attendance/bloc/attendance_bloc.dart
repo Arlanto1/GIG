@@ -6,8 +6,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attend
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../../../utils/utils_common.dart';
-
 part 'attendance_event.dart';
 part 'attendance_state.dart';
 
@@ -45,8 +43,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -95,8 +93,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

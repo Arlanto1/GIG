@@ -83,7 +83,7 @@ class _DayPassInfoCustomPopUpListState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('ID : ', widget.userItem.id.toString() ?? " "),
+              textHandling('ID : ', widget.userItem.id.toString()),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -91,7 +91,7 @@ class _DayPassInfoCustomPopUpListState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               textHandling(
-                  'Pass No : ', widget.userItem.passNo.toString() ?? " "),
+                  'Pass No : ', widget.userItem.passNo.toString()),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -145,7 +145,7 @@ class _DayPassInfoCustomPopUpListState
           Row(
             children: [
               textHandling(
-                  'Is Dws Pass : ', widget.userItem.dws.toString() ?? " "),
+                  'Is Dws Pass : ', widget.userItem.dws.toString()),
             ],
           ),
           // CommonWidgets.verticalSpacerWidget(8),

@@ -5,8 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../../../utils/utils_common.dart';
-
 part 'duty_post_name_master_list_event.dart';
 part 'duty_post_name_master_list_state.dart';
 
@@ -73,8 +71,8 @@ class DutyPostNameMasterListBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -96,8 +94,8 @@ class DutyPostNameMasterListBloc
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

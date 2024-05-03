@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Utils {
   static final math.Random _random = math.Random.secure();
@@ -869,7 +870,7 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 0:
-        statusText = 'Created';
+        statusText = 'Draft';
         break;
       case 1:
         statusText = 'Handed Over';
@@ -1490,7 +1491,7 @@ class Utils {
   }
 
   void formError(dynamic state, BuildContext context) {
-    log('STATUS: ${state.status}');
+    log('FORM Error STATUS: ${state.status}');
     if (state.status == FormStatus.formError) {
       Validator().showToast(
         context,
@@ -1500,12 +1501,30 @@ class Utils {
   }
 
   void errorAndLogout(dynamic state, BuildContext context) {
+    log('STATUS: ${state.status}');
     if (state.status == FormStatus.error) {
       InactivityFunctions().logoutUser(navigatorKey);
       Validator().showToast(
         context,
         state.message ?? 'Invalid Information',
       );
+    }
+    if(state.status == FormStatus.permissionLocationError) {
+      log('');
+      var dialog = CustomAlertDialog(
+          title: 'Location Permission',
+          message: state.message,
+          onPositivePressed: () async {
+            openAppSettings();
+            Navigator.of(context).pop();
+          },
+          onNegativePressed: () {
+            log('--onNegativePressed--');
+          },
+          positiveBtnText: Constants.settings,
+          negativeBtnText: Constants.no);
+      showDialog(
+          context: context, builder: (BuildContext context) => dialog);
     }
   }
 

@@ -93,8 +93,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
               context: context,
               title: widget.title,
               showPopUp: false,
-              showSaveButton: isReadOnly ? false : true,
-              showSubmitButton: isReadOnly ? false : true,
+              showSaveButton:
+                  isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
+              showSubmitButton:
+                  isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
               showDisLikeButton: false,
               showLikeButton: false,
               onTapSave: () {
@@ -147,7 +149,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AbsorbPointer(
-                      absorbing: isReadOnly,
+                      absorbing: isReadOnly || !state.model.lock.isEmptyOrNull,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
@@ -235,6 +237,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
+                                isEnabled: isReadOnly ||
+                                        !state.model.lock.isEmptyOrNull
+                                    ? false
+                                    : true,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
@@ -257,21 +263,28 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             TextFieldAddButton(
                               title: state.model.dutyPostLocation?.name,
                               height: 70,
-                              isDisableColor: false,
+                              isDisableColor:
+                                  isReadOnly || !state.model.lock.isEmptyOrNull
+                                      ? true
+                                      : false,
                               onTap: () {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.dutyPosts ?? [],
-                                  onTap: (Organisation? org) {
-                                    // state.model.dutyPostLocation?.name =
-                                    //     org.name;
+                                if (isReadOnly ||
+                                    state.model.lock.isEmptyOrNull) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.dutyPosts ?? [],
+                                    onTap: (Organisation? org) {
+                                      // state.model.dutyPostLocation?.name =
+                                      //     org.name;
 
-                                    BlocProvider.of<DutyPostMasterDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            dutyPostName: org);
-                                  },
-                                );
+                                      BlocProvider.of<
+                                                  DutyPostMasterDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              dutyPostName: org);
+                                    },
+                                  );
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -490,7 +503,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 cancelButtonDisplay(),
-                                if (!isReadOnly) ...[submitButtonDisplay()],
+                                if (!isReadOnly &&
+                                    state.model.lock.isEmptyOrNull) ...[
+                                  submitButtonDisplay()
+                                ],
                               ],
                             ),
 
@@ -511,12 +527,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
-      buttonTextKey: Keys.cancelButton,
+      buttonText: Constants.close,
       onTap: () {
         Navigator.pop(context);
       },

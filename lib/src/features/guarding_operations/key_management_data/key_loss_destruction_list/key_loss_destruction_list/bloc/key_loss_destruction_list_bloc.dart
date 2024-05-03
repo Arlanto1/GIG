@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'key_loss_destruction_list_event.dart';
 part 'key_loss_destruction_list_state.dart';
@@ -72,8 +71,8 @@ class KeyLossDestructionListBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -95,8 +94,8 @@ class KeyLossDestructionListBloc
           status: FormStatus.initial,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

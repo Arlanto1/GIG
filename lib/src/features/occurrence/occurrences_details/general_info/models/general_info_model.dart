@@ -80,6 +80,7 @@ class OccurrenceModel {
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
   int? status;
+  String? lock;
 
   OccurrenceModel({
     this.id,
@@ -126,6 +127,7 @@ class OccurrenceModel {
     this.followedUp = false,
     this.status,
     this.powerFailures,
+    this.lock,
   });
 
   factory OccurrenceModel.fromJson(Map<String, dynamic> json) =>
@@ -133,26 +135,3 @@ class OccurrenceModel {
 
   Map<String, dynamic> toJson() => _$OccurrenceModelToJson(this);
 }
-
-// class PowerFailure {
-//   int? id;
-//   String? powerFailureStartDate;
-//   String? powerFailureEndDate;
-//
-//   PowerFailure({
-//     this.id,
-//     this.powerFailureStartDate,
-//     this.powerFailureEndDate,
-//   });
-//
-//   PowerFailure.fromJson(Map<String, dynamic> json)
-//       : id = json['id'] as int?,
-//         powerFailureStartDate = json['powerFailureStartDate'] as String?,
-//         powerFailureEndDate = json['powerFailureEndDate'] as String?;
-//
-//   Map<String, dynamic> toJson() => {
-//     'id' : id,
-//     'powerFailureStartDate' : powerFailureStartDate,
-//     'powerFailureEndDate' : powerFailureEndDate
-//   };
-// }

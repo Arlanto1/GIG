@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr
 import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../index.dart';
-import '../../../../../utils/utils_common.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
@@ -46,8 +45,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -98,8 +97,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

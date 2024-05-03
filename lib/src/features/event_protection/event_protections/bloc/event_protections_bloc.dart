@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import 'package:db_atom/src/services/common_services.dart';
 
-import '../../../../utils/utils_common.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
@@ -45,8 +44,8 @@ class EventProtectionsBloc
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -97,8 +96,8 @@ class EventProtectionsBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

@@ -2,7 +2,6 @@ import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
 import '../../models/vvip_visitor_response_model.dart';
-import '../bloc/vvip_visitors_record_bloc.dart';
 
 class AddVVIPVisitorsPopUp extends StatefulWidget {
   const AddVVIPVisitorsPopUp({
@@ -11,16 +10,16 @@ class AddVVIPVisitorsPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    this.vvipModel,
     this.extraProperties,
+    required this.parentStatus,
   });
 
   final String title;
   final Function onSubmit;
   final VIVPVisitorRecordModel model;
   final BuildContext mainContext;
-  final VIVPVisitorModel? vvipModel;
   final ExtraProperties? extraProperties;
+  final int parentStatus;
 
   @override
   State<AddVVIPVisitorsPopUp> createState() => AddVVIPVisitorsPopUpState();
@@ -95,15 +94,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
-                        isEnable: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isEnable: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisableColor: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -131,15 +130,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textFormKey: Keys.visitorsEmailIdKey,
                         textCapitalization: false,
                         hintText: '',
-                        isEnable: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isEnable: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisableColor: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -164,15 +163,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsDesignationKey,
                         hintText: '',
-                        isEnable: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isEnable: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisableColor: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -197,15 +196,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.purposeOfVisitKey,
                         hintText: '',
-                        isEnable: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isEnable: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisableColor: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -230,15 +229,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.baseLocationOfVisitorKey,
                         hintText: '',
-                        isEnable: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isEnable: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisableColor: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -262,8 +261,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: startDateVisitController,
-                        isDisabled: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisabled: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -289,8 +288,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: endDateVisitController,
-                        isDisabled: (widget.vvipModel?.status == 0 ||
-                                    widget.vvipModel?.status == null) &&
+                        isDisabled: (widget.parentStatus == 0 ||
+                                    widget.parentStatus == null) &&
                                 !(widget.extraProperties != null &&
                                     !widget
                                         .extraProperties!.hasWritePermission!)
@@ -324,8 +323,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if ((widget.vvipModel?.status == 0 ||
-                widget.vvipModel?.status == null) &&
+        if ((widget.parentStatus == 0 || widget.parentStatus == null) &&
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) ...[
           saveButton(width, widget.onSubmit)

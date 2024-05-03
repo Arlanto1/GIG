@@ -974,19 +974,18 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  Future<void> updateStatus({required String id}) async {
+  Future<void> updateStatus({required int id}) async {
     String module = '';
-    PassMngArguments? passMngArguments;
-    if (passMngArguments?.passType == 0) {
+    if (id == 0) {
       module = Constants.passManagementModule;
-    } else if (passMngArguments?.passType == 1) {
+    } else if (id == 1) {
       module = Constants.visitorManagementModule;
-    } else if (passMngArguments?.passType == 2) {
+    } else if (id == 2) {
       module = Constants.vendorPassManagementModule;
-    } else if (passMngArguments?.passType == 3) {
+    } else if (id == 3) {
       module = Constants.passManagementSEZModule;
     }
-    await commonServices.updateRecordStatus(id: id, module: module);
+    await commonServices.updateRecordStatus(id: id.toString(), module: module);
   }
 
   Future<void> updateDropdownValues({

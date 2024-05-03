@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/utils_common.dart';
 
 part 'violation_penalty_record_event.dart';
 part 'violation_penalty_record_state.dart';
@@ -57,8 +56,8 @@ class ViolationPenaltyRecordBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -126,8 +125,8 @@ class ViolationPenaltyRecordBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -164,8 +163,8 @@ class ViolationPenaltyRecordBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 }

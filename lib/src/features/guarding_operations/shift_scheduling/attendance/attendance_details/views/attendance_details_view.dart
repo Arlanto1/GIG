@@ -507,7 +507,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText:
-          state.model.id == null ? Constants.close : Constants.cancelRecord,
+          state.model.id == null || !state.model.lock.isEmptyOrNull ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {if (state.model.id == null) {
         Navigator.pop(context);

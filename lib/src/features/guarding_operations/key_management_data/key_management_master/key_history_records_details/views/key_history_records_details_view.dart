@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
-import '../../../../../material_movement/material_movement_details/views/addRejectionCommnetPopUp.dart';
+import '../../../../../material_movement/material_movement_details/views/add_rejection_commnet_pop_up.dart';
 import '../cubits/key_history_records_details_cubit.dart';
 
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
@@ -12,6 +12,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final int parentId;
   final int? id;
   final ExtraProperties? extraProperties;
+  final String? lock;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -21,7 +22,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     required this.parentId,
     this.id,
     this.extraProperties,
-
+    this.lock,
   });
 
   @override
@@ -98,7 +99,7 @@ class _KeyHistoryRecordsDetailsViewState
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) &&
+            !widget.extraProperties!.hasWritePermission!) &&(widget.lock.isEmptyOrNull)&&
             (
                 ((state.model.status == null ||
                     state.model.status == ConstantsIntValue.created ||
@@ -1007,7 +1008,7 @@ class _KeyHistoryRecordsDetailsViewState
 
   Widget cancelButtonDisplay(KeyHistoryRecordsDetailsState state) {
     bool condition = widget.model?.id == null ||
-        widget.model?.status == ConstantsIntValue.cancelledStatus;
+        widget.model?.status == ConstantsIntValue.cancelledStatus || widget.lock.isEmptyOrNull;
     return AppButton(
 
       width: Constants.cancelButtonWidth,

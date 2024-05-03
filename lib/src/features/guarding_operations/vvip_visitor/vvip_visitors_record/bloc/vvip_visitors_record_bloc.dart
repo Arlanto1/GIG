@@ -8,7 +8,6 @@ import '../../models/vvip_visitor_record_model.dart';
 import '../../services/vvip_visitor_services.dart';
 
 part 'vvip_visitors_record_event.dart';
-
 part 'vvip_visitors_record_state.dart';
 
 class VVIPVisitorsRecordBloc
@@ -93,8 +92,8 @@ class VVIPVisitorsRecordBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -131,8 +130,8 @@ class VVIPVisitorsRecordBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 }

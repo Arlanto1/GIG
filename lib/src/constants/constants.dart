@@ -138,7 +138,6 @@ class Constants {
   static const String update = "Update";
   static const String otpVerificationTitle = "OTP Verification";
   static const String forgotPwdTitle = "Forgot Password";
-  static const String ResetPwdTitle = "Reset Password";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
   static const String username = "Username";
@@ -285,6 +284,7 @@ class Constants {
   static const String camera = 'Camera';
   static const String document = 'Document';
   static const String addarticletype = 'Add Article Type';
+  static const String addEmpDepartment = 'Add Employee Department';
   static const String clicktoupload = 'Click to upload';
   static const String abort = 'Abort';
   static const String internationalization = 'Internationalization';

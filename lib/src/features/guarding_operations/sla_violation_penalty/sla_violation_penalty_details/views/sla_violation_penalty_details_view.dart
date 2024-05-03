@@ -539,10 +539,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(state),
-                          if ((state.model.status == 2 ||
-                                  state.model.status == -1)
-                              ? false
-                              : true) ...[submitButtonDisplay()],
+                          if ((state.model.status != 2 &&
+                              state.model.status != -1 &&
+                              !isReadOnly))...[submitButtonDisplay()],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -593,7 +592,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 2;
+        state.model.status == 2 || !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,

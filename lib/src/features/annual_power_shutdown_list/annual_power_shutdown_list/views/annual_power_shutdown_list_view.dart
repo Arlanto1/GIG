@@ -76,7 +76,10 @@ class _AnnualPowerShutdownListViewState
     double height = size.height;
     return BlocConsumer<AnnualPowerShutdownListBloc,
             AnnualPowerShutdownListState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          log('--state.status---${state.status}--');
+          Utils().errorAndLogout(state, context);
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: AppColors.cardBgColor,
