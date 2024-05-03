@@ -40,7 +40,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
             getEntitiesResponse: null,
             // departments: const [],
             vendors: const [],
-            loggedInUserDetails: null,
+            loggedInUserDetails: User(),
           ),
         );
 
@@ -120,7 +120,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
-      model.createdBy = loggedInUserDetails;
+      model.createdBy ??= loggedInUserDetails;
       List<BaseUser> users =
           await commonServices.getBaseUsers(roleName: 'T1_Analyst');
 
