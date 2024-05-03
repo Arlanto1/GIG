@@ -15,14 +15,15 @@ class VVIPVisitorResponseModel {
 
   VVIPVisitorResponseModel.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                VIVPVisitorModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      ?.map((dynamic e) =>
+      VIVPVisitorModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'data': items?.map((e) => e.toJson()).toList(),
         'totalCount': totalCount,
         'currentPageNo': currentPageNo,
@@ -39,6 +40,7 @@ class VIVPVisitorModel {
   Organisation? location;
   String? modifiedBy;
   String? modifiedDate;
+  String? lock;
 
   VIVPVisitorModel({
     this.id,
@@ -49,6 +51,7 @@ class VIVPVisitorModel {
     this.location,
     this.modifiedBy,
     this.modifiedDate,
+    this.lock,
   });
 
   VIVPVisitorModel.fromJson(Map<String, dynamic> json)
@@ -63,9 +66,11 @@ class VIVPVisitorModel {
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         modifiedBy = json['modifiedBy'] as String?,
-        modifiedDate = json['modifiedDate'] as String?;
+        modifiedDate = json['modifiedDate'] as String?,
+        lock = json['lock'] as String?;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'id': id,
         'status': status,
         'slNo': slNo,
@@ -73,6 +78,7 @@ class VIVPVisitorModel {
         'inputDate': inputDate,
         'location': location?.toJson(),
         'modifiedBy': modifiedBy,
-        'modifiedDate': modifiedDate
+        'modifiedDate': modifiedDate,
+        'lock': lock,
       };
 }

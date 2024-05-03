@@ -1601,6 +1601,8 @@ class RouteGenerator {
         String title = '';
         int id = 0;
         ExtraProperties? extraProperties;
+        String? lock;
+        int parentStatus=0;
         // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -1608,6 +1610,8 @@ class RouteGenerator {
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           extraProperties = arguments[ConstantsArgument.extraProperties];
+          lock = arguments[ConstantsArgument.lock];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
           // violationDescription =
           //     arguments[ConstantsArgument.violationDescription] ?? '';
         }
@@ -1622,7 +1626,12 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: VVIPVisitorsRecordView(
-                id: id, title: title, extraProperties: extraProperties),
+              id: id,
+              title: title,
+              extraProperties: extraProperties,
+              lock: lock,
+              parentStatus: parentStatus,
+            ),
           ),
         );
 
