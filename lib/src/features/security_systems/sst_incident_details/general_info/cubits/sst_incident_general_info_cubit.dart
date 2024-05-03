@@ -186,15 +186,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           uploadAttachments: model.attachments,
         ),
       );
-    } catch (e) {
-      log('initialization issue',
-          error: e, name: 'SstIncidentGeneralInfoCubit');
-      emit(
-        state.copyWith(
-          message: e.toString(),
-          status: FormStatus.error,
-        ),
-      );
+    } on Exception catch (e) {
+      return UtilsCommon().eHandling(e, emit, state);
     }
   }
 
@@ -465,19 +458,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
               Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
-      log('--e.message-Exception-${e.toString()}---');
-      emit(
-        state.copyWith(
-          message: e.toString(),
-          status: FormStatus.error,
-        ),
-      );
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdDate ?? '0'),
-              Constants.fulldateFormat);
-      return;
+          int.tryParse(state.model.createdDate ?? '0'),
+          Constants.fulldateFormat);
+      return UtilsCommon().eHandling(e, emit, state);
     }
 
     log('---response--msg--${response.message}---');

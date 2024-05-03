@@ -72,8 +72,8 @@ class SLAViolationPenaltyListBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().eHandling(e, emit, state);
     }
   }
 
@@ -95,8 +95,8 @@ class SLAViolationPenaltyListBloc
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().eHandling(e, emit, state);
     }
   }
 

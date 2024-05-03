@@ -37,14 +37,14 @@ class MainConfig with WidgetsBindingObserver {
 
     // Listen for app lifecycle changes
     WidgetsBinding.instance.addObserver(MainConfig());
-    try {
-      await FCMHandler.initializeFCM();
-      FCMHandler.setupForegroundMessageHandler();
-      FCMHandler.setupBackgroundMessageHandler();
-    } catch (e) {
-      // Handle Firebase initialization error
-      log('Firebase initialization failed: $e');
-    }
+    // try {
+    //   await FCMHandler.initializeFCM();
+    //   FCMHandler.setupForegroundMessageHandler();
+    //   FCMHandler.setupBackgroundMessageHandler();
+    // } catch (e) {
+    //   // Handle Firebase initialization error
+    //   log('Firebase initialization failed: $e');
+    // }
 
     runApp(
       InitializeProviders(

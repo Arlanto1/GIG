@@ -1608,13 +1608,15 @@ class RouteGenerator {
         );
 
       default:
-        CommonServices commonServices = CommonServices();
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider<ChartsCubit>(
-            create: (_) => ChartsCubit(commonServices: commonServices),
-            child: const DashboardView(),
-          ),
-        );
+        log('--default---${settings.name}-');
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
+        // CommonServices commonServices = CommonServices();
+        // return MaterialPageRoute(
+        //   builder: (context) => BlocProvider<ChartsCubit>(
+        //     create: (_) => ChartsCubit(commonServices: commonServices),
+        //     child: const DashboardView(),
+        //   ),
+        // );
     }
   }
 }

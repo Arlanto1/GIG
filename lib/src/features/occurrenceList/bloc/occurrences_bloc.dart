@@ -83,8 +83,8 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().eHandling(e, emit, state);
     }
   }
 
@@ -107,8 +107,8 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().eHandling(e, emit, state);
     }
   }
 

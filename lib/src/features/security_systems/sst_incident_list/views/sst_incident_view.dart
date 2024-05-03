@@ -133,7 +133,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
             ),
             body: BlocListener<SstIncidentBloc, SstIncidentState>(
                 listener: (context, state) {
-              if (state.status == FormStatus.success &&
+              Utils().formError(state, context);
+              Utils().errorAndLogout(state, context);
+              if (state.status == FormStatus.sendEmail &&
                   !state.message.isEmptyOrNull) {
                 var dialog = CustomAlertDialog(
                   title: Constants.sentReminder,

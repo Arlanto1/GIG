@@ -20,15 +20,25 @@ class DashboardViewState extends State<DashboardView>
   void initState() {
     log('-DashboardView---initState--');
     super.initState();
-    chartsCubit.initializeValues();
     getUserDetails();
     WidgetsBinding.instance.addObserver(this);
+    // BlocProvider.of<ChartsCubit>(context).initializeValues();
+    chartsCubit.initializeValues();
   }
 
   Future<void> getUserDetails() async {
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
+
+    try {
+      await FCMHandler.initializeFCM();
+      FCMHandler.setupForegroundMessageHandler();
+      FCMHandler.setupBackgroundMessageHandler();
+    } catch (e) {
+      // Handle Firebase initialization error
+      log('Firebase initialization failed: $e');
+    }
     setState(() {});
   }
 
@@ -38,7 +48,7 @@ class DashboardViewState extends State<DashboardView>
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
-        Utils().formError(state, context);
+        log('-state---${state.status}---');
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.sessionExpired) {
@@ -121,6 +131,8 @@ class DashboardViewState extends State<DashboardView>
   }
 
   Widget getBody(ChartsState state) {
+    log('--getBody---');
+    Utils().errorAndLogout(state, context);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
