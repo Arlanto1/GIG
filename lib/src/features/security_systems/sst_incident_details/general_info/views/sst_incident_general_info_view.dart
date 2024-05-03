@@ -120,6 +120,10 @@ class _SstIncidentGeneralInfoViewState
             !widget.extraProperties!.hasWritePermission!) {
           disableForm = true;
         }
+        if (!(state.loggedInUserDetails.userName
+            .equalsIgnoreCase(state.model.createdBy?.userName))) {
+          disableForm = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -127,8 +131,10 @@ class _SstIncidentGeneralInfoViewState
                 ? Constants.ticketLifeCycle
                 : Constants.externalVendor,
             showPopUp: false,
-            showSaveButton: disableForm ? false : true,
-            showSubmitButton: disableForm ? false : true,
+            showSaveButton:
+                disableForm ? false : true,
+            showSubmitButton:
+                disableForm ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -671,7 +677,7 @@ class _SstIncidentGeneralInfoViewState
                               hintText: Constants.informationhere,
                               focusNode: descriptionFocusNode,
                               isEnable: state.model.status != 2,
-                              isDisableColor: state.model.status == 2,
+                              isDisableColor: state.model.status == 2 || disableForm,
                               onChange: (String value) {
                                 state.model.shortDescription = value;
                                 context
@@ -697,7 +703,7 @@ class _SstIncidentGeneralInfoViewState
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
-                              isDisableColor: state.model.status == 2,
+                              isDisableColor: state.model.status == 2 || disableForm,
                               onChange: (String value) {
                                 state.model.detailDescription = value;
                                 context
@@ -856,7 +862,6 @@ class _SstIncidentGeneralInfoViewState
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.model?.status == 14;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),

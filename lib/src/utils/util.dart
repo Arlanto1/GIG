@@ -870,7 +870,7 @@ class Utils {
         statusText = 'Cancelled';
         break;
       case 0:
-        statusText = 'Created';
+        statusText = 'Draft';
         break;
       case 1:
         statusText = 'Handed Over';

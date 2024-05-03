@@ -284,6 +284,7 @@ class Constants {
   static const String camera = 'Camera';
   static const String document = 'Document';
   static const String addarticletype = 'Add Article Type';
+  static const String addEmpDepartment = 'Add Employee Department';
   static const String clicktoupload = 'Click to upload';
   static const String abort = 'Abort';
   static const String internationalization = 'Internationalization';

@@ -120,6 +120,7 @@ class IncidentModel {
   String? intervieweeName;
   String? interviewedByName;
   String? complainantHrName;
+  String? lock;
 
   IncidentModel({
     this.id,
@@ -207,6 +208,7 @@ class IncidentModel {
     this.intervieweeName,
     this.interviewedByName,
     this.complainantHrName,
+    this.lock,
   });
 
   IncidentModel.fromJson(Map<String, dynamic> json)
@@ -333,7 +335,8 @@ class IncidentModel {
         hrBusinessPartnerName = json['hrBusinessPartnerName'] as String?,
         intervieweeName = json['intervieweeName'] as String?,
         interviewedByName = json['interviewedByName'] as String?,
-        complainantHrName = json['complainantHrName'] as String?;
+        complainantHrName = json['complainantHrName'] as String?,
+        lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -420,6 +423,7 @@ class IncidentModel {
         'hrBusinessPartnerName': hrBusinessPartnerName,
         'intervieweeName': intervieweeName,
         'interviewedByName': interviewedByName,
-        'complainantHrName': complainantHrName
+        'complainantHrName': complainantHrName,
+        'lock': lock
       };
 }

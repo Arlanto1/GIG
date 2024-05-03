@@ -150,6 +150,7 @@ class KeyManagementIssuanceModel {
   int? totalLost;
   int? totalDamage;
   List<Organisation>? entities;
+  String? lock;
 
   KeyManagementIssuanceModel({
     this.kMIssuanceId,
@@ -180,6 +181,7 @@ class KeyManagementIssuanceModel {
     this.totalLost,
     this.totalDamage,
     this.entities,
+    this.lock,
   });
 
   KeyManagementIssuanceModel.fromJson(Map<String, dynamic> json)
@@ -224,7 +226,8 @@ class KeyManagementIssuanceModel {
         entities = (json['entities'] as List?)
             ?.map(
                 (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-            .toList();
+            .toList(),
+        lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
         'kMIssuanceId': kMIssuanceId,
@@ -255,5 +258,6 @@ class KeyManagementIssuanceModel {
         'totalNotReturned': totalNotReturned,
         'totalLost': totalLost,
         'totalDamage': totalDamage,
+        'lock': lock,
       };
 }

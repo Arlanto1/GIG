@@ -2472,7 +2472,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: widget.model?.id == null ? Constants.close : Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();
@@ -2638,12 +2638,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.selectedDepartment?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-              widget.model != null &&
-              (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)
-          ? true
-          : false,
+      isDisableColor: (widget.model == null || widget.model?.status == 0) &&
+          !(widget.extraProperties != null &&
+              !widget.extraProperties!.hasWritePermission!)
+          ? false
+          : true,
       onTap: () {
         if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
@@ -2702,12 +2701,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor: widget.model?.status != 0 &&
-                  widget.model != null &&
+          isDisableColor: widget.model?.status == 0 ||
+                  widget.model == null ||
                   (widget.extraProperties != null &&
                       !widget.extraProperties!.hasWritePermission!)
-              ? true
-              : false,
+              ? false
+              : true,
           onTap: () {
             if ((widget.model == null || widget.model?.status == 0) &&
                 !(widget.extraProperties != null &&
@@ -2927,7 +2926,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createPassMgmtCubit.getEntityData(list);
         Navigator.pop(context);
       },
-      enabled: widget.model == null || widget.model?.status == 0,
+      enabled: widget.model == null || widget.model?.status == 0 ,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model == null || widget.model?.status == 0,
@@ -2968,12 +2967,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-              widget.model != null &&
+      isDisableColor: widget.model?.status == 0 ||
+              widget.model == null ||
               (widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)
-          ? true
-          : false,
+          ? false
+          : true,
       onTap: () {
         if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
@@ -3114,28 +3113,33 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 ||
-              widget.model != null &&
-                  !(widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)
+      isDisableColor: widget.model?.status == 0 ||
+              widget.model == null ||
+              (widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
-        BaseOrganisationDialog().userDialog(
-          context: context,
-          users: state.getDepositorResponse,
-          roleName: 'ATOM_STATIC_USER',
-          functionToCall: () {
-            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
-          },
-          onTap: (BaseUser user) {
-            // BlocProvider.of<CreatePassMgmtCubit>(context)
-            //     .updateDropdownValues(
-            //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
-            // );
-            createPassMgmtCubit.getNameUsersResponseData(user);
-          },
-        );
+        if (widget.model?.status == 0 ||
+            widget.model == null ||
+            (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
+          BaseOrganisationDialog().userDialog(
+            context: context,
+            users: state.getDepositorResponse,
+            roleName: 'ATOM_STATIC_USER',
+            functionToCall: () {
+              BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+            },
+            onTap: (BaseUser user) {
+              // BlocProvider.of<CreatePassMgmtCubit>(context)
+              //     .updateDropdownValues(
+              //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+              // );
+              createPassMgmtCubit.getNameUsersResponseData(user);
+            },
+          );
+        }
       },
       // onTap: () {
       //   if (widget.model == null ||
@@ -3183,28 +3187,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.hostResponse?.userInfo ?? state.hostResponse?.name,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-              widget.model?.status == null &&
+              widget.model?.status == null ||
                   !(widget.extraProperties != null &&
                       !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
-        BaseOrganisationDialog().userDialog(
-          context: context,
-          users: state.getDepositorResponse!,
-          roleName: 'ATOM_STATIC_USER',
-          functionToCall: () {
-            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
-          },
-          onTap: (BaseUser user) {
-            // BlocProvider.of<CreatePassMgmtCubit>(context)
-            //     .updateDropdownValues(
-            //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
-            // );
-            createPassMgmtCubit.gethostUsersResponseData(
-                User(userId: user.id, name: user.name));
-          },
-        );
+        if ((state.model.status == 0 || widget.model == null) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
+          BaseOrganisationDialog().userDialog(
+            context: context,
+            users: state.getDepositorResponse!,
+            roleName: 'ATOM_STATIC_USER',
+            functionToCall: () {
+              BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+            },
+            onTap: (BaseUser user) {
+              // BlocProvider.of<CreatePassMgmtCubit>(context)
+              //     .updateDropdownValues(
+              //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+              // );
+              createPassMgmtCubit.gethostUsersResponseData(
+                  User(userId: user.id, name: user.name));
+            },
+          );
+        }
       },
     );
     // return TextFieldAddButton(
@@ -3255,12 +3263,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.dbsponsorResponse?.userInfo ?? state.dbsponsorResponse?.name,
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-              widget.model != null &&
-              (widget.extraProperties != null &&
+      isDisableColor: widget.model?.status == 0 &&
+              widget.model == null &&
+              !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)
-          ? true
-          : false,
+          ? false
+          : true,
       onTap: () {
         BaseOrganisationDialog().userDialog(
           context: context,
@@ -4089,11 +4097,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter reason for vendor pass",
       );
     } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        daypassnoTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
-        "Please enter day pass no",
+        "Please enter Day Pass Number",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
         (state.selectedPassInfo == null ||

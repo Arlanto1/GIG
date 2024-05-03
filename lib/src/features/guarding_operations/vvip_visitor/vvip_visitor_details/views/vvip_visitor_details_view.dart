@@ -26,6 +26,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
   bool isReadOnly = false;
+  bool showSaveSubmitButton = false;
 
   get model => null;
 
@@ -82,21 +83,17 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             !widget.extraProperties!.hasWritePermission!) {
           isReadOnly = true;
         }
+        showSaveSubmitButton = state.model.status != -1 &&
+            state.model.status != 1 &&
+            !isReadOnly &&
+            state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != -1 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
-            showSubmitButton: state.model.status != -1 &&
-                    state.model.status != 1 &&
-                    !isReadOnly
-                ? true
-                : false,
+            showSaveButton: showSaveSubmitButton ? true : false,
+            showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -148,7 +145,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                 ),
               ),
               child: AbsorbPointer(
-                absorbing: isReadOnly,
+                absorbing: false,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -163,9 +160,9 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
-                            // if (!state.model.lock.isEmptyOrNull) ...[
-                            //   RecordLockedWidget(text: '${state.model.lock}'),
-                            // ],
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -275,51 +272,55 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
                             GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                        VVIPVisitorDetailsCubit>(context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                onTap: () async {
+                                  NavigatorState nav = Navigator.of(context);
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                          VVIPVisitorDetailsCubit>(context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
 
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
+                                  log('--state.model.id---${state.model.id}--');
 
-                                nav.pushNamed(
-                                  vipVisitorsRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.vVipVisitors,
-                                    ConstantsArgument.id: state.model.id,
-                                    // ConstantsArgument.violationDescription:
-                                    //     Constants.slaViolation,
-                                  },
-                                );
-                                //}
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View VVIP Visitors',
-                                    style: TextStyle(
+                                  nav.pushNamed(
+                                    vipVisitorsRecordsRoute,
+                                    arguments: {
+                                      ConstantsArgument.title:
+                                          Constants.vVipVisitors,
+                                      ConstantsArgument.id: state.model.id,
+                                      ConstantsArgument.lock: state.model.lock,
+                                      ConstantsArgument.parentStatus: state.model.status,
+
+                                      // ConstantsArgument.violationDescription:
+                                      //     Constants.slaViolation,
+                                    },
+                                  );
+                                  //}
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
                                       color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add/View VVIP Visitors',
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkybluecolor,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
@@ -333,7 +334,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                           cancelButtonDisplay(state),
                           if ((state.model.status != -1 &&
                                       state.model.status != 1) &&
-                                  !isReadOnly
+                                  showSaveSubmitButton
                               ? true
                               : false) ...[submitButtonDisplay()],
                         ],
@@ -366,7 +367,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   Widget cancelButtonDisplay(VVIPVisitorDetailsState state) {
     bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status == 1;
+        widget.model?.status == 1 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
@@ -423,7 +425,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   Widget locationWidgetdislay(VVIPVisitorDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.status == 0 || state.model.status == null) {
+        if ((state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

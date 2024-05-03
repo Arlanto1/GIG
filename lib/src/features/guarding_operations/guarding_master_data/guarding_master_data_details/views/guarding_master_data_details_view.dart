@@ -2586,7 +2586,7 @@ class _GuardingMasterDataDetailsViewState
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText:
-          state.model.id == null ? Constants.close : Constants.cancelRecord,
+         Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);

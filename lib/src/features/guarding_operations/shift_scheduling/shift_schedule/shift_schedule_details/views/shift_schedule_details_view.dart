@@ -109,9 +109,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               // title: widget.title,
               showPopUp: false,
               showSaveButton:
-                  state.model.status != -1 || !isReadOnly ? true : false,
+              (state.model.status != -1 || !isReadOnly ) &&  state.model.lock.isEmptyOrNull ? true : false,
               showSubmitButton:
-                  state.model.status != -1 || !isReadOnly ? true : false,
+              (state.model.status != -1 || !isReadOnly ) &&  state.model.lock.isEmptyOrNull ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
               onTapSave: () {
@@ -174,7 +174,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AbsorbPointer(
-                      absorbing: isReadOnly,
+                      absorbing: !isReadOnly || !state.model.lock.isEmptyOrNull,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
@@ -307,9 +307,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
                               height: 60,
-                              isDisableColor: state.model.status == null ||
+                              isDisableColor: (state.model.status == null ||
                                       state.model.status ==
-                                          ConstantsIntValue.draft
+                                          ConstantsIntValue.draft) && state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               onTap: () {
@@ -550,8 +550,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 cancelButtonDisplay(state),
-                                if (state.model.status != -1 ||
-                                    !isReadOnly) ...[submitButtonDisplay()],
+                                if ((state.model.status != -1 ||
+                                    !isReadOnly) && state.model.lock.isEmptyOrNull) ...[submitButtonDisplay()],
                               ],
                             ),
 
@@ -641,7 +641,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText:
-          state.model.id == null ? Constants.close : Constants.cancelRecord,
+          state.model.id == null || !state.model.lock.isEmptyOrNull ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {if (state.model.id == null) {
         Navigator.pop(context);

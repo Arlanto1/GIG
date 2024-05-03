@@ -27,3 +27,8 @@ class InitializeValues extends SstIncidentEvent {
 class RefreshList extends SstIncidentEvent {
   const RefreshList();
 }
+
+class SendReminderEmail extends SstIncidentEvent {
+  final SstIncident selectedIncident;
+  const SendReminderEmail({required this.selectedIncident});
+}

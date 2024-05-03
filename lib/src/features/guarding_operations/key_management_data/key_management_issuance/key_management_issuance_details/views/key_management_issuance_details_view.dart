@@ -38,6 +38,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       TextEditingController();
 
   bool isReadOnly = false;
+  bool showSaveSubmitButton = false;
+  bool isEnabled = false;
   final FocusNode employeeIdFocusNode = FocusNode();
 
   get model => null;
@@ -64,7 +66,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
-        Utils().errorAndLogout(state, context);
+        // Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -107,21 +109,31 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if ( state.model.status == 0) {
+        if (state.model.status == 0 || state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
+        if (state.model.status == 1 || state.model.lock.isEmptyOrNull) {
+          isReadOnly = false;
+        }
+        if (state.model.status == 2 || state.model.lock.isEmptyOrNull) {
+          isReadOnly = false;
+        }
+
+        showSaveSubmitButton = (state.model.status == 0 ||
+                state.model.status == 1 ||
+                state.model.status == 2 ||
+                state.model.status == null) &&
+            !isReadOnly && state.model.lock.isEmptyOrNull;
+
+        isEnabled = (state.model.status == 0 ||
+            state.model.status == null) &&
+         state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (state.model.status == 0 ||
-                        state.model.status == 1 ||
-                        state.model.status == 2 ||
-                        state.model.status == null) &&
-                    !isReadOnly
-                ? true
-                : false,
+            showSaveButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -132,11 +144,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: (state.model.status == 0 ||
-                        state.model.status == 1 ||
-                        state.model.status == 2 ||
-                        state.model.status == null) &&
-                    !isReadOnly
+            showSubmitButton: showSaveSubmitButton
                 ? true
                 : false,
             onTapSubmit: () {
@@ -209,7 +217,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 ),
               ),
               child: AbsorbPointer(
-                absorbing: isReadOnly,
+                absorbing: isReadOnly ? true: false,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -224,9 +232,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
-                            // if (!state.model.lock.isEmptyOrNull) ...[
-                            //   RecordLockedWidget(text: '${state.model.lock}'),
-                            // ],
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -346,8 +354,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: state.model.status == 0 ||
-                                  state.model.status == null,
+                              enabled: isEnabled,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<
@@ -379,13 +386,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             TextFieldAddButton(
                               title: state.model.department?.name,
                               height: 70,
-                              isDisableColor: state.model.status == null ||
-                                      state.model.status == 0
-                                  ? false
-                                  : true,
+                              isDisableColor: !isEnabled,
                               onTap: () {
-                                if (state.model.status == 0 ||
-                                    state.model.status == null) {
+                                if (isEnabled) {
                                   // if (widget.materialMovement != null) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
@@ -428,18 +431,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 0 ||
-                                        state.model.status != null
-                                    ? true
-                                    : false,
+                                isDisabled: !isEnabled,
                                 textController:
                                     keyHandlingOverDurationController,
                                 items: keyHandingOverDurationValues,
                                 initialValue:
                                     '${state.model.keyHandingOverDuration ?? 1}',
                                 onTap: () {
-                                  if (state.model.status == 0 ||
-                                      state.model.status == null) {
+                                  if (isEnabled) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -508,14 +507,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != 6,
+                                isDisabled: !isEnabled,
                                 textController: employeeTypeController,
                                 items: employeeTypeDropDownValues,
                                 initialValue:
                                     state.model.employeeType.toString(),
                                 onTap: () {
-                                  if (state.model.status == 0 ||
-                                      state.model.status == null) {
+                                  if (isEnabled) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -558,14 +556,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               focusNode: employeeIdFocusNode,
-                              isEnable: state.model.status == 0 ||
-                                      state.model.status == null
-                                  ? true
-                                  : false,
-                              isDisableColor: state.model.status != 0 ||
-                                      state.model.status != null
-                                  ? true
-                                  : false,
+                              isEnable: isEnabled,
+                              isDisableColor: !isEnabled,
                               onChange: (String value) {
                                 state.model.employeeID = value;
                                 context
@@ -588,12 +580,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 title: state.model.handedOverTo?.userInfo ??
                                     state.model.handedOverTo?.name,
                                 height: 60,
-                                isDisableColor: state.model.status == null ||
-                                        state.model.status == 0
-                                    ? false
-                                    : true,
+                                isDisableColor:!isEnabled,
                                 onTap: () {
-                                  if (!isReadOnly && state.model.status != 1) {
+                                  if (isEnabled) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
                                       users: state.emailUsers!,
@@ -636,14 +625,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
-                                isEnable: state.model.status == 0 ||
-                                        state.model.status == null
-                                    ? true
-                                    : false,
-                                isDisableColor: state.model.status != 0 ||
-                                        state.model.status != null
-                                    ? true
-                                    : false,
+                                isEnable: isEnabled,
+                                isDisableColor: !isEnabled,
                                 onChange: (String value) {
                                   state.model.handedOverToCwrT2 = value;
                                   context
@@ -666,17 +649,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 title: state.model.dbSponsorCwrT2?.userInfo ??
                                     state.model.dbSponsorCwrT2?.name,
                                 height: 60,
-                                isDisableColor: state.model.status != 0 &&
-                                        state.model.status != null
-                                    ? true
-                                    : false,
+                                isDisableColor: !isEnabled,
                                 onTap: () {
-                                  if (state.model.status == 0 ||
-                                      state.model.status == null) {
+                                  if (isEnabled) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      enabled: state.model.status == 0 ||
-                                          state.model.status == null,
+                                      enabled:isEnabled,
                                       users: state.emailUsers!,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
@@ -791,12 +769,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
-                                isEnable: state.model.status == 1 ||
-                                        state.model.status == 2
+                                isEnable: (state.model.status == 1 ||
+                                        state.model.status == 2) && state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
                                 isDisableColor: state.model.status != 1 &&
-                                        state.model.status != 2
+                                        state.model.status != 2 && !state.model.lock.isEmptyOrNull
                                     ? false
                                     : true,
                                 onChange: (String value) {
@@ -848,6 +826,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.location?.id,
                                     ConstantsArgument.isMasterKey:
                                         widget.isMasterKey,
+                                    ConstantsArgument.lock:
+                                    state.model.lock,
                                   },
                                 );
                               },
@@ -898,13 +878,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                   children: [
                     cancelButtonDisplay(state),
                     if ((state.model.status == 0 ||
-                        state.model.status == 1 ||
-                        state.model.status == 2 ||
-                        state.model.status == null) &&
-                        !isReadOnly
+                                state.model.status == 1 ||
+                                state.model.status == 2 ||
+                                state.model.status == null) &&
+                            !isReadOnly && state.model.lock.isEmptyOrNull
                         ? true
-                        : false)
-                       ...[submitButtonDisplay()],
+                        : false) ...[submitButtonDisplay()],
                   ],
                 ),
               ),
@@ -920,7 +899,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       case -1:
         return 'Cancelled';
       case 0:
-        return 'Created';
+        return 'Draft';
       case 1:
         return 'Handed Over';
       case 2:
@@ -952,17 +931,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
       buttonText:
-          state.model.id == null ? Constants.close : Constants.cancelRecord,
+          state.model.id == null || !state.model.lock.isEmptyOrNull ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {if (state.model.id == null) {
-        Navigator.pop(context);
-        return;
-      }
+      onTap: () {
+        if (state.model.id == null) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
@@ -1010,7 +989,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   Widget locationWidgetdislay(KeyManagementIssuanceDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.status == 0 || state.model.status == null) {
+        if ((state.model.status == 0 || state.model.status == null)&& state.model.lock.isEmptyOrNull) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

@@ -78,7 +78,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       builder: (context, state) {
         initializeDates();
 
-        if (state.model.status == null || state.model.status == 0) {
+        if (state.model.status == null && state.model.lock.isEmptyOrNull ) {
+          isReadOnly = false;
+        }
+        if (state.model.status == 0 && state.model.lock.isEmptyOrNull ) {
           isReadOnly = false;
         }
         if (state.model.status == -1) {
@@ -94,9 +97,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             !widget.extraProperties!.hasWritePermission!) {
           isReadOnly = true;
         }
-        showSaveSubmitButtons = state.model.status == 0 ||
+        showSaveSubmitButtons = (state.model.status == 0||
             state.model.status == null ||
-            !isReadOnly;
+            !isReadOnly) &&  state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -186,6 +189,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -262,10 +268,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 title: state.model.handoverSecurity?.userInfo ??
                                     state.model.handoverSecurity?.name,
                                 height: 70,
-                                isDisableColor: state.model.status == -1 ||
-                                    state.model.status == 1,
+                                isDisableColor: !showSaveSubmitButtons ,
                                 onTap: () {
-                                  if (state.model.status != 1) {
+                                  if (showSaveSubmitButtons) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
                                       users: state.shiftTakenOverBy,
@@ -1542,13 +1547,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 1;
+        state.model.status == 1 || !state.model.lock.isEmptyOrNull;
     return AppButton(
       
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition          ? Constants.close
+      buttonText: condition ? Constants.close
           : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
