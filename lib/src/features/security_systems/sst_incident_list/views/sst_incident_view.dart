@@ -1,8 +1,8 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../models/sst_incident_response.dart';
-import '../bloc/sst_incident_bloc.dart';
 
 class SstIncidentView extends StatefulWidget {
   final bool isInternal;
@@ -311,18 +311,19 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                       showEmailButton: true,
                                       onEmailTap: (selectedIndex) async {
                                         FocusScope.of(context).unfocus();
-                                        int? id = state.items[index].id;
-                                        SstIncident selectedIncident;
-                                        selectedIncident =
+                                        int? id = state.items[selectedIndex]
+                                            .id;
+                                        SstIncident selectedIncident =
                                             state.items.firstWhere(
                                           (incident) => incident.id == id,
                                         );
-
-                                        BlocProvider.of<SstIncidentBloc>(
-                                                context)
-                                            .sendRemainder(selectedIncident);
+                                        context
+                                            .read<SstIncidentBloc>()
+                                            .add(SendReminderEmail(
+                                              selectedIncident:
+                                                  selectedIncident,
+                                            ));
                                       },
-
                                       index: index,
                                     );
                             }

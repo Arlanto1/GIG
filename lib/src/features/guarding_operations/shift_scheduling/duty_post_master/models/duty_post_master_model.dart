@@ -47,6 +47,7 @@ class DutyPostMasterModel extends BaseObject {
   User? createdBy;
   String? modifiedDate;
   String? modifiedBy;
+  String? lock;
 
   DutyPostMasterModel({
     this.id,
@@ -64,6 +65,7 @@ class DutyPostMasterModel extends BaseObject {
     this.createdBy,
     this.modifiedDate,
     this.modifiedBy,
+    this.lock,
   });
 
   DutyPostMasterModel.fromJson(Map<String, dynamic> json)
@@ -91,7 +93,8 @@ class DutyPostMasterModel extends BaseObject {
             ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
             : null,
         modifiedDate = json['modifiedDate'] as String?,
-        modifiedBy = json['modifiedBy'] as String?;
+        modifiedBy = json['modifiedBy'] as String?,
+        lock = json['lock'] as String?;
 
   @override
   Map<String, dynamic> toJson() => {
@@ -109,6 +112,7 @@ class DutyPostMasterModel extends BaseObject {
         'createdDate': createdDate,
         'createdBy': createdBy?.toJson(),
         'modifiedDate': modifiedDate,
-        'modifiedBy': modifiedBy
+        'modifiedBy': modifiedBy,
+        'lock': lock,
       };
 }
