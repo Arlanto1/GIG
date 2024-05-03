@@ -28,6 +28,7 @@ class BaseListTileItem extends StatefulWidget {
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
+  final bool? showViewButton;
   final bool? showDeleteButton;
   final bool? showEmailButton;
   final bool? showLinkOffButton;
@@ -58,6 +59,7 @@ class BaseListTileItem extends StatefulWidget {
     this.status,
     this.onTap,
     this.onEditTap,
+    this.showViewButton,
     this.onViewTap,
     this.onEmailTap,
     this.onLinkOffTap,
@@ -413,15 +415,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     icon: const Icon(Icons.edit),
                   ),
                 ],
-                IconButton(
-                  onPressed: () {
-                    //do action on view
-                    widget.onViewTap != null
-                        ? widget.onViewTap!(widget.index)
-                        : null;
-                  },
-                  icon: const Icon(Icons.remove_red_eye),
-                ),
+                if (widget.showViewButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      //do action on view
+                      widget.onViewTap != null
+                          ? widget.onViewTap!(widget.index)
+                          : null;
+                    },
+                    icon: const Icon(Icons.remove_red_eye),
+                  ),
+                ],
                 if (widget.isSecuritySystemSLA == true && widget.status == 2 ||
                     widget.status == 3 ||
                     widget.status == 4 ||

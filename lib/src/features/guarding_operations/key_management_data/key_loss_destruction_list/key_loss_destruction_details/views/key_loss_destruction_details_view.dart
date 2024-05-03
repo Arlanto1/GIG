@@ -97,8 +97,8 @@ class _KeyLossDestructionDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 7 && !isReadOnly,
-            showSubmitButton: state.model.status != 7 && !isReadOnly,
+            showSaveButton: state.model.status != 7 && !isReadOnly ,
+            showSubmitButton: state.model.status != 7 && !isReadOnly ,
             showDisLikeButton: state.model.status == 7 && !isReadOnly,
             showLikeButton: state.model.status == 7 && !isReadOnly,
             onTapSave: () {
@@ -176,7 +176,7 @@ class _KeyLossDestructionDetailsViewState
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: isReadOnly,
+                absorbing: !isReadOnly,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: state.model.status == 4
@@ -191,9 +191,9 @@ class _KeyLossDestructionDetailsViewState
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
-                            //if (!state.model.lock.isEmptyOrNull) ...[
-                            //   RecordLockedWidget(text: '${state.model.lock}'),
-                            // ],
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -434,8 +434,7 @@ class _KeyLossDestructionDetailsViewState
                                 title: state.model.securityManager?.userInfo ??
                                     state.model.securityManager?.name,
                                 height: 70,
-                                isDisableColor: state.model.status != null &&
-                                    state.model.status != 0 &&
+                                isDisableColor:
                                     isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
@@ -474,10 +473,9 @@ class _KeyLossDestructionDetailsViewState
                                 Styles.textStyleBlack14,
                               ),
                               TextFieldAddButton(
-                                title: '${state.model.destructionReason?.name}',
+                                title: state.model.destructionReason?.name,
                                 height: 70,
-                                isDisableColor: state.model.status != null &&
-                                    state.model.status != 0 &&
+                                isDisableColor:
                                     isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
@@ -704,7 +702,7 @@ class _KeyLossDestructionDetailsViewState
   Widget cancelButtonDisplay(KeyLossDestructionDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 10;
+        state.model.status == 10 || isReadOnly;
     return AppButton(
       
       width: Constants.cancelButtonWidth,

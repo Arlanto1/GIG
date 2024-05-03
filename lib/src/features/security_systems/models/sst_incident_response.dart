@@ -72,6 +72,7 @@ class SstIncident {
   String? escalation1Poc;
   String? escalation2Poc;
   String? escalation3Poc;
+  String? lock;
 
   SstIncident({
     this.id,
@@ -115,6 +116,7 @@ class SstIncident {
     this.escalation2Poc,
     this.escalation3Poc,
     this.occurrence,
+    this.lock,
   });
 
   SstIncident.fromJson(Map<String, dynamic> json)
@@ -184,7 +186,8 @@ class SstIncident {
         vendorPoc = json['vendorPoc'] as String?,
         escalation1Poc = json['escalation1Poc'] as String?,
         escalation2Poc = json['escalation2Poc'] as String?,
-        escalation3Poc = json['escalation3Poc'] as String?;
+        escalation3Poc = json['escalation3Poc'] as String?,
+        lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -228,6 +231,7 @@ class SstIncident {
         'escalation2Poc': escalation2Poc,
         'escalation3Poc': escalation3Poc,
         'occType': occType,
+        'lock': lock,
       };
 }
 

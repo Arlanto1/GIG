@@ -16,6 +16,8 @@ class VVIPVisitorsRecordView extends StatefulWidget {
     this.model,
     this.vvipModel,
     this.extraProperties,
+    this.lock,
+    required this.parentStatus,
   });
 
   final int id;
@@ -23,6 +25,8 @@ class VVIPVisitorsRecordView extends StatefulWidget {
   final VIVPVisitorRecordModel? model;
   final VIVPVisitorModel? vvipModel;
   final ExtraProperties? extraProperties;
+final String? lock;
+  final int parentStatus;
 
   @override
   State<VVIPVisitorsRecordView> createState() => _VVIPVisitorsRecordView();
@@ -79,7 +83,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         floatingActionButton: (widget.vvipModel?.status == 0 ||
                     widget.vvipModel?.status == null) &&
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)
+                !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkybluecolor,
                 foregroundColor: AppColors.backgroundWhitecolor,
@@ -113,7 +117,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items!.isEmptyOrNull && !isPopUpShown) {
+    if (state.items!.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddVVIPVisitorsPopUp(
@@ -155,6 +159,18 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                 value: state.items![index].purpose ?? '',
               ),
             );
+            labels.add(
+              Label(
+                key: 'Visitor Designation',
+                value: state.items![index].designation ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Base Location of Visitor',
+                value: state.items![index].baseLocation ?? '',
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
@@ -171,6 +187,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
+              showEditButton: widget.parentStatus != 0 && !widget.lock.isEmptyOrNull,
+              showDutyPostEditButton: widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
                     onEditTap: (selectedIndex) async {
                       VIVPVisitorRecordModel visitorsModel =
                           await VVIPVisitorServices()
@@ -192,7 +210,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-                    onDeleteTap: widget.vvipModel?.status == 0
+              showDeleteButton: widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
+                    onDeleteTap: widget.parentStatus == 0
                         ? (selectedIndex) async {
                             // Call Delete API
                             BlocProvider.of<VVIPVisitorsRecordBloc>(context)
@@ -221,6 +240,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           title: widget.title,
           model: contact,
           mainContext: context,
+          parentStatus: widget.parentStatus,
           onSubmit: (VIVPVisitorRecordModel model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

@@ -29,6 +29,7 @@ class _KeyManagementMasterDetailsViewState
   TextEditingController totalKeyController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
+  bool showSaveSubmitButton = false;
   final FocusNode floorFocusNode = FocusNode();
   final FocusNode keyDescriptionFocusNode = FocusNode();
   final FocusNode noOfKeysFocusNode = FocusNode();
@@ -83,16 +84,16 @@ class _KeyManagementMasterDetailsViewState
         }
       },
       builder: (context, state) {
-        if (state.model.status == -1) {
+        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if (state.model.status == 2) {
+        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if (state.model.status == 0) {
+        if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
-        if (state.model.status == 1) {
+        if (state.model.status == 1 && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
         if (state.model.status == null) {
@@ -104,14 +105,19 @@ class _KeyManagementMasterDetailsViewState
           isReadOnly = true;
         }
 
+        showSaveSubmitButton =
+            (state.model.status == 0 || state.model.status == 1) &&
+                !isReadOnly &&
+                state.model.lock.isEmptyOrNull;
+
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: !isReadOnly ? true : false,
-            showSubmitButton: !isReadOnly ? true : false,
+            showSaveButton: showSaveSubmitButton ? true : false,
+            showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -168,9 +174,9 @@ class _KeyManagementMasterDetailsViewState
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Column(
                         children: [
-                          //if (!state.model.lock.isEmptyOrNull) ...[
-                          //   RecordLockedWidget(text: '${state.model.lock}'),
-                          // ],
+                          if (!state.model.lock.isEmptyOrNull) ...[
+                            RecordLockedWidget(text: '${state.model.lock}'),
+                          ],
                           Container(
                             alignment: Alignment.topLeft,
                             child: Text(
@@ -252,6 +258,7 @@ class _KeyManagementMasterDetailsViewState
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseLocationDropdown().locationWidgetDisplay(
+                              isEnabled: showSaveSubmitButton,
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
@@ -347,32 +354,34 @@ class _KeyManagementMasterDetailsViewState
                             height: 70,
                             isDisableColor: isReadOnly,
                             onTap: () {
-                              BaseOrganisationDialog().departmentDialog(
-                                  enabled: !isReadOnly,
-                                  context: context,
-                                  organisations: state.departments,
-                                  onTap: (Organisation department) {
-                                    state.model.doorType?.name =
-                                        department.name;
+                              if (showSaveSubmitButton) {
+                                BaseOrganisationDialog().departmentDialog(
+                                    enabled: showSaveSubmitButton,
+                                    context: context,
+                                    organisations: state.departments,
+                                    onTap: (Organisation department) {
+                                      state.model.doorType?.name =
+                                          department.name;
 
-                                    BlocProvider.of<
-                                                KeyManagementMasterDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            doorType: department);
-                                    FocusScope.of(context)
-                                        .requestFocus(keyDescriptionFocusNode);
-                                  },
-                                  orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
-                                  createEntity: false,
-                                  title: 'Add Key Type',
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<
-                                                KeyManagementMasterDetailsCubit>(
-                                            context)
-                                        .refreshList();
-                                  });
+                                      BlocProvider.of<
+                                                  KeyManagementMasterDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              doorType: department);
+                                      FocusScope.of(context).requestFocus(
+                                          keyDescriptionFocusNode);
+                                    },
+                                    orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
+                                    createEntity: false,
+                                    title: 'Add Key Type',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  KeyManagementMasterDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    });
+                              }
 
                               // leodepartmentsDialog(state);
                             },
@@ -417,8 +426,7 @@ class _KeyManagementMasterDetailsViewState
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.doorAccessControl ? 1 : 0,
-                              onChangedYes: widget.model?.status == -1 ||
-                                      widget.model?.status == 2
+                              onChangedYes: !showSaveSubmitButton
                                   ? null
                                   : (val) {
                                       state.model.doorAccessControl = true;
@@ -427,8 +435,7 @@ class _KeyManagementMasterDetailsViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: widget.model?.status == -1 ||
-                                      widget.model?.status == 2
+                              onChangedNo: !showSaveSubmitButton
                                   ? null
                                   : (val) {
                                       state.model.doorAccessControl = false;
@@ -449,8 +456,7 @@ class _KeyManagementMasterDetailsViewState
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.doorLockKey ? 1 : 0,
-                              onChangedYes: widget.model?.status == -1 ||
-                                      widget.model?.status == 2
+                              onChangedYes: !showSaveSubmitButton
                                   ? null
                                   : (val) {
                                       state.model.doorLockKey = true;
@@ -459,8 +465,7 @@ class _KeyManagementMasterDetailsViewState
                                               context)
                                           .onCheckBoxChange(state.model);
                                     },
-                              onChangedNo: widget.model?.status == -1 ||
-                                      widget.model?.status == 2
+                              onChangedNo: !showSaveSubmitButton
                                   ? null
                                   : (val) {
                                       state.model.doorLockKey = false;
@@ -685,8 +690,9 @@ class _KeyManagementMasterDetailsViewState
                               widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
                               widget.model!.noMasterKey! > 0 &&
-                              state.model.status != null &&state.model.status != 0 &&
-                              widget.model?.id != null ) ...[
+                              state.model.status != null &&
+                              state.model.status != 0 &&
+                              widget.model?.id != null) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -717,6 +723,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.lockChangeHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -775,6 +782,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyLostHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -834,6 +842,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDamageHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -890,6 +899,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDestroyHistoryInt,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -941,18 +951,20 @@ class _KeyManagementMasterDetailsViewState
   }
 
   Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
+    bool condition = state.model.id == null ||
+        !state.model.lock.isEmptyOrNull ||
+        state.model.status == -1;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText:
-          state.model.id == null ? Constants.close : Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {if (state.model.id == null) {
-        Navigator.pop(context);
-        return;
-      }
+      onTap: () {
+        if (state.model.id == null) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,

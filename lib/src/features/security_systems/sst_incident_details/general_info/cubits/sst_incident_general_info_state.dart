@@ -4,7 +4,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final FormStatus status;
   final SstIncident model;
   final Locations? locations;
-  final User? loggedInUserDetails;
+  final User loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? securityLeads;
   final List<BaseUser>? systemManagers;
@@ -27,7 +27,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     required SstIncident model,
     required Locations locations,
     required List<BaseUser>? users,
-    required User? loggedInUserDetails,
+    required User loggedInUserDetails,
     final List<BaseUser>? emailUsers,
     List<BaseUser>? asl,
     List<BaseUser>? systemManager,
@@ -61,6 +61,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       eventId: eventId,
       participationDates: participationDate,
       entrySecurities: entrySecurities,
+      loggedInUserDetails: loggedInUserDetails,
     );
   }
 
@@ -159,7 +160,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.eventId,
     this.message,
     this.entrySecurities,
-    this.loggedInUserDetails,
+    required this.loggedInUserDetails,
     this.systemManagers,
     this.securityLeads,
     this.locationTeamUsers,

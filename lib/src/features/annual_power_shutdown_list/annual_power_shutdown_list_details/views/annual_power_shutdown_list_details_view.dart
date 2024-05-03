@@ -1771,7 +1771,7 @@ class _AnnualPowerShutdownListDetailsViewState
   Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 30;
+        state.model.status == 30 || !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,

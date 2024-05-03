@@ -86,10 +86,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.status! > 0) {
+        if (state.model.status! > 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
-        if (state.model.status! < 0) {
+        if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
         if (widget.extraProperties != null &&
@@ -184,6 +184,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -440,7 +443,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 textFormKey: Keys.claimantTextController,
                                 hintText: Constants.informationhere,
                                 isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isDisableColor: disableForm,
                                 onChange: (String value) {
                                   state.model.color = value;
                                   context
@@ -487,10 +490,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             /// Complainant
                             if (state.model.complainantDbEmp == true) ...[
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.complainant ??
-                                    state.labels?.defaultLocale.complainant ??
-                                    Constants.complaint,
-                                Styles.textStyleBlack14,
+                                  state.labels?.locale.complainant ??
+                                      state.labels?.defaultLocale.complainant ??
+                                      Constants.complaint,
+                                  Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.complainant?.userInfo ??
@@ -527,11 +530,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             if (state.model.complainantDbEmp == false) ...[
                               /// Complainant
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.complainant ??
-                                    state.labels?.defaultLocale.complainant ??
-                                    Constants.complaint,
-                                Styles.textStyleBlack14,
-                              isMandatory: true),
+                                  state.labels?.locale.complainant ??
+                                      state.labels?.defaultLocale.complainant ??
+                                      Constants.complaint,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -732,10 +735,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               title: state.model.incidentManager?.userInfo ??
                                   state.model.incidentManager?.name,
                               height: 70,
-                              isDisableColor: state.model.status == 0 ||
-                                      state.model.status == null
-                                  ? false
-                                  : true,
+                              isDisableColor:disableForm,
                               onTap: () {
                                 if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
@@ -774,10 +774,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               title: state.model.incidentOwner?.userInfo ??
                                   state.model.incidentOwner?.name,
                               height: 70,
-                              isDisableColor: state.model.status == 0 ||
-                                      state.model.status == null
-                                  ? false
-                                  : true,
+                              isDisableColor:disableForm,
                               onTap: () {
                                 if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
@@ -822,7 +819,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               hintText: Constants.informationhere,
                               focusNode: incidentDescriptionFocusNode,
                               isEnable: state.model.status != 6,
-                              isDisableColor: state.model.status == 6,
+                              isDisableColor: disableForm,
                               onChange: (String value) {
                                 state.model.description = value;
                                 context
@@ -848,7 +845,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.status != 0,
+                              isDisabled: state.model.status != 0 || state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
@@ -896,7 +893,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 39;
+        state.model.status == 39 || !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,

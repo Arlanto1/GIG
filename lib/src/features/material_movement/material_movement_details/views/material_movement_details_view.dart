@@ -142,14 +142,15 @@ class _MaterialMovementDetailsViewState
           isReadOnly = true;
         }
 
-        showSaveSubmitButtons = state.model.status == 0 ||
-            state.model.status == 8 ||
-            // state.model.status == 1 ||
-            state.model.status == 6 ||
-            state.model.status == 7 ||
-            state.model.status == 9 ||
-            state.model.status == null ||
-            isReadOnly == false;
+        showSaveSubmitButtons = (state.model.status == 0 ||
+                state.model.status == 8 ||
+                // state.model.status == 1 ||
+                state.model.status == 6 ||
+                state.model.status == 7 ||
+                state.model.status == 9 ||
+                state.model.status == null ||
+                isReadOnly == false) &&
+            state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -177,8 +178,11 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton:
-                state.model.status == 3 && !isReadOnly ? true : false,
+            showLikeButton: state.model.status == 3 &&
+                    !isReadOnly &&
+                    state.model.lock.isEmptyOrNull
+                ? true
+                : false,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -189,8 +193,11 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton:
-                state.model.status == 3 && !isReadOnly ? true : false,
+            showDisLikeButton: state.model.status == 3 &&
+                    !isReadOnly &&
+                    state.model.lock.isEmptyOrNull
+                ? true
+                : false,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -279,7 +286,7 @@ class _MaterialMovementDetailsViewState
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: isReadOnly,
+                absorbing: !isReadOnly && state.model.lock.isEmptyOrNull,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -464,7 +471,8 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 3 ||
                                     state.model.status == 4 ||
                                     state.model.status == 5 ||
-                                    state.model.status == 1
+                                    state.model.status == 1 ||
+                                    !state.model.lock.isEmptyOrNull
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 10 ||
@@ -473,7 +481,8 @@ class _MaterialMovementDetailsViewState
                                 state.model.status == 2 ||
                                 state.model.status == 3 ||
                                 state.model.status == 5 ||
-                                state.model.status == 1,
+                                state.model.status == 1 ||
+                                !state.model.lock.isEmptyOrNull,
                             onChange: (String value) {
                               state.model.challanNo = value;
                               context
@@ -503,7 +512,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5 ||
+                                      !state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -511,7 +521,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 6 ||
                                   state.model.status == 3 ||
                                   state.model.status == 4 ||
-                                  state.model.status == 5,
+                                  state.model.status == 5 ||
+                                  !state.model.lock.isEmptyOrNull,
                               onChange: (String value) {
                                 state.model.poNumber = value;
                                 context
@@ -545,7 +556,8 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 2 ||
                                     state.model.status == 3 ||
                                     state.model.status == 4 ||
-                                    state.model.status == 5
+                                    state.model.status == 5 ||
+                                    !state.model.lock.isEmptyOrNull
                                 ? false
                                 : true,
                             isDisableColor: state.model.status == 10 ||
@@ -721,7 +733,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      state.model.status == 5
+                                      state.model.status == 5 ||
+                                      !state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -778,7 +791,9 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 4 ||
-                                                  state.model.status == 1
+                                                  state.model.status == 1 ||
+                                                  !state
+                                                      .model.lock.isEmptyOrNull
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -816,7 +831,8 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 3 ||
                                                 state.model.status == 4 ||
                                                 state.model.status == 5 ||
-                                                state.model.status == 1
+                                                state.model.status == 1 ||
+                                                !state.model.lock.isEmptyOrNull
                                             ? false
                                             : true,
                                         isDisableColor:
@@ -859,7 +875,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
                                       state.model.status == 5 ||
-                                      state.model.status == 1
+                                      state.model.status == 1 ||
+                                      !state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               isDisableColor: state.model.status == 10 ||
@@ -901,7 +918,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 2 ||
                                         state.model.status != 3 ||
                                         state.model.status == 4 ||
-                                        state.model.status != 5,
+                                        state.model.status != 5 ||
+                                        state.model.lock.isEmptyOrNull,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == -1 ||
                                         state.model.status == 10 ||
@@ -939,7 +957,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              state.model.status == 5
+                                              state.model.status == 5 ||
+                                              !state.model.lock.isEmptyOrNull
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1244,7 +1263,9 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1)
+                                                  state.model.status == 1 ||
+                                                  !state
+                                                      .model.lock.isEmptyOrNull)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1280,7 +1301,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != 3 ||
                                             state.model.status != 4 ||
                                             state.model.status != 5 ||
-                                            state.model.status != 1,
+                                            state.model.status != 1 ||
+                                            state.model.lock.isEmptyOrNull,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
@@ -1319,7 +1341,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 3 ||
                                         state.model.status != 4 ||
                                         state.model.status != 5 ||
-                                        state.model.status != 1,
+                                        state.model.status != 1 ||
+                                        state.model.lock.isEmptyOrNull,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == 1,
                                     onChange: (String value) {
@@ -1353,7 +1376,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
                                               state.model.status == 5 ||
-                                              state.model.status == 1)
+                                              state.model.status == 1 ||
+                                              !state.model.lock.isEmptyOrNull)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1425,7 +1449,9 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1)
+                                                  state.model.status == 1 ||
+                                                  !state
+                                                      .model.lock.isEmptyOrNull)
                                               ? false
                                               : true) {
                                             BaseOrganisationDialog().userDialog(
@@ -1461,7 +1487,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status != 3 ||
                                             state.model.status != 4 ||
                                             state.model.status != 5 ||
-                                            state.model.status != 1,
+                                            state.model.status != 1 ||
+                                            state.model.lock.isEmptyOrNull,
                                         isDisableColor:
                                             state.model.status == 6 ||
                                                 state.model.status == 10 ||
@@ -1500,7 +1527,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status != 3 ||
                                         state.model.status != 4 ||
                                         state.model.status != 5 ||
-                                        state.model.status != 1,
+                                        state.model.status != 1 ||
+                                        state.model.lock.isEmptyOrNull,
                                     isDisableColor: state.model.status == 6 ||
                                         state.model.status == 10 ||
                                         state.model.status == -1 ||
@@ -1540,7 +1568,8 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
                                               state.model.status == 5 ||
-                                              state.model.status == 1)
+                                              state.model.status == 1 ||
+                                              !state.model.lock.isEmptyOrNull)
                                           ? false
                                           : true) {
                                         BaseOrganisationDialog()
@@ -1623,8 +1652,10 @@ class _MaterialMovementDetailsViewState
                                 initialValue: state.model.rejectionComment,
                                 textFormKey: Keys.purposeKey,
                                 hintText: '',
-                                isEnable:
-                                    state.model.status == 5 ? true : false,
+                                isEnable: state.model.status == 5 &&
+                                        state.model.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
                                 isDisableColor: state.model.status == 5,
                                 onChange: (String value) {
                                   state.model.rejectionComment = value;
@@ -1769,8 +1800,10 @@ class _MaterialMovementDetailsViewState
                                   initialValue: state.model.takenOutContactNo,
                                   textFormKey: Keys.takenOutContactKey,
                                   hintText: '',
-                                  isEnable: state.model.status == 6,
-                                  isDisableColor: state.model.status != 6,
+                                  isEnable: state.model.status == 6 &&
+                                      state.model.lock.isEmptyOrNull,
+                                  isDisableColor: state.model.status != 6 ||
+                                      !state.model.lock.isEmptyOrNull,
                                   onChange: (String value) {
                                     state.model.takenOutContactNo = value;
                                     context
@@ -1799,8 +1832,10 @@ class _MaterialMovementDetailsViewState
                                   textFormKey: Keys.takenOutAddressKey,
                                   hintText: '',
                                   showBorder: true,
-                                  isEnable: state.model.status == 6,
-                                  isDisableColor: state.model.status != 6,
+                                  isEnable: state.model.status == 6 &&
+                                      state.model.lock.isEmptyOrNull,
+                                  isDisableColor: state.model.status != 6 ||
+                                      !state.model.lock.isEmptyOrNull,
                                   onChange: (String value) {
                                     state.model.takenOutAddress = value;
                                     context
@@ -1919,12 +1954,14 @@ class _MaterialMovementDetailsViewState
                                   Constants.characterLimitDescTextFormField,
                               textFormKey: Keys.materialComingFromKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.model.status != 6 ||
-                                  state.model.status != 10 ||
-                                  state.model.status != -1,
+                              isEnable: (state.model.status != 6 ||
+                                      state.model.status != 10 ||
+                                      state.model.status != -1) &&
+                                  state.model.lock.isEmptyOrNull,
                               isDisableColor: state.model.status == 6 ||
                                   state.model.status == 10 ||
-                                  state.model.status == 1,
+                                  state.model.status == 1 ||
+                                  !state.model.lock.isEmptyOrNull,
                               validateTextField: (String? user) {},
                               onChange: (String value) {
                                 state.model.materialFromAddress = value;
@@ -1950,7 +1987,8 @@ class _MaterialMovementDetailsViewState
                                   state.model.originalReceiver ? 1 : 0,
                               onChangedYes: widget.model?.status == 6 ||
                                       widget.model?.status == -1 ||
-                                      widget.model?.status == 10
+                                      widget.model?.status == 10 ||
+                                      !state.model.lock.isEmptyOrNull
                                   ? null
                                   : (val) {
                                       FocusScope.of(context)
@@ -1964,7 +2002,8 @@ class _MaterialMovementDetailsViewState
                                     },
                               onChangedNo: widget.model?.status == 6 ||
                                       widget.model?.status == -1 ||
-                                      widget.model?.status == 10
+                                      widget.model?.status == 10 ||
+                                      !state.model.lock.isEmptyOrNull
                                   ? null
                                   : (val) {
                                       FocusScope.of(context)
@@ -2279,9 +2318,10 @@ class _MaterialMovementDetailsViewState
                                     state.model.materialPhysicallyChecked
                                         ? 1
                                         : 0,
-                                onChangedYes: (widget.model?.status == 6 ||
-                                        widget.model?.status == 10 ||
-                                        widget.model?.status == -1)
+                                onChangedYes: ((widget.model?.status == 6 ||
+                                            widget.model?.status == 10 ||
+                                            widget.model?.status == -1) ||
+                                        !state.model.lock.isEmptyOrNull)
                                     ? null
                                     : (val) {
                                         BlocProvider.of<
@@ -2294,7 +2334,8 @@ class _MaterialMovementDetailsViewState
                                       },
                                 onChangedNo: widget.model?.status == 6 ||
                                         widget.model?.status == 10 ||
-                                        widget.model?.status == -1
+                                        widget.model?.status == -1 ||
+                                        !state.model.lock.isEmptyOrNull
                                     ? null
                                     : (val) {
                                         BlocProvider.of<
@@ -2352,8 +2393,10 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.materialReturnedChallanNo,
                                 hintText: '',
-                                isEnable: state.model.status != 6,
-                                isDisableColor: state.model.status == 6,
+                                isEnable: state.model.status != 6 ||
+                                    state.model.lock.isEmptyOrNull,
+                                isDisableColor: state.model.status == 6 ||
+                                    !state.model.lock.isEmptyOrNull,
                                 onChange: (String value) {
                                   log('--value---$value');
 
@@ -2390,9 +2433,11 @@ class _MaterialMovementDetailsViewState
                                               ? false
                                               : true,
                                           onTap: () {
-                                            if (state.model.status != 6 ||
-                                                state.model.status != -1 ||
-                                                state.model.status != 10) {
+                                            if ((state.model.status != 6 ||
+                                                    state.model.status != -1 ||
+                                                    state.model.status != 10) &&
+                                                state
+                                                    .model.lock.isEmptyOrNull) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 context: context,
@@ -2422,13 +2467,15 @@ class _MaterialMovementDetailsViewState
                                           textFormKey:
                                               Keys.returnReceiverEmailKey,
                                           hintText: '',
-                                          isEnable: state.model.status != 6 ||
-                                              state.model.status != -1 ||
-                                              state.model.status != 10,
+                                          isEnable: (state.model.status != 6 ||
+                                                  state.model.status != -1 ||
+                                                  state.model.status != 10) &&
+                                              state.model.lock.isEmptyOrNull,
                                           isDisableColor: state.model.status !=
                                                       6 ||
                                                   state.model.status != -1 ||
-                                                  state.model.status != 10
+                                                  state.model.status != 10 ||
+                                                  state.model.lock.isEmptyOrNull
                                               ? false
                                               : true,
                                           onChange: (String username) {},
@@ -2451,12 +2498,14 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     '${state.model.returnQuantity ?? ''}',
                                 textFormKey: Keys.returnQuantityTextController,
-                                isEnable: state.model.status != 6 ||
-                                    state.model.status != -1 ||
-                                    state.model.status != 10,
+                                isEnable: (state.model.status != 6 ||
+                                        state.model.status != -1 ||
+                                        state.model.status != 10) &&
+                                    state.model.lock.isEmptyOrNull,
                                 isDisableColor: state.model.status == 6 ||
                                     state.model.status == -1 ||
-                                    state.model.status == 10,
+                                    state.model.status == 10 ||
+                                    !state.model.lock.isEmptyOrNull,
                                 hintText: '',
                                 onChange: (String? value) {
                                   if (value != null) {
@@ -2489,12 +2538,14 @@ class _MaterialMovementDetailsViewState
                                 hintText: '',
                                 isEnable: state.model.status == 6 ||
                                         state.model.status == -1 ||
-                                        state.model.status == 10
+                                        state.model.status == 10 ||
+                                        !state.model.lock.isEmptyOrNull
                                     ? false
                                     : true,
                                 isDisableColor: state.model.status == 6 ||
                                         state.model.status == -1 ||
-                                        state.model.status == 10
+                                        state.model.status == 10 ||
+                                        !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
                                 onChange: (String value) {
@@ -2522,9 +2573,10 @@ class _MaterialMovementDetailsViewState
                               ? CommonWidgets.verticalSpacerWidget(
                                   height * 0.001)
                               : Container(),
-                          widget.model?.status == null ||
-                                  widget.model?.status == 0 ||
-                                  widget.model?.status == 1
+                          (widget.model?.status == null ||
+                                      widget.model?.status == 0 ||
+                                      widget.model?.status == 1) &&
+                                  state.model.lock.isEmptyOrNull
                               ? uploadWidget(state)
                               : Container(),
 
@@ -2596,7 +2648,7 @@ class _MaterialMovementDetailsViewState
     );
   }
 
-  Column buildSignature({
+  AbsorbPointer buildSignature({
     required SignatureController controller,
     required String label,
     required double spaceHeight,
@@ -2615,68 +2667,74 @@ class _MaterialMovementDetailsViewState
       isEditable = state.isEntrySecuritySignatureSignEditable;
     }
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CommonWidgets.textDisplay(
-              label,
-              Styles.textStyleBlack14,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.clear();
-                    if (isReceiver) {
-                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                          .makeSignEditable(receiverSign: true);
-                    } else {
-                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                          .makeSignEditable(
-                              entrySecuritySignatureSignEditable: true);
-                    }
-                  },
-                  iconSize: 20,
-                  color: Colors.grey,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
-            ),
-          ],
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        ClipRect(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2.0),
-              border: Border.all(
-                color: AppColors.gerylightBackground,
-                width: 1, // Border width
+    return AbsorbPointer(
+      absorbing: !state.model.lock.isEmptyOrNull ||
+          state.model.status == -1 ||
+          state.model.status == 10,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CommonWidgets.textDisplay(
+                label,
+                Styles.textStyleBlack14,
               ),
-            ),
-            height: 100,
-            width: double.infinity,
-            child: (!isEditable && isSigned)
-                ? Image.memory(
-                    Uint8List.fromList(
-                      base64Decode(
-                        isReceiver
-                            ? state.model.receiverSign!.imageContent ?? ''
-                            : state.model.entrySecuritySign!.imageContent ?? '',
-                      ),
-                    ),
-                    fit: BoxFit.none,
-                  )
-                : Signature(
-                    controller: controller,
-                    backgroundColor: Colors.white,
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      controller.clear();
+                      if (isReceiver) {
+                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                            .makeSignEditable(receiverSign: true);
+                      } else {
+                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                            .makeSignEditable(
+                                entrySecuritySignatureSignEditable: true);
+                      }
+                    },
+                    iconSize: 20,
+                    color: Colors.grey,
+                    icon: const Icon(Icons.refresh),
                   ),
+                ],
+              ),
+            ],
           ),
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
-      ],
+          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
+          ClipRect(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2.0),
+                border: Border.all(
+                  color: AppColors.gerylightBackground,
+                  width: 1, // Border width
+                ),
+              ),
+              height: 100,
+              width: double.infinity,
+              child: (!isEditable && isSigned && !isReadOnly)
+                  ? Image.memory(
+                      Uint8List.fromList(
+                        base64Decode(
+                          isReceiver
+                              ? state.model.receiverSign!.imageContent ?? ''
+                              : state.model.entrySecuritySign!.imageContent ??
+                                  '',
+                        ),
+                      ),
+                      fit: BoxFit.none,
+                    )
+                  : Signature(
+                      controller: controller,
+                      backgroundColor: Colors.white,
+                    ),
+            ),
+          ),
+          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
+        ],
+      ),
     );
   }
 
@@ -2736,7 +2794,8 @@ class _MaterialMovementDetailsViewState
   Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 10;
+        state.model.status == 10 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
@@ -2870,7 +2929,8 @@ class _MaterialMovementDetailsViewState
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.model?.status == null || widget.model?.status == 0)
+        if (((widget.model?.status == null || widget.model?.status == 0) &&
+                state.model.lock.isEmptyOrNull)
             ? true
             : false) {
           showDialog(

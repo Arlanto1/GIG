@@ -24,4 +24,6 @@ class ConstantsArgument {
   static const String isMasterKey = "isMasterKey";
   static const String viaAttendance = "viaAttendance";
   static const String extraProperties = "extraParameters";
+  static const String lock = "lock";
+
 }

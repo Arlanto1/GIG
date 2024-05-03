@@ -335,6 +335,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.rankType:
                                       Constants.contactGeneralRank,
                                   ConstantsArgument.ranks: ranks,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.lock: state.model.lock,
                                 },
                               );
                             },
@@ -400,6 +403,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.rankType: Constants
                                       .contactGuardingAgencyEscalationRank,
                                   ConstantsArgument.ranks: ranks,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.lock: state.model.lock,
                                 },
                               );
                             },
@@ -465,6 +471,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.rankType:
                                       Constants.contactSystemEscalationRank,
                                   ConstantsArgument.ranks: ranks,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.lock: state.model.lock,
                                 },
                               );
                             },
@@ -528,6 +537,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.rankType:
                                       Constants.contactSupervisorRank,
                                   ConstantsArgument.ranks: ranks,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.lock: state.model.lock,
                                 },
                               );
                             },
@@ -592,6 +604,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.rankType:
                                       Constants.contactZone,
                                   ConstantsArgument.ranks: ranks,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.lock: state.model.lock,
                                 },
                               );
                             },
@@ -624,7 +639,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(state),
-                        if ((state.model.status != -1)) ...[
+                        if ((!isReadOnly)) ...[
                           submitButtonDisplay(),
                         ],
                       ],
@@ -658,9 +673,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   Widget cancelButtonDisplay(ContactDetailsState state) {
     bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status == 3;
+        widget.model?.status == 3 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -713,23 +728,25 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   Widget locationWidgetdislay(ContactDetailsState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if (state.model.lock.isEmptyOrNull || state.model.status == -1) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return CustomExpansionListTexts(
+                locationList: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<ContactDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
+                  BlocProvider.of<ContactDetailsCubit>(context)
+                      .updateDropdownValues(location: location);
+                },
+              );
+            },
+          );
+        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );

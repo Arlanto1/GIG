@@ -339,7 +339,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addarticletype, '');
+            context, 'Added sucessfully', Constants.addEmpDepartment, '');
       });
     } catch (e) {
       emit(

@@ -33,6 +33,11 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       _refreshList,
       transformer: droppable(),
     );
+    on<SendReminderEmail>(
+      sendRemainder,
+      transformer: droppable(),
+    );
+
   }
 
   final SstIncidentServices _services = SstIncidentServices();
@@ -179,16 +184,12 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
     }
   }
 
-  void sendRemainder(SstIncident model) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
+  FutureOr<void> sendRemainder(
+      SendReminderEmail event, Emitter<SstIncidentState> emit) async {
+    SstIncident sstIncident;
     SstIncidentServices services = SstIncidentServices();
     SecuritySystemTicketIncidentRequest request =
-        SecuritySystemTicketIncidentRequest(sstIncident: model);
+    SecuritySystemTicketIncidentRequest(sstIncident: model);
 
     GenericResponse response;
     try {

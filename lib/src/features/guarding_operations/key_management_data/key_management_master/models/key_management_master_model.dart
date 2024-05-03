@@ -81,6 +81,7 @@ class KeyManagementMasterModel {
   User? securityManager;
   String? additionalInformation;
   String? lostKeyDetails;
+  String? lock;
 
   KeyManagementMasterModel({
     this.keyManagementId,
@@ -130,6 +131,7 @@ class KeyManagementMasterModel {
     this.lostKeyDetails,
     this.securityManager,
     this.destructionReason,
+    this.lock,
   });
 
   factory KeyManagementMasterModel.fromJson(Map<String, dynamic> json) =>
