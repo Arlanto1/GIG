@@ -91,8 +91,8 @@ class KeyReconciliationListBloc
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -116,8 +116,8 @@ class KeyReconciliationListBloc
           status: FormStatus.initial,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

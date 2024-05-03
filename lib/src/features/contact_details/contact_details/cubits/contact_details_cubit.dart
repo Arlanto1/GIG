@@ -99,22 +99,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           labels: labels,
         ),
       );
-    } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
-      return;
-    } catch (e) {
-      log('Initialization issue', error: e, name: 'Contact Details Cubit');
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

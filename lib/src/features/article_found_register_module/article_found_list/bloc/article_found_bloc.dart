@@ -74,8 +74,8 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
         ),
       );
       return;
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 
@@ -97,8 +97,8 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
           status: FormStatus.success,
         ),
       );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
     }
   }
 

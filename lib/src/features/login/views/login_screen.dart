@@ -61,7 +61,7 @@ class _LoginState extends State<Login> {
                     });
                   },
                   onNegativePressed: () {
-                    Navigator.of(context).pop();
+                    log('--onNegativePressed--');
                   },
                   positiveBtnText: Constants.settings,
                   negativeBtnText: Constants.no);
