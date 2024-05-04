@@ -5,7 +5,7 @@ const mainDrawerItems = [
   MenuItem(Constants.securityFunctions, AppIcon.securityFunctionsIcon, 1),
   //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
   MenuItem(Constants.updatePassword, AppIcon.settings, 0),
-  MenuItem(Constants.logout, AppIcon.logout, 0),
+  // MenuItem(Constants.logout, AppIcon.logout, 0),
 ];
 const securityItems = [
   MenuItem(Constants.operations, AppIcon.operationsIcon, 1),

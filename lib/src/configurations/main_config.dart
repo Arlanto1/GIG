@@ -24,7 +24,6 @@ class MainConfig with WidgetsBindingObserver {
 
   static initialSetup(GlobalKey<NavigatorState> navigatorKey) async {
     log('-initialSetup---main_config--');
-    Locale? locale;
 
     // Required for async calls in `main`
     WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +45,8 @@ class MainConfig with WidgetsBindingObserver {
     //   log('Firebase initialization failed: $e');
     // }
 
+    Locale? locale;
+    String initialRouteName = await initRouting();
     runApp(
       InitializeProviders(
         child: MaterialApp(
@@ -56,7 +57,7 @@ class MainConfig with WidgetsBindingObserver {
           ),
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          initialRoute: splashScreenRoute,
+          initialRoute: initialRouteName,
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,
           supportedLocales: LocaleSupportedMethod.supportedLocale,
@@ -77,6 +78,40 @@ class MainConfig with WidgetsBindingObserver {
     );
     InactivityFunctions().startInactivityTimer(navigatorKey);
     DeviceInformation().initPlatformState();
+  }
+
+  static Future<String> initRouting() async {
+    log('--initRouting---');
+    // Get the NavigatorState object
+
+    // Get the user name and token from SharedPrefs
+    String userName = await SharedPrefs.getUserId();
+    String token = await SharedPrefs.getToken();
+    log('--initRouting-userName-$userName-');
+
+    // Check if the user is logged in
+    if (!userName.isEmptyOrNull && !token.isEmptyOrNull) {
+      // Check if a password change is required
+      bool requirePasswordChange =
+          await SharedPrefs.getIsRequiredPasswordChange();
+
+      // Navigate to the reset password screen if a password change is required
+      if (requirePasswordChange) {
+        log('--initRouting--resetPwdScreenRoute-');
+        return resetPwdScreenRoute;
+        // navigatorState.pushNamed(resetPwdScreenRoute);
+        // return;
+      }
+
+      // Navigate to the dashboard screen and remove all previous screens from the back stack
+
+      log('--initRouting--dashboardViewRoute-');
+      return dashboardViewRoute;
+    } else {
+      log('--initRouting--loginScreenRoute-');
+      // Navigate to the login screen and remove all previous screens from the back stack
+      return loginScreenRoute;
+    }
   }
 
   @override
