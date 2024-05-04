@@ -24,6 +24,7 @@ class DashboardViewState extends State<DashboardView>
     WidgetsBinding.instance.addObserver(this);
     // BlocProvider.of<ChartsCubit>(context).initializeValues();
     chartsCubit.initializeValues();
+    // Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   Future<void> getUserDetails() async {

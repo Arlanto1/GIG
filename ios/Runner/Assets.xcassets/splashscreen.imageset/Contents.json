@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Arlanto login (2).png",
+      "filename" : "app_icon.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Arlanto login (1).png",
+      "filename" : "app_icon 1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Arlanto login.png",
+      "filename" : "app_icon 2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
