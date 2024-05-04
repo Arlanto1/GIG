@@ -262,6 +262,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20),
                                       child: Column(children: [
+                                        if (!state.model!.lock.isEmptyOrNull) ...[
+                                          RecordLockedWidget(text: '${state.model?.lock}'),
+                                        ],
                                         Container(
                                           alignment: Alignment.topLeft,
                                           child: Text(

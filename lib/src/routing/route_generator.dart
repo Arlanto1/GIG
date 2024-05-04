@@ -1637,7 +1637,7 @@ class RouteGenerator {
 
       default:
         log('--default---${settings.name}-');
-        return MaterialPageRoute(builder: (context) => const LoginScreen());
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
         // CommonServices commonServices = CommonServices();
         // return MaterialPageRoute(
         //   builder: (context) => BlocProvider<ChartsCubit>(

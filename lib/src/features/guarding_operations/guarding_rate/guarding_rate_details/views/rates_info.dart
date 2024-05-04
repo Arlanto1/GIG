@@ -272,7 +272,7 @@ class _RatesInfoState extends State<RatesInfo> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);

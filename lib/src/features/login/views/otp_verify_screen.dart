@@ -97,8 +97,6 @@ class _OtpVerifyState extends State<OtpVerify> {
             }
 
             _showCustomPop(context, state.message);
-
-
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             _showCustomPop(context, state.message);

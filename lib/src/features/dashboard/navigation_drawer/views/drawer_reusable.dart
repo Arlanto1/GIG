@@ -889,7 +889,7 @@ class NavigationDrawer1 extends StatelessWidget {
         arguments: {'viaNavigationDrawer': true},
       );
     } else if (index == 3) {
-      _logout(context);
+      // _logout(context);
     } else if (index == 4) {}
   }
 

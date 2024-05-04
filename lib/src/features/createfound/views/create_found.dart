@@ -888,7 +888,7 @@ class _CreateFoundState extends State<CreateFound> {
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
                   userDetails = state.loggedInUser ?? User();
-                  handOverSecurity = User();
+                  handOverSecurity = state.loggedInUser ?? User();
                   if (userDetails != null) {
                     createdByValue =
                         '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
@@ -1485,11 +1485,11 @@ class _CreateFoundState extends State<CreateFound> {
                                                 : '',
                                             height: 70,
                                             isDisableColor:
-                                                widget.model?.status != 2
+                                                widget.model?.status != 2 || isClaimantAcceptedByemail == false
                                                     ? false
                                                     : true,
                                             onTap: () {
-                                              if (widget.model?.status != 2) {
+                                              if (widget.model?.status != 2 && isClaimantAcceptedByemail == false) {
                                                 depositorDialog(
                                                     state,
                                                     state.labels?.locale
@@ -1508,7 +1508,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             hintText: '',
                                             isEnable:
                                                 widget.model?.status == 0 ||
-                                                        widget.model == null
+                                                        widget.model == null || isClaimantAcceptedByemail == false
                                                     ? false
                                                     : true,
                                             isDisableColor:
@@ -1714,10 +1714,12 @@ class _CreateFoundState extends State<CreateFound> {
                                             state.labels?.defaultLocale
                                                 .foundHandoverSecurity ??
                                             Constants.itemhandoverby,
-                                        widget.model?.status == 2
-                                            ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
-                                            : '',
-                                        // '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}',
+                                        // widget.model?.status == 2
+                                        //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
+                                        //     : '',
+                      // '${widget.model != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
+
+                                        widget.model?.status == 2?  '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}':'',
                                         isMandatory: true),
 
                                     /// Handed over date

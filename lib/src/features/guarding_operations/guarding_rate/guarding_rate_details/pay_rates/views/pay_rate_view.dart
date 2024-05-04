@@ -324,7 +324,7 @@ class _PayRateViewState extends State<PayRateView> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
