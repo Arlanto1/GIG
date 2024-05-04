@@ -256,7 +256,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textgreyThemecolor,
       textStyle: Styles.styleHeaderGreyText16,

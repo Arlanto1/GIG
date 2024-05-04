@@ -60,6 +60,7 @@ class Found {
   int? claimantEmployeeId;
 
   ImageContent? claimantSign;
+  String? lock;
 
   Found({
     this.slNo,
@@ -92,6 +93,7 @@ class Found {
     this.claimantNoSign,
     this.handoverDate,
     this.claimantConfirmByEmail,
+    this.lock,
   });
 
   factory Found.fromJson(Map<String, dynamic> json) => Found(
@@ -144,6 +146,7 @@ class Found {
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : User.fromJson(json["handoverSecurity"]),
+        lock: json["lock"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -178,6 +181,7 @@ class Found {
         "claimantSign": claimantSign?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
-        "claimantConfirmByEmail": claimantConfirmByEmail
+        "claimantConfirmByEmail": claimantConfirmByEmail,
+        "lock": lock
       };
 }

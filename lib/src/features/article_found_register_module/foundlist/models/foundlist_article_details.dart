@@ -47,6 +47,7 @@ class FoundListArticleDetails {
   String? depositorDepartmentName;
   String? claimantDepartmentName;
   Organisation? location;
+  String? lock;
 
   FoundListArticleDetails({
     this.id,
@@ -86,6 +87,7 @@ class FoundListArticleDetails {
     this.depositorDepartmentName,
     this.claimantDepartmentName,
     this.location,
+    this.lock,
   });
 //
 // factory FoundListArticleDetails.fromJson(Map<String, dynamic> json) => FoundListArticleDetails(
