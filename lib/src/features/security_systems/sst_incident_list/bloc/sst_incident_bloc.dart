@@ -186,7 +186,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
   FutureOr<void> sendRemainder(
       SendReminderEmail event, Emitter<SstIncidentState> emit) async {
-    SstIncident sstIncident;
+    // SstIncident sstIncident;
     SstIncidentServices services = SstIncidentServices();
     SecuritySystemTicketIncidentRequest request =
     SecuritySystemTicketIncidentRequest(sstIncident: model);
