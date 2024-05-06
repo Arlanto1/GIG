@@ -27,10 +27,8 @@ class BaseApiService {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     // Passing Location Parameter only if the location service is Enabled
-    LocationPermission locationServiceEnabled =
-        await Geolocator.checkPermission();
-    if (locationServiceEnabled == LocationPermission.always ||
-        locationServiceEnabled == LocationPermission.whileInUse) {
+    LocationPermission locationPermission = await Geolocator.requestPermission();
+    if (locationPermission !=LocationPermission.deniedForever) {
       Position position = await determinePosition();
       headers.addAll({"Latitude": position.latitude.toString()});
       headers.addAll({"Longitude": position.longitude.toString()});

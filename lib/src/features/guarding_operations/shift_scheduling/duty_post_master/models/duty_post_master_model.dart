@@ -47,6 +47,7 @@ class DutyPostMasterModel extends BaseObject {
   User? createdBy;
   String? modifiedDate;
   String? modifiedBy;
+  @override
   String? lock;
 
   DutyPostMasterModel({
