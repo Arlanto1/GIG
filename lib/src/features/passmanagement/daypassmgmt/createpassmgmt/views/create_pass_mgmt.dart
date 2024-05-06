@@ -2639,8 +2639,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.selectedDepartment?.name ?? '',
       height: 60,
       isDisableColor: (widget.model == null || widget.model?.status == 0) &&
-          !(widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
+              !(widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
@@ -2926,7 +2926,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createPassMgmtCubit.getEntityData(list);
         Navigator.pop(context);
       },
-      enabled: widget.model == null || widget.model?.status == 0 ,
+      enabled: widget.model == null || widget.model?.status == 0,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model == null || widget.model?.status == 0,
@@ -3188,8 +3188,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model?.status == null ||
-                  !(widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)
+              !(widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {

@@ -1485,11 +1485,11 @@ class _CreateFoundState extends State<CreateFound> {
                                                 : '',
                                             height: 70,
                                             isDisableColor:
-                                                widget.model?.status != 2 || isClaimantAcceptedByemail == false
+                                                widget.model?.status != 2 || isClaimantAcceptedByemail == 0
                                                     ? false
                                                     : true,
                                             onTap: () {
-                                              if (widget.model?.status != 2 && isClaimantAcceptedByemail == false) {
+                                              if (widget.model?.status != 2 && isClaimantAcceptedByemail == 0) {
                                                 depositorDialog(
                                                     state,
                                                     state.labels?.locale
@@ -1508,7 +1508,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             hintText: '',
                                             isEnable:
                                                 widget.model?.status == 0 ||
-                                                        widget.model == null || isClaimantAcceptedByemail == false
+                                                        widget.model == null || isClaimantAcceptedByemail == 0
                                                     ? false
                                                     : true,
                                             isDisableColor:

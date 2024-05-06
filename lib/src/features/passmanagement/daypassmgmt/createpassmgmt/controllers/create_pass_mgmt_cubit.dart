@@ -1009,10 +1009,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
-    List<Organisation>? entities =
-        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    EmployeeDepartments departments =
-        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    // List<Organisation>? entities =
+    //     await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    // EmployeeDepartments departments =
+    //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers =
         await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
     emit(

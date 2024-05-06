@@ -112,7 +112,7 @@ class VisitingOfficialListBloc
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        // ranks: departments,
+        departments: departments,
       ),
     );
   }
