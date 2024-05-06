@@ -33,10 +33,6 @@ class VisitingOfficialListBloc
     try {
       List<LawVisitingOfficial> items =
           await services.getLeoVisitingOfficials(id: parentId);
-
-      LeoDepartments leodepartments =
-          await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
-
       return emit(
         state.copyWith(
           items: items,
@@ -112,7 +108,7 @@ class VisitingOfficialListBloc
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        // ranks: departments,
+        departments: departments,
       ),
     );
   }
