@@ -134,7 +134,7 @@ class _PayRateViewState extends State<PayRateView> {
               return Center(
                 child: AppButton(
                   width: 150,
-                  backgroundColor: AppColors.navigationSkybluecolor,
+                  backgroundColor: AppColors.navigationSkyBlueColor,
                   key: const Key(Keys.cancelButton),
                   buttonText: Constants.add,
                   buttonTextKey: Keys.cancelButton,
@@ -147,7 +147,7 @@ class _PayRateViewState extends State<PayRateView> {
             return Container(
               margin: allMargin16,
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),

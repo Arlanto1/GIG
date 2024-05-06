@@ -21,6 +21,8 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     on<InitializeValues>(_initializeValues);
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
+    on<RefreshContactRecordsList>(refreshList);
+
   }
 
   final ContactDetailsServices services = ContactDetailsServices();
@@ -89,7 +91,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     }
   }
 
-  Future<void> refreshList() async {
+  Future<void> refreshList(RefreshContactRecordsList event, Emitter<ContactRecordState> emit) async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> departments = await commonServices.getOrganisations(
         name: rankType == Constants.contactGeneralRank

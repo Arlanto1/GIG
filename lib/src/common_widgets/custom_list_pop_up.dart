@@ -50,7 +50,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
       child: Container(
         padding: const EdgeInsets.all(20.0),
         decoration: const ShapeDecoration(
-            color: AppColors.backgroundWhitecolor,
+            color: AppColors.backgroundWhiteColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
             )),

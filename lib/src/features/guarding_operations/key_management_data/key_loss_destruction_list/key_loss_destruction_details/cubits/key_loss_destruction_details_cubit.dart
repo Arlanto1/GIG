@@ -94,11 +94,11 @@ class KeyLossDestructionDetailsCubit
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       List<Organisation>? entities = futures[3];
-      List<User> createdBy = futures[4];
+      // List<User> createdBy = futures[4];
       List<BaseUser> emailUsers = futures[6];
       KeyType departments = futures[7];
       dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      // Organisation? defaultLocation = futures[10];
       List<BaseUser> securityManager = futures[11];
       List<BaseUser> srh = futures[12];
 

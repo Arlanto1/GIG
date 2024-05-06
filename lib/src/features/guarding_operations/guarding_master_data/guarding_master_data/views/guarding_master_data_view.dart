@@ -109,7 +109,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
-                      color: AppColors.backgroundWhitecolor,
+                      color: AppColors.backgroundWhiteColor,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -147,7 +147,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                           enablePullDown: true,
                           physics: const BouncingScrollPhysics(),
                           header: WaterDropHeader(
-                            waterDropColor: AppColors.navigationSkybluecolor,
+                            waterDropColor: AppColors.navigationSkyBlueColor,
                             refresh: state.status != FormStatus.loading
                                 ? const BaseLoader()
                                 : null,

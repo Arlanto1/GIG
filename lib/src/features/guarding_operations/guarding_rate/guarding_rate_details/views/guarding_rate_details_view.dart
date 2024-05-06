@@ -50,7 +50,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         },
         builder: (context, state) {
           return Container(
-            color: AppColors.navigationSkybluecolor,
+            color: AppColors.navigationSkyBlueColor,
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: SingleChildScrollView(
@@ -59,7 +59,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                     Container(
                       padding: const EdgeInsets.all(20.0),
                       decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
+                          color: AppColors.backgroundWhiteColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20.0)),
@@ -274,7 +274,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
-            color: AppColors.navigationSkybluecolor.withOpacity(0.5),
+            color: AppColors.navigationSkyBlueColor.withOpacity(0.5),
             spreadRadius: 1.0,
             blurRadius: 4.0,
             offset: const Offset(0, 0),

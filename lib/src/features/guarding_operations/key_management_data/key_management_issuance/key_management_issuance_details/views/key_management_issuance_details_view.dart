@@ -109,7 +109,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (state.model == null) {
+        if (widget.model == null) {
           isReadOnly = false;
         }
         if (state.model.status == 0 || state.model.lock.isEmptyOrNull) {
@@ -158,7 +158,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -203,17 +203,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     initializeDates(state);
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -839,13 +839,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Key Issuance Process(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -868,7 +872,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             Container(
               padding: const EdgeInsets.all(5.0),
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(00.0)),

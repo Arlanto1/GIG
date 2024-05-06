@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color buttonThemeColor = Color(0xFF163A44);
-  static const Color textgreyThemecolor = Color(0xFF5A585D);
-  static const Color backgroundWhitecolor = Color(0xFFFFFFFF);
-  static const Color dividelineGreycolor = Color(0xFFDFE7ED);
+  static const Color textGreyThemeColor = Color(0xFF5A585D);
+  static const Color backgroundWhiteColor = Color(0xFFFFFFFF);
+  static const Color divideLineGreyColor = Color(0xFFDFE7ED);
 
-  // static const Color navigationSkybluecolor = Color(0xFF2CAAE0);
-  static const Color navigationSkybluecolor = Color(0xFF425563);
+  // static const Color navigationSkyBlueColor = Color(0xFF2CAAE0);
+  static const Color navigationSkyBlueColor = Color(0xFF425563);
   static const Color cardBorder = Color(0XFFF0F0F0);
   static const Color black = Color(0xFF000000);
   static const Color textColor = Color(0xFF6B6B6B);
-  static const Color textfilBbackGroundColor = Color(0xFFFAFAFB);
+  static const Color textFileBackGroundColor = Color(0xFFFAFAFB);
   static const Color cardBgColor = Color(0xFFFBFDFF);
   static const Color searchBarBorder = Color(0xFFC9D7DA);
   static const Color searchBarFillBorder = Color(0xFFF1F6FB);
-  static const Color normaltextBackground = Color(0xFFD0D0D0);
-  static const Color lightgreyBackground = Color(0xFFEFEFEF);
-  static const Color lightgreenBackground = Color(0xFFA5E989);
-  static const Color lightblueBackground = Color(0xFF88B4E7);
-  static const Color ligtblackBackground = Color(0xFF444347);
-  static const Color boldgreyBackground = Color(0xFF969090);
-  static const Color gerylightBackground = Color(0xFFCACACA);
-  static const Color enabletextfieldBackground = Color(0xFFFAFAFB);
-  static const Color disabletextfieldBackground = Color(0xFFE6E6E9);
+  static const Color normalTextBackground = Color(0xFFD0D0D0);
+  static const Color lightGreyBackground = Color(0xFFEFEFEF);
+  static const Color lightGreenBackground = Color(0xFFA5E989);
+  static const Color lightBlueBackground = Color(0xFF88B4E7);
+  static const Color lightBlackBackground = Color(0xFF444347);
+  static const Color boldGreyBackground = Color(0xFF969090);
+  static const Color geryLightBackground = Color(0xFFCACACA);
+  static const Color enableTextFieldBackground = Color(0xFFFAFAFB);
+  static const Color disableTextFieldBackground = Color(0xFFE6E6E9);
   static const Color lightOrangeColor = Color(0xFFFF8C00);
   static const Color lightPinkColor = Color(0xFFE75480);
 

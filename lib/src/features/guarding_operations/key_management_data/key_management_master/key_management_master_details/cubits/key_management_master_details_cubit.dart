@@ -87,7 +87,7 @@ class KeyManagementMasterDetailsCubit
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       List<Organisation>? entities = futures[3];
-      List<User> createdBy = futures[4];
+      // List<User> createdBy = futures[4];
       GetDepositor emailUsers = futures[6];
       KeyType departments = futures[7];
       dynamic responseLabels = futures[9];

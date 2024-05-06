@@ -102,18 +102,18 @@ class _LoginState extends State<Login> {
               } else if (state is LoginFailureState) {
               } else if (state is LoginSuccessState) {}
               return Container(
-                color: AppColors.navigationSkybluecolor,
+                color: AppColors.navigationSkyBlueColor,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Container(
                         height: height * 0.1,
-                        color: AppColors.navigationSkybluecolor,
+                        color: AppColors.navigationSkyBlueColor,
                       ),
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.backgroundWhitecolor,
+                            color: AppColors.backgroundWhiteColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0)),
@@ -170,7 +170,11 @@ class _LoginState extends State<Login> {
                                     },
                                     prefixWidget: SvgPicture.asset(
                                       AppIcon.userIcon,
-                                      color: AppColors.textColor,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.textColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.textColor,
                                       width: 20,
                                       key: const Key(Keys.userIcon),
                                     ),
@@ -311,18 +315,18 @@ class _LoginState extends State<Login> {
         request: Request(userName: username, password: password, otp: otp));
   }
 
-  _showCustomPop(BuildContext context, String title) {
-    var dialog = CustomAlertDialog(
-        title: Constants.appname,
-        message: title,
-        onPositivePressed: () {
-          //Validator.logoutAction(context);
-          //Navigator.of(context).pop();
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: Constants.no);
-    showDialog(context: context, builder: (BuildContext context) => dialog);
-  }
+  // _showCustomPop(BuildContext context, String title) {
+  //   var dialog = CustomAlertDialog(
+  //       title: Constants.appname,
+  //       message: title,
+  //       onPositivePressed: () {
+  //         //Validator.logoutAction(context);
+  //         //Navigator.of(context).pop();
+  //       },
+  //       positiveBtnText: Constants.yes,
+  //       negativeBtnText: Constants.no);
+  //   showDialog(context: context, builder: (BuildContext context) => dialog);
+  // }
 
   _loginButtonAction(LoginBloc bloc) {
     FocusScope.of(context).unfocus();

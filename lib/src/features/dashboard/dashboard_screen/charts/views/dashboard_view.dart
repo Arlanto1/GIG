@@ -103,10 +103,10 @@ class DashboardViewState extends State<DashboardView>
                 ),
               ),
             ],
-            // backgroundColor: AppColors.navigationSkybluecolor,
+            // backgroundColor: AppColors.navigationSkyBlueColor,
             backBtn: IconButton(
               icon:
-                  const Icon(Icons.menu, color: AppColors.backgroundWhitecolor),
+                  const Icon(Icons.menu, color: AppColors.backgroundWhiteColor),
               onPressed: () {
                 if (scaffoldKey.currentState!.isDrawerOpen) {
                   scaffoldKey.currentState!.closeDrawer();
@@ -119,7 +119,7 @@ class DashboardViewState extends State<DashboardView>
             ),
           ),
           // body: RefreshIndicator(
-          //     color: AppColors.navigationSkybluecolor,
+          //     color: AppColors.navigationSkyBlueColor,
           //     onRefresh: () async {
           //       BlocProvider.of<ChartsCubit>(context).initializeValues();
           //     },
@@ -138,7 +138,7 @@ class DashboardViewState extends State<DashboardView>
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: SingleChildScrollView(
@@ -146,7 +146,7 @@ class DashboardViewState extends State<DashboardView>
           child: Container(
             padding: const EdgeInsets.all(10.0),
             decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
+              color: AppColors.backgroundWhiteColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),

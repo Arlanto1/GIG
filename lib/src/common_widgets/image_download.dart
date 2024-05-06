@@ -155,7 +155,7 @@ class DownloadImage {
     if (message != null) {
       scaffoldMessenger.showSnackBar(SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.navigationSkybluecolor,
+        backgroundColor: AppColors.navigationSkyBlueColor,
       ));
     }
   }

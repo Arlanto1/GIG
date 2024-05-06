@@ -78,7 +78,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -295,9 +295,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -311,7 +311,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)

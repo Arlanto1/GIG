@@ -83,8 +83,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
           floatingActionButton:
               state.extraProperties?.hasWritePermission ?? false
                   ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkybluecolor,
-                      foregroundColor: AppColors.backgroundWhitecolor,
+                      backgroundColor: AppColors.navigationSkyBlueColor,
+                      foregroundColor: AppColors.backgroundWhiteColor,
                       onPressed: () => {
                         Navigator.pushNamed(
                             context, materialMovementInwardOutwardDetailsRoute,
@@ -130,7 +130,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
               return Container(
                 margin: allMargin16,
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -166,7 +166,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                         enablePullDown: true,
                         physics: const BouncingScrollPhysics(),
                         header: const WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkybluecolor,
+                          waterDropColor: AppColors.navigationSkyBlueColor,
                           refresh: BaseLoader(),
                         ),
                         key: const Key(Keys.refreshKey),

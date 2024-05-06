@@ -7,20 +7,20 @@ class Styles {
     fontSize: 16,
     fontFamily: Constants.customFontMediumFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static TextStyle styleHeaderGreyText30 = const TextStyle(
     fontSize: 30,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
 
   static const TextStyle textStyleBlack16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static const TextStyle textStyleBlack14 = TextStyle(
     fontSize: 14,
@@ -33,72 +33,72 @@ class Styles {
     fontSize: 15,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
 
   static const TextStyle textStyleRegularGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w400,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
 
   static const TextStyle textStyleRegularGrey13 = TextStyle(
     fontSize: 13,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w400,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
 
   static const TextStyle textStyleRegularGrey16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w400,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static const TextStyle textStyleBoldGreydark14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.boldgreyBackground,
+    color: AppColors.boldGreyBackground,
   );
 
   static const TextStyle textStyleRegularNormalGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w400,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
 
   static const TextStyle textStyleRegularNormalWhite18 = TextStyle(
     fontSize: 18,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w700,
-    color: AppColors.backgroundWhitecolor,
+    color: AppColors.backgroundWhiteColor,
   );
   static const TextStyle textStyleRegularNormalWhite12 = TextStyle(
     fontSize: 12,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w500,
-    color: AppColors.backgroundWhitecolor,
+    color: AppColors.backgroundWhiteColor,
   );
   static const TextStyle textStyleSemiBoldGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w400,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static const TextStyle textStyleBoldGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.textgreyThemecolor,
+    color: AppColors.textGreyThemeColor,
   );
   static const TextStyle textStyleSemiBold16Black = TextStyle(
     fontSize: 16,
@@ -124,7 +124,7 @@ class Styles {
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
-    color: AppColors.navigationSkybluecolor,
+    color: AppColors.navigationSkyBlueColor,
   );
 
   // static TextStyle styleHeaderGreyText12 = const TextStyle(

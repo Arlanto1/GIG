@@ -129,7 +129,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -146,17 +146,17 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -439,14 +439,18 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     Constants.addGuardingAgencyPOC,
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -515,13 +519,17 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Violation Penalty(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -554,7 +562,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),
@@ -726,7 +734,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       return [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.lightgreyBackground,
+            color: AppColors.lightGreyBackground,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(

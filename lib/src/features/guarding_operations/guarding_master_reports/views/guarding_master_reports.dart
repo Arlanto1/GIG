@@ -103,7 +103,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -141,7 +141,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
                     header: const WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
+                      waterDropColor: AppColors.navigationSkyBlueColor,
                       refresh: BaseLoader(),
                     ),
                     key: const Key(Keys.refreshKey),
@@ -153,7 +153,6 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                           ? state.list.length
                           : state.list.length + 1,
                       itemBuilder: (context, index) {
-                        List<Label> labels = [];
                         if (index < state.list.length) {
                           return index >= state.list.length
                               ? const BaseLoader()

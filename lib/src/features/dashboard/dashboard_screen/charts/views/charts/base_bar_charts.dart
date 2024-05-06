@@ -49,7 +49,7 @@ class BaseBarChartState extends State<BaseBarChart> {
                         widget.chartTitle,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkybluecolor,
+                          color: AppColors.navigationSkyBlueColor,
                           fontSize: 16,
                         ),
                       ),

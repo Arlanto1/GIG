@@ -14,7 +14,7 @@ class DrawerHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DrawerHeader(
       decoration: const BoxDecoration(
-        color: AppColors.backgroundWhitecolor,
+        color: AppColors.backgroundWhiteColor,
       ),
       child: InkWell(
         onTap: () async {
@@ -30,12 +30,12 @@ class DrawerHeaderWidget extends StatelessWidget {
           children: [
             const CircleAvatar(
               radius: 30.0,
-              backgroundColor: AppColors.navigationSkybluecolor,
+              backgroundColor: AppColors.navigationSkyBlueColor,
               child: CircleAvatar(
-                  backgroundColor: AppColors.backgroundWhitecolor,
+                  backgroundColor: AppColors.backgroundWhiteColor,
                   radius: 28.0,
                   child: CircleAvatar(
-                      backgroundColor: AppColors.dividelineGreycolor,
+                      backgroundColor: AppColors.divideLineGreyColor,
                       radius: 25,
                       backgroundImage: AssetImage(AppIcon.userImage))),
 

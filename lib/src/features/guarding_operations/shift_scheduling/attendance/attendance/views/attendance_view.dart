@@ -94,7 +94,7 @@ class _AttendanceViewState extends State<AttendanceView> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -131,7 +131,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
                     header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
+                      waterDropColor: AppColors.navigationSkyBlueColor,
                       refresh: state.status != FormStatus.loading
                           ? const BaseLoader()
                           : null,

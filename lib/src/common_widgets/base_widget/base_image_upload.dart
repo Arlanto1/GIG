@@ -21,7 +21,7 @@ class BaseImageUpload {
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               fixedSize: const Size(140, 50),
-              backgroundColor: AppColors.navigationSkybluecolor,
+              backgroundColor: AppColors.navigationSkyBlueColor,
             ),
             onPressed: () {
               showDialog(
@@ -37,7 +37,7 @@ class BaseImageUpload {
             icon: SvgPicture.asset(
               AppIcon.uploadicon,
               colorFilter: const ColorFilter.mode(
-                AppColors.backgroundWhitecolor,
+                AppColors.backgroundWhiteColor,
                 BlendMode.srcIn,
               ),
               width: 13,

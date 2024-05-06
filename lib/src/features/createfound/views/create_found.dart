@@ -43,7 +43,7 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController foundDateTextController = TextEditingController();
   TextEditingController handedoverdatedateTextController =
       TextEditingController();
-  TextEditingController dateofcreationTextController = TextEditingController();
+  TextEditingController dateOfCreationTextController = TextEditingController();
   TextEditingController assetTypeTextController = TextEditingController();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
@@ -151,12 +151,12 @@ class _CreateFoundState extends State<CreateFound> {
                   int.tryParse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
-      dateofcreationTextController.text =
+      dateOfCreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestampToDateConversion(
                   int.tryParse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
-              : dateofcreationTextController.text;
+              : dateOfCreationTextController.text;
       assetTypeTextController.text = widget.model?.typeOfAsset != null
           ? (widget.model?.typeOfAsset == 0 ? "Personal" : "Company")
           : '';
@@ -467,7 +467,7 @@ class _CreateFoundState extends State<CreateFound> {
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(currentDate);
     //you can implement different kind of Date Format here according to your requirement
-    dateofcreationTextController.text = formattedDate;
+    dateOfCreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
     handedoverdatedateTextController.text = formattedDate;
     setState(() {
@@ -479,7 +479,7 @@ class _CreateFoundState extends State<CreateFound> {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
         (locationSelectedlist?.name ?? "").isEmpty &&
-        dateofcreationTextController.text.isEmpty &&
+        dateOfCreationTextController.text.isEmpty &&
         serialNumber.isEmpty &&
         assetTypeTextController.text.isEmpty &&
         (selectedArtclelist?.name ?? "").isEmpty &&
@@ -502,7 +502,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter location",
       );
-    } else if (dateofcreationTextController.text.isEmpty) {
+    } else if (dateOfCreationTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter creator date",
@@ -855,7 +855,7 @@ class _CreateFoundState extends State<CreateFound> {
 
               //backgroundColor: AppColors.navigationSkybluecolor,
             ),
-            backgroundColor: AppColors.backgroundWhitecolor,
+            backgroundColor: AppColors.backgroundWhiteColor,
             body: BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
               builder: (context, state) {
                 if (state.status == FormStatus.loading) {
@@ -906,18 +906,18 @@ class _CreateFoundState extends State<CreateFound> {
                   claimant = selectedClaimList?.name ?? '';
                 }
                 return Container(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(
                           height: height * 0.01,
-                          color: AppColors.navigationSkybluecolor,
+                          color: AppColors.navigationSkyBlueColor,
                         ),
                         Container(
                           padding: const EdgeInsets.all(20.0),
                           decoration: const ShapeDecoration(
-                              color: AppColors.backgroundWhitecolor,
+                              color: AppColors.backgroundWhiteColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(20.0)),
@@ -970,7 +970,11 @@ class _CreateFoundState extends State<CreateFound> {
                                           //AppIcon.dropdownicon,
                                           AppIcon.dropdownicon,
                                           //fit: BoxFit.,
-                                          color: AppColors.textgreyThemecolor,
+                                          colorFilter: const ColorFilter.mode(
+                                            AppColors.textGreyThemeColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                          // color: AppColors.textgreyThemecolor,
                                           width: 10,
                                           height: 10,
                                           key: const Key(Keys.userIcon),
@@ -1459,10 +1463,13 @@ class _CreateFoundState extends State<CreateFound> {
                                     widget.model != null
                                         ? radioButtonHandling(
                                             isClaimantDBEmployeeSelected,
-                                            isDisableColor:
-                                                (widget.model?.status == 2)
-                                                    ? true
-                                                    : false,
+                                            isDisableColor: (widget
+                                                            .model?.status ==
+                                                        2 ||
+                                                    isClaimantAcceptedByemail !=
+                                                        0)
+                                                ? true
+                                                : false,
                                             Constants.isclaimantdbemployee,
                                           )
                                         : Container(),
@@ -1484,12 +1491,17 @@ class _CreateFoundState extends State<CreateFound> {
                                                 ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
                                                 : '',
                                             height: 70,
-                                            isDisableColor:
-                                                widget.model?.status != 2 || isClaimantAcceptedByemail == 0
-                                                    ? false
-                                                    : true,
+                                            isDisableColor: widget
+                                                            .model?.status !=
+                                                        2 &&
+                                                    isClaimantAcceptedByemail ==
+                                                        0
+                                                ? false
+                                                : true,
                                             onTap: () {
-                                              if (widget.model?.status != 2 && isClaimantAcceptedByemail == 0) {
+                                              if (widget.model?.status != 2 &&
+                                                  isClaimantAcceptedByemail ==
+                                                      0) {
                                                 depositorDialog(
                                                     state,
                                                     state.labels?.locale
@@ -1508,7 +1520,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             hintText: '',
                                             isEnable:
                                                 widget.model?.status == 0 ||
-                                                        widget.model == null || isClaimantAcceptedByemail == 0
+                                                        widget.model == null
                                                     ? false
                                                     : true,
                                             isDisableColor:
@@ -1549,7 +1561,10 @@ class _CreateFoundState extends State<CreateFound> {
                                                 claimantEmpIdTextController,
                                             textFormKey: Keys
                                                 .claimantEmpIdTextController,
-                                            isEnable: widget.model?.status != 2
+                                            isEnable: widget.model?.status !=
+                                                        2 &&
+                                                    isClaimantAcceptedByemail ==
+                                                        0
                                                 ? true
                                                 : (widget.model != null &&
                                                         (widget.model
@@ -1602,12 +1617,17 @@ class _CreateFoundState extends State<CreateFound> {
                                                     ?.name ??
                                                 ''),
                                             height: 60,
-                                            isDisableColor:
-                                                widget.model?.status != 2
-                                                    ? false
-                                                    : true,
+                                            isDisableColor: widget
+                                                            .model?.status !=
+                                                        2 &&
+                                                    isClaimantAcceptedByemail ==
+                                                        0
+                                                ? false
+                                                : true,
                                             onTap: () {
-                                              if (widget.model?.status != 2) {
+                                              if (widget.model?.status != 2 &&
+                                                  isClaimantAcceptedByemail ==
+                                                      0) {
                                                 employeeDepartmentDialog(
                                                     state,
                                                     state.labels?.locale
@@ -1649,7 +1669,14 @@ class _CreateFoundState extends State<CreateFound> {
                                                       .foundClaimantNoSign ??
                                                   Constants
                                                       .isclaimantacceptedtosign,
-                                              isDisableColor: isDisabled,
+                                              // isDisableColor: isDisabled,
+                                              isDisableColor: (widget
+                                                              .model?.status ==
+                                                          2 ||
+                                                      isClaimantAcceptedByemail !=
+                                                          0)
+                                                  ? true
+                                                  : false,
                                             )
                                           : Container(),
 
@@ -1717,9 +1744,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         // widget.model?.status == 2
                                         //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
                                         //     : '',
-                      // '${widget.model != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
-
-                                        widget.model?.status == 2?  '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}':'',
+                                        '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
                                         isMandatory: true),
 
                                     /// Handed over date
@@ -1767,7 +1792,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                       fixedSize:
                                                           const Size(140, 50),
                                                       backgroundColor: AppColors
-                                                          .navigationSkybluecolor,
+                                                          .navigationSkyBlueColor,
                                                     ),
                                                     onPressed: () {
                                                       showDialog(
@@ -1791,7 +1816,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                           const ColorFilter
                                                               .mode(
                                                         AppColors
-                                                            .backgroundWhitecolor,
+                                                            .backgroundWhiteColor,
                                                         BlendMode.srcIn,
                                                       ),
                                                       width: 13,
@@ -1866,7 +1891,7 @@ class _CreateFoundState extends State<CreateFound> {
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
-                              color: AppColors.backgroundWhitecolor,
+                              color: AppColors.backgroundWhiteColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(00.0)),
@@ -1935,7 +1960,7 @@ class _CreateFoundState extends State<CreateFound> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(2.0),
               border: Border.all(
-                color: AppColors.gerylightBackground,
+                color: AppColors.geryLightBackground,
                 width: 1, // Border width
               ),
             ),
@@ -2015,7 +2040,6 @@ class _CreateFoundState extends State<CreateFound> {
         widget.model?.status ==
             ConstantsIntValue.articleFoundStatusHandedOverOrClaimed;
     return AppButton(
-      
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -2094,7 +2118,7 @@ class _CreateFoundState extends State<CreateFound> {
                       child: TextButton(
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              AppColors.normaltextBackground),
+                              AppColors.normalTextBackground),
                         ),
                         onPressed: () {},
                         child: Text(
@@ -2110,7 +2134,7 @@ class _CreateFoundState extends State<CreateFound> {
 
   Widget datecreateWidgetdisplay() {
     return FlutterInputField(
-      controller: dateofcreationTextController,
+      controller: dateOfCreationTextController,
       textFormKey: Keys.dateofcreationTextController,
       hintText: '',
       isEnable: false,
@@ -2135,8 +2159,8 @@ class _CreateFoundState extends State<CreateFound> {
       children: <Widget>[
         Radio(
           activeColor: isDisableColor
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
           // focusColor:
           //     AppColors.navigationSkybluecolor,
 
@@ -2146,7 +2170,8 @@ class _CreateFoundState extends State<CreateFound> {
             radioButtonItem = 'Yes';
             selectedValue = 1;
             if (name == Constants.isclaimantacceptedtosign &&
-                widget.model?.status != 2) {
+                widget.model?.status != 2 &&
+                isClaimantAcceptedByemail == 0) {
               isClaimantAcceptedtoSignSelected = selectedValue;
             } else if ((name == Constants.isclaimantacceptedbyemail) &&
                 widget.model?.status != 2 &&
@@ -2155,7 +2180,8 @@ class _CreateFoundState extends State<CreateFound> {
               isClaimantAcceptedByemail = selectedValue;
             } else if (name == Constants.isclaimantdbemployee &&
                 widget.model?.status == 1 &&
-                widget.model?.status != 2) {
+                widget.model?.status != 2 &&
+                isClaimantAcceptedByemail == 0) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
@@ -2169,15 +2195,16 @@ class _CreateFoundState extends State<CreateFound> {
         const Text(Constants.yes),
         Radio(
             activeColor: isDisableColor
-                ? AppColors.disabletextfieldBackground
-                : AppColors.navigationSkybluecolor,
+                ? AppColors.disableTextFieldBackground
+                : AppColors.navigationSkyBlueColor,
             value: 0,
             groupValue: selectedValue,
             onChanged: (val) {
               radioButtonItem = 'No';
               selectedValue = 0;
               if (name == Constants.isclaimantacceptedtosign &&
-                  widget.model?.status != 2) {
+                  widget.model?.status != 2 &&
+                  isClaimantAcceptedByemail == 0) {
                 isClaimantAcceptedtoSignSelected = selectedValue;
               } else if ((name == Constants.isclaimantacceptedbyemail) &&
                   widget.model?.status != 2 &&
@@ -2186,7 +2213,8 @@ class _CreateFoundState extends State<CreateFound> {
                 isClaimantAcceptedByemail = selectedValue;
               } else if (name == Constants.isclaimantdbemployee &&
                   widget.model?.status == 1 &&
-                  widget.model?.status != 2) {
+                  widget.model?.status != 2 &&
+                  isClaimantAcceptedByemail == 0) {
                 isClaimantDBEmployeeSelected = selectedValue;
               } else if (name == Constants.isdepositordbemployee &&
                   widget.model?.status != 1 &&
@@ -2252,7 +2280,11 @@ class _CreateFoundState extends State<CreateFound> {
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
               AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.textGreyThemeColor,
+                BlendMode.srcIn,
+              ),
+              // color: AppColors.textGreyThemeColor,
               width: 20,
               key: const Key(Keys.userIcon),
             ),

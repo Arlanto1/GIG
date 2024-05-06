@@ -55,7 +55,7 @@ class BasePieChartState extends State<BasePieChart> {
                         widget.chartTitle,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkybluecolor,
+                          color: AppColors.navigationSkyBlueColor,
                           fontSize: 16,
                         ),
                       ),

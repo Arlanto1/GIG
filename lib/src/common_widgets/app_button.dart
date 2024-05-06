@@ -29,12 +29,12 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenSizeConfig.init(context);
     final screenWidth = ScreenSizeConfig.screenWidth;
-    Color background = backgroundColor ?? AppColors.navigationSkybluecolor;
+    Color background = backgroundColor ?? AppColors.navigationSkyBlueColor;
     Color foreground = Colors.white;
     Color border = Colors.transparent;
 
     // For Cancel Button
-    if (background != AppColors.navigationSkybluecolor) {
+    if (background != AppColors.navigationSkyBlueColor) {
       border = Colors.grey;
       foreground = Colors.black;
     }
@@ -49,8 +49,8 @@ class AppButton extends StatelessWidget {
         },
         style: TextButton.styleFrom(
           backgroundColor: disableColor ?? false
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
           foregroundColor: Colors.white,
           // backgroundColor: background,
           // foregroundColor: foreground,

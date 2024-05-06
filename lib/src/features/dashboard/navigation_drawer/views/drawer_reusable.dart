@@ -110,7 +110,7 @@ class NavigationDrawer1 extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         canvasColor: AppColors
-            .backgroundWhitecolor, //This will change the drawer background to blue.
+            .backgroundWhiteColor, //This will change the drawer background to blue.
         //other styles
       ),
       child: Drawer(
@@ -198,7 +198,7 @@ class NavigationDrawer1 extends StatelessWidget {
         Container(
           decoration: const BoxDecoration(
             border: Border(
-                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                bottom: BorderSide(color: AppColors.divideLineGreyColor)),
           ),
           child: ListTile(
             leading: SizedBox(
@@ -207,8 +207,8 @@ class NavigationDrawer1 extends StatelessWidget {
                 child: Image.asset(drawerItem.imageName,
                     fit: BoxFit.scaleDown,
                     color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.boldgreyBackground)),
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.boldGreyBackground)),
             title: Text(drawerItem.title,
                 //style: Styles.textStyleBlack16,
                 style: TextStyle(
@@ -216,8 +216,8 @@ class NavigationDrawer1 extends StatelessWidget {
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.textgreyThemecolor)),
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.textGreyThemeColor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
               log('-_genericItemSelection---title---$title---');
@@ -513,7 +513,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -522,8 +522,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
                           color: (i == _lastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
                       style: TextStyle(
@@ -531,8 +531,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _lastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   //selected: i == _lastSelectedItem,
                   onTap: () => _onSelectItem(
                     i,
@@ -547,7 +547,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                       onExpansionChanged: (value) {
@@ -574,8 +574,8 @@ class NavigationDrawer1 extends StatelessWidget {
                             fontFamily: Constants.customFontSemiBoldFamily,
                             fontWeight: FontWeight.w600,
                             color: (i == _lastSelectedItem)
-                                ? AppColors.navigationSkybluecolor
-                                : AppColors.textgreyThemecolor),
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor),
                         // style: Styles.textStyleBlack16,
                       ),
                       leading: SizedBox(
@@ -584,8 +584,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           child: Image.asset(AppIcon.securityFunctionsIcon,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
-                                  ? AppColors.navigationSkybluecolor
-                                  : AppColors.textgreyThemecolor)),
+                                  ? AppColors.navigationSkyBlueColor
+                                  : AppColors.textGreyThemeColor)),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
                       children: _buildOperationsFromSecurity(context, state)),
@@ -608,7 +608,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -618,8 +618,8 @@ class NavigationDrawer1 extends StatelessWidget {
                         drawerItem.imageName,
                         //fit: BoxFit.cover,
                         color: (i == _securityfunfunctionslastSelectedItem)
-                            ? AppColors.navigationSkybluecolor
-                            : AppColors.gerylightBackground,
+                            ? AppColors.navigationSkyBlueColor
+                            : AppColors.geryLightBackground,
                       )),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
@@ -628,8 +628,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   //selected: i == _lastSelectedItem,
                   onTap: () => _onSecurityExpansionSelectItem(i, context),
                 ),
@@ -641,7 +641,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
@@ -665,8 +665,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                       // style: Styles.textStyleBlack16,
                     ),
                     leading: SizedBox(
@@ -680,8 +680,8 @@ class NavigationDrawer1 extends StatelessWidget {
                                   : AppIcon.securitySystemIcon,
                           fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
@@ -736,7 +736,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -745,8 +745,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
                       style: TextStyle(
@@ -754,8 +754,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   // selected: i == _lastSelectedItem,
                   onTap: () {
                     log('-onTap-----title---$title---');
@@ -786,7 +786,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
@@ -811,8 +811,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                       // style: Styles.textStyleBlack16,
                     ),
                     leading: SizedBox(
@@ -821,8 +821,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.fitHeight,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
@@ -1022,17 +1022,17 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 4) {}
   }
 
-  _logout(BuildContext context) {
-    var dialog = CustomAlertDialog(
-        title: Constants.logout,
-        message: Constants.logoutValidation,
-        onPositivePressed: () {
-          InactivityFunctions().logoutUser(navigatorKey);
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: Constants.no);
-    showDialog(context: context, builder: (BuildContext context) => dialog);
-  }
+  // _logout(BuildContext context) {
+  //   var dialog = CustomAlertDialog(
+  //       title: Constants.logout,
+  //       message: Constants.logoutValidation,
+  //       onPositivePressed: () {
+  //         InactivityFunctions().logoutUser(navigatorKey);
+  //       },
+  //       positiveBtnText: Constants.yes,
+  //       negativeBtnText: Constants.no);
+  //   showDialog(context: context, builder: (BuildContext context) => dialog);
+  // }
 
   List<Widget> buildDrawerChildren(
       BuildContext context,

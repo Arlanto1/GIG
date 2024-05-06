@@ -30,7 +30,7 @@ class AddDutyPostLocationNamePopUpState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -76,8 +76,8 @@ class AddDutyPostLocationNamePopUpState
                           ),
                           Checkbox(
                             value: isTransportShift,
-                            activeColor: AppColors.navigationSkybluecolor,
-                            focusColor: AppColors.navigationSkybluecolor,
+                            activeColor: AppColors.navigationSkyBlueColor,
+                            focusColor: AppColors.navigationSkyBlueColor,
                             onChanged: (bool? value) {
                               setState(() {
                                 isTransportShift = value ?? false;
@@ -114,9 +114,9 @@ class AddDutyPostLocationNamePopUpState
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -130,7 +130,7 @@ class AddDutyPostLocationNamePopUpState
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
         DpName dpName = DpName();
         dpName.dutyPostName = dutyPostLocationNameController.text;

@@ -71,14 +71,14 @@ class _ResetPasswordState extends State<ResetPassword> {
               } else if (state is LoginFailureState) {
               } else if (state is LoginSuccessState) {}
               return Container(
-                color: AppColors.navigationSkybluecolor,
+                color: AppColors.navigationSkyBlueColor,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.backgroundWhitecolor,
+                            color: AppColors.backgroundWhiteColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0)),
@@ -130,7 +130,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     },
                                     prefixWidget: SvgPicture.asset(
                                       AppIcon.userIcon,
-                                      color: AppColors.textColor,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.textColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.textColor,
                                       width: 20,
                                       key: const Key(Keys.userIcon),
                                     ),

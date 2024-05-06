@@ -20,7 +20,7 @@ Future<bool> networkChecking(BuildContext context) async {
               actions: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                      foregroundColor: AppColors.navigationSkybluecolor),
+                      foregroundColor: AppColors.navigationSkyBlueColor),
                   child: const Text("Ok"),
                   onPressed: () {
                     Navigator.of(context).pop();

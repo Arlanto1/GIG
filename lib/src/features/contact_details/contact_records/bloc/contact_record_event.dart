@@ -40,3 +40,7 @@ class DeleteRecord extends ContactRecordEvent {
 
   const DeleteRecord(this.id, this.type, this.mainContactId);
 }
+
+class RefreshContactRecordsList extends ContactRecordEvent {
+  const RefreshContactRecordsList();
+}

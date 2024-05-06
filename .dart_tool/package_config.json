@@ -20,12 +20,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "ansicolor",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/ansicolor-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
       "name": "app_settings",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/app_settings-5.1.1",
       "packageUri": "lib/",
@@ -444,12 +438,6 @@
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
       "languageVersion": "3.2"
-    },
-    {
-      "name": "flutter_native_splash",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
@@ -1172,12 +1160,6 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "universal_io",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/universal_io-2.2.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "url_launcher",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/url_launcher-6.2.5",
       "packageUri": "lib/",
@@ -1382,7 +1364,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-05-04T09:05:47.289231Z",
+  "generated": "2024-05-06T04:45:56.216765Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }

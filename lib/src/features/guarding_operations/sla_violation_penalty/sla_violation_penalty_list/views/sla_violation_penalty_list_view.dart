@@ -80,8 +80,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
             floatingActionButton:
                 state.extraProperties?.hasWritePermission ?? false
                     ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkybluecolor,
-                        foregroundColor: AppColors.backgroundWhitecolor,
+                        backgroundColor: AppColors.navigationSkyBlueColor,
+                        foregroundColor: AppColors.backgroundWhiteColor,
                         onPressed: () => {
                           Navigator.pushNamed(
                               context, slaViolationPenaltyDetailsRoute,
@@ -113,7 +113,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
               return Container(
                 margin: allMargin16,
                 decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
+                    color: AppColors.backgroundWhiteColor,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -151,7 +151,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                         enablePullDown: true,
                         physics: const BouncingScrollPhysics(),
                         header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkybluecolor,
+                          waterDropColor: AppColors.navigationSkyBlueColor,
                           refresh: state.status != FormStatus.loading
                               ? const BaseLoader()
                               : null,

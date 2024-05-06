@@ -228,7 +228,7 @@ class _MaterialMovementDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -270,17 +270,17 @@ class _MaterialMovementDetailsViewState
         state.model.status == 6 ||
         state.model.status == 2);
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -2628,7 +2628,7 @@ class _MaterialMovementDetailsViewState
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),
@@ -2708,7 +2708,7 @@ class _MaterialMovementDetailsViewState
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2.0),
                 border: Border.all(
-                  color: AppColors.gerylightBackground,
+                  color: AppColors.geryLightBackground,
                   width: 1, // Border width
                 ),
               ),
@@ -2880,8 +2880,8 @@ class _MaterialMovementDetailsViewState
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(140, 50),
                     backgroundColor: !isReadOnly
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.gerylightBackground,
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.geryLightBackground,
                   ),
                   onPressed: () {
                     showDialog(
@@ -2910,7 +2910,11 @@ class _MaterialMovementDetailsViewState
                     //AppIcon.dropdownicon,
                     AppIcon.uploadicon,
                     //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.backgroundWhiteColor,
+                      BlendMode.srcIn,
+                    ),
+                    // color: AppColors.backgroundWhiteColor,
                     width: 13,
                     height: 13,
                     key: const Key(Keys.userIcon),

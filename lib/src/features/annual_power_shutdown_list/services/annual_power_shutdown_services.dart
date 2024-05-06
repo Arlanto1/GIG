@@ -48,7 +48,6 @@ class AnnualPowerShutdownListServices {
     required bool isSubmit,
     // required int eventDuration,
   }) async {
-    var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createAnnualPowerShutdownList}?isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");

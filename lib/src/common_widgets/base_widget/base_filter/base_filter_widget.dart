@@ -43,12 +43,12 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
                     child: Container(
                       decoration: BoxDecoration(
                         border:
-                            Border.all(color: AppColors.navigationSkybluecolor),
+                            Border.all(color: AppColors.navigationSkyBlueColor),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: const Icon(
                         Icons.search,
-                        color: AppColors.navigationSkybluecolor,
+                        color: AppColors.navigationSkyBlueColor,
                       ),
                     ),
                   ),
@@ -56,25 +56,25 @@ class BaseSearchWidgetState extends State<BaseSearchWidget> {
                   hintText: 'Search...',
                   border: const OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.navigationSkybluecolor,
+                      color: AppColors.navigationSkyBlueColor,
                       style: BorderStyle.solid,
                     ),
                   ),
                   disabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.navigationSkybluecolor,
+                      color: AppColors.navigationSkyBlueColor,
                       width: 1,
                     ),
                   ),
                   enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.navigationSkybluecolor,
+                      color: AppColors.navigationSkyBlueColor,
                       width: 1,
                     ),
                   ),
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.navigationSkybluecolor,
+                      color: AppColors.navigationSkyBlueColor,
                       width: 1,
                     ),
                   ),
@@ -118,7 +118,7 @@ class ShowFiltersWidget extends StatelessWidget {
       margin: const EdgeInsets.only(right: 9),
       decoration: BoxDecoration(
         color: AppColors.white,
-        border: Border.all(color: AppColors.navigationSkybluecolor),
+        border: Border.all(color: AppColors.navigationSkyBlueColor),
         borderRadius: const BorderRadius.all(Radius.circular(5)),
       ),
       padding: const EdgeInsets.all(2),
@@ -139,11 +139,11 @@ class ShowFiltersWidget extends StatelessWidget {
             children: [
               Text(
                 ' Filters',
-                style: TextStyle(color: AppColors.navigationSkybluecolor),
+                style: TextStyle(color: AppColors.navigationSkyBlueColor),
               ),
               Icon(
                 Icons.arrow_drop_down_outlined,
-                color: AppColors.navigationSkybluecolor,
+                color: AppColors.navigationSkyBlueColor,
               ),
             ],
           ),
@@ -416,7 +416,7 @@ class _BaseFilterSheetState extends State<BaseFilterSheet> {
                 },
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(
-                      AppColors.navigationSkybluecolor),
+                      AppColors.navigationSkyBlueColor),
                   // Change the text color here
                 ),
                 child: const Text('Search'),
@@ -491,7 +491,7 @@ class DropdownWidgetState extends State<DropdownWidget> {
         decoration: const InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
           ),
         ),

@@ -70,8 +70,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         floatingActionButton: !(widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission! )
             ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkybluecolor,
-                foregroundColor: AppColors.backgroundWhitecolor,
+                backgroundColor: AppColors.navigationSkyBlueColor,
+                foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () {
                   log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
 
@@ -126,7 +126,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),

@@ -34,7 +34,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
           if (!widget.selectedPoints.isEmptyOrNull) ...[
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.gerylightBackground),
+                border: Border.all(color: AppColors.geryLightBackground),
                 borderRadius: BorderRadius.circular(2.0),
               ),
               child: Padding(
@@ -62,7 +62,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                                 const Icon(
                                   Icons.clear,
                                   size: 15,
-                                  color: AppColors.navigationSkybluecolor,
+                                  color: AppColors.navigationSkyBlueColor,
                                 ),
                               ],
                             ),
@@ -112,12 +112,12 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
               labelText: 'Select Items',
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                 ),
               ),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                 ),
               ),
             ),
@@ -157,23 +157,23 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 child: TextField(
                   controller: _customValueController,
                   decoration: InputDecoration(
-                    fillColor: AppColors.enabletextfieldBackground,
+                    fillColor: AppColors.enableTextFieldBackground,
                     filled: true,
                     border: const OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: AppColors.gerylightBackground, width: 1.0),
+                          color: AppColors.geryLightBackground, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: AppColors.gerylightBackground, width: 1.0),
+                          color: AppColors.geryLightBackground, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: 'Add Custom Briefing Point',
                     disabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: AppColors.gerylightBackground, width: 1.0),
+                          color: AppColors.geryLightBackground, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),

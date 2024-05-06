@@ -86,7 +86,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       GetDepositor emailUsers = futures[4];
       Vendors vendors = futures[5];
       dynamic responseLabels = futures[6];
-      Organisation? defaultLocation = futures[7];
+      // Organisation? defaultLocation = futures[7];
       List<String> briefingPoints = futures[8];
       briefingPoints.add('');
 
